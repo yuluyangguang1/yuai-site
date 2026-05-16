@@ -1,0 +1,3 @@
+[submodule "novelweave"]
+	path = novelweave
+	url = https://github.com/yuluyangguang1/novelweave.git
