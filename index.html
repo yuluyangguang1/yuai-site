@@ -4,384 +4,142 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>yu.ai · 轻羽</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+<style>:root{--bg:#041c1c;--midground:#ffe6cb;--midground-dim:#5a7770;--accent:#00ffc8;--border:color-mix(in oklab, currentColor 20%, transparent);--font-mono:'Courier New','Menlo',monospace;--font-sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--font-display:'Georgia','Noto Serif SC','Source Han Serif SC',serif}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--midground);line-height:1.6;-webkit-font-smoothing:antialiased;text-transform:uppercase}
+small{font-size:1.0625rem}
+code{font-size:0.875rem}
+*{margin:0;padding:0;box-sizing:border-box}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit;text-decoration:none}
 
-  :root {
-    --bg: #041c1c;
-    --midground: #ffe6cb;
-    --midground-dim: #5a7770;
-    --accent: #00ffc8;
-    --border: color-mix(in oklab, currentColor 20%, transparent);
-    --font-mono: 'Courier New', 'Menlo', monospace;
-    --font-sans: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-    --font-display: 'Georgia', 'Noto Serif SC', 'Source Han Serif SC', serif;
-  }
+/* ── Background layers (Hermes 6-layer system) ── */
+.bg-l1{position:fixed;inset:0;z-index:2;pointer-events:none;mix-blend-mode:difference;opacity:.033}
+.bg-l1 svg{width:100%;height:150dvh;object-fit:cover;filter:invert(1)}
+.bg-l2{position:fixed;inset:0;z-index:1;pointer-events:none;mix-blend-mode:difference;background:#041c1c}
+.bg-l3{position:fixed;inset:0;z-index:99;pointer-events:none;mix-blend-mode:lighten;opacity:.18;background:radial-gradient(ellipse at 80% 90%,rgba(255,189,56,.35) 0%,transparent 50%)}
+.bg-l4{position:fixed;inset:0;z-index:101;pointer-events:none;mix-blend-mode:color-dodge;opacity:.1;background:radial-gradient(ellipse at 30% 50%,rgba(0,255,200,.4) 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(255,230,203,.2) 0%,transparent 40%)}
+.bg-l5{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");background-size:512px 512px}
 
-  body {
-    font-family: var(--font-sans);
-    background: var(--bg);
-    color: var(--midground);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
 
-  /* ── Background system (Hermes 6-layer) ── */
+/* ── Grid ── */
+.g{display:grid;grid-template-columns:1fr;border-color:var(--border);border-top:1px solid;border-left:1px solid}
+.gc{min-width:0;padding:16px;border-right:1px solid;border-color:inherit}
+.col-span-full{grid-column:1/-1}
+@media(min-width:1024px){.g{grid-template-columns:1fr 2fr 1fr 1fr 1fr}
+.gc.lg-span-1{grid-column:span 1}
+.gc.lg-span-2{grid-column:span 2}
+.gc.lg-span-3{grid-column:span 3}
+.gc.lg-span-4{grid-column:span 4}
+.gc.lg-span-full{grid-column:1/-1}}
 
-  /* Layer 1: filler-base (inverted texture overlay) */
-  .bg-layer1 {
-    position: fixed; inset: 0; z-index: 2;
-    pointer-events: none;
-    mix-blend-mode: difference;
-    opacity: 0.033;
-  }
-  .bg-layer1 svg {
-    width: 100%; height: 150dvh; object-fit: cover;
-    filter: invert(1);
-  }
+/* ── Typography ── */
+.label{font-family:var(--font-sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-sm{font-family:var(--font-sans);font-size:.75rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-xs{font-family:var(--font-sans);font-size:.6875rem;letter-spacing:.125rem;text-transform:uppercase}
+.title-lg{font-family:var(--font-display);font-size:2.625rem;font-weight:700;line-height:1;letter-spacing:.0525rem}
+.hero-headline{font-family:var(--font-display);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter}
+.hero-sub{font-size:1.125rem;line-height:1.6;opacity:.6;max-width:520px;text-transform:none}
+.cn-poem{font-family:var(--font-display);font-size:.8125rem;letter-spacing:.25rem;line-height:1.8;opacity:.3;text-transform:none}
+.op-50{opacity:.5}
+.op-60{opacity:.6}
+.op-70{opacity:.7}
 
-  /* Layer 2: solid background overlay */
-  .bg-layer2 {
-    position: fixed; inset: 0; z-index: 1;
-    pointer-events: none;
-    mix-blend-mode: difference;
-    background: #041c1c;
-  }
+/* ── Header blink hover ── */
+.nav-group{position:relative;mix-blend-mode:plus-lighter}
+.nav-group .blink{display:none}
+.nav-group:hover .blink{display:inline-block}
+.nav-hover{position:absolute;inset:4px;background:var(--midground);pointer-events:none;opacity:0;transition:opacity .25s}
+.nav-group:hover>.nav-hover{opacity:.05}
 
-  /* Layer 3: canvas color-dodge (particle) */
-  .bg-layer3 {
-    position: fixed; inset: 0; z-index: 101;
-    pointer-events: none;
-    mix-blend-mode: color-dodge;
-    opacity: 0.15;
-    background:
-      radial-gradient(ellipse at 30% 50%, rgba(0,255,200,0.4) 0%, transparent 50%),
-      radial-gradient(ellipse at 70% 60%, rgba(255,230,203,0.2) 0%, transparent 40%),
-      radial-gradient(ellipse at 50% 20%, rgba(0,255,200,0.15) 0%, transparent 30%);
-  }
+/* ── Hero ── */
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:64px 20px 56px;text-align:center}
 
-  /* Layer 4: warm glow */
-  .bg-layer4 {
-    position: fixed; inset: 0; z-index: 99;
-    pointer-events: none;
-    mix-blend-mode: lighten;
-    opacity: 0.18;
-    background: radial-gradient(ellipse at 80% 90%, rgba(255,189,56,0.35) 0%, transparent 50%);
-  }
+/* ── Terminal ── */
+.terminal-box{width:100%;max-width:520px;border:4px double var(--border)}
+.term-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.term-dot{width:10px;height:10px;border-radius:50%;mix-blend-mode:plus-lighter}
+.term-dot:nth-child(1){background:var(--midground)}
+.term-dot:nth-child(2){background:var(--midground);opacity:.6}
+.term-dot:nth-child(3){background:var(--midground);opacity:.3}
+.term-title{margin-left:auto;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.1875rem;text-transform:uppercase;opacity:.5}
+.term-body{font-family:var(--font-mono);font-size:.75rem;line-height:1.8;padding:20px 16px;white-space:pre-wrap;text-transform:none;color:var(--midground);height:200px;overflow-y:auto}
+.term-body .prompt{color:var(--accent)}
+.term-body .tool{opacity:.5}
 
-  /* Layer 5: noise texture */
-  .bg-layer5 {
-    position: fixed; inset: 0; z-index: 0;
-    pointer-events: none;
-    mix-blend-mode: color-dodge; opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
-    background-size: 512px 512px;
-  }
+/* ── Code block ── */
+.code-block{font-family:var(--font-mono);font-size:.6875rem;line-height:1.6;padding:10px 14px;border:1px solid var(--border);background:rgba(4,28,28,.4);word-break:break-all;text-transform:none}
 
-  ::selection { background: var(--accent); color: var(--bg); }
+/* ── Feature grid ── */
+.f-grid{display:grid;grid-template-columns:1fr}
+.f-grid>*{padding:16px;border-bottom:1px solid var(--border);border-right:none;position:relative}
+.f-grid>*:last-child{border-bottom:none}
+.fcard-hover{position:absolute;inset:4px;background:var(--midground);pointer-events:none;opacity:0;transition:opacity .25s}
+.f-grid>*:hover .fcard-hover{opacity:.03}
+.fcard-label{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase;opacity:.5;display:block;margin-bottom:6px}
+.fcard-name{font-family:var(--font-display);font-size:1.125rem;font-weight:600;margin-bottom:6px;text-transform:none}
+.fcard-desc{font-size:1.0625rem;line-height:1.6;opacity:.6;text-transform:none}
+@media(min-width:640px){.f-grid{grid-template-columns:1fr 1fr}
+.f-grid>*:nth-child(odd){border-right:1px solid var(--border)}
+.f-grid>*:nth-last-child(-n+2){border-bottom:none}}
+@media(min-width:1024px){.f-grid{grid-template-columns:1fr 1fr 1fr}
+.f-grid>*{border-right:1px solid var(--border)}
+.f-grid>*:nth-child(3n){border-right:none}
+.f-grid>*:nth-last-child(-n+3){border-bottom:none}}
 
-  @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
-  .blink {
-    display: inline-block;
-    width: 1ch; height: 1.1em;
-    background: currentColor;
-    vertical-align: text-bottom;
-    animation: blink 1.2s step-end infinite;
-  }
-
-  /* ── Grid system ── */
-  .g {
-    display: grid;
-    grid-template-columns: 1fr;
-    border-color: var(--border);
-    border-top-width: 1px;
-    border-top-style: solid;
-    border-left-width: 1px;
-    border-left-style: solid;
-  }
-  .gc {
-    min-width: 0;
-    padding: 16px;
-    border-right-width: 1px;
-    border-right-style: solid;
-    border-color: inherit;
-  }
-  .col-span-full { grid-column: 1 / -1; }
-
-  @media (min-width: 1024px) {
-    .g { grid-template-columns: 1fr 2fr 1fr 1fr 1fr; }
-    .gc.lg-span-1 { grid-column: span 1; }
-    .gc.lg-span-2 { grid-column: span 2; }
-    .gc.lg-span-3 { grid-column: span 3; }
-    .gc.lg-span-4 { grid-column: span 4; }
-    .gc.lg-span-full { grid-column: 1 / -1; }
-  }
-
-  /* ── Typography ── */
-  .label {
-    font-family: var(--font-sans);
-    font-size: .9375rem;
-    letter-spacing: .1875rem;
-    text-transform: uppercase;
-  }
-  .label-sm {
-    font-family: var(--font-sans);
-    font-size: .75rem;
-    letter-spacing: .1875rem;
-    text-transform: uppercase;
-  }
-  .label-xs {
-    font-family: var(--font-sans);
-    font-size: .625rem;
-    letter-spacing: .125rem;
-    text-transform: uppercase;
-  }
-  .title-lg {
-    font-family: var(--font-display);
-    font-size: 2.625rem;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: .0525rem;
-  }
-  .hero-headline {
-    font-family: var(--font-display);
-    font-size: 3.5rem;
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-  }
-  .hero-sub {
-    font-size: 1.125rem;
-    line-height: 1.6;
-    opacity: .6;
-    max-width: 520px;
-  }
-  .cn-poem {
-    font-family: var(--font-display);
-    font-size: .8125rem;
-    letter-spacing: .25rem;
-    line-height: 1.8;
-    opacity: .3;
-  }
-
-  .op-50 { opacity: .5; }
-  .op-60 { opacity: .6; }
-  .op-70 { opacity: .7; }
-  a { color: inherit; text-decoration: none; }
-
-  /* ── Header hover blink ── */
-  .nav-group { position: relative; }
-  .nav-group .blink { display: none; }
-  .nav-group:hover .blink { display: inline-block; }
-  .nav-hover {
-    position: absolute;
-    inset: 4px;
-    background: var(--midground);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity .25s;
-  }
-  .nav-group:hover .nav-hover { opacity: .05; }
-
-  /* ── Hero ── */
-  .hero {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 24px;
-    padding: 64px 20px 56px;
-    text-align: center;
-  }
-
-  /* ── Terminal ── */
-  .terminal-box {
-    width: 100%; max-width: 520px;
-    border: 4px double var(--border);
-  }
-  .term-bar {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .term-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .term-dot:nth-child(1) { background: var(--midground); }
-  .term-dot:nth-child(2) { background: var(--midground); opacity: .6; }
-  .term-dot:nth-child(3) { background: var(--midground); opacity: .3; }
-  .term-title {
-    margin-left: auto;
-    font-family: var(--font-mono);
-    font-size: .625rem; letter-spacing: .1875rem;
-    text-transform: uppercase; opacity: .5;
-  }
-  .term-body {
-    font-family: var(--font-mono);
-    font-size: .75rem; line-height: 1.8;
-    padding: 20px 16px;
-    white-space: pre-wrap;
-    color: var(--midground);
-  }
-  .term-body .prompt { color: var(--accent); }
-  .term-body .tool { opacity: .5; }
-
-  /* ── Install block ── */
-  .code-block {
-    font-family: var(--font-mono);
-    font-size: .6875rem; line-height: 1.6;
-    padding: 10px 14px;
-    border: 1px solid var(--border);
-    background: rgba(4,28,28,.4);
-    word-break: break-all;
-  }
-
-  /* ── Feature grid ── */
-  .f-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-  .f-grid > * {
-    padding: 16px;
-    border-bottom: 1px solid var(--border);
-    border-right: none;
-    position: relative;
-  }
-  .f-grid > *:last-child { border-bottom: none; }
-  .fcard-hover {
-    position: absolute; inset: 4px;
-    background: var(--midground);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity .25s;
-  }
-  .f-grid > *:hover .fcard-hover { opacity: .03; }
-
-  @media (min-width: 640px) {
-    .f-grid { grid-template-columns: 1fr 1fr; }
-    .f-grid > *:nth-child(odd) { border-right: 1px solid var(--border); }
-    .f-grid > *:nth-last-child(-n+2) { border-bottom: none; }
-  }
-  @media (min-width: 1024px) {
-    .f-grid { grid-template-columns: 1fr 1fr 1fr; }
-    .f-grid > * { border-right: 1px solid var(--border); }
-    .f-grid > *:nth-child(3n) { border-right: none; }
-    .f-grid > *:nth-last-child(-n+3) { border-bottom: none; }
-  }
-
-  footer.g { border-bottom: 1px solid var(--border); }
-  .hide-mobile { display: none; }
-  @media (min-width: 1024px) { .hide-mobile { display: block; } }
-  @media (max-width: 1023px) {
-    .g { grid-template-columns: 1fr; }
-    .gc { border-right: none; }
-  }
-  @media (max-width: 640px) {
-    .hero-headline { font-size: 2.2rem; }
-    .hero { padding: 40px 16px; }
-  }
-</style>
+footer.g{border-bottom:1px solid var(--border)}
+.hide-mobile{display:none}
+@media(min-width:1024px){.hide-mobile{display:block}}
+@media(max-width:1023px){.g{grid-template-columns:1fr}
+.gc{border-right:none}}
+@media(max-width:640px){.hero-headline{font-size:2.2rem}
+.hero{padding:40px 16px}}</style>
 </head>
 <body>
 
-<!-- ═══ Background Layers (Hermes 6-layer system) ═══ -->
-
-<!-- Layer 1: 水墨纹理 (procedural ink-wash, photo-grade complexity) -->
-<div class="bg-layer1" aria-hidden="true">
+<!-- ═══ 6-layer background ═══ -->
+<div class="bg-l1" aria-hidden="true">
   <svg viewBox="0 0 600 1200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
     <defs>
-      <!-- Main texture — multi-scale fractal noise for photo-grade complexity -->
-      <filter id="ink-texture" x="0" y="0" width="100%" height="100%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="6" seed="42" result="noise1"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="4" seed="17" result="noise2"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="3" seed="83" result="noise3"/>
-        <!-- Combine layers -->
-        <feBlend in="noise1" in2="noise2" mode="screen" result="blend1"/>
-        <feBlend in="blend1" in2="noise3" mode="multiply" result="blend2"/>
-        <feColorMatrix type="matrix" values="
-          0.6 0    0    0   0.4
-          0    0.6 0    0   0.35
-          0    0    0.6 0   0.3
-          0    0    0    0.45 0
-        " in="blend2" result="colored"/>
-        <!-- Tone mapping for smooth ink-wash range -->
-        <feComponentTransfer in="colored">
-          <feFuncR type="gamma" amplitude="1" exponent="1.3" offset="0"/>
-          <feFuncG type="gamma" amplitude="1" exponent="1.3" offset="0"/>
-          <feFuncB type="gamma" amplitude="1" exponent="1.2" offset="0"/>
-        </feComponentTransfer>
+      <filter id="ink" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="6" seed="42" result="n1"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="4" seed="17" result="n2"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="3" seed="83" result="n3"/>
+        <feBlend in="n1" in2="n2" mode="screen" result="b1"/>
+        <feBlend in="b1" in2="n3" mode="multiply"/>
       </filter>
-
-      <!-- Ink-bleed edge filter -->
-      <filter id="egret-blur">
-        <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="5" result="edge"/>
-        <feDisplacementMap in="SourceGraphic" in2="edge" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+      <filter id="blur-edge">
+        <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="5" result="e"/>
+        <feDisplacementMap in="SourceGraphic" in2="e" scale="6" xChannelSelector="R" yChannelSelector="G"/>
         <feGaussianBlur stdDeviation="3"/>
       </filter>
-
-      <!-- Fade from top -->
-      <linearGradient id="fade-down" x1="0" y1="0" x2="0" y2="1">
+      <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
-        <stop offset="30%" stop-color="#fff" stop-opacity="0.05"/>
-        <stop offset="50%" stop-color="#fff" stop-opacity="0.3"/>
-        <stop offset="75%" stop-color="#fff" stop-opacity="0.6"/>
-        <stop offset="100%" stop-color="#fff" stop-opacity="0.85"/>
+        <stop offset="30%" stop-color="#fff" stop-opacity=".05"/>
+        <stop offset="50%" stop-color="#fff" stop-opacity=".3"/>
+        <stop offset="75%" stop-color="#fff" stop-opacity=".6"/>
+        <stop offset="100%" stop-color="#fff" stop-opacity=".85"/>
       </linearGradient>
-
-      <!-- Egret ink-wash mask gradient -->
-      <radialGradient id="egret-ink" cx="50%" cy="70%" r="60%">
-        <stop offset="0%" stop-color="#fff" stop-opacity="0.5"/>
-        <stop offset="60%" stop-color="#fff" stop-opacity="0.2"/>
-        <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-      </radialGradient>
     </defs>
-
-    <!-- Full canvas texture — the filler-bg equivalent -->
-    <rect width="600" height="1200" fill="#eae6d8" filter="url(#ink-texture)"/>
-
-    <!-- Egret — ink-wash silhouette embedded in the texture -->
-    <g opacity="0.4" filter="url(#egret-blur)" fill="url(#fade-down)">
-      <!-- Body wash -->
+    <rect width="600" height="1200" fill="#eae6d8" filter="url(#ink)"/>
+    <g opacity=".4" filter="url(#blur-edge)" fill="url(#fade)">
       <path d="M 320 780 C 290 750, 330 690, 380 690 C 430 690, 460 740, 440 790 C 430 820, 360 840, 320 810 Z"/>
-      <!-- Tail splatter -->
-      <path d="M 305 800 Q 220 840, 180 810 Q 220 770, 290 770 Z" opacity="0.5"/>
-      <path d="M 310 815 Q 230 870, 190 840 Q 230 800, 295 790 Z" opacity="0.3"/>
-      <!-- Wing stroke -->
-      <path d="M 365 730 Q 290 750, 275 760 Q 310 730, 355 715 Z" opacity="0.4"/>
-      <!-- Neck S-curve -->
-      <path d="M 400 720 C 460 630, 480 540, 450 470 C 420 400, 390 340, 365 290 C 345 250, 335 220, 330 200"
-            stroke="url(#fade-down)" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.35"/>
-      <!-- Head dot -->
-      <ellipse cx="325" cy="195" rx="20" ry="16" transform="rotate(-15,325,195)" opacity="0.5"/>
-      <!-- Beak -->
-      <path d="M 315 190 L 245 180 L 310 205 Z" opacity="0.4"/>
-      <!-- Legs -->
-      <path d="M 385 820 C 390 870, 395 920, 385 970 C 375 1000, 370 1030, 365 1050"
-            stroke="url(#fade-down)" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.25"/>
-      <path d="M 415 820 C 420 870, 425 920, 420 970 C 415 1000, 410 1030, 410 1050"
-            stroke="url(#fade-down)" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.25"/>
-    </g>
-
-    <!-- Additional ink splatter dots -->
-    <g fill="url(#fade-down)" opacity="0.15" filter="url(#egret-blur)">
-      <circle cx="280" cy="760" r="8"/>
-      <circle cx="440" cy="750" r="6"/>
-      <circle cx="320" cy="840" r="5"/>
-      <circle cx="290" cy="700" r="4"/>
-      <circle cx="420" cy="690" r="7"/>
-      <circle cx="350" cy="650" r="3"/>
+      <path d="M 305 800 Q 220 840, 180 810 Q 220 770, 290 770 Z" opacity=".5"/>
+      <path d="M 310 815 Q 230 870, 190 840 Q 230 800, 295 790 Z" opacity=".3"/>
+      <path d="M 365 730 Q 290 750, 275 760 Q 310 730, 355 715 Z" opacity=".4"/>
+      <path d="M 400 720 C 460 630, 480 540, 450 470 C 420 400, 390 340, 365 290 C 345 250, 335 220, 330 200" stroke="url(#fade)" stroke-width="20" stroke-linecap="round" fill="none" opacity=".35"/>
+      <ellipse cx="325" cy="195" rx="20" ry="16" transform="rotate(-15,325,195)" opacity=".5"/>
+      <path d="M 315 190 L 245 180 L 310 205 Z" opacity=".4"/>
+      <path d="M 385 820 C 390 870, 395 920, 385 970 C 375 1000, 370 1030, 365 1050" stroke="url(#fade)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".25"/>
+      <path d="M 415 820 C 420 870, 425 920, 420 970 C 415 1000, 410 1030, 410 1050" stroke="url(#fade)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".25"/>
     </g>
   </svg>
 </div>
-
-<!-- Layer 2: solid background -->
-<div class="bg-layer2"></div>
-
-<!-- Layer 3: color-dodge glow -->
-<div class="bg-layer3"></div>
-
-<!-- Layer 4: warm glow -->
-<div class="bg-layer4"></div>
-
-<!-- Layer 5: noise -->
-<div class="bg-layer5"></div>
+<div class="bg-l2"></div>
+<div class="bg-l3"></div>
+<div class="bg-l4"></div>
+<div class="bg-l5"></div>
 
 <main class="g" style="border-top:none;border-left:none;max-width:1600px;margin:0 auto;padding:0;position:relative;z-index:200;">
 
@@ -407,7 +165,7 @@
     </div>
     <div class="gc" style="display:flex;align-items:center;justify-content:space-between;">
       <span class="label op-50">theme</span>
-      <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--midground);transition:transform .2s;"></span>
+      <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--midground);"></span>
     </div>
   </div>
 </div>
@@ -415,10 +173,10 @@
 <!-- ════ Hero ════ -->
 <div class="gc lg-span-full" style="border:none;padding:0;">
   <div class="hero">
-    <span class="label-xs op-70" style="letter-spacing:.25rem;">open source · mit license</span>
-    <h1 class="hero-headline" style="mix-blend-mode:plus-lighter;">羽 · ai</h1>
+    <span class="label-xs op-70">open source · mit license</span>
+    <h1 class="hero-headline">羽 · ai</h1>
     <p class="hero-sub">轻若鸿羽，智若流云。便携的 AI 工具与数字温度。</p>
-    <p class="cn-poem">零安装 · 零痕迹 · 跨平台</p>
+    <p class="cn-poem" style="margin-top:-8px;">零安装 · 零痕迹 · 跨平台</p>
     <div class="terminal-box">
       <div class="term-bar">
         <span class="term-dot"></span>
@@ -474,21 +232,21 @@
     <div class="gc" style="display:flex;align-items:center;gap:6px;">
       <span class="label-sm op-50">01</span>
       <span class="label">portable tools</span>
-      <span class="label-sm op-50" style="font-family:var(--font-display);letter-spacing:.125rem;">· 便携器物</span>
+      <span class="label-sm op-50" style="font-family:var(--font-display);letter-spacing:.125rem;text-transform:none;">· 便携器物</span>
     </div>
     <div class="gc lg-span-3" style="padding:0;">
       <div class="f-grid">
         <div>
           <span class="fcard-hover"></span>
-          <span style="opacity:.5;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase;">openclaw</span>
-          <div style="font-family:var(--font-display);font-size:1.125rem;font-weight:600;margin:6px 0;">openclaw portable</div>
-          <p style="font-size:1.0625rem;line-height:1.6;opacity:.6;">一匣纳百川，万象皆可谈。27 个模型平台 · 12 个聊天渠道。</p>
+          <span class="fcard-label">openclaw</span>
+          <div class="fcard-name">openclaw portable</div>
+          <p class="fcard-desc">一匣纳百川，万象皆可谈。27 个模型平台 · 12 个聊天渠道。</p>
         </div>
         <div>
           <span class="fcard-hover"></span>
-          <span style="opacity:.5;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase;">hermes-agent</span>
-          <div style="font-family:var(--font-display);font-size:1.125rem;font-weight:600;margin:6px 0;">hermes portable</div>
-          <p style="font-size:1.0625rem;line-height:1.6;opacity:.6;">自省而知新，历久则愈明。持久记忆 · 技能系统 · 多平台网关。</p>
+          <span class="fcard-label">hermes-agent</span>
+          <div class="fcard-name">hermes portable</div>
+          <p class="fcard-desc">自省而知新，历久则愈明。持久记忆 · 技能系统 · 多平台网关。</p>
         </div>
       </div>
     </div>
@@ -501,28 +259,13 @@
     <div class="gc" style="display:flex;align-items:center;gap:6px;">
       <span class="label-sm op-50">02</span>
       <span class="label">web apps</span>
-      <span class="label-sm op-50" style="font-family:var(--font-display);letter-spacing:.125rem;">· 云端之作</span>
+      <span class="label-sm op-50" style="font-family:var(--font-display);letter-spacing:.125rem;text-transform:none;">· 云端之作</span>
     </div>
     <div class="gc lg-span-3" style="padding:0;">
       <div class="f-grid">
-        <div>
-          <span class="fcard-hover"></span>
-          <span style="opacity:.5;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase;">linger</span>
-          <div style="font-family:var(--font-display);font-size:1.125rem;font-weight:600;margin:6px 0;">linger · 余温</div>
-          <p style="font-size:1.0625rem;line-height:1.6;opacity:.6;">斯人已逝，余温犹存。在数字世界里怀念珍视的人。</p>
-        </div>
-        <div>
-          <span class="fcard-hover"></span>
-          <span style="opacity:.5;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase;">novelweave</span>
-          <div style="font-family:var(--font-display);font-size:1.125rem;font-weight:600;margin:6px 0;">novelweave · 织文</div>
-          <p style="font-size:1.0625rem;line-height:1.6;opacity:.6;">经纬成章，字句生花。AI 网文创作辅助 · 续写 · 润色。</p>
-        </div>
-        <div>
-          <span class="fcard-hover"></span>
-          <span style="opacity:.5;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase;">sbti</span>
-          <div style="font-family:var(--font-display);font-size:1.125rem;font-weight:600;margin:6px 0;">sbti</div>
-          <p style="font-size:1.0625rem;line-height:1.6;opacity:.6;">观照内心，明辨天性。人格类型测评 · 还原经典 MBTI。</p>
-        </div>
+        <div><span class="fcard-hover"></span><span class="fcard-label">linger</span><div class="fcard-name">linger · 余温</div><p class="fcard-desc">斯人已逝，余温犹存。在数字世界里怀念珍视的人。</p></div>
+        <div><span class="fcard-hover"></span><span class="fcard-label">novelweave</span><div class="fcard-name">novelweave · 织文</div><p class="fcard-desc">经纬成章，字句生花。AI 网文创作辅助 · 续写 · 润色。</p></div>
+        <div><span class="fcard-hover"></span><span class="fcard-label">sbti</span><div class="fcard-name">sbti</div><p class="fcard-desc">观照内心，明辨天性。人格类型测评 · 还原经典 MBTI。</p></div>
       </div>
     </div>
   </div>
@@ -541,7 +284,7 @@
 
 <!-- ════ 落款 ════ -->
 <div class="gc lg-span-full" style="border:none;padding:40px 20px;text-align:center;">
-  <p style="font-family:var(--font-display);font-size:.9375rem;letter-spacing:.3rem;opacity:.2;line-height:2;">
+  <p style="font-family:var(--font-display);font-size:.9375rem;letter-spacing:.3rem;opacity:.2;line-height:2;text-transform:none;">
     羽 落 知 天 下<br>智 在 掌 心 间
   </p>
 </div>
@@ -550,17 +293,15 @@
 <footer class="gc lg-span-full" style="border:none;padding:0;">
   <div class="g" style="border-left:none;border-bottom:1px solid var(--border);">
     <div class="gc" style="display:flex;align-items:center;">
-      <span class="label op-70">yu.ai</span>
+      <span class="label op-70" style="mix-blend-mode:plus-lighter;">yu.ai</span>
     </div>
     <div class="gc hide-mobile" style="border-right:none;"></div>
     <div class="gc hide-mobile" style="border-right:none;"></div>
     <div class="gc" style="display:flex;align-items:center;">
-      <a href="https://github.com/yuluyangguang1" target="_blank" class="label" style="opacity:.7;transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">
-        ylyg ↗
-      </a>
+      <a href="https://github.com/yuluyangguang1" target="_blank" class="label" style="opacity:.7;transition:opacity .2s;mix-blend-mode:plus-lighter;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">ylyg ↗</a>
     </div>
     <div class="gc" style="display:flex;align-items:center;">
-      <span class="label op-50" style="color:var(--midground);">mit · 2026</span>
+      <span class="label op-50" style="mix-blend-mode:plus-lighter;">mit · 2026</span>
     </div>
   </div>
 </footer>
