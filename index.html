@@ -3,43 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>yu.ai</title>
+<title>yu.ai · 宇</title>
 <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
   :root {
     --bg: #041c1c;
-    --card: #062424;
+    --bg-alt: #062424;
+    --card: #072828;
     --secondary: #0a2e2e;
     --fg: #ffe6cb;
-    --fg-muted: #8aaa9a;
+    --fg-muted: #9ab5a5;
     --fg-dim: #5a7770;
-    --border: #ffe6cb26;
-    --emerald: oklch(0.765 0.177 163.223);
-    --emerald-dim: oklch(0.696 0.17 162.48);
-    --font-mono: 'Courier New', 'Menlo', monospace;
+    --fg-faint: #3d5a55;
+    --border: rgba(0,255,200,0.08);
+    --accent: #00ffc8;
+    --accent-dim: rgba(0,255,200,0.10);
+    --seal: #c84a3e;
+    --gold: #d4a855;
+    --font-serif: 'Georgia', 'Noto Serif SC', 'Source Han Serif SC', serif;
+    --font-mono: 'Courier New', 'Menlo', 'Noto Sans Mono CJK SC', monospace;
+    --font-sans: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     background: var(--bg);
     color: var(--fg);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    line-height: 1.75;
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
     position: relative;
     overflow-x: hidden;
   }
 
+  /* ── 水墨光晕 ── */
   body::before {
     content: '';
     position: fixed; inset: 0;
     pointer-events: none; z-index: 0;
-    mix-blend-mode: lighten;
-    opacity: 0.18;
-    background: radial-gradient(at 20% 30%, #ffbd3859, transparent 60%);
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(0,255,200,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(255,230,203,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 10%, rgba(0,255,200,0.03) 0%, transparent 40%);
   }
 
   body::after {
@@ -47,97 +54,253 @@
     position: fixed; inset: 0;
     pointer-events: none; z-index: 0;
     mix-blend-mode: color-dodge;
-    opacity: 0.08;
+    opacity: 0.05;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
     background-size: 512px 512px;
   }
 
-  .content {
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  .page-wrap {
     position: relative;
     z-index: 1;
-    width: 100%;
-    max-width: 700px;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 0 24px;
   }
 
-  /* Hero */
-  .hero {
-    text-align: center;
-    padding: 120px 0 80px;
+  /* ═══════════════════════════════════════ */
+  /* 印章 Logo                               */
+  /* ═══════════════════════════════════════ */
+  .seal-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 100px 0 40px;
   }
 
-  .logo-wrap {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 40px;
+  .seal {
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+
+  .seal svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ═══════════════════════════════════════ */
+  /* ASCII 边界                              */
+  /* ═══════════════════════════════════════ */
+  .ascii-border {
+    font-family: var(--font-mono);
+    font-size: 5px;
+    line-height: 1.3;
+    letter-spacing: 0;
+    color: var(--accent);
+    opacity: 0.18;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .ascii-border.lg { font-size: 6px; opacity: 0.22; }
+
+  /* 回纹风格 ASCII 分隔线 */
+  .meander-divider {
+    font-family: var(--font-mono);
+    font-size: 6px;
+    line-height: 2;
+    letter-spacing: 0;
+    color: var(--accent);
+    opacity: 0.15;
+    user-select: none;
+    text-align: center;
+    margin: 10px 0;
+    overflow: hidden;
+  }
+
+  /* ═══════════════════════════════════════ */
+  /* Hero                                    */
+  /* ═══════════════════════════════════════ */
+  .hero {
+    text-align: center;
+    padding: 20px 0 60px;
   }
 
   .hero h1 {
+    font-family: var(--font-serif);
     font-size: 14px;
     font-weight: 400;
-    color: var(--fg-muted);
-    letter-spacing: 6px;
+    letter-spacing: 10px;
+    color: var(--fg-dim);
     text-transform: uppercase;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .hero .tagline {
-    font-size: 22px;
+    font-family: var(--font-serif);
+    font-size: 26px;
     font-weight: 400;
     color: var(--fg);
-    line-height: 1.6;
-    letter-spacing: 1px;
+    line-height: 1.7;
+    letter-spacing: 3px;
+  }
+
+  .hero .tagline em {
+    font-style: normal;
+    color: var(--accent);
   }
 
   .hero .sub {
+    font-family: var(--font-sans);
     font-size: 13px;
     color: var(--fg-dim);
-    margin-top: 20px;
-    letter-spacing: 1px;
+    margin-top: 16px;
+    letter-spacing: 3px;
   }
 
-  /* Sections */
+  .hero .sub span {
+    display: inline-block;
+    margin: 0 8px;
+    color: var(--fg-faint);
+  }
+
+  /* ═══════════════════════════════════════ */
+  /* 作品卡片                                */
+  /* ═══════════════════════════════════════ */
   .section {
-    padding: 50px 0;
-    border-top: 1px solid var(--border);
-    width: 100%;
+    padding: 60px 0;
+    border-top: none;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .section-header .line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
   }
 
   .section-title {
-    font-size: 11px;
+    font-family: var(--font-serif);
+    font-size: 13px;
     color: var(--fg-dim);
-    letter-spacing: 4px;
+    letter-spacing: 6px;
     text-transform: uppercase;
-    margin-bottom: 28px;
+    white-space: nowrap;
+  }
+
+  .section-title .cn {
+    font-family: var(--font-serif);
+    color: var(--accent);
+    opacity: 0.4;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-left: 6px;
   }
 
   .product-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    gap: 16px;
   }
 
   .product-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 26px 22px;
+    border-radius: 16px;
+    padding: 28px 24px;
     text-decoration: none;
-    transition: all 0.2s;
     display: block;
     position: relative;
+    overflow: hidden;
+    transition: all 0.25s;
+  }
+
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .product-card:hover::before {
+    opacity: 0.6;
   }
 
   .product-card:hover {
-    border-color: var(--fg-dim);
-    transform: translateY(-2px);
+    border-color: rgba(0,255,200,0.2);
+    transform: translateY(-3px);
+  }
+
+  /* ASCII 背景暗纹 */
+  .product-card .ascii-bg {
+    position: absolute;
+    inset: 0;
+    font-family: var(--font-mono);
+    font-size: 3px;
+    line-height: 1.4;
+    color: var(--accent);
+    opacity: 0.04;
+    user-select: none;
+    overflow: hidden;
+    pointer-events: none;
+    letter-spacing: 0;
+  }
+
+  .product-card .card-body {
+    position: relative;
+    z-index: 1;
+  }
+
+  .product-card .badge-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .product-card .badge-icon {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--accent);
+    opacity: 0.5;
+    line-height: 1;
+  }
+
+  .product-card .badge-tag {
+    font-size: 9px;
+    color: var(--fg-faint);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 2px 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
   }
 
   .product-card .name {
-    font-size: 15px;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 600;
     color: var(--fg);
     margin-bottom: 8px;
-    letter-spacing: 1px;
+  }
+
+  .product-card .name .cn-name {
+    font-weight: 400;
+    color: var(--fg-dim);
+    font-size: 13px;
+    margin-left: 4px;
   }
 
   .product-card .desc {
@@ -146,162 +309,289 @@
     line-height: 1.7;
   }
 
-  .product-card .badge {
-    display: inline-block;
-    margin-top: 14px;
-    padding: 3px 10px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    font-size: 10px;
-    color: var(--fg-dim);
-    letter-spacing: 1px;
-  }
-
-  /* Links */
-  .links {
-    padding: 50px 0;
+  /* ═══════════════════════════════════════ */
+  /* 印章脚注                                */
+  /* ═══════════════════════════════════════ */
+  .seal-footer {
+    text-align: center;
+    padding: 60px 0 80px;
     border-top: 1px solid var(--border);
-    text-align: center;
   }
 
-  .links a {
+  .seal-stamp-small {
     display: inline-block;
-    margin: 0 16px;
-    font-size: 12px;
-    color: var(--fg-muted);
-    text-decoration: none;
-    letter-spacing: 1px;
-    transition: color 0.2s;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
   }
 
-  .links a:hover { color: var(--fg); }
+  .seal-stamp-small svg {
+    width: 100%;
+    height: 100%;
+  }
 
-  /* Footer */
-  footer {
-    padding: 40px 0 60px;
-    text-align: center;
+  .seal-footer .links {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 24px;
+  }
+
+  .seal-footer .links a {
+    font-family: var(--font-mono);
     font-size: 11px;
     color: var(--fg-dim);
-    letter-spacing: 2px;
-    line-height: 1.8;
-  }
-
-  footer .gh-link {
-    color: var(--fg-muted);
     text-decoration: none;
+    letter-spacing: 2px;
     transition: color 0.2s;
-  }
-  footer .gh-link:hover { color: var(--fg); }
-
-  /* Cursor blink */
-  .cursor {
-    display: inline-block;
-    width: 8px;
-    height: 20px;
-    background: var(--fg);
-    margin-left: 4px;
-    vertical-align: middle;
-    animation: blink 1.2s step-end infinite;
+    position: relative;
   }
 
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+  .seal-footer .links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
   }
 
-  @media (max-width: 600px) {
+  .seal-footer .links a:hover {
+    color: var(--accent);
+  }
+
+  .seal-footer .links a:hover::after {
+    opacity: 0.5;
+  }
+
+  .seal-footer .copyright {
+    font-size: 11px;
+    color: var(--fg-faint);
+    letter-spacing: 3px;
+  }
+
+  .seal-footer .copyright em {
+    font-style: normal;
+    color: var(--accent);
+    opacity: 0.5;
+  }
+
+  /* ═══════════════════════════════════════ */
+  /* 响应式                                  */
+  /* ═══════════════════════════════════════ */
+  @media (max-width: 640px) {
     .product-grid { grid-template-columns: 1fr; }
-    .hero { padding: 80px 0 50px; }
-    .hero .tagline { font-size: 18px; }
-    .logo-wrap { width: 90px; height: 90px; }
+    .seal-wrap { padding: 60px 0 30px; }
+    .hero .tagline { font-size: 20px; letter-spacing: 2px; }
+    .seal { width: 80px; height: 80px; }
+    .seal-footer .links { flex-direction: column; gap: 16px; }
   }
 </style>
 </head>
 <body>
 
-<div class="content">
+<div class="page-wrap">
 
-  <div class="hero">
-    <div class="logo-wrap">
+  <!-- ═══════ 印章 ═══════ -->
+  <div class="seal-wrap">
+    <div class="seal">
       <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="bg" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stop-color="#0a3030"/>
-            <stop offset="100%" stop-color="#041c1c"/>
-          </radialGradient>
-        </defs>
-        <rect width="200" height="200" rx="44" fill="url(#bg)"/>
-        <g stroke="#ffe6cb" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.4">
-          <path d="M 36 52 L 46 58 L 36 64"/>
-          <line x1="54" y1="64" x2="70" y2="64"/>
+        <!-- 朱文印边框 · seal border -->
+        <rect x="6" y="6" width="188" height="188" rx="12"
+              fill="none" stroke="#c84a3e" stroke-width="5" opacity="0.7"/>
+        <rect x="16" y="16" width="168" height="168" rx="8"
+              fill="none" stroke="#c84a3e" stroke-width="1.5" opacity="0.25"/>
+        <!-- 宇字符 · yu character -->
+        <g fill="#c84a3e" opacity="0.75">
+          <path d="M 64 50 L 136 50 L 132 62 L 100 64 L 100 68 L 130 68 L 128 78 L 72 78 L 72 88 C 72 96 60 96 60 88 L 60 78 L 46 78 L 48 68 L 64 68 L 64 64 L 44 62 Z"/>
+          <path d="M 100 88 L 100 144 C 100 152 114 152 114 144 L 114 88 Z"/>
+          <!-- 底部横 -->
+          <path d="M 74 136 C 74 128 94 130 100 132 L 100 132 L 100 144 C 100 152 86 150 80 148 Z"/>
         </g>
-        <g fill="none" stroke="#ffe6cb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M 38 88 L 52 112 M 66 88 L 52 112 L 46 130"/>
-          <path d="M 72 88 L 72 112 Q 72 124 84 124 L 84 88"/>
+        <!-- AI 小字 -->
+        <text x="200" y="200"
+              font-family="'Courier New', monospace" font-size="16"
+              fill="#00ffc8" opacity="0.35"
+              transform="translate(-48, -28)">
+          .ai
+        </text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ═══════ ASCII 边界 ═══════ -->
+  <pre class="ascii-border">
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  ║
+║  ▓  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  ▓  ║
+║  ▓  ░  ┌────────────────────────────────────────────────────────────┐  ░  ▓  ║
+║  ▓  ░  │  ╔═══╗ ╔════╗ ╔═══╗   ╔══╗ ╔══╗ ╔═══╗ ╔═══╗ ╔═══╗ ╔════╗  │  ░  ▓  ║
+║  ▓  ░  │  ║   ║ ║    ║ ║   ║   ║  ║ ║  ║ ║   ║ ║   ║ ║   ║ ║    ║  │  ░  ▓  ║
+║  ▓  ░  │  ║   ║ ║    ║ ║   ║   ║  ║ ║  ║ ║   ║ ║   ║ ║   ║ ║    ║  │  ░  ▓  ║
+║  ▓  ░  │  ║   ║ ║    ║ ║   ║   ╚══╝ ╚══╝ ║   ║ ║   ║ ╚═══╝ ║    ║  │  ░  ▓  ║
+║  ▓  ░  │  ║   ║ ║    ║ ║   ║   ╔══╗ ╔══╗ ║   ║ ║   ║ ╔═══╗ ║    ║  │  ░  ▓  ║
+║  ▓  ░  │  ║   ║ ║    ║ ║   ║   ║  ║ ║  ║ ║   ║ ║   ║ ║   ║ ║    ║  │  ░  ▓  ║
+║  ▓  ░  │  ║   ║ ║    ║ ║   ║   ║  ║ ║  ║ ║   ║ ║   ║ ║   ║ ║    ║  │  ░  ▓  ║
+║  ▓  ░  │  ╚═══╝ ╚════╝ ╚═══╝   ╚══╝ ╚══╝ ╚═══╝ ╚═══╝ ╚═══╝ ╚════╝  │  ░  ▓  ║
+║  ▓  ░  └────────────────────────────────────────────────────────────┘  ░  ▓  ║
+║  ▓  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  ▓  ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+  </pre>
+
+  <!-- ═══════ Hero ═══════ -->
+  <div class="hero">
+    <h1>yu · ai</h1>
+    <p class="tagline">
+      <em>便携</em> AI 工具与<br>
+      数字世界的<em>温度</em>
+    </p>
+    <p class="sub">
+      <span>◆</span> zero-install <span>◆</span>
+      zero-trace <span>◆</span>
+      cross-platform <span>◆</span>
+    </p>
+  </div>
+
+  <!-- ═══════ 回纹分隔 ═══════ -->
+  <pre class="meander-divider">
+╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋
+  </pre>
+
+  <!-- ═══════ 便携工具 ═══════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="line"></div>
+      <div class="section-title">
+        portable tools <span class="cn">· 便携器物</span>
+      </div>
+      <div class="line"></div>
+    </div>
+
+    <div class="product-grid">
+      <a class="product-card" href="https://github.com/yuluyangguang1/openclaw-portable" target="_blank">
+        <pre class="ascii-bg">┌────────┐│││││││││├────────┤│││││││││└────────┘││││││││││┌────────┐│││││││││├────────┤│││││││││└────────┘││││││││││┌────────┐│││││││││├────────┤│││││││││└────────┘</pre>
+        <div class="card-body">
+          <div class="badge-row">
+            <span class="badge-icon">❖</span>
+            <span class="badge-tag">openclaw</span>
+          </div>
+          <div class="name">openclaw portable</div>
+          <div class="desc">
+            AI 助手便携版 · 27 个模型平台 · 12 个聊天渠道<br>
+            可视化配置中心，即插即用
+          </div>
+        </div>
+      </a>
+
+      <a class="product-card" href="https://github.com/yuluyangguang1/hermes-portable" target="_blank">
+        <pre class="ascii-bg">█▀▀▀▀▀█ █▀▀▀▀▀█ █▀▀▀▀▀█ █▀▀▀▀▀█ █▀▀▀▀▀█ █▀▀▀▀▀█ █▀▀▀▀▀█ █▀▀▀▀▀█ █▀▀▀▀▀█ █▀▀▀▀▀█</pre>
+        <div class="card-body">
+          <div class="badge-row">
+            <span class="badge-icon">❖</span>
+            <span class="badge-tag">hermes-agent</span>
+          </div>
+          <div class="name">hermes portable</div>
+          <div class="desc">
+            自进化 AI Agent · 持久记忆 · 技能系统<br>
+            多平台消息网关，随身助手
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════ 回纹分隔 ═══════ -->
+  <pre class="meander-divider">
+╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋
+  </pre>
+
+  <!-- ═══════ 网页应用 ═══════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="line"></div>
+      <div class="section-title">
+        web apps <span class="cn">· 云端之作</span>
+      </div>
+      <div class="line"></div>
+    </div>
+
+    <div class="product-grid">
+      <a class="product-card" href="https://github.com/yuluyangguang1/linger" target="_blank">
+        <pre class="ascii-bg">～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ </pre>
+        <div class="card-body">
+          <div class="badge-row">
+            <span class="badge-icon">◇</span>
+            <span class="badge-tag">linger</span>
+          </div>
+          <div class="name">linger · <span class="cn-name">余温</span></div>
+          <div class="desc">
+            AI 情感陪伴空间<br>
+            在数字世界里怀念珍视的人
+          </div>
+        </div>
+      </a>
+
+      <a class="product-card" href="https://github.com/yuluyangguang1/novelweave" target="_blank">
+        <pre class="ascii-bg">／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／</pre>
+        <div class="card-body">
+          <div class="badge-row">
+            <span class="badge-icon">◇</span>
+            <span class="badge-tag">novelweave</span>
+          </div>
+          <div class="name">novelweave · <span class="cn-name">织文</span></div>
+          <div class="desc">
+            AI 网文创作辅助工具<br>
+            续写 · 润色 · 一致性检查
+          </div>
+        </div>
+      </a>
+
+      <a class="product-card" href="https://github.com/yuluyangguang1/sbti-test" target="_blank">
+        <pre class="ascii-bg">┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼</pre>
+        <div class="card-body">
+          <div class="badge-row">
+            <span class="badge-icon">◇</span>
+            <span class="badge-tag">sbti</span>
+          </div>
+          <div class="name">sbti</div>
+          <div class="desc">
+            人格类型测评<br>
+            还原经典 MBTI 测试算法
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════ 回纹分隔 ═══════ -->
+  <pre class="meander-divider">
+╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋━━━━━━━━╋
+  </pre>
+
+  <!-- ═══════ Footer ═══════ -->
+  <div class="seal-footer">
+    <div class="seal-stamp-small">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="6" width="188" height="188" rx="12"
+              fill="none" stroke="#c84a3e" stroke-width="5" opacity="0.5"/>
+        <g fill="#c84a3e" opacity="0.55">
+          <path d="M 64 50 L 136 50 L 132 62 L 100 64 L 100 68 L 130 68 L 128 78 L 72 78 L 72 88 C 72 96 60 96 60 88 L 60 78 L 46 78 L 48 68 L 64 68 L 64 64 L 44 62 Z"/>
+          <path d="M 100 88 L 100 144 C 100 152 114 152 114 144 L 114 88 Z"/>
+          <path d="M 74 136 C 74 128 94 130 100 132 L 100 132 L 100 144 C 100 152 86 150 80 148 Z"/>
         </g>
-        <circle cx="98" cy="122" r="3.5" fill="#ffe6cb"/>
-        <g fill="none" stroke="#ffe6cb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M 122 124 Q 108 124 108 108 Q 108 92 122 92 Q 130 92 130 100 L 130 124"/>
-          <line x1="144" y1="96" x2="144" y2="124"/>
-        </g>
-        <circle cx="144" cy="86" r="3.5" fill="#ffe6cb"/>
-        <rect x="158" y="88" width="7" height="38" rx="1" fill="#ffe6cb">
-          <animate attributeName="opacity" values="1;1;0;0" dur="1.2s" repeatCount="indefinite"/>
-        </rect>
       </svg>
     </div>
 
-    <h1>yu.ai</h1>
-    <p class="tagline">portable AI tools &amp; apps<span class="cursor"></span></p>
-    <p class="sub">zero-install · zero-trace · cross-platform</p>
-  </div>
-
-  <div class="section">
-    <div class="section-title">portable tools</div>
-    <div class="product-grid">
-      <a class="product-card" href="https://github.com/yuluyangguang1/openclaw-portable" target="_blank">
-        <div class="name">openclaw portable</div>
-        <div class="desc">AI 助手便携版，27 个模型平台，12 个聊天渠道，可视化配置中心</div>
-        <span class="badge">openclaw</span>
-      </a>
-      <a class="product-card" href="https://github.com/yuluyangguang1/hermes-portable" target="_blank">
-        <div class="name">hermes portable</div>
-        <div class="desc">自进化 AI Agent，持久记忆，技能系统，多平台消息网关</div>
-        <span class="badge">hermes-agent</span>
-      </a>
+    <div class="links">
+      <a href="https://github.com/yuluyangguang1" target="_blank">github</a>
+      <a href="https://github.com/yuluyangguang1?tab=repositories" target="_blank">repositories</a>
     </div>
-  </div>
 
-  <div class="section">
-    <div class="section-title">web apps</div>
-    <div class="product-grid">
-      <a class="product-card" href="https://github.com/yuluyangguang1/linger" target="_blank">
-        <div class="name">linger · 余温</div>
-        <div class="desc">AI 情感陪伴空间，在数字世界里怀念珍视的人</div>
-        <span class="badge">linger</span>
-      </a>
-      <a class="product-card" href="https://github.com/yuluyangguang1/novelweave" target="_blank">
-        <div class="name">novelweave · 织文</div>
-        <div class="desc">AI 网文创作辅助工具，续写 / 润色 / 一致性检查</div>
-        <span class="badge">novelweave</span>
-      </a>
-      <a class="product-card" href="https://github.com/yuluyangguang1/sbti-test" target="_blank">
-        <div class="name">sbti</div>
-        <div class="desc">人格类型测评，还原经典 MBTI 测试算法</div>
-        <span class="badge">sbti</span>
-      </a>
-    </div>
+    <p class="copyright">
+      yu.ai · <em>ylyg</em> · 2026
+    </p>
   </div>
-
-  <div class="links">
-    <a href="https://github.com/yuluyangguang1" target="_blank">github</a>
-    <a href="https://github.com/yuluyangguang1?tab=repositories" target="_blank">repositories</a>
-  </div>
-
-  <footer>
-    yu.ai · ylyg<br>
-    <a class="gh-link" href="https://github.com/yuluyangguang1" target="_blank">@yuluyangguang1</a>
-  </footer>
 
 </div>
 
