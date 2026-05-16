@@ -13,12 +13,11 @@ code{font-size:0.875rem}
 a{color:inherit;text-decoration:none}
 
 /* ── Background layers (Hermes 6-layer system) ── */
-.bg-l1{position:fixed;inset:0;z-index:2;pointer-events:none;mix-blend-mode:difference;opacity:.033}
-.bg-l1 svg{width:100%;height:150dvh;object-fit:cover;filter:invert(1)}
-.bg-l2{position:fixed;inset:0;z-index:1;pointer-events:none;mix-blend-mode:difference;background:#041c1c}
-.bg-l3{position:fixed;inset:0;z-index:99;pointer-events:none;mix-blend-mode:lighten;opacity:.18;background:radial-gradient(ellipse at 80% 90%,rgba(255,189,56,.35) 0%,transparent 50%)}
-.bg-l4{position:fixed;inset:0;z-index:101;pointer-events:none;mix-blend-mode:color-dodge;opacity:.1;background:radial-gradient(ellipse at 30% 50%,rgba(0,255,200,.4) 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(255,230,203,.2) 0%,transparent 40%)}
-.bg-l5{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");background-size:512px 512px}
+.bg-l1{position:fixed;inset:0;z-index:1;pointer-events:none;mix-blend-mode:difference;background:#041c1c}
+.bg-l2{position:fixed;inset:0;z-index:2;pointer-events:none;mix-blend-mode:difference;opacity:.033}
+.bg-l2 img{width:100%;height:150dvh;object-fit:cover;filter:invert(1)}
+.bg-l3{position:fixed;inset:0;z-index:301;pointer-events:none;mix-blend-mode:lighten;opacity:.22;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.35) 0%,transparent 50%)}
+.bg-l4{position:fixed;inset:0;z-index:302;pointer-events:none;mix-blend-mode:color-dodge;opacity:.08;background:radial-gradient(ellipse at 30% 50%,rgba(0,255,200,.35) 0%,transparent 50%)}
 
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
 .blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
@@ -98,48 +97,17 @@ footer.g{border-bottom:1px solid var(--border)}
 </head>
 <body>
 
-<!-- ═══ 6-layer background ═══ -->
-<div class="bg-l1" aria-hidden="true">
-  <svg viewBox="0 0 600 1200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
-    <defs>
-      <filter id="ink" x="0" y="0" width="100%" height="100%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="6" seed="42" result="n1"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="4" seed="17" result="n2"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="3" seed="83" result="n3"/>
-        <feBlend in="n1" in2="n2" mode="screen" result="b1"/>
-        <feBlend in="b1" in2="n3" mode="multiply"/>
-      </filter>
-      <filter id="blur-edge">
-        <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="5" result="e"/>
-        <feDisplacementMap in="SourceGraphic" in2="e" scale="6" xChannelSelector="R" yChannelSelector="G"/>
-        <feGaussianBlur stdDeviation="3"/>
-      </filter>
-      <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
-        <stop offset="30%" stop-color="#fff" stop-opacity=".05"/>
-        <stop offset="50%" stop-color="#fff" stop-opacity=".3"/>
-        <stop offset="75%" stop-color="#fff" stop-opacity=".6"/>
-        <stop offset="100%" stop-color="#fff" stop-opacity=".85"/>
-      </linearGradient>
-    </defs>
-    <rect width="600" height="1200" fill="#eae6d8" filter="url(#ink)"/>
-    <g opacity=".4" filter="url(#blur-edge)" fill="url(#fade)">
-      <path d="M 320 780 C 290 750, 330 690, 380 690 C 430 690, 460 740, 440 790 C 430 820, 360 840, 320 810 Z"/>
-      <path d="M 305 800 Q 220 840, 180 810 Q 220 770, 290 770 Z" opacity=".5"/>
-      <path d="M 310 815 Q 230 870, 190 840 Q 230 800, 295 790 Z" opacity=".3"/>
-      <path d="M 365 730 Q 290 750, 275 760 Q 310 730, 355 715 Z" opacity=".4"/>
-      <path d="M 400 720 C 460 630, 480 540, 450 470 C 420 400, 390 340, 365 290 C 345 250, 335 220, 330 200" stroke="url(#fade)" stroke-width="20" stroke-linecap="round" fill="none" opacity=".35"/>
-      <ellipse cx="325" cy="195" rx="20" ry="16" transform="rotate(-15,325,195)" opacity=".5"/>
-      <path d="M 315 190 L 245 180 L 310 205 Z" opacity=".4"/>
-      <path d="M 385 820 C 390 870, 395 920, 385 970 C 375 1000, 370 1030, 365 1050" stroke="url(#fade)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".25"/>
-      <path d="M 415 820 C 420 870, 425 920, 420 970 C 415 1000, 410 1030, 410 1050" stroke="url(#fade)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".25"/>
-    </g>
-  </svg>
+<!-- ═══ Background layers (Hermes system) ═══ -->
+<!-- Layer 1: solid bg (difference, z:1) -->
+<div class="bg-l1"></div>
+<!-- Layer 2: 水墨纹理 (invert, difference, z:2) -->
+<div class="bg-l2" aria-hidden="true">
+  <img alt="" src="ink-texture.jpg" loading="lazy">
 </div>
-<div class="bg-l2"></div>
+<!-- Layer 3: warm glow overlay (lighten, above content, z:301) -->
 <div class="bg-l3"></div>
+<!-- Layer 4: color-dodge glow (above content, z:302) -->
 <div class="bg-l4"></div>
-<div class="bg-l5"></div>
 
 <main class="g" style="border-top:none;border-left:none;max-width:1600px;margin:0 auto;padding:0;position:relative;z-index:200;">
 
