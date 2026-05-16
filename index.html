@@ -5,144 +5,136 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>yu.ai · 轻羽</title>
 <style>
-:root{--bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;--bdr:color-mix(in oklab, currentColor 20%, transparent);--sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--display:'Georgia','Noto Serif SC','Source Han Serif SC',serif;--mono:'Courier New','Menlo',monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.6;-webkit-font-smoothing:antialiased;text-transform:uppercase}
+:root{--bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;--bdr:color-mix(in oklab,currentColor 20%,transparent);--sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--serif:'Georgia','Noto Serif SC','Source Han Serif SC',serif;--mono:'Courier New','Menlo',monospace}
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.6;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--accent);color:var(--bg)}
 a{color:inherit;text-decoration:none}
-small{font-size:1.0625rem}code{font-size:.875rem}
 
 /* ── Background ── */
 .bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
-.bg-i img{width:100%;height:150dvh;object-fit:cover;opacity:.07;filter:grayscale(1)brightness(.8);object-position:center bottom}
-.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
-  background-size:512px 512px}
-.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.18;
-  background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.3) 0%,transparent 50%)}
+.bg-i img{width:100%;height:150dvh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
+.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+
+/* ── Text classes ── */
+.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-sm{font-size:.75rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-xs{font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase}
+.title{font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1;letter-spacing:.0525rem}
+.display{font-family:var(--serif);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter}
+.sub{font-size:1.125rem;line-height:1.6;opacity:.6}
+.cn{font-family:var(--serif);font-size:.8125rem;letter-spacing:.25rem;line-height:1.8;opacity:.3}
+.op-5{opacity:.5}.op-6{opacity:.6}.op-7{opacity:.7}
 
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
 .blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
 
-/* ── Grid system ── */
-.g{display:grid;grid-template-columns:1fr;border-color:var(--bdr);border-top:1px solid;border-left:1px solid}
-.gc{min-width:0;padding:16px;border-right:1px solid;border-color:inherit}
-.cs{grid-column:1/-1}
-@media(min-width:1024px){
-.g{grid-template-columns:1fr 2fr 1fr 1fr 1fr}
-.gc.l1{grid-column:span 1}.gc.l2{grid-column:span 2}.gc.l3{grid-column:span 3}.gc.l4{grid-column:span 4}.gc.lf{grid-column:1/-1}}
+/* ── Page layout ── */
+.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0}
 
-/* ── Typography ── */
-.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
-.sm{font-family:var(--sans);font-size:.75rem;letter-spacing:.1875rem;text-transform:uppercase}
-.op-5{opacity:.5}.op-6{opacity:.6}.op-7{opacity:.7}
+/* ── Row system ── */
+.row{display:grid;grid-template-columns:1fr;border-color:var(--bdr);border-top:1px solid;border-left:1px solid}
+.cell{padding:16px;border-right:1px solid;border-color:inherit;min-width:0}
+.cell.s1{grid-column:span 1}
+.cell.s2{grid-column:span 2}
+.cell.s3{grid-column:span 3}
+.cell.s4{grid-column:span 4}
+.cell.s6{grid-column:1/-1}
+@media(min-width:1024px){.row{grid-template-columns:1fr 2fr 1fr 1fr 1fr}}
 
-/* ── Header ── */
-.h-brand{font-family:var(--display);font-size:2.625rem;font-weight:700;line-height:1;letter-spacing:.0525rem;mix-blend-mode:plus-lighter}
-.nav-g{position:relative;mix-blend-mode:plus-lighter;cursor:pointer}
+/* ── Nav hover ── */
+.nav-g{position:relative;cursor:pointer}
 .nav-g .blink{display:none}
 .nav-g:hover .blink{display:inline-block}
 .nav-h{position:absolute;inset:4px;background:var(--mid);pointer-events:none;opacity:0;transition:opacity .25s}
 .nav-g:hover>.nav-h{opacity:.05}
 
 /* ── Hero ── */
-.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:64px 20px 40px;text-align:center}
-.h1{font-family:var(--display);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter}
-.hp{font-size:1.125rem;line-height:1.6;opacity:.6;max-width:520px}
-.hcn{font-family:var(--display);font-size:.8125rem;letter-spacing:.25rem;line-height:1.8;opacity:.3}
+.hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px;padding:80px 20px 60px}
 
 /* ── Terminal ── */
-.tb{width:100%;max-width:520px;border:4px double var(--bdr)}
-.tbr{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--bdr)}
+.term{width:100%;max-width:520px;border:4px double var(--bdr)}
+.term-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--bdr)}
 .td{width:10px;height:10px;border-radius:50%}
 .td:nth-child(1){background:var(--mid)}
 .td:nth-child(2){background:var(--mid);opacity:.6}
 .td:nth-child(3){background:var(--mid);opacity:.3}
-.tt{margin-left:auto;font-family:var(--mono);font-size:.625rem;letter-spacing:.1875rem;opacity:.5}
-.tbd{font-family:var(--mono);font-size:.75rem;line-height:1.8;padding:20px 16px;white-space:pre-wrap;height:200px;overflow-y:auto}
-.tbd .p{color:var(--accent)}.tbd .t{opacity:.5}
+.term-label{margin-left:auto;font-family:var(--mono);font-size:.625rem;letter-spacing:.1875rem;opacity:.5}
+.term-b{font-family:var(--mono);font-size:.75rem;line-height:1.8;padding:20px 16px;white-space:pre-wrap;height:200px;overflow-y:auto}
+.term-b .p{color:var(--accent)}.term-b .t{opacity:.5}
 
-/* ── Code block ── */
-.cb{font-family:var(--mono);font-size:.6875rem;line-height:1.6;padding:10px 14px;border:1px solid var(--bdr);background:rgba(4,28,28,.4);word-break:break-all}
+.code{font-family:var(--mono);font-size:.6875rem;line-height:1.6;padding:10px 14px;border:1px solid var(--bdr);background:rgba(4,28,28,.4);word-break:break-all}
 
-/* ── Feature grid ── */
+/* ── Card grid ── */
 .fg{display:grid;grid-template-columns:1fr}
 .fg>*{padding:16px;border-bottom:1px solid var(--bdr);position:relative}
 .fg>*:last-child{border-bottom:none}
 .fh{position:absolute;inset:4px;background:var(--mid);pointer-events:none;opacity:0;transition:opacity .25s}
 .fg>*:hover .fh{opacity:.03}
 .ft{font-family:var(--mono);font-size:.625rem;letter-spacing:.125rem;opacity:.5;display:block;margin-bottom:6px}
-.fn{font-family:var(--display);font-size:1.125rem;font-weight:600;margin-bottom:6px}
+.fn{font-family:var(--serif);font-size:1.125rem;font-weight:600;margin-bottom:6px}
 .fd{font-size:1.0625rem;line-height:1.6;opacity:.6}
 @media(min-width:640px){.fg{grid-template-columns:1fr 1fr}.fg>*:nth-child(odd){border-right:1px solid var(--bdr)}.fg>*:nth-last-child(-n+2){border-bottom:none}}
 @media(min-width:1024px){.fg{grid-template-columns:1fr 1fr 1fr}.fg>*{border-right:1px solid var(--bdr)}.fg>*:nth-child(3n){border-right:none}.fg>*:nth-last-child(-n+3){border-bottom:none}}
 
-/* ── More button ── */
-.more{display:flex;align-items:center;justify-content:center;padding:24px;gap:8px;font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;opacity:.6;transition:opacity .2s}
-.more:hover{opacity:1}
+.more{display:flex;align-items:center;justify-content:center;padding:24px;gap:8px;opacity:.6;transition:opacity .2s}
+.more:hover{opacity:1;cursor:pointer}
 
 /* ── Footer ── */
-@media(max-width:1023px){.g{grid-template-columns:1fr}.gc{border-right:none}}
-@media(min-width:1024px){.hide-desktop{display:none!important}}
-@media(max-width:1023px){.hide-mobile{display:none!important}}
-@media(min-width:768px){.hide-tablet{display:none!important}}
-@media(max-width:767px){.show-tablet{display:none!important}}
-@media(max-width:640px){.h1{font-size:2.2rem}.hero{padding:40px 16px}}
+.footer{display:grid;grid-template-columns:1fr;border-color:var(--bdr);border-top:1px solid;border-left:1px solid;border-bottom:1px solid}
+.footer .c{padding:16px;border-right:1px solid;border-color:inherit;display:flex;align-items:center}
+@media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
+
+@media(max-width:1023px){.row{grid-template-columns:1fr}.cell{border-right:none}.footer{grid-template-columns:1fr}.footer .c{border-right:none}}
+@media(max-width:640px){.display{font-size:2.2rem}.hero{padding:50px 16px}}
 </style>
 </head>
 <body>
 
-<div class="bg-i" aria-hidden="true"><img alt="" src="egret-ink.jpg"></div>
+<div class="bg-i" aria-hidden="true"><img alt="" src="egret-ink.jpg" loading="lazy"></div>
 <div class="bg-n"></div>
 <div class="bg-g"></div>
 
-<main class="relative" style="z-index:200;max-width:1600px;margin:0 auto;padding:32px;">
+<div class="page">
 
-<!-- ════ Desktop header ── 5 gc ════ -->
-<div class="g hide-mobile border-t border-b">
-  <a href="/" class="gc" style="display:flex;align-items:center;">
-    <span class="h-brand">yu.ai</span>
-  </a>
-  <a href="https://github.com/yuluyangguang1" target="_blank" class="gc nav-g" style="display:flex;align-items:center;">
+<!-- ════ Header ════ -->
+<div class="row">
+  <div class="cell s1" style="display:flex;align-items:center;"><span class="title">yu.ai</span></div>
+  <div class="cell s2 nav-g" style="display:flex;align-items:center;">
     <span class="label">github <span class="blink"></span></span>
     <span class="nav-h"></span>
-  </a>
-  <a href="https://github.com/yuluyangguang1?tab=repositories" target="_blank" class="gc nav-g" style="display:flex;align-items:center;">
+  </div>
+  <div class="cell s1 nav-g" style="display:flex;align-items:center;">
     <span class="label">products <span class="blink"></span></span>
     <span class="nav-h"></span>
-  </a>
-  <div class="gc" style="display:flex;align-items:flex-start;justify-content:space-between;">
-    <small class="label op-5">social</small>
-    <a href="https://github.com/yuluyangguang1" target="_blank" style="opacity:.5;line-height:0;transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">
+  </div>
+  <div class="cell" style="display:flex;align-items:center;justify-content:space-between;">
+    <span class="label op-5">social</span>
+    <a href="https://github.com/yuluyangguang1" target="_blank" style="opacity:.5;line-height:0;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffe6cb" stroke-width="1.5"><path d="M12 2C6.477 2 2 6.477 2 12a10 10 0 0 0 6.839 9.49c.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.934.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48A10 10 0 0 0 22 12c0-5.523-4.477-10-10-10z"/></svg>
     </a>
   </div>
-  <div class="gc" style="display:flex;align-items:flex-start;justify-content:space-between;">
-    <small class="label op-5">theme</small>
+  <div class="cell" style="display:flex;align-items:center;justify-content:space-between;">
+    <span class="label op-5">theme</span>
     <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--mid);opacity:.5;"></span>
   </div>
 </div>
 
-<!-- ════ Mobile header ════ -->
-<div class="hide-desktop" style="display:flex;align-items:center;justify-content:space-between;border:1px solid var(--bdr);padding:16px;">
-  <a href="/"><span class="h-brand">yu.ai</span></a>
-  <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--mid);opacity:.5;"></span>
-</div>
-
-<!-- ════ Row 2: Hero ════ -->
-<div class="g">
-  <div class="gc cs" style="border-right:none;padding:0;">
+<!-- ════ Hero ════ -->
+<div class="row">
+  <div class="cell s6" style="border-right:none;padding:0;">
     <div class="hero">
-      <small class="sm op-7" style="letter-spacing:.15rem;">open source · mit license</small>
-      <h1 class="h1">羽 · ai</h1>
-      <p class="hp">轻若鸿羽，智若流云。便携的 AI 工具与数字温度。</p>
-      <p class="hcn" style="margin-top:-8px;">零安装 · 零痕迹 · 跨平台</p>
-      <div class="tb">
-        <div class="tbr">
+      <span class="label-xs op-7" style="letter-spacing:.15rem;">open source · mit license</span>
+      <h1 class="display">羽 · ai</h1>
+      <p class="sub">轻若鸿羽，智若流云。便携的 AI 工具与数字温度。</p>
+      <p class="cn" style="margin-top:-8px;">零安装 · 零痕迹 · 跨平台</p>
+      <div class="term">
+        <div class="term-h">
           <span class="td"></span><span class="td"></span><span class="td"></span>
-          <span class="tt">yu.ai</span>
+          <span class="term-label">yu.ai</span>
         </div>
-        <div class="tbd">
+        <div class="term-b">
 <span class="p">$</span> hermes setup
 <span class="t">  ✓ config written        /home/.hermes/config.yaml   0.2s</span>
 <span class="t">  ✓ gateway online        http://localhost:8123        0.8s</span>
@@ -151,78 +143,72 @@ small{font-size:1.0625rem}code{font-size:.875rem}
 <span class="p">$</span> <span class="blink"></span>
         </div>
       </div>
-      <!-- Quick Start inline (part of hero cell) -->
-      <div style="display:flex;gap:20px;width:100%;max-width:520px;flex-wrap:wrap;margin-top:16px;">
-        <div style="flex:1;min-width:200px;text-align:left;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <small class="sm op-5">1. install</small>
-            <span class="label op-5" style="font-size:.6875rem;cursor:pointer;">copy</span>
-          </div>
-          <div class="cb">curl -fsSL https://yu.ai/install.sh | bash</div>
-        </div>
-        <div style="flex:1;min-width:200px;text-align:left;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <small class="sm op-5">2. configure</small>
-            <span class="label op-5" style="font-size:.6875rem;cursor:pointer;">copy</span>
-          </div>
-          <div class="cb">hermes setup</div>
-        </div>
-      </div>
     </div>
   </div>
 </div>
 
-<!-- ════ Row 3: Products (like Hermes' "Features" row) ════ -->
-<div class="g">
-  <!-- Products title (full width) -->
-  <div class="gc cs" style="display:flex;align-items:center;">
-    <small class="label" style="font-weight:700;">products</small>
+<!-- ════ Products ════ -->
+<div class="row">
+  <div class="cell s6" style="display:flex;align-items:center;">
+    <span class="label" style="font-weight:700;">products</span>
   </div>
-  <!-- Cards grid (full width, no padding) -->
-  <div class="gc cs" style="border-bottom:0;padding:0;">
+</div>
+
+<!-- ════ Portable tools ════ -->
+<div class="row">
+  <div class="cell" style="display:flex;align-items:center;gap:6px;">
+    <span class="label-sm op-5">01</span>
+    <span class="label">portable tools</span>
+  </div>
+  <div class="cell s4" style="padding:0;">
     <div class="fg">
       <div><span class="fh"></span><span class="ft">openclaw</span><div class="fn">openclaw portable</div><p class="fd">一匣纳百川，万象皆可谈。27 个模型平台 · 12 个聊天渠道。</p></div>
       <div><span class="fh"></span><span class="ft">hermes-agent</span><div class="fn">hermes portable</div><p class="fd">自省而知新，历久则愈明。持久记忆 · 技能系统 · 多平台网关。</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ Web apps ════ -->
+<div class="row">
+  <div class="cell" style="display:flex;align-items:center;gap:6px;">
+    <span class="label-sm op-5">02</span>
+    <span class="label">web apps</span>
+  </div>
+  <div class="cell s4" style="padding:0;">
+    <div class="fg">
       <div><span class="fh"></span><span class="ft">linger</span><div class="fn">linger · 余温</div><p class="fd">斯人已逝，余温犹存。在数字世界里怀念珍视的人。</p></div>
       <div><span class="fh"></span><span class="ft">novelweave</span><div class="fn">novelweave · 织文</div><p class="fd">经纬成章，字句生花。AI 网文创作辅助 · 续写 · 润色。</p></div>
       <div><span class="fh"></span><span class="ft">sbti</span><div class="fn">sbti</div><p class="fd">观照内心，明辨天性。人格类型测评 · 还原经典 MBTI。</p></div>
     </div>
   </div>
-  <!-- More details button -->
-  <div class="gc cs">
-    <a href="https://github.com/yuluyangguang1?tab=repositories" target="_blank" class="more">
+</div>
+
+<!-- ════ More ════ -->
+<div class="row" style="border-bottom:none;">
+  <div class="cell s6" style="border-bottom:1px solid var(--bdr);">
+    <a class="more" href="https://github.com/yuluyangguang1?tab=repositories" target="_blank">
       view all repositories <span style="font-size:1.2em;">→</span>
     </a>
   </div>
 </div>
 
-<!-- ════ 落款 (inside a gc, no separate g row) ════ -->
+<!-- ════ 落款 ════ -->
 <div style="padding:40px 20px;text-align:center;">
-  <p style="font-family:var(--display);font-size:.9375rem;letter-spacing:.3rem;opacity:.2;line-height:2;">
+  <p style="font-family:var(--serif);font-size:.9375rem;letter-spacing:.3rem;opacity:.2;line-height:2;">
     羽 落 知 天 下<br>智 在 掌 心 间
   </p>
 </div>
 
 <!-- ════ Footer ════ -->
-<footer class="g border-b">
-  <div class="gc" style="display:flex;align-items:center;">
-    <small class="label op-7">yu.ai</small>
-  </div>
-  <div class="gc" style="display:flex;align-items:center;">
-    <small class="label op-7">ylyg</small>
-  </div>
-  <div class="gc show-tablet" style="display:flex;align-items:center;"></div>
-  <div class="gc" style="display:flex;align-items:center;">
-    <a href="https://github.com/yuluyangguang1" target="_blank" class="label" style="opacity:.7;transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">
-      github ↗
-    </a>
-  </div>
-  <div class="gc" style="display:flex;align-items:center;">
-    <small class="label op-5" style="mix-blend-mode:plus-lighter;">mit · 2026</small>
-  </div>
-</footer>
+<div class="footer">
+  <div class="c"><span class="label op-7">yu.ai</span></div>
+  <div class="c"><span class="label op-7">ylyg</span></div>
+  <div class="c"><a href="https://github.com/yuluyangguang1" target="_blank" class="label" style="opacity:.7;">github ↗</a></div>
+  <div class="c"><span class="label op-5">mit · 2026</span></div>
+  <div class="c"><span class="label op-5" style="color:var(--accent);">轻羽</span></div>
+</div>
 
-</main>
+</div>
 
 </body>
 </html>
