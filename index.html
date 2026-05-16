@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yu.ai</title>
+<style>
+  :root {
+    --bg: #041c1c;
+    --card: #062424;
+    --secondary: #0a2e2e;
+    --fg: #ffe6cb;
+    --fg-muted: #8aaa9a;
+    --fg-dim: #5a7770;
+    --border: #ffe6cb26;
+    --emerald: oklch(0.765 0.177 163.223);
+    --emerald-dim: oklch(0.696 0.17 162.48);
+    --font-mono: 'Courier New', 'Menlo', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-mono);
+    background: var(--bg);
+    color: var(--fg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    mix-blend-mode: lighten;
+    opacity: 0.18;
+    background: radial-gradient(at 20% 30%, #ffbd3859, transparent 60%);
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    mix-blend-mode: color-dodge;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    background-size: 512px 512px;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 700px;
+    padding: 0 24px;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 120px 0 80px;
+  }
+
+  .logo-wrap {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 40px;
+  }
+
+  .hero h1 {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--fg-muted);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero .tagline {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--fg);
+    line-height: 1.6;
+    letter-spacing: 1px;
+  }
+
+  .hero .sub {
+    font-size: 13px;
+    color: var(--fg-dim);
+    margin-top: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* Sections */
+  .section {
+    padding: 50px 0;
+    border-top: 1px solid var(--border);
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 11px;
+    color: var(--fg-dim);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 22px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: block;
+    position: relative;
+  }
+
+  .product-card:hover {
+    border-color: var(--fg-dim);
+    transform: translateY(-2px);
+  }
+
+  .product-card .name {
+    font-size: 15px;
+    color: var(--fg);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  .product-card .desc {
+    font-size: 12px;
+    color: var(--fg-muted);
+    line-height: 1.7;
+  }
+
+  .product-card .badge {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 3px 10px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 10px;
+    color: var(--fg-dim);
+    letter-spacing: 1px;
+  }
+
+  /* Links */
+  .links {
+    padding: 50px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .links a {
+    display: inline-block;
+    margin: 0 16px;
+    font-size: 12px;
+    color: var(--fg-muted);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+
+  .links a:hover { color: var(--fg); }
+
+  /* Footer */
+  footer {
+    padding: 40px 0 60px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--fg-dim);
+    letter-spacing: 2px;
+    line-height: 1.8;
+  }
+
+  footer .gh-link {
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer .gh-link:hover { color: var(--fg); }
+
+  /* Cursor blink */
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 20px;
+    background: var(--fg);
+    margin-left: 4px;
+    vertical-align: middle;
+    animation: blink 1.2s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .product-grid { grid-template-columns: 1fr; }
+    .hero { padding: 80px 0 50px; }
+    .hero .tagline { font-size: 18px; }
+    .logo-wrap { width: 90px; height: 90px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="content">
+
+  <div class="hero">
+    <div class="logo-wrap">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bg" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#0a3030"/>
+            <stop offset="100%" stop-color="#041c1c"/>
+          </radialGradient>
+        </defs>
+        <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+        <g stroke="#ffe6cb" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.4">
+          <path d="M 36 52 L 46 58 L 36 64"/>
+          <line x1="54" y1="64" x2="70" y2="64"/>
+        </g>
+        <g fill="none" stroke="#ffe6cb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 38 88 L 52 112 M 66 88 L 52 112 L 46 130"/>
+          <path d="M 72 88 L 72 112 Q 72 124 84 124 L 84 88"/>
+        </g>
+        <circle cx="98" cy="122" r="3.5" fill="#ffe6cb"/>
+        <g fill="none" stroke="#ffe6cb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 122 124 Q 108 124 108 108 Q 108 92 122 92 Q 130 92 130 100 L 130 124"/>
+          <line x1="144" y1="96" x2="144" y2="124"/>
+        </g>
+        <circle cx="144" cy="86" r="3.5" fill="#ffe6cb"/>
+        <rect x="158" y="88" width="7" height="38" rx="1" fill="#ffe6cb">
+          <animate attributeName="opacity" values="1;1;0;0" dur="1.2s" repeatCount="indefinite"/>
+        </rect>
+      </svg>
+    </div>
+
+    <h1>yu.ai</h1>
+    <p class="tagline">portable AI tools &amp; apps<span class="cursor"></span></p>
+    <p class="sub">zero-install · zero-trace · cross-platform</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">portable tools</div>
+    <div class="product-grid">
+      <a class="product-card" href="https://github.com/yuluyangguang1/openclaw-portable" target="_blank">
+        <div class="name">openclaw portable</div>
+        <div class="desc">AI 助手便携版，27 个模型平台，12 个聊天渠道，可视化配置中心</div>
+        <span class="badge">openclaw</span>
+      </a>
+      <a class="product-card" href="https://github.com/yuluyangguang1/hermes-portable" target="_blank">
+        <div class="name">hermes portable</div>
+        <div class="desc">自进化 AI Agent，持久记忆，技能系统，多平台消息网关</div>
+        <span class="badge">hermes-agent</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">web apps</div>
+    <div class="product-grid">
+      <a class="product-card" href="https://github.com/yuluyangguang1/linger" target="_blank">
+        <div class="name">linger · 余温</div>
+        <div class="desc">AI 情感陪伴空间，在数字世界里怀念珍视的人</div>
+        <span class="badge">linger</span>
+      </a>
+      <a class="product-card" href="https://github.com/yuluyangguang1/novelweave" target="_blank">
+        <div class="name">novelweave · 织文</div>
+        <div class="desc">AI 网文创作辅助工具，续写 / 润色 / 一致性检查</div>
+        <span class="badge">novelweave</span>
+      </a>
+      <a class="product-card" href="https://github.com/yuluyangguang1/sbti-test" target="_blank">
+        <div class="name">sbti</div>
+        <div class="desc">人格类型测评，还原经典 MBTI 测试算法</div>
+        <span class="badge">sbti</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="links">
+    <a href="https://github.com/yuluyangguang1" target="_blank">github</a>
+    <a href="https://github.com/yuluyangguang1?tab=repositories" target="_blank">repositories</a>
+  </div>
+
+  <footer>
+    yu.ai · ylyg<br>
+    <a class="gh-link" href="https://github.com/yuluyangguang1" target="_blank">@yuluyangguang1</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
