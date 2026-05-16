@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Linger · 余温</title>
+
+  <!-- PWA: 添加到主屏幕 -->
+  <meta name="theme-color" content="#0a0a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="余温">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="src/assets/logo-icon-128.jpg">
+  <link rel="apple-touch-icon" href="src/assets/pwa/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="src/assets/pwa/icon-512.png">
+
+  <link rel="stylesheet" href="src/style.css?v=14">
+</head>
+<body>
+<div id="app">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- STEP 0：开场 —— 黑屏亮起                     -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-opening" class="page active">
+  <div class="opening-screen">
+    <div class="opening-line-1">有些人，不会真的离开。</div>
+    <div class="opening-line-2">你想见谁？</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- STEP 1：人物瞬间卡片                         -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-character-select" class="page">
+  <div class="character-select-bg"></div>
+  <div class="character-select-body">
+    <div class="character-select-title">你想见谁？</div>
+    <div class="character-select-subtitle">选择一种被对待的方式</div>
+    <div class="character-select-grid" id="character-select-grid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 01 性别选择（首次启动）                     -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-gender" class="page">
+  <div class="gender-bg"></div>
+  <div class="gender-body">
+    <div class="gender-brand">
+      <div class="gender-logo">
+        <img src="src/assets/logo-icon-128.jpg" alt="Linger" style="width:80px;height:80px;border-radius:20px;">
+      </div>
+      <div class="gender-brand-title">Linger · 余温</div>
+      <div class="gender-brand-sub">AI 情感陪伴应用 · 让你感觉不是一个人</div>
+    </div>
+
+    <div class="gender-welcome">欢迎来到 Linger</div>
+    <div class="gender-hint">选择一个身份开始</div>
+
+    <div class="gender-options">
+      <div class="gender-card" onclick="selectGender('male')">
+        <div class="gender-icon male">♂</div>
+        <div class="gender-label">男生</div>
+      </div>
+      <div class="gender-card" onclick="selectGender('female')">
+        <div class="gender-icon female">♀</div>
+        <div class="gender-label">女生</div>
+      </div>
+    </div>
+
+    <div class="gender-footer">选择后可在设置中随时更改</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 02 「在一起」首页                           -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-home" class="page">
+  <!-- 沉浸式背景 -->
+  <div class="home-hero-bg" id="home-hero-bg"></div>
+  <div class="home-hero-overlay"></div>
+
+  <!-- 亲密度标签 -->
+  <div class="home-intimacy-badge" id="home-intimacy-badge">
+    <span class="home-intimacy-heart">❤️</span>
+    <span class="home-intimacy-val" id="home-intimacy-val">82%</span>
+  </div>
+
+  <!-- 主体内容 -->
+  <div class="home-body">
+    <!-- 角色信息卡片 -->
+    <div class="home-char-card">
+      <div class="home-char-name" id="home-char-name">温柔学姐</div>
+      <div class="home-char-greeting" id="home-char-greeting">今天想聊点什么？</div>
+      <div class="home-char-tags" id="home-char-tags">
+        <span class="home-tag">温柔体贴</span>
+        <span class="home-tag">善解人意</span>
+        <span class="home-tag">学业优秀</span>
+      </div>
+    </div>
+
+    <!-- 快捷操作 -->
+    <div class="home-actions">
+      <div class="home-action-item" onclick="enterChatFromTogether()">
+        <div class="home-action-icon" style="background:#FF9E5E;">💬</div>
+        <div class="home-action-label">对话</div>
+      </div>
+      <div class="home-action-item" onclick="showToast('陪伴功能开发中')">
+        <div class="home-action-icon" style="background:#FF5E78;">🤗</div>
+        <div class="home-action-label">陪伴</div>
+      </div>
+      <div class="home-action-item" onclick="showToast('日记功能开发中')">
+        <div class="home-action-icon" style="background:#7EC8E3;">📖</div>
+        <div class="home-action-label">日记</div>
+      </div>
+      <div class="home-action-item" onclick="showToast('礼物功能开发中')">
+        <div class="home-action-icon" style="background:#FFD9A8; color:#8B5E3C;">🎁</div>
+        <div class="home-action-label">礼物</div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <button class="tabbar-item active" data-page="home" onclick="router.go('home')">
+      <span class="tabbar-icon">💞</span><span class="tabbar-label">在一起</span>
+    </button>
+    <button class="tabbar-item" data-page="them" onclick="router.go('them')">
+      <span class="tabbar-icon">👥</span><span class="tabbar-label">他们</span>
+    </button>
+    <button class="tabbar-item" data-page="profile" onclick="router.go('profile')">
+      <span class="tabbar-icon">🤍</span><span class="tabbar-label">我</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 03 聊天页                                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-chat" class="page">
+  <!-- 顶部栏 -->
+  <div class="chat-header">
+    <button class="chat-header-back" onclick="router.go('home')">←</button>
+    <div class="chat-header-center">
+      <div class="chat-header-avatar" id="chat-header-avatar"></div>
+      <div class="chat-header-info">
+        <div class="chat-header-name" id="chat-char-name">聊天中</div>
+        <div class="chat-header-status">在线</div>
+      </div>
+    </div>
+    <div class="tier-pill" id="chat-tier-pill" style="display:none"><span id="chat-tier-text">免费</span><span id="chat-tier-remain">20</span></div>
+    <button class="chat-header-more" onclick="showCharInfo()">⋯</button>
+  </div>
+
+  <!-- 消息列表 -->
+  <div class="chat-messages" id="chat-msg-list">
+    <div class="chat-empty">
+      <div class="chat-empty-icon">💬</div>
+      <div class="chat-empty-text">开始你们的第一次对话吧</div>
+    </div>
+  </div>
+
+  <!-- 底部输入 -->
+  <div class="chat-footer">
+    <button class="chat-footer-voice" onclick="toggleRecording()">🎙️</button>
+    <div class="chat-input-box">
+      <textarea id="chat-input" rows="1" placeholder="说点什么..."
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+        oninput="autoResize(this)"></textarea>
+    </div>
+    <button class="chat-footer-plus" onclick="showToast('更多功能开发中')">＋</button>
+    <button class="chat-footer-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 04 「他们」页面                             -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-them" class="page">
+  <div class="them-header">
+    <div class="them-title">他们</div>
+  </div>
+
+  <!-- 搜索框 -->
+  <div class="them-search-wrap">
+    <div class="them-search">
+      <span class="them-search-icon">🔍</span>
+      <input type="text" placeholder="搜索角色或宠物..." id="them-search-input" oninput="filterThemList(this.value)">
+    </div>
+  </div>
+
+  <!-- 分类 Tab -->
+  <div class="them-tabs">
+    <div class="them-tab active" data-tab="all" onclick="switchThemTab('all')">全部</div>
+    <div class="them-tab" data-tab="character" onclick="switchThemTab('character')">角色</div>
+    <div class="them-tab" data-tab="pet" onclick="switchThemTab('pet')">宠物</div>
+    <div class="them-tab" data-tab="memorial" onclick="switchThemTab('memorial')">纪念</div>
+  </div>
+
+  <!-- 列表区 -->
+  <div class="them-list" id="them-list"></div>
+
+  <!-- 创建按钮 -->
+  <button class="them-add-btn" onclick="router.go('create')">＋</button>
+
+  <nav class="tabbar">
+    <button class="tabbar-item" data-page="home" onclick="router.go('home')">
+      <span class="tabbar-icon">💞</span><span class="tabbar-label">在一起</span>
+    </button>
+    <button class="tabbar-item active" data-page="them" onclick="router.go('them')">
+      <span class="tabbar-icon">👥</span><span class="tabbar-label">他们</span>
+    </button>
+    <button class="tabbar-item" data-page="profile" onclick="router.go('profile')">
+      <span class="tabbar-icon">🤍</span><span class="tabbar-label">我</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 05 创建角色（两步流程）                     -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-create" class="page">
+  <div class="create-header">
+    <button class="create-back" onclick="router.go('them')">←</button>
+    <div class="create-title">创建角色</div>
+    <div class="create-stepper">
+      <div class="create-step active" id="create-step-num-1">1</div>
+      <div class="create-step-line"></div>
+      <div class="create-step" id="create-step-num-2">2</div>
+    </div>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="create-body" id="create-step1">
+    <div class="create-step-label">步骤 1：选择关系</div>
+    <div class="create-type-grid" id="create-type-grid"></div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="create-body hidden" id="create-step2">
+    <div class="create-step-label">步骤 2：选择人格</div>
+    <div class="create-persona-grid" id="create-persona-grid"></div>
+    <div class="create-name-wrap">
+      <label class="create-name-label">自定义昵称（可选）</label>
+      <input class="create-name-input" id="create-custom-name" placeholder="给 TA 起个名字...">
+    </div>
+    <button class="create-submit-btn" onclick="doCreateCharacter()">下一步</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 06 宠物详情页                               -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-pet" class="page">
+  <div class="pet-hero">
+    <button class="pet-back" onclick="router.go('them')">←</button>
+    <div class="pet-hero-avatar" id="pet-hero-avatar">🐱</div>
+    <div class="pet-hero-name" id="pet-name">布丁</div>
+    <div class="pet-hero-speech" id="pet-speech">"喵~"</div>
+  </div>
+
+  <div class="pet-body">
+    <!-- 属性进度条 -->
+    <div class="pet-stats" id="pet-stats-grid"></div>
+
+    <!-- 操作按钮 -->
+    <div class="pet-actions" id="pet-actions-grid">
+      <div class="pet-action-btn orange" onclick="petDoAction('feed')">
+        <span class="pet-action-icon">🍚</span>
+        <span class="pet-action-label">喂食</span>
+      </div>
+      <div class="pet-action-btn purple" onclick="petDoAction('play')">
+        <span class="pet-action-icon">🎾</span>
+        <span class="pet-action-label">玩耍</span>
+      </div>
+      <div class="pet-action-btn green" onclick="petDoAction('clean')">
+        <span class="pet-action-icon">🛁</span>
+        <span class="pet-action-label">清洁</span>
+      </div>
+      <div class="pet-action-btn yellow" onclick="petDoAction('talk')">
+        <span class="pet-action-icon">💬</span>
+        <span class="pet-action-label">对话</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 宠物列表页（底部Tab）                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-pets" class="page">
+  <div class="pets-header">
+    <div class="pets-title">宠物</div>
+  </div>
+  <div class="pets-list" id="pets-list"></div>
+  <button class="them-add-btn" onclick="showToast('创建宠物功能开发中')">＋</button>
+
+  <nav class="tabbar">
+    <button class="tabbar-item" data-page="home" onclick="router.go('home')">
+      <span class="tabbar-icon">💞</span><span class="tabbar-label">在一起</span>
+    </button>
+    <button class="tabbar-item" data-page="them" onclick="router.go('them')">
+      <span class="tabbar-icon">👥</span><span class="tabbar-label">他们</span>
+    </button>
+    <button class="tabbar-item" data-page="profile" onclick="router.go('profile')">
+      <span class="tabbar-icon">🤍</span><span class="tabbar-label">我</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 07 「我」个人中心                           -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-profile" class="page">
+  <div class="profile-header">
+    <div class="profile-avatar" id="profile-avatar">👤</div>
+    <div class="profile-name" id="profile-name">用户</div>
+    <div class="profile-id">ID: <span id="profile-id-num">123456</span></div>
+    <div class="profile-badge">普通会员</div>
+  </div>
+
+  <!-- 统计 -->
+  <div class="profile-stats">
+    <div class="profile-stat">
+      <div class="profile-stat-val" id="stat-days">128</div>
+      <div class="profile-stat-label">陪伴天数</div>
+    </div>
+    <div class="profile-stat">
+      <div class="profile-stat-val" id="stat-chats">856</div>
+      <div class="profile-stat-label">对话次数</div>
+    </div>
+    <div class="profile-stat">
+      <div class="profile-stat-val" id="stat-gifts">24</div>
+      <div class="profile-stat-label">礼物</div>
+    </div>
+    <div class="profile-stat">
+      <div class="profile-stat-val" id="stat-memories">2450</div>
+      <div class="profile-stat-label">记忆点</div>
+    </div>
+  </div>
+
+  <!-- 数字怀念入口 -->
+  <div class="profile-memorial-entry" onclick="router.go('memorial')">
+    <div class="profile-memorial-icon">🕯️</div>
+    <div class="profile-memorial-text">
+      <div class="profile-memorial-title">数字怀念</div>
+      <div class="profile-memorial-sub">点一盏灯，让思念不灭</div>
+    </div>
+    <span class="profile-memorial-arrow">→</span>
+  </div>
+
+  <!-- 功能列表 -->
+  <div class="profile-menu">
+    <div class="profile-menu-item" onclick="showToast('功能开发中')">
+      <span class="profile-menu-icon">🎭</span>
+      <span class="profile-menu-label">我的角色</span>
+      <span class="profile-menu-arrow">→</span>
+    </div>
+    <div class="profile-menu-item" onclick="router.go('pets')">
+      <span class="profile-menu-icon">🐾</span>
+      <span class="profile-menu-label">我的宠物</span>
+      <span class="profile-menu-arrow">→</span>
+    </div>
+    <div class="profile-menu-item" onclick="showToast('功能开发中')">
+      <span class="profile-menu-icon">📦</span>
+      <span class="profile-menu-label">我的订单</span>
+      <span class="profile-menu-arrow">→</span>
+    </div>
+    <div class="profile-menu-item" onclick="showToast('功能开发中')">
+      <span class="profile-menu-icon">🔔</span>
+      <span class="profile-menu-label">消息通知</span>
+      <span class="profile-menu-arrow">→</span>
+    </div>
+    <div class="profile-menu-item" onclick="router.go('settings')">
+      <span class="profile-menu-icon">⚙️</span>
+      <span class="profile-menu-label">设置（API Key）</span>
+      <span class="profile-menu-arrow">→</span>
+    </div>
+    <div class="profile-menu-item" onclick="router.go('data-mgmt')">
+      <span class="profile-menu-icon">💾</span>
+      <span class="profile-menu-label">数据备份与恢复</span>
+      <span class="profile-menu-arrow">→</span>
+    </div>
+    <div class="profile-menu-item" onclick="showToast('功能开发中')">
+      <span class="profile-menu-icon">❓</span>
+      <span class="profile-menu-label">帮助与反馈</span>
+      <span class="profile-menu-arrow">→</span>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <button class="tabbar-item" data-page="home" onclick="router.go('home')">
+      <span class="tabbar-icon">💞</span><span class="tabbar-label">在一起</span>
+    </button>
+    <button class="tabbar-item" data-page="them" onclick="router.go('them')">
+      <span class="tabbar-icon">👥</span><span class="tabbar-label">他们</span>
+    </button>
+    <button class="tabbar-item active" data-page="profile" onclick="router.go('profile')">
+      <span class="tabbar-icon">🤍</span><span class="tabbar-label">我</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 08 数字怀念（纪念模式）                     -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-memorial" class="page memorial-theme">
+  <!-- 步骤 1：点灯 -->
+  <div class="memorial-step" id="memorial-step-1">
+    <div class="memorial-candle-wrap">
+      <div class="memorial-candle">
+        <div class="memorial-flame"></div>
+        <div class="memorial-flame-glow"></div>
+      </div>
+    </div>
+    <div class="memorial-step-title">🕯️ 数字怀念</div>
+    <div class="memorial-step-desc">点一盏灯，让思念不灭</div>
+    <button class="memorial-btn" onclick="nextMemorialStep(2)">开始</button>
+  </div>
+
+  <!-- 步骤 2：上传照片 -->
+  <div class="memorial-step hidden" id="memorial-step-2">
+    <div class="memorial-back" onclick="prevMemorialStep(1)">← 返回</div>
+    <div class="memorial-step-title">上传照片</div>
+    <div class="memorial-step-desc">请上传逝者的清晰照片</div>
+    <div class="memorial-upload" onclick="document.getElementById('memorial-photo-input').click()">
+      <span class="memorial-upload-icon">📷</span>
+      <span class="memorial-upload-text">点击上传照片</span>
+    </div>
+    <input type="file" id="memorial-photo-input" accept="image/*" class="hidden" onchange="onMemorialPhotoSelected(this)">
+    <div class="memorial-preview hidden" id="memorial-photo-preview"></div>
+    <button class="memorial-btn" onclick="nextMemorialStep(3)">下一步</button>
+  </div>
+
+  <!-- 步骤 3：填写称呼 + 记忆故事 -->
+  <div class="memorial-step hidden" id="memorial-step-3">
+    <div class="memorial-back" onclick="prevMemorialStep(2)">← 返回</div>
+    <div class="memorial-step-title">写下关于 TA 的故事</div>
+    <div class="memorial-step-desc">告诉光，TA 是谁</div>
+    <div class="memorial-name-wrap">
+      <label class="memorial-name-label" for="memorial-name-input">你想叫 TA 什么？</label>
+      <input class="memorial-name-input" id="memorial-name-input" placeholder="比如：爸爸、妈妈、奶奶、爷爷…" maxlength="20">
+    </div>
+    <textarea class="memorial-textarea" id="memorial-stories" placeholder="写下关于 TA 的故事：&#10;TA 最喜欢吃什么？&#10;你们一起经历过什么难忘的事？&#10;TA 对你说过最重要的一句话？"></textarea>
+    <button class="memorial-btn" onclick="generateMemorialPersona()">生成记忆人格</button>
+  </div>
+
+  <!-- 步骤 4：生成中 -->
+  <div class="memorial-step hidden" id="memorial-step-4">
+    <div class="memorial-progress-ring">
+      <svg viewBox="0 0 100 100">
+        <circle class="memorial-progress-bg" cx="50" cy="50" r="42"/>
+        <circle class="memorial-progress-fill" cx="50" cy="50" r="42" id="memorial-progress-circle"/>
+      </svg>
+      <div class="memorial-progress-text" id="memorial-progress-text">78%</div>
+    </div>
+    <div class="memorial-step-title">正在生成记忆人格...</div>
+    <div class="memorial-step-desc">光会记得</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 纪念模式聊天                                -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-memorial-chat" class="page memorial-theme">
+  <div class="chat-header memorial-header">
+    <button class="chat-header-back" onclick="router.go('profile')">←</button>
+    <div class="chat-header-center">
+      <div class="chat-header-avatar memorial-avatar" id="memorial-chat-avatar"></div>
+      <div class="chat-header-info">
+        <div class="chat-header-name" id="memorial-chat-name">爸爸</div>
+        <div class="chat-header-status">纪念模式</div>
+      </div>
+    </div>
+    <button class="chat-header-more">⋯</button>
+  </div>
+  <div class="chat-messages memorial-messages" id="memorial-chat-msg-list">
+    <div class="chat-msg ai">
+      <div class="chat-bubble memorial-bubble">我也很想你，宝贝。记得好好照顾自己，爸爸永远都在你身边。</div>
+    </div>
+  </div>
+  <div class="chat-footer memorial-footer">
+    <button class="chat-footer-voice">🎙️</button>
+    <div class="chat-input-box">
+      <textarea id="memorial-chat-input" rows="1" placeholder="说点什么..."
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMemorialChat()}"
+        oninput="autoResize(this)"></textarea>
+    </div>
+    <button class="chat-footer-send memorial-send" onclick="sendMemorialChat()">➤</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 08 数据管理页                               -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-data-mgmt" class="page">
+  <div class="create-header">
+    <button class="create-back" onclick="router.go('profile')">←</button>
+    <div class="create-title">数据管理</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="data-mgmt-page">
+    <div class="data-mgmt-info-card">
+      <div class="data-mgmt-info-title">⚠️ 关于数据安全</div>
+      <div class="data-mgmt-info-text">
+        你的所有数据（角色关系、聊天记录、宠物、纪念数据）都保存在本机浏览器中。<br><br>
+        如果你清空浏览器缓存、删除网站数据、或换手机/浏览器，<b>所有回忆都会丢失。</b><br><br>
+        建议定期导出备份。
+      </div>
+    </div>
+    <div id="data-mgmt-stats" class="data-mgmt-stats-bar"></div>
+    <div class="data-mgmt-actions">
+      <button class="data-mgmt-btn action-export" onclick="doPageExport()">📤 导出备份</button>
+      <button class="data-mgmt-btn action-import" onclick="document.getElementById('page-data-import-input').click()">📥 导入备份</button>
+      <input type="file" id="page-data-import-input" accept=".json" style="display:none" onchange="doPageImport(this)">
+      <button class="data-mgmt-btn action-reset" onclick="doPageReset()">🗑️ 清空所有数据</button>
+    </div>
+    <div id="data-mgmt-result" class="data-mgmt-result"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 09 设置（BYOK API Key）                     -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-settings" class="page">
+  <div class="create-header">
+    <button class="create-back" onclick="router.go('profile')">←</button>
+    <div class="create-title">设置</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="settings-intro">
+    <div class="settings-intro-title">配置你的 AI 模型</div>
+    <div class="settings-intro-desc">Linger 不自带服务器。聊天会直接从你浏览器调用 LLM API。请填入你自己的 API Key，只保存在本机。</div>
+  </div>
+  <div id="settings-form"></div>
+</div>
+
+</div><!-- /#app -->
+
+<script src="src/local-store.js?v=1"></script>
+<script src="src/llm-client.js?v=1"></script>
+<script src="src/onboarding.js?v=1"></script>
+<script src="src/data-backup.js?v=1"></script>
+<script src="src/app.js?v=15"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', initApp);
+</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
