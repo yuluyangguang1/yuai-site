@@ -37,7 +37,7 @@ a{color:inherit;text-decoration:none}
 [data-theme="light"] .bg-g{opacity:.06}
 [data-theme="light"] .display{color:#2a2722}
 
-.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0}
+.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
 
 .row{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border)}
 .cell{padding:16px;border-right:1px solid var(--border);min-width:0}
@@ -63,7 +63,7 @@ a{color:inherit;text-decoration:none}
 .td:nth-child(2){background:var(--mid);opacity:.6}
 .td:nth-child(3){background:var(--mid);opacity:.3}
 .term-label{margin-left:auto;font-family:var(--mono);font-size:.625rem;letter-spacing:.1875rem;opacity:.5}
-.term-b{font-family:var(--mono);font-size:.75rem;line-height:1.8;padding:20px 16px;white-space:pre-wrap;height:200px;overflow-y:auto}
+.term-b{font-family:var(--mono);font-size:.75rem;line-height:1.8;padding:20px 16px;white-space:pre-wrap;height:200px;overflow-y:auto;overflow-x:hidden;word-break:break-all}
 .term-b .p{color:var(--accent)}.term-b .t{opacity:.5}
 
 .code{font-family:var(--mono);font-size:.6875rem;line-height:1.6;padding:10px 14px;border:1px solid var(--border);background:rgba(4,28,28,.4);word-break:break-all}
@@ -137,12 +137,12 @@ a{color:inherit;text-decoration:none}
         </div>
         <div class="term-b">
 <span class="p">$</span> hermes-portable init
-<span class="t">  ✓ 持久记忆已启用         memory.sqlite                   0.3s</span>
-<span class="t">  ✓ 技能系统加载完成       15 skills online                0.6s</span>
-<span class="t">  ✓ 网关就绪              http://localhost:8123           0.8s</span>
+<span class="t">  ✓ 持久记忆已启用     memory.sqlite     0.3s</span>
+<span class="t">  ✓ 技能系统加载完成   15 skills online   0.6s</span>
+<span class="t">  ✓ 网关就绪          localhost:8123     0.8s</span>
 <span class="p">$</span> openclaw-portable start
-<span class="t">  ✓ 配置中心启动           http://localhost:3000           0.4s</span>
-<span class="t">  ✓ 27 个模型平台在线      12 个聊天渠道已连接              1.1s</span>
+<span class="t">  ✓ 配置中心启动       localhost:3000     0.4s</span>
+<span class="t">  ✓ 27模型平台在线     12渠道已连接       1.1s</span>
 <span class="p">$</span> <span class="blink"></span>
         </div>
       </div>
