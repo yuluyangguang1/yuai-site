@@ -129,6 +129,8 @@ button{font:inherit;color:inherit}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 .hero-cta a{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border:1px solid var(--border);font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;transition:all .2s}
 .hero-cta a:hover,.hero-cta a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+.hero-cta a.cta-primary{border-color:var(--accent);color:var(--accent)}
+.hero-cta a.cta-primary:hover,.hero-cta a.cta-primary:focus-visible{background:var(--accent);color:var(--bg)}
 
 .term{width:100%;max-width:560px;border:4px double var(--border)}
 .term-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
@@ -160,10 +162,6 @@ button{font:inherit;color:inherit}
 
 .more{display:flex;align-items:center;justify-content:center;padding:24px;gap:8px;opacity:.6;transition:opacity .2s;border-bottom:1px solid var(--border)}
 .more:hover,.more:focus-visible{opacity:1;cursor:pointer;outline:none}
-
-.why{padding:32px 20px;text-align:center}
-.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;max-width:800px;margin:24px auto 0}
-.why-grid div{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;opacity:.5;text-transform:uppercase;line-height:1.6}
 
 .footer{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border);border-bottom:1px solid var(--border)}
 .footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
@@ -248,24 +246,24 @@ button{font:inherit;color:inherit}
 
       <div class="hero-cta">
         <a href="https://github.com/yuluyangguang1/openclaw-portable" target="_blank" rel="noopener">下载 openclaw →</a>
+        <a href="https://github.com/yuluyangguang1/hermes-portable" target="_blank" rel="noopener">下载 hermes →</a>
+        <a class="cta-primary" href="https://v.douyin.com/i77dSpkMYZI/" target="_blank" rel="noopener">前往购买 →</a>
         <a href="https://github.com/yuluyangguang1" target="_blank" rel="noopener">探索 github →</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== Why yu.ai ===== -->
+<!-- ===== Tagline row (site-style: inline label tokens, mid-dot separators) ===== -->
 <div class="row">
-  <div class="cell s6" style="padding:0;border-right:none">
-    <div class="why">
-      <p class="label op-7" style="letter-spacing:.2em">why yu.ai</p>
-      <div class="why-grid">
-        <div>零安装<br>zero-install</div>
-        <div>数据本地<br>local-data</div>
-        <div>完全开源<br>open-source</div>
-        <div>MIT 协议<br>mit-license</div>
-      </div>
-    </div>
+  <div class="cell s6" style="border-right:none;justify-content:center;flex-wrap:wrap;gap:14px;padding:18px 16px">
+    <span class="label op-7">zero-install</span>
+    <span class="label op-5">·</span>
+    <span class="label op-7">local-data</span>
+    <span class="label op-5">·</span>
+    <span class="label op-7">open-source</span>
+    <span class="label op-5">·</span>
+    <span class="label op-7">mit</span>
   </div>
 </div>
 
