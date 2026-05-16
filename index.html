@@ -7,7 +7,7 @@
 <style>
 :root{--bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;--bdr:color-mix(in oklab, currentColor 20%, transparent);--sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--display:'Georgia','Noto Serif SC','Source Han Serif SC',serif;--mono:'Courier New','Menlo',monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.6;-webkit-font-smoothing:antialiased;text-transform:uppercase}
 ::selection{background:var(--accent);color:var(--bg)}
 a{color:inherit;text-decoration:none}
 small{font-size:1.0625rem}code{font-size:.875rem}
@@ -83,6 +83,10 @@ small{font-size:1.0625rem}code{font-size:.875rem}
 
 /* ── Footer ── */
 @media(max-width:1023px){.g{grid-template-columns:1fr}.gc{border-right:none}}
+@media(min-width:1024px){.hide-desktop{display:none!important}}
+@media(max-width:1023px){.hide-mobile{display:none!important}}
+@media(min-width:768px){.hide-tablet{display:none!important}}
+@media(max-width:767px){.show-tablet{display:none!important}}
 @media(max-width:640px){.h1{font-size:2.2rem}.hero{padding:40px 16px}}
 </style>
 </head>
@@ -92,10 +96,10 @@ small{font-size:1.0625rem}code{font-size:.875rem}
 <div class="bg-n"></div>
 <div class="bg-g"></div>
 
-<main class="relative z-2 mx-auto max-w-[1600px] p-8">
+<main class="relative" style="z-index:200;max-width:1600px;margin:0 auto;padding:32px;">
 
-<!-- ════ Row 1: Header (5 gc) ════ -->
-<div class="g hidden lg:grid border-t border-b">
+<!-- ════ Desktop header ── 5 gc ════ -->
+<div class="g hide-mobile border-t border-b">
   <a href="/" class="gc" style="display:flex;align-items:center;">
     <span class="h-brand">yu.ai</span>
   </a>
@@ -120,7 +124,7 @@ small{font-size:1.0625rem}code{font-size:.875rem}
 </div>
 
 <!-- ════ Mobile header ════ -->
-<div class="flex lg:hidden items-center justify-between border border-current/20 p-4">
+<div class="hide-desktop" style="display:flex;align-items:center;justify-content:space-between;border:1px solid var(--bdr);padding:16px;">
   <a href="/"><span class="h-brand">yu.ai</span></a>
   <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--mid);opacity:.5;"></span>
 </div>
@@ -207,7 +211,7 @@ small{font-size:1.0625rem}code{font-size:.875rem}
   <div class="gc" style="display:flex;align-items:center;">
     <small class="label op-7">ylyg</small>
   </div>
-  <div class="gc hidden md:block"></div>
+  <div class="gc show-tablet" style="display:flex;align-items:center;"></div>
   <div class="gc" style="display:flex;align-items:center;">
     <a href="https://github.com/yuluyangguang1" target="_blank" class="label" style="opacity:.7;transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">
       github ↗
