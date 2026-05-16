@@ -16,7 +16,6 @@
     --midground-faint: #3d5a55;
     --foreground: #ffffff;
     --accent: #00ffc8;
-    --seal: #c84a3e;
     --border: rgba(255,230,203,0.10);
     --border-light: rgba(255,230,203,0.20);
     --font-label: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
@@ -34,6 +33,7 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
+    position: relative;
   }
 
   /* ── Background layers ── */
@@ -53,6 +53,25 @@
     opacity: 0.04;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
     background-size: 512px 512px;
+  }
+
+  /* ── 白鹭背景 ── */
+  .egret-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0.06;
+    mix-blend-mode: screen;
+  }
+  .egret-bg svg {
+    width: 100%;
+    height: 150dvh;
+    object-fit: cover;
+    filter: invert(1) brightness(1.2);
   }
 
   ::selection { background: var(--accent); color: var(--bg); }
@@ -155,16 +174,6 @@
     line-height: 1;
     letter-spacing: .0525rem;
   }
-  .header-title .seal-dot {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    background: var(--seal);
-    border-radius: 50%;
-    margin-right: 8px;
-    vertical-align: middle;
-    margin-top: -4px;
-  }
 
   .nav-link {
     display: inline-flex;
@@ -187,16 +196,6 @@
     flex-direction: column;
     align-items: center;
     gap: 24px;
-  }
-
-  .seal-logo {
-    width: 88px;
-    height: 88px;
-    margin-bottom: 8px;
-  }
-  .seal-logo svg {
-    width: 100%;
-    height: 100%;
   }
 
   /* ── Terminal demo ── */
@@ -329,15 +328,6 @@
   footer .label { opacity: .7; }
   footer .label-sm { color: var(--midground-dim); }
 
-  .footer-seal {
-    width: 36px;
-    height: 36px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 8px;
-  }
-  .footer-seal svg { width: 100%; height: 100%; }
-
   /* ── Install code block ── */
   .install-block {
     font-family: var(--font-mono);
@@ -371,7 +361,6 @@
   @media (max-width: 1024px) {
     .feature-grid { grid-template-columns: 1fr 1fr; }
     .feature-card:nth-child(2n) { border-right: none; }
-    .feature-card:nth-child(2n) { border-right: none; }
     .feature-card:nth-last-child(-n+2) { border-bottom: none; }
     .feature-card:nth-child(3n) { border-right: 1px solid var(--border); }
   }
@@ -386,7 +375,6 @@
     .display { font-size: 2.2rem; }
     .header-title { font-size: 1.8rem; }
     .hero { padding: 40px 0; }
-    .seal-logo { width: 72px; height: 72px; }
     .terminal-body { font-size: .625rem; padding: 12px; }
     footer .gc { text-align: center; }
     .col-span-3, .col-span-4, .col-span-2 { grid-column: 1 / -1; }
@@ -395,14 +383,58 @@
 </head>
 <body>
 
+<!-- ═══════ 白鹭背景 ═══════ -->
+<div class="egret-bg" aria-hidden="true">
+  <svg viewBox="0 0 800 1200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+    <defs>
+      <linearGradient id="egret-fade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="40%" stop-color="#fff" stop-opacity="0.3"/>
+        <stop offset="70%" stop-color="#fff" stop-opacity="0.8"/>
+        <stop offset="100%" stop-color="#fff" stop-opacity="1"/>
+      </linearGradient>
+    </defs>
+    <!-- 白鹭主体 — 优雅的S形脖颈 -->
+    <g fill="url(#egret-fade)" opacity="0.9">
+      <!-- 身体 -->
+      <ellipse cx="400" cy="750" rx="90" ry="120" transform="rotate(-10,400,750)"/>
+      <!-- 尾部羽毛 -->
+      <path d="M 320 800 Q 250 850 200 820 Q 240 780 300 760 Z"/>
+      <path d="M 330 820 Q 260 880 210 850 Q 250 810 310 790 Z"/>
+      <path d="M 340 840 Q 280 900 230 870 Q 270 830 320 810 Z"/>
+      <!-- 翅膀 -->
+      <path d="M 380 680 Q 300 700 280 780 Q 350 760 400 720 Z"/>
+      <path d="M 370 700 Q 280 720 260 800 Q 330 780 390 740 Z"/>
+      <!-- 脖颈 — S形曲线 -->
+      <path d="M 440 680 Q 480 600 460 520 Q 440 440 420 380 Q 400 320 380 280 Q 360 240 350 200" stroke="url(#egret-fade)" stroke-width="18" fill="none" stroke-linecap="round"/>
+      <!-- 头部 -->
+      <ellipse cx="345" cy="190" rx="22" ry="18" transform="rotate(-20,345,190)"/>
+      <!-- 喙 -->
+      <path d="M 330 180 L 260 170 L 330 190 Z"/>
+      <!-- 眼睛 -->
+      <circle cx="340" cy="185" r="3" fill="#041c1c" opacity="0.5"/>
+      <!-- 腿 -->
+      <line x1="420" y1="860" x2="400" y2="1050" stroke="url(#egret-fade)" stroke-width="5" stroke-linecap="round"/>
+      <line x1="450" y1="860" x2="440" y2="1050" stroke="url(#egret-fade)" stroke-width="5" stroke-linecap="round"/>
+      <!-- 腿关节 -->
+      <circle cx="410" cy="950" r="4" fill="url(#egret-fade)"/>
+      <circle cx="445" cy="950" r="4" fill="url(#egret-fade)"/>
+      <!-- 水面倒影 -->
+      <ellipse cx="400" cy="1080" rx="200" ry="20" fill="url(#egret-fade)" opacity="0.3"/>
+      <!-- 水波纹 -->
+      <ellipse cx="350" cy="1090" rx="60" ry="6" fill="none" stroke="url(#egret-fade)" stroke-width="1" opacity="0.4"/>
+      <ellipse cx="450" cy="1095" rx="50" ry="5" fill="none" stroke="url(#egret-fade)" stroke-width="1" opacity="0.3"/>
+      <ellipse cx="400" cy="1105" rx="80" ry="4" fill="none" stroke="url(#egret-fade)" stroke-width="1" opacity="0.2"/>
+    </g>
+  </svg>
+</div>
+
 <div class="page">
 
 <!-- ═══════ Header ═══════ -->
 <header class="g">
   <div class="gc" style="grid-column: span 1;">
-    <a href="/" class="header-title">
-      <span class="seal-dot"></span>yu.ai
-    </a>
+    <a href="/" class="header-title">yu.ai</a>
   </div>
   <div class="gc" style="grid-column: span 2;">
     <a class="nav-link" href="https://github.com/yuluyangguang1" target="_blank">
@@ -426,21 +458,6 @@
 <div class="g">
   <div class="gc col-span-full">
     <div class="hero">
-      <div class="seal-logo">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <rect x="6" y="6" width="188" height="188" rx="16"
-                fill="none" stroke="#c84a3e" stroke-width="4.5" opacity=".65"/>
-          <rect x="16" y="16" width="168" height="168" rx="10"
-                fill="none" stroke="#c84a3e" stroke-width="1.5" opacity=".2"/>
-          <g fill="#c84a3e" opacity=".7">
-            <path d="M 40 60 Q 70 40 100 50 Q 100 70 80 80 L 60 72 Z"/>
-            <path d="M 100 50 Q 130 40 160 60 L 140 72 Q 120 80 100 70 Z"/>
-            <path d="M 58 74 Q 60 90 56 110 Q 52 130 44 140 L 40 130 Q 46 110 48 88 Q 48 76 58 74 Z"/>
-            <path d="M 142 74 Q 140 90 144 110 Q 148 130 156 140 L 160 130 Q 154 110 152 88 Q 152 76 142 74 Z"/>
-            <path d="M 60 105 Q 80 110 100 108 Q 120 106 140 105 L 140 112 Q 120 114 100 116 Q 80 118 60 112 Z"/>
-          </g>
-        </svg>
-      </div>
       <span class="label op-70" style="font-size:.75rem;letter-spacing:.25rem;">open source · mit license</span>
       <h1 class="display">
         portable AI tools<br>for a <span style="color:var(--accent);">digital world</span>
@@ -565,20 +582,7 @@
 
 <!-- ═══════ Footer ═══════ -->
 <footer class="g">
-  <div class="gc" style="display:flex;align-items:center;gap:8px;">
-    <span class="footer-seal">
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <rect x="8" y="8" width="184" height="184" rx="14"
-              fill="none" stroke="#c84a3e" stroke-width="4" opacity=".45"/>
-        <g fill="#c84a3e" opacity=".5">
-          <path d="M 45 65 Q 70 45 100 55 Q 100 75 80 82 L 62 75 Z"/>
-          <path d="M 100 55 Q 130 45 155 65 L 138 75 Q 120 82 100 75 Z"/>
-          <path d="M 62 78 Q 64 95 60 112 Q 56 130 48 138 L 44 128 Q 50 110 52 90 Z"/>
-          <path d="M 138 78 Q 136 95 140 112 Q 144 130 152 138 L 156 128 Q 150 110 148 90 Z"/>
-          <path d="M 64 108 Q 82 112 100 110 Q 118 108 136 108 L 136 114 Q 118 116 100 118 Q 82 120 64 114 Z"/>
-        </g>
-      </svg>
-    </span>
+  <div class="gc" style="display:flex;align-items:center;">
     <span class="label-sm" style="color:var(--midground-dim);">yu.ai</span>
   </div>
   <div class="gc" style="display:flex;align-items:center;">
