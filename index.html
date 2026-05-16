@@ -1,216 +1,251 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>yu.ai · 轻羽</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;--sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--serif:'Georgia','Noto Serif SC','Source Han Serif SC',serif;--mono:'Courier New','Menlo',monospace}
-body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.6;-webkit-font-smoothing:antialiased}
-::selection{background:var(--accent);color:var(--bg)}
-a{color:inherit;text-decoration:none}
-
-/* ── Background ── */
-.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
-.bg-i img{width:100%;height:150dvh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
-.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
-.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
-
-/* ── Text classes ── */
-.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
-.label-sm{font-size:.75rem;letter-spacing:.1875rem;text-transform:uppercase}
-.label-xs{font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase}
-.title{font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1;letter-spacing:.0525rem}
-.display{font-family:var(--serif);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter}
-.sub{font-size:1.125rem;line-height:1.6;opacity:.6}
-.cn{font-family:var(--serif);font-size:.8125rem;letter-spacing:.25rem;line-height:1.8;opacity:.3}
-.op-5{opacity:.5}.op-6{opacity:.6}.op-7{opacity:.7}
-
-@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-.blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
-
-/* ── Page layout ── */
-.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0}
-
-/* ── Row system ── */
-.row{display:grid;grid-template-columns:1fr;border-top:1px solid rgba(255,230,203,0.12);border-left:1px solid rgba(255,230,203,0.12)}
-.cell{padding:16px;border-right:1px solid rgba(255,230,203,0.12);min-width:0}
-.cell.s1{grid-column:span 1}
-.cell.s2{grid-column:span 2}
-.cell.s3{grid-column:span 3}
-.cell.s4{grid-column:span 4}
-.cell.s6{grid-column:1/-1}
-@media(min-width:1024px){.row{grid-template-columns:1fr 2fr 1fr 1fr 1fr}}
-
-/* ── Nav hover ── */
-.nav-g{position:relative;cursor:pointer}
-.nav-g .blink{display:none}
-.nav-g:hover .blink{display:inline-block}
-.nav-h{position:absolute;inset:4px;background:var(--mid);pointer-events:none;opacity:0;transition:opacity .25s}
-.nav-g:hover>.nav-h{opacity:.05}
-
-/* ── Hero ── */
-.hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px;padding:80px 20px 60px}
-
-/* ── Terminal ── */
-.term{width:100%;max-width:520px;border:4px double rgba(255,230,203,0.12)}
-.term-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid rgba(255,230,203,0.12)}
-.td{width:10px;height:10px;border-radius:50%}
-.td:nth-child(1){background:var(--mid)}
-.td:nth-child(2){background:var(--mid);opacity:.6}
-.td:nth-child(3){background:var(--mid);opacity:.3}
-.term-label{margin-left:auto;font-family:var(--mono);font-size:.625rem;letter-spacing:.1875rem;opacity:.5}
-.term-b{font-family:var(--mono);font-size:.75rem;line-height:1.8;padding:20px 16px;white-space:pre-wrap;height:200px;overflow-y:auto}
-.term-b .p{color:var(--accent)}.term-b .t{opacity:.5}
-
-.code{font-family:var(--mono);font-size:.6875rem;line-height:1.6;padding:10px 14px;border:1px solid rgba(255,230,203,0.12);background:rgba(4,28,28,.4);word-break:break-all}
-
-/* ── Card grid ── */
-.fg{display:grid;grid-template-columns:1fr}
-.fg>*{padding:16px;border-bottom:1px solid rgba(255,230,203,0.12);position:relative}
-.fg>*:last-child{border-bottom:none}
-.fh{position:absolute;inset:4px;background:var(--mid);pointer-events:none;opacity:0;transition:opacity .25s}
-.fg>*:hover .fh{opacity:.03}
-.ft{font-family:var(--mono);font-size:.625rem;letter-spacing:.125rem;opacity:.5;display:block;margin-bottom:6px}
-.fn{font-family:var(--serif);font-size:1.125rem;font-weight:600;margin-bottom:6px}
-.fd{font-size:1.0625rem;line-height:1.6;opacity:.6}
-@media(min-width:640px){.fg{grid-template-columns:1fr 1fr}.fg>*:nth-child(odd){border-right:1px solid rgba(255,230,203,0.12)}.fg>*:nth-last-child(-n+2){border-bottom:none}}
-@media(min-width:1024px){.fg{grid-template-columns:1fr 1fr 1fr}.fg>*{border-right:1px solid rgba(255,230,203,0.12)}.fg>*:nth-child(3n){border-right:none}.fg>*:nth-last-child(-n+3){border-bottom:none}}
-
-.more{display:flex;align-items:center;justify-content:center;padding:24px;gap:8px;opacity:.6;transition:opacity .2s;border-bottom:1px solid rgba(255,230,203,0.12)}
-.more:hover{opacity:1;cursor:pointer}
-
-/* ── Footer ── */
-.footer{display:grid;grid-template-columns:1fr;border-top:1px solid rgba(255,230,203,0.12);border-left:1px solid rgba(255,230,203,0.12);border-bottom:1px solid rgba(255,230,203,0.12)}
-.footer .c{padding:16px;border-right:1px solid rgba(255,230,203,0.12);display:flex;align-items:center}
-@media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
-
-@media(max-width:1023px){.row{grid-template-columns:1fr;border-left:none}.cell{border-right:none}.footer{grid-template-columns:1fr;border-left:none}.footer .c{border-right:none}}
-@media(max-width:640px){.display{font-size:2.2rem}.hero{padding:50px 16px}}
-</style>
-</head>
-<body>
-
-<div class="bg-i" aria-hidden="true"><img alt="" src="egret-ink.jpg" loading="lazy"></div>
-<div class="bg-n"></div>
-<div class="bg-g"></div>
-
-<div class="page">
-
-<!-- ════ Header ════ -->
-<div class="row">
-  <div class="cell s1" style="display:flex;align-items:center;"><span class="title">yu.ai</span></div>
-  <div class="cell s2 nav-g" style="display:flex;align-items:center;">
-    <span class="label">github <span class="blink"></span></span>
-    <span class="nav-h"></span>
-  </div>
-  <div class="cell s1 nav-g" style="display:flex;align-items:center;">
-    <span class="label">products <span class="blink"></span></span>
-    <span class="nav-h"></span>
-  </div>
-  <div class="cell" style="display:flex;align-items:center;justify-content:space-between;">
-    <span class="label op-5">social</span>
-    <a href="https://github.com/yuluyangguang1" target="_blank" style="opacity:.5;line-height:0;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffe6cb" stroke-width="1.5"><path d="M12 2C6.477 2 2 6.477 2 12a10 10 0 0 0 6.839 9.49c.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.934.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48A10 10 0 0 0 22 12c0-5.523-4.477-10-10-10z"/></svg>
-    </a>
-  </div>
-  <div class="cell" style="display:flex;align-items:center;justify-content:space-between;">
-    <span class="label op-5">theme</span>
-    <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--mid);opacity:.5;"></span>
-  </div>
-</div>
-
-<!-- ════ Hero ════ -->
-<div class="row">
-  <div class="cell s6" style="border-right:none;padding:0;">
-    <div class="hero">
-      <span class="label-xs op-7" style="letter-spacing:.15rem;">open source · mit license</span>
-      <h1 class="display">羽 · ai</h1>
-      <p class="sub">轻若鸿羽，智若流云。便携的 AI 工具与数字温度。</p>
-      <p class="cn" style="margin-top:-8px;">零安装 · 零痕迹 · 跨平台</p>
-      <div class="term">
-        <div class="term-h">
-          <span class="td"></span><span class="td"></span><span class="td"></span>
-          <span class="term-label">yu.ai</span>
-        </div>
-        <div class="term-b">
-<span class="p">$</span> hermes-portable init
-<span class="t">  ✓ 持久记忆已启用         memory.sqlite                   0.3s</span>
-<span class="t">  ✓ 技能系统加载完成       15 skills online                0.6s</span>
-<span class="t">  ✓ 网关就绪              http://localhost:8123           0.8s</span>
-<span class="p">$</span> openclaw-portable start
-<span class="t">  ✓ 配置中心启动           http://localhost:3000           0.4s</span>
-<span class="t">  ✓ 27 个模型平台在线      12 个聊天渠道已连接              1.1s</span>
-<span class="p">$</span> <span class="blink"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════ Products ════ -->
-<div class="row">
-  <div class="cell s6" style="display:flex;align-items:center;">
-    <span class="label" style="font-weight:700;">products</span>
-  </div>
-</div>
-
-<!-- ════ Portable tools ════ -->
-<div class="row">
-  <div class="cell" style="display:flex;align-items:center;gap:6px;">
-    <span class="label-sm op-5">01</span>
-    <span class="label">portable tools</span>
-  </div>
-  <div class="cell s4" style="padding:0;">
-    <div class="fg">
-      <div><span class="fh"></span><span class="ft">openclaw</span><div class="fn">openclaw portable</div><p class="fd">一匣纳百川，万象皆可谈。27 个模型平台 · 12 个聊天渠道。</p></div>
-      <div><span class="fh"></span><span class="ft">hermes-agent</span><div class="fn">hermes portable</div><p class="fd">自省而知新，历久则愈明。持久记忆 · 技能系统 · 多平台网关。</p></div>
-    </div>
-  </div>
-</div>
-
-<!-- ════ Web apps ════ -->
-<div class="row">
-  <div class="cell" style="display:flex;align-items:center;gap:6px;">
-    <span class="label-sm op-5">02</span>
-    <span class="label">web apps</span>
-  </div>
-  <div class="cell s4" style="padding:0;">
-    <div class="fg">
-      <div><span class="fh"></span><span class="ft">linger</span><div class="fn">linger · 余温</div><p class="fd">斯人已逝，余温犹存。在数字世界里怀念珍视的人。</p></div>
-      <div><span class="fh"></span><span class="ft">novelweave</span><div class="fn">novelweave · 织文</div><p class="fd">经纬成章，字句生花。AI 网文创作辅助 · 续写 · 润色。</p></div>
-      <div><span class="fh"></span><span class="ft">sbti</span><div class="fn">sbti</div><p class="fd">观照内心，明辨天性。人格类型测评 · 还原经典 MBTI。</p></div>
-    </div>
-  </div>
-</div>
-
-<!-- ════ More ════ -->
-<div class="row" style="border-bottom:none;">
-  <div class="cell s6" style="border-bottom:1px solid var(--bdr);">
-    <a class="more" href="https://github.com/yuluyangguang1?tab=repositories" target="_blank">
-      view all repositories <span style="font-size:1.2em;">→</span>
-    </a>
-  </div>
-</div>
-
-<!-- ════ 落款 ════ -->
-<div style="padding:40px 20px;text-align:center;">
-  <p style="font-family:var(--serif);font-size:.9375rem;letter-spacing:.3rem;opacity:.2;line-height:2;">
-    羽 落 知 天 下<br>智 在 掌 心 间
-  </p>
-</div>
-
-<!-- ════ Footer ════ -->
-<div class="footer">
-  <div class="c"><span class="label op-7">yu.ai</span></div>
-  <div class="c"><span class="label op-7">ylyg</span></div>
-  <div class="c"><a href="https://github.com/yuluyangguang1" target="_blank" class="label" style="opacity:.7;">github ↗</a></div>
-  <div class="c"><span class="label op-5">mit · 2026</span></div>
-  <div class="c"><span class="label op-5" style="color:var(--accent);">轻羽</span></div>
-</div>
-
-</div>
-
-</body>
-</html>
+     1|<!DOCTYPE html>
+     2|<html lang="zh-CN">
+     3|<head>
+     4|<meta charset="UTF-8">
+     5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
+     6|<title>yu.ai · 轻羽</title>
+     7|<style>
+     8|*{margin:0;padding:0;box-sizing:border-box}
+     9|:root{--bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;--border:var(--border);--sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--serif:'Georgia','Noto Serif SC','Source Han Serif SC',serif;--mono:'Courier New','Menlo',monospace}
+    10|[data-theme="light"]{--bg:#f5f0e8;--mid:#3d3a35;--dim:#8a8578;--accent:#02966a;--border:rgba(61,58,53,0.12)}
+    11|body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.6;-webkit-font-smoothing:antialiased}
+    12|::selection{background:var(--accent);color:var(--bg)}
+    13|a{color:inherit;text-decoration:none}
+    14|
+    15|/* ── Background ── */
+    16|.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
+    17|.bg-i img{width:100%;height:150dvh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
+    18|.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+    19|.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+    20|
+    21|/* ── Text classes ── */
+    22|.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
+    23|.label-sm{font-size:.75rem;letter-spacing:.1875rem;text-transform:uppercase}
+    24|.label-xs{font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase}
+    25|.title{font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1;letter-spacing:.0525rem}
+    26|.display{font-family:var(--serif);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter}
+    27|.sub{font-size:1.125rem;line-height:1.6;opacity:.6}
+    28|.cn{font-family:var(--serif);font-size:.8125rem;letter-spacing:.25rem;line-height:1.8;opacity:.3}
+    29|.op-5{opacity:.5}.op-6{opacity:.6}.op-7{opacity:.7}
+    30|
+    31|@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+    32|.blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
+    33|
+    34|/* ── Theme toggle ── */
+    35|.theme-toggle{background:none;border:none;cursor:pointer;color:var(--mid);opacity:.5;padding:2px;line-height:0;transition:opacity .2s;display:flex;align-items:center}
+    36|.theme-toggle:hover{opacity:1}
+    37|.theme-toggle svg{display:block}
+    38|[data-theme="light"]{--bg:#f5f0e8;--mid:#3d3a35;--dim:#8a8578;--accent:#02966a;--border:rgba(61,58,53,0.12)}
+[data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
+[data-theme="light"] .bg-n{opacity:.015}
+[data-theme="light"] .bg-g{opacity:.06}
+[data-theme="light"] .display{color:#2a2722}
+    44|.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0}
+    45|
+    46|/* ── Row system ── */
+    47|.row{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+    48|.cell{padding:16px;border-right:1px solid var(--border);min-width:0}
+    49|.cell.s1{grid-column:span 1}
+    50|.cell.s2{grid-column:span 2}
+    51|.cell.s3{grid-column:span 3}
+    52|.cell.s4{grid-column:span 4}
+    53|.cell.s6{grid-column:1/-1}
+    54|@media(min-width:1024px){.row{grid-template-columns:1fr 2fr 1fr 1fr 1fr}}
+    55|
+    56|/* ── Nav hover ── */
+    57|.nav-g{position:relative;cursor:pointer}
+    58|.nav-g .blink{display:none}
+    59|.nav-g:hover .blink{display:inline-block}
+    60|.nav-h{position:absolute;inset:4px;background:var(--mid);pointer-events:none;opacity:0;transition:opacity .25s}
+    61|.nav-g:hover>.nav-h{opacity:.05}
+    62|
+    63|/* ── Hero ── */
+    64|.hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px;padding:80px 20px 60px}
+    65|
+    66|/* ── Terminal ── */
+    67|.term{width:100%;max-width:520px;border:4px double var(--border)}
+    68|.term-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
+    69|.td{width:10px;height:10px;border-radius:50%}
+    70|.td:nth-child(1){background:var(--mid)}
+    71|.td:nth-child(2){background:var(--mid);opacity:.6}
+    72|.td:nth-child(3){background:var(--mid);opacity:.3}
+    73|.term-label{margin-left:auto;font-family:var(--mono);font-size:.625rem;letter-spacing:.1875rem;opacity:.5}
+    74|.term-b{font-family:var(--mono);font-size:.75rem;line-height:1.8;padding:20px 16px;white-space:pre-wrap;height:200px;overflow-y:auto}
+    75|.term-b .p{color:var(--accent)}.term-b .t{opacity:.5}
+    76|
+    77|.code{font-family:var(--mono);font-size:.6875rem;line-height:1.6;padding:10px 14px;border:1px solid var(--border);background:rgba(4,28,28,.4);word-break:break-all}
+    78|
+    79|/* ── Card grid ── */
+    80|.fg{display:grid;grid-template-columns:1fr}
+    81|.fg>*{padding:16px;border-bottom:1px solid var(--border);position:relative}
+    82|.fg>*:last-child{border-bottom:none}
+    83|.fh{position:absolute;inset:4px;background:var(--mid);pointer-events:none;opacity:0;transition:opacity .25s}
+    84|.fg>*:hover .fh{opacity:.03}
+    85|.ft{font-family:var(--mono);font-size:.625rem;letter-spacing:.125rem;opacity:.5;display:block;margin-bottom:6px}
+    86|.fn{font-family:var(--serif);font-size:1.125rem;font-weight:600;margin-bottom:6px}
+    87|.fd{font-size:1.0625rem;line-height:1.6;opacity:.6}
+    88|@media(min-width:640px){.fg{grid-template-columns:1fr 1fr}.fg>*:nth-child(odd){border-right:1px solid var(--border)}.fg>*:nth-last-child(-n+2){border-bottom:none}}
+    89|@media(min-width:1024px){.fg{grid-template-columns:1fr 1fr 1fr}.fg>*{border-right:1px solid var(--border)}.fg>*:nth-child(3n){border-right:none}.fg>*:nth-last-child(-n+3){border-bottom:none}}
+    90|
+    91|.more{display:flex;align-items:center;justify-content:center;padding:24px;gap:8px;opacity:.6;transition:opacity .2s;border-bottom:1px solid var(--border)}
+    92|.more:hover{opacity:1;cursor:pointer}
+    93|
+    94|/* ── Footer ── */
+    95|.footer{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border);border-bottom:1px solid var(--border)}
+    96|.footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
+    97|@media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
+    98|
+    99|@media(max-width:1023px){.row{grid-template-columns:1fr;border-left:none}.cell{border-right:none}.footer{grid-template-columns:1fr;border-left:none}.footer .c{border-right:none}}
+   100|@media(max-width:640px){.display{font-size:2.2rem}.hero{padding:50px 16px}}
+   101|</style>
+   102|</head>
+   103|<body>
+   104|
+   105|<div class="bg-i" aria-hidden="true"><img alt="" src="egret-ink.jpg" loading="lazy"></div>
+   106|<div class="bg-n"></div>
+   107|<div class="bg-g"></div>
+   108|
+   109|<div class="page">
+   110|
+   111|<!-- ════ Header ════ -->
+   112|<div class="row">
+   113|  <div class="cell s1" style="display:flex;align-items:center;"><span class="title">yu.ai</span></div>
+   114|  <div class="cell s2 nav-g" style="display:flex;align-items:center;">
+   115|    <span class="label">github <span class="blink"></span></span>
+   116|    <span class="nav-h"></span>
+   117|  </div>
+   118|  <div class="cell s1 nav-g" style="display:flex;align-items:center;">
+   119|    <span class="label">products <span class="blink"></span></span>
+   120|    <span class="nav-h"></span>
+   121|  </div>
+   122|  <div class="cell" style="display:flex;align-items:center;justify-content:space-between;">
+   123|    <span class="label op-5">social</span>
+   124|    <a href="https://github.com/yuluyangguang1" target="_blank" style="opacity:.5;line-height:0;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">
+   125|      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffe6cb" stroke-width="1.5"><path d="M12 2C6.477 2 2 6.477 2 12a10 10 0 0 0 6.839 9.49c.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.934.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48A10 10 0 0 0 22 12c0-5.523-4.477-10-10-10z"/></svg>
+   126|    </a>
+   127|  </div>
+   128|  <div class="cell" style="display:flex;align-items:center;justify-content:space-between;">
+   129|    <span class="label op-5">theme</span>
+   130|    <button id="theme-btn" aria-label="切换主题" class="theme-toggle">
+   131|      <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+   132|      <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+   133|    </button>
+   134|  </div>
+   135|</div>
+   136|
+   137|<!-- ════ Hero ════ -->
+   138|<div class="row">
+   139|  <div class="cell s6" style="border-right:none;padding:0;">
+   140|    <div class="hero">
+   141|      <span class="label-xs op-7" style="letter-spacing:.15rem;">open source · mit license</span>
+   142|      <h1 class="display">羽 · ai</h1>
+   143|      <p class="sub">轻若鸿羽，智若流云。便携的 AI 工具与数字温度。</p>
+   144|      <p class="cn" style="margin-top:-8px;">零安装 · 零痕迹 · 跨平台</p>
+   145|      <div class="term">
+   146|        <div class="term-h">
+   147|          <span class="td"></span><span class="td"></span><span class="td"></span>
+   148|          <span class="term-label">yu.ai</span>
+   149|        </div>
+   150|        <div class="term-b">
+   151|<span class="p">$</span> hermes-portable init
+   152|<span class="t">  ✓ 持久记忆已启用         memory.sqlite                   0.3s</span>
+   153|<span class="t">  ✓ 技能系统加载完成       15 skills online                0.6s</span>
+   154|<span class="t">  ✓ 网关就绪              http://localhost:8123           0.8s</span>
+   155|<span class="p">$</span> openclaw-portable start
+   156|<span class="t">  ✓ 配置中心启动           http://localhost:3000           0.4s</span>
+   157|<span class="t">  ✓ 27 个模型平台在线      12 个聊天渠道已连接              1.1s</span>
+   158|<span class="p">$</span> <span class="blink"></span>
+   159|        </div>
+   160|      </div>
+   161|    </div>
+   162|  </div>
+   163|</div>
+   164|
+   165|<!-- ════ Products ════ -->
+   166|<div class="row">
+   167|  <div class="cell s6" style="display:flex;align-items:center;">
+   168|    <span class="label" style="font-weight:700;">products</span>
+   169|  </div>
+   170|</div>
+   171|
+   172|<!-- ════ Portable tools ════ -->
+   173|<div class="row">
+   174|  <div class="cell" style="display:flex;align-items:center;gap:6px;">
+   175|    <span class="label-sm op-5">01</span>
+   176|    <span class="label">portable tools</span>
+   177|  </div>
+   178|  <div class="cell s4" style="padding:0;">
+   179|    <div class="fg">
+   180|      <div><span class="fh"></span><span class="ft">openclaw</span><div class="fn">openclaw portable</div><p class="fd">一匣纳百川，万象皆可谈。27 个模型平台 · 12 个聊天渠道。</p></div>
+   181|      <div><span class="fh"></span><span class="ft">hermes-agent</span><div class="fn">hermes portable</div><p class="fd">自省而知新，历久则愈明。持久记忆 · 技能系统 · 多平台网关。</p></div>
+   182|    </div>
+   183|  </div>
+   184|</div>
+   185|
+   186|<!-- ════ Web apps ════ -->
+   187|<div class="row">
+   188|  <div class="cell" style="display:flex;align-items:center;gap:6px;">
+   189|    <span class="label-sm op-5">02</span>
+   190|    <span class="label">web apps</span>
+   191|  </div>
+   192|  <div class="cell s4" style="padding:0;">
+   193|    <div class="fg">
+   194|      <div><span class="fh"></span><span class="ft">linger</span><div class="fn">linger · 余温</div><p class="fd">斯人已逝，余温犹存。在数字世界里怀念珍视的人。</p></div>
+   195|      <div><span class="fh"></span><span class="ft">novelweave</span><div class="fn">novelweave · 织文</div><p class="fd">经纬成章，字句生花。AI 网文创作辅助 · 续写 · 润色。</p></div>
+   196|      <div><span class="fh"></span><span class="ft">sbti</span><div class="fn">sbti</div><p class="fd">观照内心，明辨天性。人格类型测评 · 还原经典 MBTI。</p></div>
+   197|    </div>
+   198|  </div>
+   199|</div>
+   200|
+   201|<!-- ════ More ════ -->
+   202|<div class="row" style="border-bottom:none;">
+   203|  <div class="cell s6" style="border-bottom:1px solid var(--bdr);">
+   204|    <a class="more" href="https://github.com/yuluyangguang1?tab=repositories" target="_blank">
+   205|      view all repositories <span style="font-size:1.2em;">→</span>
+   206|    </a>
+   207|  </div>
+   208|</div>
+   209|
+   210|<!-- ════ 落款 ════ -->
+   211|<div style="padding:40px 20px;text-align:center;">
+   212|  <p style="font-family:var(--serif);font-size:.9375rem;letter-spacing:.3rem;opacity:.2;line-height:2;">
+   213|    羽 落 知 天 下<br>智 在 掌 心 间
+   214|  </p>
+   215|</div>
+   216|
+   217|<!-- ════ Footer ════ -->
+   218|<div class="footer">
+   219|  <div class="c"><span class="label op-7">yu.ai</span></div>
+   220|  <div class="c"><span class="label op-7">ylyg</span></div>
+   221|  <div class="c"><a href="https://github.com/yuluyangguang1" target="_blank" class="label" style="opacity:.7;">github ↗</a></div>
+   222|  <div class="c"><span class="label op-5">mit · 2026</span></div>
+   223|  <div class="c"><span class="label op-5" style="color:var(--accent);">轻羽</span></div>
+   224|</div>
+   225|
+   226|</div>
+   227|
+   228|<script>
+   229|(function(){
+   230|  var btn = document.getElementById('theme-btn');
+   231|  var html = document.documentElement;
+   232|  var sun = btn.querySelector('.theme-sun');
+   233|  var moon = btn.querySelector('.theme-moon');
+   234|  var saved = localStorage.getItem('yuai-theme');
+   235|  if (saved === 'light') { html.setAttribute('data-theme','light'); sun.style.display='none'; moon.style.display='block'; }
+   236|  btn.onclick = function(){
+   237|    var isLight = html.getAttribute('data-theme') === 'light';
+   238|    if (isLight) {
+   239|      html.removeAttribute('data-theme');
+   240|      localStorage.setItem('yuai-theme','dark');
+   241|      sun.style.display='block'; moon.style.display='none';
+   242|    } else {
+   243|      html.setAttribute('data-theme','light');
+   244|      localStorage.setItem('yuai-theme','light');
+   245|      sun.style.display='none'; moon.style.display='block';
+   246|    }
+   247|  };
+   248|})();
+   249|</script>
+   250|
+   251|</body>
+   252|</html>
