@@ -279,21 +279,27 @@ var fy=document.getElementById('footer-year');
 if(fy)fy.textContent='mit · '+new Date().getFullYear();
 
 // ── Data plumbing ───────────────────────────────────────────────
-// Two GitHub release feeds:
-//   - portable: yuluyangguang1/openclaw-portable (the user's repo)
-//   - standard: openclaw/openclaw                (the upstream project)
-// Each request is cached for 30 minutes in localStorage so the
-// page is responsive on revisit and so we stay well under GitHub's
-// 60-req/hour anonymous rate limit.
+// We don't hit api.github.com from the page anymore — that
+// rate-limits anonymous clients to 60 req/h per IP, which a
+// shared NAT trips during a single demo. A GitHub Action in
+// yuluyangguang1/openclaw-updates runs every 30 minutes,
+// authenticates with GITHUB_TOKEN (5000/h), and commits the
+// fetched release lists to /data/*.json. We load those static
+// files instead. Fall back to the GitHub API only if the JSON
+// snapshots are unreachable (first time, broken Action, etc).
 var FEEDS={
   portable:{
-    repo:'yuluyangguang1/openclaw-portable',
-    cacheKey:'oc-changelog-portable-v1',
+    json:'data/portable.json',
+    jsonRaw:'https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/data/portable.json',
+    apiFallback:'https://api.github.com/repos/yuluyangguang1/openclaw-portable/releases?per_page=50',
+    cacheKey:'oc-changelog-portable-v2',
     label:'便携版'
   },
   standard:{
-    repo:'openclaw/openclaw',
-    cacheKey:'oc-changelog-standard-v1',
+    json:'data/standard.json',
+    jsonRaw:'https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/data/standard.json',
+    apiFallback:'https://api.github.com/repos/openclaw/openclaw/releases?per_page=50',
+    cacheKey:'oc-changelog-standard-v2',
     label:'上游标准版'
   }
 };
@@ -315,19 +321,36 @@ async function fetchFeed(feedKey){
   var f=FEEDS[feedKey];
   var c=readCache(f.cacheKey);
   if(c)return {data:c,fromCache:true};
-  // Two pages of 50 = up to 100 most recent releases. More than
-  // enough for both repos in practice.
-  var all=[];
-  for(var page=1;page<=2;page++){
-    var url='https://api.github.com/repos/'+f.repo+'/releases?per_page=50&page='+page;
-    var resp=await fetch(url,{headers:{'Accept':'application/vnd.github.v3+json'}});
-    if(!resp.ok)throw new Error('GitHub API '+resp.status+' '+resp.statusText);
-    var batch=await resp.json();
-    if(!batch.length)break;
-    all=all.concat(batch);
-    if(batch.length<50)break;
+
+  // Try the same-origin static JSON first (the Action keeps it
+  // fresh every 30 min). If yuai-site sync has caught up, this
+  // file lives at /openclaw/changelog/data/portable.json.
+  var raw=null;
+  try{
+    var r=await fetch(f.json,{cache:'no-store'});
+    if(r.ok)raw=await r.json();
+  }catch(_){}
+
+  // Fallback 1: same JSON, served from raw.githubusercontent
+  // (which is what the Action commits to). Useful before the
+  // yuai-site mirror has caught up.
+  if(!raw){
+    try{
+      var r2=await fetch(f.jsonRaw,{cache:'no-store'});
+      if(r2.ok)raw=await r2.json();
+    }catch(_){}
   }
-  var entries=all.map(parseRelease).filter(Boolean);
+
+  // Fallback 2: hit GitHub API directly. May 403 if the visitor
+  // burned their anon quota, but at worst we show the friendly
+  // error state — never a stale/blank page.
+  if(!raw){
+    var r3=await fetch(f.apiFallback,{headers:{'Accept':'application/vnd.github.v3+json'}});
+    if(!r3.ok)throw new Error('GitHub '+r3.status+' '+r3.statusText);
+    raw=await r3.json();
+  }
+
+  var entries=raw.map(parseRelease).filter(Boolean);
   writeCache(f.cacheKey,entries);
   return {data:entries,fromCache:false};
 }

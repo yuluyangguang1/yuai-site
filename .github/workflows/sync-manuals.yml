@@ -42,7 +42,7 @@ jobs:
       - name: Pull latest manuals
         run: |
           set -euo pipefail
-          mkdir -p openclaw hermes openclaw/changelog
+          mkdir -p openclaw hermes openclaw/changelog openclaw/changelog/data
 
           # Source-of-truth URLs (URL-encoded Chinese filenames)
           OC_URL="https://raw.githubusercontent.com/yuluyangguang1/openclaw-portable/main/OpenClawPortable%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html"
@@ -53,16 +53,34 @@ jobs:
           curl -fsSL --retry 3 "$HM_URL" -o hermes/index.html.new
           curl -fsSL --retry 3 "$CL_URL" -o openclaw/changelog/index.html.new
 
+          # Mirror the release-feed JSON snapshots that the
+          # openclaw-updates repo's fetch-releases.yml workflow
+          # commits every 30 min. Same-origin = no rate-limit
+          # surprises for visitors. We treat 404s as soft
+          # failures (the snapshots may not exist yet on a
+          # brand-new install).
+          for slug in portable standard; do
+            url="https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/data/${slug}.json"
+            curl -fsSL --retry 3 "$url" -o "openclaw/changelog/data/${slug}.json.new" || true
+          done
+
           # Inline tweaks each file needs to live well as a yu.ai
           # subpage. Keep this list short — anything bigger should
           # land in the portable repo itself.
           for f in openclaw/index.html.new hermes/index.html.new openclaw/changelog/index.html.new; do
+            if [ ! -f "$f" ]; then continue; fi
             # Use same-origin background asset instead of cross-origin yu.ai/
             sed -i 's|src="https://yu.ai/egret-ink.jpg"|src="/egret-ink.jpg"|g' "$f"
-            # Defensive: rewrite any href/src pointing at https://yu.ai/.
-            # That domain is served by an unrelated openresty host, not us.
-            # The visible "yu.ai" brand text stays; only links flip.
+            # Defensive: rewrite any link to https://yu.ai/. That domain is
+            # served by an unrelated openresty host, not us. Visible
+            # "yu.ai" brand text stays; only hrefs flip to yuai-r.cn.
             sed -i 's|https://yu\.ai/|https://yuai-r.cn/|g' "$f"
+            mv "$f" "${f%.new}"
+          done
+
+          # JSON snapshots: just promote .new -> final, no transforms.
+          for f in openclaw/changelog/data/portable.json.new openclaw/changelog/data/standard.json.new; do
+            if [ ! -f "$f" ]; then continue; fi
             mv "$f" "${f%.new}"
           done
 
@@ -71,11 +89,11 @@ jobs:
           set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- openclaw/index.html hermes/index.html openclaw/changelog/index.html; then
+          if git diff --quiet -- openclaw/index.html hermes/index.html openclaw/changelog/index.html openclaw/changelog/data/; then
             echo "No changes."
             exit 0
           fi
-          git add openclaw/index.html hermes/index.html openclaw/changelog/index.html
+          git add openclaw/index.html hermes/index.html openclaw/changelog/index.html openclaw/changelog/data/
           git commit -m "sync: pull latest manuals + changelog from upstream repos
 
           source:
