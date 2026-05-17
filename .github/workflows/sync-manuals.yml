@@ -89,15 +89,17 @@ jobs:
           set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- openclaw/index.html hermes/index.html openclaw/changelog/index.html openclaw/changelog/data/; then
+          # Stage first so brand-new files (data/*.json on the
+          # very first run) show up in the diff.
+          git add openclaw/index.html hermes/index.html openclaw/changelog/index.html openclaw/changelog/data/
+          if git diff --cached --quiet; then
             echo "No changes."
             exit 0
           fi
-          git add openclaw/index.html hermes/index.html openclaw/changelog/index.html openclaw/changelog/data/
-          git commit -m "sync: pull latest manuals + changelog from upstream repos
+          git commit -m "sync: pull latest manuals + changelog + release feeds
 
           source:
             openclaw-portable@main / OpenClawPortable使用说明.html
             hermes-portable@main / HermesPortable使用说明.html
-            openclaw-updates@main / index.html"
+            openclaw-updates@main / index.html + data/*.json"
           git push
