@@ -399,29 +399,96 @@ function classifyLine(line){
 
 function extractChanges(body){
   if(!body)return [];
-  var lines=body.split(/\r?\n/);
+  // Real-world release bodies use four different layouts:
+  //   1. Conventional bullets:    - fix(x): ...
+  //   2. Numbered lists:          1. 解压 ...
+  //   3. Markdown tables:         | 平台 | 操作 |
+  //   4. ### 标题 + 段落
+  //
+  // We use a section-aware pass that only collects items from
+  // sections that look like a changelog (### Changes / 变更 /
+  // 更新 / What's New / 修复 / 新增 ...). Static sections like
+  // 下载 / 首次使用 / 安装说明 are intentionally skipped — they
+  // are install boilerplate that's identical across releases.
+  // If no changelog section is found, fall back to whatever
+  // bullets exist anywhere in the body, then to the body's
+  // first 200 chars as a final summary.
+  var CHANGELOG_HEADING=/^#{1,4}\s*(Changes?|Changelog|What'?s?\s*(New|Changed)|新增|变更|修复|更新|改进|Fixed|Added|Improvements|Highlights|Release Notes|发布说明)/i;
+  var SKIP_HEADING=/^#{1,4}\s*(Download|下载|首次使用|安装|Install(?:ation)?|Quick\s*Start|快速开始|启动方式|要求|Requirements|权限|FAQ|常见问题|致谢|Credits|Thanks)/i;
+  var lines=body.replace(/\r/g,'').split('\n');
   var out=[];
-  var maxItems=80; // hard cap per release to keep DOM size sane
-  for(var i=0;i<lines.length;i++){
-    var raw=lines[i];
-    // bullet detection: -, *, + at start, optionally indented
-    var m=raw.match(/^[\s>]{0,4}[\-\*\+]\s+(.+)$/);
-    if(!m)continue;
-    var text=m[1].trim();
-    // Strip leading "**something**:" labels but keep them as type hints
-    var typeFromLabel=null;
+  var maxItems=60;
+
+  function pushItem(typeHint, text){
+    text=text.trim();
+    if(!text)return;
+    if(text.length>500)text=text.slice(0,497)+'…';
+    var type=typeHint||classifyLine(text);
     var labelMatch=text.match(/^\*\*([^*]+)\*\*\s*[:\-—]?\s*(.*)$/);
     if(labelMatch){
-      typeFromLabel=classifyLine(labelMatch[1]);
-      text=labelMatch[2]||labelMatch[1];
+      type=classifyLine(labelMatch[1])||type;
+      text=(labelMatch[2]||labelMatch[1]).trim();
     }
-    if(!text)continue;
-    var type=typeFromLabel||classifyLine(text);
+    if(!text)return;
     out.push({type:type,raw:text,zh:translateLine(text)});
-    if(out.length>=maxItems){
-      out.push({type:'changed',raw:'…(more changes available on GitHub)',zh:'…（更多变更见 GitHub release 页面）'});
-      break;
+  }
+
+  function harvest(scopedLines, requireChangelogSection){
+    var inChangelog=!requireChangelogSection;
+    var inSkip=false;
+    var inCode=false;
+    for(var i=0;i<scopedLines.length && out.length<maxItems;i++){
+      var raw=scopedLines[i];
+      if(/^\s*```/.test(raw)){inCode=!inCode;continue;}
+      if(inCode)continue;
+      if(/^\s*\|/.test(raw))continue; // skip table rows
+      var heading=raw.match(/^#{1,4}\s+/);
+      if(heading){
+        if(CHANGELOG_HEADING.test(raw)){inChangelog=true;inSkip=false;continue;}
+        if(SKIP_HEADING.test(raw)){inSkip=true;inChangelog=false;continue;}
+        // Other heading: keep current scope state but reset
+        // skip flag (e.g. "## v0.8.8" version subheaders).
+        inSkip=false;
+        if(!requireChangelogSection)inChangelog=true;
+        continue;
+      }
+      if(inSkip)continue;
+      if(!inChangelog)continue;
+      // bullets
+      if(/^[\s>]{0,4}[\-\*\+]\s+/.test(raw)){
+        pushItem(null,raw.replace(/^[\s>]{0,4}[\-\*\+]\s+/,''));
+      }
+      // numbered
+      else if(/^\s{0,4}\d+\.\s+/.test(raw)){
+        pushItem('changed',raw.replace(/^\s{0,4}\d+\.\s+/,''));
+      }
     }
+  }
+
+  // Pass 1: only harvest from changelog-labeled sections
+  harvest(lines, true);
+
+  // Pass 2: nothing labeled — accept any bullet/numbered item
+  // outside of explicitly-skipped install sections.
+  if(!out.length){
+    out=[];
+    harvest(lines, false);
+  }
+
+  // Pass 3: still nothing — surface the first non-trivial
+  // paragraph as a single summary item so the entry isn't blank.
+  if(!out.length){
+    var summary='';
+    for(var i=0;i<lines.length;i++){
+      var l=lines[i].trim();
+      if(!l||/^[#>|`]/.test(l))continue;
+      summary=l;break;
+    }
+    if(summary)pushItem('changed',summary);
+  }
+
+  if(out.length>=maxItems){
+    out.push({type:'changed',raw:'…(more changes available on GitHub)',zh:'…（更多变更见 GitHub release 页面）'});
   }
   return out;
 }
