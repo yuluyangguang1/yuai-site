@@ -1,0 +1,292 @@
+[
+  {
+    "tag_name": "v0.8.8",
+    "name": "v0.8.8",
+    "body": "## OpenClaw Portable v0.8.8\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.8.8/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n1e80a3bcf2dbb43f03ed37fc1906d6e6686444548fb3c562d09e5f3c3fb06c53  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.8.7...v0.8.8",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.8.8",
+    "published_at": "2026-05-17T05:36:01Z",
+    "created_at": "2026-05-17T05:31:04Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.8.7",
+    "name": "v0.8.7",
+    "body": "## OpenClaw Portable v0.8.7\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.8.7/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\nd7b032c0da552c5b83c675cb2a06aec3bed22118cfd3b2835029051fba16d988  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.8.6...v0.8.7",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.8.7",
+    "published_at": "2026-05-17T05:23:42Z",
+    "created_at": "2026-05-17T05:18:26Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.8.6",
+    "name": "v0.8.6",
+    "body": "## OpenClaw Portable v0.8.6\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.8.6/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\nb22f77ecb62eea7940912db96406f1320baca6bace8af11be375b8c45dc02598  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.8.5...v0.8.6",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.8.6",
+    "published_at": "2026-05-17T05:15:42Z",
+    "created_at": "2026-05-17T05:09:14Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.8.5",
+    "name": "v0.8.5",
+    "body": "## OpenClaw Portable v0.8.5\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.8.5/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n0431549405d711600513e471291747ec0ce78f88d8792524b6d0f4136ee8ca11  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.8.4...v0.8.5",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.8.5",
+    "published_at": "2026-05-17T04:59:33Z",
+    "created_at": "2026-05-17T04:53:58Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.8.4",
+    "name": "v0.8.4",
+    "body": "## OpenClaw Portable v0.8.4\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.8.4/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\na5d5e114d310a37cf052c3e92e411f9a79133912a08f794dbd2a81fdba7d7cd3  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.8.3...v0.8.4",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.8.4",
+    "published_at": "2026-05-17T04:40:28Z",
+    "created_at": "2026-05-17T04:35:24Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.8.3",
+    "name": "v0.8.3",
+    "body": "## OpenClaw Portable v0.8.3\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.8.3/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n2bc250d9da946305fe71af31b41706c29c490455850bc36bbee9875feeb13045  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.8.2...v0.8.3",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.8.3",
+    "published_at": "2026-05-17T04:17:32Z",
+    "created_at": "2026-05-17T04:12:21Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.8.2",
+    "name": "v0.8.2",
+    "body": "## OpenClaw Portable v0.8.2\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.8.2/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n1011a0e4ce427315b7201e700bc87fb3428e9f26e92c03d821ae08b373577b64  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.8.1...v0.8.2",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.8.2",
+    "published_at": "2026-05-17T02:51:44Z",
+    "created_at": "2026-05-17T02:47:16Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.8.1",
+    "name": "v0.8.1",
+    "body": "## OpenClaw Portable v0.8.1\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.8.1/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\nb37d863191914775d0cdda3ef96711c7aa4c1911323919eed154919a1ed19f4f  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.8.0...v0.8.1",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.8.1",
+    "published_at": "2026-05-16T13:29:10Z",
+    "created_at": "2026-05-16T13:22:19Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.8.0",
+    "name": "v0.8.0",
+    "body": "## OpenClaw Portable v0.8.0\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.8.0/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n9c73cc9fcbbecfddfc23a9ab885f08328cac65adcc37f207eb66116c018bd15d  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.7.0...v0.8.0",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.8.0",
+    "published_at": "2026-05-16T09:50:54Z",
+    "created_at": "2026-05-16T09:45:29Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.7.0",
+    "name": "v0.7.0",
+    "body": "## OpenClaw Portable v0.7.0\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.7.0/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n724e38ce84df86b6683c1008df1a0703f7298b8a07f316ea0fe25676c032ff6e  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.6.0...v0.7.0",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.7.0",
+    "published_at": "2026-05-16T03:24:32Z",
+    "created_at": "2026-05-16T03:17:35Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.6.0",
+    "name": "v0.6.0",
+    "body": "## OpenClaw Portable v0.6.0\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.6.0/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n7ca6f222fd359698091f04853499cbc3fe02686c8a3dcef6e754a3048fa1d999  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.5.0...v0.6.0",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.6.0",
+    "published_at": "2026-05-15T10:16:20Z",
+    "created_at": "2026-05-15T10:15:52Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.5.0",
+    "name": "v0.5.0",
+    "body": "# OpenClaw Portable v0.5.0\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.5.0/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\nf8dba0758a5739bf514ac6a0d54bc5bd0824a6ea7bb2a7e26d9a3d386c67295d  OpenClawPortable.zip\n```\n\n---\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.4.0...v0.5.0",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.5.0",
+    "published_at": "2026-05-15T08:39:10Z",
+    "created_at": "2026-05-15T08:38:31Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.4.0",
+    "name": "v0.4.0",
+    "body": "# OpenClaw Portable v0.4.0\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.4.0/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n63bf256e9447427d57ad5b896f14d587b819836ef645a76c1b262639bdfa0159  OpenClawPortable.zip\n```\n\n---\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.3.0...v0.4.0",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.4.0",
+    "published_at": "2026-05-15T03:34:33Z",
+    "created_at": "2026-05-15T03:34:01Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14.5",
+    "name": "v2026.5.14.5",
+    "body": "# OpenClaw Portable v2026.5.14.5\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14.5/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\nfca3cabf4005c485a4097ab3047d195fbe1e674abdf16b76a9989d6748dd7396  OpenClawPortable.zip\n```\n\n---\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14.4...v2026.5.14.5",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14.5",
+    "published_at": "2026-05-14T13:02:35Z",
+    "created_at": "2026-05-14T13:02:09Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14.4",
+    "name": "v2026.5.14.4",
+    "body": "# OpenClaw Portable v2026.5.14.4\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14.4/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n5dd3c56e1d0e604e71ccb9274e77cdb501a5d95ae355c0e5ffa92e6bc7d87162  OpenClawPortable.zip\n```\n\n---\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14.3...v2026.5.14.4",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14.4",
+    "published_at": "2026-05-14T12:55:14Z",
+    "created_at": "2026-05-14T12:54:54Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14.3",
+    "name": "v2026.5.14.3",
+    "body": "# OpenClaw Portable v2026.5.14.3\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14.3/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\nac3a7c5ced03614f4bb1599ae0c41aa0bcf83b53a554fb9d02e65acf9dbc2406  OpenClawPortable.zip\n```\n\n---\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14.2...v2026.5.14.3",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14.3",
+    "published_at": "2026-05-14T12:18:29Z",
+    "created_at": "2026-05-14T12:17:58Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14.2",
+    "name": "v2026.5.14.2",
+    "body": "# OpenClaw Portable v2026.5.14.2\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14.2/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\naf60319eba64239a50737c9b90a1ff818408fb5e8eddd45283801a0e09a26f49  OpenClawPortable.zip\n```\n\n---\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14...v2026.5.14.2",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14.2",
+    "published_at": "2026-05-14T11:58:28Z",
+    "created_at": "2026-05-14T12:13:11Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14.1",
+    "name": "v2026.5.14.1",
+    "body": "# OpenClaw Portable v2026.5.14.1\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14.1/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n332c09461ca1356743d7ea0788234e9fc0436a91c0d62e81dbdc719f4d95e141  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* feat: update all model names to latest (May 2026) by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/20\n* refactor: 重构 index.html 为两步流程 by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/21\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14-beta.7...v2026.5.14.1",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14.1",
+    "published_at": "2026-05-14T11:06:35Z",
+    "created_at": "2026-05-14T11:04:16Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14",
+    "name": "v2026.5.14",
+    "body": "# OpenClaw Portable v2026.5.14\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\nbfea8286adb4238b6b8654e1bed729708ba8e2d29b966750d7c3ce67e437b348  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* feat: update all model names to latest (May 2026) by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/20\n* refactor: 重构 index.html 为两步流程 by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/21\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14-beta.7...v2026.5.14",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14",
+    "published_at": "2026-05-14T10:36:28Z",
+    "created_at": "2026-05-14T11:04:16Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14-beta.7",
+    "name": "v2026.5.14-beta.7",
+    "body": "# OpenClaw Portable v2026.5.14-beta.7\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14-beta.7/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n8f61624601f8e61c4bb7a61245397bee32f7b2d642a0f0b3e68b8a4900a45440  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* feat: add all mainstream AI models (25+ providers) by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/18\n* fix(p8): remove && from token JS (cmd command separator) by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/19\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14-beta.6...v2026.5.14-beta.7",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14-beta.7",
+    "published_at": "2026-05-14T05:24:29Z",
+    "created_at": "2026-05-14T05:19:10Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14-beta.6",
+    "name": "v2026.5.14-beta.6",
+    "body": "# OpenClaw Portable v2026.5.14-beta.6\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14-beta.6/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n3f732241fd35cf3e15fb4953f92dc228f6772e36c760cb9bf4bda78bf35c2988  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* fix(p7): Windows paths with spaces in for/f node commands by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/17\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14-beta.5...v2026.5.14-beta.6",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14-beta.6",
+    "published_at": "2026-05-14T04:51:15Z",
+    "created_at": "2026-05-14T04:45:06Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14-beta.5",
+    "name": "v2026.5.14-beta.5",
+    "body": "# OpenClaw Portable v2026.5.14-beta.5\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14-beta.5/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n821ff8810acba98c6a4b6bfa7d4c909b53826a71f54a266275131043674eab23  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* feat: restart gateway from Config Center + heartbeat + stale cleanup by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/16\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14-beta.4...v2026.5.14-beta.5",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14-beta.5",
+    "published_at": "2026-05-14T04:11:52Z",
+    "created_at": "2026-05-14T04:06:37Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14-beta.4",
+    "name": "v2026.5.14-beta.4",
+    "body": "# OpenClaw Portable v2026.5.14-beta.4\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14-beta.4/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n1ed88fba18a417aa333c24a9329b059ea979ec5915d0de605cef4ce79d2357e6  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* fix(p6): Windows for/f parse error with paths containing spaces by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/15\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14-beta.3...v2026.5.14-beta.4",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14-beta.4",
+    "published_at": "2026-05-14T04:04:37Z",
+    "created_at": "2026-05-14T03:57:11Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14-beta.3",
+    "name": "v2026.5.14-beta.3",
+    "body": "# OpenClaw Portable v2026.5.14-beta.3\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14-beta.3/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n6da9234eb5651b425c56c6122102d87d956a5c07cc42194bf82285e4bca08a05  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* feat(banner): replace old ASCII art with modern Hermes-style gradient logo by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/8\n* P0: critical bug fixes by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/9\n* P1: feature bug fixes by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/10\n* P2: consistency and docs by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/11\n* fix(p3): BOM removal, dynamic token, trap EXIT, dynamic version by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/12\n* fix(p4): port fallback, node-based token, diagnose version, xattr, console.log by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/13\n* fix(p5): Windows launcher rewrite for reliability by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/14\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.13-beta.2...v2026.5.14-beta.3",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14-beta.3",
+    "published_at": "2026-05-14T03:33:09Z",
+    "created_at": "2026-05-14T03:27:50Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.14-beta",
+    "name": "v2026.5.14-beta",
+    "body": "# OpenClaw Portable v2026.5.14-beta\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.14-beta/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n1c3e9e60db04ae7420dffa323825ed9a9c9d68f76391103b874e5faca3ed12e7  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* feat: update all model names to latest (May 2026) by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/20\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14-beta.7...v2026.5.14-beta",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.14-beta",
+    "published_at": "2026-05-14T06:45:57Z",
+    "created_at": "2026-05-14T06:36:55Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.3.0",
+    "name": "v0.3.0",
+    "body": "## v0.3.0\n\n### 新功能\n\n- 配置中心新增日志查看面板（在 Step 2 IO 操作栏）\n- 动态版本号显示（顶部 hero + 底部 footer 自动从 PORTABLE_VERSION 读取）\n- 底部显示 OpenClaw 核心版本和 portable 版本，区分清晰\n\n### Bug 修复\n\n- 修复 toast warning 类型 CSS 样式缺失导致显示无色\n\n### 新增 API\n\n- `GET /api/version` 返回 `{portable, openclaw}` 两个版本号\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) (v2026.4.29) · MIT License",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.3.0",
+    "published_at": "2026-05-14T17:07:35Z",
+    "created_at": "2026-05-14T17:07:01Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.2.0",
+    "name": "v0.2.0",
+    "body": "# OpenClaw Portable v0.2.0\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.2.0/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n58f311ce527c5a5ae650a955ebd539e044351036e290ebde780c3986e01c484c  OpenClawPortable.zip\n```\n\n---\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.14.5...v0.2.0",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.2.0",
+    "published_at": "2026-05-14T15:54:57Z",
+    "created_at": "2026-05-14T16:01:58Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.13-beta.2",
+    "name": "v2026.5.13-beta.2",
+    "body": "# OpenClaw Portable v2026.5.13-beta.2\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.13-beta.2/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\nea8b88fd80ffe43db422ac7732ca237b3e20b1b176062e267da207c4e238ba9c  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* Update build.yml by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/7\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2026.5.13-beta.1...v2026.5.13-beta.2",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.13-beta.2",
+    "published_at": "2026-05-13T13:36:56Z",
+    "created_at": "2026-05-13T13:00:56Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
+    "tag_name": "v2026.5.13-beta.1",
+    "name": "v2026.5.13-beta.1",
+    "body": "# OpenClaw Portable v2026.5.13-beta.1\n\n> 🦞 U-Claw 虾盘 — OpenClaw AI 助手离线安装 U 盘\n> 一个压缩包，任意平台解压即用 · 零安装 · 零痕迹\n\n## 下载 Download\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.13-beta.1/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n## 支持平台\n\n| 平台 | 启动方式 |\n|---|---|\n| macOS (Apple Silicon / Intel) | 双击 `Mac-Start.command` |\n| Linux (x86_64 / arm64) | `bash Linux-Start.sh` |\n| Windows 10/11 (x64) | 双击 `Windows-Start.bat` |\n\n## 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击对应平台的启动器\n3. 浏览器自动打开配置面板 → 选模型 → 填 API Key → 开始用\n\n## macOS 首次双击提示「您没有权限」\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n## SHA-256\n\n```\n9e942c58bf5e5e0fd2ce8eff2e26595a6ad01912669e0c017cf3faf7b32359f9  OpenClawPortable.zip\n```\n\n---\n\n\n## What's Changed\n* fix(security): path traversal, body limit, CORS, config port detection by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/1\n* fix: npm failure handling, memory leak, zero-trace, dynamic version by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/2\n* ci: add multi-arch release workflow (like hermes-portable) by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/3\n* ci: single universal zip (all platforms in one package) by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/4\n* fix: drop Install scripts, strip dev tooling from user zip by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/5\n* ci: fix zip step — don't hardcode workspace dirname by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/6\n\n## New Contributors\n* @yuluyangguang1 made their first contribution in https://github.com/yuluyangguang1/openclaw-portable/pull/1\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/commits/v2026.5.13-beta.1",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2026.5.13-beta.1",
+    "published_at": "2026-05-13T11:14:57Z",
+    "created_at": "2026-05-13T11:08:52Z",
+    "prerelease": true,
+    "draft": false
+  }
+]
