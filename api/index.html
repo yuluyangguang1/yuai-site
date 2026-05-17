@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yu.ai · API 代理</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;--border:rgba(255,230,203,0.12);--sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--serif:'Georgia','Noto Serif SC','Source Han Serif SC',serif;--mono:'Courier New','Menlo',monospace}
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.7;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+
+.page{max-width:700px;margin:0 auto;padding:48px 24px}
+
+h1{font-family:var(--serif);font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:8px;mix-blend-mode:plus-lighter}
+.sub{font-size:1.05rem;opacity:.6;margin-bottom:48px}
+
+h2{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-top:40px;margin-bottom:12px;color:var(--accent)}
+p,li{font-size:.95rem;opacity:.7;line-height:1.8}
+ul{padding-left:20px;margin:12px 0}
+li{margin-bottom:6px}
+
+.code{font-family:var(--mono);font-size:.8rem;padding:14px 16px;border:1px solid var(--border);background:rgba(4,28,28,.6);word-break:break-all;margin:12px 0;line-height:1.6}
+.label-sm{font-size:.75rem;letter-spacing:.15rem;text-transform:uppercase;opacity:.5;display:block;margin-bottom:6px}
+
+.btn{display:inline-block;padding:12px 28px;border:1px solid var(--accent);color:var(--accent);font-size:.85rem;letter-spacing:.1rem;text-transform:uppercase;transition:all .2s;margin-top:8px}
+.btn:hover{background:var(--accent);color:var(--bg)}
+
+.back{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;letter-spacing:.15rem;text-transform:uppercase;opacity:.5;transition:opacity .2s;margin-bottom:40px}
+.back:hover{opacity:1}
+
+.step-box{padding:20px;border:1px solid var(--border);margin:16px 0}
+.step-num{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--accent);margin-bottom:8px;display:block}
+
+hr{border:none;border-top:1px solid var(--border);margin:40px 0}
+
+footer{text-align:center;padding:32px 0;font-size:.8rem;opacity:.4;letter-spacing:.15rem}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<a href="/" class="back">← 返回首页</a>
+
+<h1>API 代理</h1>
+<p class="sub">统一接口，一处配置，所有项目共用。</p>
+
+<div class="step-box">
+  <span class="step-num">第一步 · 获取 Key</span>
+  <p>前往 <a href="https://b.ai" target="_blank" style="color:var(--accent);">b.ai</a> 注册账号，在后台生成你的 API Key。支持多种模型（DeepSeek、OpenAI、Claude 等），按量计费。</p>
+  <a class="btn" href="https://b.ai" target="_blank">前往 b.ai 注册 →</a>
+</div>
+
+<div class="step-box">
+  <span class="step-num">第二步 · 配置项目</span>
+  <p>在你的项目中将 baseURL 指向我们的统一入口：</p>
+  <div>
+    <span class="label-sm">Base URL</span>
+    <div class="code">https://api.yuai-r.cn/v1</div>
+  </div>
+  <p style="margin-top:12px;">API Key 填写你在 b.ai 获取的 Key 即可。</p>
+</div>
+
+<div class="step-box">
+  <span class="step-num">第三步 · 开始使用</span>
+  <p>配置完成后，你的项目即可通过 yu.ai 的统一接口访问多种 AI 模型。换模型、换线路只需在 b.ai 后台操作，项目端无需任何改动。</p>
+</div>
+
+<hr>
+
+<h2>支持的模型</h2>
+<p>通过 b.ai 中转，支持但不限于：</p>
+<ul>
+  <li>DeepSeek V3 / R1</li>
+  <li>OpenAI GPT-4o / o3 / o4-mini</li>
+  <li>Claude Sonnet / Opus</li>
+  <li>Gemini 系列</li>
+  <li>Qwen / 通义千问系列</li>
+</ul>
+<p style="margin-top:8px;">完整列表见 <a href="https://b.ai" target="_blank" style="color:var(--accent);">b.ai 模型页</a>。</p>
+
+<h2>统一的好处</h2>
+<ul>
+  <li><strong>一处 Key，所有项目共用</strong> — 织文、Linger、你的其他工具指向同一个 baseURL</li>
+  <li><strong>换模型不改代码</strong> — 在 b.ai 后台切换模型，项目端只需改 model 名称</li>
+  <li><strong>用量透明</strong> — b.ai 后台有完整的消费记录</li>
+</ul>
+
+<hr>
+
+<p style="text-align:center;font-family:var(--serif);font-size:.85rem;letter-spacing:.25rem;opacity:.3;line-height:2;">
+  你的 AI · 轻若鸿羽，智若流云
+</p>
+
+<footer>yu.ai · api proxy · 2026</footer>
+
+</div>
+
+</body>
+</html>
