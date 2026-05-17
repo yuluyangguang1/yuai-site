@@ -42,19 +42,21 @@ jobs:
       - name: Pull latest manuals
         run: |
           set -euo pipefail
-          mkdir -p openclaw hermes
+          mkdir -p openclaw hermes openclaw/changelog
 
           # Source-of-truth URLs (URL-encoded Chinese filenames)
           OC_URL="https://raw.githubusercontent.com/yuluyangguang1/openclaw-portable/main/OpenClawPortable%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html"
           HM_URL="https://raw.githubusercontent.com/yuluyangguang1/hermes-portable/main/HermesPortable%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html"
+          CL_URL="https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/index.html"
 
           curl -fsSL --retry 3 "$OC_URL" -o openclaw/index.html.new
           curl -fsSL --retry 3 "$HM_URL" -o hermes/index.html.new
+          curl -fsSL --retry 3 "$CL_URL" -o openclaw/changelog/index.html.new
 
           # Inline tweaks each file needs to live well as a yu.ai
           # subpage. Keep this list short — anything bigger should
           # land in the portable repo itself.
-          for f in openclaw/index.html.new hermes/index.html.new; do
+          for f in openclaw/index.html.new hermes/index.html.new openclaw/changelog/index.html.new; do
             # Use same-origin background asset instead of cross-origin yu.ai/
             sed -i 's|src="https://yu.ai/egret-ink.jpg"|src="/egret-ink.jpg"|g' "$f"
             # Defensive: rewrite any href/src pointing at https://yu.ai/.
@@ -69,14 +71,15 @@ jobs:
           set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- openclaw/index.html hermes/index.html; then
+          if git diff --quiet -- openclaw/index.html hermes/index.html openclaw/changelog/index.html; then
             echo "No changes."
             exit 0
           fi
-          git add openclaw/index.html hermes/index.html
-          git commit -m "sync: pull latest manuals from portable repos
+          git add openclaw/index.html hermes/index.html openclaw/changelog/index.html
+          git commit -m "sync: pull latest manuals + changelog from upstream repos
 
           source:
             openclaw-portable@main / OpenClawPortable使用说明.html
-            hermes-portable@main / HermesPortable使用说明.html"
+            hermes-portable@main / HermesPortable使用说明.html
+            openclaw-updates@main / index.html"
           git push
