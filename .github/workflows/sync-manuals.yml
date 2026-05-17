@@ -57,6 +57,10 @@ jobs:
           for f in openclaw/index.html.new hermes/index.html.new; do
             # Use same-origin background asset instead of cross-origin yu.ai/
             sed -i 's|src="https://yu.ai/egret-ink.jpg"|src="/egret-ink.jpg"|g' "$f"
+            # Defensive: rewrite any href/src pointing at https://yu.ai/.
+            # That domain is served by an unrelated openresty host, not us.
+            # The visible "yu.ai" brand text stays; only links flip.
+            sed -i 's|https://yu\.ai/|https://yuai-r.cn/|g' "$f"
             mv "$f" "${f%.new}"
           done
 
