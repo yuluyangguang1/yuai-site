@@ -1,0 +1,78 @@
+name: Sync subpage manuals
+
+# Mirrors the canonical manual HTML files from openclaw-portable and
+# hermes-portable into /openclaw/ and /hermes/ on this site, so the
+# source-of-truth stays in each portable repo while users get a clean
+# subpage URL (yu.ai/openclaw, yu.ai/hermes) instead of an off-site
+# raw.githack mirror.
+#
+# Triggers:
+#   - Every 30 minutes via cron (lazy default — the manuals don't
+#     change that often)
+#   - Manual workflow_dispatch (force sync from the Actions tab)
+#   - On push to main: ensures the workflow itself stays valid and
+#     gives an immediate sync after editing the workflow
+#
+# No secrets needed. Uses the default GITHUB_TOKEN to push back; uses
+# anonymous raw.githubusercontent.com fetches for public source repos.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/sync-manuals.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-subpages
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout yuai-site
+        uses: actions/checkout@v4
+
+      - name: Pull latest manuals
+        run: |
+          set -euo pipefail
+          mkdir -p openclaw hermes
+
+          # Source-of-truth URLs (URL-encoded Chinese filenames)
+          OC_URL="https://raw.githubusercontent.com/yuluyangguang1/openclaw-portable/main/OpenClawPortable%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html"
+          HM_URL="https://raw.githubusercontent.com/yuluyangguang1/hermes-portable/main/HermesPortable%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html"
+
+          curl -fsSL --retry 3 "$OC_URL" -o openclaw/index.html.new
+          curl -fsSL --retry 3 "$HM_URL" -o hermes/index.html.new
+
+          # Inline tweaks each file needs to live well as a yu.ai
+          # subpage. Keep this list short — anything bigger should
+          # land in the portable repo itself.
+          for f in openclaw/index.html.new hermes/index.html.new; do
+            # Use same-origin background asset instead of cross-origin yu.ai/
+            sed -i 's|src="https://yu.ai/egret-ink.jpg"|src="/egret-ink.jpg"|g' "$f"
+            mv "$f" "${f%.new}"
+          done
+
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- openclaw/index.html hermes/index.html; then
+            echo "No changes."
+            exit 0
+          fi
+          git add openclaw/index.html hermes/index.html
+          git commit -m "sync: pull latest manuals from portable repos
+
+          source:
+            openclaw-portable@main / OpenClawPortable使用说明.html
+            hermes-portable@main / HermesPortable使用说明.html"
+          git push

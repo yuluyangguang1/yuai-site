@@ -1,3 +1,6 @@
 [submodule "novelweave"]
 	path = novelweave
 	url = https://github.com/yuluyangguang1/novelweave.git
+[submodule "linger"]
+	path = linger
+	url = https://github.com/yuluyangguang1/linger.git
