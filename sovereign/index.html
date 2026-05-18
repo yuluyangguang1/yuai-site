@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主权 AI · yu.ai for organizations</title>
+
+<meta name="description" content="数据零外传 · 主机零残留 · 国产模型优先 — 为对合规、隐私、可审计性有要求的组织而设计的便携 AI 解决方案。">
+<meta name="keywords" content="主权 AI,sovereign AI,本地 AI,合规,数据安全,国产大模型,DeepSeek,通义千问,智谱 GLM,Kimi,企业 AI,教育 AI,政务 AI,医疗 AI,法律 AI,yu.ai,ylyg">
+<meta name="author" content="ylyg">
+<link rel="canonical" href="https://yuai-r.cn/sovereign/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="主权 AI · yu.ai for organizations">
+<meta property="og:description" content="数据零外传 · 主机零残留 · 国产模型优先">
+<meta property="og:url" content="https://yuai-r.cn/sovereign/">
+<meta property="og:image" content="https://yuai-r.cn/egret-ink.jpg">
+<meta property="og:locale" content="zh_CN">
+
+<meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23041c1c'/%3E%3Cg fill='none' stroke='%23ffe6cb' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;
+  --border:rgba(255,230,203,0.12);
+  --warn:#ffbd38;
+  --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
+  --mono:'Courier New','Menlo',monospace
+}
+[data-theme="light"]{
+  --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
+  --border:rgba(61,58,53,0.14)
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
+    --border:rgba(61,58,53,0.14)
+  }
+}
+
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:15px}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+
+.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
+.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+[data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
+[data-theme="light"] .bg-n{opacity:.015}
+[data-theme="light"] .bg-g{opacity:.06}
+[data-theme="light"] .display{color:#2a2722}
+
+.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-sm{font-size:.75rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-xs{font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase}
+.title{font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1;letter-spacing:.0525rem}
+.display{font-family:var(--serif);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter}
+.sub{font-size:1.125rem;line-height:1.6;opacity:.7}
+.cn{font-family:var(--serif);font-size:.8125rem;letter-spacing:.25rem;line-height:1.8;opacity:.3}
+.op-5{opacity:.5}.op-7{opacity:.7}
+
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
+@media(prefers-reduced-motion:reduce){.blink{animation:none;opacity:1}}
+
+.theme-toggle{background:none;border:none;cursor:pointer;color:var(--mid);opacity:.5;padding:8px;line-height:0;transition:opacity .2s;display:flex;align-items:center;border-radius:4px}
+.theme-toggle:hover,.theme-toggle:focus-visible{opacity:1;outline:1px solid var(--border)}
+.theme-toggle svg{display:block}
+
+.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
+.row{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+.cell{padding:16px;border-right:1px solid var(--border);min-width:0;display:flex;align-items:center}
+.cell.s1{grid-column:span 1}.cell.s2{grid-column:span 2}.cell.s3{grid-column:span 3}.cell.s4{grid-column:span 4}.cell.s6{grid-column:1/-1}
+@media(min-width:1024px){.row.nav-row{grid-template-columns:1fr 2fr 1fr 1fr 1fr}}
+
+.nav-link{position:relative;display:flex;align-items:center;width:100%;height:100%;color:inherit;cursor:pointer;background:none;border:none;text-align:left;padding:16px;font:inherit;letter-spacing:inherit}
+.nav-link .blink{display:none}
+.nav-link:hover .blink,.nav-link:focus-visible .blink{display:inline-block}
+.nav-link:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
+
+.hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px;padding:80px 20px 60px;width:100%}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.hero-cta a{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border:1px solid var(--border);font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;transition:all .2s}
+.hero-cta a:hover,.hero-cta a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+.hero-cta a.cta-primary{border-color:var(--accent);color:var(--accent)}
+.hero-cta a.cta-primary:hover,.hero-cta a.cta-primary:focus-visible{background:var(--accent);color:var(--bg)}
+
+/* 三个核心承诺 */
+.tg{display:grid;grid-template-columns:1fr;gap:0}
+.tg>*{padding:32px 24px;border-bottom:1px solid var(--border);position:relative;display:flex;flex-direction:column;gap:10px}
+.tg>*:last-child{border-bottom:none}
+@media(min-width:768px){.tg{grid-template-columns:1fr 1fr 1fr}.tg>*{border-right:1px solid var(--border);border-bottom:none}.tg>*:last-child{border-right:none}}
+.tg .tn{font-family:var(--mono);font-size:.625rem;letter-spacing:.125rem;opacity:.5;text-transform:uppercase}
+.tg .th{font-family:var(--serif);font-size:1.5rem;font-weight:600}
+.tg .td{font-size:.95rem;line-height:1.7;opacity:.7}
+
+/* 场景卡 */
+.sc{display:grid;grid-template-columns:1fr}
+.sc>*{padding:24px;border-bottom:1px solid var(--border)}
+.sc>*:last-child{border-bottom:none}
+@media(min-width:768px){.sc{grid-template-columns:1fr 1fr}.sc>*{border-right:1px solid var(--border)}.sc>*:nth-child(2n){border-right:none}.sc>*:nth-last-child(-n+2){border-bottom:none}}
+@media(min-width:1024px){.sc{grid-template-columns:1fr 1fr 1fr}.sc>*{border-right:1px solid var(--border)}.sc>*:nth-child(2n){border-right:1px solid var(--border)}.sc>*:nth-child(3n){border-right:none}.sc>*:nth-last-child(-n+3){border-bottom:none}}
+.sc .sn{font-family:var(--mono);font-size:.7rem;letter-spacing:.125rem;opacity:.5;text-transform:uppercase;margin-bottom:8px}
+.sc .sh{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:6px}
+.sc .sd{font-size:.92rem;line-height:1.7;opacity:.7}
+
+table.spec{width:100%;border-collapse:collapse;font-size:.92rem}
+table.spec th,table.spec td{padding:14px 18px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+table.spec th{font-family:var(--mono);font-size:.7rem;letter-spacing:.125rem;text-transform:uppercase;opacity:.6;font-weight:normal;width:30%}
+table.spec td{opacity:.85}
+table.spec tr:last-child th,table.spec tr:last-child td{border-bottom:none}
+
+.term{width:100%;max-width:680px;margin:0 auto;border:4px double var(--border)}
+.term-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.td-dot{width:10px;height:10px;border-radius:50%}
+.td-dot:nth-child(1){background:var(--mid)}
+.td-dot:nth-child(2){background:var(--mid);opacity:.6}
+.td-dot:nth-child(3){background:var(--mid);opacity:.3}
+.term-label{margin-left:auto;font-family:var(--mono);font-size:.625rem;letter-spacing:.1875rem;opacity:.5}
+.term-b{font-family:var(--mono);font-size:.78rem;line-height:1.85;padding:18px 16px;white-space:pre-wrap;min-height:160px;word-break:break-word;text-align:left}
+.term-b .p{color:var(--accent)}
+.term-b .t{opacity:.6}
+
+.footer{display:grid;grid-template-columns:1fr;border:1px solid var(--border)}
+.footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
+@media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
+
+@media(max-width:1023px){
+  .row,.row.nav-row{grid-template-columns:1fr;border-left:none}
+  .cell{border-right:none}
+  .footer{grid-template-columns:1fr;border-left:none}
+  .footer .c{border-right:none}
+}
+@media(max-width:640px){
+  .display{font-size:2.2rem}
+  .sub{font-size:.95rem}
+  .hero{padding:50px 16px}
+}
+
+/* 询价表单 */
+.contact-form{display:grid;grid-template-columns:1fr;gap:0;border-left:1px solid var(--border)}
+.contact-form .field{padding:16px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
+.contact-form .field.full{grid-column:1/-1}
+.contact-form label{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;opacity:.5}
+.contact-form input,.contact-form textarea,.contact-form select{font:inherit;font-family:var(--sans);background:transparent;border:1px solid var(--border);color:inherit;padding:8px 10px;border-radius:0}
+.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{outline:none;border-color:var(--accent)}
+.contact-form textarea{resize:vertical;min-height:90px}
+.contact-form button{padding:14px 24px;border:1px solid var(--accent);color:var(--accent);background:transparent;font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.contact-form button:hover{background:var(--accent);color:var(--bg)}
+@media(min-width:768px){.contact-form{grid-template-columns:1fr 1fr}.contact-form .field.submit{grid-column:1/-1;border-right:none}}
+</style>
+</head>
+<body>
+
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+
+<div class="page">
+
+<!-- Top nav (matches the rest of yu.ai) -->
+<nav class="row nav-row" aria-label="Primary">
+  <div class="cell s1"><a href="https://yuai-r.cn/" class="title" style="text-decoration:none">yu.ai</a></div>
+  <div class="cell s2" style="padding:0">
+    <a class="nav-link" href="https://yuai-r.cn/"><span class="label">yu.ai <span class="blink"></span></span></a>
+  </div>
+  <div class="cell s1" style="padding:0">
+    <a class="nav-link" href="https://yuai-r.cn/#products"><span class="label">products <span class="blink"></span></span></a>
+  </div>
+  <div class="cell" style="justify-content:space-between">
+    <span class="label op-5">github</span>
+    <a href="https://github.com/yuluyangguang1" target="_blank" rel="noopener" aria-label="GitHub" style="opacity:.5;line-height:0;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12a10 10 0 0 0 6.839 9.49c.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.934.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48A10 10 0 0 0 22 12c0-5.523-4.477-10-10-10z"/></svg>
+    </a>
+  </div>
+  <div class="cell" style="justify-content:space-between">
+    <span class="label op-5">主题</span>
+    <button id="theme-btn" aria-label="切换主题" class="theme-toggle">
+      <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="row">
+  <div class="cell s6" style="border-right:none;padding:0">
+    <div class="hero">
+      <span class="label-xs op-7" style="letter-spacing:.15rem">yu.ai · for organizations</span>
+      <h1 class="display">主权 AI</h1>
+      <p class="sub">数据零外传 · 主机零残留 · 国产模型优先</p>
+      <p class="cn" style="margin-top:-8px">为对合规、隐私、可审计性有要求的组织而设计</p>
+
+      <div class="term" aria-hidden="true">
+        <div class="term-h">
+          <span class="td-dot"></span><span class="td-dot"></span><span class="td-dot"></span>
+          <span class="term-label">sovereign · audit</span>
+        </div>
+        <div class="term-b"><span class="p">$ openclaw audit</span>
+<span class="t">  ✓ 数据写入路径   仅 ./data/*</span>
+<span class="t">  ✓ 网络出站       仅 api.deepseek.com / api.moonshot.cn</span>
+<span class="t">  ✓ 注册表 / 系统目录 未触碰</span>
+<span class="t">  ✓ 主机进程残留   0</span>
+<span class="t">  ✓ 模型供应商     国产 15 + 国际 8 (可关闭后者)</span><span class="blink"></span></div>
+      </div>
+
+      <div class="hero-cta">
+        <a class="cta-primary" href="#询价">企业询价 →</a>
+        <a href="#应用场景">应用场景 →</a>
+        <a href="https://github.com/yuluyangguang1/openclaw-portable" target="_blank" rel="noopener">开源版下载 →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 三个承诺 -->
+<div class="row" id="承诺">
+  <div class="cell s6"><span class="label" style="font-weight:700">三个承诺</span></div>
+</div>
+<div class="row">
+  <div class="cell s6" style="padding:0">
+    <div class="tg">
+      <div>
+        <span class="tn">01</span>
+        <span class="th">数据零外传</span>
+        <span class="td">所有对话历史、API Key、记忆库、技能配置只写到 U 盘的 <code style="font-family:var(--mono);font-size:.85em">./data/</code> 目录。除你显式选择的模型 API 调用外，没有任何对外网络请求。配套审计工具 <code style="font-family:var(--mono);font-size:.85em">openclaw audit</code> 一键导出网络出站清单。</span>
+      </div>
+      <div>
+        <span class="tn">02</span>
+        <span class="th">主机零残留</span>
+        <span class="td">不写入 Windows 注册表、不创建 macOS LaunchAgent、不污染 PATH。拔下 U 盘，主机回到使用前状态，毫无痕迹。员工借用同事电脑、出差用酒店机器、敏感场景用一次性主机，全部安全。</span>
+      </div>
+      <div>
+        <span class="tn">03</span>
+        <span class="th">国产模型优先</span>
+        <span class="td">默认推荐 DeepSeek、智谱 GLM、通义千问、Kimi 等国产 SOTA 模型，全部使用 OpenAI 兼容协议。可一键关闭所有海外厂商，让 AI 对话只走境内 API。配套主权部署版可对接私有化大模型 (vLLM / 火山方舟私有部署 / 阿里百炼专属)。</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 应用场景 -->
+<div class="row" id="应用场景">
+  <div class="cell s6"><span class="label" style="font-weight:700">应用场景</span></div>
+</div>
+<div class="row">
+  <div class="cell s6" style="padding:0">
+    <div class="sc">
+      <div>
+        <div class="sn">企业 / 制造业</div>
+        <div class="sh">员工本地 AI 助手</div>
+        <div class="sd">市场部、设计部、研发部都想用 AI，但合规怕泄密。员工人手一个 U 盘，预装 OpenClaw + 已签内部审批的模型 Key，本地处理所有商业文档。IT 部门审计：导出每个 U 盘的网络出站日志即可。</div>
+      </div>
+      <div>
+        <div class="sn">高校 / 实验室</div>
+        <div class="sh">学生统一 AI 工具包</div>
+        <div class="sd">每位学生新生入学发一个 U 盘，预装 Hermes + 智谱 GLM 学术免费版 Key，开学第一天双击即用。论文查重、外文翻译、代码辅助、ppt 起草，无需任何额外配置。学校付费模式：每年一次硬件更换 + key 续费。</div>
+      </div>
+      <div>
+        <div class="sn">政务 / 公务系统</div>
+        <div class="sh">敏感数据本地处理</div>
+        <div class="sd">公文起草、政策研究、舆情分析、便民问答机器人。数据不出内网，模型 API 走政务专线对接的国产私有化大模型。开源代码可审计，可定制部署到内网任意一台 Windows / 麒麟 / 银河 OS 终端。</div>
+      </div>
+      <div>
+        <div class="sn">医疗 / 医院</div>
+        <div class="sh">病例与文献本地分析</div>
+        <div class="sd">电子病历、影像报告、文献综述、患者沟通脚本。所有 PHI（受保护健康信息）只在医生工作站本地处理，不上传任何云端。可对接医院私有部署的医疗大模型，或使用经过等保三级认证的国产 API。</div>
+      </div>
+      <div>
+        <div class="sn">法律 / 律所</div>
+        <div class="sh">案件资料 AI 检索</div>
+        <div class="sd">合同审查、法条对比、判例检索、客户沟通模板。律师电脑插上 U 盘，所有客户资料只在本地分析，对接对应国产模型即可。律所可配置只允许特定模型供应商，实现律师执业保密义务的技术保障。</div>
+      </div>
+      <div>
+        <div class="sn">SaaS / 软件公司</div>
+        <div class="sh">开发者本地 AI 编程</div>
+        <div class="sd">替代 Cursor / Claude Code / Cline 的本地化方案，模型可换 DeepSeek-V4-Pro / Kimi K2.6 / GLM-4.7 等国产 coding 模型。代码不上传海外服务，源码安全合规。技能系统支持团队共享 prompt 模板，避免重复造轮子。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 技术规格 -->
+<div class="row" id="规格">
+  <div class="cell s6"><span class="label" style="font-weight:700">技术规格</span></div>
+</div>
+<div class="row">
+  <div class="cell s6" style="padding:0">
+    <table class="spec">
+      <tbody>
+        <tr><th>分发形态</th><td>USB 闪存盘（推荐 64GB+） / 加密 U 盘（教育版） / 硬件加密盘（政务版） / 离线安装包 (zip)</td></tr>
+        <tr><th>支持系统</th><td>Windows 10/11、macOS 10.15+、Linux x64/arm64（含麒麟、统信 UOS、银河等国产系统）</td></tr>
+        <tr><th>预装运行时</th><td>Node.js 22 / Python 3.12，全部捆绑在便携包内，不依赖主机环境</td></tr>
+        <tr><th>支持模型</th><td>32 个云 provider（含 15 家国产）+ 本地 vLLM / Ollama / LM Studio / llama.cpp / 私有化部署</td></tr>
+        <tr><th>聊天渠道</th><td>Telegram / 飞书 / 企业微信 / QQ / Discord / Slack / 钉钉 / WhatsApp / Signal / LINE / Google Chat / MS Teams</td></tr>
+        <tr><th>审计能力</th><td>对话日志、API 调用日志、网络出站清单一键导出（JSON / CSV），可对接企业 SIEM</td></tr>
+        <tr><th>开源协议</th><td>MIT (核心代码开源 · GitHub 全部可见 · 可审可改可定制)</td></tr>
+        <tr><th>合规对齐</th><td>等保 2.0 三级技术要求 · 数据安全法 · 个人信息保护法 · GDPR (海外项目可定制)</td></tr>
+        <tr><th>交付物</th><td>U 盘 / 离线包 + 部署文档 + 培训视频 + 1 年技术支持 + 季度安全更新推送</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 询价 -->
+<div class="row" id="询价">
+  <div class="cell s6"><span class="label" style="font-weight:700">企业询价</span></div>
+</div>
+<div class="row">
+  <div class="cell s6" style="padding:0">
+    <div style="padding:24px 24px 8px">
+      <p style="font-size:.95rem;line-height:1.7;opacity:.7;margin-bottom:16px">告诉我们规模和场景，48 小时内给出报价方案。教育 / 公益项目享 50% 折扣，开源贡献者免费。</p>
+    </div>
+    <!-- 静态站不支持 PHP，用 mailto 兜底 + 提示加微信 -->
+    <form class="contact-form" onsubmit="return submitContact(event)">
+      <div class="field">
+        <label for="org">组织名称</label>
+        <input id="org" name="org" type="text" placeholder="某某公司 / 某某大学" required>
+      </div>
+      <div class="field">
+        <label for="role">您的职务</label>
+        <input id="role" name="role" type="text" placeholder="IT 主管 / 采购 / 技术评估" required>
+      </div>
+      <div class="field">
+        <label for="industry">行业</label>
+        <select id="industry" name="industry" required>
+          <option value="">请选择</option>
+          <option>制造业</option>
+          <option>金融 / 保险</option>
+          <option>教育 / 高校</option>
+          <option>政务 / 公共部门</option>
+          <option>医疗 / 医院</option>
+          <option>法律 / 律所</option>
+          <option>互联网 / SaaS</option>
+          <option>其他</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="size">规模 (设备数)</label>
+        <select id="size" name="size" required>
+          <option value="">请选择</option>
+          <option>10 以下 (试点)</option>
+          <option>10–50</option>
+          <option>50–200</option>
+          <option>200–1000</option>
+          <option>1000 以上</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="email">联系邮箱</label>
+        <input id="email" name="email" type="email" placeholder="you@org.cn" required>
+      </div>
+      <div class="field">
+        <label for="phone">联系电话 (选填)</label>
+        <input id="phone" name="phone" type="tel" placeholder="13800138000">
+      </div>
+      <div class="field full">
+        <label for="needs">具体需求 / 想了解的问题</label>
+        <textarea id="needs" name="needs" placeholder="例如：我们想给 30 个研发同事配 U 盘版 AI，模型只能用国产，要求审计日志能对接 Splunk..." required></textarea>
+      </div>
+      <div class="field full submit">
+        <button type="submit">提交询价 → 7@7.com</button>
+      </div>
+    </form>
+    <p style="padding:12px 24px 24px;font-size:.78rem;opacity:.5">表单提交即生成一封发往 <a href="mailto:7@7.com" style="color:var(--accent)">7@7.com</a> 的邮件。如未自动打开邮件客户端，请直接发邮件，主题写 "[企业询价] 公司名 / 规模"，我们会在工作日 24 小时内回复。</p>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer" style="margin-top:40px">
+  <div class="c"><span class="label op-7">yu.ai</span></div>
+  <div class="c"><a class="label" href="https://yuai-r.cn/" style="opacity:.7">home ↗</a></div>
+  <div class="c"><a class="label" href="https://yuai-r.cn/openclaw/" style="opacity:.7">openclaw ↗</a></div>
+  <div class="c"><a class="label" href="https://yuai-r.cn/hermes/" style="opacity:.7">hermes ↗</a></div>
+  <div class="c"><span class="label op-5" id="footer-year">mit</span></div>
+</footer>
+
+</div><!-- /.page -->
+
+<script>
+(function(){
+  // Theme toggle (shared with main site)
+  function lsGet(k){try{return localStorage.getItem(k);}catch(_){return null;}}
+  function lsSet(k,v){try{localStorage.setItem(k,v);}catch(_){}}
+  var btn=document.getElementById('theme-btn');
+  if(btn){
+    var html=document.documentElement;
+    var sun=btn.querySelector('.theme-sun');
+    var moon=btn.querySelector('.theme-moon');
+    function syncIcons(L){sun.style.display=L?'none':'block';moon.style.display=L?'block':'none';}
+    var saved=lsGet('yuai-theme');
+    if(saved==='light'){html.setAttribute('data-theme','light');syncIcons(true);}
+    else if(saved==='dark'){html.setAttribute('data-theme','dark');syncIcons(false);}
+    else{var mql=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)');syncIcons(mql&&mql.matches);}
+    btn.onclick=function(){
+      var L=html.getAttribute('data-theme')!=='light';
+      if(!html.getAttribute('data-theme')){var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches;L=!sys;}
+      html.setAttribute('data-theme',L?'light':'dark');lsSet('yuai-theme',L?'light':'dark');syncIcons(L);
+    };
+  }
+  var fy=document.getElementById('footer-year');
+  if(fy)fy.textContent='mit · '+new Date().getFullYear();
+})();
+
+// Form handler — static site fallback: build a mailto: with all fields
+// pre-filled. Works without any backend; users can still copy/paste
+// elsewhere if they don't have a default mail client.
+function submitContact(ev){
+  ev.preventDefault();
+  var f=ev.target;
+  var d=new FormData(f);
+  var subject='[企业询价] '+(d.get('org')||'')+' / '+(d.get('size')||'');
+  var body=
+    '组织: '+(d.get('org')||'')+'\n'+
+    '职务: '+(d.get('role')||'')+'\n'+
+    '行业: '+(d.get('industry')||'')+'\n'+
+    '规模: '+(d.get('size')||'')+'\n'+
+    '邮箱: '+(d.get('email')||'')+'\n'+
+    '电话: '+(d.get('phone')||'')+'\n\n'+
+    '具体需求:\n'+(d.get('needs')||'');
+  var url='mailto:7@7.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  window.location.href=url;
+  return false;
+}
+</script>
+
+</body>
+</html>
