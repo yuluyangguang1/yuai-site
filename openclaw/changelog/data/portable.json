@@ -1,5 +1,45 @@
 [
   {
+    "tag_name": "v0.9.5",
+    "name": "v0.9.5",
+    "body": "## OpenClaw Portable v0.9.5\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.9.5/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\na01cc0d55c2d88fd37154114f0dfd44d17b37d15c8645f9bd1ffab92ffab4e6f  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* fix(p19): hero version display + setup re-run upgrades + kill safety by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/33\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.9.4...v0.9.5",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.9.5",
+    "published_at": "2026-05-19T01:25:43Z",
+    "created_at": "2026-05-19T01:19:57Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.9.4",
+    "name": "v0.9.4",
+    "body": "## OpenClaw Portable v0.9.4\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.9.4/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n543a54bc7a74311bd3e2871761fb56edc9ebd75cc6f9af74cd877e88813ae47b  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* fix(p18): OPENCLAW_VERSION changes now actually take effect by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/32\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.9.3...v0.9.4",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.9.4",
+    "published_at": "2026-05-19T00:54:32Z",
+    "created_at": "2026-05-19T00:49:04Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.9.3",
+    "name": "v0.9.3",
+    "body": "## OpenClaw Portable v0.9.3\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.9.3/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\nf493a787c64490da332dfd1241e402a528629aee3d63a8519098cd527caa9411  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* chore(p17): sync all version numbers to 0.9.2 by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/31\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.9.2...v0.9.3",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.9.3",
+    "published_at": "2026-05-19T00:35:05Z",
+    "created_at": "2026-05-19T00:29:02Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.9.2",
+    "name": "v0.9.2",
+    "body": "## OpenClaw Portable v0.9.2\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v0.9.2/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\na7f5e4324c27acb597631847c97f6926f639193524c88434c9a9b882e5adee51  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* fix(p16): local model scan false positive by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/30\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.9.1...v0.9.2",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v0.9.2",
+    "published_at": "2026-05-19T00:21:25Z",
+    "created_at": "2026-05-19T00:16:10Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
     "tag_name": "v2026.5.18-beta.8",
     "name": "v2026.5.18-beta.8",
     "body": "## OpenClaw Portable v2026.5.18-beta.8\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2026.5.18-beta.8/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n4c70bf06a473367f430ddec4ac35cef0627c23b34971d793bdb77b35afc175ec  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* fix(p9+p10): path special chars + CSRF auth by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/22\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v0.8.10...v2026.5.18-beta.8",
