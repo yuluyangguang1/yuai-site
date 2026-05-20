@@ -390,10 +390,10 @@ table.spec tr:last-child th,table.spec tr:last-child td{border-bottom:none}
         <textarea id="needs" name="needs" placeholder="例如：我们想给 30 个研发同事配 U 盘版 AI，模型只能用国产，要求审计日志能对接 Splunk..." required></textarea>
       </div>
       <div class="field full submit">
-        <button type="submit">提交询价 → 7@7.com</button>
+        <button type="submit">提交询价 → zt.12.18@foxmail.com</button>
       </div>
     </form>
-    <p style="padding:12px 24px 24px;font-size:.78rem;opacity:.5">表单提交即生成一封发往 <a href="mailto:7@7.com" style="color:var(--accent)">7@7.com</a> 的邮件。如未自动打开邮件客户端，请直接发邮件，主题写 "[企业询价] 公司名 / 规模"，我们会在工作日 24 小时内回复。</p>
+    <p style="padding:12px 24px 24px;font-size:.78rem;opacity:.5">表单提交即生成一封发往 <a href="mailto:zt.12.18@foxmail.com" style="color:var(--accent)">zt.12.18@foxmail.com</a> 的邮件。如未自动打开邮件客户端，请直接发邮件，主题写 "[企业询价] 公司名 / 规模"，我们会在工作日 24 小时内回复。</p>
   </div>
 </div>
 
@@ -449,7 +449,7 @@ function submitContact(ev){
     '邮箱: '+(d.get('email')||'')+'\n'+
     '电话: '+(d.get('phone')||'')+'\n\n'+
     '具体需求:\n'+(d.get('needs')||'');
-  var url='mailto:7@7.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  var url='mailto:zt.12.18@foxmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
   window.location.href=url;
   return false;
 }
