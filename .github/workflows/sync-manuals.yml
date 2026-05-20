@@ -1,20 +1,15 @@
-name: Sync subpage manuals
+name: Sync changelog data
 
-# Mirrors the canonical manual HTML files from openclaw-portable and
-# hermes-portable into /openclaw/ and /hermes/ on this site, so the
-# source-of-truth stays in each portable repo while users get a clean
-# subpage URL (yu.ai/openclaw, yu.ai/hermes) instead of an off-site
-# raw.githack mirror.
+# Syncs the changelog page and release-feed JSON from openclaw-updates.
+#
+# NOTE: openclaw/index.html and hermes/index.html are now maintained
+# directly in this repo (yuai-site). The portable repos only ship a
+# redirect page, so we no longer sync product pages from them.
 #
 # Triggers:
-#   - Every 30 minutes via cron (lazy default — the manuals don't
-#     change that often)
-#   - Manual workflow_dispatch (force sync from the Actions tab)
-#   - On push to main: ensures the workflow itself stays valid and
-#     gives an immediate sync after editing the workflow
-#
-# No secrets needed. Uses the default GITHUB_TOKEN to push back; uses
-# anonymous raw.githubusercontent.com fetches for public source repos.
+#   - Every 30 minutes via cron
+#   - Manual workflow_dispatch
+#   - On push to main (workflow file changes only)
 
 on:
   schedule:
@@ -39,49 +34,31 @@ jobs:
       - name: Checkout yuai-site
         uses: actions/checkout@v4
 
-      - name: Pull latest manuals
+      - name: Pull changelog + release feeds
         run: |
           set -euo pipefail
-          mkdir -p openclaw hermes openclaw/changelog openclaw/changelog/data
+          mkdir -p openclaw/changelog openclaw/changelog/data
 
-          # Source-of-truth URLs (URL-encoded Chinese filenames)
-          OC_URL="https://raw.githubusercontent.com/yuluyangguang1/openclaw-portable/main/OpenClawPortable%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html"
-          HM_URL="https://raw.githubusercontent.com/yuluyangguang1/hermes-portable/main/HermesPortable%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html"
+          # Changelog page (from openclaw-updates repo)
           CL_URL="https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/index.html"
-
-          curl -fsSL --retry 3 "$OC_URL" -o openclaw/index.html.new
-          curl -fsSL --retry 3 "$HM_URL" -o hermes/index.html.new
           curl -fsSL --retry 3 "$CL_URL" -o openclaw/changelog/index.html.new
 
-          # Mirror the release-feed JSON snapshots that the
-          # openclaw-updates repo's fetch-releases.yml workflow
-          # commits every 30 min. Same-origin = no rate-limit
-          # surprises for visitors. We treat 404s as soft
-          # failures (the snapshots may not exist yet on a
-          # brand-new install).
+          # Release-feed JSON snapshots
           for slug in portable standard; do
             url="https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/data/${slug}.json"
             curl -fsSL --retry 3 "$url" -o "openclaw/changelog/data/${slug}.json.new" || true
           done
 
-          # Inline tweaks each file needs to live well as a yu.ai
-          # subpage. Keep this list short — anything bigger should
-          # land in the portable repo itself.
-          for f in openclaw/index.html.new hermes/index.html.new openclaw/changelog/index.html.new; do
-            if [ ! -f "$f" ]; then continue; fi
-            # Use same-origin background asset instead of cross-origin yu.ai/
-            sed -i 's|src="https://yu.ai/egret-ink.jpg"|src="/egret-ink.jpg"|g' "$f"
-            # Defensive: rewrite any link to https://yu.ai/. That domain is
-            # served by an unrelated openresty host, not us. Visible
-            # "yu.ai" brand text stays; only hrefs flip to yuai-r.cn.
-            sed -i 's|https://yu\.ai/|https://yuai-r.cn/|g' "$f"
-            mv "$f" "${f%.new}"
-          done
+          # Inline tweaks for changelog page
+          if [ -f openclaw/changelog/index.html.new ]; then
+            sed -i 's|src="https://yu.ai/egret-ink.jpg"|src="/egret-ink.jpg"|g' openclaw/changelog/index.html.new
+            sed -i 's|https://yu\.ai/|https://yuai-r.cn/|g' openclaw/changelog/index.html.new
+            mv openclaw/changelog/index.html.new openclaw/changelog/index.html
+          fi
 
-          # JSON snapshots: just promote .new -> final, no transforms.
+          # JSON snapshots: promote .new -> final
           for f in openclaw/changelog/data/portable.json.new openclaw/changelog/data/standard.json.new; do
-            if [ ! -f "$f" ]; then continue; fi
-            mv "$f" "${f%.new}"
+            if [ -f "$f" ]; then mv "$f" "${f%.new}"; fi
           done
 
       - name: Commit if changed
@@ -89,17 +66,12 @@ jobs:
           set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # Stage first so brand-new files (data/*.json on the
-          # very first run) show up in the diff.
-          git add openclaw/index.html hermes/index.html openclaw/changelog/index.html openclaw/changelog/data/
+          git add openclaw/changelog/
           if git diff --cached --quiet; then
             echo "No changes."
             exit 0
           fi
-          git commit -m "sync: pull latest manuals + changelog + release feeds
+          git commit -m "sync: pull latest changelog + release feeds
 
-          source:
-            openclaw-portable@main / OpenClawPortable使用说明.html
-            hermes-portable@main / HermesPortable使用说明.html
-            openclaw-updates@main / index.html + data/*.json"
+          source: openclaw-updates@main / index.html + data/*.json"
           git push

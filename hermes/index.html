@@ -2,24 +2,963 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="2;url=https://yuai-r.cn/hermes/">
-<title>Hermes Portable 使用说明</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hermes portable</title>
+<meta name="description" content="成长型 AI 智能体 · 持久记忆 · 跨平台网关">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23041c1c'/%3E%3Cg fill='none' stroke='%23ffe6cb' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
 <style>
-body{font-family:system-ui,-apple-system,sans-serif;background:#041c1c;color:#ffe6cb;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center}
-a{color:#00ffc8}
-.box{max-width:400px;padding:32px}
-h2{font-size:1.4rem;margin-bottom:12px;font-weight:600}
-p{opacity:.7;line-height:1.6;margin:8px 0}
-.url{font-size:1.1rem;opacity:1}
-.hint{font-size:.85rem;opacity:.4;margin-top:2em}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;
+  --border:rgba(255,230,203,0.12);
+  --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
+  --mono:'Courier New','Menlo',monospace
+}
+[data-theme="light"]{--bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;--border:rgba(61,58,53,0.14)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;--border:rgba(61,58,53,0.14)}}
+
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.75;-webkit-font-smoothing:antialiased;font-size:15px}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
+.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+[data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
+[data-theme="light"] .bg-n{opacity:.015}
+[data-theme="light"] .bg-g{opacity:.06}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}:root:not([data-theme="dark"]) .bg-n{opacity:.015}:root:not([data-theme="dark"]) .bg-g{opacity:.06}}
+
+.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-sm{font-size:.75rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-xs{font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase}
+.title{font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1;letter-spacing:.0525rem}
+.display{font-family:var(--serif);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter}
+.sub{font-size:1.125rem;line-height:1.6;opacity:.6}
+.cn{font-family:var(--serif);font-size:.8125rem;letter-spacing:.25rem;line-height:1.8;opacity:.3}
+.op-5{opacity:.5}.op-6{opacity:.6}.op-7{opacity:.7}
+
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
+@media(prefers-reduced-motion:reduce){.blink{animation:none;opacity:1}}
+
+.theme-toggle{background:none;border:none;cursor:pointer;color:var(--mid);opacity:.5;padding:8px;line-height:0;transition:opacity .2s;display:flex;align-items:center;border-radius:4px}
+.theme-toggle:hover,.theme-toggle:focus-visible{opacity:1;outline:1px solid var(--border)}
+.theme-toggle svg{display:block}
+
+.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
+
+.row{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+.cell{padding:16px;border-right:1px solid var(--border);min-width:0;display:flex;align-items:center}
+.cell.s1{grid-column:span 1}.cell.s2{grid-column:span 2}.cell.s4{grid-column:span 4}.cell.s6{grid-column:1/-1}
+@media(min-width:1024px){.row.nav-row{grid-template-columns:1fr 2fr 1fr 1fr 1fr}}
+
+.nav-link{position:relative;display:flex;align-items:center;width:100%;height:100%;color:inherit;cursor:pointer;background:none;border:none;text-align:left;padding:16px;font:inherit;letter-spacing:inherit}
+.nav-link .blink{display:none}
+.nav-link:hover .blink,.nav-link:focus-visible .blink{display:inline-block}
+.nav-link:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
+.nav-link::before{content:"";position:absolute;inset:-12px;background:var(--mid);pointer-events:none;opacity:0;transition:opacity .25s;z-index:-1}
+.nav-link:hover::before{opacity:.05}
+
+.hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;padding:64px 20px 48px;width:100%}
+
+.term{width:100%;max-width:560px;border:4px double var(--border)}
+.term-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.td{width:10px;height:10px;border-radius:50%}
+.td:nth-child(1){background:var(--mid)}.td:nth-child(2){background:var(--mid);opacity:.6}.td:nth-child(3){background:var(--mid);opacity:.3}
+.term-label{margin-left:auto;font-family:var(--mono);font-size:.625rem;letter-spacing:.1875rem;opacity:.5}
+.term-b{font-family:var(--mono);font-size:.78rem;line-height:1.85;padding:18px 16px;white-space:pre-wrap;min-height:170px;word-break:break-word;text-align:left}
+.term-b .p{color:var(--accent)}
+.term-b .t{opacity:.6}
+
+.doc{padding:40px 32px 80px;max-width:880px;margin:0 auto;position:relative;z-index:200}
+.doc h1,.doc h2,.doc h3,.doc h4,.doc h5,.doc h6{font-family:var(--serif);font-weight:700;color:var(--mid);line-height:1.25;margin:48px 0 16px;letter-spacing:-.005em;mix-blend-mode:plus-lighter}
+.doc h1{font-size:2.4rem;margin-top:0;letter-spacing:.0525rem}
+.doc h2{font-size:1.7rem;margin-top:56px;padding-top:24px;border-top:1px solid var(--border)}
+.doc h3{font-size:1.25rem;margin-top:32px}
+.doc h4{font-size:1.05rem;margin-top:24px;color:var(--mid);opacity:.85}
+.doc p{margin:12px 0;color:var(--mid);opacity:.8;line-height:1.75}
+.doc strong{color:var(--mid);opacity:1;font-weight:600}
+.doc em{color:var(--mid);opacity:.85}
+.doc ul,.doc ol{margin:12px 0 12px 1.5em;color:var(--mid);opacity:.8}
+.doc li{margin:6px 0;line-height:1.7}
+.doc code{font-family:var(--mono);font-size:.88em;background:rgba(255,230,203,0.06);border:1px solid var(--border);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.doc pre{font-family:var(--mono);font-size:.82rem;line-height:1.6;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:16px 0;overflow-x:auto;color:var(--mid);opacity:.92}
+.doc pre code{background:none;border:none;padding:0;color:inherit;font-size:1em}
+.doc blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:rgba(0,255,200,0.04);color:var(--mid);opacity:.85}
+.doc table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+.doc th,.doc td{padding:10px 14px;border:1px solid var(--border);text-align:left;color:var(--mid)}
+.doc th{background:rgba(255,230,203,0.04);font-family:var(--serif);font-weight:600}
+.doc td{opacity:.85}
+.doc a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--border)}
+.doc a:hover{border-bottom-color:var(--accent)}
+.doc hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+.doc img{max-width:100%;height:auto;border:1px solid var(--border);border-radius:4px}
+[data-theme="light"] .doc code{background:rgba(61,58,53,0.06);color:var(--accent)}
+[data-theme="light"] .doc pre{background:rgba(255,255,255,0.5)}
+[data-theme="light"] .doc th{background:rgba(61,58,53,0.04)}
+
+/* Legacy class compatibility — preserves visual hierarchy from original docs */
+.doc .section{margin:0 0 32px 0}
+.doc .section-header{display:flex;align-items:center;gap:14px;margin:48px 0 12px;padding-top:24px;border-top:1px solid var(--border)}
+.doc .section-header:first-child{margin-top:0;border-top:none;padding-top:0}
+.doc .section-header h2{margin:0;padding:0;border:none}
+.doc .section-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1rem;color:var(--accent);border:1px solid var(--border);border-radius:4px;flex-shrink:0;line-height:1}
+.doc .subsection{margin:24px 0}
+.doc .callout{display:flex;gap:12px;align-items:flex-start;margin:16px 0;padding:14px 16px;border:1px solid var(--border);border-left:3px solid var(--accent);background:rgba(0,255,200,0.04)}
+.doc .callout-icon{font-family:var(--mono);font-size:1rem;opacity:.75;flex-shrink:0;line-height:1.5}
+.doc .callout-info{border-left-color:var(--accent)}
+.doc .callout-warn{border-left-color:#ffbd38;background:rgba(255,189,56,0.04)}
+.doc .callout-tip{border-left-color:var(--accent);background:rgba(0,255,200,0.04)}
+.doc .platform-grid,.doc .download-grid,.doc .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:16px 0}
+.doc .platform-card,.doc .dl-card,.doc .feat-card,.doc .card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:18px;border:1px solid var(--border);border-radius:4px;background:rgba(255,230,203,0.02);transition:border-color .2s}
+.doc .platform-card:hover,.doc .dl-card:hover,.doc .feat-card:hover,.doc .card:hover{border-color:var(--accent)}
+.doc .platform-card .icon,.doc .dl-icon{font-size:1.5rem;line-height:1}
+.doc .platform-card strong,.doc .dl-title{font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--mid);opacity:1}
+.doc .platform-card span,.doc .dl-text,.doc .dl-meta{font-size:.88rem;opacity:.7;line-height:1.5}
+.doc .dl-meta{font-family:var(--mono);font-size:.75rem;opacity:.5;letter-spacing:.05em}
+.doc .dl-arrow{margin-top:auto;color:var(--accent);font-family:var(--mono);font-size:.85rem;opacity:.7}
+.doc .platform-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin:16px 0 0;flex-wrap:wrap}
+.doc .platform-tab{padding:10px 18px;border:1px solid var(--border);border-bottom:none;font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;cursor:pointer;color:var(--mid);opacity:.5;background:transparent;transition:opacity .2s,background .2s}
+.doc .platform-tab:hover{opacity:.85}
+.doc .platform-tab.active{opacity:1;background:rgba(255,230,203,0.04);color:var(--accent)}
+.doc .platform-content{padding:18px 0;display:none}
+.doc .platform-content.active{display:block}
+.doc .steps{display:flex;flex-direction:column;gap:14px;margin:16px 0;counter-reset:step}
+.doc .step{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1px solid var(--border);border-radius:4px;background:rgba(255,230,203,0.02)}
+.doc .step-num{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--accent);min-width:1.6em;line-height:1;opacity:.85}
+.doc .step-content{flex:1;min-width:0}
+.doc .step-title{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin-bottom:4px;color:var(--mid);line-height:1.3}
+.doc .ports{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:14px 0}
+.doc .port{display:flex;justify-content:space-between;align-items:baseline;padding:10px 14px;border:1px solid var(--border);border-radius:4px;background:rgba(255,230,203,0.02)}
+.doc .port-num{font-family:var(--mono);font-weight:700;color:var(--accent)}
+.doc .tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.doc .tag{display:inline-block;padding:3px 9px;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;border:1px solid var(--border);border-radius:10px;color:var(--mid);opacity:.75}
+.doc .faq-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.doc .faq-item:last-child{border-bottom:none}
+.doc .faq-q{font-family:var(--serif);font-weight:600;color:var(--mid);margin-bottom:8px;cursor:pointer}
+.doc .faq-q::before{content:"Q · ";color:var(--accent);font-family:var(--mono);font-size:.85em;letter-spacing:.1em}
+.doc .faq-a{padding-left:1.5em;opacity:.75;line-height:1.7}
+.doc .faq-a::before{content:"A · ";color:var(--dim);font-family:var(--mono);font-size:.85em;letter-spacing:.1em;margin-left:-1.5em;margin-right:.4em}
+.doc .cmd{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border:1px solid var(--border);border-radius:3px;font-family:var(--mono);font-size:.85em;background:rgba(0,0,0,0.2);color:var(--accent)}
+.doc .ok{color:var(--accent)}
+.doc .warn{color:#ffbd38}
+.doc .comment{opacity:.5;font-style:italic}
+.doc .container{max-width:none}
+@media(max-width:640px){
+  .doc .section-header{gap:10px;margin-top:32px;padding-top:18px}
+  .doc .section-icon{width:26px;height:26px;font-size:.85rem}
+  .doc .platform-grid,.doc .download-grid,.doc .card-grid{grid-template-columns:1fr}
+  .doc .step{padding:12px}
+  .doc .step-num{font-size:1.25rem}
+}
+
+.footer{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border);border-bottom:1px solid var(--border)}
+.footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
+@media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
+
+@media(max-width:1023px){
+  .row,.row.nav-row{grid-template-columns:1fr;border-left:none}
+  .cell{border-right:none}
+  .footer{grid-template-columns:1fr;border-left:none}
+  .footer .c{border-right:none}
+  .doc{padding:32px 20px 60px}
+}
+@media(max-width:640px){
+  .display{font-size:2rem}.sub{font-size:.95rem}.hero{padding:40px 16px 32px}
+  .term-b{font-size:.7rem;padding:14px 12px}
+  .doc{padding:24px 16px 40px}
+  .doc h1{font-size:1.9rem}.doc h2{font-size:1.4rem}.doc h3{font-size:1.15rem}
+  .doc pre{font-size:.74rem;padding:12px 14px}
+  .doc table{font-size:.82rem}
+}
+
+.doc h2:target,.doc h3:target{border-left:3px solid var(--accent);padding-left:12px;transition:border-color .3s}
+.breadcrumb{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;opacity:.5;margin-bottom:24px}
+.breadcrumb a{color:var(--mid);border-bottom:none}
+.breadcrumb a:hover{color:var(--accent)}
 </style>
 </head>
 <body>
-<div class="box">
-<h2>Hermes Portable</h2>
-<p>正在跳转到在线文档...</p>
-<p class="url"><a href="https://yuai-r.cn/hermes/">yuai-r.cn/hermes</a></p>
-<p class="hint">如果没有自动跳转，请点击上方链接。<br>离线时请参考 README.md。</p>
+
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+
+<div class="page">
+
+<nav class="row nav-row" aria-label="Primary">
+  <div class="cell s1"><a href="https://yuai-r.cn/" class="title" style="text-decoration:none">yu.ai</a></div>
+  <div class="cell s2" style="padding:0">
+    <a class="nav-link" href="https://yuai-r.cn/"><span class="label">yu.ai <span class="blink"></span></span></a>
+  </div>
+  <div class="cell s1" style="padding:0">
+    <a class="nav-link" href="https://yuai-r.cn/#products"><span class="label">products <span class="blink"></span></span></a>
+  </div>
+  <div class="cell" style="justify-content:space-between">
+    
+  </div>
+  <div class="cell" style="justify-content:space-between">
+    <span class="label op-5">theme</span>
+    <button id="theme-btn" aria-label="切换主题" class="theme-toggle"><svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+  </div>
+</nav>
+
+<div class="row">
+  <div class="cell s6" style="border-right:none;padding:0">
+    <div class="hero">
+      <span class="label-xs op-7" style="letter-spacing:.15rem">hermes portable · manual</span>
+      <h1 class="display">hermes portable</h1>
+      <p class="sub">成长型 AI 智能体 · 持久记忆 · 跨平台网关</p>
+      <div class="term" aria-hidden="true">
+        <div class="term-h">
+          <span class="td"></span><span class="td"></span><span class="td"></span>
+          <span class="term-label">hermes</span>
+        </div>
+        <div class="term-b"><span class="p">$ ./hermes serve</span>
+<span class="t">  🪶 hermes portable v0.13.20</span>
+<span class="t">  ✓ memory loaded · 1284 entries</span>
+<span class="t">  ✓ skills · 24 active</span><span class="blink"></span></div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<main class="doc">
+<!-- 1 -->
+<div class="section" id="about">
+  <div class="section-header">
+    <div class="section-icon">&#x1F4E6;</div>
+    <h2>它是什么</h2>
+  </div>
+  <p><strong>HermesPortable</strong> 是 <a href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener">Hermes Agent</a>（Nous Research 出品）的"开箱即用"版本。</p>
+  <p>它把 AI 助手、Python 运行时、依赖库，和一个图形化配置页面全部打包在一个文件夹里。<strong>你什么都不用装</strong>，下载、解压、双击，就能在 macOS、Linux、Windows 上直接运行。</p>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">&#x2728;</span>
+    <div><strong>为什么叫"便携版"？</strong>解压到 U 盘，插到任何机器上都能直接用。关闭之后所有数据留在 U 盘里，宿主机不留一个字节。</div>
+  </div>
+
+  <h3>能做什么</h3>
+  <table>
+    <thead><tr><th>功能</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>智能对话</td><td>多行输入、流式回复、斜杠命令</td></tr>
+      <tr><td>接入聊天软件</td><td>Telegram / Discord / Slack / WhatsApp / Signal / 邮件</td></tr>
+      <tr><td>持久记忆</td><td>自动记录关键信息，跨会话保留上下文</td></tr>
+      <tr><td>内置工具</td><td>40+ 工具：网页浏览、搜索、文件操作、语音、定时任务…</td></tr>
+      <tr><td>模型供应商</td><td>支持 15+ 家（OpenRouter、Anthropic、OpenAI、Google、DeepSeek 等）</td></tr>
+      <tr><td>子代理</td><td>分身协作、并行处理任务</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 2 -->
+<div class="section" id="download">
+  <div class="section-header">
+    <div class="section-icon">&#x2B07;</div>
+    <h2>下载与解压</h2>
+  </div>
+
+  <p>根据你的系统选择对应的压缩包。只下一个就够了。</p>
+
+  <div class="download-grid">
+    
+    
+    
+    
+  </div>
+
+  <p style="font-size:13px;color:var(--dim);">所有版本始终下载最新发布 &middot; </p>
+
+  <h3>解压</h3>
+  <p>把下载的 zip 文件解压到一个<strong>方便访问</strong>的位置。推荐的位置：</p>
+  <table>
+    <thead><tr><th>系统</th><th>推荐位置</th></tr></thead>
+    <tbody>
+      <tr><td>Windows</td><td>U 盘根目录，或 <code>D:\HermesPortable</code></td></tr>
+      <tr><td>macOS</td><td>"应用程序" 文件夹，或桌面</td></tr>
+      <tr><td>Linux</td><td>用户主目录 <code>~/HermesPortable</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">&#x26A0;</span>
+    <div>
+      <strong>Windows 用户请注意：</strong>
+      <ul style="margin:6px 0 0 16px;font-size:14px;">
+        <li>不要放在路径太深的目录（Windows 有 260 字符路径限制）</li>
+        <li>不要放在中文路径里（比如 <code>桌面</code> 在系统内部是中文路径）—— 优先放到 <code>C:\HermesPortable</code> 或 U 盘根目录</li>
+        <li>不要放在 OneDrive / 坚果云 / iCloud Drive 等同步盘里（同步会破坏文件结构）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">&#x1F4A1;</span>
+    <div><strong>Universal 是什么？</strong>三合一包把三个系统的运行环境全部塞进一个 zip。适合想把 U 盘插到不同机器（一会 Mac、一会 Windows）共用的场景。如果你只在一台机器上用，下单平台版就够了，省空间。</div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="section" id="run">
+  <div class="section-header">
+    <div class="section-icon">&#x1F680;</div>
+    <h2>首次启动（三步上手）</h2>
+  </div>
+
+  <p>解压完成后，找到对应平台的启动器，<strong>双击它</strong>。你不需要打开终端、不需要输任何命令。</p>
+
+  <div class="platform-grid">
+    <div class="platform-card">
+      <div class="icon">&#x1F5A5;</div>
+      <strong>Windows</strong>
+      <span>双击 <code>Hermes.bat</code></span>
+    </div>
+    <div class="platform-card">
+      <div class="icon">&#x1F34E;</div>
+      <strong>macOS</strong>
+      <span>双击 <code>Hermes.command</code></span>
+    </div>
+    <div class="platform-card">
+      <div class="icon">&#x1F427;</div>
+      <strong>Linux</strong>
+      <span>双击 <code>Hermes.sh</code> 或在终端运行</span>
+    </div>
+  </div>
+
+  <h3>接下来会发生什么</h3>
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span>
+      <span class="step-content">
+        <strong>启动器弹出一个黑色窗口</strong>，开始做一次性准备工作（大约 10 秒）。这期间请不要关闭它。
+      </span>
+    </div>
+    <div class="step"><span class="step-num">2</span>
+      <span class="step-content">
+        <strong>浏览器自动打开一个配置页面</strong>（地址 <code>http://127.0.0.1:17520</code>）。在这里你需要填入一个"API 钥匙"（API Key）—— 它是 Hermes 跟 AI 模型对话的通行证。
+        <div style="margin-top:8px;font-size:13px;color:var(--dim);">
+          不知道从哪里拿 API Key？直接跳到下面的 <a href="#free">免费模型配置</a>，里面有免费方案。最推荐用 <strong>OpenRouter</strong>，注册即可获取免费 Key。
+        </div>
+      </span>
+    </div>
+    <div class="step"><span class="step-num">3</span>
+      <span class="step-content">
+        在配置页面填好 Key 之后，点 <strong>"Save &amp; Start"</strong>（保存并启动）按钮。几秒后，对话窗口就在黑色终端里启动了，开始聊天吧。
+      </span>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">&#x1F310;</span>
+    <div>
+      <strong>程序会占用的端口：</strong>
+      <div class="ports">
+        <span class="port">配置页面 <span class="port-num">17520</span></span>
+        <span class="port">对话查看 <span class="port-num">17521</span></span>
+        <span class="port">Web UI <span class="port-num">8648</span></span>
+        <span class="port">消息网关 <span class="port-num">8642</span></span>
+      </div>
+      只在本机监听（<code>127.0.0.1</code>），外部访问不到。
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">&#x1F510;</span>
+    <div><strong>零痕迹保证：</strong>启动器会在便携包目录里创建一个 <code>_home/</code> 沙箱，所有读写都在 U 盘里进行，宿主机的"我的文档"、配置文件夹完全不会被碰。拔掉 U 盘，什么都带走、什么都没留下。</div>
+  </div>
+
+  <h3>以后再次启动</h3>
+  <p>下次用的时候，<strong>直接双击同一个启动器就行</strong>。Hermes 会读取上次保存的配置，跳过浏览器配置页面，直接进入对话。</p>
+</div>
+
+<!-- 4 -->
+<div class="section" id="commands">
+  <div class="section-header">
+    <div class="section-icon">&#x1F4CB;</div>
+    <h2>常用命令</h2>
+  </div>
+
+  <p>进入对话之后，你可以在任何时候按 <code>Ctrl+C</code> 退出，然后在同一个终端里输入以下命令。</p>
+
+  <table>
+    <thead><tr><th>命令</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>hermes</code></td><td>启动交互式对话</td></tr>
+      <tr><td><code>hermes -q "问题"</code></td><td>单次提问，回答完就退出</td></tr>
+      <tr><td><code>hermes model</code></td><td>切换使用的 AI 模型</td></tr>
+      <tr><td><code>hermes setup</code></td><td>重新进入配置向导</td></tr>
+      <tr><td><code>hermes gateway</code></td><td>管理消息网关（Telegram 等）</td></tr>
+      <tr><td><code>hermes config</code></td><td>查看、修改配置</td></tr>
+      <tr><td><code>hermes status</code></td><td>查看所有组件的运行状态</td></tr>
+      <tr><td><code>hermes doctor</code></td><td>自动诊断问题</td></tr>
+      <tr><td><code>hermes cron</code></td><td>管理定时任务</td></tr>
+      <tr><td><code>hermes skills</code></td><td>管理技能（Skills）</td></tr>
+      <tr><td><code>hermes sessions</code></td><td>管理历史会话</td></tr>
+      <tr><td><code>hermes memory</code></td><td>管理持久记忆</td></tr>
+      <tr><td><code>hermes auth</code></td><td>管理各家 API Key</td></tr>
+      <tr><td><code>hermes backup</code></td><td>备份 / 恢复数据</td></tr>
+      <tr><td><code>hermes logs</code></td><td>查看日志</td></tr>
+      <tr><td><code>hermes dashboard</code></td><td>打开 Web 仪表盘</td></tr>
+      <tr><td><code>hermes version</code></td><td>显示版本号</td></tr>
+      <tr><td><code>hermes update</code></td><td>更新 hermes-agent 到最新</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 5 -->
+<div class="section" id="chat">
+  <div class="section-header">
+    <div class="section-icon">&#x1F4AC;</div>
+    <h2>对话与交互</h2>
+  </div>
+
+  <h3>启动对话</h3>
+  <pre><code><span class="cmd">hermes</span>                          <span class="comment"># 进入对话窗口</span>
+<span class="cmd">hermes -q "帮我写一个冒泡排序"</span>    <span class="comment"># 单次问答</span>
+<span class="cmd">hermes --toolsets web,terminal</span>  <span class="comment"># 只启用指定工具</span></code></pre>
+
+  <h3>对话窗口里的"斜杠命令"</h3>
+  <p>在对话里以 <code>/</code> 开头的就是斜杠命令，不会发给 AI 而是交给 Hermes 自己处理。</p>
+  <table>
+    <thead><tr><th>命令</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>/new</code> <code>/reset</code></td><td>清空上下文，开一个新对话</td></tr>
+      <tr><td><code>/model [供应商:模型]</code></td><td>切换 AI 模型</td></tr>
+      <tr><td><code>/personality [名字]</code></td><td>切换 AI 的"人格"（见下）</td></tr>
+      <tr><td><code>/retry</code></td><td>重新生成上一轮回复</td></tr>
+      <tr><td><code>/undo</code></td><td>撤销上一轮</td></tr>
+      <tr><td><code>/compress</code></td><td>压缩上下文（当对话太长时）</td></tr>
+      <tr><td><code>/usage</code></td><td>查看 Token 用量</td></tr>
+      <tr><td><code>/insights [--days N]</code></td><td>查看过去几天的使用统计</td></tr>
+      <tr><td><code>/skills</code></td><td>查看已安装的技能</td></tr>
+      <tr><td><code>/stop</code></td><td>打断 AI 当前正在做的事</td></tr>
+      <tr><td><code>/sethome</code></td><td>设置 Hermes 的工作目录</td></tr>
+    </tbody>
+  </table>
+
+  <h3>AI 的"人格"</h3>
+  <p>通过 <code>/personality</code> 切换 AI 的说话风格。比如 <code>/personality pirate</code> 让它变成海盗口吻。</p>
+  <div class="tags">
+    <span class="tag">helpful · 友善</span>
+    <span class="tag">concise · 简洁</span>
+    <span class="tag">technical · 技术</span>
+    <span class="tag">creative · 创意</span>
+    <span class="tag">teacher · 老师</span>
+    <span class="tag">pirate · 海盗</span>
+    <span class="tag">shakespeare · 莎士比亚</span>
+    <span class="tag">surfer · 冲浪客</span>
+    <span class="tag">noir · 黑色侦探</span>
+    <span class="tag">philosopher · 哲学家</span>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="section" id="config">
+  <div class="section-header">
+    <div class="section-icon">&#x2699;</div>
+    <h2>配置管理</h2>
+  </div>
+
+  <h3>最常用的办法：Web 配置中心</h3>
+  <p>启动 Hermes 后，配置中心会一直在后台运行（端口 <code>17520</code>），打开 <a href="http://127.0.0.1:17520" target="_blank" rel="noopener">http://127.0.0.1:17520</a> 即可：</p>
+
+  <div class="card-grid">
+    <div class="feat-card">
+      <h4>顶部状态栏</h4>
+      <p>实时显示 Hermes 进程运行状态（绿点 + PID），Web UI 快捷入口</p>
+    </div>
+    <div class="feat-card">
+      <h4>三个标签页</h4>
+      <p>模型 / 渠道 / 设置，分别管理 AI 提供商、消息平台、运行偏好</p>
+    </div>
+    <div class="feat-card">
+      <h4>测试连接</h4>
+      <p>填完 API Key 一键测试是否有效，列出可用模型数</p>
+    </div>
+    <div class="feat-card">
+      <h4>导出/导入配置</h4>
+      <p>一键备份 hermes-config.json，迁移到其他设备</p>
+    </div>
+    <div class="feat-card">
+      <h4>查看 .env</h4>
+      <p>新窗口显示当前环境变量（API Key 自动脱敏）</p>
+    </div>
+    <div class="feat-card">
+      <h4>重置配置</h4>
+      <p>清空 .env 和 config.yaml（自动备份到 data/backups/）</p>
+    </div>
+    <div class="feat-card">
+      <h4>运行日志</h4>
+      <p>设置页底部展示最近 200 行 Hermes 日志</p>
+    </div>
+    <div class="feat-card">
+      <h4>检查更新</h4>
+      <p>git 用户走 hermes-agent 升级；release zip 用户走 portable 整包更新</p>
+    </div>
+    <div class="feat-card">
+      <h4>重启 Hermes</h4>
+      <p>运行中显示重启按钮，无需关闭终端</p>
+    </div>
+    <div class="feat-card">
+      <h4>断连检测</h4>
+      <p>后端进程退出时全屏提示，避免误操作</p>
+    </div>
+  </div>
+
+  <h3>命令行修改</h3>
+  <table>
+    <thead><tr><th>命令</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>hermes config show</code></td><td>显示当前配置</td></tr>
+      <tr><td><code>hermes config edit</code></td><td>用默认编辑器打开配置文件</td></tr>
+      <tr><td><code>hermes config set 键 值</code></td><td>设置单个配置项</td></tr>
+      <tr><td><code>hermes config path</code></td><td>显示配置文件的位置</td></tr>
+      <tr><td><code>hermes config check</code></td><td>检查配置是否有误</td></tr>
+    </tbody>
+  </table>
+
+  <h3>API Key 管理</h3>
+  <table>
+    <thead><tr><th>命令</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>hermes auth add</code></td><td>添加新的 API Key</td></tr>
+      <tr><td><code>hermes auth list</code></td><td>列出已保存的 Key</td></tr>
+      <tr><td><code>hermes auth remove</code></td><td>删除某个 Key</td></tr>
+      <tr><td><code>hermes auth status</code></td><td>查看 Key 是否有效</td></tr>
+    </tbody>
+  </table>
+
+  <h3>关键文件</h3>
+  <table>
+    <thead><tr><th>文件</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>data/.env</code></td><td>API Key 存放位置（必须配置）</td></tr>
+      <tr><td><code>data/config.yaml</code></td><td>主配置文件</td></tr>
+    </tbody>
+  </table>
+
+  <h3>支持的 AI 供应商</h3>
+  <div class="tags">
+    <span class="tag">OpenRouter</span><span class="tag">Anthropic</span><span class="tag">OpenAI</span>
+    <span class="tag">Google</span><span class="tag">DeepSeek</span><span class="tag">小米 MiMo</span>
+    <span class="tag">Nous Portal</span><span class="tag">Kimi</span><span class="tag">MiniMax</span>
+    <span class="tag">Hugging Face</span><span class="tag">NVIDIA NIM</span><span class="tag">Arcee AI</span>
+  </div>
+
+  <pre><code><span class="comment"># 交互式切换模型（推荐）</span>
+<span class="cmd">hermes model</span>
+
+<span class="comment"># 命令行直接指定</span>
+<span class="cmd">hermes config set model.default "anthropic/claude-opus-4.6"</span></code></pre>
+</div>
+
+<!-- 7 -->
+<div class="section" id="gateway">
+  <div class="section-header">
+    <div class="section-icon">&#x1F517;</div>
+    <h2>消息网关</h2>
+  </div>
+  <p>让 Hermes 在 Telegram、Discord、Slack、WhatsApp、Signal、邮件里当你的 AI 机器人。朋友发消息给这些平台上的 bot，Hermes 会自动回。</p>
+
+  <table>
+    <thead><tr><th>命令</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>hermes gateway setup</code></td><td>图形化配置消息平台</td></tr>
+      <tr><td><code>hermes gateway start</code></td><td>启动网关</td></tr>
+      <tr><td><code>hermes gateway stop</code></td><td>停止网关</td></tr>
+      <tr><td><code>hermes gateway restart</code></td><td>重启网关</td></tr>
+      <tr><td><code>hermes gateway status</code></td><td>查看是否在运行</td></tr>
+      <tr><td><code>hermes gateway install</code></td><td>安装为系统后台服务（开机自启）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">&#x1F511;</span>
+    <div>你需要把各平台的 Bot Token 填到 <code>data/.env</code>，例如：<code>TELEGRAM_BOT_TOKEN</code>、<code>DISCORD_BOT_TOKEN</code>、<code>SLACK_BOT_TOKEN</code>。<code>hermes gateway setup</code> 会引导你一步步来。</div>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="section" id="cron">
+  <div class="section-header">
+    <div class="section-icon">&#x23F0;</div>
+    <h2>定时任务</h2>
+  </div>
+  <p>让 Hermes 每天早上 8 点读新闻摘要给你、每周一汇总一周工作，就用这里的命令。</p>
+
+  <table>
+    <thead><tr><th>命令</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>hermes cron create</code></td><td>创建一个定时任务</td></tr>
+      <tr><td><code>hermes cron list</code></td><td>列出所有任务</td></tr>
+      <tr><td><code>hermes cron edit</code></td><td>编辑任务</td></tr>
+      <tr><td><code>hermes cron pause</code></td><td>暂停任务</td></tr>
+      <tr><td><code>hermes cron resume</code></td><td>恢复任务</td></tr>
+      <tr><td><code>hermes cron run</code></td><td>立即跑一次</td></tr>
+      <tr><td><code>hermes cron remove</code></td><td>删除任务</td></tr>
+      <tr><td><code>hermes cron status</code></td><td>查看调度器状态</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 9 -->
+<div class="section" id="skills">
+  <div class="section-header">
+    <div class="section-icon">&#x1F9E0;</div>
+    <h2>技能管理</h2>
+  </div>
+  <p>技能（Skills）是打包好的"做某件事的流程"。比如"整理我的邮箱"、"生成周报"。你可以从社区安装，也可以让 Hermes 从经验中自动创建。</p>
+
+  <table>
+    <thead><tr><th>命令</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>hermes skills browse</code></td><td>浏览可用技能</td></tr>
+      <tr><td><code>hermes skills search</code></td><td>搜索技能</td></tr>
+      <tr><td><code>hermes skills install</code></td><td>安装技能</td></tr>
+      <tr><td><code>hermes skills list</code></td><td>列出已安装</td></tr>
+      <tr><td><code>hermes skills inspect</code></td><td>查看技能详情</td></tr>
+      <tr><td><code>hermes skills update</code></td><td>更新技能</td></tr>
+      <tr><td><code>hermes skills uninstall</code></td><td>卸载技能</td></tr>
+      <tr><td><code>hermes skills publish</code></td><td>把自制技能发布到社区</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 10 -->
+<div class="section" id="session">
+  <div class="section-header">
+    <div class="section-icon">&#x1F4C2;</div>
+    <h2>会话管理</h2>
+  </div>
+  <p>Hermes 会自动保存每次对话。下面的命令让你管理这些历史记录。</p>
+
+  <table>
+    <thead><tr><th>命令</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>hermes sessions list</code></td><td>列出所有历史会话</td></tr>
+      <tr><td><code>hermes sessions export</code></td><td>导出会话到文件</td></tr>
+      <tr><td><code>hermes sessions delete</code></td><td>删除某个会话</td></tr>
+      <tr><td><code>hermes sessions prune</code></td><td>清理旧会话</td></tr>
+      <tr><td><code>hermes sessions stats</code></td><td>查看统计</td></tr>
+      <tr><td><code>hermes sessions rename</code></td><td>重命名会话</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">&#x1F441;</span>
+    <div>想查看对话的可视化版本？启动 Hermes 后打开 <code>http://127.0.0.1:17521</code>，这是个专门的对话浏览器。</div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section" id="update">
+  <div class="section-header">
+    <div class="section-icon">&#x1F504;</div>
+    <h2>更新与备份</h2>
+  </div>
+
+  <h3>更新到新版本（推荐：下载新 zip）</h3>
+  <p>有新版本发布时，最简单的方法就是：</p>
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span><span class="step-content">从下载新 zip</span></div>
+    <div class="step"><span class="step-num">2</span><span class="step-content"><strong>先把旧的 <code>data/</code> 文件夹复制出来备份</strong>（这里面有你的配置、API Key、对话历史、技能等所有个人数据）</span></div>
+    <div class="step"><span class="step-num">3</span><span class="step-content">删掉旧文件夹，解压新 zip</span></div>
+    <div class="step"><span class="step-num">4</span><span class="step-content">把备份的 <code>data/</code> 文件夹复制回新文件夹，<strong>覆盖</strong>新 zip 里的 <code>data/</code></span></div>
+    <div class="step"><span class="step-num">5</span><span class="step-content">双击启动器，一切照旧</span></div>
+  </div>
+
+  <h3>只更新内部 AI 引擎</h3>
+  <p>如果只是想把核心引擎 <code>hermes-agent</code> 升级到最新，而不换整个便携包，可以用：</p>
+  <pre><code><span class="cmd">hermes update</span></code></pre>
+  <p style="font-size:13px;color:var(--dim);">等同于在终端里运行 <code>python lib/update.py update</code>。</p>
+
+  <h3>备份数据</h3>
+  <div class="callout callout-tip">
+    <span class="callout-icon">&#x1F4BE;</span>
+    <div>所有个人数据（API Key、对话、记忆、配置）都在 <code>data/</code> 文件夹里。<strong>直接复制这个文件夹就是完整备份</strong>。想恢复就把它放回去。</div>
+  </div>
+</div>
+
+<!-- 12 -->
+<div class="section" id="file">
+  <div class="section-header">
+    <div class="section-icon">&#x1F4C1;</div>
+    <h2>文件说明</h2>
+  </div>
+
+  <p>解压后打开文件夹，你会看到：</p>
+
+  <table>
+    <thead><tr><th>文件 / 文件夹</th><th>作用</th></tr></thead>
+    <tbody>
+      <tr><td><code>Hermes.bat</code></td><td><strong>Windows 启动器</strong>（双击运行）</td></tr>
+      <tr><td><code>Hermes.command</code></td><td><strong>macOS 启动器</strong>（双击运行）</td></tr>
+      <tr><td><code>Hermes.sh</code></td><td><strong>Linux 启动器</strong></td></tr>
+      <tr><td><code>data/</code></td><td><strong>你的所有数据</strong>（Key、对话、记忆、设置）</td></tr>
+      <tr><td><code>data/.env</code></td><td>API Key 文件（可手动编辑）</td></tr>
+      <tr><td><code>data/config.yaml</code></td><td>主配置</td></tr>
+      <tr><td><code>data/sessions/</code></td><td>对话历史</td></tr>
+      <tr><td><code>data/skills/</code></td><td>已安装技能</td></tr>
+      <tr><td><code>data/memories/</code></td><td>持久记忆</td></tr>
+      <tr><td><code>data/cron/</code></td><td>定时任务</td></tr>
+      <tr><td><code>data/logs/</code></td><td>运行日志（排错用）</td></tr>
+      <tr><td><code>_home/</code></td><td>沙箱目录（首次启动自动创建）</td></tr>
+      <tr><td style="color:var(--dim);"><code>python/</code> <code>venv/</code> <code>node-*/</code></td><td style="color:var(--dim);">运行环境（别动）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">&#x1F6A7;</span>
+    <div>只在 <code>data/</code> 和 <code>_home/</code> 里会有你的个人文件。其他文件夹是内部的 Python / Node.js 运行环境，改了会损坏程序。</div>
+  </div>
+</div>
+
+<!-- 13 -->
+<div class="section" id="free">
+  <div class="section-header">
+    <div class="section-icon">&#x1F381;</div>
+    <h2>免费模型配置</h2>
+  </div>
+  <p>以下方案均<strong>无需付费</strong>即可使用 AI 模型，按推荐程度排序。第一次用的话，<strong>强烈建议从方案一开始</strong>。</p>
+
+  <!-- 方案一 -->
+  <h3>方案一：OpenRouter（最推荐）</h3>
+  <p>注册账号就给免费 Key，支持多个免费模型，最适合新手。</p>
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span><span class="step-content">前往 <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a> 注册账号（支持 Google / GitHub 登录）</span></div>
+    <div class="step"><span class="step-num">2</span><span class="step-content">点 "Create Key" 创建一个 API Key，复制</span></div>
+    <div class="step"><span class="step-num">3</span><span class="step-content">在 Hermes 的 <strong>Web 配置页面</strong>（<code>http://127.0.0.1:17520</code>）的 "OpenRouter" 字段粘贴 Key，点保存即可。</span></div>
+    <div class="step"><span class="step-num">4</span><span class="step-content">或者手动编辑 <code>data/.env</code>，添加一行：<br><code>OPENROUTER_API_KEY=sk-or-v1-你的密钥</code></span></div>
+  </div>
+  <table>
+    <thead><tr><th>免费模型</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>openrouter/elephant-alpha</code></td><td>OpenRouter 自有模型</td></tr>
+      <tr><td><code>openrouter/owl-alpha</code></td><td>OpenRouter 自有模型</td></tr>
+      <tr><td><code>tencent/hy3-preview:free</code></td><td>腾讯 HY3</td></tr>
+      <tr><td><code>minimax/minimax-m2.5:free</code></td><td>MiniMax M2.5</td></tr>
+      <tr><td><code>nvidia/nemotron-3-super-120b-a12b:free</code></td><td>NVIDIA Nemotron</td></tr>
+      <tr><td><code>arcee-ai/trinity-large-preview:free</code></td><td>Arcee Trinity</td></tr>
+    </tbody>
+  </table>
+  <div class="callout callout-tip">
+    <span class="callout-icon">&#x1F4A1;</span>
+    <div>OpenRouter 经常上新免费模型。在 Hermes 里运行 <code>hermes model</code>，选 OpenRouter 后就能看到当前所有免费模型。</div>
+  </div>
+
+  <!-- 方案二 -->
+  <h3>方案二：Google Gemini 免费层</h3>
+  <p>Google 提供免费额度，模型质量高，但有请求频率限制（短时间请求过多会被限流）。</p>
+
+  <h3 style="margin-top:12px;font-size:14px;">方式 A：API Key</h3>
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span><span class="step-content">去 <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a> 创建免费 API Key</span></div>
+    <div class="step"><span class="step-num">2</span><span class="step-content">编辑 <code>data/.env</code>：<code>GOOGLE_API_KEY=你的密钥</code></span></div>
+    <div class="step"><span class="step-num">3</span><span class="step-content">运行 <code>hermes config set model.default "gemini/gemini-3-flash-preview"</code></span></div>
+  </div>
+
+  <h3 style="margin-top:12px;font-size:14px;">方式 B：浏览器登录，免 API Key</h3>
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span><span class="step-content">运行 <code>hermes model</code>，选 <code>google-gemini-cli</code> 供应商</span></div>
+    <div class="step"><span class="step-num">2</span><span class="step-content">按提示用浏览器完成 Google 登录，不用 API Key</span></div>
+  </div>
+  <table>
+    <thead><tr><th>可用模型</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>gemini-3.1-pro-preview</code></td><td>最强（额度有限）</td></tr>
+      <tr><td><code>gemini-3-pro-preview</code></td><td>次强</td></tr>
+      <tr><td><code>gemini-3-flash-preview</code></td><td>快，日常推荐</td></tr>
+      <tr><td><code>gemini-3.1-flash-lite-preview</code></td><td>最轻量</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 方案三 -->
+  <h3>方案三：Nous Portal 免费层</h3>
+  <p>Hermes 官方提供的免费模型入口，通过浏览器登录。</p>
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span><span class="step-content">运行 <code>hermes login</code> 或 <code>hermes model</code>，选 Nous Portal 会跳转浏览器登录</span></div>
+    <div class="step"><span class="step-num">2</span><span class="step-content">登录后自动检测免费层</span></div>
+    <div class="step"><span class="step-num">3</span><span class="step-content">选模型即可用</span></div>
+  </div>
+  <div class="callout callout-warn">
+    <span class="callout-icon">&#x26A0;</span>
+    <div><strong>限制：</strong>免费层用户不能用消息网关（Telegram / Discord 等机器人功能），只能用 CLI 对话。</div>
+  </div>
+  <p style="font-size:13px;">已知免费模型：<code>xiaomi/mimo-v2-pro</code>、<code>minimax/minimax-m2.5:free</code> 等。</p>
+
+  <!-- 方案四 -->
+  <h3>方案四：Hugging Face 推理服务</h3>
+  <p>每月 $0.10 的免费额度，可调用多种开源模型。</p>
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span><span class="step-content">去 <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener">huggingface.co/settings/tokens</a> 创建 Token（勾选 "Make calls to Inference Providers"）</span></div>
+    <div class="step"><span class="step-num">2</span><span class="step-content">编辑 <code>data/.env</code>：<code>HF_TOKEN=hf_你的令牌</code></span></div>
+    <div class="step"><span class="step-num">3</span><span class="step-content"><code>hermes config set model.default "huggingface/deepseek-ai/DeepSeek-V3.2"</code></span></div>
+  </div>
+  <table>
+    <thead><tr><th>可用模型</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>deepseek-ai/DeepSeek-V3.2</code></td><td>通用大模型</td></tr>
+      <tr><td><code>Qwen/Qwen3.5-397B-A17B</code></td><td>超大参数</td></tr>
+      <tr><td><code>Qwen/Qwen3.5-35B-A3B</code></td><td>轻量高效</td></tr>
+      <tr><td><code>moonshotai/Kimi-K2.5</code></td><td>Kimi 系列</td></tr>
+      <tr><td><code>XiaomiMiMo/MiMo-V2-Flash</code></td><td>小米 MiMo</td></tr>
+      <tr><td><code>MiniMaxAI/MiniMax-M2.5</code></td><td>MiniMax</td></tr>
+      <tr><td><code>zai-org/GLM-5</code></td><td>智谱 GLM</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 方案五 -->
+  <h3>方案五：Qwen OAuth（通义千问）</h3>
+  <div class="steps">
+    <div class="step"><span class="step-num">1</span><span class="step-content">先装 Qwen CLI，运行 <code>qwen auth qwen-oauth</code> 登录</span></div>
+    <div class="step"><span class="step-num">2</span><span class="step-content"><code>hermes config set model.default "qwen-oauth/qwen-max"</code></span></div>
+  </div>
+
+  <!-- 方案六 -->
+  <h3>方案六：本地部署（完全免费、完全离线）</h3>
+  <p>在自己电脑上跑模型，不需要任何 API Key。适合有独立显卡的用户。</p>
+  <table>
+    <thead><tr><th>工具</th><th>配置</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>Ollama</td><td><code>provider: "ollama"</code></td><td>最易上手</td></tr>
+      <tr><td>LM Studio</td><td><code>provider: "lmstudio"</code></td><td>图形界面</td></tr>
+      <tr><td>vLLM</td><td><code>provider: "vllm"</code></td><td>高性能</td></tr>
+      <tr><td>llama.cpp</td><td><code>provider: "llamacpp"</code></td><td>轻量 C++</td></tr>
+    </tbody>
+  </table>
+  <pre><code><span class="comment"># 以 Ollama 为例</span>
+<span class="cmd">ollama pull llama3.1</span>
+<span class="cmd">hermes config set model.default "ollama/llama3.1"</span></code></pre>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">&#x1F3AF;</span>
+    <div>
+      <strong>怎么选？</strong>
+      <ul style="margin:6px 0 0 16px;font-size:14px;">
+        <li><strong>新手零门槛</strong>：OpenRouter</li>
+        <li><strong>追求质量</strong>：Google Gemini</li>
+        <li><strong>模型多样</strong>：Hugging Face</li>
+        <li><strong>完全离线不联网</strong>：Ollama 本地部署</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 14 -->
+<div class="section" id="troubleshoot">
+  <div class="section-header">
+    <div class="section-icon">&#x2753;</div>
+    <h2>常见问题</h2>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">启动后黑窗口一闪而过就关了？</div>
+    <div class="faq-a">
+      通常是解压位置问题。请检查：
+      <ul style="margin:6px 0 0 16px;">
+        <li>路径里有没有中文字符</li>
+        <li>路径是否太深（Windows 有 260 字符限制）</li>
+        <li>是否放在 OneDrive 等同步盘里（同步会破坏文件）</li>
+      </ul>
+      把整个文件夹挪到 <code>C:\HermesPortable</code> 或 U 盘根目录再试。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">启动后浏览器没有自动打开？</div>
+    <div class="faq-a">手动在浏览器打开 <code>http://127.0.0.1:17520</code>，或在终端里运行 <code>hermes setup</code>。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">提示找不到 Python 或者 hermes_cli 模块？</div>
+    <div class="faq-a">这是旧版本 v0.13.6 / v0.13.7 的已知问题。请从 下载 <strong>v0.13.8 或更新</strong>的 zip 包，已修复。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">macOS 提示"无法打开，因为 Apple 无法检查其是否有恶意软件"？</div>
+    <div class="faq-a">
+      右键点击 <code>Hermes.command</code>，选"打开"（不是双击），在弹窗里再点一次"打开"。只需要这样做一次，以后就可以双击了。或者在系统设置 → 隐私与安全性 里放行。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Linux 下双击 Hermes.sh 没反应？</div>
+    <div class="faq-a">
+      大部分 Linux 文件管理器默认不会双击执行脚本。打开终端，<code>cd</code> 到解压目录，然后运行 <code>./Hermes.sh</code>。
+      如果提示权限不够，先 <code>chmod +x Hermes.sh</code>。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">API Key 配置在哪？</div>
+    <div class="faq-a">最简单的办法是启动后自动打开的 Web 配置页面 <code>http://127.0.0.1:17520</code>。也可以手动编辑 <code>data/.env</code>，例如添加 <code>ANTHROPIC_API_KEY=sk-xxx</code>。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">配置好了但 AI 不回话 / 报错？</div>
+    <div class="faq-a">
+      运行 <code>hermes doctor</code> 自动诊断。如果还有问题，查看 <code>data/logs/</code> 里最新的日志文件，错误信息会写在里面。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">想完全重置怎么办？</div>
+    <div class="faq-a">
+      删掉整个 <code>data/</code> 文件夹，然后重新启动。<strong>会丢失全部对话历史、技能和 Key</strong>，建议删除前备份。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">能换到另一台电脑继续用吗？</div>
+    <div class="faq-a">
+      能。这就是便携版的意义——整个文件夹复制到 U 盘或新机器，双击启动器照样运行，所有对话、记忆、Key 都在。<strong>跨系统（如从 Mac 拷到 Windows）</strong>则需要下对应平台的 zip 或 Universal 三合一版。
+    </div>
+  </div>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="c"><span class="label op-7">yu.ai</span></div>
+  <div class="c"><a class="label" href="https://yuai-r.cn/" style="opacity:.7">home ↗</a></div>
+  
+  <div class="c"><span class="label op-5" id="footer-year">mit</span></div>
+  <div class="c"><span class="label op-5" style="color:var(--accent)">hermes-manual</span></div>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  function lsGet(k){try{return localStorage.getItem(k);}catch(_){return null;}}
+  function lsSet(k,v){try{localStorage.setItem(k,v);}catch(_){}}
+  var btn=document.getElementById('theme-btn');
+  if(!btn)return;
+  var html=document.documentElement;
+  var sun=btn.querySelector('.theme-sun');
+  var moon=btn.querySelector('.theme-moon');
+  function syncIcons(isLight){sun.style.display=isLight?'none':'block';moon.style.display=isLight?'block':'none';}
+  var saved=lsGet('yuai-theme');
+  if(saved==='light'){html.setAttribute('data-theme','light');syncIcons(true);}
+  else if(saved==='dark'){html.setAttribute('data-theme','dark');syncIcons(false);}
+  else{var mql=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)');syncIcons(mql&&mql.matches);}
+  btn.onclick=function(){
+    var nowLight=html.getAttribute('data-theme')!=='light';
+    if(!html.getAttribute('data-theme')){var sysLight=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches;nowLight=!sysLight;}
+    html.setAttribute('data-theme',nowLight?'light':'dark');
+    lsSet('yuai-theme',nowLight?'light':'dark');
+    syncIcons(nowLight);
+  };
+  var fy=document.getElementById('footer-year');
+  if(fy)fy.textContent='mit · '+new Date().getFullYear();
+})();
+</script>
+
 </body>
 </html>
