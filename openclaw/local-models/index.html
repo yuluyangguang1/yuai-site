@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本地模型接入教程 — OpenClaw / Hermes Portable</title>
+<meta name="description" content="详细教程：如何在 OpenClaw Portable 和 Hermes Portable 中接入本地大模型（Ollama、LM Studio、vLLM、llama.cpp）。零成本、完全离线、数据不出本机。">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23041c1c'/%3E%3Cg fill='none' stroke='%23ffe6cb' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;
+  --border:rgba(255,230,203,0.12);
+  --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
+  --mono:'Courier New','Menlo',monospace
+}
+[data-theme="light"]{--bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;--border:rgba(61,58,53,0.14)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;--border:rgba(61,58,53,0.14)}}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.75;-webkit-font-smoothing:antialiased;font-size:15px}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+</style>
+<style>
+.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
+.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+[data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
+[data-theme="light"] .bg-n{opacity:.015}
+[data-theme="light"] .bg-g{opacity:.06}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}:root:not([data-theme="dark"]) .bg-n{opacity:.015}:root:not([data-theme="dark"]) .bg-g{opacity:.06}}
+.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-sm{font-size:.75rem;letter-spacing:.1875rem;text-transform:uppercase}
+.title{font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1;letter-spacing:.0525rem}
+.op-5{opacity:.5}
+.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
+.row{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+.cell{padding:16px;border-right:1px solid var(--border);min-width:0;display:flex;align-items:center}
+@media(min-width:1024px){.row.nav-row{grid-template-columns:1fr 2fr 1fr 1fr}}
+.nav-link{position:relative;display:flex;align-items:center;width:100%;height:100%;color:inherit;cursor:pointer;background:none;border:none;text-align:left;padding:16px;font:inherit}
+.nav-link:hover::before{content:"";position:absolute;inset:-12px;background:var(--mid);pointer-events:none;opacity:.05;z-index:-1}
+.doc{padding:40px 32px 80px;max-width:880px;margin:0 auto;position:relative;z-index:200}
+.doc h1,.doc h2,.doc h3,.doc h4{font-family:var(--serif);font-weight:700;color:var(--mid);line-height:1.25;margin:48px 0 16px;letter-spacing:-.005em;mix-blend-mode:plus-lighter}
+.doc h1{font-size:2.4rem;margin-top:0}
+.doc h2{font-size:1.7rem;margin-top:56px;padding-top:24px;border-top:1px solid var(--border)}
+.doc h3{font-size:1.25rem;margin-top:32px}
+.doc h4{font-size:1.05rem;margin-top:24px;opacity:.85}
+.doc p{margin:12px 0;opacity:.8;line-height:1.75}
+.doc strong{opacity:1;font-weight:600}
+.doc ul,.doc ol{margin:12px 0 12px 1.5em;opacity:.8}
+.doc li{margin:6px 0;line-height:1.7}
+.doc code{font-family:var(--mono);font-size:.88em;background:rgba(255,230,203,0.06);border:1px solid var(--border);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.doc pre{font-family:var(--mono);font-size:.82rem;line-height:1.6;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:16px 0;overflow-x:auto;opacity:.92}
+.doc pre code{background:none;border:none;padding:0;color:inherit;font-size:1em}
+.doc blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:rgba(0,255,200,0.04);opacity:.85}
+.doc table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+.doc th,.doc td{padding:10px 14px;border:1px solid var(--border);text-align:left}
+.doc th{background:rgba(255,230,203,0.04);font-family:var(--serif);font-weight:600}
+.doc td{opacity:.85}
+.doc a{color:var(--accent);border-bottom:1px dotted var(--border)}
+.doc a:hover{border-bottom-color:var(--accent);text-decoration:none}
+.doc hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+.doc img,.doc .screenshot{max-width:100%;height:auto;border:1px solid var(--border);border-radius:4px;margin:16px 0;display:block}
+.doc .img-caption{font-family:var(--mono);font-size:.75rem;text-align:center;opacity:.5;margin:-8px 0 16px;letter-spacing:.05em}
+.doc .callout{display:flex;gap:12px;align-items:flex-start;margin:16px 0;padding:14px 16px;border:1px solid var(--border);border-left:3px solid var(--accent);background:rgba(0,255,200,0.04)}
+.doc .callout-warn{border-left-color:#ffbd38;background:rgba(255,189,56,0.04)}
+.doc .callout-icon{font-family:var(--mono);font-size:1rem;opacity:.75;flex-shrink:0;line-height:1.5}
+.doc .steps{display:flex;flex-direction:column;gap:14px;margin:16px 0;counter-reset:step}
+.doc .step{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1px solid var(--border);border-radius:4px;background:rgba(255,230,203,0.02)}
+.doc .step-num{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--accent);min-width:1.6em;line-height:1;opacity:.85}
+.doc .step-content{flex:1;min-width:0}
+.doc .step-title{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin-bottom:4px;line-height:1.3}
+.doc .toc{margin:24px 0;padding:18px 20px;border:1px solid var(--border);border-radius:4px;background:rgba(255,230,203,0.02)}
+.doc .toc-title{font-family:var(--serif);font-weight:600;margin-bottom:10px;font-size:1rem}
+.doc .toc ul{list-style:none;margin:0;padding:0}
+.doc .toc li{margin:4px 0;padding-left:1em;position:relative;opacity:.75}
+.doc .toc li::before{content:"·";position:absolute;left:0;color:var(--accent)}
+.doc .toc a{border-bottom:none}
+.footer{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border);border-bottom:1px solid var(--border)}
+.footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
+@media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr}}
+@media(max-width:1023px){.row,.row.nav-row{grid-template-columns:1fr;border-left:none}.cell{border-right:none}.footer{grid-template-columns:1fr;border-left:none}.footer .c{border-right:none}.doc{padding:32px 20px 60px}}
+@media(max-width:640px){.doc{padding:24px 16px 40px}.doc h1{font-size:1.9rem}.doc h2{font-size:1.4rem}.doc h3{font-size:1.15rem}.doc pre{font-size:.74rem;padding:12px 14px}.doc table{font-size:.82rem}}
+[data-theme="light"] .doc code{background:rgba(61,58,53,0.06);color:var(--accent)}
+[data-theme="light"] .doc pre{background:rgba(255,255,255,0.5)}
+[data-theme="light"] .doc th{background:rgba(61,58,53,0.04)}
+</style>
+</head>
+<body>
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+<div class="page">
+<nav class="row nav-row" aria-label="Primary">
+  <div class="cell"><a href="/" class="title" style="text-decoration:none;font-size:1.8rem">yu.ai</a></div>
+  <div class="cell" style="padding:0"><a class="nav-link" href="/openclaw/"><span class="label">openclaw</span></a></div>
+  <div class="cell" style="padding:0"><a class="nav-link" href="/hermes/"><span class="label">hermes</span></a></div>
+  <div class="cell" style="justify-content:flex-end"><span class="label op-5" style="font-size:.7rem">local models guide</span></div>
+</nav>
+
+<main class="doc">
+
+<h1>本地模型接入教程</h1>
+<p>在 <strong>OpenClaw Portable</strong> 和 <strong>Hermes Portable</strong> 中接入本地大模型，实现零成本、完全离线、数据不出本机的 AI 对话。</p>
+<p>本教程覆盖最常用的四种本地模型运行时：Ollama、LM Studio、vLLM、llama.cpp / LocalAI。两个项目都通过 <strong>OpenAI 兼容 API</strong> 接入本地模型，配置方式几乎一致。</p>
+
+<div class="toc">
+<div class="toc-title">目录</div>
+<ul>
+<li><a href="#prerequisites">前置条件</a></li>
+<li><a href="#comparison">运行时对比</a></li>
+<li><a href="#ollama">方案一：Ollama（推荐）</a></li>
+<li><a href="#lmstudio">方案二：LM Studio</a></li>
+<li><a href="#vllm">方案三：vLLM</a></li>
+<li><a href="#llamacpp">方案四：llama.cpp / LocalAI</a></li>
+<li><a href="#openclaw-config">OpenClaw Portable 配置方法</a></li>
+<li><a href="#hermes-config">Hermes Portable 配置方法</a></li>
+<li><a href="#troubleshooting">常见问题</a></li>
+</ul>
+</div>
+
+<hr>
+
+<h2 id="prerequisites">前置条件</h2>
+
+<h3>硬件要求</h3>
+<table>
+<tr><th>模型规模</th><th>最低内存</th><th>推荐配置</th><th>典型模型</th></tr>
+<tr><td>7B 参数</td><td>8 GB RAM</td><td>16 GB RAM</td><td>Qwen2.5-7B, Llama 3.1-8B</td></tr>
+<tr><td>14B 参数</td><td>16 GB RAM</td><td>32 GB RAM</td><td>Qwen2.5-14B, DeepSeek-V2-Lite</td></tr>
+<tr><td>32B-70B 参数</td><td>32-64 GB RAM</td><td>64+ GB RAM 或 GPU</td><td>Qwen2.5-72B, Llama 3.3-70B</td></tr>
+</table>
+
+<div class="callout">
+<span class="callout-icon">i</span>
+<div>Apple Silicon Mac（M1/M2/M3/M4）的统一内存可以直接被 GPU 使用，运行本地模型效率很高。16GB 的 M 系列 Mac 可以流畅运行 7B-14B 模型。</div>
+</div>
+
+<h3>软件要求</h3>
+<ul>
+<li>OpenClaw Portable 或 Hermes Portable（任一即可）</li>
+<li>本地模型运行时（下文详述安装方法）</li>
+<li>足够的磁盘空间（7B 模型约 4-5 GB，70B 模型约 40 GB）</li>
+</ul>
+
+<hr>
+
+<h2 id="comparison">运行时对比</h2>
+
+<table>
+<tr><th>运行时</th><th>安装难度</th><th>GUI</th><th>默认端口</th><th>适合场景</th><th>自动检测</th></tr>
+<tr><td>Ollama</td><td>简单（一行命令）</td><td>无（CLI）</td><td>11434</td><td>日常使用、快速上手</td><td>OpenClaw 自动检测</td></tr>
+<tr><td>LM Studio</td><td>简单（图形安装）</td><td>有</td><td>1234</td><td>不熟悉命令行的用户</td><td>OpenClaw 自动检测</td></tr>
+<tr><td>vLLM</td><td>中等（需 Python）</td><td>无</td><td>8000</td><td>高吞吐、多并发</td><td>手动配置</td></tr>
+<tr><td>llama.cpp / LocalAI</td><td>中等</td><td>可选</td><td>8080</td><td>极致性能调优</td><td>手动配置</td></tr>
+</table>
+
+<div class="callout">
+<span class="callout-icon">i</span>
+<div><strong>推荐选择</strong>：大多数用户选 Ollama 即可。如果你更喜欢图形界面，选 LM Studio。两者在 OpenClaw 配置中心里都能被自动检测到。</div>
+</div>
+
+<hr>
+
+<h2 id="ollama">方案一：Ollama（推荐）</h2>
+
+<h3>第一步：安装 Ollama</h3>
+
+<div class="steps">
+<div class="step">
+<span class="step-num">1</span>
+<div class="step-content">
+<div class="step-title">下载安装</div>
+<p>访问 <a href="https://ollama.com/download" target="_blank" rel="noopener">ollama.com/download</a>，下载对应平台的安装包。</p>
+<ul>
+<li><strong>macOS</strong>：下载 .dmg，拖入应用程序文件夹</li>
+<li><strong>Windows</strong>：下载 .exe 安装程序，双击安装</li>
+<li><strong>Linux</strong>：终端执行 <code>curl -fsSL https://ollama.com/install.sh | sh</code></li>
+</ul>
+</div>
+</div>
+<div class="step">
+<span class="step-num">2</span>
+<div class="step-content">
+<div class="step-title">验证安装</div>
+<p>打开终端，执行：</p>
+<pre><code>ollama --version</code></pre>
+<p>看到版本号输出即安装成功。</p>
+<!-- 截图占位 -->
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:80px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：终端显示 ollama version 0.x.x]</div>
+<div class="img-caption">终端验证 Ollama 安装成功</div>
+</div>
+</div>
+<div class="step">
+<span class="step-num">3</span>
+<div class="step-content">
+<div class="step-title">下载模型</div>
+<p>选择一个模型并下载。推荐从小模型开始测试：</p>
+<pre><code># 推荐：Qwen 2.5 7B（中文能力强，7B 体积小）
+ollama pull qwen2.5:7b
+
+# 或者：Llama 3.1 8B（英文能力强）
+ollama pull llama3.1:8b
+
+# 或者：DeepSeek V2.5（代码能力强）
+ollama pull deepseek-v2.5
+
+# 查看已下载的模型列表
+ollama list</code></pre>
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：ollama list 显示已下载的模型列表，包含模型名、大小、修改时间]</div>
+<div class="img-caption">ollama list 显示已下载的模型</div>
+</div>
+</div>
+<div class="step">
+<span class="step-num">4</span>
+<div class="step-content">
+<div class="step-title">启动服务</div>
+<p>Ollama 安装后通常会自动作为后台服务运行。如果没有，手动启动：</p>
+<pre><code># macOS / Linux
+ollama serve
+
+# Windows：Ollama 安装后自动作为系统服务运行，无需手动启动</code></pre>
+<p>服务启动后监听 <code>http://127.0.0.1:11434</code>。</p>
+</div>
+</div>
+</div>
+
+<h3>第二步：验证 API 可用</h3>
+<p>在终端执行以下命令，确认 Ollama API 正常响应：</p>
+<pre><code># 列出可用模型（应返回 JSON）
+curl http://127.0.0.1:11434/api/tags
+
+# 测试对话（应返回模型回复）
+curl http://127.0.0.1:11434/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{"model":"qwen2.5:7b","messages":[{"role":"user","content":"你好"}]}'</code></pre>
+
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:80px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：curl 返回 JSON 响应，包含模型回复内容]</div>
+<div class="img-caption">API 测试成功，模型正常响应</div>
+
+<p>看到模型回复即表示 Ollama 已就绪，可以接入 OpenClaw / Hermes。</p>
+
+<hr>
+
+<h2 id="lmstudio">方案二：LM Studio</h2>
+
+<h3>第一步：安装 LM Studio</h3>
+
+<div class="steps">
+<div class="step">
+<span class="step-num">1</span>
+<div class="step-content">
+<div class="step-title">下载安装</div>
+<p>访问 <a href="https://lmstudio.ai/" target="_blank" rel="noopener">lmstudio.ai</a>，下载对应平台的安装包。支持 macOS、Windows、Linux。</p>
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:80px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：LM Studio 官网下载页面]</div>
+<div class="img-caption">LM Studio 官网下载页</div>
+</div>
+</div>
+<div class="step">
+<span class="step-num">2</span>
+<div class="step-content">
+<div class="step-title">下载模型</div>
+<p>打开 LM Studio，在搜索栏搜索模型名称，点击下载：</p>
+<ul>
+<li>搜索 <code>qwen2.5</code> → 选择 7B 或 14B 的 GGUF 量化版本</li>
+<li>搜索 <code>llama-3.1</code> → 选择 8B 的 Q4_K_M 量化</li>
+<li>搜索 <code>deepseek</code> → 选择适合你内存的版本</li>
+</ul>
+<div class="callout">
+<span class="callout-icon">i</span>
+<div>量化格式推荐：<code>Q4_K_M</code> 是质量和体积的最佳平衡。16GB 内存选 7B-Q4_K_M，32GB 选 14B-Q4_K_M。</div>
+</div>
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：LM Studio 模型搜索界面，显示 qwen2.5 搜索结果和下载按钮]</div>
+<div class="img-caption">在 LM Studio 中搜索并下载模型</div>
+</div>
+</div>
+<div class="step">
+<span class="step-num">3</span>
+<div class="step-content">
+<div class="step-title">启动本地服务器</div>
+<p>在 LM Studio 左侧栏点击「Local Server」（服务器图标）：</p>
+<ol>
+<li>在顶部下拉菜单选择已下载的模型</li>
+<li>点击「Start Server」按钮</li>
+<li>看到 <code>Server started on port 1234</code> 即成功</li>
+</ol>
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：LM Studio Local Server 界面，显示模型已加载、服务器已启动、端口 1234]</div>
+<div class="img-caption">LM Studio 本地服务器启动成功</div>
+</div>
+</div>
+</div>
+
+<h3>第二步：验证</h3>
+<pre><code>curl http://127.0.0.1:1234/v1/models</code></pre>
+<p>返回 JSON 列表即表示 LM Studio 服务器就绪。</p>
+
+<hr>
+
+<h2 id="vllm">方案三：vLLM</h2>
+
+<p>vLLM 适合有 NVIDIA GPU 的用户，提供极高的推理吞吐量。</p>
+
+<h3>第一步：安装</h3>
+<pre><code># 需要 Python 3.9+ 和 NVIDIA GPU（CUDA 12+）
+pip install vllm</code></pre>
+
+<h3>第二步：启动服务</h3>
+<pre><code># 启动 OpenAI 兼容 API 服务器
+vllm serve Qwen/Qwen2.5-7B-Instruct \
+  --host 127.0.0.1 \
+  --port 8000 \
+  --max-model-len 8192</code></pre>
+
+<p>首次启动会自动从 HuggingFace 下载模型（需要网络）。下载完成后即可离线使用。</p>
+
+<div class="callout callout-warn">
+<span class="callout-icon">!</span>
+<div>vLLM 需要 NVIDIA GPU 和 CUDA。Apple Silicon Mac 和纯 CPU 机器请使用 Ollama 或 llama.cpp。</div>
+</div>
+
+<h3>第三步：验证</h3>
+<pre><code>curl http://127.0.0.1:8000/v1/models</code></pre>
+
+<hr>
+
+<h2 id="llamacpp">方案四：llama.cpp / LocalAI</h2>
+
+<p>llama.cpp 是最底层的推理引擎，性能极致但配置稍复杂。LocalAI 是它的 OpenAI 兼容封装。</p>
+
+<h3>使用 llama.cpp 的 server 模式</h3>
+<pre><code># 从 GitHub 下载预编译版本
+# https://github.com/ggerganov/llama.cpp/releases
+
+# 启动服务器（以 GGUF 模型文件为例）
+./llama-server \
+  -m /path/to/qwen2.5-7b-instruct-q4_k_m.gguf \
+  --host 127.0.0.1 \
+  --port 8080 \
+  -ngl 99   # GPU 层数，Apple Silicon 设为 99 表示全部卸载到 GPU</code></pre>
+
+<h3>使用 LocalAI（Docker 方式）</h3>
+<pre><code># 一行命令启动（自动下载模型）
+docker run -p 8080:8080 localai/localai:latest</code></pre>
+
+<h3>验证</h3>
+<pre><code>curl http://127.0.0.1:8080/v1/models</code></pre>
+
+<hr>
+
+<h2 id="openclaw-config">OpenClaw Portable 配置方法</h2>
+
+<p>OpenClaw 的配置中心（http://127.0.0.1:18750）可以<strong>自动检测</strong> Ollama 和 LM Studio。其他运行时需要手动配置为"自定义中转站"。</p>
+
+<h3>方式一：自动检测（Ollama / LM Studio）</h3>
+
+<div class="steps">
+<div class="step">
+<span class="step-num">1</span>
+<div class="step-content">
+<div class="step-title">确保本地模型服务已启动</div>
+<p>Ollama 在 11434 端口运行，或 LM Studio 在 1234 端口运行。</p>
+</div>
+</div>
+<div class="step">
+<span class="step-num">2</span>
+<div class="step-content">
+<div class="step-title">打开配置中心</div>
+<p>双击启动 OpenClaw Portable，浏览器自动打开 <code>http://127.0.0.1:18750</code>。</p>
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：OpenClaw 配置中心首页，显示模型平台选择网格]</div>
+<div class="img-caption">OpenClaw 配置中心首页</div>
+</div>
+</div>
+<div class="step">
+<span class="step-num">3</span>
+<div class="step-content">
+<div class="step-title">点击"本地模型"扫描</div>
+<p>在配置中心底部找到「本地模型」区域，点击「扫描本地模型」按钮。系统会自动探测以下端口：</p>
+<table>
+<tr><th>运行时</th><th>探测端口</th><th>探测路径</th></tr>
+<tr><td>Ollama</td><td>11434</td><td>/api/tags</td></tr>
+<tr><td>LM Studio</td><td>1234</td><td>/v1/models</td></tr>
+<tr><td>vLLM</td><td>8000</td><td>/v1/models</td></tr>
+<tr><td>Jan.ai</td><td>1337</td><td>/v1/models</td></tr>
+<tr><td>llama.cpp / LocalAI</td><td>8080</td><td>/v1/models</td></tr>
+<tr><td>GPT4All</td><td>4891</td><td>/v1/models</td></tr>
+<tr><td>Text Gen WebUI</td><td>5000</td><td>/v1/models</td></tr>
+<tr><td>KoboldCpp</td><td>5001</td><td>/v1/models</td></tr>
+<tr><td>XInference</td><td>9997</td><td>/v1/models</td></tr>
+<tr><td>MLX Server</td><td>8081</td><td>/v1/models</td></tr>
+</table>
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：本地模型扫描结果，显示 Ollama 运行中、检测到 qwen2.5:7b 等模型]</div>
+<div class="img-caption">自动扫描检测到本地运行的 Ollama 和可用模型</div>
+</div>
+</div>
+<div class="step">
+<span class="step-num">4</span>
+<div class="step-content">
+<div class="step-title">选择模型并保存</div>
+<p>在检测到的模型列表中点击你要使用的模型，然后点击「保存并启动」。无需填写 API Key（本地模型不需要）。</p>
+</div>
+</div>
+</div>
+
+<h3>方式二：手动配置（vLLM / llama.cpp / 其他）</h3>
+
+<div class="steps">
+<div class="step">
+<span class="step-num">1</span>
+<div class="step-content">
+<div class="step-title">在配置中心选择"自定义 / 中转站"</div>
+<p>在模型平台网格中找到「自定义 / 中转站」卡片，点击展开。</p>
+</div>
+</div>
+<div class="step">
+<span class="step-num">2</span>
+<div class="step-content">
+<div class="step-title">填写连接信息</div>
+<p>填入以下三个字段：</p>
+<table>
+<tr><th>字段</th><th>Ollama 示例</th><th>vLLM 示例</th><th>llama.cpp 示例</th></tr>
+<tr><td>Base URL</td><td><code>http://127.0.0.1:11434/v1</code></td><td><code>http://127.0.0.1:8000/v1</code></td><td><code>http://127.0.0.1:8080/v1</code></td></tr>
+<tr><td>Model Name</td><td><code>qwen2.5:7b</code></td><td><code>Qwen/Qwen2.5-7B-Instruct</code></td><td><code>qwen2.5-7b</code></td></tr>
+<tr><td>API Key</td><td><code>ollama</code>（任意非空值）</td><td><code>none</code>（任意非空值）</td><td><code>none</code>（任意非空值）</td></tr>
+</table>
+<div class="callout">
+<span class="callout-icon">i</span>
+<div>API Key 字段不能留空（OpenClaw 会校验非空），但本地模型不验证 Key，所以填任意字符串即可，如 <code>ollama</code> 或 <code>local</code>。</div>
+</div>
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：自定义中转站配置界面，Base URL 填 http://127.0.0.1:11434/v1，Model 填 qwen2.5:7b，Key 填 ollama]</div>
+<div class="img-caption">手动配置本地 Ollama 作为自定义中转站</div>
+</div>
+</div>
+<div class="step">
+<span class="step-num">3</span>
+<div class="step-content">
+<div class="step-title">测试连接</div>
+<p>点击「测试 Key」按钮。如果显示"有效 (N 模型)"，说明连接成功。然后点击「保存」。</p>
+</div>
+</div>
+</div>
+
+<hr>
+
+<h2 id="hermes-config">Hermes Portable 配置方法</h2>
+
+<p>Hermes Portable 的配置面板在 <code>http://127.0.0.1:17520</code>。本地模型通过"自定义 / 中转站"提供商接入。</p>
+
+<h3>通过配置面板（推荐）</h3>
+
+<div class="steps">
+<div class="step">
+<span class="step-num">1</span>
+<div class="step-content">
+<div class="step-title">打开配置面板</div>
+<p>双击启动 Hermes Portable。首次启动会自动打开配置面板；后续启动打开 <code>http://127.0.0.1:17520</code>。</p>
+</div>
+</div>
+<div class="step">
+<span class="step-num">2</span>
+<div class="step-content">
+<div class="step-title">选择"自定义 / 中转站"提供商</div>
+<p>在「模型」标签页的提供商网格中，点击「自定义 / 中转站」。</p>
+<div class="screenshot" style="background:rgba(0,0,0,0.3);padding:20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;opacity:.5">[截图：Hermes 配置面板模型标签页，提供商网格中"自定义 / 中转站"高亮]</div>
+<div class="img-caption">Hermes 配置面板 — 选择自定义提供商</div>
+</div>
+</div>
+<div class="step">
+<span class="step-num">3</span>
+<div class="step-content">
+<div class="step-title">填写 API Key 和 Base URL</div>
+<p>在展开的表单中填写：</p>
+<ul>
+<li><strong>API Key</strong>：填 <code>ollama</code>（任意非空值）</li>
+<li>点击「测试连接」确认可达</li>
+</ul>
+<p>然后在下方「默认模型」下拉菜单中选择模型名称（如 <code>qwen2.5:7b</code>）。如果下拉菜单里没有你的模型，直接在输入框中手动输入模型名。</p>
+</div>
+</div>
+<div class="step">
+<span class="step-num">4</span>
+<div class="step-content">
+<div class="step-title">保存并启动</div>
+<p>点击底部「保存」按钮，然后点击「启动」。Hermes 会使用你配置的本地模型进行对话。</p>
+</div>
+</div>
+</div>
+
+<h3>通过 .env 文件（高级）</h3>
+
+<p>也可以直接编辑 <code>data/.env</code> 文件：</p>
+
+<pre><code># Ollama 示例
+CUSTOM_API_KEY=ollama
+CUSTOM_BASE_URL=http://127.0.0.1:11434/v1
+
+# vLLM 示例
+CUSTOM_API_KEY=local
+CUSTOM_BASE_URL=http://127.0.0.1:8000/v1</code></pre>
+
+<p>然后编辑 <code>data/config.yaml</code>：</p>
+
+<pre><code>model:
+  default: "custom/qwen2.5:7b"
+  provider: "custom"</code></pre>
+
+<p>保存后重启 Hermes 即可生效。</p>
+
+<hr>
+
+<h2 id="troubleshooting">常见问题</h2>
+
+<h3>连接失败：Connection refused</h3>
+<p><strong>原因</strong>：本地模型服务未启动，或端口不对。</p>
+<p><strong>解决</strong>：</p>
+<ol>
+<li>确认模型服务正在运行：<code>curl http://127.0.0.1:11434/api/tags</code>（Ollama）或对应端口</li>
+<li>如果返回 "Connection refused"，重新启动服务：<code>ollama serve</code></li>
+<li>检查是否有防火墙阻止本地连接</li>
+</ol>
+
+<h3>模型响应很慢</h3>
+<p><strong>原因</strong>：模型太大，超出可用内存，系统在用磁盘交换。</p>
+<p><strong>解决</strong>：</p>
+<ol>
+<li>换一个更小的模型（如从 14B 降到 7B）</li>
+<li>使用更激进的量化（如从 Q8 降到 Q4_K_M）</li>
+<li>关闭其他占用内存的应用</li>
+<li>Apple Silicon Mac：确认 Ollama 在使用 Metal GPU 加速（默认开启）</li>
+</ol>
+
+<h3>OpenClaw 扫描不到本地模型</h3>
+<p><strong>原因</strong>：模型服务绑定了非标准端口，或绑定了 0.0.0.0 而非 127.0.0.1。</p>
+<p><strong>解决</strong>：</p>
+<ol>
+<li>确认服务绑定在 127.0.0.1（不是 0.0.0.0）</li>
+<li>确认使用的是标准端口（Ollama: 11434, LM Studio: 1234）</li>
+<li>如果用了非标准端口，使用「自定义中转站」手动配置</li>
+</ol>
+
+<h3>API Key 字段不能为空怎么办</h3>
+<p>本地模型不需要真实的 API Key，但配置界面要求非空。填任意字符串即可：</p>
+<ul>
+<li>Ollama：填 <code>ollama</code></li>
+<li>LM Studio：填 <code>lm-studio</code></li>
+<li>vLLM / llama.cpp：填 <code>local</code> 或 <code>none</code></li>
+</ul>
+
+<h3>Hermes 报错 "model not found"</h3>
+<p><strong>原因</strong>：config.yaml 中的模型名与本地服务实际提供的模型名不匹配。</p>
+<p><strong>解决</strong>：</p>
+<ol>
+<li>查询实际模型名：<code>curl http://127.0.0.1:11434/v1/models</code></li>
+<li>复制返回 JSON 中的 <code>id</code> 字段值</li>
+<li>粘贴到配置面板的模型名输入框中</li>
+</ol>
+
+<h3>想同时使用云端模型和本地模型</h3>
+<p>两个项目都支持。在 OpenClaw 中，配置中心保存的是默认模型；你可以在聊天时通过命令切换。在 Hermes 中，可以配置 fallback 链：主模型用云端，fallback 用本地（或反过来）。</p>
+
+<hr>
+
+<h2>总结</h2>
+
+<table>
+<tr><th>步骤</th><th>OpenClaw Portable</th><th>Hermes Portable</th></tr>
+<tr><td>1. 安装本地运行时</td><td colspan="2">相同：安装 Ollama / LM Studio / vLLM / llama.cpp</td></tr>
+<tr><td>2. 下载模型</td><td colspan="2">相同：<code>ollama pull qwen2.5:7b</code> 或 LM Studio GUI 下载</td></tr>
+<tr><td>3. 配置接入</td><td>配置中心自动扫描，或手动填"自定义中转站"</td><td>配置面板选"自定义 / 中转站"，填 Base URL + Key</td></tr>
+<tr><td>4. 开始使用</td><td>点击"打开聊天"</td><td>点击"启动"</td></tr>
+</table>
+
+<div class="callout">
+<span class="callout-icon">i</span>
+<div>
+<strong>核心原理</strong>：两个项目都通过 OpenAI 兼容 API（<code>/v1/chat/completions</code>）与本地模型通信。任何提供这个接口的运行时都可以接入，不限于本文列出的四种。
+</div>
+</div>
+
+<p style="margin-top:40px;opacity:.5;font-family:var(--mono);font-size:.8rem">
+最后更新：2026-05-20 · 
+<a href="https://github.com/yuluyangguang1/openclaw-portable">OpenClaw Portable</a> · 
+<a href="https://github.com/yuluyangguang1/hermes-portable">Hermes Portable</a>
+</p>
+
+</main>
+
+<footer class="footer">
+<div class="c"><span class="label op-5">yu.ai</span></div>
+<div class="c"><a class="label" href="/" style="opacity:.7;color:inherit">home</a></div>
+<div class="c"><a class="label" href="/openclaw/" style="opacity:.7;color:inherit">openclaw</a></div>
+<div class="c"><a class="label" href="/hermes/" style="opacity:.7;color:inherit">hermes</a></div>
+</footer>
+
+</div><!-- .page -->
+</body>
+</html>
