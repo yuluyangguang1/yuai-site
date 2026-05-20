@@ -227,261 +227,161 @@ a:hover{text-decoration:underline}
 </div>
 
 <main class="doc">
-<!-- 1: About -->
+
 <div class="section" id="about">
-  <div class="section-header"><div class="section-icon"></div><h2></h2></div>
-  <p><strong>OpenClaw Portable</strong>  AI  OpenClaw Node.js AI <strong></strong> Windows / macOS / Linux </p>
-  <div class="callout callout-tip"><span class="callout-icon">·</span><div><strong>""</strong> U  U </div></div>
-  <h3></h3>
+  <div class="section-header"><div class="section-icon">·</div><h2>关于</h2></div>
+  <p><strong>OpenClaw Portable</strong> 是基于 OpenClaw（开源 AI 助手框架）的便携版发行包。自带 Node.js 运行时，双击即可在 Windows / macOS / Linux 上启动，无需安装任何依赖。</p>
+  <div class="callout callout-tip"><span class="callout-icon">·</span><div><strong>便携的含义</strong> — 所有数据（API Key、对话历史、配置）都存在 U 盘上。插上 U 盘就能用，拔掉 U 盘什么都不留。</div></div>
+  <h3>核心能力</h3>
   <table>
-    <thead><tr><th></th><th></th></tr></thead>
+    <thead><tr><th>能力</th><th>说明</th></tr></thead>
     <tbody>
-      <tr><td>AI </td><td>32 DeepSeekKimiClaudeGPTGeminiCerebrasDeepInfra </td></tr>
-      <tr><td></td><td> /  / QQ / Telegram / Discord / Slack  12 </td></tr>
-      <tr><td></td><td>Ollama / LM Studio  OpenAI-compatible vLLM / GPT4All / Jan / KoboldCpp / llama.cpp </td></tr>
-      <tr><td></td><td>13,000+ AI Skills </td></tr>
-      <tr><td></td><td> <code>data/</code> </td></tr>
+      <tr><td>AI 模型</td><td>32 个平台：DeepSeek、Kimi、Claude、GPT、Gemini、Cerebras、Groq、OpenRouter 等</td></tr>
+      <tr><td>聊天渠道</td><td>微信 / 飞书 / QQ / Telegram / Discord / Slack / WhatsApp 等 12 个平台</td></tr>
+      <tr><td>本地模型</td><td>Ollama / LM Studio 自动检测；vLLM / GPT4All / Jan / KoboldCpp / llama.cpp 等通过 OpenAI 兼容接口接入</td></tr>
+      <tr><td>技能系统</td><td>13,000+ AI Skills，内置中文搜索、翻译、天气、写作助手</td></tr>
+      <tr><td>数据隔离</td><td>全部数据存储在 <code>data/</code> 目录，不污染主机</td></tr>
     </tbody>
   </table>
 </div>
 
-<!-- 2: Quick Start -->
 <div class="section" id="quickstart">
-  <div class="section-header"><div class="section-icon">→</div><h2></h2></div>
-  <p></p>
+  <div class="section-header"><div class="section-icon">-></div><h2>快速开始</h2></div>
+  <p>从 <a href="https://github.com/yuluyangguang1/openclaw-portable/releases" target="_blank" rel="noopener">GitHub Releases</a> 下载 zip，解压到 U 盘或任意目录。</p>
   <div class="platform-grid">
-    <div class="platform-card"><div class="icon">&#x1F5A5;</div><strong>Windows</strong><span> <code>OpenClaw.vbs</code></span></div>
-    <div class="platform-card"><div class="icon">&#x1F34E;</div><strong>macOS</strong><span> <code>OpenClaw.app</code></span></div>
-    <div class="platform-card"><div class="icon">&#x1F427;</div><strong>Linux</strong><span> <code>OpenClaw.desktop</code></span></div>
+    <div class="platform-card"><strong>Windows</strong><span>双击 <code>OpenClaw.vbs</code></span></div>
+    <div class="platform-card"><strong>macOS</strong><span>双击 <code>OpenClaw.app</code></span></div>
+    <div class="platform-card"><strong>Linux</strong><span>双击 <code>OpenClaw.desktop</code></span></div>
   </div>
-  <p style="opacity:0.6;font-size:0.92rem;margin-top:8px"><strong>v0.9.x </strong><code>Mac-Start.command</code><code>Windows-Start.bat</code><code>Linux-Start.sh</code> <code>system/</code> </p>
-  <h3></h3>
+  <h3>首次使用流程</h3>
   <div class="steps">
-    <div class="step"><span class="step-num">1</span><span class="step-content"><strong></strong> 10-30 </span></div>
-    <div class="step"><span class="step-num">2</span><span class="step-content"><strong></strong> AI  API Key Key <strong>DeepSeek</strong>  <strong>OpenRouter</strong></span></div>
-    <div class="step"><span class="step-num">3</span><span class="step-content"><strong></strong> <code>http://127.0.0.1:18789</code> </span></div>
+    <div class="step"><span class="step-num">1</span><div class="step-content"><div class="step-title">等待初始化</div><p>首次启动需要 10-30 秒加载运行时。</p></div></div>
+    <div class="step"><span class="step-num">2</span><div class="step-content"><div class="step-title">配置模型</div><p>浏览器自动打开配置中心。选择 AI 平台，填写 API Key。推荐 <strong>DeepSeek</strong>（国内直连）或 <strong>OpenRouter</strong>（多模型聚合）。</p></div></div>
+    <div class="step"><span class="step-num">3</span><div class="step-content"><div class="step-title">开始对话</div><p>保存配置后点击「打开聊天」，进入 <code>http://127.0.0.1:18789</code> 对话界面。</p></div></div>
   </div>
-  <div class="callout callout-info"><span class="callout-icon"></span><div><strong></strong><div class="ports"><span class="port"> <span class="port-num">18750</span></span><span class="port"> <span class="port-num">18789</span></span></div>127.0.0.1</div></div>
-  <div class="callout callout-tip"><span class="callout-icon">&#x1F4BE;</span><div><strong></strong> U  <code>data/.openclaw/openclaw.json</code> Mac  Windows </div></div>
-  <h3></h3>
-  <p><strong></strong></p>
-  <div class="subsection" id="menu">
-    <h3></h3>
-    <p></p>
-    <div class="download-grid">
-      <div class="dl-card"><span class="dl-icon">&#x1F5A5;</span><span class="dl-text"><div class="dl-title">Windows </div><div class="dl-meta"> Windows-Menu.bat</div></span><span class="dl-arrow">→</span></div>
-      <div class="dl-card"><span class="dl-icon">&#x1F34E;</span><span class="dl-text"><div class="dl-title">Mac </div><div class="dl-meta"> Mac-Menu.command</div></span><span class="dl-arrow">→</span></div>
-    </div>
-  </div>
+  <div class="callout callout-info"><span class="callout-icon">i</span><div><strong>端口说明</strong><div class="ports"><span class="port">配置中心 <span class="port-num">18750</span></span><span class="port">聊天界面 <span class="port-num">18789</span></span></div>所有服务仅监听 127.0.0.1，外部无法访问。</div></div>
+  <h3>macOS 首次启动</h3>
+  <p>macOS 可能提示「无法验证开发者」。解决方法：</p>
+  <ul>
+    <li>右键点击 <code>OpenClaw.app</code> → 选择「打开」→ 弹窗中点「打开」</li>
+    <li>或终端执行：<code>xattr -cr /path/to/OpenClawPortable</code></li>
+    <li>或系统设置 → 隐私与安全性 → 底部点「仍要打开」</li>
+  </ul>
 </div>
 
-<!-- 3: Models -->
 <div class="section" id="models">
-  <div class="section-header"><div class="section-icon">&#x1F916;</div><h2> AI </h2></div>
-  <p></p>
-  <h3></h3>
+  <div class="section-header"><div class="section-icon">*</div><h2>模型平台</h2></div>
+  <p>支持 32 个模型平台，覆盖国内外主流 AI 服务：</p>
+  <h4>国产平台</h4>
+  <p>DeepSeek · Kimi（Moonshot）· 通义千问（DashScope）· 智谱 GLM · 豆包（火山引擎）· MiniMax · 百川 · 零一万物 · 阶跃星辰 · 小米 MiMo · 腾讯混元 · 百度千帆 · 讯飞星火 · 商汤 · 昆仑万维</p>
+  <h4>国际平台</h4>
+  <p>OpenAI · Anthropic · Google Gemini · xAI Grok · Mistral · Meta Llama · Perplexity · Cohere</p>
+  <h4>聚合平台</h4>
+  <p>OpenRouter · Groq · Cerebras · Together · DeepInfra</p>
+  <h4>本地模型</h4>
+  <p>Ollama · LM Studio（自动检测）。其他 OpenAI 兼容运行时通过「自定义中转站」接入。</p>
+  <p>详细本地模型接入教程：<a href="/openclaw/local-models/">本地模型接入指南</a></p>
+</div>
+
+<div class="section" id="channels">
+  <div class="section-header"><div class="section-icon">#</div><h2>聊天渠道</h2></div>
+  <p>通过配置中心一站式接入 12 个聊天平台：</p>
   <table>
-    <thead><tr><th></th><th></th><th> Key</th></tr></thead>
+    <thead><tr><th>平台</th><th>接入方式</th><th>说明</th></tr></thead>
     <tbody>
-      <tr><td><strong>DeepSeek</strong></td><td></td><td>platform.deepseek.com</td></tr>
-      <tr><td><strong>Kimi K2.5</strong></td><td>256K </td><td>platform.moonshot.cn</td></tr>
-      <tr><td><strong></strong></td><td> provider</td><td>dashscope.aliyun.com</td></tr>
-      <tr><td><strong> GLM</strong></td><td></td><td>open.bigmodel.cn</td></tr>
-      <tr><td><strong>MiniMax</strong></td><td></td><td>platform.minimaxi.com</td></tr>
-      <tr><td><strong></strong></td><td></td><td>www.volcengine.com</td></tr>
-    </tbody>
-  </table>
-  <h3></h3>
-  <table>
-    <thead><tr><th></th><th></th></tr></thead>
-    <tbody>
-      <tr><td><strong>Claude (Anthropic)</strong></td><td></td></tr>
-      <tr><td><strong>GPT-4o (OpenAI)</strong></td><td></td></tr>
-      <tr><td><strong>Gemini (Google)</strong><td>1M </td></tr>
-      <tr><td><strong>OpenRouter</strong></td><td>100+ </td></tr>
+      <tr><td>微信</td><td>iLink 扫码登录</td><td>个人微信，无需公众号</td></tr>
+      <tr><td>QQ</td><td>AppID + AppSecret</td><td>预装插件，1 分钟配置</td></tr>
+      <tr><td>飞书</td><td>App ID + Secret</td><td>企业首选</td></tr>
+      <tr><td>企业微信</td><td>Bot ID + Secret</td><td>WebSocket 实时通信</td></tr>
+      <tr><td>Telegram</td><td>Bot Token</td><td>海外推荐</td></tr>
+      <tr><td>Discord</td><td>Bot Token</td><td>社区场景</td></tr>
+      <tr><td>Slack</td><td>Bot Token + Signing Secret</td><td>团队协作</td></tr>
+      <tr><td>WhatsApp</td><td>Baileys 协议</td><td>无需 Business API</td></tr>
+      <tr><td>Signal</td><td>signal-cli</td><td>端到端加密</td></tr>
+      <tr><td>LINE</td><td>Channel Token</td><td>日韩地区</td></tr>
+      <tr><td>Google Chat</td><td>Service Account</td><td>Google Workspace</td></tr>
+      <tr><td>MS Teams</td><td>Bot Framework</td><td>Microsoft 365</td></tr>
     </tbody>
   </table>
 </div>
 
-<!-- 4: Config -->
-<div class="section" id="config">
-  <div class="section-header"><div class="section-icon">&#x2699</div><h2></h2></div>
-  <p> <a href="http://127.0.0.1:18750/" target="_blank" rel="noopener">http://127.0.0.1:18750/</a> OpenClaw </p>
-  <h3></h3>
-  <div class="steps">
-    <div class="step"><span class="step-num">1</span><span class="step-content"> AI API </span></div>
-    <div class="step"><span class="step-num">2</span><span class="step-content"> API Key</span></div>
-    <div class="step"><span class="step-num">3</span><span class="step-content">""</span></div>
-    <div class="step"><span class="step-num">4</span><span class="step-content"> <code>http://127.0.0.1:18789</code> </span></div>
-  </div>
-  <div class="callout callout-tip"><span class="callout-icon">&#x1F4A1;</span><div><strong> provider </strong>MiniMax GLM  provider API Key API </div></div>
-</div>
-
-<!-- 5: Skills -->
-<div class="section" id="skills">
-  <div class="section-header"><div class="section-icon">&#x1F3AF;</div><h2></h2></div>
-  <p>OpenClaw  ClawHub  13,000+ AI Skills 34 </p>
-  <h3></h3>
-  <table>
-    <thead><tr><th></th><th></th></tr></thead>
-    <tbody>
-      <tr><td><strong>Tavily Search</strong></td><td>AI </td></tr>
-      <tr><td><strong>GitHub</strong></td><td> IssuePR</td></tr>
-      <tr><td><strong>Himalaya</strong></td><td> QQ </td></tr>
-      <tr><td><strong>Weather</strong></td><td></td></tr>
-    </tbody>
-  </table>
-  <h3></h3>
-  <table>
-    <thead><tr><th></th><th></th></tr></thead>
-    <tbody>
-      <tr><td><strong>Agent </strong></td><td>" []  skill"</td></tr>
-      <tr><td><strong></strong></td><td><code>openclaw skills install @/</code></td></tr>
-      <tr><td><strong></strong></td><td><code>openclaw skills search </code></td></tr>
-    </tbody>
-  </table>
-  <div class="callout callout-info"><span class="callout-icon">&#x1F4DA;</span><div> <a href="https://clawhub.openclaw.dev" target="_blank" rel="noopener">ClawHub </a>  <code>http://127.0.0.1:18750/</code> </div></div>
-</div>
-
-<!-- 6: Chat Platforms -->
-<div class="section" id="chat">
-  <div class="section-header"><div class="section-icon"></div><h2>12 </h2></div>
-  <p> AI Agent  12 </p>
-  <h3></h3>
-  <table>
-    <thead><tr><th></th><th></th><th></th></tr></thead>
-    <tbody>
-      <tr><td><strong></strong></td><td></td><td></td></tr>
-      <tr><td><strong></strong></td><td>App ID + App Secret</td><td>open.feishu.cn</td></tr>
-      <tr><td><strong>QQ Bot</strong></td><td>App ID + Client Secret</td><td>q.qq.com</td></tr>
-      <tr><td><strong>Telegram</strong></td><td>Bot Token</td><td>@BotFather</td></tr>
-    </tbody>
-  </table>
-  <h3></h3>
-  <table>
-    <thead><tr><th></th><th></th></tr></thead>
-    <tbody>
-      <tr><td><strong>Discord</strong></td><td>Bot Token</td></tr>
-      <tr><td><strong>Slack</strong></td><td>Bot Token + App Token</td></tr>
-      <tr><td><strong>WhatsApp</strong></td><td></td></tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- 7: Local Models -->
-<div class="section" id="local">
-  <div class="section-header"><div class="section-icon">&#x1F4E5;</div><h2> / </h2></div>
-  <p> AI </p>
-  <table>
-    <thead><tr><th>Provider</th><th></th><th></th></tr></thead>
-    <tbody>
-      <tr><td><strong>LM Studio</strong></td><td>GUI </td><td> LM Studio →  → </td></tr>
-      <tr><td><strong>Ollama</strong></td><td></td><td><code>ollama run qwen2.5</code></td></tr>
-      <tr><td><strong>llama.cpp</strong></td><td></td><td> / <code>llama-server</code> </td></tr>
-      <tr><td><strong>vLLM</strong></td><td> GPU </td><td> NVIDIA </td></tr>
-    </tbody>
-  </table>
-  <div class="callout callout-warn"><span class="callout-icon">!</span><div><strong></strong> DeepSeekKim </div></div>
-</div>
-
-<!-- 8: Mobile Connect -->
 <div class="section" id="mobile">
-  <div class="section-header"><div class="section-icon"></div><h2> / Mobile Connect</h2></div>
-  <p> WiFi Android / iOS OpenClaw Gateway</p>
-  <p style="opacity:.6">Let phones (Android / iOS) on the same WiFi connect to the OpenClaw Gateway.</p>
-
-  <h3> / Launchers</h3>
-  <div class="platform-grid">
-    <div class="platform-card"><div class="icon"></div><strong>macOS</strong><span> <code>Mac-Mobile.command</code></span></div>
-    <div class="platform-card"><div class="icon"></div><strong>Linux</strong><span><code>bash Linux-Mobile.sh</code></span></div>
-    <div class="platform-card"><div class="icon"></div><strong>Windows</strong><span> <code>Windows-Mobile.bat</code></span></div>
-  </div>
-  <p style="opacity:.6;font-size:.92rem;margin-top:8px"> Web UI ""<br>You can also toggle "LAN mode" in the Config Center Web UI for the same effect.</p>
-
-  <h3> / Connection Methods</h3>
+  <div class="section-header"><div class="section-icon">~</div><h2>手机连接</h2></div>
+  <p>让同一 WiFi 下的手机连接到 OpenClaw Gateway，无需在手机上安装任何东西。</p>
+  <h3>启动方式</h3>
   <table>
-    <thead><tr><th> Method</th><th> Description</th><th> For</th></tr></thead>
+    <thead><tr><th>平台</th><th>启动器</th></tr></thead>
     <tbody>
-      <tr><td><strong></strong><br>Phone Browser</td><td> <code>http://&lt;IP&gt;:18789</code><br>Open the URL, zero install</td><td>Android / iOS</td></tr>
-      <tr><td><strong> App</strong><br>Official App</td><td>/<br>Auto-discover or manual entry; camera/voice support</td><td>Android / iOS</td></tr>
-      <tr><td><strong> App</strong><br>Third-party</td><td>andClaw / AnyClaw / FlutterClaw (Google Play)<br> ws://&lt;IP&gt;:&lt;port&gt;</td><td>Android</td></tr>
+      <tr><td>macOS</td><td><code>system/Mac-Mobile.command</code></td></tr>
+      <tr><td>Linux</td><td><code>system/Linux-Mobile.sh</code></td></tr>
+      <tr><td>Windows</td><td><code>system/Windows-Mobile.bat</code></td></tr>
     </tbody>
   </table>
-
-  <h3> / How It Works</h3>
-  <div class="steps">
-    <div class="step"><span class="step-num">1</span><span class="step-content"><strong> LAN </strong> — Gateway  IP 127.0.0.1<br><span style="opacity:.6">Temporary LAN config — Gateway binds to LAN IP instead of 127.0.0.1</span></span></div>
-    <div class="step"><span class="step-num">2</span><span class="step-content"><strong></strong> — <br><span style="opacity:.6">Auto-pairing — private network devices approved automatically</span></span></div>
-    <div class="step"><span class="step-num">3</span><span class="step-content"><strong></strong> — <br><span style="opacity:.6">Clean exit — temp config deleted, normal usage unaffected</span></span></div>
-  </div>
-
-  <div class="callout callout-warn"><span class="callout-icon"></span><div><strong> / Security:</strong>  WiFi 192.168.x.x / 10.x.x.x / 172.16-31.x.x IP <br>Only private network CIDRs on the same WiFi are auto-approved. Public IPs are never auto-paired.</div></div>
+  <p>双击启动器，以 LAN 模式临时启动 Gateway。退出后自动恢复原始配置。</p>
+  <h3>连接方式</h3>
+  <ul>
+    <li><strong>手机浏览器</strong>（推荐）— 打开 <code>http://电脑局域网IP:端口</code>，Android / iOS 均可</li>
+    <li><strong>官方 App</strong> — 编译 openclaw 仓库的 apps/android 或 apps/ios</li>
+    <li><strong>第三方 App</strong> — andClaw / AnyClaw / FlutterClaw，手动输入 WebSocket 地址</li>
+  </ul>
+  <p>也可以在配置中心 Web UI 中直接开启手机连接模式。</p>
 </div>
 
-<!-- 9: Ports -->
-<div class="section" id="ports">
-  <div class="section-header"><div class="section-icon">&#x1F50C;</div><h2> / Ports</h2></div>
+<div class="section" id="skills">
+  <div class="section-header"><div class="section-icon">+</div><h2>内置技能</h2></div>
   <table>
-    <thead><tr><th></th><th></th><th></th></tr></thead>
+    <thead><tr><th>技能</th><th>说明</th></tr></thead>
     <tbody>
-      <tr><td><code>18789</code></td><td>AI </td><td> 18789-18799</td></tr>
-      <tr><td><code>18750</code></td><td></td><td>Web </td></tr>
-      <tr><td><code>1234</code></td><td>LM Studio</td><td> LLM</td></tr>
-      <tr><td><code>8080</code></td><td>llama.cpp</td><td> LLM</td></tr>
-      <tr><td><code>11434</code></td><td>Ollama</td><td> LLM</td></tr>
+      <tr><td>china-search</td><td>国内搜索引擎</td></tr>
+      <tr><td>china-translate</td><td>中英翻译</td></tr>
+      <tr><td>china-weather</td><td>天气查询</td></tr>
+      <tr><td>xiaohongshu-writer</td><td>小红书文案</td></tr>
+      <tr><td>zhihu-writer</td><td>知乎回答</td></tr>
+      <tr><td>weibo-poster</td><td>微博文案</td></tr>
+      <tr><td>wechat-article</td><td>公众号文章</td></tr>
+      <tr><td>bilibili-helper</td><td>B站内容</td></tr>
+      <tr><td>douyin-script</td><td>抖音脚本</td></tr>
+      <tr><td>deepseek-helper</td><td>DeepSeek 增强</td></tr>
     </tbody>
   </table>
+  <p>技能在 <code>skills-cn/</code> 目录下，启动时自动加载。</p>
 </div>
 
-<!-- 10: FAQ -->
-<div class="section" id="troubleshoot">
-  <div class="section-header"><div class="section-icon">&#x2753;</div><h2> / FAQ</h2></div>
-
-  <div class="faq-item">
-    <div class="faq-q"> U </div>
-    <div class="faq-a"> U  <code>data/</code> Windows / Mac / Linux </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-q"></div>
-    <div class="faq-a"> U  <code>data/memory/</code> </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-q"></div>
-    <div class="faq-a"> npm  10-30 </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-q"> AI </div>
-    <div class="faq-a"> <code>http://127.0.0.1:18750/</code> API Key </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-q">Mac ""</div>
-    <div class="faq-a"> <code>OpenClaw.app</code>""""</div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-q"></div>
-    <div class="faq-a">LM Studio / Ollama 7B  8GB llama.cpp vLLM NVIDIA GPU 8GB+ </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-q"></div>
-    <div class="faq-a"></div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-q"></div>
-    <div class="faq-a">Windows  <code>upgrade.bat</code>Mac/Linux  <code>cd app/core && npm install openclaw@latest --registry=https://registry.npmmirror.com</code> <code>data/</code> </div>
-  </div>
-
-  <div class="faq-item">
-    <div class="faq-q"></div>
-    <div class="faq-a"> [6]  <code>data/.openclaw/openclaw.json</code></div>
-  </div>
+<div class="section" id="platform">
+  <div class="section-header"><div class="section-icon">=</div><h2>平台支持</h2></div>
+  <table>
+    <thead><tr><th>平台</th><th>架构</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>macOS</td><td>Apple Silicon (M1-M4)</td><td>支持</td></tr>
+      <tr><td>macOS</td><td>Intel x64</td><td>支持</td></tr>
+      <tr><td>Linux</td><td>x64</td><td>支持</td></tr>
+      <tr><td>Linux</td><td>ARM64</td><td>支持</td></tr>
+      <tr><td>Windows</td><td>x64</td><td>支持</td></tr>
+      <tr><td>Android / iOS</td><td>通过 Mobile Connect</td><td>支持</td></tr>
+    </tbody>
+  </table>
+  <p>macOS 版本说明：Node.js 24 官方标注最低 macOS 13.5（Ventura），实测 macOS 12+ 可正常运行。</p>
 </div>
+
+<div class="section" id="download">
+  <div class="section-header"><div class="section-icon">v</div><h2>下载</h2></div>
+  <div class="download-grid">
+    <a class="dl-card" href="https://github.com/yuluyangguang1/openclaw-portable/releases/latest" target="_blank" rel="noopener">
+      <span class="dl-title">OpenClawPortable.zip</span>
+      <span class="dl-text">全平台通用包（macOS ARM/Intel + Linux x64/ARM64 + Windows x64）</span>
+      <span class="dl-meta">GitHub Releases</span>
+      <span class="dl-arrow">-></span>
+    </a>
+  </div>
+  <p>解压到 U 盘或任意目录，双击对应平台的启动器即可使用。</p>
+  <h3>更多</h3>
+  <ul>
+    <li><a href="/openclaw/changelog/">更新日志</a></li>
+    <li><a href="/openclaw/local-models/">本地模型接入教程</a></li>
+    <li><a href="https://github.com/yuluyangguang1/openclaw-portable" target="_blank" rel="noopener">GitHub 源码</a></li>
+  </ul>
+</div>
+
 </main>
 
 <footer class="footer">
