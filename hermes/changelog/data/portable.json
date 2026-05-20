@@ -1,0 +1,242 @@
+[
+  {
+    "tag_name": "v0.14.3",
+    "name": "v0.14.3",
+    "body": "# Hermes Portable v0.14.3\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n挑对应你机器架构的包——不确定就看 `uname -m` (macOS/Linux) 或 Windows 设置里的「关于 → 系统类型」。\n\n| 平台 Platform | 架构 Arch | 文件 File | 启动方式 Launch |\n|---|---|---|---|\n| **macOS** (Apple Silicon) | arm64 | [HermesPortable-macOS-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.3/HermesPortable-macOS-arm64.zip) | 双击 `Hermes.command` |\n| **macOS** (Intel) | x86_64 | [HermesPortable-macOS-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.3/HermesPortable-macOS-x64.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | x86_64 | [HermesPortable-Linux-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.3/HermesPortable-Linux-x64.zip) | `./Hermes.sh` |\n| **Linux** (glibc 2.28+) | arm64 | [HermesPortable-Linux-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.3/HermesPortable-Linux-arm64.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | x86_64 | [HermesPortable-Windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.3/HermesPortable-Windows-x64.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (全架构合一 / all arches) | — | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.3/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## macOS: 首次双击提示「您没有权限」/「无法打开」\n\nmacOS 会给从浏览器下载的 zip 盖 Gatekeeper 隔离标记，解压后双击 `Hermes.command` 会被拒。打开\"终端\" (Terminal)，用下面两条命令解除一次即可（第一条移除隔离标记，第二条恢复可执行权限）：\n\n```bash\n# 把下一行里的路径替换成你自己的 HermesPortable 文件夹\ncd ~/Downloads/HermesPortable\nxattr -cr . && chmod +x Hermes.command Hermes.sh\n```\n\n之后再双击 `Hermes.command` 就正常了。（这是 macOS 对未公证应用的默认行为，不是 Hermes 的 bug。）\n\n## SHA-256\n\n```\n2530a2871afc3cb1aa8d8aee729264b7166d928f8177b15dc096c32ab7bac020  HermesPortable-Linux-arm64.zip\n168e63cac2c31df1fd72146a4ef1c4512590b85dfcf6acf97a5108f03dec8c90  HermesPortable-Linux-x64.zip\n340882dbe130982b7102cfb01c8959b3ea07376643b2e3a04c9fd3f6e1e9991a  HermesPortable-Windows-x64.zip\n38260f31fd8b83747201e2db6179f8813b170e5d9d88b88b0c0bea6ba2d0c2e2  HermesPortable-macOS-arm64.zip\n44d47416b821d1cde6865e10796270ba5d81e19354fad501ce6d78f1c1b81ffa  HermesPortable-macOS-x64.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n## What's Changed\n* fix: auto-open hermes-web-ui after second launch by @yuluyangguang1 in https://github.com/yuluyangguang1/hermes-portable/pull/24\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.14.2...v0.14.3",
+    "published_at": "2026-05-20T05:34:48Z",
+    "created_at": "2026-05-20T05:27:15Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.14.3",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.14.2",
+    "name": "v0.14.2",
+    "body": null,
+    "published_at": "2026-05-20T01:49:10Z",
+    "created_at": "2026-05-20T01:41:16Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.14.2",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.14.1",
+    "name": "v0.14.1",
+    "body": "# Hermes Portable v0.14.1\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n挑对应你机器架构的包——不确定就看 `uname -m` (macOS/Linux) 或 Windows 设置里的「关于 → 系统类型」。\n\n| 平台 Platform | 架构 Arch | 文件 File | 启动方式 Launch |\n|---|---|---|---|\n| **macOS** (Apple Silicon) | arm64 | [HermesPortable-macOS-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.1/HermesPortable-macOS-arm64.zip) | 双击 `Hermes.command` |\n| **macOS** (Intel) | x86_64 | [HermesPortable-macOS-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.1/HermesPortable-macOS-x64.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | x86_64 | [HermesPortable-Linux-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.1/HermesPortable-Linux-x64.zip) | `./Hermes.sh` |\n| **Linux** (glibc 2.28+) | arm64 | [HermesPortable-Linux-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.1/HermesPortable-Linux-arm64.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | x86_64 | [HermesPortable-Windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.1/HermesPortable-Windows-x64.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (全架构合一 / all arches) | — | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.14.1/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## macOS: 首次双击提示「您没有权限」/「无法打开」\n\nmacOS 会给从浏览器下载的 zip 盖 Gatekeeper 隔离标记，解压后双击 `Hermes.command` 会被拒。打开\"终端\" (Terminal)，用下面两条命令解除一次即可（第一条移除隔离标记，第二条恢复可执行权限）：\n\n```bash\n# 把下一行里的路径替换成你自己的 HermesPortable 文件夹\ncd ~/Downloads/HermesPortable\nxattr -cr . && chmod +x Hermes.command Hermes.sh\n```\n\n之后再双击 `Hermes.command` 就正常了。（这是 macOS 对未公证应用的默认行为，不是 Hermes 的 bug。）\n\n## SHA-256\n\n```\nc019bc54141d77576822aa60b5f812accd86505df333998ef8480dfbdd5919d0  HermesPortable-Linux-arm64.zip\n71c63e6a469af0f8f4020fa996042c80eaf44f35bc240bfd1398b12358cf25ce  HermesPortable-Linux-x64.zip\ned50349a0c7387a40be5316f2724d650a0d4ede6371fd9eb20cee4e1f3adf59a  HermesPortable-Windows-x64.zip\n38fbc2692b36b417eb582c47870a7f8cfc2487027ec27aa3c71c327bdc7a0948  HermesPortable-macOS-arm64.zip\ned4e5675f52f66812125a8c974418dca9e7bd99e57b39d4e486f72627e064713  HermesPortable-macOS-x64.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n## What's Changed\n* feat: live model catalog + WeChat QR login in config panel by @yuluyangguang1 in https://github.com/yuluyangguang1/hermes-portable/pull/22\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.14.0...v0.14.1",
+    "published_at": "2026-05-19T16:55:15Z",
+    "created_at": "2026-05-19T16:47:37Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.14.1",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.14.0",
+    "name": "v0.14.0",
+    "body": null,
+    "published_at": "2026-05-18T16:06:06Z",
+    "created_at": "2026-05-18T15:58:06Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.14.0",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.20",
+    "name": "v0.13.20",
+    "body": "# Hermes Portable v0.13.20\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n挑对应你机器架构的包——不确定就看 `uname -m` (macOS/Linux) 或 Windows 设置里的「关于 → 系统类型」。\n\n| 平台 Platform | 架构 Arch | 文件 File | 启动方式 Launch |\n|---|---|---|---|\n| **macOS** (Apple Silicon) | arm64 | [HermesPortable-macOS-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.20/HermesPortable-macOS-arm64.zip) | 双击 `Hermes.command` |\n| **macOS** (Intel) | x86_64 | [HermesPortable-macOS-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.20/HermesPortable-macOS-x64.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | x86_64 | [HermesPortable-Linux-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.20/HermesPortable-Linux-x64.zip) | `./Hermes.sh` |\n| **Linux** (glibc 2.28+) | arm64 | [HermesPortable-Linux-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.20/HermesPortable-Linux-arm64.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | x86_64 | [HermesPortable-Windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.20/HermesPortable-Windows-x64.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (全架构合一 / all arches) | — | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.20/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## macOS: 首次双击提示「您没有权限」/「无法打开」\n\nmacOS 会给从浏览器下载的 zip 盖 Gatekeeper 隔离标记，解压后双击 `Hermes.command` 会被拒。打开\"终端\" (Terminal)，用下面两条命令解除一次即可（第一条移除隔离标记，第二条恢复可执行权限）：\n\n```bash\n# 把下一行里的路径替换成你自己的 HermesPortable 文件夹\ncd ~/Downloads/HermesPortable\nxattr -cr . && chmod +x Hermes.command Hermes.sh\n```\n\n之后再双击 `Hermes.command` 就正常了。（这是 macOS 对未公证应用的默认行为，不是 Hermes 的 bug。）\n\n## SHA-256\n\n```\n5699ed518ef21fb1c05ed76dd0ccedaf75f43f9888d50d1096e71748b6a475d6  HermesPortable-Linux-arm64.zip\n95849692b73d4db2652aef9bafef630f9ecd6c1cc477577be71b32d1d28b9f7a  HermesPortable-Linux-x64.zip\n3107432e853cb807316ecfa240f25cc68a17cd293bc255d6fb637aeb5b921ede  HermesPortable-Windows-x64.zip\n9917b9ef41ebc7319dd9d276b2be8539e75539d4fec35474bb56fc52ad3c6b04  HermesPortable-macOS-arm64.zip\nc6a1074ed037e668cd96a2df98d6430c8ef7e0a6f9f492f18eda8d9dd0fb0b9b  HermesPortable-macOS-x64.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.19...v0.13.20",
+    "published_at": "2026-05-17T15:50:18Z",
+    "created_at": "2026-05-17T15:42:01Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.20",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.19",
+    "name": "v0.13.19",
+    "body": null,
+    "published_at": "2026-05-17T05:17:06Z",
+    "created_at": "2026-05-17T05:09:14Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.19",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.18",
+    "name": "v0.13.18",
+    "body": "# Hermes Portable v0.13.18\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n挑对应你机器架构的包——不确定就看 `uname -m` (macOS/Linux) 或 Windows 设置里的「关于 → 系统类型」。\n\n| 平台 Platform | 架构 Arch | 文件 File | 启动方式 Launch |\n|---|---|---|---|\n| **macOS** (Apple Silicon) | arm64 | [HermesPortable-macOS-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.18/HermesPortable-macOS-arm64.zip) | 双击 `Hermes.command` |\n| **macOS** (Intel) | x86_64 | [HermesPortable-macOS-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.18/HermesPortable-macOS-x64.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | x86_64 | [HermesPortable-Linux-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.18/HermesPortable-Linux-x64.zip) | `./Hermes.sh` |\n| **Linux** (glibc 2.28+) | arm64 | [HermesPortable-Linux-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.18/HermesPortable-Linux-arm64.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | x86_64 | [HermesPortable-Windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.18/HermesPortable-Windows-x64.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (全架构合一 / all arches) | — | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.18/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## macOS: 首次双击提示「您没有权限」/「无法打开」\n\nmacOS 会给从浏览器下载的 zip 盖 Gatekeeper 隔离标记，解压后双击 `Hermes.command` 会被拒。打开\"终端\" (Terminal)，用下面两条命令解除一次即可（第一条移除隔离标记，第二条恢复可执行权限）：\n\n```bash\n# 把下一行里的路径替换成你自己的 HermesPortable 文件夹\ncd ~/Downloads/HermesPortable\nxattr -cr . && chmod +x Hermes.command Hermes.sh\n```\n\n之后再双击 `Hermes.command` 就正常了。（这是 macOS 对未公证应用的默认行为，不是 Hermes 的 bug。）\n\n## SHA-256\n\n```\nb11d57719abe23f2136c4610477acb2865ccbc612ca14493059e4eda0b07adba  HermesPortable-Linux-arm64.zip\n5ace67a2f948bfb833cd99d8a4a7487dadb045b31218f878fecbfaf3c02a56ab  HermesPortable-Linux-x64.zip\nf76add9116c5d023d5153230960772c65ba3f995399cc76d9296dc318b7c831d  HermesPortable-Windows-x64.zip\na44800fb36a047c84dc905ff8e6ec9b711dd19e61f894e8ac46d5ec4b559ce5e  HermesPortable-macOS-arm64.zip\nac8b6f2fa553596989af5a180cd90608bd9b02033ea106b1ce47add7e2bc77e4  HermesPortable-macOS-x64.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.17...v0.13.18",
+    "published_at": "2026-05-17T05:01:53Z",
+    "created_at": "2026-05-17T04:53:57Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.18",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.17",
+    "name": "v0.13.17",
+    "body": null,
+    "published_at": "2026-05-17T04:20:31Z",
+    "created_at": "2026-05-17T04:12:21Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.17",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.16",
+    "name": "v0.13.16",
+    "body": "# Hermes Portable v0.13.16\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n挑对应你机器架构的包——不确定就看 `uname -m` (macOS/Linux) 或 Windows 设置里的「关于 → 系统类型」。\n\n| 平台 Platform | 架构 Arch | 文件 File | 启动方式 Launch |\n|---|---|---|---|\n| **macOS** (Apple Silicon) | arm64 | [HermesPortable-macOS-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.16/HermesPortable-macOS-arm64.zip) | 双击 `Hermes.command` |\n| **macOS** (Intel) | x86_64 | [HermesPortable-macOS-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.16/HermesPortable-macOS-x64.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | x86_64 | [HermesPortable-Linux-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.16/HermesPortable-Linux-x64.zip) | `./Hermes.sh` |\n| **Linux** (glibc 2.28+) | arm64 | [HermesPortable-Linux-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.16/HermesPortable-Linux-arm64.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | x86_64 | [HermesPortable-Windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.16/HermesPortable-Windows-x64.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (全架构合一 / all arches) | — | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.16/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## macOS: 首次双击提示「您没有权限」/「无法打开」\n\nmacOS 会给从浏览器下载的 zip 盖 Gatekeeper 隔离标记，解压后双击 `Hermes.command` 会被拒。打开\"终端\" (Terminal)，用下面两条命令解除一次即可（第一条移除隔离标记，第二条恢复可执行权限）：\n\n```bash\n# 把下一行里的路径替换成你自己的 HermesPortable 文件夹\ncd ~/Downloads/HermesPortable\nxattr -cr . && chmod +x Hermes.command Hermes.sh\n```\n\n之后再双击 `Hermes.command` 就正常了。（这是 macOS 对未公证应用的默认行为，不是 Hermes 的 bug。）\n\n## SHA-256\n\n```\n1140a7df4acb34380169bec2bbdf0a2c82262985618382d596c7df364b834820  HermesPortable-Linux-arm64.zip\na24d0b23dff371191088741c573cedc21a095bb75535ac4bcbdc2e01bec8ada2  HermesPortable-Linux-x64.zip\n8179cba6ab8625754f9282e17a5417a7948316b67b539a3d550861aba0a6d2a3  HermesPortable-Windows-x64.zip\n13645336b29a87b29d2101edadc4b8c2b248238909e875203b12ced43efc4fb5  HermesPortable-macOS-arm64.zip\n0cb841d675d3ecd9e550590fab844ad71419450e515f54efbfa7c74f8fb169d4  HermesPortable-macOS-x64.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.15...v0.13.16",
+    "published_at": "2026-05-17T02:54:17Z",
+    "created_at": "2026-05-17T02:47:16Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.16",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.15",
+    "name": "v0.13.15",
+    "body": "# Hermes Portable v0.13.15\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n挑对应你机器架构的包——不确定就看 `uname -m` (macOS/Linux) 或 Windows 设置里的「关于 → 系统类型」。\n\n| 平台 Platform | 架构 Arch | 文件 File | 启动方式 Launch |\n|---|---|---|---|\n| **macOS** (Apple Silicon) | arm64 | [HermesPortable-macOS-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.15/HermesPortable-macOS-arm64.zip) | 双击 `Hermes.command` |\n| **macOS** (Intel) | x86_64 | [HermesPortable-macOS-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.15/HermesPortable-macOS-x64.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | x86_64 | [HermesPortable-Linux-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.15/HermesPortable-Linux-x64.zip) | `./Hermes.sh` |\n| **Linux** (glibc 2.28+) | arm64 | [HermesPortable-Linux-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.15/HermesPortable-Linux-arm64.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | x86_64 | [HermesPortable-Windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.15/HermesPortable-Windows-x64.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (全架构合一 / all arches) | — | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.15/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## macOS: 首次双击提示「您没有权限」/「无法打开」\n\nmacOS 会给从浏览器下载的 zip 盖 Gatekeeper 隔离标记，解压后双击 `Hermes.command` 会被拒。打开\"终端\" (Terminal)，用下面两条命令解除一次即可（第一条移除隔离标记，第二条恢复可执行权限）：\n\n```bash\n# 把下一行里的路径替换成你自己的 HermesPortable 文件夹\ncd ~/Downloads/HermesPortable\nxattr -cr . && chmod +x Hermes.command Hermes.sh\n```\n\n之后再双击 `Hermes.command` 就正常了。（这是 macOS 对未公证应用的默认行为，不是 Hermes 的 bug。）\n\n## SHA-256\n\n```\n001cb2b23dfb21e9aff71e66892fc864cd84b73a0b0636d576619a606b1a6820  HermesPortable-Linux-arm64.zip\ncd892c540b20fa7c0309def1c52c5f7076a552514b6bd99b06983ec757513f33  HermesPortable-Linux-x64.zip\n49b70ae82eb7781afa6ad42504c246c66e9beefeb4a563b325483abbaa8bbc2f  HermesPortable-Windows-x64.zip\nff88c59e6030aeabf823b71d15a8958b13ea7610a58deb8880674a2d3a838aa6  HermesPortable-macOS-arm64.zip\n2815b0b24baf80cbccd89a6181ec175e691f2d3b7a956488af38ba46f578cb01  HermesPortable-macOS-x64.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.14...v0.13.15",
+    "published_at": "2026-05-15T03:35:34Z",
+    "created_at": "2026-05-15T03:34:54Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.15",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.14",
+    "name": "v0.13.14",
+    "body": "# Hermes Portable v0.13.14\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n挑对应你机器架构的包——不确定就看 `uname -m` (macOS/Linux) 或 Windows 设置里的「关于 → 系统类型」。\n\n| 平台 Platform | 架构 Arch | 文件 File | 启动方式 Launch |\n|---|---|---|---|\n| **macOS** (Apple Silicon) | arm64 | [HermesPortable-macOS-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.14/HermesPortable-macOS-arm64.zip) | 双击 `Hermes.command` |\n| **macOS** (Intel) | x86_64 | [HermesPortable-macOS-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.14/HermesPortable-macOS-x64.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | x86_64 | [HermesPortable-Linux-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.14/HermesPortable-Linux-x64.zip) | `./Hermes.sh` |\n| **Linux** (glibc 2.28+) | arm64 | [HermesPortable-Linux-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.14/HermesPortable-Linux-arm64.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | x86_64 | [HermesPortable-Windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.14/HermesPortable-Windows-x64.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (全架构合一 / all arches) | — | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.14/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## macOS: 首次双击提示「您没有权限」/「无法打开」\n\nmacOS 会给从浏览器下载的 zip 盖 Gatekeeper 隔离标记，解压后双击 `Hermes.command` 会被拒。打开\"终端\" (Terminal)，用下面两条命令解除一次即可（第一条移除隔离标记，第二条恢复可执行权限）：\n\n```bash\n# 把下一行里的路径替换成你自己的 HermesPortable 文件夹\ncd ~/Downloads/HermesPortable\nxattr -cr . && chmod +x Hermes.command Hermes.sh\n```\n\n之后再双击 `Hermes.command` 就正常了。（这是 macOS 对未公证应用的默认行为，不是 Hermes 的 bug。）\n\n## SHA-256\n\n```\n724ab768286b5ce3f48b622db51c07c088a525dc9dcc79f6332070d8bfb726c1  HermesPortable-Linux-arm64.zip\n6199a5ade0d6d32d34b6bb2d47e5945f7081985a3a83f13c289f29053d572844  HermesPortable-Linux-x64.zip\n34d82ae9589e97fe74340eff8a8b2d1f460ef3beafeca2e51baa123f967e67f0  HermesPortable-Windows-x64.zip\n2bdf5802aad94b33f080b89933d4874ea33db25e8d7e01265e90f24675345e8e  HermesPortable-macOS-arm64.zip\n308604536cde6c9195515ad3a5bfbc1b61142951237dc0c2d9ebbd6b65a4e43d  HermesPortable-macOS-x64.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.13...v0.13.14",
+    "published_at": "2026-05-14T17:08:42Z",
+    "created_at": "2026-05-14T17:08:05Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.14",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.13",
+    "name": "v0.13.13",
+    "body": "# Hermes Portable v0.13.13\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n挑对应你机器架构的包——不确定就看 `uname -m` (macOS/Linux) 或 Windows 设置里的「关于 → 系统类型」。\n\n| 平台 Platform | 架构 Arch | 文件 File | 启动方式 Launch |\n|---|---|---|---|\n| **macOS** (Apple Silicon) | arm64 | [HermesPortable-macOS-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.13/HermesPortable-macOS-arm64.zip) | 双击 `Hermes.command` |\n| **macOS** (Intel) | x86_64 | [HermesPortable-macOS-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.13/HermesPortable-macOS-x64.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | x86_64 | [HermesPortable-Linux-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.13/HermesPortable-Linux-x64.zip) | `./Hermes.sh` |\n| **Linux** (glibc 2.28+) | arm64 | [HermesPortable-Linux-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.13/HermesPortable-Linux-arm64.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | x86_64 | [HermesPortable-Windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.13/HermesPortable-Windows-x64.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (全架构合一 / all arches) | — | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.13/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## macOS: 首次双击提示「您没有权限」/「无法打开」\n\nmacOS 会给从浏览器下载的 zip 盖 Gatekeeper 隔离标记，解压后双击 `Hermes.command` 会被拒。打开\"终端\" (Terminal)，用下面两条命令解除一次即可（第一条移除隔离标记，第二条恢复可执行权限）：\n\n```bash\n# 把下一行里的路径替换成你自己的 HermesPortable 文件夹\ncd ~/Downloads/HermesPortable\nxattr -cr . && chmod +x Hermes.command Hermes.sh\n```\n\n之后再双击 `Hermes.command` 就正常了。（这是 macOS 对未公证应用的默认行为，不是 Hermes 的 bug。）\n\n## SHA-256\n\n```\n21ba22b05fcf6b5abd9d651266d848092878c529746245bf29a7f449244b3995  HermesPortable-Linux-arm64.zip\n84b6cb0c931717243e5ea480f2f298a06df5ccd18d15c40e0a517c8bfc4685e7  HermesPortable-Linux-x64.zip\n3ae348e50bdfc2cf4c22c9d63f9f4476a5972efe1703b6aebd0aa0dec0139f26  HermesPortable-Windows-x64.zip\n0e447177886b6b027a443d961e596f02157d08414880d303fafaf776c8ab69c0  HermesPortable-macOS-arm64.zip\n97d0456980f44c8abe13e34e404c99783cc6990b9ffcb4000a82fd7a21137d6f  HermesPortable-macOS-x64.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.12...v0.13.13",
+    "published_at": "2026-05-14T15:43:37Z",
+    "created_at": "2026-05-14T15:36:37Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.13",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.12",
+    "name": "v0.13.12",
+    "body": "# Hermes Portable v0.13.12\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n挑对应你机器架构的包——不确定就看 `uname -m` (macOS/Linux) 或 Windows 设置里的「关于 → 系统类型」。\n\n| 平台 Platform | 架构 Arch | 文件 File | 启动方式 Launch |\n|---|---|---|---|\n| **macOS** (Apple Silicon) | arm64 | [HermesPortable-macOS-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.12/HermesPortable-macOS-arm64.zip) | 双击 `Hermes.command` |\n| **macOS** (Intel) | x86_64 | [HermesPortable-macOS-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.12/HermesPortable-macOS-x64.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | x86_64 | [HermesPortable-Linux-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.12/HermesPortable-Linux-x64.zip) | `./Hermes.sh` |\n| **Linux** (glibc 2.28+) | arm64 | [HermesPortable-Linux-arm64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.12/HermesPortable-Linux-arm64.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | x86_64 | [HermesPortable-Windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.12/HermesPortable-Windows-x64.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (全架构合一 / all arches) | — | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.12/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## macOS: 首次双击提示「您没有权限」/「无法打开」\n\nmacOS 会给从浏览器下载的 zip 盖 Gatekeeper 隔离标记，解压后双击 `Hermes.command` 会被拒。打开\"终端\" (Terminal)，用下面两条命令解除一次即可（第一条移除隔离标记，第二条恢复可执行权限）：\n\n```bash\n# 把下一行里的路径替换成你自己的 HermesPortable 文件夹\ncd ~/Downloads/HermesPortable\nxattr -cr . && chmod +x Hermes.command Hermes.sh\n```\n\n之后再双击 `Hermes.command` 就正常了。（这是 macOS 对未公证应用的默认行为，不是 Hermes 的 bug。）\n\n## SHA-256\n\n```\nbbf7f149af74e4a4b1f29d819378da21101c027621a57512cf6fe7da3c4a0190  HermesPortable-Linux-arm64.zip\n6cfe6a770eba386b6bf69d73ef238777518e4d55aa8cc580f1e703558ec2e3ca  HermesPortable-Linux-x64.zip\nbff5fb8159f1e2520317f4bf4e73f8a52a10508c45e64c7e873cc13a0f1dce9b  HermesPortable-Windows-x64.zip\nd849b33d1a4925af73d7079aa84acc4e41c9061fcef791f6eab031d305c0ad30  HermesPortable-macOS-arm64.zip\nc4202c77a19e8880e71fcfa67908bbc2bac8391460f2f81ae57048484267a0c6  HermesPortable-macOS-x64.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n## What's Changed\n* feat(config): expand model catalog + custom relay provider by @yuluyangguang1 in https://github.com/yuluyangguang1/hermes-portable/pull/19\n* feat(banner): add Hermes ASCII logo to Windows and Unix launchers by @yuluyangguang1 in https://github.com/yuluyangguang1/hermes-portable/pull/20\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.11...v0.13.12",
+    "published_at": "2026-05-14T14:18:53Z",
+    "created_at": "2026-05-14T14:13:12Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.12",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.11",
+    "name": "v0.13.11",
+    "body": null,
+    "published_at": "2026-05-13T08:48:40Z",
+    "created_at": "2026-05-13T08:40:00Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.11",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.10",
+    "name": "v0.13.10",
+    "body": null,
+    "published_at": "2026-05-12T07:28:50Z",
+    "created_at": "2026-05-12T07:20:03Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.10",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.9",
+    "name": "v0.13.9",
+    "body": "# Hermes Portable v0.13.9\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n| 平台 | 文件 | 启动方式 |\n|---|---|---|\n| **macOS** (arm64/x64) | [HermesPortable-macOS.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.9/HermesPortable-macOS.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | [HermesPortable-Linux.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.9/HermesPortable-Linux.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | [HermesPortable-Windows.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.9/HermesPortable-Windows.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (三合一 / all three) | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.9/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## SHA-256\n\n```\n51a0ad3b4ffc6a3ca1eaacbc0626cdc9ecc421f250e21412b06cb8bf71288df2  HermesPortable-Linux.zip\n83c38432cd8674392f51712d1fcb2c36b3138d4056a8afb33136bb67a44dd2ce  HermesPortable-Windows.zip\nb51e762dd91ab128ab7dcc2c5bb947b6de210b73acc20ad0a5df1c07e5ea34aa  HermesPortable-macOS.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n## What's Changed\n* docs: rewrite user guide for zip users (remove build/WSL2 flows) by @kiro-agent[bot] in https://github.com/yuluyangguang1/hermes-portable/pull/7\n* fix: detect stale lock files instead of blocking launch by @kiro-agent[bot] in https://github.com/yuluyangguang1/hermes-portable/pull/8\n* fix(launcher): only remove own lock file, avoid trailing space in PID by @kiro-agent[bot] in https://github.com/yuluyangguang1/hermes-portable/pull/9\n* fix: update.py never worked; stop opening two browser tabs on first launch by @kiro-agent[bot] in https://github.com/yuluyangguang1/hermes-portable/pull/10\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.8...v0.13.9",
+    "published_at": "2026-05-12T00:57:38Z",
+    "created_at": "2026-05-12T00:55:17Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.9",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.8",
+    "name": "v0.13.8",
+    "body": null,
+    "published_at": "2026-05-11T12:10:33Z",
+    "created_at": "2026-05-11T12:04:46Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.8",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.7",
+    "name": "v0.13.7",
+    "body": null,
+    "published_at": "2026-05-11T10:38:30Z",
+    "created_at": "2026-05-11T10:32:59Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.7",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.6",
+    "name": "v0.13.6",
+    "body": "# Hermes Portable v0.13.6\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n| 平台 | 文件 | 启动方式 |\n|---|---|---|\n| **macOS** (arm64/x64) | [HermesPortable-macOS.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.6/HermesPortable-macOS.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | [HermesPortable-Linux.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.6/HermesPortable-Linux.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | [HermesPortable-Windows.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.6/HermesPortable-Windows.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (三合一 / all three) | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.6/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## SHA-256\n\n```\ne96be171d8628e18f0c86100533677679e3e17413fb3ede8c3e33dac8e383435  HermesPortable-Linux.zip\n64f71f1436005b21ef7a944fe27cdca501b9f2ddc1447a6abf4a69aebc3a42bc  HermesPortable-Windows.zip\naf9cb37245941327fc92ad5c0f2f1adaf268a813695820f58f52a0a3f95e02f8  HermesPortable-macOS.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.5...v0.13.6",
+    "published_at": "2026-05-11T08:24:56Z",
+    "created_at": "2026-05-11T08:19:41Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.6",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.5",
+    "name": "v0.13.5",
+    "body": null,
+    "published_at": "2026-05-11T07:38:54Z",
+    "created_at": "2026-05-11T07:33:38Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.5",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.4",
+    "name": "v0.13.4",
+    "body": "# Hermes Portable v0.13.4\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n| 平台 | 文件 | 启动方式 |\n|---|---|---|\n| **macOS** (arm64/x64) | [HermesPortable-macOS.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.4/HermesPortable-macOS.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | [HermesPortable-Linux.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.4/HermesPortable-Linux.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | [HermesPortable-Windows.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.4/HermesPortable-Windows.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (三合一 / all three) | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.4/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## SHA-256\n\n```\n1fa9040428b1131778e958652ed1a885b066802e1edbcc502e6c44a632cdd80d  HermesPortable-Linux.zip\n6d32dd7bd16a684960826b19a8e0c12335aec83617595080730232f53affb90f  HermesPortable-Windows.zip\ne83295d6d8c473c0aa9f2f352aa0c0075a50ebc23e1b2ebfc7e828ecb235db97  HermesPortable-macOS.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.3...v0.13.4",
+    "published_at": "2026-05-11T07:29:56Z",
+    "created_at": "2026-05-11T07:24:38Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.4",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.3",
+    "name": "v0.13.3",
+    "body": "**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.2...v0.13.3\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.2...v0.13.3",
+    "published_at": "2026-05-11T05:45:21Z",
+    "created_at": "2026-05-11T05:40:47Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.3",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.13.2",
+    "name": "v0.13.2",
+    "body": "**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.1...v0.13.2",
+    "published_at": "2026-05-11T05:29:48Z",
+    "created_at": "2026-05-11T05:24:56Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.2",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v0.12.0",
+    "name": "v0.12.0",
+    "body": "## v0.12.0\n\n### 下载\n\n| 平台 | 文件 |\n|------|------|\n| Windows | [HermesPortable-Windows.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.12.0/HermesPortable-Windows.zip) |\n| macOS | [HermesPortable-macOS.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.12.0/HermesPortable-macOS.zip) |\n| Linux | [HermesPortable-Linux.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.12.0/HermesPortable-Linux.zip) |\n| 全平台 | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.12.0/HermesPortable-Universal.zip) |\n\n### Windows 用户额外需要\n\n下载 [node-windows-x64.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.12.0/node-windows-x64.zip) 解压到 HermesPortable 目录，用于支持 hermes-web-ui（Web 管理面板）。\n\n### 本次更新\n\n- 新增 Windows 原生支持（不再依赖 WSL）\n- 新增 hermes-web-ui Web 管理面板（端口 8648）\n- config_server 移除 Google Fonts（中国网络兼容）\n- Hermes.bat 启动时自动同步便携配置到 ~/.hermes/\n- 更新版本号至 v0.12.0\n",
+    "published_at": "2026-05-09T08:48:18Z",
+    "created_at": "2026-05-09T08:44:02Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.12.0",
+    "prerelease": false,
+    "draft": false
+  }
+]

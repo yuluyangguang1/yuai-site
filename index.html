@@ -48,20 +48,53 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;
-  --border:rgba(255,230,203,0.12);
+  /* Base color tokens — RGB triplets so color-mix / rgba can derive alpha variants */
+  --bg-base:4 28 28;
+  --mid-base:255 230 203;
+  --dim-base:122 154 144;
+  --accent-base:0 255 200;
+
+  --bg:rgb(var(--bg-base));
+  --mid:rgb(var(--mid-base));
+  --dim:rgb(var(--dim-base));
+  --accent:rgb(var(--accent-base));
+
+  /* Alpha-derived tokens — change one base, every state follows */
+  --border:rgb(var(--mid-base) / .12);
+  --border-strong:rgb(var(--mid-base) / .24);
+  --hover-fill:rgb(var(--mid-base) / .05);
+  --hover-fill-strong:rgb(var(--mid-base) / .08);
+  --code-bg:rgb(var(--mid-base) / .06);
+  --accent-soft:rgb(var(--accent-base) / .04);
+
   --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
   --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
   --mono:'Courier New','Menlo',monospace
 }
 [data-theme="light"]{
-  --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
-  --border:rgba(61,58,53,0.14)
+  --bg-base:245 240 232;
+  --mid-base:61 58 53;
+  --dim-base:115 110 99;
+  --accent-base:2 150 106;
+  --border:rgb(var(--mid-base) / .14);
+  --border-strong:rgb(var(--mid-base) / .26);
+  --hover-fill:rgb(var(--mid-base) / .04);
+  --hover-fill-strong:rgb(var(--mid-base) / .07);
+  --code-bg:rgb(var(--mid-base) / .06);
+  --accent-soft:rgb(var(--accent-base) / .05)
 }
 @media(prefers-color-scheme:light){
   :root:not([data-theme="dark"]){
-    --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
-    --border:rgba(61,58,53,0.14)
+    --bg-base:245 240 232;
+    --mid-base:61 58 53;
+    --dim-base:115 110 99;
+    --accent-base:2 150 106;
+    --border:rgb(var(--mid-base) / .14);
+    --border-strong:rgb(var(--mid-base) / .26);
+    --hover-fill:rgb(var(--mid-base) / .04);
+    --hover-fill-strong:rgb(var(--mid-base) / .07);
+    --code-bg:rgb(var(--mid-base) / .06);
+    --accent-soft:rgb(var(--accent-base) / .05)
   }
 }
 
@@ -98,8 +131,18 @@ button{font:inherit;color:inherit}
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
 .blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
 
+/* Hero entry animation — fade up, staggered */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fade-up{opacity:0;animation:fadeUp .9s cubic-bezier(.2,.6,.2,1) forwards}
+.fade-up.d1{animation-delay:.05s}
+.fade-up.d2{animation-delay:.18s}
+.fade-up.d3{animation-delay:.32s}
+.fade-up.d4{animation-delay:.5s}
+.fade-up.d5{animation-delay:.7s}
+
 @media(prefers-reduced-motion:reduce){
   .blink{animation:none;opacity:1}
+  .fade-up,.fade-up.d1,.fade-up.d2,.fade-up.d3,.fade-up.d4,.fade-up.d5{animation:none;opacity:1;transform:none}
 }
 
 .theme-toggle{background:none;border:none;cursor:pointer;color:var(--mid);opacity:.5;padding:8px;line-height:0;transition:opacity .2s;display:flex;align-items:center;border-radius:4px}
@@ -132,7 +175,7 @@ button{font:inherit;color:inherit}
 .hero-cta a.cta-primary{border-color:var(--accent);color:var(--accent)}
 .hero-cta a.cta-primary:hover,.hero-cta a.cta-primary:focus-visible{background:var(--accent);color:var(--bg)}
 
-.term{width:100%;max-width:560px;border:4px double var(--border)}
+.term{width:100%;max-width:560px;border:1px solid var(--border);background:rgb(var(--bg-base) / .35);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
 .term-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
 .td{width:10px;height:10px;border-radius:50%}
 .td:nth-child(1){background:var(--mid)}
@@ -145,10 +188,10 @@ button{font:inherit;color:inherit}
 .term-b .c{opacity:.4}
 
 .fg{display:grid;grid-template-columns:1fr}
-.fg>*{padding:16px;border-bottom:1px solid var(--border);position:relative;display:flex;flex-direction:column}
+.fg>*{padding:16px;border-bottom:1px solid var(--border);position:relative;display:flex;flex-direction:column;transition:background .25s}
 .fg>*:last-child{border-bottom:none}
-.fh{position:absolute;inset:4px;background:var(--mid);pointer-events:none;opacity:0;transition:opacity .25s}
-.fg>*:hover .fh{opacity:.03}
+.fg>*:hover{background:var(--hover-fill)}
+.fh{display:none}
 .ft{font-family:var(--mono);font-size:.625rem;letter-spacing:.125rem;opacity:.5;display:block;margin-bottom:6px}
 .fn{font-family:var(--serif);font-size:1.125rem;font-weight:600;margin-bottom:6px}
 .fd{font-size:1.0625rem;line-height:1.6;opacity:.65;flex:1}
@@ -222,12 +265,12 @@ button{font:inherit;color:inherit}
 <div class="row">
   <div class="cell s6" style="border-right:none;padding:0">
     <div class="hero">
-      <span class="label-xs op-7" style="letter-spacing:.15rem">与 ai · open source · mit</span>
-      <h1 class="display">yu.ai</h1>
-      <p class="sub">与 AI · 同在</p>
-      <p class="cn" style="margin-top:-8px">插上即用 · 数据随你走 · 越用越懂你</p>
+      <span class="label-xs op-7 fade-up d1" style="letter-spacing:.15rem">与 ai · open source · mit</span>
+      <h1 class="display fade-up d2">yu.ai</h1>
+      <p class="sub fade-up d3">与 AI · 同在</p>
+      <p class="cn fade-up d3" style="margin-top:-8px">插上即用 · 数据随你走 · 越用越懂你</p>
 
-      <div class="term" aria-hidden="true">
+      <div class="term fade-up d4" aria-hidden="true">
         <div class="term-h">
           <span class="td"></span><span class="td"></span><span class="td"></span>
           <span class="term-label">yu.ai</span>
@@ -235,7 +278,7 @@ button{font:inherit;color:inherit}
         <div class="term-b" id="term-body"><span class="t">  你的 ai 正在加载</span><span class="blink"></span></div>
       </div>
 
-      <div class="hero-cta">
+      <div class="hero-cta fade-up d5">
         <a href="/openclaw/" target="_blank" rel="noopener">openclaw 使用说明 →</a>
         <a href="/hermes/" target="_blank" rel="noopener">hermes 使用说明 →</a>
         <a class="cta-primary" href="https://v.douyin.com/i77dSpkMYZI/" target="_blank" rel="noopener">前往购买 →</a>
@@ -280,8 +323,8 @@ button{font:inherit;color:inherit}
 /* Five-vessel grid: serif headings, hairline borders, subtle hover lift */
 .vessels{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
 .vessels>article{padding:28px 24px;border-bottom:1px solid var(--border);position:relative;display:flex;flex-direction:column;gap:10px;transition:background .25s}
-.vessels>article:hover{background:rgba(255,230,203,0.025)}
-[data-theme="light"] .vessels>article:hover{background:rgba(61,58,53,0.03)}
+.vessels>article:hover{background:var(--hover-fill)}
+[data-theme="light"] .vessels>article:hover{background:var(--hover-fill)}
 .vessels>article:last-child{border-bottom:none}
 .vessels .gl{font-family:var(--serif);font-size:2.4rem;font-weight:700;line-height:1;letter-spacing:0;color:var(--accent);opacity:.85;margin-bottom:4px}
 .vessels .vt{font-family:var(--serif);font-size:1.25rem;font-weight:600;letter-spacing:.05em}
@@ -308,9 +351,9 @@ button{font:inherit;color:inherit}
         <div class="vc">为 念 故</div>
         <div class="vd">斯人已逝，余温犹存。点一盏灯，让思念不灭。<br><span class="op-5">数字怀念 · 情感陪伴 · 让记忆有温度。</span></div>
         <div class="va">
-          <a href="/linger/">点灯 →</a>
+          <span class="op-5">敬请期待</span>
         </div>
-        <span class="vstatus">live</span>
+        <span class="vstatus" style="opacity:.4">in design</span>
       </article>
 
       <article>
@@ -330,9 +373,9 @@ button{font:inherit;color:inherit}
         <div class="vc">为 创 作</div>
         <div class="vd">经纬成章，字句生花。一支笔，与你共织故事。<br><span class="op-5">长篇协作 · 角色一致性 · AI 续写助手。</span></div>
         <div class="va">
-          <a href="/novelweave/">织文 →</a>
+          <span class="op-5">敬请期待</span>
         </div>
-        <span class="vstatus">live</span>
+        <span class="vstatus" style="opacity:.4">in design</span>
       </article>
 
       <article>
@@ -354,6 +397,7 @@ button{font:inherit;color:inherit}
         <div class="vd">日久弥深，记忆生长。一方砚台，磨出与你同行的 AI。<br><span class="op-5">持久记忆 · 自动技能 · cron 自动化 · 子代理委派。</span></div>
         <div class="va">
           <a href="/hermes/">使用说明 →</a>
+          <a href="/hermes/changelog/">更新日志 →</a>
         </div>
         <span class="vstatus">stable · v0.13.20</span>
       </article>

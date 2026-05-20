@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>更新日志 · openclaw portable</title>
+<title>更新日志 · hermes portable</title>
 
 <!-- SEO -->
-<meta name="description" content="OpenClaw 中文更新日志 · 便携版 + 标准版双轨追踪 · 实时同步 GitHub releases · 主要变更自动翻译为中文。">
-<meta name="keywords" content="openclaw,changelog,更新日志,便携版,portable,版本记录,ylyg,yu.ai">
+<meta name="description" content="Hermes Portable 中文更新日志 · 便携版 + 上游 NousResearch/hermes-agent 双轨追踪 · 实时同步 GitHub releases · 主要变更自动翻译为中文。">
+<meta name="keywords" content="hermes,hermes-agent,changelog,更新日志,便携版,portable,版本记录,NousResearch,ylyg,yu.ai">
 <meta name="author" content="ylyg">
-<link rel="canonical" href="https://yuai-r.cn/openclaw/changelog/">
+<link rel="canonical" href="https://yuai-r.cn/hermes/changelog/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="更新日志 · openclaw portable">
-<meta property="og:description" content="便携版 + 标准版双轨追踪 · 实时同步 GitHub releases">
-<meta property="og:url" content="https://yuai-r.cn/openclaw/changelog/">
+<meta property="og:title" content="更新日志 · hermes portable">
+<meta property="og:description" content="便携版 + 上游 hermes-agent 双轨追踪 · 实时同步 GitHub releases">
+<meta property="og:url" content="https://yuai-r.cn/hermes/changelog/">
 <meta property="og:image" content="https://yuai-r.cn/egret-ink.jpg">
 <meta property="og:locale" content="zh_CN">
 
@@ -207,7 +207,7 @@ button{font:inherit;color:inherit}
     <a class="nav-link" href="https://yuai-r.cn/"><span class="label">yu.ai <span class="blink"></span></span></a>
   </div>
   <div class="cell s1" style="padding:0">
-    <a class="nav-link" href="/openclaw/"><span class="label">使用说明 <span class="blink"></span></span></a>
+    <a class="nav-link" href="/hermes/"><span class="label">使用说明 <span class="blink"></span></span></a>
   </div>
   <div class="cell" style="justify-content:space-between">
     <span class="label op-5">github</span>
@@ -228,17 +228,17 @@ button{font:inherit;color:inherit}
 <div class="row">
   <div class="cell s6" style="border-right:none;padding:0">
     <div class="hero">
-      <span class="label-xs op-7" style="letter-spacing:.15rem">openclaw · changelog</span>
+      <span class="label-xs op-7" style="letter-spacing:.15rem">hermes · changelog</span>
       <h1 class="display">更新日志</h1>
-      <p class="sub">实时同步 GitHub releases · 自动翻译为中文</p>
+      <p class="sub">便携版 + 上游 hermes-agent · 实时同步 · 自动翻译为中文</p>
     </div>
   </div>
 </div>
 
-<!-- Tabs (portable / standard) -->
+<!-- Tabs (portable / upstream) -->
 <div class="tabs" role="tablist">
   <button class="tab active" role="tab" data-tab="portable" id="tab-portable">便携版 <span class="count" id="cnt-portable">·</span></button>
-  <button class="tab" role="tab" data-tab="standard" id="tab-standard">上游标准版 <span class="count" id="cnt-standard">·</span></button>
+  <button class="tab" role="tab" data-tab="standard" id="tab-standard">上游 hermes-agent <span class="count" id="cnt-standard">·</span></button>
 </div>
 
 <!-- Status bar -->
@@ -266,7 +266,7 @@ button{font:inherit;color:inherit}
 <footer class="footer" style="margin-top:40px">
   <div class="c"><span class="label op-7">yu.ai</span></div>
   <div class="c"><a class="label" href="https://yuai-r.cn/" style="opacity:.7">home ↗</a></div>
-  <div class="c"><a class="label" href="/openclaw/" style="opacity:.7">manual ↗</a></div>
+  <div class="c"><a class="label" href="/hermes/" style="opacity:.7">manual ↗</a></div>
   <div class="c"><a class="label" href="https://github.com/yuluyangguang1" target="_blank" rel="noopener" style="opacity:.7">github ↗</a></div>
   <div class="c"><span class="label op-5" id="footer-year">mit</span></div>
 </footer>
@@ -303,7 +303,7 @@ if(fy)fy.textContent='mit · '+new Date().getFullYear();
 // We don't hit api.github.com from the page anymore — that
 // rate-limits anonymous clients to 60 req/h per IP, which a
 // shared NAT trips during a single demo. A GitHub Action in
-// yuluyangguang1/openclaw-updates runs every 30 minutes,
+// yuluyangguang1/hermes-updates runs every 30 minutes,
 // authenticates with GITHUB_TOKEN (5000/h), and commits the
 // fetched release lists to /data/*.json. We load those static
 // files instead. Fall back to the GitHub API only if the JSON
@@ -311,17 +311,17 @@ if(fy)fy.textContent='mit · '+new Date().getFullYear();
 var FEEDS={
   portable:{
     json:'data/portable.json',
-    jsonRaw:'https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/data/portable.json',
-    apiFallback:'https://api.github.com/repos/yuluyangguang1/openclaw-portable/releases?per_page=50',
-    cacheKey:'oc-changelog-portable-v2',
+    jsonRaw:'https://raw.githubusercontent.com/yuluyangguang1/hermes-updates/main/data/portable.json',
+    apiFallback:'https://api.github.com/repos/yuluyangguang1/hermes-portable/releases?per_page=50',
+    cacheKey:'hermes-changelog-portable-v2',
     label:'便携版'
   },
   standard:{
     json:'data/standard.json',
-    jsonRaw:'https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/data/standard.json',
-    apiFallback:'https://api.github.com/repos/openclaw/openclaw/releases?per_page=50',
-    cacheKey:'oc-changelog-standard-v2',
-    label:'上游标准版'
+    jsonRaw:'https://raw.githubusercontent.com/yuluyangguang1/hermes-updates/main/data/standard.json',
+    apiFallback:'https://api.github.com/repos/NousResearch/hermes-agent/releases?per_page=50',
+    cacheKey:'hermes-changelog-standard-v2',
+    label:'上游 hermes-agent'
   }
 };
 var CACHE_TTL=30*60*1000;
@@ -345,7 +345,7 @@ async function fetchFeed(feedKey){
 
   // Try the same-origin static JSON first (the Action keeps it
   // fresh every 30 min). If yuai-site sync has caught up, this
-  // file lives at /openclaw/changelog/data/portable.json.
+  // file lives at /hermes/changelog/data/portable.json.
   var raw=null;
   try{
     var r=await fetch(f.json,{cache:'no-store'});
@@ -523,7 +523,7 @@ function extractChanges(body){
 // keyword pass on demand. Users see a clear "自动翻译" caption
 // and can flip back any time.
 //
-// Coverage: top ~80 OpenClaw-flavored verbs/nouns. Stop words
+// Coverage: top ~80 hermes-flavored verbs/nouns. Stop words
 // (a/an/the/and/or/etc) are intentionally NOT removed — that
 // produced garbled output. The result reads as half-Chinese
 // hint, not a real translation, which matches user expectation
@@ -598,7 +598,23 @@ var DICT=[
   [/\bportable\b/gi,'便携版'],
   [/\bdesktop\b/gi,'桌面'],
   [/\bbrowser\b/gi,'浏览器'],
-  [/\bnotifications?\b/gi,'通知']
+  [/\bnotifications?\b/gi,'通知'],
+  // hermes-specific
+  [/\bhermes[- ]agent\b/gi,'hermes-agent'],
+  [/\bsub[- ]?agents?\b/gi,'子代理'],
+  [/\bagents?\b/gi,'代理'],
+  [/\bcrons?\b/gi,'定时任务'],
+  [/\bschedul(?:e|er|ed|ing)\b/gi,'调度'],
+  [/\bdaemons?\b/gi,'守护进程'],
+  [/\btools?\b/gi,'工具'],
+  [/\bMCP\b/g,'MCP'],
+  [/\bcontext\b/gi,'上下文'],
+  [/\bembedding(?:s)?\b/gi,'向量'],
+  [/\bvector\s*(?:store|db|database)\b/gi,'向量库'],
+  [/\bpromp(?:t|ts|ting)\b/gi,'提示'],
+  [/\bsystem\s*prompt\b/gi,'系统提示'],
+  [/\bhooks?\b/gi,'钩子'],
+  [/\btoken(?:s)?\b/gi,'token']
 ];
 
 function translateLine(s){
@@ -626,7 +642,7 @@ var CURRENT_FILTER='all';
 var CURRENT_SEARCH='';
 // Default to translated view. User can flip back to verbatim
 // English via the 🌐 chip (state persists in localStorage).
-var saved_t=lsGet('oc-changelog-translate');
+var saved_t=lsGet('hermes-changelog-translate');
 var TRANSLATE=saved_t==null?true:(saved_t==='1');
 var DATA={portable:[],standard:[]};
 var META={portable:{loaded:false,fromCache:false,error:null},standard:{loaded:false,fromCache:false,error:null}};
@@ -780,7 +796,7 @@ if(trChip){
   if(TRANSLATE)trChip.classList.add('active');
   trChip.addEventListener('click',function(){
     TRANSLATE=!TRANSLATE;
-    lsSet('oc-changelog-translate',TRANSLATE?'1':'0');
+    lsSet('hermes-changelog-translate',TRANSLATE?'1':'0');
     trChip.classList.toggle('active',TRANSLATE);
     renderTimeline();
   });

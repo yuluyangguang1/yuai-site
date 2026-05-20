@@ -1,10 +1,18 @@
 name: Sync changelog data
 
-# Syncs the changelog page and release-feed JSON from openclaw-updates.
+# Pulls release-feed JSON snapshots into the static changelog pages.
 #
-# NOTE: openclaw/index.html and hermes/index.html are now maintained
-# directly in this repo (yuai-site). The portable repos only ship a
-# redirect page, so we no longer sync product pages from them.
+# What this WILL do:
+#   - Mirror data/portable.json + data/standard.json from each
+#     project's "-updates" repo into:
+#       openclaw/changelog/data/*.json
+#       hermes/changelog/data/*.json
+#
+# What this will NOT do (anymore):
+#   - It will NOT overwrite openclaw/changelog/index.html or
+#     hermes/changelog/index.html. Both pages are maintained
+#     directly in this repo (yuai-site) so they stay in sync
+#     with the rest of the site's design system.
 #
 # Triggers:
 #   - Every 30 minutes via cron
@@ -34,31 +42,31 @@ jobs:
       - name: Checkout yuai-site
         uses: actions/checkout@v4
 
-      - name: Pull changelog + release feeds
+      - name: Pull release-feed JSON snapshots
         run: |
           set -euo pipefail
-          mkdir -p openclaw/changelog openclaw/changelog/data
+          mkdir -p openclaw/changelog/data hermes/changelog/data
 
-          # Changelog page (from openclaw-updates repo)
-          CL_URL="https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/index.html"
-          curl -fsSL --retry 3 "$CL_URL" -o openclaw/changelog/index.html.new
-
-          # Release-feed JSON snapshots
+          # OpenClaw — sourced from yuluyangguang1/openclaw-updates
           for slug in portable standard; do
             url="https://raw.githubusercontent.com/yuluyangguang1/openclaw-updates/main/data/${slug}.json"
             curl -fsSL --retry 3 "$url" -o "openclaw/changelog/data/${slug}.json.new" || true
           done
-
-          # Inline tweaks for changelog page
-          if [ -f openclaw/changelog/index.html.new ]; then
-            sed -i 's|src="https://yu.ai/egret-ink.jpg"|src="/egret-ink.jpg"|g' openclaw/changelog/index.html.new
-            sed -i 's|https://yu\.ai/|https://yuai-r.cn/|g' openclaw/changelog/index.html.new
-            mv openclaw/changelog/index.html.new openclaw/changelog/index.html
-          fi
-
-          # JSON snapshots: promote .new -> final
           for f in openclaw/changelog/data/portable.json.new openclaw/changelog/data/standard.json.new; do
-            if [ -f "$f" ]; then mv "$f" "${f%.new}"; fi
+            [ -f "$f" ] && mv "$f" "${f%.new}"
+          done
+
+          # Hermes — sourced from yuluyangguang1/hermes-updates
+          # Same shape: data/portable.json (yuluyangguang1/hermes-portable)
+          # + data/standard.json (NousResearch/hermes-agent).
+          # Failures are non-fatal so a missing upstream feed
+          # doesn't block the openclaw sync.
+          for slug in portable standard; do
+            url="https://raw.githubusercontent.com/yuluyangguang1/hermes-updates/main/data/${slug}.json"
+            curl -fsSL --retry 3 "$url" -o "hermes/changelog/data/${slug}.json.new" || true
+          done
+          for f in hermes/changelog/data/portable.json.new hermes/changelog/data/standard.json.new; do
+            [ -f "$f" ] && mv "$f" "${f%.new}"
           done
 
       - name: Commit if changed
@@ -66,12 +74,14 @@ jobs:
           set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add openclaw/changelog/
+          git add openclaw/changelog/data hermes/changelog/data
           if git diff --cached --quiet; then
             echo "No changes."
             exit 0
           fi
-          git commit -m "sync: pull latest changelog + release feeds
+          git commit -m "sync: refresh changelog feed JSON
 
-          source: openclaw-updates@main / index.html + data/*.json"
+          sources:
+          - openclaw-updates@main / data/portable.json + standard.json
+          - hermes-updates@main   / data/portable.json + standard.json"
           git push
