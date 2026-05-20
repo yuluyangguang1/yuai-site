@@ -11,7 +11,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;
+  --bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;
   --border:rgba(255,230,203,0.12);
   --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
   --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
@@ -23,6 +23,11 @@ html{scroll-behavior:smooth;scroll-padding-top:24px}
 body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.75;-webkit-font-smoothing:antialiased;font-size:15px}
 ::selection{background:var(--accent);color:var(--bg)}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+.doc h2:target,.doc h3:target{border-left:3px solid var(--accent);padding-left:12px;transition:border-color .3s}
+.breadcrumb{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;opacity:.5;margin-bottom:24px}
+.breadcrumb a{color:var(--mid);border-bottom:none}
+.breadcrumb a:hover{color:var(--accent)}
 </style>
 <style>
 .bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -103,6 +108,8 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 </nav>
 
 <main class="doc">
+
+<nav class="breadcrumb"><a href="/">yu.ai</a> / <a href="/openclaw/">openclaw</a> / 本地模型教程</nav>
 
 <h1>本地模型接入教程</h1>
 <p>在 <strong>OpenClaw Portable</strong> 和 <strong>Hermes Portable</strong> 中接入本地大模型，实现零成本、完全离线、数据不出本机的 AI 对话。</p>

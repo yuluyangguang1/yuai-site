@@ -25,7 +25,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;
+  --bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;
   --border:rgba(255,230,203,0.12);
   --warn:#ffbd38;
   --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
@@ -155,6 +155,11 @@ table.spec tr:last-child th,table.spec tr:last-child td{border-bottom:none}
 .contact-form button{padding:14px 24px;border:1px solid var(--accent);color:var(--accent);background:transparent;font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s}
 .contact-form button:hover{background:var(--accent);color:var(--bg)}
 @media(min-width:768px){.contact-form{grid-template-columns:1fr 1fr}.contact-form .field.submit{grid-column:1/-1;border-right:none}}
+
+.doc h2:target,.doc h3:target{border-left:3px solid var(--accent);padding-left:12px;transition:border-color .3s}
+.breadcrumb{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;opacity:.5;margin-bottom:24px}
+.breadcrumb a{color:var(--mid);border-bottom:none}
+.breadcrumb a:hover{color:var(--accent)}
 </style>
 </head>
 <body>

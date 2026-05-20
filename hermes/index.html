@@ -11,7 +11,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;
+  --bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;
   --border:rgba(255,230,203,0.12);
   --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
   --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
@@ -178,6 +178,11 @@ a:hover{text-decoration:underline}
   .doc pre{font-size:.74rem;padding:12px 14px}
   .doc table{font-size:.82rem}
 }
+
+.doc h2:target,.doc h3:target{border-left:3px solid var(--accent);padding-left:12px;transition:border-color .3s}
+.breadcrumb{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;opacity:.5;margin-bottom:24px}
+.breadcrumb a{color:var(--mid);border-bottom:none}
+.breadcrumb a:hover{color:var(--accent)}
 </style>
 </head>
 <body>

@@ -4,14 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>yu.ai · API 代理</title>
+<meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23041c1c'/%3E%3Cg fill='none' stroke='%23ffe6cb' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#041c1c;--mid:#ffe6cb;--dim:#5a7770;--accent:#00ffc8;--border:rgba(255,230,203,0.12);--sans:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--serif:'Georgia','Noto Serif SC','Source Han Serif SC',serif;--mono:'Courier New','Menlo',monospace}
+:root{--bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;--border:rgba(255,230,203,0.12);--sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--serif:'Georgia','Noto Serif SC','Source Han Serif SC',serif;--mono:'Courier New','Menlo',monospace}
+[data-theme="light"]{--bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;--border:rgba(61,58,53,0.14)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;--border:rgba(61,58,53,0.14)}}
 body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.7;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--accent);color:var(--bg)}
 a{color:inherit;text-decoration:none}
+.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
+.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+[data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
+[data-theme="light"] .bg-n{opacity:.015}
+[data-theme="light"] .bg-g{opacity:.06}
 
-.page{max-width:700px;margin:0 auto;padding:48px 24px}
+.page{max-width:700px;margin:0 auto;padding:48px 24px;position:relative;z-index:200}
 
 h1{font-family:var(--serif);font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:8px;mix-blend-mode:plus-lighter}
 .sub{font-size:1.05rem;opacity:.6;margin-bottom:48px}
@@ -36,13 +48,18 @@ li{margin-bottom:6px}
 hr{border:none;border-top:1px solid var(--border);margin:40px 0}
 
 footer{text-align:center;padding:32px 0;font-size:.8rem;opacity:.4;letter-spacing:.15rem}
+@media(max-width:640px){.page{padding:32px 16px}h1{font-size:1.8rem}.step-box{padding:16px}}
 </style>
 </head>
 <body>
 
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1122" height="1402" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+
 <div class="page">
 
-<a href="/" class="back">← 返回首页</a>
+<a href="/" class="back">← yu.ai</a>
 
 <h1>API 代理</h1>
 <p class="sub">统一接口，一处配置，所有项目共用。</p>
