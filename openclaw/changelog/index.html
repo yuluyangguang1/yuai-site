@@ -233,7 +233,7 @@ button{font:inherit;color:inherit}
   <button class="chip" data-filter="fixed">修复</button>
   <button class="chip" data-filter="changed">变更</button>
   <button class="chip" data-filter="security">安全</button>
-  <button class="chip" id="translateChip" title="切换中英 / 对常见英文术语做关键词替换">🌐 中译</button>
+  <button class="chip" id="translateChip" title="切换中英 / 对常见英文术语做关键词替换"> 中译</button>
   <input class="search-box" type="search" id="searchBox" placeholder="搜索版本号或关键词…" aria-label="搜索">
 </div>
 
@@ -498,7 +498,7 @@ function extractChanges(body){
 // GitHub release notes carry technical detail (PR refs, code
 // snippets, type signatures) that a keyword swap easily mangles.
 // Instead we keep the original English text as the source of
-// truth and provide a per-entry 🌐 toggle that runs a curated
+// truth and provide a per-entry  toggle that runs a curated
 // keyword pass on demand. Users see a clear "自动翻译" caption
 // and can flip back any time.
 //
@@ -604,7 +604,7 @@ var CURRENT_TAB='portable';
 var CURRENT_FILTER='all';
 var CURRENT_SEARCH='';
 // Default to translated view. User can flip back to verbatim
-// English via the 🌐 chip (state persists in localStorage).
+// English via the  chip (state persists in localStorage).
 var saved_t=lsGet('oc-changelog-translate');
 var TRANSLATE=saved_t==null?true:(saved_t==='1');
 var DATA={portable:[],standard:[]};
