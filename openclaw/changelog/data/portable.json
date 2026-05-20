@@ -1,5 +1,25 @@
 [
   {
+    "tag_name": "v1.1.5",
+    "name": "v1.1.5",
+    "body": "## OpenClaw Portable v1.1.5\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v1.1.5/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n690de568c7a751d286ec427123b762479a70ecccf74b591e3f8a626c3921d2e3  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* fix: skip plugin permission check on exFAT/FAT32 USB sticks by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/45\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v1.1.4...v1.1.5",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v1.1.5",
+    "published_at": "2026-05-20T07:33:01Z",
+    "created_at": "2026-05-20T07:25:20Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
+    "tag_name": "v1.1.4",
+    "name": "v1.1.4",
+    "body": "## OpenClaw Portable v1.1.4\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v1.1.4/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n22c93ce3bfd0227b11b57a0deb354f84ee963bb839c6ea53f16bd3da643e8124  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* fix: U-disk-aware App Translocation recovery dialog by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/44\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v1.1.3...v1.1.4",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v1.1.4",
+    "published_at": "2026-05-20T05:00:33Z",
+    "created_at": "2026-05-20T04:51:52Z",
+    "prerelease": false,
+    "draft": false
+  },
+  {
     "tag_name": "v1.1.3",
     "name": "v1.1.3",
     "body": "## OpenClaw Portable v1.1.3\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v1.1.3/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `Mac-Start.command` |\n| Windows | 双击 `Windows-Start.bat` |\n| Linux | `bash Linux-Start.sh` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\nbbfd8f2decc6bbb8d69cf9691753aa509623c8ce3c6b2c44bb1ee8885db50e1e  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* fix: handle macOS App Translocation in OpenClaw.app launcher by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/43\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v1.1.2...v1.1.3",
