@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技能中心 · openclaw portable</title>
+<meta name="description" content="OpenClaw 技能中心 · 按职业分类浏览 AI 技能 · 实时同步 ClawHub · 一键安装 · 全中文">
+<meta name="keywords" content="openclaw,skills,技能,clawhub,AI技能,便携版,portable,ylyg,yu.ai">
+<meta name="author" content="ylyg">
+<link rel="canonical" href="https://yuai-r.cn/openclaw/skills/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="技能中心 · openclaw portable">
+<meta property="og:description" content="按职业分类浏览 AI 技能 · 实时同步 ClawHub · 一键安装">
+<meta property="og:url" content="https://yuai-r.cn/openclaw/skills/">
+<meta property="og:image" content="https://yuai-r.cn/egret-ink.jpg">
+<meta property="og:locale" content="zh_CN">
+<meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23041c1c'/%3E%3Cg fill='none' stroke='%23ffe6cb' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;
+  --bg-base:4 28 28;--mid-base:255 230 203;--accent-base:0 255 200;
+  --border:rgb(var(--mid-base) / .12);
+  --border-strong:rgb(var(--mid-base) / .24);
+  --hover-fill:rgb(var(--mid-base) / .05);
+  --hover-fill-strong:rgb(var(--mid-base) / .08);
+  --code-bg:rgb(var(--mid-base) / .06);
+  --accent-soft:rgb(var(--accent-base) / .04);
+  --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
+  --mono:'Courier New','Menlo',monospace
+}
+[data-theme="light"]{
+  --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
+  --bg-base:245 240 232;--mid-base:61 58 53;--accent-base:2 150 106;
+  --border:rgb(var(--mid-base) / .14);--border-strong:rgb(var(--mid-base) / .26);
+  --hover-fill:rgb(var(--mid-base) / .04);--hover-fill-strong:rgb(var(--mid-base) / .07);
+  --code-bg:rgb(var(--mid-base) / .06);--accent-soft:rgb(var(--accent-base) / .05)
+}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
+  --bg-base:245 240 232;--mid-base:61 58 53;--accent-base:2 150 106;
+  --border:rgb(var(--mid-base) / .14);--border-strong:rgb(var(--mid-base) / .26);
+  --hover-fill:rgb(var(--mid-base) / .04);--hover-fill-strong:rgb(var(--mid-base) / .07);
+  --code-bg:rgb(var(--mid-base) / .06);--accent-soft:rgb(var(--accent-base) / .05)
+}}
+
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:15px}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+
+.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7)}
+.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+
+.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-xs{font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase}
+.title{font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1}
+.display{font-family:var(--serif);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter}
+.sub{font-size:1.125rem;line-height:1.6;opacity:.6}
+.op-5{opacity:.5}.op-7{opacity:.7}
+
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fade-up{opacity:0;animation:fadeUp .9s cubic-bezier(.2,.6,.2,1) forwards}
+.fade-up.d1{animation-delay:.05s}.fade-up.d2{animation-delay:.18s}.fade-up.d3{animation-delay:.32s}
+@media(prefers-reduced-motion:reduce){.blink{animation:none;opacity:1}.fade-up{animation:none;opacity:1;transform:none}}
+
+.theme-toggle{background:none;border:none;cursor:pointer;color:var(--mid);opacity:.5;padding:8px;line-height:0;transition:opacity .2s;display:flex;align-items:center;border-radius:4px}
+.theme-toggle:hover,.theme-toggle:focus-visible{opacity:1;outline:1px solid var(--border)}
+.theme-toggle svg{display:block}
+
+.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
+.row{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+.cell{padding:16px;border-right:1px solid var(--border);min-width:0;display:flex;align-items:center}
+.cell.s1{grid-column:span 1}.cell.s2{grid-column:span 2}.cell.s6{grid-column:1/-1}
+@media(min-width:1024px){.row.nav-row{grid-template-columns:1fr 2fr 1fr 1fr 1fr}}
+.nav-link{position:relative;display:flex;align-items:center;width:100%;height:100%;color:inherit;cursor:pointer;background:none;border:none;text-align:left;padding:16px;font:inherit;letter-spacing:inherit}
+.nav-link .blink{display:none}
+.nav-link:hover .blink,.nav-link:focus-visible .blink{display:inline-block}
+
+.hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;padding:64px 20px 48px;width:100%}
+
+/* Category tabs */
+.cats{display:flex;flex-wrap:wrap;gap:8px;padding:16px 20px;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.cat{padding:8px 16px;border:1px solid var(--border);font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;cursor:pointer;background:none;color:inherit;transition:all .2s}
+.cat:hover{border-color:var(--accent);color:var(--accent)}
+.cat.active{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+
+/* Search */
+.search-row{display:flex;gap:8px;padding:12px 20px;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.search-box{flex:1;padding:8px 12px;background:transparent;border:1px solid var(--border);color:inherit;font:inherit;font-family:var(--mono);font-size:.82rem}
+.search-box:focus{outline:none;border-color:var(--accent)}
+
+/* Skills grid */
+.skills-grid{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border)}
+@media(min-width:640px){.skills-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.skills-grid{grid-template-columns:1fr 1fr 1fr}}
+.skill-card{padding:20px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);display:flex;flex-direction:column;gap:8px;transition:background .2s}
+.skill-card:hover{background:var(--hover-fill)}
+.skill-name{font-family:var(--serif);font-size:1.05rem;font-weight:600}
+.skill-summary{font-size:.88rem;line-height:1.6;opacity:.7;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.skill-meta{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;opacity:.5;margin-top:4px}
+.skill-install{display:flex;align-items:center;gap:6px;margin-top:8px}
+.skill-install code{font-family:var(--mono);font-size:.72rem;background:var(--code-bg);border:1px solid var(--border);padding:4px 8px;border-radius:3px;color:var(--accent);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.skill-install button{padding:4px 10px;border:1px solid var(--accent);color:var(--accent);background:none;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;cursor:pointer;transition:all .2s;white-space:nowrap}
+.skill-install button:hover{background:var(--accent);color:var(--bg)}
+
+/* Status / loading */
+.state{padding:60px 20px;text-align:center;border:1px solid var(--border);border-top:none;opacity:.6}
+.state.error{color:#ff8a6b;opacity:.9}
+
+/* Stats bar */
+.stats-bar{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:12px 20px;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border);font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;opacity:.7}
+.stats-bar .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:6px}
+
+/* Load more */
+.load-more{display:flex;align-items:center;justify-content:center;padding:20px;border:1px solid var(--border);border-top:none;cursor:pointer;opacity:.6;transition:opacity .2s;font-family:var(--mono);font-size:.78rem;letter-spacing:.1em}
+.load-more:hover{opacity:1;color:var(--accent)}
+
+/* Footer */
+.footer{display:grid;grid-template-columns:1fr;border:1px solid var(--border);margin-top:40px}
+.footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
+@media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
+
+@media(max-width:1023px){
+  .row,.row.nav-row{grid-template-columns:1fr;border-left:none}
+  .cell{border-right:none}
+  .cats,.search-row,.skills-grid,.state,.stats-bar,.load-more{border-left:none;border-right:none}
+  .footer{grid-template-columns:1fr;border-left:none;border-right:none}
+  .footer .c{border-right:none;border-bottom:1px solid var(--border)}
+}
+@media(max-width:640px){.display{font-size:2.2rem}.hero{padding:50px 16px}}
+</style>
+</head>
+<body>
+
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+
+<div class="page">
+
+<nav class="row nav-row" aria-label="Primary">
+  <div class="cell s1"><a href="https://yuai-r.cn/" class="title" style="text-decoration:none">yu.ai</a></div>
+  <div class="cell s2" style="padding:0">
+    <a class="nav-link" href="https://yuai-r.cn/"><span class="label">yu.ai <span class="blink"></span></span></a>
+  </div>
+  <div class="cell s1" style="padding:0">
+    <a class="nav-link" href="/openclaw/"><span class="label">openclaw <span class="blink"></span></span></a>
+  </div>
+  <div class="cell" style="padding:0">
+    <a class="nav-link" href="/openclaw/changelog/"><span class="label">changelog <span class="blink"></span></span></a>
+  </div>
+  <div class="cell" style="justify-content:space-between">
+    <span class="label op-5">theme</span>
+    <button id="theme-btn" aria-label="切换主题" class="theme-toggle">
+      <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="row">
+  <div class="cell s6" style="border-right:none;padding:0">
+    <div class="hero">
+      <span class="label-xs op-7 fade-up d1" style="letter-spacing:.15rem">openclaw · skills</span>
+      <h1 class="display fade-up d2">技能中心</h1>
+      <p class="sub fade-up d3">按职业浏览 AI 技能 · 实时同步 ClawHub · 一键安装到你的 OpenClaw</p>
+    </div>
+  </div>
+</div>
+
+<!-- Category tabs -->
+<div class="cats" id="cats"></div>
+
+<!-- Search -->
+<div class="search-row">
+  <input class="search-box" type="search" id="searchBox" placeholder="搜索技能名称或关键词..." aria-label="搜索技能">
+</div>
+
+<!-- Stats -->
+<div class="stats-bar" id="statsBar">
+  <span><span class="dot"></span><span id="syncStatus">正在加载...</span></span>
+  <span style="margin-left:auto" id="totalCount"></span>
+</div>
+
+<!-- Skills grid -->
+<div class="skills-grid" id="skillsGrid"></div>
+<div id="loadingState" class="state">正在从 ClawHub 加载技能...</div>
+<div class="load-more" id="loadMore" style="display:none" onclick="loadNextPage()">加载更多 ↓</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="c"><span class="label op-7">yu.ai</span></div>
+  <div class="c"><a class="label" href="https://yuai-r.cn/" style="opacity:.7">home</a></div>
+  <div class="c"><a class="label" href="/openclaw/" style="opacity:.7">manual</a></div>
+  <div class="c"><a class="label" href="/openclaw/changelog/" style="opacity:.7">changelog</a></div>
+  <div class="c"><span class="label op-5" id="footer-year">mit</span></div>
+</footer>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+
+// Theme toggle
+function lsGet(k){try{return localStorage.getItem(k)}catch(_){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(_){}}
+var btn=document.getElementById('theme-btn');
+if(btn){
+  var html=document.documentElement,sun=btn.querySelector('.theme-sun'),moon=btn.querySelector('.theme-moon');
+  function syncIcons(L){sun.style.display=L?'none':'block';moon.style.display=L?'block':'none'}
+  var saved=lsGet('yuai-theme');
+  if(saved==='light'){html.setAttribute('data-theme','light');syncIcons(true)}
+  else if(saved==='dark'){html.setAttribute('data-theme','dark');syncIcons(false)}
+  else{var mql=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)');syncIcons(mql&&mql.matches)}
+  btn.onclick=function(){
+    var L=html.getAttribute('data-theme')!=='light';
+    if(!html.getAttribute('data-theme')){var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches;L=!sys}
+    html.setAttribute('data-theme',L?'light':'dark');lsSet('yuai-theme',L?'light':'dark');syncIcons(L)
+  }
+}
+var fy=document.getElementById('footer-year');
+if(fy)fy.textContent='mit · '+new Date().getFullYear();
+
+// Categories with search keywords
+var CATEGORIES=[
+  {id:'all',label:'全部',query:''},
+  {id:'dev',label:'开发者',query:'coding developer programming'},
+  {id:'devops',label:'运维',query:'devops docker kubernetes deploy'},
+  {id:'data',label:'数据分析',query:'data analysis sql python'},
+  {id:'design',label:'设计师',query:'design ui ux figma css'},
+  {id:'writing',label:'写作',query:'writing blog copywriting content'},
+  {id:'pm',label:'产品经理',query:'product manager requirements prd'},
+  {id:'academic',label:'学术/学生',query:'research paper academic study'},
+  {id:'general',label:'通用工具',query:'productivity automation workflow'}
+];
+
+var API_BASE='https://clawhub.ai/api/v1';
+var PAGE_SIZE=30;
+var currentCat='all';
+var currentSearch='';
+var currentPage=0;
+var allItems=[];
+var loading=false;
+var hasMore=true;
+
+// Render category tabs
+var catsEl=document.getElementById('cats');
+CATEGORIES.forEach(function(c){
+  var b=document.createElement('button');
+  b.className='cat'+(c.id==='all'?' active':'');
+  b.textContent=c.label;
+  b.dataset.cat=c.id;
+  b.onclick=function(){
+    document.querySelectorAll('.cat').forEach(function(x){x.classList.remove('active')});
+    b.classList.add('active');
+    currentCat=c.id;
+    currentPage=0;allItems=[];hasMore=true;
+    fetchSkills()
+  };
+  catsEl.appendChild(b)
+});
+
+// Search
+var sb=document.getElementById('searchBox');
+var searchTimer;
+sb.addEventListener('input',function(){
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(function(){
+    currentSearch=sb.value.trim();
+    currentPage=0;allItems=[];hasMore=true;
+    fetchSkills()
+  },300)
+});
+
+function getQuery(){
+  var cat=CATEGORIES.find(function(c){return c.id===currentCat});
+  var q=(cat&&cat.query?cat.query:'');
+  if(currentSearch)q=(q+' '+currentSearch).trim();
+  return q
+}
+
+async function fetchSkills(){
+  if(loading)return;
+  loading=true;
+  var grid=document.getElementById('skillsGrid');
+  var state=document.getElementById('loadingState');
+  var more=document.getElementById('loadMore');
+  if(currentPage===0){grid.innerHTML='';state.style.display='block';state.textContent='正在加载...';state.classList.remove('error')}
+
+  var q=getQuery();
+  var url;
+  if(q){
+    url=API_BASE+'/search?q='+encodeURIComponent(q)+'&limit='+PAGE_SIZE+'&offset='+(currentPage*PAGE_SIZE)
+  }else{
+    url=API_BASE+'/skills?limit='+PAGE_SIZE+'&offset='+(currentPage*PAGE_SIZE)
+  }
+
+  try{
+    var r=await fetch(url);
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    var data=await r.json();
+    var items=data.items||data.results||[];
+    if(items.length<PAGE_SIZE)hasMore=false;
+    allItems=allItems.concat(items);
+    renderGrid();
+    state.style.display='none';
+    more.style.display=hasMore?'flex':'none';
+    document.getElementById('syncStatus').textContent='已同步 ClawHub';
+    document.getElementById('totalCount').textContent='显示 '+allItems.length+' 个技能'
+  }catch(err){
+    state.textContent='加载失败: '+err.message;
+    state.classList.add('error');
+    state.style.display='block';
+    document.getElementById('syncStatus').textContent='同步失败'
+  }
+  loading=false
+}
+
+function renderGrid(){
+  var grid=document.getElementById('skillsGrid');
+  grid.innerHTML=allItems.map(function(s){
+    var slug=s.slug||'';
+    var name=s.displayName||slug;
+    var summary=s.summary||'';
+    var ver=s.latestVersion?s.latestVersion.version:(s.version||'');
+    var stars=(s.stats&&s.stats.stars)||0;
+    var installs=(s.stats&&(s.stats.installsAllTime||s.stats.downloads))||0;
+    var cmd='clawhub install '+slug;
+    return '<div class="skill-card">'+
+      '<div class="skill-name">'+escHtml(name)+'</div>'+
+      '<div class="skill-summary">'+escHtml(summary)+'</div>'+
+      '<div class="skill-meta">'+
+        (ver?'<span>v'+escHtml(ver)+'</span>':'')+
+        (stars?'<span>'+stars+' 星</span>':'')+
+        (installs?'<span>'+installs+' 安装</span>':'')+
+      '</div>'+
+      '<div class="skill-install">'+
+        '<code>'+escHtml(cmd)+'</code>'+
+        '<button onclick="copyCmd(this,\''+escAttr(cmd)+'\')">复制</button>'+
+      '</div>'+
+    '</div>'
+  }).join('')
+}
+
+window.loadNextPage=function(){
+  currentPage++;
+  fetchSkills()
+};
+
+window.copyCmd=function(btn,cmd){
+  navigator.clipboard.writeText(cmd).then(function(){
+    btn.textContent='已复制';
+    setTimeout(function(){btn.textContent='复制'},1500)
+  }).catch(function(){
+    btn.textContent='失败';
+    setTimeout(function(){btn.textContent='复制'},1500)
+  })
+};
+
+function escHtml(s){return String(s||'').replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]})}
+function escAttr(s){return escHtml(s).replace(/\\/g,'\\\\')}
+
+// Boot
+fetchSkills()
+
+})();
+</script>
+
+</body>
+</html>
