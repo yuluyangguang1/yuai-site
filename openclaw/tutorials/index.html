@@ -79,7 +79,7 @@ button{font:inherit;color:inherit}
 .theme-toggle svg{display:block}
 
 .page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
-.row{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+.row{display:grid;grid-template-columns:1fr;border:1px solid var(--border);margin-top:-1px}
 .cell{padding:16px;border-right:1px solid var(--border);min-width:0;display:flex;align-items:center}
 .cell.s1{grid-column:span 1}.cell.s2{grid-column:span 2}.cell.s6{grid-column:1/-1}
 @media(min-width:1024px){.row.nav-row{grid-template-columns:1fr 2fr 1fr 1fr 1fr}}
@@ -90,13 +90,13 @@ button{font:inherit;color:inherit}
 .hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;padding:64px 20px 48px;width:100%}
 
 /* Anchor nav tabs */
-.tab-nav{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border)}
-.tab-nav a{flex:1;min-width:120px;padding:14px 16px;text-align:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:all .2s;color:var(--mid);opacity:.7}
+.tab-nav{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--border);margin-top:-1px}
+.tab-nav a{flex:1;min-width:120px;padding:14px 16px;text-align:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;border-right:1px solid var(--border);border-bottom:none;transition:all .2s;color:var(--mid);opacity:.7}
 .tab-nav a:last-child{border-right:none}
 .tab-nav a:hover,.tab-nav a:focus-visible{opacity:1;color:var(--accent);background:var(--accent-soft)}
 
 /* Sections */
-.section{padding:48px 24px;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.section{padding:48px 24px;border:1px solid var(--border);margin-top:-1px}
 .section-title{font-family:var(--serif);font-size:1.75rem;font-weight:700;margin-bottom:8px}
 .section-sub{font-size:.9rem;opacity:.6;margin-bottom:32px}
 
@@ -126,7 +126,7 @@ button{font:inherit;color:inherit}
 .skill-install button:hover{background:var(--accent);color:var(--bg)}
 
 /* Command reference */
-details.cmd-group{border:1px solid var(--border);margin-bottom:-1px}
+details.cmd-group{border:1px solid var(--border);margin-top:-1px}
 details.cmd-group summary{padding:16px 24px;cursor:pointer;font-family:var(--serif);font-size:1rem;font-weight:600;transition:background .2s;list-style:none;display:flex;align-items:center;gap:10px}
 details.cmd-group summary::-webkit-details-marker{display:none}
 details.cmd-group summary::before{content:'';display:inline-block;width:6px;height:6px;border-right:1.5px solid var(--accent);border-bottom:1.5px solid var(--accent);transform:rotate(-45deg);transition:transform .2s}
@@ -149,7 +149,7 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
 .pdf-card .pdf-link:hover{background:var(--accent);color:var(--bg)}
 
 /* Citations */
-.citations{padding:32px 24px;border:1px solid var(--border);margin-top:48px;font-size:.85rem;line-height:1.8;opacity:.7}
+.citations{padding:32px 24px;border:1px solid var(--border);margin-top:-1px;font-size:.85rem;line-height:1.8;opacity:.7}
 .citations p:first-child{margin-bottom:12px;opacity:1;font-weight:600}
 .citations ul{list-style:none;padding-left:0}
 .citations ul li{padding-left:16px;position:relative}
@@ -157,7 +157,7 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
 .citations .note{margin-top:12px;font-size:.8rem;opacity:.6}
 
 /* Footer */
-.footer{display:grid;grid-template-columns:1fr;border:1px solid var(--border);margin-top:40px}
+.footer{display:grid;grid-template-columns:1fr;border:1px solid var(--border);margin-top:-1px}
 .footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
 @media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
 
@@ -167,11 +167,9 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
 .back-top:hover{background:var(--accent);color:var(--bg)}
 
 @media(max-width:1023px){
-  .row,.row.nav-row{grid-template-columns:1fr;border-left:none}
+  .row,.row.nav-row{grid-template-columns:1fr}
   .cell{border-right:none}
-  .tab-nav,.section,.footer{border-left:none;border-right:none}
-  details.cmd-group{border-left:none;border-right:none}
-  .footer{grid-template-columns:1fr;border-left:none;border-right:none}
+  .footer{grid-template-columns:1fr}
   .footer .c{border-right:none;border-bottom:1px solid var(--border)}
 }
 @media(max-width:640px){
