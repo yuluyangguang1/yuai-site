@@ -89,14 +89,16 @@ button{font:inherit;color:inherit}
 
 .hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;padding:64px 20px 48px;width:100%}
 
-/* Anchor nav tabs */
-.tab-nav{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--border);margin-top:-1px}
-.tab-nav a{flex:1;min-width:120px;padding:14px 16px;text-align:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;border-right:1px solid var(--border);border-bottom:none;transition:all .2s;color:var(--mid);opacity:.7}
+/* Anchor nav tabs — horizontal scroll on narrow screens */
+.tab-nav{display:flex;flex-wrap:nowrap;gap:0;border:1px solid var(--border);margin-top:-1px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.tab-nav a{flex:0 0 auto;min-width:90px;padding:14px 16px;text-align:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;border-right:1px solid var(--border);border-bottom:none;transition:all .2s;color:var(--mid);opacity:.7;white-space:nowrap}
 .tab-nav a:last-child{border-right:none}
 .tab-nav a:hover,.tab-nav a:focus-visible{opacity:1;color:var(--accent);background:var(--accent-soft)}
+.tab-nav a.active{opacity:1;color:var(--accent);border-bottom:2px solid var(--accent)}
 
 /* Sections */
 .section{padding:48px 24px;border:1px solid var(--border);margin-top:-1px}
+.section+.section{margin-top:16px}
 .section-title{font-family:var(--serif);font-size:1.75rem;font-weight:700;margin-bottom:8px}
 .section-sub{font-size:.9rem;opacity:.6;margin-bottom:32px}
 
@@ -107,10 +109,14 @@ button{font:inherit;color:inherit}
 .steps li::before{content:counter(step);position:absolute;left:16px;top:16px;width:28px;height:28px;border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:.75rem;display:flex;align-items:center;justify-content:center;border-radius:50%}
 .steps li code{font-family:var(--mono);font-size:.82rem;background:var(--code-bg);padding:2px 6px;border-radius:3px;color:var(--accent)}
 
-/* FAQ */
-.faq-item{border:1px solid var(--border);margin-bottom:-1px;padding:20px 24px}
-.faq-q{font-family:var(--serif);font-size:1.05rem;font-weight:600;margin-bottom:8px;color:var(--accent)}
-.faq-a{font-size:.9rem;line-height:1.7;opacity:.8}
+/* FAQ — collapsible */
+.faq-item{border:1px solid var(--border);margin-top:-1px}
+.faq-item summary{padding:16px 24px;cursor:pointer;font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--accent);list-style:none;display:flex;align-items:center;gap:10px;transition:background .2s}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::before{content:'';display:inline-block;width:6px;height:6px;border-right:1.5px solid var(--accent);border-bottom:1.5px solid var(--accent);transform:rotate(-45deg);transition:transform .2s;flex-shrink:0}
+.faq-item[open] summary::before{transform:rotate(45deg)}
+.faq-item summary:hover{background:var(--hover-fill)}
+.faq-a{padding:0 24px 16px;font-size:.9rem;line-height:1.7;opacity:.8}
 .faq-a code{font-family:var(--mono);font-size:.8rem;background:var(--code-bg);padding:2px 6px;border-radius:3px;color:var(--accent)}
 
 /* Skills cards */
@@ -166,6 +172,22 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
 .back-top.visible{opacity:1;pointer-events:auto}
 .back-top:hover{background:var(--accent);color:var(--bg)}
 
+/* External link icon */
+.ext-link::after{content:' \2197';font-size:.75em;opacity:.6}
+
+/* Lightbox overlay */
+.lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:4px}
+
+/* Terminal in hero */
+.term{width:100%;max-width:480px;border:1px solid var(--border);background:rgb(var(--bg-base) / .35);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.term-h{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--border)}
+.td{width:8px;height:8px;border-radius:50%}
+.td:nth-child(1){background:var(--mid)}.td:nth-child(2){background:var(--mid);opacity:.6}.td:nth-child(3){background:var(--mid);opacity:.3}
+.term-label{margin-left:auto;font-family:var(--mono);font-size:.6rem;letter-spacing:.15rem;opacity:.5}
+.term-b{font-family:var(--mono);font-size:.75rem;line-height:1.8;padding:14px;white-space:pre-wrap;color:var(--accent)}
+
 @media(max-width:1023px){
   .row,.row.nav-row{grid-template-columns:1fr}
   .cell{border-right:none}
@@ -216,6 +238,16 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
       <span class="label-xs op-7 fade-up d1" style="letter-spacing:.15rem">openclaw portable · tutorials</span>
       <h1 class="display fade-up d2">实战教程</h1>
       <p class="sub fade-up d3">社区精华整合 · 从入门到精通</p>
+      <div class="term fade-up" style="animation-delay:.4s" aria-hidden="true">
+        <div class="term-h"><span class="td"></span><span class="td"></span><span class="td"></span><span class="term-label">openclaw</span></div>
+        <div class="term-b">$ clawhub install tavily-search
+  installed tavily-search@2.1.0
+  1 skill added, gateway restart required
+
+$ openclaw restart
+  gateway restarted on :18789
+  ready</div>
+      </div>
     </div>
   </div>
 </div>
@@ -252,30 +284,30 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
   <h2 class="section-title">常见问题</h2>
   <p class="section-sub">来自「扫盲版」文档的高频问题解答</p>
 
-  <div class="faq-item">
-    <div class="faq-q">上下文超限 (400 Total tokens exceed)</div>
+  <details class="faq-item" open>
+    <summary>上下文超限 (400 Total tokens exceed)</summary>
     <div class="faq-a">输入 <code>/new</code> 开启新对话清空上下文，或升级模型套餐以获得更大的上下文窗口。</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">飞书多 agent 配置</div>
+  </details>
+  <details class="faq-item">
+    <summary>飞书多 agent 配置</summary>
     <div class="faq-a">建议先配置一个 agent 跑通全流程，熟悉之后再逐步添加多个。不要一上来就配多个，容易混乱。</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">机器人没有消息输入框</div>
+  </details>
+  <details class="faq-item">
+    <summary>机器人没有消息输入框</summary>
     <div class="faq-a">检查三项配置：应用权限是否开启、回调事件是否正确注册、长链接配置是否生效。</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">API 限速 (Rate Limit)</div>
+  </details>
+  <details class="faq-item">
+    <summary>API 限速 (Rate Limit)</summary>
     <div class="faq-a">等待当前周期刷新即可恢复，或升级套餐提升调用频率上限。</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">防止 Mac 休眠</div>
+  </details>
+  <details class="faq-item">
+    <summary>防止 Mac 休眠</summary>
     <div class="faq-a">使用 <code>caffeinate -i</code> 命令保持唤醒。但不建议将 Mac 作为长期服务器使用，稳定性和散热都不理想。</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">编程工具集成</div>
+  </details>
+  <details class="faq-item">
+    <summary>编程工具集成</summary>
     <div class="faq-a">参考知乎专栏 (zhuanlan.zhihu.com) 上的集成方案，可将 OpenClaw 与 VS Code、Cursor 等编辑器联动。</div>
-  </div>
+  </details>
 </section>
 
 <!-- Section: Recommended Skills -->
@@ -785,10 +817,11 @@ document.querySelectorAll('.tab-nav a').forEach(function(a){
 // Lazy-load full tutorial content
 var fc=document.getElementById('full-content');
 if(fc){
+  fc.innerHTML='<p style="opacity:.5;text-align:center;padding:40px">正在加载完整教程内容...</p>';
   fetch('content.html').then(function(r){return r.ok?r.text():''}).then(function(html){
     if(html){fc.innerHTML=html}
-    else{fc.innerHTML='<p style="opacity:.5">加载失败，请刷新重试</p>'}
-  }).catch(function(){fc.innerHTML='<p style="opacity:.5">加载失败</p>'})
+    else{fc.innerHTML='<p style="opacity:.5;text-align:center">加载失败，请刷新重试</p>'}
+  }).catch(function(){fc.innerHTML='<p style="opacity:.5;text-align:center">加载失败</p>'})
 }
 
 // Scroll to section within loaded content
@@ -823,6 +856,43 @@ document.querySelectorAll('.cmd-table td:last-child').forEach(function(td){
   btn.onmouseout=function(){btn.style.opacity='.6'};
   btn.onclick=function(){copyCmd(btn,cmd)};
   td.appendChild(btn)
+})
+
+// Tab scroll highlight (IntersectionObserver)
+var sections=document.querySelectorAll('.section[id]');
+var tabLinks=document.querySelectorAll('.tab-nav a');
+if(sections.length&&'IntersectionObserver' in window){
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.id;
+        tabLinks.forEach(function(a){
+          a.classList.toggle('active',a.getAttribute('href')==='#'+id)
+        })
+      }
+    })
+  },{rootMargin:'-20% 0px -60% 0px'});
+  sections.forEach(function(s){obs.observe(s)})
+}
+
+// Lightbox for images in full-content
+var lightbox=document.createElement('div');
+lightbox.className='lightbox';
+lightbox.onclick=function(){lightbox.classList.remove('open')};
+document.body.appendChild(lightbox);
+document.addEventListener('click',function(e){
+  if(e.target.tagName==='IMG'&&e.target.closest('#full-content')){
+    lightbox.innerHTML='<img src="'+e.target.src+'" alt="">';
+    lightbox.classList.add('open')
+  }
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')lightbox.classList.remove('open')
+})
+
+// Add external link icon to recommended reading links
+document.querySelectorAll('#reading .skill-install a').forEach(function(a){
+  a.classList.add('ext-link')
 })
 
 })();
