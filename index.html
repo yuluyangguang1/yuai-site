@@ -180,6 +180,21 @@ button{font:inherit;color:inherit}
 /* ═══ 粒子背景 Canvas ═══ */
 #inkParticles{position:fixed;inset:0;z-index:1;pointer-events:none}
 
+/* ═══ 焚香计时器 ═══ */
+.incense{position:fixed;bottom:24px;left:24px;z-index:500;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.5;transition:opacity .3s}
+.incense:hover{opacity:1}
+.incense-stick{width:2px;height:80px;background:linear-gradient(to top,#8b4513 0%,#d2691e 100%);border-radius:1px;position:relative;overflow:visible}
+.incense-tip{position:absolute;top:-2px;left:-1px;width:4px;height:4px;border-radius:50%;background:#ff6b35;box-shadow:0 0 4px #ff6b35,0 0 8px rgba(255,107,53,.4);animation:ember 1.5s ease-in-out infinite alternate}
+@keyframes ember{from{opacity:.7;transform:scale(.8)}to{opacity:1;transform:scale(1.1)}}
+.incense-smoke{position:absolute;top:-16px;left:0;width:2px}
+.incense-smoke::before,.incense-smoke::after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:rgb(var(--mid-base) / .06);animation:smoke 3s ease-out infinite}
+.incense-smoke::after{animation-delay:1.5s;left:3px}
+@keyframes smoke{0%{transform:translateY(0) translateX(0) scale(1);opacity:.12}50%{transform:translateY(-18px) translateX(3px) scale(1.8);opacity:.06}100%{transform:translateY(-36px) translateX(-2px) scale(2.5);opacity:0}}
+.incense-time{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;opacity:.5}
+.incense-msg{position:fixed;bottom:130px;left:16px;z-index:501;font-family:var(--serif);font-size:.85rem;opacity:0;transition:opacity .8s;pointer-events:none;max-width:160px;line-height:1.7;color:var(--mid)}
+.incense-msg.show{opacity:.7}
+@media(max-width:768px){.incense,.incense-msg{display:none}}
+
 @media(prefers-reduced-motion:reduce){
   .blink{animation:none;opacity:1}
   .fade-up,.fade-up.d1,.fade-up.d2,.fade-up.d3,.fade-up.d4,.fade-up.d5{animation:none;opacity:1;transform:none}
@@ -279,6 +294,16 @@ button{font:inherit;color:inherit}
 <div class="bg-g" aria-hidden="true"></div>
 <div class="spotlight" id="spotlight" aria-hidden="true"></div>
 <div class="colophon" aria-hidden="true">与君同在 · 历久不散</div>
+
+<!-- 焚香计时器 -->
+<div class="incense" id="incense" aria-hidden="true">
+  <div class="incense-stick" id="incenseStick">
+    <div class="incense-tip"></div>
+    <div class="incense-smoke"></div>
+  </div>
+  <div class="incense-time" id="incenseTime">0:00</div>
+</div>
+<div class="incense-msg" id="incenseMsg">坐久了，起来走走。</div>
 
 <div class="page">
 
@@ -618,8 +643,6 @@ button{font:inherit;color:inherit}
   // ═══ 毛笔落字终端 ═══
   var termBody = document.getElementById('term-body');
   if (termBody) {
-    var origRender = window._termRender;
-    // Override the terminal render to add brush-char animation
     var observer = new MutationObserver(function(){
       var spans = termBody.querySelectorAll('span:not(.blink):not(.brush-done)');
       spans.forEach(function(span){
@@ -637,8 +660,31 @@ button{font:inherit;color:inherit}
       });
     });
     observer.observe(termBody, {childList:true, subtree:true});
-    // Trigger initial
-    termBody.dispatchEvent(new Event('change'));
+  }
+
+  // ═══ 焚香计时器 ═══
+  var stick = document.getElementById('incenseStick');
+  var timeEl = document.getElementById('incenseTime');
+  var msgEl = document.getElementById('incenseMsg');
+  if (stick && timeEl) {
+    var startH = 80; // px
+    var burnRate = 0.22; // px per second (~6 min to burn out)
+    var elapsed = 0;
+    var burned = false;
+    setInterval(function(){
+      elapsed++;
+      var m = Math.floor(elapsed/60);
+      var s = elapsed%60;
+      timeEl.textContent = m + ':' + (s<10?'0':'') + s;
+      var h = Math.max(0, startH - elapsed * burnRate);
+      stick.style.height = h + 'px';
+      if (h <= 0 && !burned) {
+        burned = true;
+        stick.style.display = 'none';
+        if (msgEl) msgEl.classList.add('show');
+        setTimeout(function(){ if(msgEl) msgEl.classList.remove('show'); }, 8000);
+      }
+    }, 1000);
   }
 })();
 </script>
