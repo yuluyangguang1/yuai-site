@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>实战教程 · openclaw portable</title>
+<meta name="description" content="OpenClaw Portable 实战教程中心 · 社区精华整合 · 从入门到精通 · 快速上手 · 常见问题 · 技能推荐 · 命令速查">
+<meta name="keywords" content="openclaw,教程,tutorial,快速上手,FAQ,技能,命令,portable,ylyg,yu.ai">
+<meta name="author" content="ylyg">
+<link rel="canonical" href="https://yuai-r.cn/openclaw/tutorials/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="实战教程 · openclaw portable">
+<meta property="og:description" content="社区精华整合 · 从入门到精通">
+<meta property="og:url" content="https://yuai-r.cn/openclaw/tutorials/">
+<meta property="og:image" content="https://yuai-r.cn/egret-ink.jpg">
+<meta property="og:locale" content="zh_CN">
+<meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23041c1c'/%3E%3Cg fill='none' stroke='%23ffe6cb' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;
+  --bg-base:4 28 28;--mid-base:255 230 203;--accent-base:0 255 200;
+  --border:rgb(var(--mid-base) / .12);
+  --border-strong:rgb(var(--mid-base) / .24);
+  --hover-fill:rgb(var(--mid-base) / .05);
+  --hover-fill-strong:rgb(var(--mid-base) / .08);
+  --code-bg:rgb(var(--mid-base) / .06);
+  --accent-soft:rgb(var(--accent-base) / .04);
+  --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
+  --mono:'Courier New','Menlo',monospace
+}
+[data-theme="light"]{
+  --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
+  --bg-base:245 240 232;--mid-base:61 58 53;--accent-base:2 150 106;
+  --border:rgb(var(--mid-base) / .14);--border-strong:rgb(var(--mid-base) / .26);
+  --hover-fill:rgb(var(--mid-base) / .04);--hover-fill-strong:rgb(var(--mid-base) / .07);
+  --code-bg:rgb(var(--mid-base) / .06);--accent-soft:rgb(var(--accent-base) / .05)
+}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
+  --bg-base:245 240 232;--mid-base:61 58 53;--accent-base:2 150 106;
+  --border:rgb(var(--mid-base) / .14);--border-strong:rgb(var(--mid-base) / .26);
+  --hover-fill:rgb(var(--mid-base) / .04);--hover-fill-strong:rgb(var(--mid-base) / .07);
+  --code-bg:rgb(var(--mid-base) / .06);--accent-soft:rgb(var(--accent-base) / .05)
+}}
+
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:15px}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+
+.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7)}
+.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+[data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
+[data-theme="light"] .bg-n{opacity:.015}
+[data-theme="light"] .bg-g{opacity:.06}
+
+.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
+.label-xs{font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase}
+.title{font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1}
+.display{font-family:var(--serif);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter}
+.sub{font-size:1.125rem;line-height:1.6;opacity:.6}
+.op-5{opacity:.5}.op-7{opacity:.7}
+
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fade-up{opacity:0;animation:fadeUp .9s cubic-bezier(.2,.6,.2,1) forwards}
+.fade-up.d1{animation-delay:.05s}.fade-up.d2{animation-delay:.18s}.fade-up.d3{animation-delay:.32s}
+@media(prefers-reduced-motion:reduce){.blink{animation:none;opacity:1}.fade-up{animation:none;opacity:1;transform:none}}
+
+.theme-toggle{background:none;border:none;cursor:pointer;color:var(--mid);opacity:.5;padding:8px;line-height:0;transition:opacity .2s;display:flex;align-items:center;border-radius:4px}
+.theme-toggle:hover,.theme-toggle:focus-visible{opacity:1;outline:1px solid var(--border)}
+.theme-toggle svg{display:block}
+
+.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
+.row{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+.cell{padding:16px;border-right:1px solid var(--border);min-width:0;display:flex;align-items:center}
+.cell.s1{grid-column:span 1}.cell.s2{grid-column:span 2}.cell.s6{grid-column:1/-1}
+@media(min-width:1024px){.row.nav-row{grid-template-columns:1fr 2fr 1fr 1fr 1fr}}
+.nav-link{position:relative;display:flex;align-items:center;width:100%;height:100%;color:inherit;cursor:pointer;background:none;border:none;text-align:left;padding:16px;font:inherit;letter-spacing:inherit}
+.nav-link .blink{display:none}
+.nav-link:hover .blink,.nav-link:focus-visible .blink{display:inline-block}
+
+.hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;padding:64px 20px 48px;width:100%}
+
+/* Anchor nav tabs */
+.tab-nav{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.tab-nav a{flex:1;min-width:120px;padding:14px 16px;text-align:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:all .2s;color:var(--mid);opacity:.7}
+.tab-nav a:last-child{border-right:none}
+.tab-nav a:hover,.tab-nav a:focus-visible{opacity:1;color:var(--accent);background:var(--accent-soft)}
+
+/* Sections */
+.section{padding:48px 24px;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.section-title{font-family:var(--serif);font-size:1.75rem;font-weight:700;margin-bottom:8px}
+.section-sub{font-size:.9rem;opacity:.6;margin-bottom:32px}
+
+/* Steps */
+.steps{list-style:none;counter-reset:step}
+.steps li{counter-increment:step;position:relative;padding:16px 16px 16px 56px;border:1px solid var(--border);margin-bottom:-1px;transition:background .2s}
+.steps li:hover{background:var(--hover-fill)}
+.steps li::before{content:counter(step);position:absolute;left:16px;top:16px;width:28px;height:28px;border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:.75rem;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.steps li code{font-family:var(--mono);font-size:.82rem;background:var(--code-bg);padding:2px 6px;border-radius:3px;color:var(--accent)}
+
+/* FAQ */
+.faq-item{border:1px solid var(--border);margin-bottom:-1px;padding:20px 24px}
+.faq-q{font-family:var(--serif);font-size:1.05rem;font-weight:600;margin-bottom:8px;color:var(--accent)}
+.faq-a{font-size:.9rem;line-height:1.7;opacity:.8}
+.faq-a code{font-family:var(--mono);font-size:.8rem;background:var(--code-bg);padding:2px 6px;border-radius:3px;color:var(--accent)}
+
+/* Skills cards */
+.skill-list{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:640px){.skill-list{grid-template-columns:1fr 1fr}}
+.skill-card{padding:20px;border:1px solid var(--border);margin-bottom:-1px;margin-right:-1px;display:flex;flex-direction:column;gap:8px;transition:background .2s}
+.skill-card:hover{background:var(--hover-fill)}
+.skill-name{font-family:var(--serif);font-size:1.05rem;font-weight:600}
+.skill-desc{font-size:.85rem;opacity:.7;line-height:1.5}
+.skill-install{display:flex;align-items:center;gap:6px;margin-top:8px}
+.skill-install code{font-family:var(--mono);font-size:.72rem;background:var(--code-bg);border:1px solid var(--border);padding:5px 10px;border-radius:3px;color:var(--accent);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.skill-install button{padding:5px 12px;border:1px solid var(--accent);color:var(--accent);background:none;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;cursor:pointer;transition:all .2s;white-space:nowrap}
+.skill-install button:hover{background:var(--accent);color:var(--bg)}
+
+/* Command reference */
+details.cmd-group{border:1px solid var(--border);margin-bottom:-1px}
+details.cmd-group summary{padding:16px 24px;cursor:pointer;font-family:var(--serif);font-size:1rem;font-weight:600;transition:background .2s;list-style:none;display:flex;align-items:center;gap:10px}
+details.cmd-group summary::-webkit-details-marker{display:none}
+details.cmd-group summary::before{content:'';display:inline-block;width:6px;height:6px;border-right:1.5px solid var(--accent);border-bottom:1.5px solid var(--accent);transform:rotate(-45deg);transition:transform .2s}
+details.cmd-group[open] summary::before{transform:rotate(45deg)}
+details.cmd-group summary:hover{background:var(--hover-fill)}
+details.cmd-group .cmd-table{width:100%;border-collapse:collapse}
+details.cmd-group .cmd-table td{padding:10px 24px;border-top:1px solid var(--border);font-size:.85rem;vertical-align:top}
+details.cmd-group .cmd-table td:first-child{opacity:.7;width:40%}
+details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78rem;color:var(--accent)}
+
+/* PDF cards */
+.pdf-grid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:640px){.pdf-grid{grid-template-columns:1fr 1fr}}
+.pdf-card{padding:24px;border:1px solid var(--border);margin-bottom:-1px;margin-right:-1px;display:flex;flex-direction:column;gap:10px;transition:background .2s}
+.pdf-card:hover{background:var(--hover-fill)}
+.pdf-card .pdf-title{font-family:var(--serif);font-size:1.1rem;font-weight:600}
+.pdf-card .pdf-meta{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;opacity:.5}
+.pdf-card .pdf-desc{font-size:.88rem;opacity:.7;line-height:1.6}
+.pdf-card .pdf-link{display:inline-block;margin-top:8px;padding:8px 16px;border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;transition:all .2s}
+.pdf-card .pdf-link:hover{background:var(--accent);color:var(--bg)}
+
+/* Citations */
+.citations{padding:32px 24px;border:1px solid var(--border);margin-top:48px;font-size:.85rem;line-height:1.8;opacity:.7}
+.citations p:first-child{margin-bottom:12px;opacity:1;font-weight:600}
+.citations ul{list-style:none;padding-left:0}
+.citations ul li{padding-left:16px;position:relative}
+.citations ul li::before{content:'-';position:absolute;left:0;color:var(--accent)}
+.citations .note{margin-top:12px;font-size:.8rem;opacity:.6}
+
+/* Footer */
+.footer{display:grid;grid-template-columns:1fr;border:1px solid var(--border);margin-top:40px}
+.footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
+@media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
+
+@media(max-width:1023px){
+  .row,.row.nav-row{grid-template-columns:1fr;border-left:none}
+  .cell{border-right:none}
+  .tab-nav,.section,.footer{border-left:none;border-right:none}
+  details.cmd-group{border-left:none;border-right:none}
+  .footer{grid-template-columns:1fr;border-left:none;border-right:none}
+  .footer .c{border-right:none;border-bottom:1px solid var(--border)}
+}
+@media(max-width:640px){
+  .display{font-size:2.2rem}
+  .hero{padding:50px 16px}
+  .tab-nav a{min-width:0;padding:10px 8px;font-size:.68rem}
+  .section{padding:32px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+
+<div class="page">
+
+<!-- Nav -->
+<nav class="row nav-row" aria-label="Primary">
+  <div class="cell s1"><a href="https://yuai-r.cn/" class="title" style="text-decoration:none">yu.ai</a></div>
+  <div class="cell s2" style="padding:0">
+    <a class="nav-link" href="/openclaw/"><span class="label">openclaw <span class="blink"></span></span></a>
+  </div>
+  <div class="cell s1" style="padding:0">
+    <a class="nav-link" href="/openclaw/skills/"><span class="label">skills <span class="blink"></span></span></a>
+  </div>
+  <div class="cell" style="padding:0">
+    <a class="nav-link" href="/openclaw/changelog/"><span class="label">changelog <span class="blink"></span></span></a>
+  </div>
+  <div class="cell" style="justify-content:space-between">
+    <span class="label op-5">theme</span>
+    <button id="theme-btn" aria-label="切换主题" class="theme-toggle">
+      <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="row">
+  <div class="cell s6" style="border-right:none;padding:0">
+    <div class="hero">
+      <span class="label-xs op-7 fade-up d1" style="letter-spacing:.15rem">openclaw portable · tutorials</span>
+      <h1 class="display fade-up d2">实战教程</h1>
+      <p class="sub fade-up d3">社区精华整合 · 从入门到精通</p>
+    </div>
+  </div>
+</div>
+
+<!-- Tab navigation -->
+<nav class="tab-nav" aria-label="教程导航">
+  <a href="#quickstart">快速上手</a>
+  <a href="#faq">常见问题</a>
+  <a href="#skills">推荐技能</a>
+  <a href="#commands">命令速查</a>
+  <a href="#advanced">进阶资料</a>
+</nav>
+
+<!-- Section: Quick Start -->
+<section class="section" id="quickstart">
+  <h2 class="section-title">快速上手</h2>
+  <p class="section-sub">五步启动你的 OpenClaw Portable</p>
+  <ol class="steps">
+    <li>解压到 U 盘或任意目录</li>
+    <li>macOS: 双击 <code>OpenClaw.app</code> / Windows: 双击 <code>OpenClaw.vbs</code></li>
+    <li>浏览器打开配置中心 <code>http://127.0.0.1:18750</code></li>
+    <li>选择模型平台 → 填入 API Key → 保存</li>
+    <li>点击「打开聊天界面」开始对话</li>
+  </ol>
+</section>
+
+<!-- Section: FAQ -->
+<section class="section" id="faq">
+  <h2 class="section-title">常见问题</h2>
+  <p class="section-sub">来自「扫盲版」文档的高频问题解答</p>
+
+  <div class="faq-item">
+    <div class="faq-q">上下文超限 (400 Total tokens exceed)</div>
+    <div class="faq-a">输入 <code>/new</code> 开启新对话清空上下文，或升级模型套餐以获得更大的上下文窗口。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">飞书多 agent 配置</div>
+    <div class="faq-a">建议先配置一个 agent 跑通全流程，熟悉之后再逐步添加多个。不要一上来就配多个，容易混乱。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">机器人没有消息输入框</div>
+    <div class="faq-a">检查三项配置：应用权限是否开启、回调事件是否正确注册、长链接配置是否生效。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">API 限速 (Rate Limit)</div>
+    <div class="faq-a">等待当前周期刷新即可恢复，或升级套餐提升调用频率上限。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">防止 Mac 休眠</div>
+    <div class="faq-a">使用 <code>caffeinate -i</code> 命令保持唤醒。但不建议将 Mac 作为长期服务器使用，稳定性和散热都不理想。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">编程工具集成</div>
+    <div class="faq-a">参考知乎专栏 (zhuanlan.zhihu.com) 上的集成方案，可将 OpenClaw 与 VS Code、Cursor 等编辑器联动。</div>
+  </div>
+</section>
+
+<!-- Section: Recommended Skills -->
+<section class="section" id="skills">
+  <h2 class="section-title">推荐技能</h2>
+  <p class="section-sub">社区精选 Top 10 实用技能</p>
+  <div class="skill-list">
+
+    <div class="skill-card">
+      <div class="skill-name">playwright-skill</div>
+      <div class="skill-desc">浏览器自动化，支持网页截图、表单填写、数据抓取等操作</div>
+      <div class="skill-install">
+        <code>clawhub install playwright-skill</code>
+        <button onclick="copyCmd(this,'clawhub install playwright-skill')">复制</button>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-name">tavily-search</div>
+      <div class="skill-desc">AI 专用搜索引擎，返回结构化结果，适合 agent 调用</div>
+      <div class="skill-install">
+        <code>clawhub install tavily-search</code>
+        <button onclick="copyCmd(this,'clawhub install tavily-search')">复制</button>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-name">self-improving-agent</div>
+      <div class="skill-desc">自我进化记忆系统，让 agent 从对话中学习并持续优化</div>
+      <div class="skill-install">
+        <code>clawhub install self-improving-agent</code>
+        <button onclick="copyCmd(this,'clawhub install self-improving-agent')">复制</button>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-name">summarize</div>
+      <div class="skill-desc">内容总结技能，支持长文、网页、文档的智能摘要</div>
+      <div class="skill-install">
+        <code>clawhub install summarize</code>
+        <button onclick="copyCmd(this,'clawhub install summarize')">复制</button>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-name">openclaw-token-optimizer</div>
+      <div class="skill-desc">Token 优化工具，压缩上下文、降低调用成本</div>
+      <div class="skill-install">
+        <code>clawhub install openclaw-token-optimizer</code>
+        <button onclick="copyCmd(this,'clawhub install openclaw-token-optimizer')">复制</button>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-name">skill-vetter</div>
+      <div class="skill-desc">技能安全审查，安装前自动检测潜在风险</div>
+      <div class="skill-install">
+        <code>clawhub install skill-vetter</code>
+        <button onclick="copyCmd(this,'clawhub install skill-vetter')">复制</button>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-name">Agent-Reach</div>
+      <div class="skill-desc">多平台内容抓取，支持微信公众号、知乎、Twitter 等</div>
+      <div class="skill-install">
+        <code>clawhub install Agent-Reach</code>
+        <button onclick="copyCmd(this,'clawhub install Agent-Reach')">复制</button>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-name">markdown-proxy</div>
+      <div class="skill-desc">URL 转 Markdown，将任意网页转为干净的 Markdown 格式</div>
+      <div class="skill-install">
+        <code>clawhub install markdown-proxy</code>
+        <button onclick="copyCmd(this,'clawhub install markdown-proxy')">复制</button>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-name">docx</div>
+      <div class="skill-desc">Word 文档操作，支持读取、生成、编辑 .docx 文件</div>
+      <div class="skill-install">
+        <code>clawhub install docx</code>
+        <button onclick="copyCmd(this,'clawhub install docx')">复制</button>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-name">openclaw-backup</div>
+      <div class="skill-desc">配置备份与恢复，防止意外丢失设置</div>
+      <div class="skill-install">
+        <code>clawhub install openclaw-backup</code>
+        <button onclick="copyCmd(this,'clawhub install openclaw-backup')">复制</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Section: Command Reference -->
+<section class="section" id="commands">
+  <h2 class="section-title">命令速查</h2>
+  <p class="section-sub">OpenClaw CLI 完整命令分类索引</p>
+
+  <details class="cmd-group" open>
+    <summary>快速入门</summary>
+    <table class="cmd-table">
+      <tr><td>查看帮助信息</td><td>openclaw help</td></tr>
+      <tr><td>查看当前版本</td><td>openclaw version</td></tr>
+      <tr><td>初始化配置向导</td><td>openclaw setup</td></tr>
+      <tr><td>新手引导流程</td><td>openclaw onboard</td></tr>
+      <tr><td>打开配置中心面板</td><td>openclaw dashboard</td></tr>
+    </table>
+  </details>
+
+  <details class="cmd-group">
+    <summary>配置管理</summary>
+    <table class="cmd-table">
+      <tr><td>获取配置项</td><td>openclaw config get &lt;key&gt;</td></tr>
+      <tr><td>设置配置项</td><td>openclaw config set &lt;key&gt; &lt;value&gt;</td></tr>
+      <tr><td>删除配置项</td><td>openclaw config unset &lt;key&gt;</td></tr>
+      <tr><td>交互式配置</td><td>openclaw configure</td></tr>
+    </table>
+  </details>
+
+  <details class="cmd-group">
+    <summary>Gateway 控制</summary>
+    <table class="cmd-table">
+      <tr><td>启动网关服务</td><td>openclaw start</td></tr>
+      <tr><td>停止网关服务</td><td>openclaw stop</td></tr>
+      <tr><td>重启网关服务</td><td>openclaw restart</td></tr>
+      <tr><td>查看运行状态</td><td>openclaw status</td></tr>
+      <tr><td>查看运行日志</td><td>openclaw logs</td></tr>
+      <tr><td>健康检查</td><td>openclaw health</td></tr>
+    </table>
+  </details>
+
+  <details class="cmd-group">
+    <summary>技能管理</summary>
+    <table class="cmd-table">
+      <tr><td>列出已安装技能</td><td>openclaw skill list</td></tr>
+      <tr><td>搜索技能</td><td>openclaw skill search &lt;keyword&gt;</td></tr>
+      <tr><td>安装技能</td><td>openclaw skill install &lt;name&gt;</td></tr>
+      <tr><td>卸载技能</td><td>openclaw skill uninstall &lt;name&gt;</td></tr>
+      <tr><td>更新技能</td><td>openclaw skill update &lt;name&gt;</td></tr>
+    </table>
+  </details>
+
+  <details class="cmd-group">
+    <summary>模型配置</summary>
+    <table class="cmd-table">
+      <tr><td>列出可用模型</td><td>openclaw model list</td></tr>
+      <tr><td>设置默认模型</td><td>openclaw model set-default &lt;name&gt;</td></tr>
+      <tr><td>添加自定义模型</td><td>openclaw model add &lt;name&gt;</td></tr>
+      <tr><td>测试模型连通性</td><td>openclaw model test &lt;name&gt;</td></tr>
+    </table>
+  </details>
+
+  <details class="cmd-group">
+    <summary>频道管理</summary>
+    <table class="cmd-table">
+      <tr><td>列出所有频道</td><td>openclaw channel list</td></tr>
+      <tr><td>查看频道状态</td><td>openclaw channel status &lt;name&gt;</td></tr>
+      <tr><td>登录频道</td><td>openclaw channel login &lt;name&gt;</td></tr>
+      <tr><td>测试频道连接</td><td>openclaw channel test &lt;name&gt;</td></tr>
+      <tr><td>配置频道参数</td><td>openclaw channel configure &lt;name&gt;</td></tr>
+    </table>
+  </details>
+
+  <details class="cmd-group">
+    <summary>记忆管理</summary>
+    <table class="cmd-table">
+      <tr><td>搜索记忆内容</td><td>openclaw memory search &lt;query&gt;</td></tr>
+      <tr><td>查看记忆统计</td><td>openclaw memory stats</td></tr>
+      <tr><td>清理过期记忆</td><td>openclaw memory clean</td></tr>
+      <tr><td>备份记忆数据</td><td>openclaw memory backup</td></tr>
+    </table>
+  </details>
+
+  <details class="cmd-group">
+    <summary>定时任务</summary>
+    <table class="cmd-table">
+      <tr><td>列出定时任务</td><td>openclaw cron list</td></tr>
+      <tr><td>添加定时任务</td><td>openclaw cron add &lt;expression&gt;</td></tr>
+      <tr><td>手动执行任务</td><td>openclaw cron run &lt;id&gt;</td></tr>
+      <tr><td>移除定时任务</td><td>openclaw cron remove &lt;id&gt;</td></tr>
+    </table>
+  </details>
+
+  <details class="cmd-group">
+    <summary>故障排除</summary>
+    <table class="cmd-table">
+      <tr><td>自动诊断问题</td><td>openclaw doctor</td></tr>
+      <tr><td>检查端口占用</td><td>openclaw port check</td></tr>
+      <tr><td>过滤日志输出</td><td>openclaw logs --filter &lt;keyword&gt;</td></tr>
+    </table>
+  </details>
+</section>
+
+<!-- Section: Advanced Resources -->
+<section class="section" id="advanced">
+  <h2 class="section-title">进阶资料</h2>
+  <p class="section-sub">系统学习 PDF 文档下载</p>
+  <div class="pdf-grid">
+    <div class="pdf-card">
+      <div class="pdf-title">OpenClaw 橙皮书 v1.4.0</div>
+      <div class="pdf-meta">PDF · 114 页</div>
+      <div class="pdf-desc">图文并茂的完整指南，涵盖安装、配置、技能开发、多平台部署等全部内容。</div>
+      <a class="pdf-link" href="/openclaw/tutorials/downloads/OpenClaw橙皮书-从入门到精通-v1.4.0.pdf" download>下载 PDF</a>
+    </div>
+    <div class="pdf-card">
+      <div class="pdf-title">OpenClaw 学习文件</div>
+      <div class="pdf-meta">PDF · 189 页</div>
+      <div class="pdf-desc">系统学习资料，适合希望深入理解 OpenClaw 架构和高级用法的用户。</div>
+      <a class="pdf-link" href="/openclaw/tutorials/downloads/OpenClaw学习文件.pdf" download>下载 PDF</a>
+    </div>
+  </div>
+</section>
+
+<!-- Citations -->
+<div class="citations">
+  <p>本页内容整合自以下社区教程，感谢原作者的无私分享：</p>
+  <ul>
+    <li>「OpenClaw 从入门到精通指南」 作者：苍何</li>
+    <li>「OpenClaw 扫盲版」 作者：蜗牛</li>
+  </ul>
+  <p class="note">内容经过编辑整理，去除了推广信息，保留了技术干货。如有侵权请联系 zt.12.18@foxmail.com。</p>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="c"><span class="label op-7">yu.ai</span></div>
+  <div class="c"><a class="label" href="/openclaw/" style="opacity:.7">manual</a></div>
+  <div class="c"><a class="label" href="/openclaw/skills/" style="opacity:.7">skills</a></div>
+  <div class="c"><a class="label" href="/openclaw/changelog/" style="opacity:.7">changelog</a></div>
+  <div class="c"><span class="label op-5" id="footer-year">mit</span></div>
+</footer>
+
+</div><!-- end .page -->
+
+<script>
+(function(){
+'use strict';
+
+// Theme toggle
+function lsGet(k){try{return localStorage.getItem(k)}catch(_){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(_){}}
+var btn=document.getElementById('theme-btn');
+if(btn){
+  var html=document.documentElement,sun=btn.querySelector('.theme-sun'),moon=btn.querySelector('.theme-moon');
+  function syncIcons(L){sun.style.display=L?'none':'block';moon.style.display=L?'block':'none'}
+  var saved=lsGet('yuai-theme');
+  if(saved==='light'){html.setAttribute('data-theme','light');syncIcons(true)}
+  else if(saved==='dark'){html.setAttribute('data-theme','dark');syncIcons(false)}
+  else{var mql=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)');syncIcons(mql&&mql.matches)}
+  btn.onclick=function(){
+    var L=html.getAttribute('data-theme')!=='light';
+    if(!html.getAttribute('data-theme')){var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches;L=!sys}
+    html.setAttribute('data-theme',L?'light':'dark');lsSet('yuai-theme',L?'light':'dark');syncIcons(L)
+  }
+}
+
+// Footer year
+var fy=document.getElementById('footer-year');
+if(fy)fy.textContent='mit \u00B7 '+new Date().getFullYear();
+
+// Copy command
+window.copyCmd=function(btn,cmd){
+  navigator.clipboard.writeText(cmd).then(function(){
+    btn.textContent='\u5DF2\u590D\u5236';
+    setTimeout(function(){btn.textContent='\u590D\u5236'},1500)
+  }).catch(function(){
+    btn.textContent='\u5931\u8D25';
+    setTimeout(function(){btn.textContent='\u590D\u5236'},1500)
+  })
+};
+
+// Smooth scroll for anchor nav
+document.querySelectorAll('.tab-nav a').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var href=a.getAttribute('href');
+    if(href&&href.startsWith('#')){
+      e.preventDefault();
+      var target=document.querySelector(href);
+      if(target){target.scrollIntoView({behavior:'smooth',block:'start'})}
+      history.replaceState(null,null,href)
+    }
+  })
+});
+
+})();
+</script>
+
+</body>
+</html>

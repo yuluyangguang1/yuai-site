@@ -26,6 +26,11 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>https://yuai-r.cn/openclaw/tutorials/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://yuai-r.cn/openclaw/changelog/</loc>
     <priority>0.6</priority>
     <changefreq>weekly</changefreq>
