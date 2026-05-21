@@ -254,7 +254,7 @@ button{font:inherit;color:inherit}
   <button class="chip" data-filter="fixed">修复</button>
   <button class="chip" data-filter="changed">变更</button>
   <button class="chip" data-filter="security">安全</button>
-  <button class="chip" id="translateChip" title="切换中英 / 对常见英文术语做关键词替换">🌐 中译</button>
+  <button class="chip" id="translateChip" title="切换中英 / 对常见英文术语做关键词替换"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 中译</button>
   <input class="search-box" type="search" id="searchBox" placeholder="搜索版本号或关键词…" aria-label="搜索">
 </div>
 
@@ -265,9 +265,9 @@ button{font:inherit;color:inherit}
 <!-- Footer -->
 <footer class="footer" style="margin-top:40px">
   <div class="c"><span class="label op-7">yu.ai</span></div>
-  <div class="c"><a class="label" href="https://yuai-r.cn/" style="opacity:.7">home ↗</a></div>
-  <div class="c"><a class="label" href="/hermes/" style="opacity:.7">manual ↗</a></div>
-  <div class="c"><a class="label" href="https://github.com/yuluyangguang1" target="_blank" rel="noopener" style="opacity:.7">github ↗</a></div>
+  <div class="c"><a class="label" href="https://yuai-r.cn/" style="opacity:.7">home <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-left:2px" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a></div>
+  <div class="c"><a class="label" href="/hermes/" style="opacity:.7">manual <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-left:2px" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a></div>
+  <div class="c"><a class="label" href="https://github.com/yuluyangguang1" target="_blank" rel="noopener" style="opacity:.7">github <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-left:2px" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a></div>
   <div class="c"><span class="label op-5" id="footer-year">mit</span></div>
 </footer>
 
@@ -519,7 +519,7 @@ function extractChanges(body){
 // GitHub release notes carry technical detail (PR refs, code
 // snippets, type signatures) that a keyword swap easily mangles.
 // Instead we keep the original English text as the source of
-// truth and provide a per-entry 🌐 toggle that runs a curated
+// truth and provide a per-entry globe toggle that runs a curated
 // keyword pass on demand. Users see a clear "自动翻译" caption
 // and can flip back any time.
 //
@@ -641,7 +641,7 @@ var CURRENT_TAB='portable';
 var CURRENT_FILTER='all';
 var CURRENT_SEARCH='';
 // Default to translated view. User can flip back to verbatim
-// English via the 🌐 chip (state persists in localStorage).
+// English via the globe chip (state persists in localStorage).
 var saved_t=lsGet('hermes-changelog-translate');
 var TRANSLATE=saved_t==null?true:(saved_t==='1');
 var DATA={portable:[],standard:[]};
@@ -730,7 +730,7 @@ function renderTimeline(){
           '<div class="entry-title">'+escapeHtml(e.name||('v'+e.version))+'</div>'+
           '<ul class="changes">'+changesHtml+'</ul>'+
           '<div class="entry-footer">'+
-            '<a href="'+escapeAttr(e.url)+'" target="_blank" rel="noopener">在 GitHub 查看 ↗</a>'+
+            '<a href="'+escapeAttr(e.url)+'" target="_blank" rel="noopener">在 GitHub 查看 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-left:2px" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a>'+
             '<span>共 '+(e.changes||[]).length+' 项变更</span>'+
           '</div>'+
         '</div>'+
