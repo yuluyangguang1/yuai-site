@@ -1,16 +1,10 @@
 
-
-
-
-
-
-
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">第一部分：OpenClaw 理论知识</h2>
 
 
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">理论部分，不想看的可以直接跳过到其他部分哈。</blockquote>
 
-<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">1. **第一章：OpenClaw 是什么？</h3>
+<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">1. 第一章：OpenClaw 是什么？</h3>
 
 
 <li style="margin:4px 0;padding-left:4px;font-size:.9rem;line-height:1.7"><strong>OpenClaw 是</strong>一个开源的个人 AI Agent（智能体）框架，由奥地利开发者 Peter Steinberger 于 2025 年底发布，2026 年 1 月在技术圈爆红。它标志着 AI 从"对话工具"向"自主执行者"的范式转变。它不是一个 App，而是一个&quot;住在电脑里的 AI 管家&quot;。</li>
@@ -100,23 +94,23 @@
 
 <h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">2. 第二章：核心特性与差异化优势</h3>
 
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">**实用方便：**</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">**我认为这是最重要的一点，也是它为什么会爆火的根本原因。它让普通人第一次真实的看到了未来世界的雏形。虽然现在它还相当不完善，但却是实实在在的能让普通人也看到未来世界的样子。**</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">传统 AI：被动响应，数据上云。 采用“一问一答”模式，每一步都需要用户确认。由于文件必须上传至第三方云端，处理复杂任务时既繁琐又存在隐私泄露风险。&#x20;</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">实用方便：</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">我认为这是最重要的一点，也是它为什么会爆火的根本原因。它让普通人第一次真实的看到了未来世界的雏形。虽然现在它还相当不完善，但却是实实在在的能让普通人也看到未来世界的样子。</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">传统 AI：被动响应，数据上云。 采用“一问一答”模式，每一步都需要用户确认。由于文件必须上传至第三方云端，处理复杂任务时既繁琐又存在隐私泄露风险。</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">OpenClaw：本地指令，自主闭环。 真正做到"一句话搞定一整件事"。任务调度、文件处理、工具执行均在本地环境完成，原始文件不向第三方云端上传。相比传统AI需将完整文件提交至云端处理，OpenClaw仅需向模型传输必要的指令和上下文，显著降低数据暴露范围。配合本地大模型（如Ollama）可实现完全离线运行，满足高隐私场景需求。</blockquote>
 
 
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">**24×7小时驻留性：**</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">24×7小时驻留性：</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 传统AI：按需启动，用完即走。每次使用需打开特定App或网页，对话结束后进入"休眠"状态，无持续监听能力，无法执行定时或触发式任务。</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* OpenClaw：常驻后台，随时待命。作为系统守护进程持续运行，通过Gateway架构实时接收来自各平台的指令，可执行定时任务（如"每天早上8点检查邮件"）和事件驱动操作（如"文件夹有新文件时自动处理"）。</blockquote>
 
 
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">**高扩展性：&#x20;**</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">高扩展性：</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 传统AI：封闭生态，受限于厂商。仅能使用官方提供的插件或功能，用户无法自定义能力边界，新功能需等待厂商更新。</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* OpenClaw：模块化Skill，社区驱动。通过以Markdown为接口定义的Skill包扩展功能，Skill包含描述文件（SKILL.md）及可选的执行脚本、二进制工具等，支持从ClawHub市场一键安装，或自行开发私有Skill。</blockquote>
 
 
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">**跨平台矩阵：**</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">跨平台矩阵：</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 传统AI：封闭App，割裂体验。必须在特定网页或App内使用（如打开ChatGPT网页），无法融入用户已有的工作流程和通讯工具。</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* OpenClaw：与平台无关，无缝嵌入。通过Gateway架构接入用户日常使用的通讯平台（Discord/Telegram/飞书/企业微信等），在不改变用户习惯的情况下提供服务。</blockquote>
 
@@ -143,7 +137,7 @@
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">它拥有长效记忆。即使重启电脑，它依然会记得你。它还会把你的操作偏好、常用文件路径、甚至之前的对话重点都存在本地的“档案袋”里。</p>
 
 
-<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">4. **第四章：应用场景与潜力分析</h3>
+<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">4. 第四章：应用场景与潜力分析</h3>
 
 <h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">4.1、应用场景</h4>
 
@@ -192,12 +186,12 @@
 <h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">百度 DuMate</h3>
 
 
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">**DuMate 使用指引**</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">DuMate 使用指引</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">DuMate 是百度推出一款面向个人及团队的桌面级 AI 智能体，可以看见屏幕、操作软件、处理文件、串联业务系统——实现从"想法"到"结果"全程自动化执行，让用户从重复的日常工作中解放，聚焦核心业务与高价值思考，真正实现 “工作有搭子，办公更高效”。</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">另外，产品内置安全沙箱，所有数据与操作均在用户本地设备内隔离运行，未经授权绝不访问任何设备资源，从根源上保障数据安全与隐私，让 AI 能力安全落地到每一个办公细节，成为个人办公提效、团队协作赋能的可靠搭子。</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">**DuMate 下载地址：**</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">&#x20;https://dwz.cn/5lUz6Tkc</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">**产品使用教程：**</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">DuMate 下载地址：</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">https://dwz.cn/5lUz6Tkc</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">产品使用教程：</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">https://cloud.baidu.com/doc/Dumate/s/xmmu7qrvo</blockquote>
 
 
@@ -834,7 +828,7 @@
 <h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">飞书openclaw</h3>
 
 
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">**2026 年 3 月 31 日 24:00 时（北京时间）**&#x524D;免费部署、每日免费 100 万 Tokens 额度！每日限量 10 万名，</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">2026 年 3 月 31 日 24:00 时（北京时间）&#x524D;免费部署、每日免费 100 万 Tokens 额度！每日限量 10 万名，</blockquote>
 
 
 <img src="img/t355.png" alt="" loading="lazy" style="max-width:100%;border:1px solid var(--border);border-radius:4px;margin:12px 0">
@@ -876,7 +870,7 @@
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">和别的小龙虾不一样的是，在对话页面多了「快捷指令」和「设置」按钮，当点击快捷指令，会有 2 个功能：</p>
 
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">/new：新建一个会话</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">&#x20;/stop：阻断当前对话</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">/stop：阻断当前对话</blockquote>
 
 <img src="img/t256.png" alt="" loading="lazy" style="max-width:100%;border:1px solid var(--border);border-radius:4px;margin:12px 0">
 
@@ -1111,7 +1105,7 @@
 
 <img src="img/t203.png" alt="" loading="lazy" style="max-width:100%;border:1px solid var(--border);border-radius:4px;margin:12px 0">
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">&#x20;点击注册后即可获得一个 Webhook 地址，复制这个地址：</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">点击注册后即可获得一个 Webhook 地址，复制这个地址：</p>
 
 <img src="img/t278.png" alt="" loading="lazy" style="max-width:100%;border:1px solid var(--border);border-radius:4px;margin:12px 0">
 
@@ -1275,7 +1269,7 @@
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">文档完善中。。</p>
 
 
-<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">智谱**AutoClaw</h3>
+<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">智谱AutoClaw</h3>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>地址：https://autoglm.zhipuai.cn/autoclaw/</strong></p>
@@ -1343,7 +1337,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>纯新手小白，最推荐的配置顺序：1.1→2.1→3.2</strong></p>
 
-<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">1. **第一步：环境部署</h3>
+<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">1. 第一步：环境部署</h3>
 
 <h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">1.1 云端部署</h4>
 
@@ -1373,7 +1367,7 @@
 <img src="img/t366.png" alt="" loading="lazy" style="max-width:100%;border:1px solid var(--border);border-radius:4px;margin:12px 0">
 
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">选左下角2核2G即可&#x20;</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">选左下角2核2G即可</p>
 
 <img src="img/t038.png" alt="" loading="lazy" style="max-width:100%;border:1px solid var(--border);border-radius:4px;margin:12px 0">
 
@@ -1857,7 +1851,7 @@
 <img src="img/t108.png" alt="" loading="lazy" style="max-width:100%;border:1px solid var(--border);border-radius:4px;margin:12px 0">
 
 
-<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">2. **第二步：配置模型</h3>
+<h3 style="margin:32px 0 12px;font-family:var(--serif);font-size:1.2rem;font-weight:600">2. 第二步：配置模型</h3>
 
 
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">这里是为了突出流程的完整性，你也可以直接跳转到 3.2 直接操作。</blockquote>
@@ -2197,7 +2191,7 @@
 <img src="img/t095.png" alt="" loading="lazy" style="max-width:100%;border:1px solid var(--border);border-radius:4px;margin:12px 0">
 
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">&#x20; &#x20;</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"> </p>
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">操作如图所示：</p>
 
@@ -2624,13 +2618,13 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">然后再次启动 Gateway</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">openclaw gateway --port 18789 --verbose</p>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">如果你想要让它在服务器中静默启动，而不是关闭终端就停止服务了，你可以输入以下命令：</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">nohup openclaw gateway --port 18789 --verbose > /dev/null 2>&1 &</p>
 
 
@@ -2743,7 +2737,7 @@
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">地址在这里，给需要的小伙伴：https://www.bigmodel.cn/claw-plan-team</p>
 
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">&#x20;本地 Claude Code 也是用的 GLM-5-Turbo，相当于用搭载 GLM-5-Turbo 的 AutoClaw 指挥搭载 GLM-5-Turbo 的 Claude Code 完成开发。</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">本地 Claude Code 也是用的 GLM-5-Turbo，相当于用搭载 GLM-5-Turbo 的 AutoClaw 指挥搭载 GLM-5-Turbo 的 Claude Code 完成开发。</p>
 
 <img src="img/t271.png" alt="" loading="lazy" style="max-width:100%;border:1px solid var(--border);border-radius:4px;margin:12px 0">
 
@@ -2962,7 +2956,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">比如，我直接来一个问题：</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">我搜集整理一下最新的关于Clawdbot 的信息，告诉我该怎么配置和使用，并</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">给我在 GitHub 或者 X 上找出 10 个最佳实践。</p>
 
@@ -2975,7 +2969,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">然后我又直接在手机上，让 Clawdbot （OpenClaw）帮我把刚刚找到的结果保存在电脑指定的文件夹，我的要求如下：</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">你把刚刚生成的信息保存成markdown文档，放在我的电脑claw文件夹下，</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">你需要新建这个文件夹</p>
 
@@ -3107,7 +3101,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong> 贪吃蛇游戏 + Agent Coding 完整教程</strong></p>
 
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">本文档由 **「OpenClaw AI Agent」** 全程自动生成，记录从需求到上线的完整开发流程。</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">本文档由 「OpenClaw AI Agent」 全程自动生成，记录从需求到上线的完整开发流程。</blockquote>
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"> <strong>「在线试玩」</strong>: https://myopencode.vercel.app</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"> <strong>「项目源码」</strong>: https://github.com/freestylefly/snake-game</p>
@@ -3139,7 +3133,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong> 完整流程图</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">  AgentCoding完整工作流 </p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">        用户需求      "帮我创建一个贪吃蛇游戏并部署上线"                               Step1:环境准备(OpenClaw协调)      安装OpenCode安装GitHubCLI安装VercelCLI   (AI编程)(代码托管)(自动部署)              Step2:AgentCoding(OpenCode)          用户:"创建一个贪吃蛇游戏"                      OpenCodeAIAgent      生成HTML生成CSS生成JS   index.htmlstyle.cssgame.js                                              Step3:代码管理(GitHub)         1.gitinit初始化仓库   2.gitadd.添加文件   3.gitcommit-m"Initial commit"提交   4.创建GitHub仓库(通过API)   5.gitpush-uoriginmaster推送到远程                             Step4:自动部署(Vercel)         1.vercel--token<TOKEN>登录并关联   2.自动检测项目类型(静态网站)   3.构建并上传到VercelCDN     4. 分配域名: https://myopencode.vercel.app                                          网站上线       访问链接，游戏可玩！     </p>
 
@@ -3152,21 +3146,21 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>1.1 安装 OpenCode（AI 编程助手）</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">安装 OpenCodenpm install -g opencode-ai</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">验证安装opencode --version</h2>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>1.2 安装 GitHub CLI（代码管理）</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">下载并安装curl -fsSL https://github.com/cli/cli/releases/download/v2.63.2/gh_2.63.2_linux_amd64.tar.gz | tar -xz -C /tmpcp /tmp/gh_2.63.2_linux_amd64/bin/gh /usr/local/bin/</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">验证gh --version</h2>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>1.3 安装 Vercel CLI（自动部署）</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">安装 Vercel CLInpm install -g vercel</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">验证vercel --version</h2>
 
@@ -3175,7 +3169,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>第二步：创建项目目录</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">创建项目目录mkdir -p ~/myopencodecd ~/myopencode</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">初始化 Git 仓库git init</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">配置 Git 用户信息git config --global user.email "your@email.com"git config --global user.name "yourname"</h2>
@@ -3187,19 +3181,19 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>方式一：使用 OpenCode 交互模式</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">启动 OpenCode（需要 PTY 模式）# 在 OpenClaw 中使用：bash pty:true workdir:~/myopencode command:"opencode"</h2>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">然后在 OpenCode 中输入：</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">创建一个贪吃蛇游戏，使用 HTML5 Canvas，包含完整的游戏逻辑、得分系统和响应式设计</p>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>方式二：使用 OpenCode 非交互模式</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">直接运行任务opencode run "Create a complete Snake game using HTML5 Canvas, CSS, and JavaScript"</h2>
 
 
@@ -3209,13 +3203,13 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>「index. html:」</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><!DOCTYPE html><html lang="zh-CN"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>贪吃蛇游戏</title>    <link rel="stylesheet" href="style.css"></head><body>    <div class="container">        <h1> 贪吃蛇游戏</h1>        <div class="game-info">            <div class="score">得分: 0</div>            <div class="high-score">最高分: 0</div>        </div>        <canvas id="gameCanvas" width="400" height="400"></canvas>        <div class="controls">            <p>使用方向键 ↑↓←→ 控制蛇的移动</p>            <button id="startBtn">开始游戏</button>            <button id="pauseBtn">暂停</button>            <button id="restartBtn">重新开始</button>        </div>        <div id="gameOver" class="game-over hidden">            <h2>游戏结束!</h2>            <p>最终得分: 0</p>            <button id="playAgainBtn">再玩一次</button>        </div>    </div>    <script src="game.js"></script></body></html></p>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>「style. css:」</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <li style="margin:4px 0;padding-left:4px;font-size:.9rem;line-height:1.7">{    margin: 0;    padding: 0;    box-sizing: border-box;}</li>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">body {    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);    min-height: 100vh;    display: flex;    justify-content: center;    align-items: center;    color: #fff;}</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">.container {    text-align: center;    padding: 20px;    background: rgba(255, 255, 255, 0.05);    border-radius: 20px;    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);}</p>
@@ -3231,7 +3225,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>4.1 提交代码</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">添加所有文件git add .</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">提交git commit -m "Initial commit: Snake game with HTML5 Canvas"</h2>
 
@@ -3240,7 +3234,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>「方式一：使用 GitHub CLI」</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">登录 GitHubecho "YOUR_GITHUB_TOKEN" | gh auth login --with-token</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">创建仓库gh repo create snake-game --public --description "A classic Snake game"</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">推送git push -u origin master</h2>
@@ -3248,7 +3242,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>「方式二：使用 API 直接创建」</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">通过 API 创建仓库curl -X POST https://api.github.com/user/repos \  -H "Authorization: token YOUR_GITHUB_TOKEN" \  -H "Accept: application/vnd.github.v3+json" \  -d '{    "name": "snake-game",    "description": "A classic Snake game built with HTML5 Canvas",    "private": false  }'</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">添加远程仓库并推送git remote add origin https://username:token@github.com/username/snake-game.gitgit push -u origin master</h2>
 
@@ -3259,14 +3253,14 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>5.1 使用 Vercel CLI 部署</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">进入项目目录cd ~/myopencode</h2>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">使用 token 部署vercel --token YOUR_VERCEL_TOKEN --yes --prod</h2>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">部署成功后，会输出类似：</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">Production: https://myopencode-xxx.vercel.app</p>
 
 
@@ -3332,19 +3326,19 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>自动评论到 PR</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">OpenCode 审查代码后自动评论gh pr comment  --body "$(cat review.md)"</h2>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>定时自动更新</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">使用 cron 定时让 AI 更新网站内容cron action:add job:{  "schedule": {"kind": "cron", "expr": "0 9 * * 1"},  "payload": {"kind": "agentTurn", "message": "更新网站内容"}}</h2>
 
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>多 Agent 协作</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <h2 style="margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--serif);font-size:1.6rem;font-weight:700">同时运行多个 OpenCode 处理不同任务bash pty:true background:true command:"opencode '设计前端界面'"bash pty:true background:true command:"opencode '编写后端 API'"</h2>
 
 
@@ -3420,7 +3414,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75"><strong>真实的开发时间线</strong></p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">21:49 - 用户："帮我安装 opencode"21:53 - 创建项目目录 myopencode21:56 - 启动 opencode（交互模式）21:57 - OpenCode 卡住，改用直接创建文件21:58 - 贪吃蛇游戏代码生成完成22:05 - 用户提供 GitHub 账号 freestylefly22:10 - 创建 GitHub 仓库并推送代码22:13 - 用户要求部署到 Vercel22:20 - Vercel 部署成功，游戏上线22:28 - 用户："写一篇文章记录这个过程"22:31 - README 自动生成并推送到 GitHub</p>
 
 
@@ -4171,7 +4165,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">非要配置看看这个大佬的</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">参考答案2：<a href="https://my.feishu.cn/docx/Qj46dEvfvoSuZOx0vUvcWIcGnyd?from=from_copylink" target="_blank" rel="noopener" style="color:var(--accent)"> OpenClaw 多 Agent 飞书 Bot 完整配置指南</a>&#x20;</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">参考答案2：<a href="https://my.feishu.cn/docx/Qj46dEvfvoSuZOx0vUvcWIcGnyd?from=from_copylink" target="_blank" rel="noopener" style="color:var(--accent)"> OpenClaw 多 Agent 飞书 Bot 完整配置指南</a></p>
 
 
 <h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">3.为什么开通了读取权限机器人没有消息输入框</h4>
@@ -4204,7 +4198,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">能解决， <strong>如果是想把 Mac 当服务器 24 小时跑项目</strong>：强烈不建议这么做。MacBook 的散热和电源管理机制不适合长期高负载做服务器，不仅伤电池，而且一旦意外断电或重启，服务就会中断。这种情况建议使用 <strong>PM2</strong> 等进程守护工具，并将项目部署到云服务器（如阿里云、腾讯云等轻量应用服务器）上。</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">如果想重启 就使用 重启命令&#x20;</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">如果想重启 就使用 重启命令</p>
 
 <h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">6.如何使用 oopenclaw  操作 codex   claude code 这些编程工具</h4>
 
@@ -4232,9 +4226,9 @@
 
 <h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">3.帮你节省 tokens 的 skill 来了（plan Lite 有福了）</h4>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">网站是这个：https://clawhub.ai/Asif2BD/openclaw-token-optimizer&#x20;</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">网站是这个：https://clawhub.ai/Asif2BD/openclaw-token-optimizer</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">这个网站是官方插件网站，但是有很多病毒 skill。要注意安全，openclaw-token-optimizer&#x20;</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">这个网站是官方插件网站，但是有很多病毒 skill。要注意安全，openclaw-token-optimizer</p>
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">这个放心使用 我已经扫描过。</p>
 
@@ -4242,7 +4236,7 @@
 
 
 
-<h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">4.给你的龙虾装上眼睛的 skill 来了，必备 skill&#x20;</h4>
+<h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">4.给你的龙虾装上眼睛的 skill 来了，必备 skill</h4>
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">项目地址：https://github.com/Panniantong/Agent-Reach</p>
 
@@ -4252,7 +4246,7 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">文档：</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">&#x20;《️ Agent Reach》</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">《️ Agent Reach》</p>
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">介绍：</p>
 
@@ -4311,10 +4305,10 @@
 
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85"># 五虎冰岛普洱茶抖音视频内容分析报告</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">## 视频基本信息</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* **标题**：五虎冰岛普洱茶茶叶送礼正宗云南古树糯香普洱熟茶陈年茶饼礼盒装</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* **视频ID**：7612919917200952619</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* **时长**：48.39秒</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* **发布平台**：抖音</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 标题：五虎冰岛普洱茶茶叶送礼正宗云南古树糯香普洱熟茶陈年茶饼礼盒装</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 视频ID：7612919917200952619</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 时长：48.39秒</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 发布平台：抖音</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">## 视频核心金句</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">> 我敢带着运费险让你去尝试，就是我确信你不但不会退，还会接二连三的回购。</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">></blockquote>
@@ -4335,17 +4329,17 @@
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">我敢带着运费险让你去尝试，就是我确信你不但不会退，还会接二连三的回购。我保证我绝对不是骗子。这个呢是五虎家的九年尊藏冰岛普洱，这是横扫各大网红直播间的畅销爆品啊，只要有货，永远好卖啊，支持四喝无饼，不满意，直接退。今天260克的两盒，只要两张多，它是一个熟朴啊，原味就是滋味甜香，回味绵绵，喝起来呢口感很浓厚的，甘甜持久，沉香不足。年少不知普洱味喝。已是不过年，小饼呢金牙密布圆润完整，干茶的条熟几实，然后茶汤红润浓量，很耐泡，发泡以后仍然有鱼香，今天价格特别的美丽，给大家日常饮用或者过节送人都很合适的，这个太值了。就看大家能不能采到把朵朵的囤起来，折扣惊人啊，就今天这个价格疯了。</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">## 内容讲解</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">本视频是典型的茶叶产品直播带货短视频，采用了高转化的电商营销话术结构：</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">1. **信任背书**：开篇即用"运费险"、"保证不是骗子"、"不满意直接退"等承诺降低用户决策门槛</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">2. **产品定位**：明确是"九年尊藏冰岛普洱"、"网红直播间畅销爆品"，强化产品热销属性</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">3. **价值塑造**：从外观（金牙密布、圆润完整）、口感（甜香、浓厚、甘甜持久）、耐泡度三个维度突出产品品质</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">4. **价格刺激**：强调"260克两盒只要两张多"、"价格特别美丽"、"折扣惊人"，制造稀缺感和抢购冲动</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">5. **使用场景**：覆盖"日常饮用"和"过节送人"两大核心消费场景，扩大受众范围</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">1. 信任背书：开篇即用"运费险"、"保证不是骗子"、"不满意直接退"等承诺降低用户决策门槛</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">2. 产品定位：明确是"九年尊藏冰岛普洱"、"网红直播间畅销爆品"，强化产品热销属性</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">3. 价值塑造：从外观（金牙密布、圆润完整）、口感（甜香、浓厚、甘甜持久）、耐泡度三个维度突出产品品质</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">4. 价格刺激：强调"260克两盒只要两张多"、"价格特别美丽"、"折扣惊人"，制造稀缺感和抢购冲动</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">5. 使用场景：覆盖"日常饮用"和"过节送人"两大核心消费场景，扩大受众范围</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">整体话术节奏快，信息密度高，符合抖音短视频的用户注意力特点，转化导向明确。</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">## 产品核心卖点</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">## 媒体资源</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* **封面图片**：output/7612919917200952619/7612919917200952619.jpg</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* **视频文件**：output/7612919917200952619/7612919917200952619.mp4</blockquote>
-<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* **音频文件**：output/7612919917200952619/7612919917200952619.mp3</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 封面图片：output/7612919917200952619/7612919917200952619.jpg</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 视频文件：output/7612919917200952619/7612919917200952619.mp4</blockquote>
+<blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">* 音频文件：output/7612919917200952619/7612919917200952619.mp3</blockquote>
 <blockquote style="margin:12px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.9rem;opacity:.85">提示：视频和音频文件在本地。</blockquote>
 
 <h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">7.组合拳解析抖音生成微信公众号文章，有理有据版本</h4>
@@ -4487,16 +4481,16 @@
 
 <li style="margin:4px 0;padding-left:4px;font-size:.9rem;line-height:1.7"><strong>使用理由</strong>：</li>
 
-<li style="margin:4px 0;padding-left:4px;font-size:.9rem;line-height:1.7"><strong>&#x20;对抗信息过载</strong>：每天面对几十封邮件或上百页文档，它能帮你 10 秒钟抓重点。</li>
+<li style="margin:4px 0;padding-left:4px;font-size:.9rem;line-height:1.7"><strong>对抗信息过载</strong>：每天面对几十封邮件或上百页文档，它能帮你 10 秒钟抓重点。</li>
 
 <li style="margin:4px 0;padding-left:4px;font-size:.9rem;line-height:1.7"><strong>多源融合</strong>：它最强的地方在于能把“视频字幕+视频中的 PPT 截图”合在一起做总结。</li>
 
 <h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">17. YouTube 你们要的 skill</h4>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">直接复制给 小龙虾安装&#x20;</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">直接复制给 小龙虾安装</p>
 
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">请先检查是否已安装 SkillHub 商店，若未安装，请根据 https://skillhub-1388575217.cos.ap-guangzhou.myqcloud.com/install/skillhub.md 安装Skillhub商店，然后安装youtube-api-skill技能。</p>
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">若已安装，则直接安装youtube-api-skill技能。</p>
@@ -4507,9 +4501,9 @@
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">Openai Whisper 提供本地语音转文本服务，通过 Whisper CLI 实现高质量离线语音识别，无需 API 密钥，方便快捷。</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">直接复制给 小龙虾安装&#x20;</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">直接复制给 小龙虾安装</p>
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plain&#x20;text</p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">plaintext</p>
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">请先检查是否已安装 SkillHub 商店，若未安装，请根据 https://skillhub-1388575217.cos.ap-guangzhou.myqcloud.com/install/skillhub.md 安装Skillhub商店，然后安装openai-whisper技能。</p>
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">若已安装，则直接安装openai-whisper技能。</p>
@@ -4535,9 +4529,9 @@
 <h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">21.用龙虾将微信公众号转成飞书文档，一比一还原</h4>
 
 
-<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">思想就是 使用<strong>markdown-proxy 先转成 markdown 再使用 飞书cli&#x20;</strong></p>
+<p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">思想就是 使用<strong>markdown-proxy 先转成 markdown 再使用 飞书cli</strong></p>
 
-<h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">22. **Douyin-transcribe-skill : 提取口播文字</h4>
+<h4 style="margin:24px 0 8px;font-family:var(--serif);font-size:1.05rem;font-weight:600">22. Douyin-transcribe-skill : 提取口播文字</h4>
 
 <p style="margin:8px 0;font-size:.9rem;opacity:.85;line-height:1.75">不仅能把视频转成文本，还能自动总结、生成逐字稿和归档。适合拆解口播内容、沉淀知识库和做二次创作。</p>
 

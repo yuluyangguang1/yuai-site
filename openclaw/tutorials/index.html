@@ -494,6 +494,16 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
 <section class="section" id="full-guide">
   <h2 class="section-title">从入门到精通（完整版）</h2>
   <p class="section-sub">社区教程完整内容 · 含配图 · 可折叠章节</p>
+  <nav style="margin-bottom:32px;padding:16px;border:1px solid var(--border);font-size:.85rem;line-height:2">
+    <strong style="display:block;margin-bottom:8px;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;opacity:.5">目录</strong>
+    <a href="#" onclick="scrollToContent('第一部分');return false" style="color:var(--accent);margin-right:16px">理论知识</a>
+    <a href="#" onclick="scrollToContent('第二部分');return false" style="color:var(--accent);margin-right:16px">一键部署</a>
+    <a href="#" onclick="scrollToContent('第三部分');return false" style="color:var(--accent);margin-right:16px">进阶部署</a>
+    <a href="#" onclick="scrollToContent('第四部分');return false" style="color:var(--accent);margin-right:16px">多 Agent</a>
+    <a href="#" onclick="scrollToContent('第五部分');return false" style="color:var(--accent);margin-right:16px">应用场景</a>
+    <a href="#" onclick="scrollToContent('第六部分');return false" style="color:var(--accent);margin-right:16px">Skills 推荐</a>
+    <a href="#" onclick="scrollToContent('实用技能与常见问题');return false" style="color:var(--accent)">FAQ + 技能（扫盲版）</a>
+  </nav>
   <div id="full-content" style="font-size:.9rem"></div>
 </section>
 
@@ -575,6 +585,19 @@ if(fc){
     if(html){fc.innerHTML=html}
     else{fc.innerHTML='<p style="opacity:.5">加载失败，请刷新重试</p>'}
   }).catch(function(){fc.innerHTML='<p style="opacity:.5">加载失败</p>'})
+}
+
+// Scroll to section within loaded content
+window.scrollToContent=function(keyword){
+  var fc=document.getElementById('full-content');
+  if(!fc)return;
+  var headings=fc.querySelectorAll('h2,h3');
+  for(var i=0;i<headings.length;i++){
+    if(headings[i].textContent.indexOf(keyword)!==-1){
+      headings[i].scrollIntoView({behavior:'smooth',block:'start'});
+      return
+    }
+  }
 }
 
 })();
