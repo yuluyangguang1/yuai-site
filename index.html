@@ -648,6 +648,7 @@ button{font:inherit;color:inherit}
       particles.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*2+0.5, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.2, o: Math.random()*0.15+0.03 });
     }
     function drawParticles(){
+      if (document.hidden) { requestAnimationFrame(drawParticles); return; }
       ctx.clearRect(0,0,W,H);
       for (var i=0;i<particles.length;i++){
         var p=particles[i];
@@ -667,11 +668,13 @@ button{font:inherit;color:inherit}
   // ═══ 毛笔落字终端 ═══
   var termBody = document.getElementById('term-body');
   if (termBody) {
-    var observer = new MutationObserver(function(){
+    var brushObserver = new MutationObserver(function(){
+      // Disconnect to prevent infinite loop (our DOM changes trigger observer)
+      brushObserver.disconnect();
       var spans = termBody.querySelectorAll('span:not(.blink):not(.brush-done)');
       spans.forEach(function(span){
-        if(span.classList.contains('brush-done'))return;
         var text = span.textContent;
+        if (!text || text.length === 0) return;
         span.textContent = '';
         span.classList.add('brush-done');
         for(var i=0;i<text.length;i++){
@@ -682,8 +685,10 @@ button{font:inherit;color:inherit}
           span.appendChild(ch);
         }
       });
+      // Re-observe after processing
+      brushObserver.observe(termBody, {childList:true});
     });
-    observer.observe(termBody, {childList:true, subtree:true});
+    brushObserver.observe(termBody, {childList:true});
   }
 
   // ═══ 焚香计时器 ═══
