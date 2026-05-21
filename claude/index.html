@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>claude portable · 使用说明</title>
+<meta name="description" content="Claude Code Portable + CC Switch · 便携版编程助手 · 零安装 · 第三方 API 代理 · 跨平台">
+<meta name="keywords" content="claude code,portable,便携版,cc switch,API代理,编程助手,yu.ai">
+<link rel="canonical" href="https://yuai-r.cn/claude/">
+<meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23041c1c'/%3E%3Cg fill='none' stroke='%23ffe6cb' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;--bg-base:4 28 28;--mid-base:255 230 203;--accent-base:0 255 200;--border:rgb(var(--mid-base) / .12);--hover-fill:rgb(var(--mid-base) / .05);--code-bg:rgb(var(--mid-base) / .06);--accent-soft:rgb(var(--accent-base) / .04);--sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;--serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;--mono:'Courier New','Menlo',monospace}
+[data-theme="light"]{--bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;--bg-base:245 240 232;--mid-base:61 58 53;--accent-base:2 150 106;--border:rgb(var(--mid-base) / .14);--hover-fill:rgb(var(--mid-base) / .04);--code-bg:rgb(var(--mid-base) / .06);--accent-soft:rgb(var(--accent-base) / .05)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;--bg-base:245 240 232;--mid-base:61 58 53;--accent-base:2 150 106;--border:rgb(var(--mid-base) / .14);--hover-fill:rgb(var(--mid-base) / .04);--code-bg:rgb(var(--mid-base) / .06);--accent-soft:rgb(var(--accent-base) / .05)}}
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.75;-webkit-font-smoothing:antialiased;font-size:15px}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+.page{position:relative;z-index:200;max-width:880px;margin:0 auto;padding:60px 24px 80px}
+h1{font-family:var(--serif);font-size:2.8rem;font-weight:700;line-height:1.1;margin-bottom:12px}
+h2{font-family:var(--serif);font-size:1.5rem;font-weight:700;margin:48px 0 12px;padding-top:24px;border-top:1px solid var(--border)}
+h3{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin:28px 0 8px}
+p{margin:10px 0;opacity:.85}
+code{font-family:var(--mono);font-size:.85em;background:var(--code-bg);padding:2px 6px;border-radius:3px;color:var(--accent)}
+pre{font-family:var(--mono);font-size:.82rem;line-height:1.6;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:12px 0;overflow-x:auto;color:var(--accent)}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9rem}
+th,td{padding:10px 14px;border:1px solid var(--border);text-align:left}
+th{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;opacity:.6;font-weight:normal}
+ul,ol{margin:12px 0 12px 1.5em;opacity:.85}
+li{margin:6px 0}
+.nav{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;opacity:.5;margin-bottom:32px}
+.nav a{color:var(--mid);opacity:.7}
+.nav a:hover{opacity:1;color:var(--accent)}
+.footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:.8rem;opacity:.5;display:flex;gap:16px;flex-wrap:wrap}
+.footer a{color:var(--mid)}
+</style>
+</head>
+<body>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="page">
+
+<div class="nav"><a href="https://yuai-r.cn/">yu.ai</a> / claude portable</div>
+
+<h1>claude portable</h1>
+<p style="font-size:1.1rem;opacity:.6">Claude Code 便携版 + CC Switch API 代理 · 零安装 · U 盘即走</p>
+
+<h2>它是什么</h2>
+<p><strong>Claude Portable</strong> 把 Anthropic 的 Claude Code CLI 和 CC Switch API 代理打包在一个文件夹里。解压、双击、开始编程。不需要安装 Node.js，不需要 npm，不需要配置 PATH。</p>
+<p>CC Switch 让你可以用第三方 API（DeepSeek、智谱、Kimi 等兼容 Anthropic 协议的服务）驱动 Claude Code，不局限于 Anthropic 官方 API。</p>
+
+<h2>快速开始</h2>
+<h3>1. 下载解压</h3>
+<p>从 <a href="https://github.com/yuluyangguang1/claude-portable/releases">GitHub Releases</a> 下载最新的 <code>ClaudeCodePortable.zip</code>，解压到任意目录或 U 盘。</p>
+
+<h3>2. 启动</h3>
+<table>
+<tr><th>平台</th><th>操作</th></tr>
+<tr><td>macOS</td><td>双击 <code>ClaudePortable.command</code></td></tr>
+<tr><td>Windows</td><td>双击 <code>ClaudePortable.bat</code></td></tr>
+<tr><td>Linux</td><td><code>./ClaudePortable.sh</code></td></tr>
+</table>
+
+<h3>3. 首次配置</h3>
+<p>首次启动会提示配置 API：</p>
+<ul>
+<li><strong>方式 1（推荐）</strong>：选择 CC Switch 图形界面，在 GUI 中添加 Provider（支持 Anthropic / DeepSeek / 智谱 / Kimi / 自定义）</li>
+<li><strong>方式 2</strong>：命令行输入 API 地址和 Key</li>
+</ul>
+<p>配置完成后，Claude Code 自动通过 CC Switch 代理连接 API。</p>
+
+<h3>4. 开始使用</h3>
+<pre>claude              # 交互模式
+claude -p "重构这个函数"  # 一次性任务
+claude -c           # 继续上次对话</pre>
+
+<h2>工作原理</h2>
+<pre>┌─────────────────────────────────────────┐
+│  你的终端                                │
+│  $ claude -p "写一个 REST API"           │
+└──────────────┬──────────────────────────┘
+               │ ANTHROPIC_BASE_URL=127.0.0.1:18080
+               v
+┌─────────────────────────────────────────┐
+│  CC Switch (本地代理，端口 18080)         │
+│  - 管理多个 API Provider                 │
+│  - 自动切换、负载均衡                    │
+│  - 协议转换（兼容 Anthropic API 格式）   │
+└──────────────┬──────────────────────────┘
+               │
+               v
+┌─────────────────────────────────────────┐
+│  你选择的 API Provider                   │
+│  DeepSeek / 智谱 / Kimi / Anthropic     │
+└─────────────────────────────────────────┘</pre>
+
+<h2>目录结构</h2>
+<pre>ClaudeCodePortable/
+├── ClaudePortable.command   macOS 启动器
+├── ClaudePortable.sh        Linux 启动器
+├── ClaudePortable.bat       Windows 启动器
+├── bin/                     平台二进制
+│   ├── macos-arm64/         Apple Silicon
+│   ├── macos-x64/           Intel Mac
+│   ├── linux-x64/           Linux
+│   └── windows-x64/         Windows
+├── config/                  配置文件
+│   ├── ccswitch/            CC Switch Provider 配置
+│   └── claude/              Claude Code 设置
+└── data/                    会话数据（便携，跟着走）</pre>
+
+<h2>添加 API Provider</h2>
+<p>打开 CC Switch GUI，点击"添加 Provider"：</p>
+<table>
+<tr><th>Provider</th><th>Base URL</th><th>说明</th></tr>
+<tr><td>Anthropic 官方</td><td>https://api.anthropic.com</td><td>需要官方 API Key</td></tr>
+<tr><td>DeepSeek</td><td>https://api.deepseek.com</td><td>兼容 Anthropic 协议</td></tr>
+<tr><td>智谱 GLM</td><td>https://open.bigmodel.cn/api/paas/v4</td><td>需要协议转换</td></tr>
+<tr><td>OpenRouter</td><td>https://openrouter.ai/api/v1</td><td>300+ 模型聚合</td></tr>
+<tr><td>自定义</td><td>你的中转站地址</td><td>任何兼容 Anthropic API 的服务</td></tr>
+</table>
+
+<h2>便携特性</h2>
+<ul>
+<li><strong>零安装</strong>：不需要 Node.js、npm、Python，所有依赖内置</li>
+<li><strong>零痕迹</strong>：所有数据写在 <code>data/</code> 目录，不污染系统</li>
+<li><strong>U 盘即走</strong>：整个文件夹拷到 U 盘，换电脑继续用</li>
+<li><strong>跨平台</strong>：同一个 zip 包含 macOS (ARM/Intel) + Linux + Windows</li>
+<li><strong>自动更新</strong>：CI 每次构建自动拉取最新 Claude Code 版本</li>
+</ul>
+
+<h2>macOS 权限问题</h2>
+<p>首次运行如果提示"无法验证开发者"：</p>
+<pre>cd /path/to/ClaudeCodePortable
+xattr -cr .
+chmod +x ClaudePortable.command</pre>
+
+<h2>常见问题</h2>
+<h3>CC Switch 启动后 Claude Code 连不上？</h3>
+<p>检查 CC Switch 是否在监听 18080 端口。在终端运行 <code>nc -z 127.0.0.1 18080</code>，如果不通说明 CC Switch 没有正确启动代理。</p>
+
+<h3>想直接用 Anthropic 官方 API？</h3>
+<p>不需要 CC Switch。设置环境变量后直接运行：</p>
+<pre>export ANTHROPIC_API_KEY="sk-ant-..."
+./bin/macos-arm64/claude</pre>
+
+<h3>如何更新 Claude Code？</h3>
+<p>下载最新的 Release zip 覆盖 <code>bin/</code> 目录即可。<code>data/</code> 和 <code>config/</code> 不会被覆盖。</p>
+
+<div class="footer">
+<a href="https://yuai-r.cn/">yu.ai</a>
+<a href="https://github.com/yuluyangguang1/claude-portable">GitHub</a>
+<a href="https://github.com/yuluyangguang1/claude-portable/releases">Releases</a>
+<span>mit</span>
+</div>
+
+</div>
+</body>
+</html>

@@ -46,6 +46,16 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://yuai-r.cn/claude/</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://yuai-r.cn/codex/</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://yuai-r.cn/api/</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
