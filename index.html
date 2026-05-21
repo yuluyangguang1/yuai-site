@@ -552,5 +552,34 @@ button{font:inherit;color:inherit}
 })();
 </script>
 
+<!-- WeChat browser detection + guide overlay -->
+<style>
+.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}
+.wechat-mask.show{display:flex}
+.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}
+.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}
+.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}
+</style>
+<div class="wechat-mask" id="wechatMask">
+  <div class="arrow">···</div>
+  <h2>请用浏览器打开</h2>
+  <p>微信内无法正常访问本站</p>
+  <div class="steps-wx">
+    1. 点击右上角 <strong>···</strong> 按钮<br>
+    2. 选择「用默认浏览器打开」<br>
+    3. 即可正常浏览
+  </div>
+</div>
+<script>
+(function(){
+  var ua = navigator.userAgent.toLowerCase();
+  if (ua.indexOf('micromessenger') !== -1) {
+    document.getElementById('wechatMask').classList.add('show');
+  }
+})();
+</script>
+
 </body>
 </html>
