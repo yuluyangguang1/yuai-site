@@ -548,173 +548,156 @@ button{font:inherit;color:inherit}
 
 <script>
 (function(){
-  // ── Theme toggle, with system-preference fallback ─────────────────
-  // First-paint priority order:
-  //   1. user's explicit choice from previous session (localStorage)
-  //   2. OS-level prefers-color-scheme (handled by CSS @media)
-  //   3. dark (the default in :root)
-  // We only call setAttribute('data-theme') when the user has made
-  // an explicit choice, so OS-level preferences keep working until
-  // the user clicks the toggle.
+  // ── Utilities ─────────────────────────────────────────────────────
   function lsGet(k){ try{ return localStorage.getItem(k); } catch(_){ return null; } }
   function lsSet(k,v){ try{ localStorage.setItem(k,v); } catch(_){} }
-
-  var btn = document.getElementById('theme-btn');
-  var html = document.documentElement;
-  var sun = btn.querySelector('.theme-sun');
-  var moon = btn.querySelector('.theme-moon');
-
-  function syncIcons(isLight){
-    sun.style.display = isLight ? 'none' : 'block';
-    moon.style.display = isLight ? 'block' : 'none';
-  }
-
-  var saved = lsGet('yuai-theme');
-  if (saved === 'light') {
-    html.setAttribute('data-theme','light');
-    syncIcons(true);
-  } else if (saved === 'dark') {
-    html.setAttribute('data-theme','dark');
-    syncIcons(false);
-  } else {
-    // No stored preference — let CSS @media take over.
-    var mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)');
-    syncIcons(mql && mql.matches);
-  }
-
-  btn.onclick = function(){
-    var nowLight = html.getAttribute('data-theme') !== 'light';
-    // Inspect computed state, not just the attribute, so toggling
-    // works correctly when starting from no-attribute (system mode).
-    if (!html.getAttribute('data-theme')) {
-      var sysLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-      nowLight = !sysLight;
-    }
-    html.setAttribute('data-theme', nowLight ? 'light' : 'dark');
-    lsSet('yuai-theme', nowLight ? 'light' : 'dark');
-    syncIcons(nowLight);
-  };
-
-  // ── Terminal demo: cycle through a few commands ──────────────────
-  // Skip animation entirely if user prefers reduced motion.
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var term = document.getElementById('term-body');
-  if (term && !reduceMotion) {
-    var lines = [
-      [{c:'p', t:'$ yu.ai'},
-       {c:'t', t:'  · 灯  linger      · 余温  · 思念之灯，光不灭'},
-       {c:'t', t:'  · 镜  sbti        · 明心  · 照见自心，照见天性'},
-       {c:'t', t:'  · 笔  novelweave  · 织文  · 经纬成章，字句生花'},
-       {c:'t', t:'  · 匣  openclaw    · 百川  · 一匣纳百川 v1.1.6'},
-       {c:'t', t:'  · 砚  hermes      · 砚墨  · 历久弥深 v0.14.3'}],
-      [{c:'p', t:'$ openclaw start'},
-       {c:'t', t:'   openclaw portable v1.1.6'},
-       {c:'t', t:'   gateway ready on :18789'},
-       {c:'t', t:'   32 platforms · 12 channels · 国产优先'}],
-      [{c:'p', t:'$ hermes serve'},
-       {c:'t', t:'   hermes portable v0.14.3'},
-       {c:'t', t:'   记忆 1284 条 · 技能 24 个 · 历久弥新'},
-       {c:'t', t:'   与 AI 同在'}],
-      [{c:'p', t:'$ 你好'},
-       {c:'t', t:'  < 在的。'},
-       {c:'t', t:'  < 今日想做点什么？写字、问询、闲谈？'}]
-    ];
-    var idx = 0;
-    function render(blocks){
-      var html = blocks.map(function(b){
-        return '<span class="' + b.c + '">' + b.t + '</span>';
-      }).join('\n') + '<span class="blink"></span>';
-      term.innerHTML = html;
-    }
-    render(lines[0]);
-    setInterval(function(){
-      idx = (idx + 1) % lines.length;
-      render(lines[idx]);
-    }, 4500);
-  }
 
-  // ── Footer year (auto-update so we never lie about the year) ─────
-  var fy = document.getElementById('footer-year');
-  if (fy) fy.textContent = 'mit · ' + new Date().getFullYear();
-
-  // ═══ 粒子背景 ═══
-  var canvas = document.getElementById('inkParticles');
-  if (canvas && window.innerWidth > 768) {
-    var ctx = canvas.getContext('2d');
-    var W, H, particles = [];
-    function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-    resize(); window.addEventListener('resize', resize);
-    for (var i = 0; i < 60; i++) {
-      particles.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*2+0.5, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.2, o: Math.random()*0.15+0.03 });
-    }
-    function drawParticles(){
-      if (document.hidden) { requestAnimationFrame(drawParticles); return; }
-      ctx.clearRect(0,0,W,H);
-      for (var i=0;i<particles.length;i++){
-        var p=particles[i];
-        p.x+=p.vx; p.y+=p.vy;
-        if(p.x<0)p.x=W; if(p.x>W)p.x=0;
-        if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle='rgba(255,230,203,'+p.o+')';
-        ctx.fill();
-      }
-      requestAnimationFrame(drawParticles);
-    }
-    drawParticles();
-  }
-
-  // ═══ 毛笔落字终端 ═══
-  var termBody = document.getElementById('term-body');
-  if (termBody) {
-    var brushObserver = new MutationObserver(function(){
-      // Disconnect to prevent infinite loop (our DOM changes trigger observer)
-      brushObserver.disconnect();
-      var spans = termBody.querySelectorAll('span:not(.blink):not(.brush-done)');
-      spans.forEach(function(span){
-        var text = span.textContent;
-        if (!text || text.length === 0) return;
-        span.textContent = '';
-        span.classList.add('brush-done');
-        for(var i=0;i<text.length;i++){
-          var ch = document.createElement('span');
-          ch.className = 'brush-char';
-          ch.textContent = text[i];
-          ch.style.animationDelay = (i*0.03)+'s';
-          span.appendChild(ch);
+  // ── Theme toggle ──────────────────────────────────────────────────
+  try {
+    var btn = document.getElementById('theme-btn');
+    if (btn) {
+      var root = document.documentElement;
+      var sun = btn.querySelector('.theme-sun');
+      var moon = btn.querySelector('.theme-moon');
+      if (sun && moon) {
+        function syncIcons(isLight){
+          sun.style.display = isLight ? 'none' : 'block';
+          moon.style.display = isLight ? 'block' : 'none';
         }
-      });
-      // Re-observe after processing
-      brushObserver.observe(termBody, {childList:true});
-    });
-    brushObserver.observe(termBody, {childList:true});
-  }
-
-  // ═══ 焚香计时器 ═══
-  var stick = document.getElementById('incenseStick');
-  var timeEl = document.getElementById('incenseTime');
-  var msgEl = document.getElementById('incenseMsg');
-  if (stick && timeEl) {
-    var startH = 80; // px
-    var burnRate = 0.22; // px per second (~6 min to burn out)
-    var elapsed = 0;
-    var burned = false;
-    setInterval(function(){
-      elapsed++;
-      var m = Math.floor(elapsed/60);
-      var s = elapsed%60;
-      timeEl.textContent = m + ':' + (s<10?'0':'') + s;
-      var h = Math.max(0, startH - elapsed * burnRate);
-      stick.style.height = h + 'px';
-      if (h <= 0 && !burned) {
-        burned = true;
-        stick.style.display = 'none';
-        if (msgEl) msgEl.classList.add('show');
-        setTimeout(function(){ if(msgEl) msgEl.classList.remove('show'); }, 8000);
+        var saved = lsGet('yuai-theme');
+        if (saved === 'light') { root.setAttribute('data-theme','light'); syncIcons(true); }
+        else if (saved === 'dark') { root.setAttribute('data-theme','dark'); syncIcons(false); }
+        else { var mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)'); syncIcons(mql && mql.matches); }
+        btn.onclick = function(){
+          var nowLight = root.getAttribute('data-theme') !== 'light';
+          if (!root.getAttribute('data-theme')) { nowLight = !(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches); }
+          root.setAttribute('data-theme', nowLight ? 'light' : 'dark');
+          lsSet('yuai-theme', nowLight ? 'light' : 'dark');
+          syncIcons(nowLight);
+        };
       }
-    }, 1000);
-  }
+    }
+  } catch(_){}
+
+  // ── Terminal demo ─────────────────────────────────────────────────
+  try {
+    var term = document.getElementById('term-body');
+    if (term && !reduceMotion) {
+      var lines = [
+        [{c:'p', t:'$ yu.ai'},
+         {c:'t', t:'  · 匣  openclaw    · 百川  · 一匣纳百川 v1.1.6'},
+         {c:'t', t:'  · 砚  hermes      · 砚墨  · 历久弥深 v0.14.3'},
+         {c:'t', t:'  · 刃  claude      · 利刃  · 编程助手'},
+         {c:'t', t:'  · 盒  codex       · 方盒  · 协作编程'}],
+        [{c:'p', t:'$ openclaw start'},
+         {c:'t', t:'   openclaw portable v1.1.6'},
+         {c:'t', t:'   gateway ready on :18789'},
+         {c:'t', t:'   32 platforms · 12 channels'}],
+        [{c:'p', t:'$ hermes serve'},
+         {c:'t', t:'   hermes portable v0.14.3'},
+         {c:'t', t:'   ok memory loaded · 1284 entries'},
+         {c:'t', t:'   ok skills · 24 active'}],
+        [{c:'p', t:'$ hello'},
+         {c:'t', t:'  < 在的。'},
+         {c:'t', t:'  < 今日想做点什么？'}]
+      ];
+      var idx = 0;
+      function renderTerm(blocks){
+        term.innerHTML = blocks.map(function(b){ return '<span class="' + b.c + '">' + b.t + '</span>'; }).join('\n') + '<span class="blink"></span>';
+      }
+      renderTerm(lines[0]);
+      setInterval(function(){ idx = (idx + 1) % lines.length; renderTerm(lines[idx]); }, 4500);
+    }
+  } catch(_){}
+
+  // ── Footer year ───────────────────────────────────────────────────
+  try {
+    var fy = document.getElementById('footer-year');
+    if (fy) fy.textContent = 'mit \u00B7 ' + new Date().getFullYear();
+  } catch(_){}
+
+  // ── Ink particles ─────────────────────────────────────────────────
+  try {
+    var canvas = document.getElementById('inkParticles');
+    if (canvas && window.innerWidth > 768 && !reduceMotion) {
+      var ctx = canvas.getContext('2d');
+      var W, H, particles = [];
+      var resizeTimer;
+      function resizeCanvas(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      resizeCanvas();
+      window.addEventListener('resize', function(){ clearTimeout(resizeTimer); resizeTimer = setTimeout(resizeCanvas, 200); }, {passive:true});
+      for (var i = 0; i < 60; i++) {
+        particles.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*2+0.5, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.2, o: Math.random()*0.15+0.03 });
+      }
+      function drawParticles(){
+        if (document.hidden) { requestAnimationFrame(drawParticles); return; }
+        ctx.clearRect(0,0,W,H);
+        for (var i=0;i<particles.length;i++){
+          var p=particles[i];
+          p.x+=p.vx; p.y+=p.vy;
+          if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+          if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle='rgba(255,230,203,'+p.o+')'; ctx.fill();
+        }
+        requestAnimationFrame(drawParticles);
+      }
+      drawParticles();
+    }
+  } catch(_){}
+
+  // ── Brush-char terminal ───────────────────────────────────────────
+  try {
+    var termBody = document.getElementById('term-body');
+    if (termBody && !reduceMotion) {
+      var brushObserver = new MutationObserver(function(){
+        brushObserver.disconnect();
+        try {
+          var spans = termBody.querySelectorAll('span:not(.blink):not(.brush-done)');
+          spans.forEach(function(span){
+            var text = span.textContent;
+            if (!text || text.length === 0) return;
+            span.textContent = '';
+            span.classList.add('brush-done');
+            for(var i=0;i<Math.min(text.length, 200);i++){
+              var ch = document.createElement('span');
+              ch.className = 'brush-char';
+              ch.textContent = text[i];
+              ch.style.animationDelay = (i*0.03)+'s';
+              span.appendChild(ch);
+            }
+          });
+        } catch(_){}
+        brushObserver.observe(termBody, {childList:true});
+      });
+      brushObserver.observe(termBody, {childList:true});
+    }
+  } catch(_){}
+
+  // ── Incense timer ─────────────────────────────────────────────────
+  try {
+    var stick = document.getElementById('incenseStick');
+    var timeEl = document.getElementById('incenseTime');
+    var msgEl = document.getElementById('incenseMsg');
+    if (stick && timeEl && window.innerWidth > 768) {
+      var startH = 80, burnRate = 0.22, elapsed = 0, burned = false;
+      var incenseInterval = setInterval(function(){
+        elapsed++;
+        var m = Math.floor(elapsed/60), s = elapsed%60;
+        timeEl.textContent = m + ':' + (s<10?'0':'') + s;
+        var h = Math.max(0, startH - elapsed * burnRate);
+        stick.style.height = h + 'px';
+        if (h <= 0 && !burned) {
+          burned = true;
+          stick.style.display = 'none';
+          clearInterval(incenseInterval);
+          if (msgEl) { msgEl.classList.add('show'); setTimeout(function(){ msgEl.classList.remove('show'); }, 8000); }
+        }
+      }, 1000);
+    }
+  } catch(_){}
+
 })();
 </script>
 
