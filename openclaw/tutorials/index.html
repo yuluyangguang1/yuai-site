@@ -226,10 +226,14 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
 <nav class="tab-nav" aria-label="教程导航">
   <a href="#quickstart">快速上手</a>
   <a href="#faq">常见问题</a>
+  <a href="#channels">渠道对接</a>
   <a href="#skills">推荐技能</a>
+  <a href="#skill-dev">Skill 开发</a>
+  <a href="#cost">成本控制</a>
   <a href="#commands">命令速查</a>
   <a href="#advanced">进阶资料</a>
   <a href="#full-guide">完整教程</a>
+  <a href="#reading">推荐阅读</a>
 </nav>
 
 <!-- Section: Quick Start -->
@@ -375,6 +379,152 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
   </div>
 </section>
 
+<!-- Section: Channel Setup -->
+<section class="section" id="channels">
+  <h2 class="section-title">渠道对接</h2>
+  <p class="section-sub">把 OpenClaw 接入你常用的聊天平台</p>
+
+  <details class="cmd-group" open>
+    <summary>飞书</summary>
+    <div style="padding:16px 24px;font-size:.88rem;line-height:1.8;opacity:.85">
+      <p><strong>步骤概览</strong>：创建飞书应用 → 添加机器人能力 → 开通权限 → 配置事件回调（长连接）→ 在 OpenClaw 填入 App ID + App Secret → 重启 Gateway</p>
+      <p style="margin-top:12px"><strong>关键权限</strong>：<code>im:message:send_as_bot</code>、<code>im:message.p2p_msg:readonly</code>、<code>im:message.group_at_msg:readonly</code>、<code>im:resource</code></p>
+      <p style="margin-top:12px"><strong>事件订阅</strong>：添加 <code>im.message.receive_v1</code>，使用长连接模式（不需要公网 IP）</p>
+      <p style="margin-top:12px;opacity:.6">飞书开放平台：<a href="https://open.feishu.cn/app" target="_blank" rel="noopener" style="color:var(--accent)">open.feishu.cn/app</a></p>
+    </div>
+  </details>
+
+  <details class="cmd-group">
+    <summary>微信</summary>
+    <div style="padding:16px 24px;font-size:.88rem;line-height:1.8;opacity:.85">
+      <p><strong>方案 1：微信 ClawBot 插件</strong>（官方，2026.3 推出）— 在微信设置中启用 ClawBot 插件，绑定 OpenClaw 实例即可。</p>
+      <p style="margin-top:8px"><strong>方案 2：iLink 扫码登录</strong>（OpenClaw Portable 内置）— 配置中心点击"微信登录"，手机扫码授权，无需公众号开发者资质。</p>
+      <p style="margin-top:8px"><strong>方案 3：企业微信应用</strong> — 创建企业微信自建应用，配置回调 URL，适合团队使用。</p>
+    </div>
+  </details>
+
+  <details class="cmd-group">
+    <summary>Telegram</summary>
+    <div style="padding:16px 24px;font-size:.88rem;line-height:1.8;opacity:.85">
+      <p><strong>步骤</strong>：@BotFather 创建 Bot → 获取 Token → 在 OpenClaw 配置中填入 Token → 重启 Gateway</p>
+      <p style="margin-top:8px"><strong>注意</strong>：国内网络需要代理才能连接 Telegram API。可在配置中设置 <code>HTTPS_PROXY</code> 环境变量。</p>
+    </div>
+  </details>
+
+  <details class="cmd-group">
+    <summary>QQ</summary>
+    <div style="padding:16px 24px;font-size:.88rem;line-height:1.8;opacity:.85">
+      <p><strong>步骤</strong>：QQ 开放平台注册 → 创建机器人应用 → 获取 AppID + Token → 在 OpenClaw 配置中填入 → 用 QQ 扫码加机器人好友 → 重启 Gateway</p>
+      <p style="margin-top:8px">QQ 开放平台：<a href="https://q.qq.com" target="_blank" rel="noopener" style="color:var(--accent)">q.qq.com</a></p>
+    </div>
+  </details>
+
+  <details class="cmd-group">
+    <summary>Discord</summary>
+    <div style="padding:16px 24px;font-size:.88rem;line-height:1.8;opacity:.85">
+      <p><strong>步骤</strong>：Discord Developer Portal 创建 Application → 添加 Bot → 获取 Token → 开启 Message Content Intent → 邀请 Bot 到服务器 → 在 OpenClaw 填入 Token → 重启</p>
+      <p style="margin-top:8px">Developer Portal：<a href="https://discord.com/developers/applications" target="_blank" rel="noopener" style="color:var(--accent)">discord.com/developers</a></p>
+    </div>
+  </details>
+
+  <details class="cmd-group">
+    <summary>其他平台</summary>
+    <div style="padding:16px 24px;font-size:.88rem;line-height:1.8;opacity:.85">
+      <p>OpenClaw 还支持：Slack、WhatsApp、Signal、LINE、Google Chat、MS Teams、钉钉。配置方式类似：在对应平台创建 Bot/App → 获取凭证 → 填入 OpenClaw 配置 → 重启 Gateway。</p>
+      <p style="margin-top:8px">所有渠道配置都可以在配置中心 Web UI 中完成，无需手动编辑 JSON。</p>
+    </div>
+  </details>
+</section>
+
+<!-- Section: Skill Development -->
+<section class="section" id="skill-dev">
+  <h2 class="section-title">Skill 开发入门</h2>
+  <p class="section-sub">从零开始写一个自定义技能</p>
+
+  <div style="font-size:.88rem;line-height:1.8;opacity:.85">
+    <h4 style="margin:0 0 12px;font-family:var(--serif);font-size:1.05rem;font-weight:600">什么是 Skill</h4>
+    <p>Skill 是一个 Markdown 文件（<code>SKILL.md</code>），用自然语言告诉 AI 在什么场景下做什么事。不需要写代码，不需要训练模型。</p>
+
+    <h4 style="margin:24px 0 12px;font-family:var(--serif);font-size:1.05rem;font-weight:600">最小 Skill 示例</h4>
+    <pre style="font-family:var(--mono);font-size:.82rem;line-height:1.6;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:12px 0;overflow-x:auto;color:var(--accent)"><code>---
+name: daily-summary
+description: 每天总结今日完成的任务
+trigger: 当用户说"今日总结"或"日报"时触发
+---
+
+# 行为规则
+
+1. 回顾今天的对话记录
+2. 提取所有已完成的任务
+3. 按时间顺序整理成简洁的日报格式
+4. 如果没有任务记录，友好提示用户</code></pre>
+
+    <h4 style="margin:24px 0 12px;font-family:var(--serif);font-size:1.05rem;font-weight:600">安装自定义 Skill</h4>
+    <p>把 <code>SKILL.md</code> 放到 <code>~/.openclaw/skills/daily-summary/SKILL.md</code>，重启 Gateway 即可生效。</p>
+    <p style="margin-top:8px">或者从 GitHub 安装：</p>
+    <pre style="font-family:var(--mono);font-size:.82rem;line-height:1.6;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:12px 0;overflow-x:auto;color:var(--accent)"><code>clawhub install your-github-username/your-skill-repo</code></pre>
+
+    <h4 style="margin:24px 0 12px;font-family:var(--serif);font-size:1.05rem;font-weight:600">进阶：带工具的 Skill</h4>
+    <p>Skill 可以声明需要的环境变量、依赖的二进制工具：</p>
+    <pre style="font-family:var(--mono);font-size:.82rem;line-height:1.6;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:12px 0;overflow-x:auto;color:var(--accent)"><code>---
+name: weather-report
+description: 查询天气并生成播报
+metadata:
+  openclaw:
+    requires:
+      env:
+        - WEATHER_API_KEY
+      bins:
+        - curl
+    primaryEnv: WEATHER_API_KEY
+---
+
+# 行为规则
+1. 调用天气 API 获取用户所在城市的天气
+2. 生成简洁的天气播报
+3. 如果 API Key 未配置，提示用户设置</code></pre>
+
+    <h4 style="margin:24px 0 12px;font-family:var(--serif);font-size:1.05rem;font-weight:600">发布到 ClawHub</h4>
+    <p>写好 Skill 后可以发布到社区：</p>
+    <pre style="font-family:var(--mono);font-size:.82rem;line-height:1.6;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:12px 0;overflow-x:auto;color:var(--accent)"><code>clawhub login
+clawhub skill publish ./my-skill/</code></pre>
+  </div>
+</section>
+
+<!-- Section: Cost Control -->
+<section class="section" id="cost">
+  <h2 class="section-title">成本控制</h2>
+  <p class="section-sub">省 Token、选对模型、控制开销</p>
+
+  <div style="font-size:.88rem;line-height:1.8;opacity:.85">
+    <h4 style="margin:0 0 12px;font-family:var(--serif);font-size:1.05rem;font-weight:600">模型性价比推荐（2026 年）</h4>
+    <table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:.85rem">
+      <tr><td style="padding:8px 12px;border:1px solid var(--border);font-weight:600">日常对话</td><td style="padding:8px 12px;border:1px solid var(--border)">DeepSeek-V4-Chat（便宜、中文好）</td></tr>
+      <tr><td style="padding:8px 12px;border:1px solid var(--border);font-weight:600">复杂推理</td><td style="padding:8px 12px;border:1px solid var(--border)">DeepSeek-V4-Pro / Kimi K2.6（思考模式）</td></tr>
+      <tr><td style="padding:8px 12px;border:1px solid var(--border);font-weight:600">编程辅助</td><td style="padding:8px 12px;border:1px solid var(--border)">DeepSeek-Coder / Claude Sonnet</td></tr>
+      <tr><td style="padding:8px 12px;border:1px solid var(--border);font-weight:600">免费体验</td><td style="padding:8px 12px;border:1px solid var(--border)">智谱 GLM-4-Flash（免费额度）/ 通义千问（免费层）</td></tr>
+      <tr><td style="padding:8px 12px;border:1px solid var(--border);font-weight:600">完全离线</td><td style="padding:8px 12px;border:1px solid var(--border)">Ollama + Qwen2.5-7B / DeepSeek-R1-8B</td></tr>
+    </table>
+
+    <h4 style="margin:24px 0 12px;font-family:var(--serif);font-size:1.05rem;font-weight:600">省 Token 技巧</h4>
+    <ul style="padding-left:1.2em">
+      <li style="margin:6px 0">安装 <code>openclaw-token-optimizer</code> 技能，自动压缩上下文</li>
+      <li style="margin:6px 0">对话过长时输入 <code>/new</code> 开启新会话，避免上下文累积</li>
+      <li style="margin:6px 0">配置 <code>models.fast</code> 为轻量模型（如 Mistral-7B），简单任务自动走快速模型</li>
+      <li style="margin:6px 0">关闭不需要的 Skill（每个活跃 Skill 都会占用系统提示词 Token）</li>
+      <li style="margin:6px 0">使用本地模型处理隐私数据，云端模型处理需要联网的任务</li>
+    </ul>
+
+    <h4 style="margin:24px 0 12px;font-family:var(--serif);font-size:1.05rem;font-weight:600">监控用量</h4>
+    <p>在配置中心可以查看 Token 消耗统计。也可以在模型提供商的控制台查看 API 调用量和费用：</p>
+    <ul style="padding-left:1.2em">
+      <li style="margin:6px 0">DeepSeek：<a href="https://platform.deepseek.com" target="_blank" rel="noopener" style="color:var(--accent)">platform.deepseek.com</a></li>
+      <li style="margin:6px 0">智谱：<a href="https://open.bigmodel.cn" target="_blank" rel="noopener" style="color:var(--accent)">open.bigmodel.cn</a></li>
+      <li style="margin:6px 0">通义千问：<a href="https://dashscope.console.aliyun.com" target="_blank" rel="noopener" style="color:var(--accent)">dashscope.console.aliyun.com</a></li>
+    </ul>
+  </div>
+</section>
+
 <!-- Section: Command Reference -->
 <section class="section" id="commands">
   <h2 class="section-title">命令速查</h2>
@@ -510,6 +660,54 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
     <a href="#" onclick="scrollToContent('实用技能与常见问题');return false" style="color:var(--accent)">FAQ + 技能（扫盲版）</a>
   </nav>
   <div id="full-content" style="font-size:.9rem"></div>
+</section>
+
+<!-- Recommended Reading -->
+<section class="section" id="reading">
+  <h2 class="section-title">推荐阅读</h2>
+  <p class="section-sub">社区优质教程和资源索引</p>
+  <div class="skill-list">
+    <div class="skill-card">
+      <div class="skill-name">awesome-openclaw-zh</div>
+      <div class="skill-desc">184 个可复制使用场景，覆盖自动化、内容创作、运营增长与安全</div>
+      <div class="skill-install"><a href="https://github.com/cogine-ai/awesome-openclaw-zh" target="_blank" rel="noopener" style="color:var(--accent);font-family:var(--mono);font-size:.75rem">GitHub →</a></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">Telegram/QQ 机器人对接全流程</div>
+      <div class="skill-desc">2026 最新完整配置步骤 + 全场景避坑指南</div>
+      <div class="skill-install"><a href="https://www.cnblogs.com/pcdoctor/p/19771601" target="_blank" rel="noopener" style="color:var(--accent);font-family:var(--mono);font-size:.75rem">cnblogs →</a></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">微信接入完整指南</div>
+      <div class="skill-desc">官方 ClawBot 接入 + 3 个社区替代方案技术对比</div>
+      <div class="skill-install"><a href="https://www.cnblogs.com/openclaws/p/19760362" target="_blank" rel="noopener" style="color:var(--accent);font-family:var(--mono);font-size:.75rem">cnblogs →</a></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">从零到一部署实战</div>
+      <div class="skill-desc">保姆级安装教程 + 中文汉化 + 国内平台对接全攻略</div>
+      <div class="skill-install"><a href="https://www.cnblogs.com/pcdoctor/p/19709577" target="_blank" rel="noopener" style="color:var(--accent);font-family:var(--mono);font-size:.75rem">cnblogs →</a></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">Skills 开发实战</div>
+      <div class="skill-desc">从零构建 AI Agent 技能，适合中高级开发者</div>
+      <div class="skill-install"><a href="https://www.cnblogs.com/pcdoctor/p/archive/2026/04/13" target="_blank" rel="noopener" style="color:var(--accent);font-family:var(--mono);font-size:.75rem">cnblogs →</a></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">OpenClaw 技术解读</div>
+      <div class="skill-desc">架构层面的深度分析，给 AI 应用开发的启示</div>
+      <div class="skill-install"><a href="http://arthurchiao.art/blog/openclaw-technical-notes-zh/" target="_blank" rel="noopener" style="color:var(--accent);font-family:var(--mono);font-size:.75rem">arthurchiao.art →</a></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">小红书自动运营 Skill</div>
+      <div class="skill-desc">自动发布、回复、爆款复刻，基于浏览器自动化</div>
+      <div class="skill-install"><a href="https://github.com/Xiangyu-CAS/xiaohongshu-ops-skill" target="_blank" rel="noopener" style="color:var(--accent);font-family:var(--mono);font-size:.75rem">GitHub →</a></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">OpenClaw 迁移到 Hermes Agent</div>
+      <div class="skill-desc">完整迁移流程：hermes claw migrate 命令详解</div>
+      <div class="skill-install"><a href="https://www.cnblogs.com/qiniushanghai/p/19883154" target="_blank" rel="noopener" style="color:var(--accent);font-family:var(--mono);font-size:.75rem">cnblogs →</a></div>
+    </div>
+  </div>
 </section>
 
 <!-- Citations -->
