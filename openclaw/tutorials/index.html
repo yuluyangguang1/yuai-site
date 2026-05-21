@@ -224,6 +224,7 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
   <a href="#skills">推荐技能</a>
   <a href="#commands">命令速查</a>
   <a href="#advanced">进阶资料</a>
+  <a href="#full-guide">完整教程</a>
 </nav>
 
 <!-- Section: Quick Start -->
@@ -472,7 +473,7 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
 <!-- Section: Advanced Resources -->
 <section class="section" id="advanced">
   <h2 class="section-title">进阶资料</h2>
-  <p class="section-sub">系统学习 PDF 文档下载</p>
+  <p class="section-sub">系统学习 PDF 文档下载 + 完整图文教程</p>
   <div class="pdf-grid">
     <div class="pdf-card">
       <div class="pdf-title">OpenClaw 橙皮书 v1.4.0</div>
@@ -487,6 +488,13 @@ details.cmd-group .cmd-table td:last-child{font-family:var(--mono);font-size:.78
       <a class="pdf-link" href="/openclaw/tutorials/downloads/OpenClaw学习文件.pdf" download>下载 PDF</a>
     </div>
   </div>
+</section>
+
+<!-- Section: Full Tutorial (from 入门到精通) -->
+<section class="section" id="full-guide">
+  <h2 class="section-title">从入门到精通（完整版）</h2>
+  <p class="section-sub">社区教程完整内容 · 含配图 · 可折叠章节</p>
+  <div id="full-content" style="font-size:.9rem"></div>
 </section>
 
 <!-- Citations -->
@@ -559,6 +567,15 @@ document.querySelectorAll('.tab-nav a').forEach(function(a){
     }
   })
 });
+
+// Lazy-load full tutorial content
+var fc=document.getElementById('full-content');
+if(fc){
+  fetch('content.html').then(function(r){return r.ok?r.text():''}).then(function(html){
+    if(html){fc.innerHTML=html}
+    else{fc.innerHTML='<p style="opacity:.5">加载失败，请刷新重试</p>'}
+  }).catch(function(){fc.innerHTML='<p style="opacity:.5">加载失败</p>'})
+}
 
 })();
 </script>
