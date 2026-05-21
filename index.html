@@ -32,6 +32,11 @@
 <meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
 
+<!-- Chinese calligraphy fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai:wght@400;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+
 <!-- JSON-LD structured data -->
 <script type="application/ld+json">
 {
@@ -68,7 +73,8 @@
   --accent-soft:rgb(var(--accent-base) / .04);
 
   --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-  --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
+  --serif:'LXGW WenKai',Georgia,'Noto Serif SC','Source Han Serif SC',serif;
+  --brush:'Ma Shan Zheng','LXGW WenKai',cursive;
   --mono:'Courier New','Menlo',monospace
 }
 [data-theme="light"]{
@@ -107,6 +113,7 @@ button{font:inherit;color:inherit}
 .bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
 .bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
 .bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+.bg-paper{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.04' numOctaves='5' seed='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='.8'/%3E%3C/svg%3E");background-size:300px 300px}
 
 [data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
 [data-theme="light"] .bg-n{opacity:.015}
@@ -229,6 +236,7 @@ button{font:inherit;color:inherit}
 
 <div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
 <div class="bg-n" aria-hidden="true"></div>
+<div class="bg-paper" aria-hidden="true"></div>
 <div class="bg-g" aria-hidden="true"></div>
 
 <div class="page">
@@ -266,7 +274,7 @@ button{font:inherit;color:inherit}
   <div class="cell s6" style="border-right:none;padding:0">
     <div class="hero">
       <span class="label-xs op-7 fade-up d1" style="letter-spacing:.15rem">与 ai · open source · mit</span>
-      <h1 class="display fade-up d2">yu.ai</h1>
+      <h1 class="display fade-up d2" style="position:relative">yu.ai<svg width="36" height="36" viewBox="0 0 100 100" style="position:absolute;top:-8px;right:-44px;opacity:.7" aria-hidden="true"><rect x="5" y="5" width="90" height="90" rx="4" fill="none" stroke="#c0392b" stroke-width="6"/><text x="50" y="68" text-anchor="middle" font-family="'Ma Shan Zheng',cursive" font-size="52" fill="#c0392b">鱼</text></svg></h1>
       <p class="sub fade-up d3">与 AI · 同在</p>
       <p class="cn fade-up d3" style="margin-top:-8px">插上即用 · 数据随你走 · 越用越懂你</p>
 
@@ -326,7 +334,7 @@ button{font:inherit;color:inherit}
 .vessels>article:hover{background:var(--hover-fill)}
 [data-theme="light"] .vessels>article:hover{background:var(--hover-fill)}
 .vessels>article:last-child{border-bottom:none}
-.vessels .gl{font-family:var(--serif);font-size:2.4rem;font-weight:700;line-height:1;letter-spacing:0;color:var(--accent);opacity:.85;margin-bottom:4px}
+.vessels .gl{font-family:var(--brush);font-size:2.8rem;font-weight:400;line-height:1;letter-spacing:0;color:var(--accent);opacity:.85;margin-bottom:4px}
 .vessels .vt{font-family:var(--serif);font-size:1.25rem;font-weight:600;letter-spacing:.05em}
 .vessels .vt small{font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase}
 .vessels .vc{font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;line-height:1.7}
