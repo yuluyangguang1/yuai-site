@@ -53,7 +53,8 @@ li{margin:6px 0}
 
 <h2>快速开始</h2>
 <h3>1. 下载解压</h3>
-<p>从 <a href="https://github.com/yuluyangguang1/claude-portable/releases">GitHub Releases</a> 下载最新的 <code>ClaudeCodePortable.zip</code>，解压到任意目录或 U 盘。</p>
+<p>从 <a href="https://github.com/yuluyangguang1/claude-portable/releases">GitHub Releases</a> 下载最新的 <code>ClaudeCodePortable.zip</code>（当前最新 <strong>v0.2.0</strong>），解压到任意目录或 U 盘。</p>
+<p style="font-size:.9rem;opacity:.6">提示：保留旧版 <code>data/</code> 目录覆盖到新版，配置和会话自动保留。</p>
 
 <h3>2. 启动</h3>
 <table>
@@ -81,10 +82,10 @@ claude -c           # 继续上次对话</pre>
 │  你的终端                                │
 │  $ claude -p "写一个 REST API"           │
 └──────────────┬──────────────────────────┘
-               │ ANTHROPIC_BASE_URL=127.0.0.1:18080
+│               │ ANTHROPIC_BASE_URL=127.0.0.1:15721
                v
 ┌─────────────────────────────────────────┐
-│  CC Switch (本地代理，端口 18080)         │
+│  CC Switch (本地代理，端口 15721)         │
 │  - 管理多个 API Provider                 │
 │  - 自动切换、负载均衡                    │
 │  - 协议转换（兼容 Anthropic API 格式）   │
@@ -126,9 +127,10 @@ claude -c           # 继续上次对话</pre>
 <ul>
 <li><strong>零安装</strong>：不需要 Node.js、npm、Python，所有依赖内置</li>
 <li><strong>零痕迹</strong>：所有数据写在 <code>data/</code> 目录，不污染系统</li>
+<li><strong>配置随身</strong>：CC Switch 数据库自动同步到 <code>data/cc-switch/</code>，换机自动恢复</li>
 <li><strong>U 盘即走</strong>：整个文件夹拷到 U 盘，换电脑继续用</li>
 <li><strong>跨平台</strong>：同一个 zip 包含 macOS (ARM/Intel) + Linux + Windows</li>
-<li><strong>自动更新</strong>：CI 每次构建自动拉取最新 Claude Code 版本</li>
+<li><strong>自动更新</strong>：CI 每次构建自动拉取最新 Claude Code + CC Switch 版本</li>
 </ul>
 
 <h2>macOS 权限问题</h2>
@@ -138,8 +140,8 @@ xattr -cr .
 chmod +x ClaudePortable.command</pre>
 
 <h2>常见问题</h2>
-<h3>CC Switch 启动后 Claude Code 连不上？</h3>
-<p>检查 CC Switch 是否在监听 18080 端口。在终端运行 <code>nc -z 127.0.0.1 18080</code>，如果不通说明 CC Switch 没有正确启动代理。</p>
+<h3>CC Switch 启动后代理端口不通？</h3>
+<p>CC Switch 3.15.0 默认监听 <strong>15721</strong> 端口（旧版 18080）。脚本会自动从数据库读取正确端口。如果端口仍不通，检查 CC Switch 设置中的代理端口配置。</p>
 
 <h3>想直接用 Anthropic 官方 API？</h3>
 <p>不需要 CC Switch。设置环境变量后直接运行：</p>
