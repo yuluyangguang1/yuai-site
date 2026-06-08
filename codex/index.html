@@ -151,7 +151,66 @@ CodexPortable.bat --unlock</pre>
 </div>
 
 <div class="section huiwen">
-  <div class="section-head"><span class="num">肆</span><h2>四器各司其用</h2></div>
+  <div class="section-head"><span class="num">肆</span><h2>Codex CLI 命令</h2></div>
+  <table>
+    <tr><th>命令</th><th>说明</th></tr>
+    <tr><td><code>codex</code></td><td>进入交互式对话</td></tr>
+    <tr><td><code>codex "任务描述"</code></td><td>执行一次性任务</td></tr>
+    <tr><td><code>codex --approval-mode suggest</code></td><td>仅建议，不自动执行（默认）</td></tr>
+    <tr><td><code>codex --approval-mode auto-edit</code></td><td>自动编辑文件，执行命令需确认</td></tr>
+    <tr><td><code>codex --approval-mode full-auto</code></td><td>全自动执行（慎用）</td></tr>
+    <tr><td><code>codex --model &lt;模型名&gt;</code></td><td>指定使用的模型</td></tr>
+    <tr><td><code>codex --quiet</code></td><td>安静模式，减少输出</td></tr>
+  </table>
+  <p>wire_api 说明：Codex v0.136+ 已移除 chat 模式，统一使用 <code>wire_api = "responses"</code>。CC Switch 会自动处理。</p>
+</div>
+
+<div class="section huiwen">
+  <div class="section-head"><span class="num">伍</span><h2>目录结构</h2></div>
+  <pre>codex-portable/
+├── CodexPortable.command    macOS 启动器
+├── CodexPortable.sh         Linux 启动器
+├── CodexPortable.bat        Windows 启动器
+├── bin/                     平台二进制（CI 构建时下载）
+│   ├── macos-arm64/         Apple Silicon
+│   ├── macos-x64/           Intel Mac
+│   ├── linux-x64/           Linux
+│   └── windows-x64/         Windows
+├── data/                    用户数据（便携，跟着走）
+│   ├── .codex/              Codex CLI 配置和历史
+│   │   ├── auth.json        API Key 存放
+│   │   └── config.toml      模型和 Provider 配置
+│   ├── .cc-switch/          CC Switch 数据库
+│   └── .lock                设备绑定锁
+├── lib/
+│   ├── config_server.py     Web 配置中心
+│   ├── config_ui.html       配置中心前端
+│   └── binding.sh           设备绑定脚本
+└── _smoke.py                冒烟测试</pre>
+</div>
+
+<div class="section huiwen">
+  <div class="section-head"><span class="num">陆</span><h2>macOS 权限问题</h2></div>
+  <p>首次运行如果提示"无法验证开发者"：</p>
+  <pre>cd /path/to/codex-portable
+xattr -cr .
+chmod +x CodexPortable.command</pre>
+  <p style="font-size:.9em;opacity:.6">或右键 → 打开 → 弹窗中确认。只需一次。</p>
+</div>
+
+<div class="section huiwen">
+  <div class="section-head"><span class="num">柒</span><h2>常见问题</h2></div>
+  <h3>CC Switch 打不开？</h3>
+  <p>确保系统有 Python 3。配置中心默认监听 17590 端口。Python 不可用时会回退到 cc-switch GUI 二进制。</p>
+  <h3>想直接用 OpenAI 官方 API？</h3>
+  <pre>export OPENAI_API_KEY="sk-..."
+./bin/macos-arm64/codex</pre>
+  <h3>如何更新？</h3>
+  <p>下载最新 Release zip 覆盖 <code>bin/</code> 目录即可。<code>data/</code> 不会被覆盖。</p>
+</div>
+
+<div class="section huiwen">
+  <div class="section-head"><span class="num">捌</span><h2>四器各司其用</h2></div>
   <table>
     <tr><th>工具</th><th>定位</th><th>状态</th></tr>
     <tr><td><a href="https://yuai-r.cn/openclaw/">openclaw · 百川</a></td><td>为 应 物 — 全渠道通讯枢纽</td><td>stable</td></tr>

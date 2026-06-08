@@ -575,6 +575,52 @@ a:hover{text-decoration:underline}
 </div>
 
 <!-- 7 -->
+<div class="section" id="desktop">
+  <div class="section-header">
+    <div class="section-icon">&#x1F5A5;</div>
+    <h2>桌面版 · Web 仪表盘 · TUI</h2>
+  </div>
+  <p>Hermes 提供三种交互方式，全部内置，不需要额外安装。</p>
+
+  <h3>Web 仪表盘（hermes dashboard）</h3>
+  <p>基于 React 的浏览器管理界面，端口 <code>9119</code>。</p>
+  <pre><code><span class="comment"># 启动仪表盘（自动打开浏览器）</span>
+<span class="cmd">hermes dashboard</span>
+
+<span class="comment"># 仅启动后端 API（不打开浏览器）</span>
+<span class="cmd">hermes web --no-open</span></code></pre>
+  <p>仪表盘包含三个页面：</p>
+  <ul>
+    <li><strong>状态页</strong> — Agent 运行状态、活跃会话、最近会话、PID、内存占用</li>
+    <li><strong>配置页</strong> — 动态配置编辑器，从后端读取 schema 自动生成表单，改完保存即生效</li>
+    <li><strong>环境变量页</strong> — 管理所有 API Key，支持保存、清除、查看（Key 自动脱敏）</li>
+  </ul>
+
+  <h3>TUI 终端图形界面（hermes --tui）</h3>
+  <p>基于 React + Ink 的终端 UI，在终端内提供图形化对话体验，无需浏览器。</p>
+  <pre><code><span class="cmd">hermes --tui</span></code></pre>
+  <p>TUI 通过 JSON-RPC 与后端通信，支持完整对话交互、命令输入、实时流式输出。适合喜欢纯终端体验的用户。</p>
+
+  <h3>对话查看器</h3>
+  <p>启动 Hermes 后打开 <code>http://127.0.0.1:17521</code>，在浏览器中可视化浏览所有历史对话。</p>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">&#x1F310;</span>
+    <div>
+      <strong>端口一览：</strong>
+      <div class="ports">
+        <span class="port">Web 仪表盘 <span class="port-num">9119</span></span>
+        <span class="port">配置中心 <span class="port-num">17520</span></span>
+        <span class="port">对话查看器 <span class="port-num">17521</span></span>
+        <span class="port">Web UI <span class="port-num">8648</span></span>
+        <span class="port">消息网关 <span class="port-num">8642</span></span>
+      </div>
+      所有服务仅监听 127.0.0.1，外部无法访问。
+    </div>
+  </div>
+</div>
+
+<!-- 8 -->
 <div class="section" id="gateway">
   <div class="section-header">
     <div class="section-icon">&#x1F517;</div>
