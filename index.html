@@ -226,7 +226,8 @@ button{font:inherit;color:inherit}
 
 .page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
 
-.row{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+.row{display:grid;grid-template-columns:1fr;border:1px solid var(--border)}
+.row + .row{margin-top:-1px}
 .cell{padding:16px;border-right:1px solid var(--border);min-width:0;display:flex;align-items:center}
 .cell.s1{grid-column:span 1}
 .cell.s2{grid-column:span 2}
@@ -262,7 +263,7 @@ button{font:inherit;color:inherit}
 .term-b .t{opacity:.6}
 .term-b .c{opacity:.4}
 
-.fg{display:grid;grid-template-columns:1fr}
+.fg{display:grid;grid-template-columns:1fr;border:1px solid var(--border)}
 .fg>*{padding:16px;border-bottom:1px solid var(--border);position:relative;display:flex;flex-direction:column;transition:background .25s}
 .fg>*:last-child{border-bottom:none}
 .fg>*:hover{background:var(--hover-fill)}
@@ -287,7 +288,7 @@ button{font:inherit;color:inherit}
 .lang-btn{background:none;border:1px solid var(--border);color:var(--mid);font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;padding:4px 10px;cursor:pointer;opacity:.5;transition:all .2s}
 .lang-btn:hover{opacity:1;border-color:var(--accent);color:var(--accent)}
 
-.footer{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border);border-bottom:1px solid var(--border)}
+.footer{display:grid;grid-template-columns:1fr;border:1px solid var(--border)}
 .footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
 @media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
 
