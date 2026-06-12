@@ -26,11 +26,11 @@
 <meta name="twitter:image" content="https://yuai-r.cn/egret-ink.jpg">
 
 <!-- Favicon: inline SVG so no extra HTTP request -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23041c1c'/%3E%3Cg fill='none' stroke='%23ffe6cb' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230000f2'/%3E%3Cg fill='none' stroke='%23f5f5f5' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
 
 <!-- Theme color for mobile browser chrome -->
-<meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0000f2" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
 
 <!-- Chinese calligraphy fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,10 +54,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   /* Base color tokens — RGB triplets so color-mix / rgba can derive alpha variants */
-  --bg-base:4 28 28;
-  --mid-base:255 230 203;
-  --dim-base:122 154 144;
-  --accent-base:0 255 200;
+  --bg-base:0 0 242;
+  --mid-base:245 245 245;
+  --dim-base:154 150 142;
+  --accent-base:237 255 69;
 
   --bg:rgb(var(--bg-base));
   --mid:rgb(var(--mid-base));
@@ -78,10 +78,10 @@
   --mono:'Courier New','Menlo',monospace
 }
 [data-theme="light"]{
-  --bg-base:245 240 232;
-  --mid-base:61 58 53;
-  --dim-base:115 110 99;
-  --accent-base:2 150 106;
+  --bg-base:245 245 245;
+  --mid-base:23 13 2;
+  --dim-base:138 122 102;
+  --accent-base:0 0 200;
   --border:rgb(var(--mid-base) / .14);
   --border-strong:rgb(var(--mid-base) / .26);
   --hover-fill:rgb(var(--mid-base) / .04);
@@ -91,10 +91,10 @@
 }
 @media(prefers-color-scheme:light){
   :root:not([data-theme="dark"]){
-    --bg-base:245 240 232;
-    --mid-base:61 58 53;
-    --dim-base:115 110 99;
-    --accent-base:2 150 106;
+    --bg-base:245 245 245;
+    --mid-base:23 13 2;
+    --dim-base:138 122 102;
+    --accent-base:0 0 200;
     --border:rgb(var(--mid-base) / .14);
     --border-strong:rgb(var(--mid-base) / .26);
     --hover-fill:rgb(var(--mid-base) / .04);
@@ -104,7 +104,7 @@
   }
 }
 
-body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.6;-webkit-font-smoothing:antialiased;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='32' viewBox='0 0 24 32'%3E%3Cpath d='M12 0 L14 8 L13 24 L12 30 L11 24 L10 8 Z' fill='%23ffe6cb' opacity='.9'/%3E%3Cpath d='M10 24 Q12 28 14 24 L13 30 Q12 32 11 30 Z' fill='%238b4513'/%3E%3C/svg%3E") 12 0, auto}
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.6;-webkit-font-smoothing:antialiased;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='32' viewBox='0 0 24 32'%3E%3Cpath d='M12 0 L14 8 L13 24 L12 30 L11 24 L10 8 Z' fill='%23f5f5f5' opacity='.9'/%3E%3Cpath d='M10 24 Q12 28 14 24 L13 30 Q12 32 11 30 Z' fill='%23666'/%3E%3C/svg%3E") 12 0, auto}
 ::selection{background:var(--accent);color:var(--bg)}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit}
@@ -112,18 +112,18 @@ button{font:inherit;color:inherit}
 .bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
 .bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
 .bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
-.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(237,255,69,.15) 0%,transparent 50%)}
 .bg-paper{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.04' numOctaves='5' seed='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='.8'/%3E%3C/svg%3E");background-size:300px 300px}
 
 [data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
 [data-theme="light"] .bg-n{opacity:.015}
 [data-theme="light"] .bg-g{opacity:.06}
-[data-theme="light"] .display{color:#2a2722}
+[data-theme="light"] .display{color:#170d02}
 @media(prefers-color-scheme:light){
   :root:not([data-theme="dark"]) .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
   :root:not([data-theme="dark"]) .bg-n{opacity:.015}
   :root:not([data-theme="dark"]) .bg-g{opacity:.06}
-  :root:not([data-theme="dark"]) .display{color:#2a2722}
+  :root:not([data-theme="dark"]) .display{color:#170d02}
 }
 
 .label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
@@ -137,7 +137,7 @@ button{font:inherit;color:inherit}
 
 /* 回纹分隔线 — 替代部分 border-top */
 .huiwen{border-top:none;position:relative}
-.huiwen::before{content:"";display:block;width:100%;height:8px;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4h4v4h8V4h4v4h8V4h4V0h-4v4H16V0h-4v4H4V0H0z' fill='%23ffe6cb' fill-opacity='.6'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:32px 8px}
+.huiwen::before{content:"";display:block;width:100%;height:8px;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4h4v4h8V4h4v4h8V4h4V0h-4v4H16V0h-4v4H4V0H0z' fill='%23f5f5f5' fill-opacity='.6'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:32px 8px}
 
 /* 墨滴入水动画 */
 @keyframes inkDrop{0%{transform:scale(0);opacity:.8}40%{transform:scale(1);opacity:.15}100%{transform:scale(2.5);opacity:0}}
@@ -196,8 +196,8 @@ button{font:inherit;color:inherit}
 /* ═══ 焚香计时器 ═══ */
 .incense{position:fixed;bottom:24px;left:24px;z-index:500;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.5;transition:opacity .3s}
 .incense:hover{opacity:1}
-.incense-stick{width:2px;height:80px;background:linear-gradient(to top,#8b4513 0%,#d2691e 100%);border-radius:1px;position:relative;overflow:visible}
-.incense-tip{position:absolute;top:-2px;left:-1px;width:4px;height:4px;border-radius:50%;background:#ff6b35;box-shadow:0 0 4px #ff6b35,0 0 8px rgba(255,107,53,.4);animation:ember 1.5s ease-in-out infinite alternate}
+.incense-stick{width:2px;height:80px;background:linear-gradient(to top,#666 0%,#888 100%);border-radius:1px;position:relative;overflow:visible}
+.incense-tip{position:absolute;top:-2px;left:-1px;width:4px;height:4px;border-radius:50%;background:#edff45;box-shadow:0 0 4px #edff45,0 0 8px rgba(255,107,53,.4);animation:ember 1.5s ease-in-out infinite alternate}
 @keyframes ember{from{opacity:.7;transform:scale(.8)}to{opacity:1;transform:scale(1.1)}}
 .incense-smoke{position:absolute;top:-16px;left:0;width:2px}
 .incense-smoke::before,.incense-smoke::after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:rgb(var(--mid-base) / .06);animation:smoke 3s ease-out infinite}
@@ -660,7 +660,7 @@ button{font:inherit;color:inherit}
           if(p.x<0)p.x=W; if(p.x>W)p.x=0;
           if(p.y<0)p.y=H; if(p.y>H)p.y=0;
           ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-          ctx.fillStyle='rgba(255,230,203,'+p.o+')'; ctx.fill();
+          ctx.fillStyle='rgba(245,245,245,'+p.o+')'; ctx.fill();
         }
         requestAnimationFrame(drawParticles);
       }
