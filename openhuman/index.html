@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>openhuman portable · 明镜 · yu.ai</title>
+<meta name="description" content="OpenHuman Portable · 桌面级 AI 超级智能 · 本地记忆 · 深度推理 · 零安装 · 零污染 · 跨平台">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23170d02'/%3E%3Cg fill='none' stroke='%23f5f5f5' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-base:23 13 2;
+  --mid-base:245 240 232;
+  --dim-base:154 150 142;
+  --accent-base:237 255 69;
+  --bg:rgb(var(--bg-base));
+  --mid:rgb(var(--mid-base));
+  --dim:rgb(var(--dim-base));
+  --accent:rgb(var(--accent-base));
+  --border:rgb(var(--mid-base) / .12);
+  --hover-fill:rgb(var(--mid-base) / .05);
+  --code-bg:rgb(var(--mid-base) / .06);
+  --accent-soft:rgb(var(--accent-base) / .04);
+  --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB',sans-serif;
+  --serif:'LXGW WenKai',Georgia,serif;
+  --brush:'Ma Shan Zheng','LXGW WenKai',cursive;
+  --mono:'Courier New','Menlo',monospace;
+}
+[data-theme="light"]{
+  --bg-base:245 245 245;
+  --mid-base:23 13 2;
+  --dim-base:138 122 102;
+  --accent-base:0 0 200;
+  --border:rgb(var(--mid-base) / .14);
+  --hover-fill:rgb(var(--mid-base) / .04);
+  --code-bg:rgb(var(--mid-base) / .06);
+  --accent-soft:rgb(var(--accent-base) / .05);
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.8;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:var(--accent);text-decoration:none;opacity:.8;transition:opacity .2s}
+a:hover{opacity:1}
+
+.page{max-width:900px;margin:0 auto;padding:60px 24px 80px;position:relative}
+
+.huiwen{position:relative;padding-top:16px;margin-top:48px}
+.huiwen::before{content:"";display:block;width:100%;height:8px;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4h4v4h8V4h4v4h8V4h4V0h-4v4H16V0h-4v4H4V0H0z' fill='%23f5f5f5' fill-opacity='.6'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:32px 8px;margin-bottom:16px}
+
+.hero{text-align:center;padding:0 0 48px}
+.hero .glyph{font-family:var(--brush);font-size:5rem;line-height:1;color:var(--accent);opacity:.85;margin-bottom:8px}
+.hero h1{font-family:var(--serif);font-size:2.4rem;font-weight:700;line-height:1.2;margin:8px 0 8px;background:linear-gradient(180deg,rgb(var(--mid-base)) 0%,rgb(var(--mid-base) / .5) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 small{font-family:var(--mono);font-size:.6em;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase;-webkit-text-fill-color:rgb(var(--mid-base) / .5)}
+.hero .sub{font-family:var(--serif);font-size:1rem;opacity:.5;letter-spacing:.15rem}
+.hero .cn{font-family:var(--serif);font-size:.85rem;letter-spacing:.3rem;opacity:.4;margin-top:6px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:24px}
+.cta a{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:1px solid var(--border);font-family:var(--mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;transition:all .2s}
+.cta a:hover{border-color:var(--accent);color:var(--accent);opacity:1}
+
+.section{margin-top:48px}
+.section-head{display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.section-head h2{font-family:var(--serif);font-size:1.4rem;font-weight:700}
+.section-head .num{font-family:var(--brush);font-size:2rem;color:var(--accent);opacity:.7;line-height:1}
+
+h3{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin:24px 0 8px}
+p{margin:8px 0;opacity:.85;line-height:1.8}
+ul,ol{margin:8px 0 8px 24px;opacity:.85}
+li{margin:4px 0}
+
+pre{font-family:var(--mono);font-size:.82rem;line-height:1.6;background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:12px 0;overflow-x:auto;opacity:.92}
+code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);border:1px solid var(--border);padding:2px 6px;border-radius:3px;color:var(--accent)}
+pre code{background:none;border:none;padding:0;color:inherit;font-size:1em}
+
+.tip{padding:12px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);margin:16px 0;font-size:.9rem;opacity:.85}
+.warn{padding:12px 16px;border-left:3px solid #ffbd38;background:rgba(255,189,56,.04);margin:16px 0;font-size:.9rem;opacity:.85}
+
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9rem}
+th,td{padding:10px 14px;border:1px solid var(--border);text-align:left}
+th{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;opacity:.6}
+
+.feature-grid{display:grid;grid-template-columns:1fr;border:1px solid var(--border);margin:16px 0}
+.feature-grid>*{padding:20px;border-bottom:1px solid var(--border);transition:background .25s}
+.feature-grid>*:last-child{border-bottom:none}
+.feature-grid>*:hover{background:var(--hover-fill)}
+.feature-grid .fg-icon{font-family:var(--brush);font-size:2rem;color:var(--accent);opacity:.8;margin-bottom:4px}
+.feature-grid .fg-title{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin-bottom:4px}
+.feature-grid .fg-desc{font-size:.9rem;opacity:.7;line-height:1.7}
+@media(min-width:640px){.feature-grid{grid-template-columns:1fr 1fr}.feature-grid>*{border-right:1px solid var(--border)}.feature-grid>*:nth-child(2n){border-right:none}.feature-grid>*:last-child{border-right:none;border-bottom:none}}
+@media(min-width:1024px){.feature-grid{grid-template-columns:1fr 1fr 1fr}.feature-grid>*:nth-child(3n){border-right:none}}
+
+.footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;opacity:.5}
+
+.theme-toggle{position:fixed;top:20px;right:20px;background:none;border:1px solid var(--border);cursor:pointer;color:var(--mid);opacity:.5;padding:8px;border-radius:4px;z-index:100;transition:opacity .2s}
+.theme-toggle:hover{opacity:1}
+
+@media(max-width:640px){
+  .hero h1{font-size:1.8rem}
+  .hero .glyph{font-size:3.5rem}
+  .page{padding:40px 16px 60px}
+}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="theme-btn" aria-label="切换主题">
+  <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+
+<div class="page">
+
+<div class="hero">
+  <div class="glyph">镜</div>
+  <h1>openhuman portable<small>明镜</small></h1>
+  <p class="sub">Desktop AI Super Intelligence</p>
+  <p class="cn">为 洞 察</p>
+  <div class="cta">
+    <a href="https://yuai-r.cn/">← yu.ai</a>
+  </div>
+</div>
+
+<!-- 壹 · 简介 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">壹</span><h2>简介</h2></div>
+  <p>OpenHuman Portable 是 <a href="https://tinyhumans.ai/openhuman" target="_blank" rel="noopener">OpenHuman</a>（TinyHumans 出品，31k+ stars）的「开箱即用」便携版本。</p>
+  <p>OpenHuman 是一个基于 Tauri + CEF（Chromium Embedded Framework）的桌面级 AI 超级智能应用，拥有本地记忆、深度推理、多供应商支持等能力。</p>
+  <div class="tip">与 OpenClaw / Hermes / Claude / Codex 不同，OpenHuman 是 GUI 桌面应用，自带完整的设置界面，无需外部配置中心。</div>
+</div>
+
+<!-- 贰 · 启动方式 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">贰</span><h2>启动方式</h2></div>
+  <h3>macOS</h3>
+  <pre><code>chmod +x OpenHumanPortable.command
+./OpenHumanPortable.command</code></pre>
+  <h3>Linux</h3>
+  <pre><code>chmod +x OpenHumanPortable.sh
+./OpenHumanPortable.sh</code></pre>
+  <h3>Windows</h3>
+  <p>双击 <code>OpenHumanPortable.bat</code></p>
+  <p>首次启动会自动打开使用指南页面，按引导配置即可。</p>
+</div>
+
+<!-- 叁 · 首次配置 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">叁</span><h2>首次配置</h2></div>
+  <h3>1. 登录方式</h3>
+  <p>启动后显示 Welcome 页面，可选择：</p>
+  <ul>
+    <li><strong>Continue Locally</strong>（实验性）— 跳过登录，直接使用本地模式</li>
+    <li><strong>OAuth 登录</strong> — Google / GitHub / X / Discord（需要网络）</li>
+  </ul>
+
+  <h3>2. 密钥环授权</h3>
+  <p>首次启动桌面版会弹出 Keyring Consent 对话框，点击 <strong>Accept</strong> 授权本地加密存储。</p>
+
+  <h3>3. 运行模式</h3>
+  <table>
+    <tr><th>模式</th><th>说明</th><th>推荐</th></tr>
+    <tr><td>Cloud</td><td>OpenHuman 托管一切，开箱即用</td><td>推荐</td></tr>
+    <tr><td>Custom</td><td>自选供应商，BYOK 模式</td><td>进阶用户</td></tr>
+    <tr><td>Local</td><td>实验性，跳过登录</td><td>开发者</td></tr>
+  </table>
+</div>
+
+<!-- 肆 · 配置 API Key -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">肆</span><h2>配置 API Key（BYOK）</h2></div>
+  <p>在 OpenHuman 界面中操作：</p>
+  <ol>
+    <li>点击左下角 <strong>⚙️ 设置</strong>（或 <code>⌘+, (Mac)</code> / <code>Ctrl+, (Win/Linux)</code>）</li>
+    <li>进入 <strong>AI & Models</strong></li>
+    <li>点击要启用的供应商芯片 → 粘贴 API Key → 确认</li>
+    <li>或点击 <strong>Add Custom Provider</strong> 添加自定义 OpenAI 兼容端点</li>
+  </ol>
+  <div class="tip">推荐使用 <strong>OpenRouter</strong> 作为统一入口，一个 Key 访问所有模型。</div>
+</div>
+
+<!-- 伍 · 特性 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">伍</span><h2>特性</h2></div>
+  <div class="feature-grid">
+    <div>
+      <div class="fg-icon">忆</div>
+      <div class="fg-title">本地记忆</div>
+      <div class="fg-desc">Memory Tree 本地存储，对话历史自动压缩为长期记忆，越用越懂你。</div>
+    </div>
+    <div>
+      <div class="fg-icon">思</div>
+      <div class="fg-title">深度推理</div>
+      <div class="fg-desc">支持多种推理模式：Chat、Reasoning、Agentic、Coding，按任务自动路由。</div>
+    </div>
+    <div>
+      <div class="fg-icon">连</div>
+      <div class="fg-title">多供应商</div>
+      <div class="fg-desc">内置 26+ 供应商：OpenAI、Anthropic、Google、DeepSeek、Groq 等。</div>
+    </div>
+    <div>
+      <div class="fg-icon">密</div>
+      <div class="fg-title">零污染</div>
+      <div class="fg-desc">所有数据存储在便携包内，通过 HOME 重定向实现零宿主机污染。</div>
+    </div>
+    <div>
+      <div class="fg-icon">桌</div>
+      <div class="fg-title">桌面原生</div>
+      <div class="fg-desc">Tauri + CEF 桌面应用，原生体验，支持系统通知、快捷键、托盘图标。</div>
+    </div>
+    <div>
+      <div class="fg-icon">开</div>
+      <div class="fg-title">开源 MIT</div>
+      <div class="fg-desc">上游 OpenHuman 开源，MIT 许可证。便携包同样 MIT 开源。</div>
+    </div>
+  </div>
+</div>
+
+<!-- 陆 · 目录结构 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">陆</span><h2>目录结构</h2></div>
+  <pre><code>OpenHumanPortable/
+├── OpenHumanPortable.command  ← macOS 启动器
+├── OpenHumanPortable.sh       ← Linux 启动器
+├── OpenHumanPortable.bat      ← Windows 启动器
+├── lib/
+│   └── first-launch.html      ← 首次启动指南
+├── bin/
+│   ├── macos-arm64/           ← Apple Silicon
+│   ├── macos-x64/             ← Intel Mac
+│   ├── linux-x64/             ← Linux x86_64
+│   └── windows-x64/           ← Windows
+├── data/
+│   ├── .home/                 ← 重定向的 HOME（零污染）
+│   └── .openhuman/            ← OpenHuman 数据
+│       ├── config.toml        ← 配置文件
+│       ├── workspace/         ← 记忆、会话、工作区
+│       └── cef-cache/         ← CEF 缓存
+├── setup.sh                   ← 下载脚本
+└── VERSION</code></pre>
+</div>
+
+<!-- 柒 · 环境变量 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">柒</span><h2>环境变量</h2></div>
+  <table>
+    <tr><th>变量</th><th>值</th><th>说明</th></tr>
+    <tr><td><code>HOME</code></td><td><code>data/.home</code></td><td>重定向 HOME 目录，实现零污染</td></tr>
+    <tr><td><code>OPENHUMAN_WORKSPACE</code></td><td><code>data/.openhuman</code></td><td>OpenHuman 数据目录</td></tr>
+    <tr><td><code>OPENHUMAN_CEF_CACHE_PATH</code></td><td><code>data/.openhuman/cef-cache</code></td><td>CEF 缓存目录</td></tr>
+  </table>
+  <div class="warn">不要手动修改这些环境变量，启动器会自动设置。</div>
+</div>
+
+<!-- 捌 · 常见问题 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">捌</span><h2>常见问题</h2></div>
+
+  <h3>数据存储在哪里？</h3>
+  <p>所有数据在 <code>data/.openhuman/</code> 目录内。拔出 U 盘后，宿主机不留痕迹。</p>
+
+  <h3>如何更新？</h3>
+  <p>下载新版便携包，将 <code>data/</code> 目录复制到新版即可保留配置和记忆。</p>
+
+  <h3>支持哪些模型？</h3>
+  <p>OpenAI、Anthropic、Google Gemini、DeepSeek、Groq、OpenRouter 等 26+ 供应商。也可以添加任何 OpenAI 兼容的自定义端点。</p>
+
+  <h3>需要联网吗？</h3>
+  <p>使用云端模型需要网络。本地模式（实验性）可以离线使用，但需要额外安装 Ollama 或 LM Studio。</p>
+
+  <h3>macOS 提示"已损坏"？</h3>
+  <p>启动器会自动执行 <code>xattr -dr com.apple.quarantine</code>。如果仍有问题，右键打开或在系统设置中允许。</p>
+</div>
+
+<!-- 玖 · 五器各司其用 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">玖</span><h2>五器各司其用</h2></div>
+  <table>
+    <tr><th>字</th><th>工具</th><th>别名</th><th>定位</th></tr>
+    <tr><td>匣</td><td>openclaw</td><td>百川</td><td>多模型多渠道，一匣纳百川</td></tr>
+    <tr><td>砚</td><td>hermes</td><td>砚墨</td><td>记忆生长，越用越懂你</td></tr>
+    <tr><td>刃</td><td>claude portable</td><td>利刃</td><td>终端编程搭档</td></tr>
+    <tr><td>盒</td><td>codex portable</td><td>方盒</td><td>OpenAI 阵营对照</td></tr>
+    <tr><td>镜</td><td>openhuman</td><td>明镜</td><td>桌面级 AI 超级智能</td></tr>
+  </table>
+</div>
+
+<div class="footer">
+  <span>yu.ai</span>
+  <span>openhuman portable · 明镜</span>
+  <span>mit</span>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var btn=document.getElementById('theme-btn');
+  if(!btn)return;
+  var root=document.documentElement;
+  var sun=btn.querySelector('.theme-sun');
+  var moon=btn.querySelector('.theme-moon');
+  function sync(isLight){if(sun)sun.style.display=isLight?'none':'block';if(moon)moon.style.display=isLight?'block':'none'}
+  var saved;
+  try{saved=localStorage.getItem('yuai-theme')}catch(_){}
+  if(saved==='light'){root.setAttribute('data-theme','light');sync(true)}
+  else if(saved==='dark'){root.setAttribute('data-theme','dark');sync(false)}
+  else{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)');sync(m&&m.matches)}
+  btn.onclick=function(){
+    var nowLight=root.getAttribute('data-theme')!=='light';
+    if(!root.getAttribute('data-theme')){nowLight=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
+    root.setAttribute('data-theme',nowLight?'light':'dark');
+    try{localStorage.setItem('yuai-theme',nowLight?'light':'dark')}catch(_){}
+    sync(nowLight);
+  };
+})();
+</script>
+</body>
+</html>
