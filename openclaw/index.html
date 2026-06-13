@@ -7,50 +7,14 @@
 <meta name="description" content="OpenClaw Portable · 便携 AI 多渠道聚合网关 · 32 平台 12 渠道 · U 盘即走 · 零安装零痕迹 · MIT 开源">
 <meta name="keywords" content="openclaw,openclaw portable,百川,便携AI,多渠道聚合,U盘AI,本地AI,中国风,主权AI,MIT,ylyg">
 <link rel="canonical" href="https://yuai-r.cn/openclaw/">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23041c1c'/%3E%3Cg fill='none' stroke='%23ffe6cb' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
-<meta name="theme-color" content="#041c1c" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="/shared.css">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23170d02'/%3E%3Cg fill='none' stroke='%23f5f5f5' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#170d02" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#041c1c;--mid:#ffe6cb;--dim:#7a9a90;--accent:#00ffc8;
-  --bg-base:4 28 28;--mid-base:255 230 203;--accent-base:0 255 200;
-  --border:rgb(var(--mid-base) / .12);
-  --border-strong:rgb(var(--mid-base) / .24);
-  --hover-fill:rgb(var(--mid-base) / .05);
-  --hover-fill-strong:rgb(var(--mid-base) / .08);
-  --code-bg:rgb(var(--mid-base) / .06);
-  --accent-soft:rgb(var(--accent-base) / .04);
-  --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-  --serif:Georgia,'Noto Serif SC','Source Han Serif SC',serif;
-  --mono:'Courier New','Menlo',monospace
-}
-[data-theme="light"]{
-  --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
-  --bg-base:245 240 232;--mid-base:61 58 53;--accent-base:2 150 106;
-  --border:rgb(var(--mid-base) / .14);
-  --border-strong:rgb(var(--mid-base) / .26);
-  --hover-fill:rgb(var(--mid-base) / .04);
-  --hover-fill-strong:rgb(var(--mid-base) / .07);
-  --code-bg:rgb(var(--mid-base) / .06);
-  --accent-soft:rgb(var(--accent-base) / .05)
-}
-@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){
-  --bg:#f5f0e8;--mid:#3d3a35;--dim:#736e63;--accent:#02966a;
-  --bg-base:245 240 232;--mid-base:61 58 53;--accent-base:2 150 106;
-  --border:rgb(var(--mid-base) / .14);
-  --border-strong:rgb(var(--mid-base) / .26);
-  --hover-fill:rgb(var(--mid-base) / .04);
-  --hover-fill-strong:rgb(var(--mid-base) / .07);
-  --code-bg:rgb(var(--mid-base) / .06);
-  --accent-soft:rgb(var(--accent-base) / .05)
-}}
-
 html{scroll-behavior:smooth;scroll-padding-top:24px}
-body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.75;-webkit-font-smoothing:antialiased;font-size:15px}
-::selection{background:var(--accent);color:var(--bg)}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
 
 .bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
 .bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
@@ -77,9 +41,6 @@ a:hover{text-decoration:underline}
 .fade-up.d1{animation-delay:.05s}.fade-up.d2{animation-delay:.18s}.fade-up.d3{animation-delay:.32s}.fade-up.d4{animation-delay:.5s}.fade-up.d5{animation-delay:.7s}
 @media(prefers-reduced-motion:reduce){.blink{animation:none;opacity:1}.fade-up,.fade-up.d1,.fade-up.d2,.fade-up.d3,.fade-up.d4,.fade-up.d5{animation:none;opacity:1;transform:none}}
 
-.theme-toggle{background:none;border:none;cursor:pointer;color:var(--mid);opacity:.5;padding:8px;line-height:0;transition:opacity .2s;display:flex;align-items:center;border-radius:4px}
-.theme-toggle:hover,.theme-toggle:focus-visible{opacity:1;outline:1px solid var(--border)}
-.theme-toggle svg{display:block}
 
 .page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
 
