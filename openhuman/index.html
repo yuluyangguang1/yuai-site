@@ -7,100 +7,28 @@
 <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
 <title>openhuman portable · 明镜 · yu.ai</title>
 <meta name="description" content="OpenHuman Portable · 桌面级 AI 超级智能 · 本地记忆 · 深度推理 · 零安装 · 零污染 · 跨平台">
+<link rel="stylesheet" href="/shared.css">
 <link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
 <link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23170d02'/%3E%3Cg fill='none' stroke='%23f5f5f5' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg-base:23 13 2;
-  --mid-base:245 240 232;
-  --dim-base:154 150 142;
-  --accent-base:237 255 69;
-  --bg:rgb(var(--bg-base));
-  --mid:rgb(var(--mid-base));
-  --dim:rgb(var(--dim-base));
-  --accent:rgb(var(--accent-base));
-  --border:rgb(var(--mid-base) / .12);
-  --hover-fill:rgb(var(--mid-base) / .05);
-  --code-bg:rgb(var(--mid-base) / .06);
-  --accent-soft:rgb(var(--accent-base) / .04);
-  --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-  --serif:'LXGW WenKai',Georgia,'Noto Serif SC','Source Han Serif SC',serif;
-  --brush:'Ma Shan Zheng','LXGW WenKai',cursive;
-  --mono:'Courier New','Menlo',monospace;
-}
-[data-theme="light"]{
-  --bg-base:245 245 245;
-  --mid-base:23 13 2;
-  --dim-base:138 122 102;
-  --accent-base:0 0 200;
-  --border:rgb(var(--mid-base) / .14);
-  --hover-fill:rgb(var(--mid-base) / .04);
-  --code-bg:rgb(var(--mid-base) / .06);
-  --accent-soft:rgb(var(--accent-base) / .05);
-}
-body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.8;-webkit-font-smoothing:antialiased}
-::selection{background:var(--accent);color:var(--bg)}
-a{color:var(--accent);text-decoration:none;opacity:.8;transition:opacity .2s}
-a:hover{opacity:1}
-
-.page{max-width:900px;margin:0 auto;padding:60px 24px 80px;position:relative}
-
-.huiwen{position:relative;padding-top:16px;margin-top:48px}
-.huiwen::before{content:"";display:block;width:100%;height:8px;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4h4v4h8V4h4v4h8V4h4V0h-4v4H16V0h-4v4H4V0H0z' fill='%23f5f5f5' fill-opacity='.6'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:32px 8px;margin-bottom:16px}
-
-.hero{text-align:center;padding:0 0 48px}
-.hero .glyph{font-family:var(--brush);font-size:5rem;line-height:1;color:var(--accent);opacity:.85;margin-bottom:8px}
-.hero h1{font-family:var(--serif);font-size:2.4rem;font-weight:700;line-height:1.2;margin:8px 0 8px;background:linear-gradient(180deg,rgb(var(--mid-base)) 0%,rgb(var(--mid-base) / .5) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+/* openhuman page-specific overrides */
+.page{position:relative}
+.hero{padding:0 0 48px}
+.hero .glyph{font-family:var(--brush)}
+.hero h1{font-family:var(--serif);font-size:2.4rem;font-weight:700;line-height:1.2;margin:8px 0;background:linear-gradient(180deg,rgb(var(--mid-base)) 0%,rgb(var(--mid-base) / .5) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero h1 small{font-family:var(--mono);font-size:.6em;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase;-webkit-text-fill-color:rgb(var(--mid-base) / .5)}
-.hero .sub{font-family:var(--serif);font-size:1rem;opacity:.5;letter-spacing:.15rem}
-.hero .cn{font-family:var(--serif);font-size:.85rem;letter-spacing:.3rem;opacity:.4;margin-top:6px}
-.cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:24px}
-.cta a{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:1px solid var(--border);font-family:var(--mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;transition:all .2s}
-.cta a:hover{border-color:var(--accent);color:var(--accent);opacity:1}
-
-.section{margin-top:48px}
-.section-head{display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.section-head h2{font-family:var(--serif);font-size:1.4rem;font-weight:700}
-.section-head .num{font-family:var(--brush);font-size:2rem;color:var(--accent);opacity:.7;line-height:1}
-
-h3{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin:24px 0 8px}
-p{margin:8px 0;opacity:.85;line-height:1.8}
-ul,ol{margin:8px 0 8px 24px;opacity:.85}
-li{margin:4px 0}
-
-pre{font-family:var(--mono);font-size:.82rem;line-height:1.6;background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:12px 0;overflow-x:auto;opacity:.92}
-code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);border:1px solid var(--border);padding:2px 6px;border-radius:3px;color:var(--accent)}
-pre code{background:none;border:none;padding:0;color:inherit;font-size:1em}
-
-.tip{padding:12px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);margin:16px 0;font-size:.9rem;opacity:.85}
-.warn{padding:12px 16px;border-left:3px solid #ffbd38;background:rgba(255,189,56,.04);margin:16px 0;font-size:.9rem;opacity:.85}
-
-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9rem}
-th,td{padding:10px 14px;border:1px solid var(--border);text-align:left}
-th{font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;opacity:.6}
-
+.section-head .num{font-family:var(--brush)}
 .feature-grid{display:grid;grid-template-columns:1fr;border:1px solid var(--border);margin:16px 0}
 .feature-grid>*{padding:20px;border-bottom:1px solid var(--border);transition:background .25s}
 .feature-grid>*:last-child{border-bottom:none}
-.feature-grid>*:hover{background:var(--hover-fill)}
+.feature-grid>*:hover{background:var(--hover)}
 .feature-grid .fg-icon{font-family:var(--brush);font-size:2rem;color:var(--accent);opacity:.8;margin-bottom:4px}
 .feature-grid .fg-title{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin-bottom:4px}
 .feature-grid .fg-desc{font-size:.9rem;opacity:.7;line-height:1.7}
 @media(min-width:640px){.feature-grid{grid-template-columns:1fr 1fr}.feature-grid>*{border-right:1px solid var(--border)}.feature-grid>*:nth-child(2n){border-right:none}.feature-grid>*:last-child{border-right:none;border-bottom:none}}
 @media(min-width:1024px){.feature-grid{grid-template-columns:1fr 1fr 1fr}.feature-grid>*:nth-child(3n){border-right:none}}
-
-.footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;opacity:.5}
-
-.theme-toggle{position:fixed;top:20px;right:20px;background:none;border:1px solid var(--border);cursor:pointer;color:var(--mid);opacity:.5;padding:8px;border-radius:4px;z-index:100;transition:opacity .2s}
-.theme-toggle:hover{opacity:1}
-
-@media(max-width:640px){
-  .hero h1{font-size:1.8rem}
-  .hero .glyph{font-size:3.5rem}
-  .page{padding:40px 16px 60px}
-}
+@media(max-width:640px){.hero h1{font-size:1.8rem}}
 </style>
 </head>
 <body>

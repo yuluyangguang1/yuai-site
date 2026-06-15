@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
 <link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
 <style>
-html{scroll-behavior:smooth;scroll-padding-top:24px}
+html{scroll-padding-top:24px}
 
 .bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
 .bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
@@ -22,12 +22,7 @@ html{scroll-behavior:smooth;scroll-padding-top:24px}
 
 .label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
 .label-xs{font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase}
-.display{font-family:var(--serif);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em}
 .sub{font-size:1.125rem;line-height:1.6;opacity:.6}
-.op-5{opacity:.5}.op-7{opacity:.7}
-
-@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-.blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
 
 .page{z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
 
@@ -62,12 +57,12 @@ html{scroll-behavior:smooth;scroll-padding-top:24px}
 .doc li{margin:6px 0;line-height:1.7}
 .doc blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-soft);opacity:.85}
 .doc .platform-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:16px 0}
-.doc .card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:18px;border:1px solid var(--border);border-radius:4px;background:var(--hover-fill);transition:border-color .2s}
+.doc .card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:18px;border:1px solid var(--border);border-radius:4px;background:var(--hover);transition:border-color .2s}
 .doc .card:hover{border-color:var(--accent)}
 .doc .card strong{font-family:var(--serif);font-size:1.05rem}
 .doc .card span{font-size:.88rem;opacity:.7;line-height:1.5}
 .doc .steps{display:flex;flex-direction:column;gap:14px;margin:18px 0;counter-reset:step}
-.doc .step{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border:1px solid var(--border);border-radius:4px;background:var(--hover-fill)}
+.doc .step{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border:1px solid var(--border);border-radius:4px;background:var(--hover)}
 .doc .step-num{font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--accent);min-width:1.6em;line-height:1;opacity:.85}
 .doc .step-content{flex:1;min-width:0}
 .doc .step-title{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin-bottom:6px;color:var(--mid);line-height:1.3}
