@@ -14,7 +14,7 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="yu.ai · 与 AI · 同行">
-<meta property="og:description" content="便携 AI 工具集 · 各司其用 — openclaw（百川）· hermes（砚墨）· claude portable（利刃）· codex portable（方盒）。一套围绕「与 AI 同行」的开源工具集。">
+<meta property="og:description" content="便携 AI 工具集 · 各司其用">
 <meta property="og:url" content="https://yuai-r.cn/">
 <meta property="og:image" content="https://yuai-r.cn/egret-ink.jpg">
 <meta property="og:locale" content="zh_CN">
@@ -25,157 +25,40 @@
 <meta name="twitter:description" content="便携 AI 工具集 · 各司其用">
 <meta name="twitter:image" content="https://yuai-r.cn/egret-ink.jpg">
 
-<!-- Favicon: inline SVG so no extra HTTP request -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23170d02'/%3E%3Cg fill='none' stroke='%23f5f5f5' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
-
-<!-- Theme color for mobile browser chrome -->
+<!-- Theme -->
 <meta name="theme-color" content="#170d02" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
 
-<!-- Chinese calligraphy fonts — self-hosted for fast China loading -->
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23170d02'/%3E%3Cg fill='none' stroke='%23f5f5f5' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+
+<!-- Design system + fonts -->
+<link rel="stylesheet" href="/shared.css">
 <link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
 <link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
 
-<!-- JSON-LD structured data -->
+<!-- JSON-LD -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "yu.ai",
-  "alternateName": ["ylyg", "与 AI"],
-  "url": "https://yuai-r.cn/",
-  "description": "与 AI 同行。便携 AI 工具集：openclaw · hermes · claude portable · codex portable。",
-  "sameAs": []
-}
+{"@context":"https://schema.org","@type":"Organization","name":"yu.ai","alternateName":["ylyg","与 AI"],"url":"https://yuai-r.cn/","description":"与 AI 同行。便携 AI 工具集。"}
 </script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  /* Base color tokens — RGB triplets so color-mix / rgba can derive alpha variants */
-  --bg-base:23 13 2;
-  --mid-base:245 240 232;
-  --dim-base:154 150 142;
-  --accent-base:237 255 69;
+/* ── Main page specific styles ── */
 
-  --bg:rgb(var(--bg-base));
-  --mid:rgb(var(--mid-base));
-  --dim:rgb(var(--dim-base));
-  --accent:rgb(var(--accent-base));
-
-  /* Alpha-derived tokens — change one base, every state follows */
-  --border:rgb(var(--mid-base) / .12);
-  --border-strong:rgb(var(--mid-base) / .24);
-  --hover-fill:rgb(var(--mid-base) / .05);
-  --hover-fill-strong:rgb(var(--mid-base) / .08);
-  --code-bg:rgb(var(--mid-base) / .06);
-  --accent-soft:rgb(var(--accent-base) / .04);
-
-  --sans:system-ui,-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-  --serif:'LXGW WenKai',Georgia,'Noto Serif SC','Source Han Serif SC',serif;
-  --brush:'Ma Shan Zheng','LXGW WenKai',cursive;
-  --mono:'Courier New','Menlo',monospace
-}
-[data-theme="light"]{
-  --bg-base:245 245 245;
-  --mid-base:23 13 2;
-  --dim-base:138 122 102;
-  --accent-base:0 0 200;
-  --border:rgb(var(--mid-base) / .14);
-  --border-strong:rgb(var(--mid-base) / .26);
-  --hover-fill:rgb(var(--mid-base) / .04);
-  --hover-fill-strong:rgb(var(--mid-base) / .07);
-  --code-bg:rgb(var(--mid-base) / .06);
-  --accent-soft:rgb(var(--accent-base) / .05)
-}
-@media(prefers-color-scheme:light){
-  :root:not([data-theme="dark"]){
-    --bg-base:245 245 245;
-    --mid-base:23 13 2;
-    --dim-base:138 122 102;
-    --accent-base:0 0 200;
-    --border:rgb(var(--mid-base) / .14);
-    --border-strong:rgb(var(--mid-base) / .26);
-    --hover-fill:rgb(var(--mid-base) / .04);
-    --hover-fill-strong:rgb(var(--mid-base) / .07);
-    --code-bg:rgb(var(--mid-base) / .06);
-    --accent-soft:rgb(var(--accent-base) / .05)
-  }
-}
-
-body{font-family:var(--sans);background:var(--bg);color:var(--mid);line-height:1.6;-webkit-font-smoothing:antialiased;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='32' viewBox='0 0 24 32'%3E%3Cpath d='M12 0 L14 8 L13 24 L12 30 L11 24 L10 8 Z' fill='%23f5f5f5' opacity='.9'/%3E%3Cpath d='M10 24 Q12 28 14 24 L13 30 Q12 32 11 30 Z' fill='%23666'/%3E%3C/svg%3E") 12 0, auto}
-::selection{background:var(--accent);color:var(--bg)}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit}
-
+/* Background layers */
 .bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
-.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
+.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7)}
 .bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
 .bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(237,255,69,.15) 0%,transparent 50%)}
-.bg-paper{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.04' numOctaves='5' seed='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='.8'/%3E%3C/svg%3E");background-size:300px 300px}
-
 [data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
 [data-theme="light"] .bg-n{opacity:.015}
 [data-theme="light"] .bg-g{opacity:.06}
-[data-theme="light"] .display{color:#170d02}
-@media(prefers-color-scheme:light){
-  :root:not([data-theme="dark"]) .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
-  :root:not([data-theme="dark"]) .bg-n{opacity:.015}
-  :root:not([data-theme="dark"]) .bg-g{opacity:.06}
-  :root:not([data-theme="dark"]) .display{color:#170d02}
-}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}:root:not([data-theme="dark"]) .bg-n{opacity:.015}:root:not([data-theme="dark"]) .bg-g{opacity:.06}}
 
-.label{font-family:var(--sans);font-size:.9375rem;letter-spacing:.1875rem;text-transform:uppercase}
-.label-sm{font-size:.75rem;letter-spacing:.1875rem;text-transform:uppercase}
-.label-xs{font-size:.625rem;letter-spacing:.125rem;text-transform:uppercase}
-.title{font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1;letter-spacing:.0525rem}
-.display{font-family:var(--serif);font-size:3.5rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;mix-blend-mode:plus-lighter;background:linear-gradient(180deg,rgb(var(--mid-base)) 0%,rgb(var(--mid-base) / .5) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sub{font-family:var(--serif);font-size:1.125rem;line-height:1.6;opacity:.6}
-.cn{font-family:var(--serif);font-size:.8125rem;letter-spacing:.25rem;line-height:1.8;opacity:.3}
-.op-5{opacity:.5}.op-6{opacity:.6}.op-7{opacity:.7}
+/* Colophon */
+.colophon{position:fixed;right:16px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-family:var(--serif);font-size:.7rem;letter-spacing:.4rem;opacity:.15;z-index:100;pointer-events:none}
 
-/* 回纹分隔线 — 替代部分 border-top */
-.huiwen{border-top:none;position:relative}
-.huiwen::before{content:"";display:block;width:100%;height:8px;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4h4v4h8V4h4v4h8V4h4V0h-4v4H16V0h-4v4H4V0H0z' fill='%23f5f5f5' fill-opacity='.6'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:32px 8px}
-
-/* 墨滴入水动画 */
-@keyframes inkDrop{0%{transform:scale(0);opacity:.8}40%{transform:scale(1);opacity:.15}100%{transform:scale(2.5);opacity:0}}
-.ink-drop{position:absolute;top:20%;left:50%;width:120px;height:120px;margin-left:-60px;border-radius:50%;background:radial-gradient(circle,rgb(var(--mid-base) / .3) 0%,rgb(var(--mid-base) / .05) 40%,transparent 70%);animation:inkDrop 2.5s cubic-bezier(.2,.6,.2,1) forwards;pointer-events:none;z-index:0}
-
-/* 竖排落款 */
-.colophon{position:fixed;right:16px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-family:var(--serif);font-size:.7rem;letter-spacing:.4rem;opacity:.15;color:var(--mid);z-index:100;pointer-events:none}
-
-@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-.blink{display:inline-block;width:1ch;height:1.1em;background:currentColor;vertical-align:text-bottom;animation:blink 1.2s step-end infinite}
-
-/* Hero entry animation — fade up, staggered */
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.fade-up{opacity:0;animation:fadeUp .9s cubic-bezier(.2,.6,.2,1) forwards}
-.fade-up.d1{animation-delay:.05s}
-.fade-up.d2{animation-delay:.18s}
-.fade-up.d3{animation-delay:.32s}
-.fade-up.d4{animation-delay:.5s}
-.fade-up.d5{animation-delay:.7s}
-
-/* ═══ 暗室灯光 — 已禁用 ═══ */
-
-/* ═══ 开匣动画 — 卡片 hover 3D 翻转 ═══ */
-.vessels>article{perspective:800px}
-.vessels>article>.card-inner{transition:transform .6s cubic-bezier(.2,.6,.2,1);transform-style:preserve-3d}
-.vessels>article:hover>.card-inner{transform:rotateY(6deg) rotateX(-3deg) scale(1.02)}
-
-/* ═══ 毛笔落字 — 终端字符逐个落下 ═══ */
-@keyframes brushDrop{from{opacity:0;transform:translateY(-4px);filter:blur(1px)}to{opacity:1;transform:none;filter:none}}
-.brush-char{display:inline-block;opacity:0;animation:brushDrop .3s ease forwards}
-
-/* ═══ 卷轴展开 — 替代 fade-up ═══ */
-@keyframes scrollUnfurl{from{clip-path:inset(0 45% 0 45%);opacity:0}to{clip-path:inset(0 0 0 0);opacity:1}}
-.unfurl{opacity:0;animation:scrollUnfurl 1s cubic-bezier(.2,.6,.2,1) forwards}
-.unfurl.d1{animation-delay:.1s}.unfurl.d2{animation-delay:.25s}.unfurl.d3{animation-delay:.4s}
-
-/* ═══ 拆字动画 Logo ═══ */
-.logo-brush{display:block;margin:0 auto;color:var(--mid)}
-.logo-text{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:3.5rem;font-weight:700;opacity:0;pointer-events:none}
+/* SVG stroke animation */
 @keyframes strokeDraw{to{stroke-dashoffset:0}}
 @keyframes dotAppear{to{opacity:1}}
 .stroke-anim{stroke-dasharray:200;stroke-dashoffset:200}
@@ -188,98 +71,16 @@ button{font:inherit;color:inherit}
 .stroke-anim.s7{animation:strokeDraw .5s 1.4s cubic-bezier(.4,0,.2,1) forwards}
 .stroke-anim.s8{animation:strokeDraw .3s 1.7s cubic-bezier(.4,0,.2,1) forwards}
 .stroke-anim.s9{animation:dotAppear .2s 1.9s forwards}
+.logo-brush{display:block;margin:0 auto;color:var(--mid)}
 
-/* ═══ 粒子背景 Canvas ═══ */
-#inkParticles{position:fixed;inset:0;z-index:1;pointer-events:none}
-
-/* ═══ 焚香计时器 ═══ */
-.incense{position:fixed;bottom:24px;left:24px;z-index:500;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.5;transition:opacity .3s}
-.incense:hover{opacity:1}
-.incense-stick{width:2px;height:80px;background:linear-gradient(to top,#666 0%,#888 100%);border-radius:1px;position:relative;overflow:visible}
-.incense-tip{position:absolute;top:-2px;left:-1px;width:4px;height:4px;border-radius:50%;background:#edff45;box-shadow:0 0 4px #edff45,0 0 8px rgba(255,107,53,.4);animation:ember 1.5s ease-in-out infinite alternate}
-@keyframes ember{from{opacity:.7;transform:scale(.8)}to{opacity:1;transform:scale(1.1)}}
-.incense-smoke{position:absolute;top:-16px;left:0;width:2px}
-.incense-smoke::before,.incense-smoke::after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:rgb(var(--mid-base) / .06);animation:smoke 3s ease-out infinite}
-.incense-smoke::after{animation-delay:1.5s;left:3px}
-@keyframes smoke{0%{transform:translateY(0) translateX(0) scale(1);opacity:.12}50%{transform:translateY(-18px) translateX(3px) scale(1.8);opacity:.06}100%{transform:translateY(-36px) translateX(-2px) scale(2.5);opacity:0}}
-.incense-time{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;opacity:.5}
-.incense-msg{position:fixed;bottom:130px;left:16px;z-index:501;font-family:var(--serif);font-size:.85rem;opacity:0;transition:opacity .8s;pointer-events:none;max-width:160px;line-height:1.7;color:var(--mid)}
-.incense-msg.show{opacity:.7}
-@media(max-width:768px){.incense,.incense-msg{display:none}}
-
-@media(prefers-reduced-motion:reduce){
-  .blink{animation:none;opacity:1}
-  .fade-up,.fade-up.d1,.fade-up.d2,.fade-up.d3,.fade-up.d4,.fade-up.d5{animation:none;opacity:1;transform:none}
-  .ink-drop{animation:none;opacity:0}
-  .spotlight{display:none}
-  .brush-char{animation:none;opacity:1;transform:none;filter:none}
-  .unfurl{animation:none;opacity:1;clip-path:none}
-  .stroke-anim{stroke-dashoffset:0;animation:none}
-  .stroke-anim.s5,.stroke-anim.s9{opacity:1;animation:none}
-  #inkParticles{display:none}
-}
-
-.theme-toggle{background:none;border:none;cursor:pointer;color:var(--mid);opacity:.5;padding:8px;line-height:0;transition:opacity .2s;display:flex;align-items:center;border-radius:4px}
-.theme-toggle:hover,.theme-toggle:focus-visible{opacity:1;outline:1px solid var(--border)}
-.theme-toggle svg{display:block}
-
-.page{position:relative;z-index:200;max-width:1100px;margin:0 auto;padding:0;overflow-x:hidden}
-
-.row{display:grid;grid-template-columns:1fr;border:1px solid var(--border)}
-.row + .row{margin-top:-1px}
-.cell{padding:16px;border-right:1px solid var(--border);min-width:0;display:flex;align-items:center}
-.cell.s1{grid-column:span 1}
-.cell.s2{grid-column:span 2}
-.cell.s4{grid-column:span 4}
-.cell.s6{grid-column:1/-1}
-@media(min-width:1024px){.row{grid-template-columns:1fr 2fr 1fr 1fr 1fr}}
-
-/* Nav links: real <a> elements, accessible to keyboard */
-.nav-link{position:relative;display:flex;align-items:center;width:100%;height:100%;color:inherit;cursor:pointer;background:none;border:none;text-align:left;padding:0;font:inherit;letter-spacing:inherit}
-.nav-link .blink{display:none}
-.nav-link:hover .blink,.nav-link:focus-visible .blink{display:inline-block}
-.nav-link:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
-.nav-link::before{content:"";position:absolute;inset:-12px;background:var(--mid);pointer-events:none;opacity:0;transition:opacity .25s;z-index:-1}
-.nav-link:hover::before{opacity:.05}
-
-.hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px;padding:80px 20px 60px;width:100%}
-
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-.hero-cta a{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border:1px solid var(--border);font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;transition:all .2s}
-.hero-cta a:hover,.hero-cta a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
-.hero-cta a.cta-primary{border-color:var(--accent);color:var(--accent)}
-.hero-cta a.cta-primary:hover,.hero-cta a.cta-primary:focus-visible{background:var(--accent);color:var(--bg)}
-
-.term{width:100%;max-width:560px;border:1px solid var(--border);background:rgb(var(--bg-base) / .35);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+/* Terminal */
+.term{width:100%;max-width:560px;border:1px solid var(--border);background:rgb(var(--bg-base) / .35);backdrop-filter:blur(2px)}
 .term-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
-.td{width:10px;height:10px;border-radius:50%}
-.td:nth-child(1){background:var(--mid)}
-.td:nth-child(2){background:var(--mid);opacity:.6}
-.td:nth-child(3){background:var(--mid);opacity:.3}
+.td{width:10px;height:10px;border-radius:50%;background:var(--mid)}
+.td:nth-child(2){opacity:.6}.td:nth-child(3){opacity:.3}
 .term-label{margin-left:auto;font-family:var(--mono);font-size:.625rem;letter-spacing:.1875rem;opacity:.5}
 .term-b{font-family:var(--mono);font-size:.78rem;line-height:1.85;padding:18px 16px;white-space:pre-wrap;min-height:200px;word-break:break-word}
-.term-b .p{color:var(--accent)}
-.term-b .t{opacity:.6}
-.term-b .c{opacity:.4}
-
-.fg{display:grid;grid-template-columns:1fr;border:1px solid var(--border)}
-.fg>*{padding:16px;border-bottom:1px solid var(--border);position:relative;display:flex;flex-direction:column;transition:background .25s}
-.fg>*:last-child{border-bottom:none}
-.fg>*:hover{background:var(--hover-fill)}
-.fh{display:none}
-.ft{font-family:var(--mono);font-size:.625rem;letter-spacing:.125rem;opacity:.5;display:block;margin-bottom:6px}
-.fn{font-family:var(--serif);font-size:1.125rem;font-weight:600;margin-bottom:6px}
-.fd{font-size:1.0625rem;line-height:1.6;opacity:.65;flex:1}
-.fd a{color:var(--accent);opacity:.75;transition:opacity .2s}
-.fd a:hover,.fd a:focus-visible{opacity:1;outline:none}
-.f-status{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;opacity:.6;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
-.f-status::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent)}
-
-@media(min-width:640px){.fg{grid-template-columns:1fr 1fr}.fg>*:nth-child(odd){border-right:1px solid var(--border)}.fg>*:nth-last-child(-n+2){border-bottom:none}}
-@media(min-width:1024px){.fg{grid-template-columns:1fr 1fr 1fr}.fg>*{border-right:1px solid var(--border)}.fg>*:nth-child(3n){border-right:none}.fg>*:nth-last-child(-n+3){border-bottom:none}}
-
-.more{display:flex;align-items:center;justify-content:center;padding:24px;gap:8px;opacity:.6;transition:opacity .2s;border-bottom:1px solid var(--border)}
-.more:hover,.more:focus-visible{opacity:1;cursor:pointer;outline:none}
+.term-b .p{color:var(--accent)}.term-b .t{opacity:.6}.term-b .c{opacity:.4}
 
 /* Language toggle */
 [lang="en"] .zh{display:none}
@@ -287,35 +88,50 @@ button{font:inherit;color:inherit}
 .lang-btn{background:none;border:1px solid var(--border);color:var(--mid);font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;padding:4px 10px;cursor:pointer;opacity:.5;transition:all .2s}
 .lang-btn:hover{opacity:1;border-color:var(--accent);color:var(--accent)}
 
-.footer{display:grid;grid-template-columns:1fr;border:1px solid var(--border)}
-.footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
-@media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
+/* Incense */
+.incense{position:fixed;bottom:24px;left:24px;z-index:500;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.5;transition:opacity .3s}
+.incense:hover{opacity:1}
+.incense-stick{width:2px;height:80px;background:linear-gradient(to top,#666 0%,#888 100%);border-radius:1px;position:relative;overflow:visible}
+.incense-tip{position:absolute;top:-2px;left:-1px;width:4px;height:4px;border-radius:50%;background:var(--accent);box-shadow:0 0 4px var(--accent);animation:ember 1.5s ease-in-out infinite alternate}
+@keyframes ember{from{opacity:.7;transform:scale(.8)}to{opacity:1;transform:scale(1.1)}}
+.incense-smoke{position:absolute;top:-16px;left:0;width:2px}
+.incense-smoke::before,.incense-smoke::after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:rgb(var(--mid-base) / .06);animation:smoke 3s ease-out infinite}
+.incense-smoke::after{animation-delay:1.5s;left:3px}
+@keyframes smoke{0%{transform:translateY(0) translateX(0) scale(1);opacity:.12}50%{transform:translateY(-18px) translateX(3px) scale(1.8);opacity:.06}100%{transform:translateY(-36px) translateX(-2px) scale(2.5);opacity:0}}
+.incense-time{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;opacity:.5}
+.incense-msg{position:fixed;bottom:130px;left:16px;z-index:501;font-family:var(--serif);font-size:.85rem;opacity:0;transition:opacity .8s;pointer-events:none;max-width:160px;line-height:1.7}
+.incense-msg.show{opacity:.7}
+@media(max-width:768px){.incense,.incense-msg,.colophon{display:none}}
 
-@media(max-width:1023px){
-  .row{grid-template-columns:1fr;border-left:none}
-  .cell{border-right:none}
-  .footer{grid-template-columns:1fr;border-left:none}
-  .footer .c{border-right:none}
-}
-@media(max-width:640px){
-  .display{font-size:2.2rem}
-  .sub{font-size:.95rem}
-  .hero{padding:50px 16px}
-  .hero-cta a{padding:9px 16px;font-size:.72rem}
-  .term-b{font-size:.7rem;padding:14px 12px}
+/* Unfurl animation */
+@keyframes scrollUnfurl{from{clip-path:inset(0 45% 0 45%);opacity:0}to{clip-path:inset(0 0 0 0);opacity:1}}
+.unfurl{opacity:0;animation:scrollUnfurl 1s cubic-bezier(.2,.6,.2,1) forwards}
+.unfurl.d1{animation-delay:.1s}.unfurl.d2{animation-delay:.25s}.unfurl.d3{animation-delay:.4s}
+
+/* Brush char animation */
+@keyframes brushDrop{from{opacity:0;transform:translateY(-4px);filter:blur(1px)}to{opacity:1;transform:none;filter:none}}
+.brush-char{display:inline-block;opacity:0;animation:brushDrop .3s ease forwards}
+
+/* Reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .stroke-anim{stroke-dashoffset:0;animation:none}
+  .stroke-anim.s5,.stroke-anim.s9{opacity:1;animation:none}
+  .unfurl{animation:none;opacity:1;clip-path:none}
+  .brush-char{animation:none;opacity:1;transform:none;filter:none}
+  .blink{animation:none;opacity:1}
+  .fade-up{animation:none;opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 
+<!-- Background layers -->
 <div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
-<canvas id="inkParticles" aria-hidden="true"></canvas>
 <div class="bg-n" aria-hidden="true"></div>
-<div class="bg-paper" aria-hidden="true"></div>
 <div class="bg-g" aria-hidden="true"></div>
 <div class="colophon" aria-hidden="true">与君同在 · 历久不散</div>
 
-<!-- 焚香计时器 -->
+<!-- Incense timer -->
 <div class="incense" id="incense" aria-hidden="true">
   <div class="incense-stick" id="incenseStick">
     <div class="incense-tip"></div>
@@ -327,60 +143,41 @@ button{font:inherit;color:inherit}
 
 <div class="page">
 
-<!-- ===== Top nav ===== -->
+<!-- Nav -->
 <nav class="row" aria-label="Primary">
-  <div class="cell s1"><span class="title">yu.ai</span></div>
-  <div class="cell s2" style="padding:0">
-    
-  </div>
+  <div class="cell s1"><span style="font-family:var(--serif);font-size:2.625rem;font-weight:700;line-height:1">yu.ai</span></div>
+  <div class="cell s2" style="padding:0"></div>
   <div class="cell s1" style="padding:0">
     <a class="nav-link" href="#products" style="padding:16px">
       <span class="label">products <span class="blink"></span></span>
     </a>
   </div>
-  <div class="cell" style="justify-content:space-between">
-    <span class="label op-5">social</span>
-    
-  </div>
   <div class="cell" style="justify-content:space-between;gap:8px">
     <button id="lang-btn" class="lang-btn" aria-label="Switch language">EN</button>
-    <button id="theme-btn" aria-label="切换主题" class="theme-toggle">
-      <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-      </svg>
-      <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
+    <button id="theme-btn" aria-label="切换主题" class="theme-toggle" style="position:static">
+      <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
   </div>
 </nav>
 
-<!-- ===== Hero ===== -->
+<!-- Hero -->
 <div class="row">
   <div class="cell s6" style="border-right:none;padding:0">
     <div class="hero">
-      <div class="ink-drop" aria-hidden="true"></div>
-      <span class="label-xs op-7 unfurl d1" style="letter-spacing:.15rem"><span class="zh">便携 · 开源 · 跨平台</span><span class="en">portable · open source · cross-platform</span></span>
+      <span class="label-xs op-5 unfurl d1" style="letter-spacing:.15rem"><span class="zh">便携 · 开源 · 跨平台</span><span class="en">portable · open source · cross-platform</span></span>
       <h1 class="display unfurl d2" style="position:relative">
-        <!-- SVG 拆字动画 logo -->
         <svg class="logo-brush" width="180" height="64" viewBox="0 0 180 64" fill="none" aria-label="yu.ai">
-          <!-- y -->
           <path class="stroke-anim s1" d="M 12 12 L 24 40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
           <path class="stroke-anim s2" d="M 36 12 L 24 40 L 18 56" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-          <!-- u -->
           <path class="stroke-anim s3" d="M 46 16 L 46 42 Q 46 52 56 52 L 64 52" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
           <path class="stroke-anim s4" d="M 64 16 L 64 52" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-          <!-- . -->
           <circle class="stroke-anim s5" cx="78" cy="50" r="3" fill="currentColor" opacity="0"/>
-          <!-- a -->
           <path class="stroke-anim s6" d="M 92 28 Q 92 18 102 18 Q 112 18 112 28 L 112 52" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
           <path class="stroke-anim s7" d="M 112 36 Q 112 28 102 28 Q 92 28 92 36 Q 92 52 102 52 L 112 52" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
-          <!-- i -->
           <path class="stroke-anim s8" d="M 126 24 L 126 52" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
           <circle class="stroke-anim s9" cx="126" cy="14" r="3" fill="currentColor" opacity="0"/>
         </svg>
-        <!-- Fallback text (hidden when SVG loads) -->
-        <span class="logo-text" aria-hidden="true">yu.ai</span>
       </h1>
       <p class="sub unfurl d3"><span class="zh">与 AI · 同行</span><span class="en">AI that travels with you</span></p>
       <p class="cn fade-up d3" style="margin-top:-8px"><span class="zh">插上即用 · 数据随身 · 拔走无痕</span><span class="en">Plug in. Use. Unplug. No trace.</span></p>
@@ -393,32 +190,31 @@ button{font:inherit;color:inherit}
         <div class="term-b" id="term-body"><span class="t">  你的 ai 正在加载</span><span class="blink"></span></div>
       </div>
 
-      <div class="hero-cta fade-up d5">
-        <a href="/openclaw/" rel="noopener"><span class="zh">了解 openclaw</span><span class="en">openclaw</span> →</a>
-        <a href="/hermes/" rel="noopener"><span class="zh">了解 hermes</span><span class="en">hermes</span> →</a>
-        <a class="cta-primary" href="https://v.douyin.com/i77dSpkMYZI/" target="_blank" rel="noopener"><span class="zh">购买 U 盘版</span><span class="en">buy usb edition</span> →</a>
-        <a href="/sovereign/" rel="noopener"><span class="zh">企业定制</span><span class="en">enterprise</span> →</a>
+      <div class="cta fade-up d5">
+        <a href="/openclaw/" class="primary"><span class="zh">了解 openclaw</span><span class="en">openclaw</span> →</a>
+        <a href="/hermes/"><span class="zh">了解 hermes</span><span class="en">hermes</span> →</a>
+        <a href="/sovereign/"><span class="zh">企业定制</span><span class="en">enterprise</span> →</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== Couplet row — yu.ai 的本心，化作两行 ===== -->
+<!-- Couplet -->
 <div class="row huiwen">
   <div class="cell s6" style="border-right:none;justify-content:center;flex-wrap:wrap;gap:8px 24px;padding:28px 16px;flex-direction:column;text-align:center">
-    <p class="couplet" style="font-family:var(--serif);font-size:1.05rem;letter-spacing:.4rem;line-height:1.9;opacity:.65"><span class="zh">一器在手，万事可为<br>数据随身，与君同行</span><span class="en">One tool in hand, all things possible<br>Data travels with you, always</span></p>
+    <p style="font-family:var(--serif);font-size:1.05rem;letter-spacing:.4rem;line-height:1.9;opacity:.65"><span class="zh">一器在手，万事可为<br>数据随身，与君同行</span><span class="en">One tool in hand, all things possible<br>Data travels with you, always</span></p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:6px">
       <span class="label op-5"><span class="zh">零安装</span><span class="en">zero install</span></span>
-      <span class="label op-3" style="opacity:.3">·</span>
+      <span class="op-3">·</span>
       <span class="label op-5"><span class="zh">零痕迹</span><span class="en">zero trace</span></span>
-      <span class="label op-3" style="opacity:.3">·</span>
+      <span class="op-3">·</span>
       <span class="label op-5">mit</span>
     </div>
   </div>
 </div>
 
-<!-- ===== Five Vessels — 工具集 · 各司其用 ===== -->
-<div class="row huiwen" id="vessels">
+<!-- Vessels -->
+<div class="row huiwen" id="products">
   <div class="cell s6"><span class="label" style="font-weight:700">工 具</span> <span class="label op-5" style="margin-left:14px">tools</span></div>
 </div>
 <div class="row">
@@ -430,117 +226,91 @@ button{font:inherit;color:inherit}
   </div>
 </div>
 
-<style>
-/* Five-vessel grid: serif headings, hairline borders, subtle hover lift */
-.vessels{display:grid;grid-template-columns:1fr;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
-.vessels>article{padding:28px 24px;border-bottom:1px solid var(--border);position:relative;display:flex;flex-direction:column;gap:10px;transition:background .25s}
-.vessels>article:hover{background:var(--hover-fill)}
-[data-theme="light"] .vessels>article:hover{background:var(--hover-fill)}
-.vessels>article:last-child{border-bottom:none}
-.vessels .gl{font-family:var(--brush);font-size:2.8rem;font-weight:400;line-height:1;letter-spacing:0;color:var(--accent);opacity:.85;margin-bottom:4px}
-.vessels .vt{font-family:var(--serif);font-size:1.25rem;font-weight:600;letter-spacing:.05em}
-.vessels .vt small{font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase}
-.vessels .vc{font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;line-height:1.7}
-.vessels .vd{font-size:.93rem;line-height:1.7;opacity:.7}
-.vessels .va{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-top:6px;display:flex;gap:14px;flex-wrap:wrap}
-.vessels .va a{color:var(--accent);opacity:.8;transition:opacity .2s}
-.vessels .va a:hover,.vessels .va a:focus-visible{opacity:1;outline:none}
-.vessels .vstatus{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;opacity:.5;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px}
-.vessels .vstatus::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent)}
-@media(min-width:768px){.vessels{grid-template-columns:1fr 1fr}.vessels>article{border-right:1px solid var(--border)}.vessels>article:nth-child(2n){border-right:none}.vessels>article:nth-last-child(-n+2){border-bottom:none}}
-@media(min-width:1100px){.vessels{grid-template-columns:repeat(5,1fr)}.vessels>article{border-right:1px solid var(--border);border-bottom:none}.vessels>article:last-child{border-right:none}.vessels>article:nth-last-child(-n+2){border-bottom:none}}
-@media(max-width:767px){.vessels>article:last-child{border-bottom:none}}
-</style>
-
 <div class="row" style="border-top:none">
   <div class="cell s6" style="padding:0;border-right:none">
-    <div class="vessels">
+    <div class="cards" style="border:none">
 
-      <article>
-        <div class="gl">匣</div>
-        <div class="vt">openclaw<small>百川</small></div>
-        <div class="vc">为 应 物</div>
-        <div class="vd"><span class="zh">一匣纳百川，万象皆可谈。</span><span class="en">All models, all channels, one box.</span></div>
-        <div class="va">
+      <div>
+        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">匣</div>
+        <div class="card-title">openclaw<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">百川</small></div>
+        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 应 物</div>
+        <div class="card-desc"><span class="zh">一匣纳百川，万象皆可谈。</span><span class="en">All models, all channels, one box.</span></div>
+        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
           <a href="/openclaw/">使用说明 →</a>
           <a href="/openclaw/skills/">技能中心 →</a>
           <a href="/openclaw/changelog/">更新日志 →</a>
         </div>
-        <span class="vstatus">stable · v1.1.6</span>
-      </article>
+        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v1.1.6</div>
+      </div>
 
-      <article>
-        <div class="gl">砚</div>
-        <div class="vt">hermes<small>砚墨</small></div>
-        <div class="vc">为 养 识</div>
-        <div class="vd"><span class="zh">日久弥深，记忆生长。越用越懂你的 AI。</span><span class="en">Memory that grows. An AI that knows you.</span></div>
-        <div class="va">
+      <div>
+        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">砚</div>
+        <div class="card-title">hermes<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">砚墨</small></div>
+        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 养 识</div>
+        <div class="card-desc"><span class="zh">日久弥深，记忆生长。越用越懂你的 AI。</span><span class="en">Memory that grows. An AI that knows you.</span></div>
+        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
           <a href="/hermes/">使用说明 →</a>
           <a href="/hermes/changelog/">更新日志 →</a>
         </div>
-        <span class="vstatus">stable · v0.14.3</span>
-      </article>
+        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v0.15.0</div>
+      </div>
 
-      <article>
-        <div class="gl">刃</div>
-        <div class="vt">claude portable<small>利刃</small></div>
-        <div class="vc">为 编 程</div>
-        <div class="vd"><span class="zh">终端里的编程搭档，第三方 API 随心切换。</span><span class="en">Your coding partner in the terminal.</span></div>
-        <div class="va">
+      <div>
+        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">刃</div>
+        <div class="card-title">claude portable<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">利刃</small></div>
+        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 编 程</div>
+        <div class="card-desc"><span class="zh">终端里的编程搭档，第三方 API 随心切换。</span><span class="en">Your coding partner in the terminal.</span></div>
+        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
           <a href="/claude/">使用说明 →</a>
         </div>
-        <span class="vstatus">stable · v0.1.0</span>
-      </article>
+        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v0.1.0</div>
+      </div>
 
-      <article>
-        <div class="gl">盒</div>
-        <div class="vt">codex portable<small>方盒</small></div>
-        <div class="vc">为 编 程</div>
-        <div class="vd"><span class="zh">OpenAI 阵营对照，Codex CLI 便携版。</span><span class="en">Codex CLI portable. The OpenAI counterpart.</span></div>
-        <div class="va">
+      <div>
+        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">盒</div>
+        <div class="card-title">codex portable<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">方盒</small></div>
+        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 编 程</div>
+        <div class="card-desc"><span class="zh">OpenAI 阵营对照，Codex CLI 便携版。</span><span class="en">Codex CLI portable. The OpenAI counterpart.</span></div>
+        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
           <a href="/codex/">使用说明 →</a>
         </div>
-        <span class="vstatus">stable · v0.1.0</span>
-      </article>
+        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v0.7.0</div>
+      </div>
 
-      <article>
-        <div class="gl">镜</div>
-        <div class="vt">openhuman<small>明镜</small></div>
-        <div class="vc">为 洞 察</div>
-        <div class="vd"><span class="zh">桌面级 AI 超级智能，本地记忆，深度推理，越用越懂你。</span><span class="en">Desktop AI super intelligence. Local memory. Deep reasoning.</span></div>
-        <div class="va">
+      <div>
+        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">镜</div>
+        <div class="card-title">openhuman<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">明镜</small></div>
+        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 洞 察</div>
+        <div class="card-desc"><span class="zh">桌面级 AI 超级智能，本地记忆，深度推理，越用越懂你。</span><span class="en">Desktop AI super intelligence. Local memory. Deep reasoning.</span></div>
+        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
           <a href="/openhuman/">使用说明 →</a>
         </div>
-        <span class="vstatus">beta · v0.1.0</span>
-      </article>
+        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>beta · v0.1.0</div>
+      </div>
 
-      <article style="opacity:.6;padding:20px 24px">
-        <div style="font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;opacity:.5;margin-bottom:12px">OTHER PROJECTS</div>
+      <div style="opacity:.6;padding:20px 24px">
+        <div class="label-xs" style="margin-bottom:12px">OTHER PROJECTS</div>
         <div style="display:flex;flex-direction:column;gap:8px;font-size:.85rem">
-          <div><a href="/sbti/" style="color:var(--accent);opacity:.7">sbti</a> <span class="op-5">· 人格测评 · MBTI 趣味解读</span></div>
-          <div><span style="opacity:.5">linger</span> <span class="op-5">· 数字怀念 · 情感陪伴 · in design</span></div>
-          <div><span style="opacity:.5">novelweave</span> <span class="op-5">· 长篇协作 · AI 续写 · in design</span></div>
+          <div><a href="/sbti/" style="opacity:.7">sbti</a> <span class="op-5">· 人格测评 · MBTI 趣味解读</span></div>
+          <div><span class="op-5">linger · 数字怀念 · 情感陪伴 · in design</span></div>
+          <div><span class="op-5">novelweave · 长篇协作 · AI 续写 · in design</span></div>
         </div>
-      </article>
+      </div>
 
     </div>
   </div>
 </div>
 
-<div class="row" style="border-bottom:none">
-  <div class="cell s6" style="border-bottom:1px solid var(--border);padding:0">
-    
-  </div>
-</div>
-
-<div class="row" style="border-bottom:none">
+<!-- API link -->
+<div class="row" style="border-top:none">
   <div class="cell s6" style="display:flex;align-items:center;justify-content:center;padding:16px">
-    <a href="api/" style="display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.8rem;letter-spacing:.15rem;opacity:.5;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">
-       API 代理服务 <span aria-hidden="true" style="font-size:1.1em">→</span>
+    <a href="/api/" style="display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.8rem;letter-spacing:.15rem;opacity:.5;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">
+      API 代理服务 <span aria-hidden="true" style="font-size:1.1em">→</span>
     </a>
   </div>
 </div>
 
+<!-- Closing verse -->
 <div style="padding:56px 20px 48px;text-align:center">
   <p style="font-family:var(--serif);font-size:1rem;letter-spacing:.4rem;line-height:2.2;opacity:.32;max-width:520px;margin:0 auto">
     与 君 同 在，<br>
@@ -549,201 +319,122 @@ button{font:inherit;color:inherit}
   </p>
 </div>
 
-<footer class="footer">
-  <div class="c"><span class="label op-7">yu.ai</span></div>
-  <div class="c"><span class="label op-7">ylyg</span></div>
-  
-  <div class="c"><span class="label op-5" id="footer-year">mit</span></div>
-  <div class="c"><span class="label op-5" style="color:var(--accent)">与 AI 同行</span></div>
-</footer>
+<!-- Footer -->
+<div class="footer">
+  <span>yu.ai</span>
+  <span id="footer-year">mit</span>
+  <span>与 AI 同行</span>
+</div>
 
 </div>
 
 <script>
 (function(){
-  // ── Utilities ─────────────────────────────────────────────────────
-  function lsGet(k){ try{ return localStorage.getItem(k); } catch(_){ return null; } }
-  function lsSet(k,v){ try{ localStorage.setItem(k,v); } catch(_){} }
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  // ── Language toggle ────────────────────────────────────────────────
-  try {
-    var langBtn = document.getElementById('lang-btn');
-    if (langBtn) {
-      var htmlEl = document.documentElement;
-      langBtn.onclick = function(){
-        var isZh = htmlEl.getAttribute('lang') === 'zh-CN';
-        htmlEl.setAttribute('lang', isZh ? 'en' : 'zh-CN');
-        langBtn.textContent = isZh ? '中' : 'EN';
-        lsSet('yuai-lang', isZh ? 'en' : 'zh-CN');
+  // Language toggle
+  try{
+    var langBtn=document.getElementById('lang-btn'),htmlEl=document.documentElement;
+    if(langBtn){
+      langBtn.onclick=function(){var isZh=htmlEl.getAttribute('lang')==='zh-CN';htmlEl.setAttribute('lang',isZh?'en':'zh-CN');langBtn.textContent=isZh?'中':'EN';try{localStorage.setItem('yuai-lang',isZh?'en':'zh-CN')}catch(_){}};
+      var sl;try{sl=localStorage.getItem('yuai-lang')}catch(_){}
+      if(sl==='en'){htmlEl.setAttribute('lang','en');langBtn.textContent='中'}
+    }
+  }catch(_){}
+
+  // Theme toggle
+  try{
+    var btn=document.getElementById('theme-btn');
+    if(btn){
+      var root=document.documentElement,sun=btn.querySelector('.theme-sun'),moon=btn.querySelector('.theme-moon');
+      function sync(i){if(sun)sun.style.display=i?'none':'block';if(moon)moon.style.display=i?'block':'none'}
+      var sv;try{sv=localStorage.getItem('yuai-theme')}catch(_){}
+      if(sv==='light'){root.setAttribute('data-theme','light');sync(true)}
+      else if(sv==='dark'){root.setAttribute('data-theme','dark');sync(false)}
+      else{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)');sync(m&&m.matches)}
+      btn.onclick=function(){
+        var n=root.getAttribute('data-theme')!=='light';
+        if(!root.getAttribute('data-theme')){n=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
+        root.setAttribute('data-theme',n?'light':'dark');try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}sync(n);
       };
-      var savedLang = lsGet('yuai-lang');
-      if (savedLang === 'en') {
-        htmlEl.setAttribute('lang', 'en');
-        langBtn.textContent = '中';
-      }
     }
-  } catch(_){}
+  }catch(_){}
 
-  // ── Theme toggle ──────────────────────────────────────────────────
-  try {
-    var btn = document.getElementById('theme-btn');
-    if (btn) {
-      var root = document.documentElement;
-      var sun = btn.querySelector('.theme-sun');
-      var moon = btn.querySelector('.theme-moon');
-      if (sun && moon) {
-        function syncIcons(isLight){
-          sun.style.display = isLight ? 'none' : 'block';
-          moon.style.display = isLight ? 'block' : 'none';
-        }
-        var saved = lsGet('yuai-theme');
-        if (saved === 'light') { root.setAttribute('data-theme','light'); syncIcons(true); }
-        else if (saved === 'dark') { root.setAttribute('data-theme','dark'); syncIcons(false); }
-        else { var mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)'); syncIcons(mql && mql.matches); }
-        btn.onclick = function(){
-          var nowLight = root.getAttribute('data-theme') !== 'light';
-          if (!root.getAttribute('data-theme')) { nowLight = !(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches); }
-          root.setAttribute('data-theme', nowLight ? 'light' : 'dark');
-          lsSet('yuai-theme', nowLight ? 'light' : 'dark');
-          syncIcons(nowLight);
-        };
-      }
-    }
-  } catch(_){}
-
-  // ── Terminal demo ─────────────────────────────────────────────────
-  try {
-    var term = document.getElementById('term-body');
-    if (term && !reduceMotion) {
-      var lines = [
-        [{c:'p', t:'$ yu.ai'},
-         {c:'t', t:'  · 匣  openclaw    · 百川  · 一匣纳百川 v1.1.6'},
-         {c:'t', t:'  · 砚  hermes      · 砚墨  · 历久弥深 v0.14.3'},
-         {c:'t', t:'  · 刃  claude      · 利刃  · 编程助手'},
-         {c:'t', t:'  · 盒  codex       · 方盒  · 编程对照'},
-         {c:'t', t:'  · 镜  openhuman   · 明镜  · 桌面智能'}],
-        [{c:'p', t:'$ openclaw start'},
-         {c:'t', t:'   openclaw portable v1.1.6'},
-         {c:'t', t:'   gateway ready on :18789'},
-         {c:'t', t:'   32 platforms · 12 channels'}],
-        [{c:'p', t:'$ hermes serve'},
-         {c:'t', t:'   hermes portable v0.14.3'},
-         {c:'t', t:'   ok memory loaded · 1284 entries'},
-         {c:'t', t:'   ok skills · 24 active'}],
-        [{c:'p', t:'$ hello'},
-         {c:'t', t:'  < 在的。'},
-         {c:'t', t:'  < 今日想做点什么？'}]
+  // Terminal demo
+  try{
+    var term=document.getElementById('term-body');
+    if(term&&!reduceMotion){
+      var lines=[
+        [{c:'p',t:'$ yu.ai'},
+         {c:'t',t:'  · 匣  openclaw    · 百川  · 一匣纳百川 v1.1.6'},
+         {c:'t',t:'  · 砚  hermes      · 砚墨  · 历久弥深 v0.15.0'},
+         {c:'t',t:'  · 刃  claude      · 利刃  · 编程助手'},
+         {c:'t',t:'  · 盒  codex       · 方盒  · 编程对照'},
+         {c:'t',t:'  · 镜  openhuman   · 明镜  · 桌面智能'}],
+        [{c:'p',t:'$ openclaw start'},
+         {c:'t',t:'   openclaw portable v1.1.6'},
+         {c:'t',t:'   gateway ready on :18789'},
+         {c:'t',t:'   32 platforms · 12 channels'}],
+        [{c:'p',t:'$ hermes serve'},
+         {c:'t',t:'   hermes portable v0.15.0'},
+         {c:'t',t:'   ok memory loaded · 1284 entries'},
+         {c:'t',t:'   ok skills · 24 active'}],
+        [{c:'p',t:'$ hello'},
+         {c:'t',t:'  < 在的。'},
+         {c:'t',t:'  < 今日想做点什么？'}]
       ];
-      var idx = 0;
-      function renderTerm(blocks){
-        term.innerHTML = blocks.map(function(b){ return '<span class="' + b.c + '">' + b.t + '</span>'; }).join('\n') + '<span class="blink"></span>';
-      }
-      renderTerm(lines[0]);
-      setInterval(function(){ idx = (idx + 1) % lines.length; renderTerm(lines[idx]); }, 4500);
+      var idx=0;
+      function render(blocks){term.innerHTML=blocks.map(function(b){return '<span class="'+b.c+'">'+b.t+'</span>'}).join('\n')+'<span class="blink"></span>'}
+      render(lines[0]);
+      setInterval(function(){idx=(idx+1)%lines.length;render(lines[idx])},4500);
     }
-  } catch(_){}
+  }catch(_){}
 
-  // ── Footer year ───────────────────────────────────────────────────
-  try {
-    var fy = document.getElementById('footer-year');
-    if (fy) fy.textContent = 'mit \u00B7 ' + new Date().getFullYear();
-  } catch(_){}
+  // Footer year
+  try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
 
-  // ── Ink particles ─────────────────────────────────────────────────
-  try {
-    var canvas = document.getElementById('inkParticles');
-    if (canvas && window.innerWidth > 768 && !reduceMotion) {
-      var ctx = canvas.getContext('2d');
-      var W, H, particles = [];
-      var resizeTimer;
-      function resizeCanvas(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-      resizeCanvas();
-      window.addEventListener('resize', function(){ clearTimeout(resizeTimer); resizeTimer = setTimeout(resizeCanvas, 200); }, {passive:true});
-      for (var i = 0; i < 60; i++) {
-        particles.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*2+0.5, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.2, o: Math.random()*0.15+0.03 });
-      }
-      function drawParticles(){
-        if (document.hidden) { requestAnimationFrame(drawParticles); return; }
-        ctx.clearRect(0,0,W,H);
-        for (var i=0;i<particles.length;i++){
-          var p=particles[i];
-          p.x+=p.vx; p.y+=p.vy;
-          if(p.x<0)p.x=W; if(p.x>W)p.x=0;
-          if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-          ctx.fillStyle='rgba(245,245,245,'+p.o+')'; ctx.fill();
-        }
-        requestAnimationFrame(drawParticles);
-      }
-      drawParticles();
-    }
-  } catch(_){}
-
-  // ── Brush-char terminal ───────────────────────────────────────────
-  try {
-    var termBody = document.getElementById('term-body');
-    if (termBody && !reduceMotion) {
-      var brushObserver = new MutationObserver(function(){
-        brushObserver.disconnect();
-        try {
-          var spans = termBody.querySelectorAll('span:not(.blink):not(.brush-done)');
+  // Brush-char terminal
+  try{
+    var termBody=document.getElementById('term-body');
+    if(termBody&&!reduceMotion){
+      var obs=new MutationObserver(function(){
+        obs.disconnect();
+        try{
+          var spans=termBody.querySelectorAll('span:not(.blink):not(.brush-done)');
           spans.forEach(function(span){
-            var text = span.textContent;
-            if (!text || text.length === 0) return;
-            span.textContent = '';
-            span.classList.add('brush-done');
-            for(var i=0;i<Math.min(text.length, 200);i++){
-              var ch = document.createElement('span');
-              ch.className = 'brush-char';
-              ch.textContent = text[i];
-              ch.style.animationDelay = (i*0.03)+'s';
-              span.appendChild(ch);
+            var text=span.textContent;if(!text||!text.length)return;
+            span.textContent='';span.classList.add('brush-done');
+            for(var i=0;i<Math.min(text.length,200);i++){
+              var ch=document.createElement('span');ch.className='brush-char';ch.textContent=text[i];ch.style.animationDelay=(i*0.03)+'s';span.appendChild(ch);
             }
           });
-        } catch(_){}
-        brushObserver.observe(termBody, {childList:true});
+        }catch(_){}
+        obs.observe(termBody,{childList:true});
       });
-      brushObserver.observe(termBody, {childList:true});
+      obs.observe(termBody,{childList:true});
     }
-  } catch(_){}
+  }catch(_){}
 
-  // ── Incense timer ─────────────────────────────────────────────────
-  try {
-    var stick = document.getElementById('incenseStick');
-    var timeEl = document.getElementById('incenseTime');
-    var msgEl = document.getElementById('incenseMsg');
-    if (stick && timeEl && window.innerWidth > 768) {
-      var startH = 80, burnRate = 0.22, elapsed = 0, burned = false;
-      var incenseInterval = setInterval(function(){
+  // Incense timer
+  try{
+    var stick=document.getElementById('incenseStick'),timeEl=document.getElementById('incenseTime'),msgEl=document.getElementById('incenseMsg');
+    if(stick&&timeEl&&window.innerWidth>768){
+      var startH=80,burnRate=0.22,elapsed=0,burned=false;
+      var inc=setInterval(function(){
         elapsed++;
-        var m = Math.floor(elapsed/60), s = elapsed%60;
-        timeEl.textContent = m + ':' + (s<10?'0':'') + s;
-        var h = Math.max(0, startH - elapsed * burnRate);
-        stick.style.height = h + 'px';
-        if (h <= 0 && !burned) {
-          burned = true;
-          stick.style.display = 'none';
-          clearInterval(incenseInterval);
-          if (msgEl) { msgEl.classList.add('show'); setTimeout(function(){ msgEl.classList.remove('show'); }, 8000); }
-        }
-      }, 1000);
+        var m=Math.floor(elapsed/60),s=elapsed%60;
+        timeEl.textContent=m+':'+(s<10?'0':'')+s;
+        var h=Math.max(0,startH-elapsed*burnRate);
+        stick.style.height=h+'px';
+        if(h<=0&&!burned){burned=true;stick.style.display='none';clearInterval(inc);if(msgEl){msgEl.classList.add('show');setTimeout(function(){msgEl.classList.remove('show')},8000)}}
+      },1000);
     }
-  } catch(_){}
-
+  }catch(_){}
 })();
 </script>
 
-<!-- WeChat browser detection + guide overlay -->
-<style>
-.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}
-.wechat-mask.show{display:flex}
-.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}
-.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}
-.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}
-</style>
+<!-- WeChat detection -->
+<style>.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}.wechat-mask.show{display:flex}.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}</style>
 <div class="wechat-mask" id="wechatMask">
   <div class="arrow">···</div>
   <h2>请用浏览器打开</h2>
@@ -754,14 +445,7 @@ button{font:inherit;color:inherit}
     3. 即可正常浏览
   </div>
 </div>
-<script>
-(function(){
-  var ua = navigator.userAgent.toLowerCase();
-  if (ua.indexOf('micromessenger') !== -1) {
-    document.getElementById('wechatMask').classList.add('show');
-  }
-})();
-</script>
+<script>(function(){if(navigator.userAgent.toLowerCase().indexOf('micromessenger')!==-1)document.getElementById('wechatMask').classList.add('show')})();</script>
 
 </body>
 </html>
