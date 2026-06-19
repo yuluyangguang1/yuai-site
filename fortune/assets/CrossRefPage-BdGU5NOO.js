@@ -1,4 +1,4 @@
-import{j as l,m as T}from"./vendor-motion-CnHiukBM.js";import{r as v}from"./vendor-react-BE8AMyXT.js";import{c as W,a as L}from"./shensha-BxR1zFrQ.js";import{d as X,g as Y,a as _}from"./patterns-BYk1tKfz.js";import{B as E,a as U,S as J}from"./calendar-BMlwfbkw.js";import{u as F}from"./useAI-67-rbHIu.js";import"./engine-lunar-Dw0xM7Kz.js";import"./engine-iztro-BbdhYzLp.js";import"./client-Dh8qB39L.js";import"./index-BSmPhgqq.js";const Z=`你是一位精通八字和紫微斗数的命理研究者。现在你同时拿到了同一个人的八字排盘和紫微命盘，请做综合印证分析。
+import{j as l,m as T}from"./vendor-motion-uegpHKi9.js";import{r as v}from"./vendor-react-D_ze9-jD.js";import{a as W,c as L}from"./shensha-DNt1x4yD.js";import{d as X,g as Y,a as _}from"./patterns-BTjzc3M4.js";import{B as E,a as U,S as J}from"./calendar-BMlwfbkw.js";import{u as F}from"./useAI-CHE8f7ap.js";import"./engine-lunar-Dw0xM7Kz.js";import"./engine-iztro-DlnoqVXj.js";import"./client-Dh8qB39L.js";import"./index-D5W7YpQc.js";const Z=`你是一位精通八字和紫微斗数的命理研究者。现在你同时拿到了同一个人的八字排盘和紫微命盘，请做综合印证分析。
 
 核心方法：把八字与紫微两套独立体系的结论做交叉对账。
 
