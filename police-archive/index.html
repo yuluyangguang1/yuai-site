@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="board">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>羽鹭市侦探事务所 · 案件档案</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Caveat:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #e8dfc8;
+  --surface: #f3ead4;
+  --surface2: #ece3c7;
+  --ink: #2b2218;
+  --muted: #5c5239;
+  --border: rgba(80,65,40,0.18);
+  --accent: #165dff;
+  --accent-warm: #d4a855;
+  --pencil: #3c6489;
+  --tape: rgba(245,238,211,0.62);
+  --font-display: "Caveat", "Noto Serif SC", cursive;
+  --font-heading: "Noto Serif SC", serif;
+  --font-body: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "Share Tech Mono", "SF Mono", monospace;
+  --radius: 2px;
+  --space-base: 4px;
+  --shadow: 0 1px 3px rgba(80,65,40,0.16);
+  --shadow-hover: 0 8px 24px rgba(80,65,40,0.22);
+  --shadow-tape: 0 2px 6px rgba(80,65,40,0.24);
+  --board: #cbbfa0;
+  --board-grain: rgba(110,95,70,0.25);
+}
+[data-theme="dark"] {
+  --bg: #1a1812;
+  --surface: #252118;
+  --surface2: #2c261b;
+  --ink: #eee4cc;
+  --muted: #8a7d65;
+  --border: rgba(220,210,185,0.12);
+  --board: #23201a;
+  --board-grain: rgba(0,0,0,0.35);
+  --shadow: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-hover: 0 8px 24px rgba(0,0,0,0.4);
+  --tape: rgba(40,35,25,0.6);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(90,75,55,0.22); border-radius: 5px; }
+
+/* ─── Login Page ─── */
+.login-page {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(135deg, #1a1812 0%, #2c261b 50%, #1a1812 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body);
+}
+.login-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 40px 36px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5); width: 100%; max-width: 400px;
+  animation: loginFadeIn 0.5s ease-out;
+}
+@keyframes loginFadeIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.login-card .login-emblem {
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 20px;
+  background: linear-gradient(135deg, #165dff, #0e42b8);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 22px;
+  box-shadow: 0 4px 16px rgba(22,93,255,0.35);
+}
+.login-card h2 {
+  text-align: center; font-family: var(--font-heading); font-size: 22px;
+  font-weight: 700; margin-bottom: 6px; color: var(--ink);
+}
+.login-card .login-sub {
+  text-align: center; font-size: 12px; color: var(--muted);
+  letter-spacing: 0.08em; margin-bottom: 28px; font-family: var(--font-mono);
+}
+.login-field { margin-bottom: 18px; }
+.login-field label {
+  display: block; font-size: 12px; font-weight: 600; color: var(--muted);
+  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px;
+}
+.login-field input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: 6px; background: var(--surface); color: var(--ink);
+  font-family: inherit; font-size: 14px; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.login-field input:focus, .notebook input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(22,93,255,0.12); }
+.login-actions { display: flex; gap: 10px; margin-top: 24px; }
+.login-actions .btn { flex: 1; }
+.login-error {
+  margin-top: 14px; padding: 10px 14px; border-radius: 4px;
+  background: rgba(222,41,16,0.08); color: #de2910; font-size: 13px;
+  border: 1px solid rgba(222,41,16,0.15); display: none;
+  border-radius: 6px;
+}
+.login-hint {
+  margin-top: 16px; text-align: center; font-size: 12px; color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ─── Board ─── */
+.board {
+  position: relative;
+  min-height: 100dvh;
+  padding: 90px 28px 60px;
+  background:
+    repeating-linear-gradient(45deg, transparent 0, transparent 18px, var(--board-grain) 18px, var(--board-grain) 20px),
+    repeating-linear-gradient(-45deg, transparent 0, transparent 18px, var(--board-grain) 18px, var(--board-grain) 20px),
+    linear-gradient(180deg, var(--board) 0%, rgba(195,180,155,0.92) 100%);
+  box-shadow: inset 0 0 120px rgba(80,65,40,0.18);
+}
+@media (prefers-color-scheme: light) { [data-theme="board"] .board { filter: brightness(1.02) saturate(1.08); } }
+
+/* ─── Header ─── */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  padding: 14px 28px;
+  backdrop-filter: blur(10px);
+  background: rgba(235,224,205,0.72);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+[data-theme="dark"] header { background: rgba(30,27,21,0.82); }
+.brand {
+  display: flex; align-items: center; gap: 12px;
+}
+.stamp {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px;
+  border: 2.5px solid var(--accent);
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 18px;
+  border-radius: 4px;
+  transform: rotate(-6deg);
+  opacity: 0.9;
+}
+.brand h1 {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.brand small {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+.header-actions { display: flex; gap: 8px; align-items: center; }
+.clock {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-inline-end: 6px;
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 36px; padding: 0 14px;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 180ms ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-hover); }
+.btn:active { transform: translateY(0); box-shadow: var(--shadow); }
+.btn.primary { background: var(--accent, #165dff); color: #fff; border-color: var(--accent, #165dff); }
+.btn.accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* --- Focus Visible --- */
+:focus-visible {
+  outline: 2px solid var(--accent, #165dff);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─── Pages ─── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── Stats ─── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.stat-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  border-radius: 2px;
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 2px;
+  position: relative;
+}
+.stat-tile::before {
+  content: "";
+  position: absolute; top: 6px; left: 8px; right: 8px; height: 2px;
+  background: linear-gradient(90deg, var(--accent, #165dff), var(--accent-warm, #d4a855));
+  opacity: 0.5;
+  border-radius: 1px;
+}
+.stat-key { font-size: 10.5px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; margin-top: 4px; }
+.stat-val { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--ink); margin-top: 2px; }
+
+/* ─── Section label ─── */
+.section-header {
+  display: flex; align-items: center; gap: 14px; margin: 28px 0 14px;
+}
+.section-header .num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-warm);
+  letter-spacing: 0.15em;
+  min-width: 22px;
+}
+.section-header h2 {
+  font-family: var(--font-heading);
+  font-size: 20px; font-weight: 700; letter-spacing: 0.02em;
+}
+.section-header::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+/* ─── Case grid ─── */
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 16px;
+}
+.note-card {
+  background: var(--surface);
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transform: rotate(-0.4deg);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  position: relative;
+  min-height: 180px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.note-card::after {
+  content: "";
+  position: absolute; top: -9px; left: 50%; transform: translateX(-50%) rotate(-2deg);
+  width: 36px; height: 14px;
+  background: var(--tape);
+  border: 1px solid rgba(120,100,70,0.3);
+  border-radius: 1px;
+}
+.note-card:nth-child(even) { transform: rotate(0.5deg); }
+.note-card:nth-child(3n) { transform: rotate(-0.6deg); }
+.note-card:hover { transform: rotate(0deg) translateY(-5px); box-shadow: var(--shadow-hover); }
+.note-card.level-hot { border-left: 3px solid var(--accent); }
+.note-card.level-closed { opacity: 0.65; }
+.card-id {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+.card-excerpt {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.card-footer {
+  display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 8px;
+}
+.card-meta { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.06em; }
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: rgba(200,74,62,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(200,74,62,0.2);
+}
+.badge.ok { background: rgba(90,122,106,0.1); color: #4e6e5c; border-color: rgba(90,122,106,0.2); }
+[data-theme="dark"] .badge.ok { color: #7ead94; }
+
+/* ─── Evidence board (detail page) ─── */
+.board-grid {
+  position: relative;
+  padding: 8px;
+  margin: 16px 0 28px;
+  background: var(--board);
+  min-height: 320px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.board-grid::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 20px, var(--board-grain) 20px, var(--board-grain) 22px);
+  pointer-events: none;
+  z-index: 0;
+}
+.board-grid > * { position: relative; z-index: 1; }
+.photo-tile {
+  width: 78px; height: 98px;
+  background: #fffef6;
+  border: 6px solid #fbf7ec;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+  transform: rotate(-6deg);
+  margin: 22px;
+  padding: 4px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--muted);
+  font-size: 10.5px;
+  text-align: center;
+}
+.photo-tile { opacity: 0.9; }
+.clue-tile {
+  background: #fbf5d4;
+  transform: rotate(3deg);
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+  font-family: var(--font-heading);
+  font-size: 15px;
+  margin: 16px 10px;
+  display: inline-block;
+  min-width: 140px;
+  border-top: 3px solid var(--accent-warm);
+  cursor: pointer;
+  transition: transform 150ms ease;
+}
+.clue-tile:hover { transform: rotate(0deg) scale(1.04); }
+.clue-tile.dim { filter: grayscale(0.9) saturate(0.3); opacity: 0.7; }
+.suspect-tile {
+  background: var(--surface);
+  width: 140px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: inline-block;
+  text-align: center;
+  margin: 16px 10px;
+  transform: rotate(2deg);
+  cursor: pointer;
+}
+.suspect-tile:hover { box-shadow: var(--shadow-hover); }
+.suspect-name { font-family: var(--font-heading); font-size: 15px; font-weight: 700; }
+.suspect-attr { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.08em; margin-top: 6px; }
+.thread {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+.thread svg { width: 100%; height: 100%; }
+
+/* ─── Notebook ─── */
+.notebook {
+  background: var(--surface);
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  box-shadow: var(--shadow);
+  font-family: var(--font-heading);
+  position: relative;
+}
+.notebook::before {
+  content: "";
+  position: absolute; top: 0; left: 56px; bottom: 0; width: 1px;
+  background: rgba(200,160,140,0.25);
+  box-shadow: 22px 0 0 rgba(200,160,140,0.25);
+}
+.notebook textarea {
+  width: 100%;
+  min-height: 120px;
+  background: transparent;
+  border: 1px dashed var(--border);
+  font-family: "Caveat", "Noto Serif SC", cursive;
+  font-size: 18px;
+  padding: 10px 12px 10px 70px;
+  resize: vertical;
+  color: var(--ink);
+}
+.notebook .note-list { display: flex; flex-direction: column; gap: 10px; }
+.notebook .note-item {
+  position: relative;
+  padding: 10px 14px 10px 70px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.notebook .note-time {
+  position: absolute; top: 10px; left: 12px;
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted);
+}
+
+/* ─── Modal ─── */
+.modal-mask {
+  position: fixed; inset: 0; z-index: 600;
+  background: rgba(30,25,18,0.55);
+  display: none; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-mask.active { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(30,25,18,0.43);
+  max-width: 720px; width: 100%;
+  max-height: 86dvh; overflow-y: auto;
+  padding: 22px 24px;
+  border-radius: 2px;
+}
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.modal-title { font-family: var(--font-heading); font-size: 18px; font-weight: 700; }
+.mt-10 { margin-top: 10px; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+.gap-8 { gap: 8px; }
+/* ─── Print ─── */
+.icon-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 18px; color: var(--muted); line-height: 1;
+  padding: 8px 12px; border-radius: var(--radius);
+  min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.icon-btn:hover { background: var(--border); color: var(--ink); }
+@media print {
+  .btn, .header-actions, .thread, .modal-mask, .evidence-detail, footer, .evidence-upload { display: none !important; }
+  body { background: #fff; color: #000; }
+  .page { position: static; overflow: visible; display: block !important; }
+  .page:not(.active) { display: none !important; }
+  .board { padding: 0; }
+}
+
+[data-theme="light"] {
+  --bg: #f5f6f7;
+  --surface: #ffffff;
+  --surface2: #f0f1f2;
+  --border: rgba(0,0,0,0.08);
+  --board: #eef0f2;
+  --board-grain: rgba(0,0,0,0.04);
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .board { padding: 72px 16px 40px; }
+  header { padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+  .header-actions { flex-wrap: wrap; }
+  .case-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .section-header h2 { font-size: 17px; }
+  .brand h1 { font-size: 15px; }
+  .brand small { display: none; }
+  .clock { display: none; }
+  .deduction-grid { grid-template-columns: 1fr 1fr !important; }
+  .ded-col { grid-column: span 1 !important; }
+}
+@media (max-width: 480px) {
+  .board { padding: 64px 12px 32px; }
+  .stats { grid-template-columns: 1fr; }
+  .login-card { padding: 28px 20px; }
+  .section-header { margin: 20px 0 10px; }
+  .deduction-grid { grid-template-columns: 1fr !important; }
+}
+
+.login-sub-cn { margin-top: -14px; margin-bottom: 22px; opacity: 0.6; }
+.stamp-sm { width: 34px; height: 34px; font-size: 14px; }
+.nav-user-area { display: none; align-items: center; gap: 8px; margin-left: 4px; }
+.nav-user-info { font-size: 12px; color: var(--muted); }
+.btn-sm { font-size: 11px; height: 28px; padding: 0 10px; }
+.detail-summary { font-size: 14.5px; line-height: 1.7; padding-left: 70px; }
+.detail-badges { padding-left: 70px; margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.note-input-area { margin-top: 14px; padding-left: 70px; }
+.suspects-section { margin-bottom: 16px; }
+.notebook-container { max-width: 780px; margin: 0 auto; }
+.deduction-grid { display: grid; grid-template-columns: repeat(12,1fr); gap: 16px; }
+.ded-col { grid-column: span 3; }
+.section-header-flat { margin-top: 0; }
+.register-view { display: none; }
+
+/* --- Evidence Image --- */
+.evidence-detail {
+  display: none; position: fixed; inset: 0; z-index: 900;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
+}
+.evidence-detail.active { display: flex; }
+.evidence-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; max-width: 520px; width: 90%;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3); overflow: hidden;
+  animation: loginFadeIn 0.3s ease-out;
+}
+.evidence-card-head {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.evidence-card-head h3 {
+  font-family: var(--font-heading); font-size: 16px; font-weight: 700;
+}
+.evidence-card-body { padding: 20px; }
+.evidence-img-wrap {
+  width: 100%; max-height: 260px; overflow: hidden; border-radius: 6px;
+  margin-bottom: 16px; background: var(--bg); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+}
+.evidence-img-wrap img {
+  max-width: 100%; max-height: 260px; object-fit: contain;
+}
+.evidence-img-placeholder {
+  width: 100%; height: 160px; display: flex; align-items: center;
+  justify-content: center; color: var(--muted); font-size: 13px;
+  background: repeating-linear-gradient(45deg, transparent, transparent 10px, var(--border) 10px, var(--border) 11px);
+  border-radius: 6px; margin-bottom: 16px; cursor: pointer;
+}
+.evidence-img-placeholder:hover { border-color: var(--accent); }
+.evidence-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.evidence-note {
+  font-size: 13.5px; line-height: 1.7; color: var(--ink);
+  padding: 12px; background: var(--bg); border-radius: 6px;
+  border-left: 3px solid var(--accent, #165dff);
+}
+.evidence-upload {
+  margin-top: 12px; font-size: 12px; color: var(--muted);
+}
+.evidence-upload label {
+  cursor: pointer; color: var(--accent, #165dff); text-decoration: underline;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ PAGE: LOGIN ═══════════════════════════ -->
+<section class="login-page" id="page-login">
+  <div class="login-card">
+    <div class="login-emblem" aria-hidden="true">侦</div>
+    <h2>羽鹭市侦探事务所</h2>
+    <div class="login-sub login-sub-cn">案件档案系统</div>
+    <div class="login-sub">DETECTIVE ARCHIVES</div>
+
+    <div id="login-form-view">
+      <div class="login-field">
+        <label>用户名 / Username</label>
+        <input type="text" id="login-username" placeholder="请输入用户名" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-field">
+        <label>密码 / Password</label>
+        <input type="password" id="login-password" placeholder="请输入密码" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-actions">
+        <button class="btn primary" onclick="doLogin()">登 录</button>
+        <button class="btn" onclick="showRegister()">注 册</button>
+      </div>
+      <div class="login-error" id="login-error"></div>
+      <div class="login-hint">
+        演示账号：<strong>admin</strong> / <strong>admin</strong><br>
+        或注册新账号开始使用
+      </div>
+    </div>
+
+    <div id="register-form-view" class="register-view">
+      <div class="login-field">
+        <label>用户名 / Username</label>
+        <input type="text" id="reg-username" placeholder="3-20位字母数字">
+      </div>
+      <div class="login-field">
+        <label>显示名称 / Display Name</label>
+        <input type="text" id="reg-display" placeholder="您的姓名或代号">
+      </div>
+      <div class="login-field">
+        <label>密码 / Password</label>
+        <input type="password" id="reg-password" placeholder="至少6位">
+      </div>
+      <div class="login-field">
+        <label>确认密码 / Confirm</label>
+        <input type="password" id="reg-password2" placeholder="再次输入密码">
+      </div>
+      <div class="login-actions">
+        <button class="btn primary" onclick="doRegister()">注 册</button>
+        <button class="btn" onclick="showLogin()">返 回</button>
+      </div>
+      <div class="login-error" id="reg-error"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ PAGE: BOARD ═══════════════════════════ -->
+<section class="page active" id="page-board">
+  <header>
+    <div class="brand">
+      <div class="stamp">侦</div>
+      <div>
+        <h1>羽鹭市侦探事务所 · 案件档案</h1>
+        <small>#ARCH · 悬案档案 · 仅限事务所成员</small>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="clock" id="clock"></span>
+      <div id="nav-user-area" class="nav-user-area">
+        <span class="nav-user-info"><span id="nav-user-display"></span> · <span id="nav-user-role"></span></span>
+        <button class="btn btn-sm" onclick="doLogout()">退出</button>
+      </div>
+      <button class="btn" onclick="router.go('deduction')">推理板</button>
+      <button class="btn primary" onclick="router.go('notebook')">笔记本</button>
+      <button class="btn" id="tweak-btn">设置</button>
+    </div>
+  </header>
+
+  <main class="board">
+    <div class="stats" id="stats"></div>
+
+    <div class="section-header">
+      <span class="num">01</span>
+      <h2>未结案件卷 · Pending Cases</h2>
+    </div>
+    <div class="case-grid" id="case-grid"></div>
+  </main>
+</section>
+
+<!-- ═══════════════════════════ PAGE: CASE DETAIL ═══════════════════════════ -->
+<section class="page" id="page-detail">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()" aria-label="返回">← 返回</button>
+      <div class="stamp stamp-sm">羽</div>
+      <div>
+        <h1 id="detail-title">案件详情</h1>
+        <small id="detail-id">NO.</small>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="window.print()">打印</button>
+      <button class="btn primary" onclick="router.go('deduction')">进入推理</button>
+    </div>
+  </header>
+
+  <main class="board">
+    <div class="notebook" style="margin-bottom:18px;">
+      <div id="detail-summary" class="detail-summary"></div>
+      <div id="detail-badges" class="detail-badges"></div>
+    </div>
+
+    <div class="section-header">
+      <span class="num">02</span>
+      <h2>证物看板 · Evidence Board</h2>
+    </div>
+    <div class="board-grid" id="evidence-board"></div>
+
+    <div class="section-header">
+      <span class="num">03</span>
+      <h2>涉案人员 · Persons</h2>
+    </div>
+    <div id="suspects" class="suspects-section"></div>
+
+    <div class="section-header">
+      <span class="num">04</span>
+      <h2>线索索引 · Clues</h2>
+    </div>
+    <div id="clues"></div>
+
+    <div class="section-header">
+      <span class="num">05</span>
+      <h2>办案手记 · Notes</h2>
+    </div>
+    <div class="notebook">
+      <div class="note-list" id="note-list" style="margin-top:10px;"></div>
+      <div class="note-input-area">
+        <input id="note-input" placeholder="写点什么…" onkeydown="if(event.key==='Enter')saveNote()">
+        <div style="margin-top:8px;"><button class="btn primary" onclick="saveNote()">记录</button></div>
+      </div>
+    </div>
+  </main>
+</section>
+
+<!-- ═══════════════════════════ PAGE: DEDUCTION ═══════════════════════════ -->
+<section class="page" id="page-deduction">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div>
+        <h1>推理板 · Deduction Board</h1>
+        <small>Выберите 假设并把它们配对，然后提交核对</small>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="clearDeduction()">清空</button>
+      <button class="btn primary" onclick="submitDeduction()">核对推理</button>
+    </div>
+  </header>
+
+  <main class="board">
+    <p style="max-width:78ch;margin:0 auto 14px;font-size:14px;color:var(--muted);">从下方各列选取要素，点击即加入推理台。完成后核对你的判断。</p>
+    <div class="deduction-grid">
+      <div class="ded-col">
+        <div class="section-header section-header-flat"><span class="num">A</span><h2 style="font-size:16px;">嫌疑人</h2></div>
+        <div id="ded-suspects" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+      <div class="ded-col">
+        <div class="section-header section-header-flat"><span class="num">B</span><h2 style="font-size:16px;">动机</h2></div>
+        <div id="ded-motives" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+      <div class="ded-col">
+        <div class="section-header section-header-flat"><span class="num">C</span><h2 style="font-size:16px;">手法</h2></div>
+        <div id="ded-methods" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+      <div class="ded-col">
+        <div class="section-header section-header-flat"><span class="num">D</span><h2 style="font-size:16px;">证明</h2></div>
+        <div id="ded-evidence" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+    </div>
+
+    <div class="notebook mt-20" style="min-height:120px;">
+      <div class="section-header section-header-flat"><span class="num">?</span><h2 style="font-size:16px;">推理台 · Draft</h2></div>
+      <div id="ded-draft" style="padding-left:70px;font-size:15px;line-height:1.7;min-height:40px;"></div>
+    </div>
+  </main>
+</section>
+
+<!-- ═══════════════════════════ PAGE: NOTEBOOK ═══════════════════════════ -->
+<section class="page" id="page-notebook">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div>
+        <h1>侦探笔记本 · Notebook</h1>
+        <small>自由记录你的思路</small>
+      </div>
+    </div>
+  </header>
+
+  <main class="board">
+    <div class="notebook-container">
+      <div class="notebook">
+        <div class="note-list" id="global-note-list" style="margin-top:10px;"></div>
+        <div class="note-input-area">
+          <input id="global-note-input" placeholder="写点什么…" onkeydown="if(event.key==='Enter')saveGlobalNote()">
+          <div style="margin-top:8px;"><button class="btn primary" onclick="saveGlobalNote()">记录</button></div>
+        </div>
+      </div>
+      <div class="notebook mt-20">
+        <div class="section-header" style="margin-top:0;padding-left:70px;"><span class="num">+</span><h2 style="font-size:16px;">全案件备注</h2></div>
+        <div id="all-notes" style="padding-left:70px;font-size:13.5px;line-height:1.7;color:var(--muted);"></div>
+      </div>
+    </div>
+  </main>
+</section>
+
+<!-- ═══════════════════════════ MODAL: Deduction Result ═══════════════════════════ -->
+<div class="modal-mask" id="result-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title">核对结果</div>
+      <button class="icon-btn" aria-label="关闭" onclick="closeModal('result-modal')">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ MODAL: Clue detail ═══════════════════════════ -->
+<div class="modal-mask" id="clue-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="clue-title">
+    <div class="modal-head">
+      <div class="modal-title" id="clue-title">线索细节</div>
+      <button class="icon-btn" aria-label="关闭" onclick="closeModal('clue-modal')">✕</button>
+    </div>
+    <div id="clue-body"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   DATA — 未结案件档案
+   ══════════════════════════════════════════════════════ */
+const CASES = [
+  {
+    id: "XA-2024-001", title: "旧书店深夜无名火",
+    date: "2024-01-12", location: "中山路 47 号",
+    level: "紧急", solved: false,
+    summary: "凌晨 02:17，中山路'墨迹书局'二楼独立烟感触发报警。消防抵达时火已被喷淋控制，但现场发现 7 份烧毁文件夹残骸，仅余边缘'项目◇'字样。店内监控停电；门外路边监控画面因灯光反射而模糊。店主王某称当晚在三楼休息，听到警报后下楼查看。书店始建于 1998 年，近年因租金上涨曾与房东发生多次纠纷。二楼为店主私人档案室，非公开区域，存放近二十年的经营账本与私人通信。起火点位于档案室西侧铁皮柜附近，地面有少量汽油残留痕迹。",
+    evidence: [
+      { id: "e1", name: "烧毁文件夹残骸", location: "案发现场 二楼西侧", status: "已提取", note: "7 份文件夹仅余边缘碳化层，水浸泡保存，禁止干燥。碳化层下隐约可见手写批注痕迹，需红外光谱扫描还原。文件夹为 A4 规格，米黄色牛皮纸材质，两孔铁钉装订。边缘可见'项目◇'印刷字样，字体为仿宋 GB2312。" },
+      { id: "e2", name: "TYPE-B 撬棍痕迹", location: "一楼后门锁芯", status: "已提取", note: "锁芯内壁刮痕夹角约 14°，深度 0.3mm。痕检科比对确认为 TYPE-B 工业撬棍（型号 TB-180，全长 45cm，重量 1.2kg）。本地三家五金店有售，最近一笔销售为 2023 年 12 月 28 日现金购买，无实名登记。" },
+      { id: "e3", name: "烟感报警日志", location: "消防档案室", status: "已归档", note: "触发时间 02:17:43.002，信号持续 4 分 12 秒后喷淋系统自动启动。二楼东侧烟感在 02:18:01 也触发，表明火势由西向东蔓延。一楼烟感未触发，排除一楼起火可能。" },
+      { id: "e4", name: "纤维样本 A", location: "监控死角地面", status: "待化验", note: "深灰色合成纤维，长约 3cm，直径约 15 微米。经显微镜观察表面有轻微磨损痕迹，疑似冲锋衣或工装面料。附着于地面裂缝中，非店内常见材质。已送检 DNA，预计 5 个工作日出结果。" },
+      { id: "e5", name: "纤维样本 B", location: "后门门框", status: "待化验", note: "与样本 A 材质一致（深灰色合成纤维），附着于后门门框撬棍痕迹附近，高度约 95cm。推测嫌疑人在撬门时衣物剐蹭留下，两处纤维磨损程度相似，大概率来自同一件衣物。" },
+      { id: "e6", name: "汽油残留物", location: "二楼西侧地面", status: "已化验", note: "92 号汽油成分，残留量约 15ml。附近无储油容器，排除店内存放可能。已调取中山路周边 3 公里内加油站近 30 天销售记录。" }
+    ],
+    suspects: [
+      { id: "s1", name: "王某", attr: "店主 · 53 岁 · 称三楼休息 · 拥有二楼钥匙" },
+      { id: "s2", name: "赵某", attr: "收废品 · 47 岁 · 凌晨 01:50 驾三轮车经过 · 前科：2019 年盗窃" },
+      { id: "s3", name: "未知人员 A", attr: "监控模糊人影 · 身高约 175-180cm · 穿深色衣物 · 02:05 出现在后巷" },
+      { id: "s4", name: "房东刘某", attr: "62 岁 · 与王某有租金纠纷 · 2023 年 11 月曾威胁收回铺面" }
+    ],
+    motives: ["销毁租赁纠纷证据", "掩盖商业欺诈", "报复纵火", "保险诈骗", "竞争同行恶意破坏"],
+    methods: ["TYPE-B 撬棍破门", "提前切断监控电源", "少量汽油助燃", "利用凌晨时段作案", "纵火后从后巷逃离"],
+    clues: [
+      { id: "c1", title: "'项目◇'字样", body: "残存文字指示一份内部计划的文件名格式。与 2019 年市政工程招标文件中的内部编号格式一致，可能涉及城市基建项目的违规操作记录。", status: "已记录" },
+      { id: "c2", title: "14° 撬棍夹角", body: "TYPE-B 撬棍的典型特征角度。使用者需双手持棍、身高 175cm 以上才能产生此角度。与监控模糊人影身高范围吻合。", status: "已记录" },
+      { id: "c3", title: "监控灯光反射", body: "门外监控在 02:03-02:07 出现规律性光斑波动，反射源为柔性织物表面，与深色冲锋衣材质特征一致。", status: "待研判" },
+      { id: "c4", title: "三轮车轨迹", body: "赵某三轮车 GPS 记录显示 01:48 经过中山路，01:56 在路口停留 3 分钟，02:10 驶离。停留时段与起火时间高度重叠。", status: "待核实" },
+      { id: "c5", title: "租金纠纷记录", body: "2023 年 8 月至 12 月，房东刘某先后 5 次通过律师函要求王某迁出。第 5 封函件包含'后果自负'字样。", status: "已记录" }
+    ],
+    notes: [],
+    solution: { suspect: "s3", motive: "销毁租赁纠纷证据", method: "提前切断监控电源", evidence: "c1" }
+  },
+  {
+    id: "XA-2024-002", title: "东湖桥底溺亡案",
+    date: "2024-03-05", location: "东湖桥下施工围栏",
+    level: "重大", solved: false,
+    summary: "晨跑者于东湖桥底发现 38 岁李某遗体。死因溺亡；左手腕有一处圆形皮下瘀斑，宽约 1.2cm，疑似注射痕迹。围栏锁芯被小型液压剪破坏。死者为羽鹭市第二人民医院药剂师。其妻张某称死者 3 月 4 日晚 22:00 接到一通电话后出门失联。手机最后解锁时间 03:47，解锁地点与案发地相距仅 80 米。湖水温度 7°C，肺腔大量积水，胃内容物含未消化面条。死亡时间推定 03:00-04:30。",
+    evidence: [
+      { id: "e7", name: "遗体检验报告", location: "法医中心", status: "已归档", note: "肺腔积水含湖水藻类（绿藻门栅藻属），与东湖水样一致，死因确认溺亡。左手腕内侧圆形瘀斑直径 1.2cm，深 0.4cm，边缘整齐，符合注射器针口特征。血液检出微量苯二氮卓类药物（地西泮代谢物），浓度 0.3ng/ml，提示死前数小时内被注射。" },
+      { id: "e8", name: "液压剪痕迹", location: "围栏锁芯", status: "已提取", note: "剪口单一干净，为 24 寸工业液压剪所制（刃口宽度 12mm）。围栏锁芯直径 10mm 碳钢材质被一次剪断，表明工具锋利且使用者力量较大。本地五金店反映 2 月底有一男性现金购买此类液压剪。" },
+      { id: "e9", name: "死者手机", location: "证物室", status: "已封存", note: "最后解锁时间 03:47:22，解锁后打开地图 App 搜索'东湖桥'。22:05 与尾号 3387 号码通话 4 分 12 秒。手机壳内夹有一张纸条，写有'东湖桥下见'五字，笔迹鉴定中。" },
+      { id: "e10", name: "预付费 SIM 卡", location: "通讯运营商", status: "已查询", note: "尾号 3387 号码 2 月 15 日在东湖公园南门便利店购入激活，购卡人登记姓名'张伟'经核查为伪造。该号码仅与死者通话一次后于 3 月 5 日 08:00 停机。便利店监控已调取。" },
+      { id: "e11", name: "车辙印痕", location: "围栏外土路", status: "已拓印", note: "围栏外土路上一组新鲜轮胎印，轮距 1.52m，胎面花纹为米其林浩悦 4 系列（205/55R16），符合中型轿车。印痕深度显示车辆曾短暂停车约 3-5 分钟后驶离。土路上还发现一枚利群牌烟蒂，已送检 DNA。" },
+      { id: "e12", name: "湖区监控", location: "水电局", status: "已调取", note: "3 月 5 日 02:00-04:00 湖区无异常水位变化。桥底监控因施工断电。" }
+    ],
+    suspects: [
+      { id: "s5", name: "陈某", attr: "前同事 · 35 岁 · 23:22 与死者通话 · 2023 年因医疗纠纷被辞退" },
+      { id: "s6", name: "张某", attr: "死者妻子 · 34 岁 · 称丈夫出门后未再联系" },
+      { id: "s7", name: "未知号码机主", attr: "尾号 3387 · 预付费卡 · 2 月 15 日购入 · 基站位于东湖公园" }
+    ],
+    motives: ["医疗纠纷报复", "债务纠纷", "灭口", "情感纠葛"],
+    methods: ["苯二氮卓类药物注射迷晕后推入湖中", "诱骗至偏僻地点后作案", "利用预付费号码隐匿身份", "液压剪破坏围栏制造进入通道"],
+    clues: [
+      { id: "c6", title: "腕部注射痕迹", body: "苯二氮卓类药物在医疗环境中常见。注射角度显示为左手持针，提示嫌疑人可能为左利手。", status: "待化验" },
+      { id: "c7", title: "手机解锁 03:47", body: "死者习惯 23:00 前就寝，03:47 解锁属异常。解锁后立即搜索'东湖桥'，暗示被诱骗前往。", status: "已记录" },
+      { id: "c8", title: "预付费号码", body: "一次性预付费卡，购买后仅与死者通话一次即停机。2 月 15 日 14:22 一名戴口罩男性现金购买。", status: "待比对" },
+      { id: "c9", title: "陈某前科", body: "陈某 2023 年因用药失误被辞退，李某为当班药剂师出具了关键证词。陈某曾扬言'让李某付出代价'。", status: "已记录" }
+    ],
+    notes: [],
+    solution: { suspect: "s5", motive: "医疗纠纷报复", method: "苯二氮卓类药物注射迷晕后推入湖中", evidence: "c6" }
+  },
+  {
+    id: "XA-2024-003", title: "北山变电站信号丢失",
+    date: "2024-06-18", location: "北山 110kV 变电站",
+    level: "一般", solved: false,
+    summary: "6 月 17 日 21:00 起，三组 SCADA 信号同步丢失半小时后恢复。系统无跳闸。02:00~02:41 网络日志帧被删除。现场值守三人称均在休息。变电站服役 16 年，近年多次信号波动。本次发生在迎峰度夏保电期间，若上报将触发安全考核扣分。值班班长周某在事件后 6 小时才汇报，且汇报内容与原始日志存在出入。",
+    evidence: [
+      { id: "e13", name: "交换机日志", location: "机房核心交换机", status: "已提取", note: "02:00~02:41 共 472 条日志帧被批量删除。删除操作使用 SSH 协议（端口 22），源 IP 为站内运维终端 192.168.1.15。删除命令为 rm -f /var/log/scada/*.log.02*，属于有针对性的精确删除。" },
+      { id: "e14", name: "门禁刷卡记录", location: "门卫室系统", status: "已提取", note: "18:00 至次日 06:00 仅值班人员周某、运维 A、运维 B 三人刷卡，无外来人员。" },
+      { id: "e15", name: "运维终端登录日志", location: "运维终端", status: "已提取", note: "01:55:12 用户 'ops_b' 通过 SSH 密钥认证登录运维终端（192.168.1.15），02:42:38 主动登出。该账户归属运维 B 孙某，密钥文件存储于孙某个人 U 盘。孙某称在机房检查设备，但机房门禁记录显示其 01:50 进入机房后未使用运维终端所在的监控室。" },
+      { id: "e16", name: "SCADA 历史趋势", location: "调度中心", status: "已调取", note: "信号丢失前数据正常，丢失期间无告警或跳闸，恢复后数据连续无断层。" },
+      { id: "e17", name: "值班室监控", location: "走廊摄像头", status: "已提取", note: "01:50 运维 B 离开值班室前往机房，02:45 返回。周某始终在值班室。" }
+    ],
+    suspects: [
+      { id: "s8", name: "运维 A 林某", attr: "29 岁 · 有远程权限 · 当日休息不在站内" },
+      { id: "s9", name: "运维 B 孙某", attr: "34 岁 · 当日值班 · 01:55 登录运维终端 · 02:42 登出" },
+      { id: "s10", name: "值班班长 周某", attr: "45 岁 · 值班负责人 · 事件后 6 小时才汇报" }
+    ],
+    motives: ["掩盖设备故障以通过安全考核", "数据窃取", "误操作后销毁证据", "内部报复"],
+    methods: ["SSH 远程登录删除日志", "利用值班时段无人监督", "批量删除特定时间段日志帧", "延迟汇报以模糊时间线"],
+    clues: [
+      { id: "c10", title: "删除时间精确", body: "02:00~02:41 的日志被精确删除，前后时间段完好。暗示操作者事先规划了删除范围。", status: "已记录" },
+      { id: "c11", title: "ops_b 账户登录", body: "运维终端日志明确显示 ops_b 账户活动时段与日志删除时段完全重叠。孙某称在机房检查设备但无法解释为何登录终端。", status: "已记录" },
+      { id: "c12", title: "周某延迟汇报", body: "事件发生于 02:00，周某 08:12 才汇报，且称'信号短暂中断后自动恢复'，隐瞒日志被删除。", status: "待核实" },
+      { id: "c13", title: "迎峰度夏保电期", body: "6 月为迎峰度夏关键期，安全考核严格。上报故障将影响整个班组季度绩效。", status: "已记录" }
+    ],
+    notes: [],
+    solution: { suspect: "s9", motive: "掩盖设备故障以通过安全考核", method: "SSH 远程登录删除日志", evidence: "c10" }
+  },
+  {
+    id: "XA-2024-004", title: "漕河渡口货物失窃案",
+    date: "2024-07-22", location: "漕河 3 号码头",
+    level: "一般", solved: false,
+    summary: "7 月 21 日 22:30 卸货完毕，3 桶工业原料（每桶 200kg，市值约 12 万元）存放于码头临时堆场。次日 05:40 发现失踪。监控在 00:18 切换备用电源时画面抖动 4 分钟；锁梁无锯口但有钝器击打痕迹。码头日均吞吐量约 500 吨。近期管理层与物流公司在运费结算上存在争议。堆场夜间仅一名值班员看守，照明因台风后未完全修复。",
+    evidence: [
+      { id: "e18", name: "锁梁微痕照片", location: "堆场围栏", status: "已存档", note: "锁梁表面两处钝器击打痕迹，间距约 2cm，深度 0.5mm。打击物为圆弧面钝器（推测 2 磅铁锤或撬棍头部），打击角度约 75°，两次方向一致表明操作者站位固定。锁梁不锈钢材质（直径 12mm）未被完全破坏，但变形足以使锁扣脱开。" },
+      { id: "e19", name: "监控抖动片段", location: "码头监控室", status: "已提取", note: "00:18:22 画面抖动，00:22:45 恢复。抖动期间可见一辆中型货车轮廓驶入。" },
+      { id: "e20", name: "值班员巡逻记录", location: "码头管理处", status: "已提取", note: "签到表显示 00:00 和 03:00 各巡逻一次，中间 3 小时无巡逻。" },
+      { id: "e21", name: "货运单据", location: "物流公司档案", status: "已调取", note: "3 桶原料由恒通物流承运，收货方华兴化工。恒通 7 月 18 日发函称运费未结清。" },
+      { id: "e22", name: "货车轮胎印", location: "堆场入口土路", status: "已拓印", note: "两组轮胎印，轮距 1.65m 和 1.48m，其中 1.65m 与监控中货车匹配。" }
+    ],
+    suspects: [
+      { id: "s11", name: "值班员吴某", attr: "52 岁 · 夜间唯一值守 · 巡逻间隔 3 小时 · 有码头钥匙" },
+      { id: "s12", name: "恒通物流司机", attr: "身份待查 · 7 月 20 日曾在码头边缘出现 · 与码头有运费纠纷" },
+      { id: "s13", name: "码头管理员郑某", attr: "38 岁 · 负责堆场管理 · 知悉货物位置 · 与恒通物流有私下借贷" }
+    ],
+    motives: ["运费纠纷报复", "内外勾结销赃", "监守自盗", "债务抵扣"],
+    methods: ["钝器敲击锁梁开锁", "利用监控切换电源的 4 分钟窗口", "中型货车转运", "夜间巡逻间隔作案"],
+    clues: [
+      { id: "c14", title: "监控抖动与货车", body: "00:18 监控切换备用电源时画面抖动，仍可辨识一辆中型货车驶入。与值班员 00:00 巡逻后的空白时段吻合。", status: "待比对" },
+      { id: "c15", title: "运费纠纷", body: "恒通物流 7 月 18 日函件称'若运费未结清将采取必要措施'。管理员郑某与恒通负责人有私下借贷约 8 万元。", status: "已记录" },
+      { id: "c16", title: "巡逻间隔过长", body: "值班员吴某巡逻间隔 3 小时，远超码头安全规定的 1 小时标准。吴某解释称台风后照明不便。", status: "待核实" }
+    ],
+    notes: [],
+    solution: { suspect: "s11", motive: "内外勾结销赃", method: "钝器敲击锁梁开锁", evidence: "c14" }
+  }
+];
+
+/* ══════════════════════════════════════════════════════
+   STATE
+   ══════════════════════════════════════════════════════ */
+let currentCase = null;
+let draft = { suspect: null, motive: null, method: null, evidence: null };
+let _prevPage = null; /* previous page for back */
+
+/* ══════════════════════════════════════════════════════
+   ROUTER
+   ══════════════════════════════════════════════════════ */
+const router = {
+  pages: ['board', 'detail', 'deduction', 'notebook'],
+  go(page, params = {}) {
+    if (!params._back) {
+      const cur = document.querySelector('.page.active');
+      if (cur) { const curId = cur.id.replace('page-', ''); if (curId !== page) _prevPage = curId; }
+    }
+    this.pages.forEach(p => document.getElementById('page-' + p).classList.remove('active'));
+    const el = document.getElementById('page-' + page);
+    if (el) el.classList.add('active');
+    if (page === 'detail' && params.caseId) renderDetail(params.caseId);
+    if (page === 'deduction') renderDeduction();
+    if (page === 'notebook') renderNotebook();
+    window.scrollTo({ top: 0 });
+  },
+  back() {
+    const target = _prevPage || 'board';
+    this.go(target, { _back: true });
+  }
+};
+
+/* ══════════════════════════════════════════════════════
+   HELPERS
+   ══════════════════════════════════════════════════════ */
+function fmtDate(d) { return d ? new Date(d).toLocaleDateString('zh-CN') : '—'; }
+function now() { return new Date().toISOString(); }
+function levelBadge(l) {
+  const m = { '紧急': '', '重大': '', '一般': 'ok' };
+  return `<span class="badge ${m[l] || 'ok'}">${l}</span>`;
+}
+function statusBadge(solved) {
+  return solved ? '<span class="badge ok">已破</span>' : '<span class="badge">未结</span>';
+}
+
+let _modalTrigger = null;
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+  if (_modalTrigger) { _modalTrigger.focus(); _modalTrigger = null; }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    ['result-modal','clue-modal','evidence-detail'].forEach(function(id) {
+      if (document.getElementById(id).classList.contains('active')) closeModal(id);
+    });
+  }
+});
+var _trapController = null;
+function trapFocus(el) {
+  if (_trapController) _trapController.abort();
+  _trapController = new AbortController();
+  var focusable = el.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  if (!focusable.length) return;
+  var first = focusable[0], last = focusable[focusable.length - 1];
+  el.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab') return;
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }, { signal: _trapController.signal });
+}
+
+/* ══════════════════════════════════════════════════════
+   EVIDENCE DETAIL & IMAGE
+   ══════════════════════════════════════════════════════ */
+let _currentEvidence = null;
+function openEvidence(evidenceId) {
+  var c = currentCase || CASES[0];
+  var ev = c.evidence.find(function(x) { return x.id === evidenceId; });
+  if (!ev) return;
+  _currentEvidence = ev;
+  _modalTrigger = document.activeElement;
+  document.getElementById('ev-detail-title').textContent = ev.name;
+  document.getElementById('ev-detail-meta').innerHTML =
+    '<span class="badge">' + escapeHtml(ev.location) + '</span>' +
+    '<span class="badge">' + escapeHtml(ev.status) + '</span>';
+  document.getElementById('ev-detail-note').innerHTML =
+    '<strong>说明：</strong>' + escapeHtml(ev.note || '暂无详细说明');
+
+  // Image
+  var imgWrap = document.getElementById('ev-detail-img');
+  var savedImg = getEvidenceImg(ev.id);
+  if (savedImg && savedImg.indexOf('data:image/') === 0) {
+    imgWrap.innerHTML = '<div class="evidence-img-wrap"><img src="' + savedImg + '" alt="' + escapeHtml(ev.name) + '"></div>';
+  } else {
+    imgWrap.innerHTML = '<div class="evidence-img-placeholder" onclick="document.getElementById(\'ev-img-input\').click()">点击或拖拽添加证物图片</div>';
+  }
+
+  document.getElementById('evidence-detail').classList.add('active');
+  trapFocus(document.getElementById('evidence-detail'));
+}
+function getEvidenceImg(evId) {
+  try { return localStorage.getItem('pa_evimg_' + evId) || null; } catch(e) { return null; }
+}
+function setEvidenceImg(evId, dataUrl) {
+  try { localStorage.setItem('pa_evimg_' + evId, dataUrl); return true; } catch(e) { return false; }
+}
+function uploadEvidenceImg(input) {
+  if (!input.files || !input.files[0] || !_currentEvidence) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    // Compress: resize to max 600px width
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var maxW = 600, maxH = 800;
+      var w = img.width, h = img.height;
+      if (w > maxW) { h = h * maxW / w; w = maxW; }
+      if (h > maxH) { w = w * maxH / h; h = maxH; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      if (setEvidenceImg(_currentEvidence.id, dataUrl)) {
+        openEvidence(_currentEvidence.id);
+      } else {
+        alert('存储空间不足，请清除其他证物图片后重试');
+      } // refresh
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(input.files[0]);
+  input.value = '';
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>'"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;', "'":'&#39;','"':'&quot;' }[c])); }
+
+/* ══════════════════════════════════════════════════════
+   AUTH / ACCOUNTS
+   ══════════════════════════════════════════════════════ */
+const Auth = {
+  getUsers() { try { return JSON.parse(localStorage.getItem('pa_users') || '{}'); } catch(e){ return {}; } },
+  saveUsers(users) { localStorage.setItem('pa_users', JSON.stringify(users)); },
+  getSession() { try { return JSON.parse(localStorage.getItem('pa_session') || 'null'); } catch(e){ return null; } },
+  setSession(username) {
+    localStorage.setItem('pa_session', JSON.stringify({ username, loginTime: new Date().toISOString() }));
+  },
+  clearSession() { localStorage.removeItem('pa_session'); },
+  register(username, displayName, password) {
+    const users = this.getUsers();
+    if (users[username]) return { ok: false, msg: '用户名已存在' };
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) return { ok: false, msg: '用户名需3-20位字母数字' };
+    if (!password || password.length < 6) return { ok: false, msg: '密码至少6位' };
+    users[username] = { username, displayName: displayName || username, password, role: 'user', createdAt: new Date().toISOString() };
+    this.saveUsers(users);
+    return { ok: true };
+  },
+  login(username, password) {
+    const users = this.getUsers();
+    const u = users[username];
+    if (!u || u.password !== password) return { ok: false, msg: '用户名或密码错误' };
+    this.setSession(username);
+    return { ok: true, user: u };
+  },
+  logout() { this.clearSession(); location.reload(); },
+  initDemo() {
+    const users = this.getUsers();
+    if (!users['admin']) {
+      users['admin'] = { username: 'admin', displayName: '系统管理员', password: 'admin', role: 'admin', createdAt: new Date().toISOString() };
+      this.saveUsers(users);
+    }
+  }
+};
+
+function showLogin() {
+  document.getElementById('login-form-view').style.display = 'block';
+  document.getElementById('register-form-view').style.display = 'none';
+  document.getElementById('login-error').style.display = 'none';
+}
+function showRegister() {
+  document.getElementById('login-form-view').style.display = 'none';
+  document.getElementById('register-form-view').style.display = 'block';
+  document.getElementById('reg-error').style.display = 'none';
+}
+function showLoginError(msg) {
+  const el = document.getElementById('login-error');
+  el.textContent = msg; el.style.display = 'block';
+}
+function showRegError(msg) {
+  const el = document.getElementById('reg-error');
+  el.textContent = msg; el.style.display = 'block';
+}
+function doLogin() {
+  try {
+    const u = document.getElementById('login-username').value.trim();
+    const p = document.getElementById('login-password').value;
+    if (!u || !p) { showLoginError('请填写用户名和密码'); return; }
+    const res = Auth.login(u, p);
+    if (!res.ok) { showLoginError(res.msg); return; }
+    onLoginSuccess(res.user);
+  } catch(err) {
+    showLoginError('登录失败: ' + err.message);
+  }
+}
+function doRegister() {
+  const u = document.getElementById('reg-username').value.trim();
+  const d = document.getElementById('reg-display').value.trim();
+  const p = document.getElementById('reg-password').value;
+  const p2 = document.getElementById('reg-password2').value;
+  if (!u || !p) { showRegError('请填写完整信息'); return; }
+  if (p !== p2) { showRegError('两次密码不一致'); return; }
+  const res = Auth.register(u, d, p);
+  if (!res.ok) { showRegError(res.msg); return; }
+  onLoginSuccess(Auth.getUsers()[u]);
+}
+function doLogout() { Auth.logout(); }
+function onLoginSuccess(user) {
+  document.getElementById('page-login').style.display = 'none';
+  router.go('board');
+  document.getElementById('nav-user-display').textContent = user.displayName || user.username;
+  document.getElementById('nav-user-role').textContent = user.role === 'admin' ? '管理员' : '办案人员';
+  document.getElementById('nav-user-area').style.display = 'flex';
+  loadPersisted();
+  renderBoard();
+}
+
+/* ══════════════════════════════════════════════════════
+   PERSISTENCE
+   ══════════════════════════════════════════════════════ */
+function loadPersisted() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('pa_notes_' + (Auth.getSession() || {}).username) || '{}');
+    CASES.forEach(c => { if (!c.notes) c.notes = []; if (saved[c.id]) c.notes = saved[c.id]; });
+  } catch(e){}
+}
+function persist() {
+  const map = {}; CASES.forEach(c => map[c.id] = c.notes); localStorage.setItem('pa_notes_' + (Auth.getSession() || {}).username, JSON.stringify(map || {})); }
+/* ══════════════════════════════════════════════════════
+   RENDER: BOARD
+   ══════════════════════════════════════════════════════ */
+function renderBoard() {
+  if (!Auth.getSession()) return;
+  const active = CASES.filter(c => !c.solved).length;
+  const solved = CASES.filter(c => c.solved).length;
+  const notes  = CASES.reduce((s, c) => s + (c.notes?.length||0), 0);
+  const clues  = CASES.reduce((s, c) => s + (c.clues?.length||0), 0);
+
+  document.getElementById('stats').innerHTML = [
+    { key: '案件总数', val: CASES.length },
+    { key: '未结案件', val: active },
+    { key: '已破案件', val: solved },
+    { key: '线索索引', val: clues },
+    { key: '办案手记', val: notes },
+  ].map(s => `<div class="stat-tile"><div class="stat-val">${s.val}</div><div class="stat-key">${s.key}</div></div>`).join('');
+
+  if (!CASES.length) { document.getElementById('case-grid').innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);">暂无案件卷宗</div>'; return; }
+  document.getElementById('case-grid').innerHTML = CASES.map((c, i) => `
+    <div class="note-card ${c.solved ? 'level-closed' : 'level-hot'}" role="button" tabindex="0" onclick="router.go('detail',{caseId: CASES[${i}].id})" onkeydown="if(event.key==='Enter')router.go('detail',{caseId: CASES[${i}].id})">
+      <div>
+        <div class="card-id">${c.id}</div>
+        <div class="card-title">${escapeHtml(c.title)}</div>
+        <div class="card-excerpt">${escapeHtml(c.summary)}</div>
+      </div>
+      <div class="card-footer">
+        <div class="card-meta">${fmtDate(c.date)} · ${escapeHtml(c.location)}</div>
+        ${levelBadge(c.level)} ${statusBadge(c.solved)}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER: DETAIL
+   ══════════════════════════════════════════════════════ */
+function renderDetail(caseId) {
+  const c = CASES.find(x => x.id === caseId);
+  if (!c) return router.back();
+  currentCase = c;
+  document.getElementById('detail-id').textContent = c.id;
+  document.getElementById('detail-title').textContent = c.title;
+  document.getElementById('detail-summary').innerHTML = `<strong style="font-family:var(--font-heading);font-size:16px;">概要</strong><br>${escapeHtml(c.summary)}`;
+  document.getElementById('detail-badges').innerHTML = `${levelBadge(c.level)} ${statusBadge(c.solved)} <span class="badge">${escapeHtml(c.location)}</span> <span class="badge">${fmtDate(c.date)}</span>`;
+
+  /* Evidence board with thread picture */
+  const board = document.getElementById('evidence-board');
+  board.innerHTML = `<svg class='thread' viewBox='0 0 600 360' preserveAspectRatio='none'><path d='M 40 180 Q 180 40 360 200 T 600 180' stroke='rgba(200,60,40,0.45)' stroke-width='1.5' fill='none' stroke-dasharray='6 4'/></svg>` +
+    c.evidence.map(e => `<div class="photo-tile" title="${escapeHtml(e.note)}" role="button" tabindex="0" onclick="openEvidence('${e.id}')" onkeydown="if(event.key==='Enter')openEvidence('${e.id}')">${escapeHtml(e.name)}<br><small>${escapeHtml(e.status)}</small></div>`).join('') +
+    c.clues.map(cl => `<div class="clue-tile" role="button" tabindex="0" onclick="openClue('${cl.id}')" id="clue-${cl.id}" onkeydown="if(event.key==='Enter')openClue('${cl.id}')">${escapeHtml(cl.title)}</div>`).join('');
+
+  /* suspects */
+  document.getElementById('suspects').innerHTML = `<div style="display:flex;gap:12px;flex-wrap:wrap;">` +
+    c.suspects.map(s => `<div class="suspect-tile"><div class="suspect-name">${escapeHtml(s.name)}</div><div class="suspect-attr">${escapeHtml(s.attr)}</div></div>`).join('') + `</div>`;
+
+  /* clues */
+  document.getElementById('clues').innerHTML = c.clues.map(cl => `
+    <div class="clue-tile" style="background:#fffef6;" onclick="openClue('${cl.id}')">${escapeHtml(cl.title)}</div>
+  `).join('');
+
+  renderNotes(c);
+}
+
+function openClue(clueId) {
+  const c = currentCase || CASES[0];
+  const cl = c.clues.find(x => x.id === clueId);
+  if (!cl) return;
+  document.getElementById('clue-title').textContent = cl.title;
+  document.getElementById('clue-body').innerHTML = `<p style="font-size:14px;line-height:1.7;">${escapeHtml(cl.body || '暂无正文')}</p><div style="margin-top:10px;"><span class="badge">${escapeHtml(cl.status)}</span></div>`;
+  _modalTrigger = document.activeElement; document.getElementById('clue-modal').classList.add('active'); trapFocus(document.getElementById('clue-modal'));
+}
+
+function renderNotes(c) {
+  const el = document.getElementById('note-list');
+  if (!c.notes || !c.notes.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;">本案暂无笔记</div>'; return; }
+  el.innerHTML = c.notes.map(n => `<div class="note-item"><div class="note-time">${escapeHtml(n.time)}</div>${escapeHtml(n.text)}</div>`).join('');
+}
+function saveNote() {
+  if (!currentCase) return;
+  const inp = document.getElementById('note-input');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  currentCase.notes = currentCase.notes || [];
+  currentCase.notes.push({ time: now(), text: txt });
+  inp.value = '';
+  persist(); renderNotes(currentCase); renderBoard();
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER: DEDUCTION
+   ══════════════════════════════════════════════════════ */
+function renderDeduction() {
+  if (!currentCase && (!CASES || !CASES.length)) return;
+  draft = { suspect: null, motive: null, method: null, evidence: null };
+  renderDeductionInputs();
+  renderDeductionDraft();
+}
+function renderDeductionInputs() {
+  const c = currentCase || CASES[0];
+  if (!c) return;
+  const col = (id, items, key) => {
+    document.getElementById(id).innerHTML = items.map(it => `
+      <div class="btn" style="justify-content:flex-start;text-align:left;padding:10px 12px;height:auto;white-space:normal;" data-key="${key}" data-val="${escapeHtml(it)}" onclick="pickDeduction(this.dataset.key,this.dataset.val)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')pickDeduction(this.dataset.key,this.dataset.val)">${escapeHtml(it)}</div>
+    `).join('');
+  };
+  col('ded-suspects', c.suspects.map(s => s.name), 'suspect');
+  col('ded-motives', c.motives, 'motive');
+  col('ded-methods', c.methods, 'method');
+  col('ded-evidence', c.clues.map(cl => cl.title), 'evidence');
+}
+function pickDeduction(key, value) {
+  draft[key] = value;
+  renderDeductionDraft();
+}
+function renderDeductionDraft() {
+  const dict = { suspect: '嫌疑人', motive: '动机', method: '手法', evidence: '证明' };
+  const labels = Object.keys(dict).map(k => draft[k] ? `<div><span style="color:var(--muted);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;">${dict[k]}</span><div style="font-family:var(--font-heading);font-size:16px;margin-top:2px;">${escapeHtml(draft[k])}</div></div>` : `<div><span style="color:var(--muted);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;">${dict[k]}</span><div style="font-family:var(--font-heading);font-size:16px;color:var(--muted);">未选</div></div>`).join('');
+  document.getElementById('ded-draft').innerHTML = labels || '<div style="color:var(--muted);">请从左侧选择要素。</div>';
+}
+function clearDeduction() { draft = { suspect: null, motive: null, method: null, evidence: null }; renderDeductionInputs(); renderDeductionDraft(); }
+function submitDeduction() {
+  const c = currentCase || CASES[0];
+  const ok = draft.suspect && draft.motive && draft.method && draft.evidence;
+  if (!ok) {
+    document.getElementById('modal-title').textContent = '提示';
+    document.getElementById('modal-body').innerHTML = '<div style="font-size:15px;line-height:1.7;">请先选择四个要素再进行核对。</div>';
+    _modalTrigger = document.activeElement; document.getElementById('result-modal').classList.add('active'); trapFocus(document.getElementById('result-modal')); return;
+  }
+  const s = c.solution;
+  const okSuspect = draft.suspect === c.suspects.find(x => x.id === s.suspect)?.name;
+  const okMotive = draft.motive === s.motive;
+  const okMethod = draft.method === s.method;
+  const okEvidence = c.clues.find(x => x.title === draft.evidence)?.id === s.evidence;
+  const points = [okSuspect, okMotive, okMethod, okEvidence].filter(Boolean).length;
+  const msg = points === 4
+    ? `\n全对。推理贴合档案记录，已解锁案卷附录。`
+    : `\n核对：${points}/4 正确。\n\n嫌疑人：${okSuspect?'[对]':'[错]'} 动机：${okMotive?'[对]':'[错]'} 手法：${okMethod?'[对]':'[错]'} 证明: ${okEvidence?'[对]':'[错]'}`;
+  document.getElementById('modal-title').textContent = '核对结果 — ' + c.id;
+  document.getElementById('modal-body').innerHTML = `<div style="font-family:var(--font-heading);font-size:16px;line-height:1.7;white-space:pre-wrap;">${escapeHtml(msg)}</div>`;
+  _modalTrigger = document.activeElement; document.getElementById('result-modal').classList.add('active'); trapFocus(document.getElementById('result-modal'));
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER: NOTEBOOK
+   ══════════════════════════════════════════════════════ */
+function renderNotebook() {
+  const list = document.getElementById('global-note-list');
+  /* merge cases notes */
+  let rows = [];
+  CASES.forEach(c => (c.notes||[]).forEach(n => rows.push({ caseId: c.id, caseTitle: c.title, time: n.time, text: n.text })));
+  rows.sort((a, b) => new Date(b.time) - new Date(a.time));
+  if (!rows.length) { list.innerHTML = '<div style="color:var(--muted);">暂无记录</div>'; document.getElementById('all-notes').innerHTML = ''; return; }
+  list.innerHTML = rows.slice(0, 12).map(r => `<div class="note-item"><div class="note-time">[${escapeHtml(r.caseId)}] ${escapeHtml(r.time)}</div>${escapeHtml(r.text)}<div style="font-size:11px;color:var(--muted);margin-top:4px;">← ${escapeHtml(r.caseTitle)}</div></div>`).join('');
+  document.getElementById('all-notes').innerHTML = rows.length + ' 条记录 · 自动同步自各案件卷。';
+}
+function saveGlobalNote() {
+  const inp = document.getElementById('global-note-input');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  /* store as a note under the active case or the first case */
+  const c = currentCase || CASES[0];
+  c.notes = c.notes || [];
+  c.notes.push({ time: now(), text: '[通用] ' + txt });
+  inp.value = ''; persist(); renderNotebook();
+}
+
+/* ══════════════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════════════ */
+Auth.initDemo();
+const _session = Auth.getSession();
+if (_session) {
+  onLoginSuccess(Auth.getUsers()[_session.username] || { username: _session.username, displayName: _session.username, role: 'user' });
+} else {
+  document.getElementById("page-login").style.display = "flex";
+  document.getElementById("page-board").classList.remove("active");
+  document.getElementById("page-detail").classList.remove("active");
+  document.getElementById("page-deduction").classList.remove("active");
+  document.getElementById("page-notebook").classList.remove("active");
+}
+
+/* clock */
+function updateClock() { const e = document.getElementById('clock'); if(e) e.textContent = new Date().toLocaleString('zh-CN'); }
+setInterval(updateClock, 30000); updateClock();
+
+/* tweaks */
+document.getElementById('tweak-btn').addEventListener('click', () => {
+  const html = document.documentElement;
+  const order = ['board', 'light', 'dark'];
+  const cur = html.getAttribute('data-theme') || 'board';
+  const next = order[(order.indexOf(cur) + 1) % order.length];
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('pa_theme', next);
+});
+(function initTheme(){ const t = localStorage.getItem('pa_theme'); if (t) document.documentElement.setAttribute('data-theme', t); })();
+</script>
+
+<!-- ═══════════════════════════ MODAL: Evidence Detail ═══════════════════════════ -->
+<div class="evidence-detail" id="evidence-detail" role="dialog" aria-modal="true" aria-labelledby="ev-detail-title">
+  <div class="evidence-card">
+    <div class="evidence-card-head">
+      <h3 id="ev-detail-title">证物详情</h3>
+      <button class="icon-btn" aria-label="关闭" onclick="closeModal('evidence-detail')">&#10005;</button>
+    </div>
+    <div class="evidence-card-body">
+      <div id="ev-detail-img"></div>
+      <div class="evidence-meta" id="ev-detail-meta"></div>
+      <div class="evidence-note" id="ev-detail-note"></div>
+      <div class="evidence-upload">
+        <label>添加证物图片<input type="file" accept="image/*" id="ev-img-input" style="display:none;" onchange="uploadEvidenceImg(this)"></label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer style="text-align:center;padding:20px;font-size:12px;color:var(--muted);letter-spacing:0.05em;">本系统为虚构解谜游戏，与任何真实机构无关</footer>
+</body>
+</html>
