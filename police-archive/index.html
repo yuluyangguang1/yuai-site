@@ -1296,6 +1296,157 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   border-color: #8b3a3a; background: rgba(139,58,58,0.05);
 }
 
+/* --- Phase Transition Animations --- */
+.page {
+  animation: pageSlideIn 0.3s ease-out;
+}
+@keyframes pageSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* --- Better Card Interactions --- */
+.note-card {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.note-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(20,15,8,0.15);
+}
+.note-card:active {
+  transform: translateY(-2px);
+}
+/* --- Evidence Category Tags --- */
+.badge.cat-物证 { background: rgba(148,60,60,0.1); color: #8b3a3a; }
+.badge.cat-证词 { background: rgba(70,100,160,0.1); color: #4664a0; }
+.badge.cat-文档 { background: rgba(176,136,80,0.1); color: #b08850; }
+.badge.cat-数字记录 { background: rgba(70,130,90,0.1); color: #468250; }
+/* --- Suspect Card Improvements --- */
+.suspect-tile {
+  transition: all 0.15s ease;
+  border-left: 3px solid transparent;
+}
+.suspect-tile:hover {
+  border-left-color: var(--accent);
+  background: rgba(106,79,165,0.03);
+}
+.suspect-tile.selected {
+  border-left-color: var(--accent);
+  background: rgba(106,79,165,0.05);
+}
+/* --- Timeline Event Improvements --- */
+.timeline-event {
+  transition: all 0.15s ease;
+  border-left: 3px solid transparent;
+}
+.timeline-event:hover {
+  border-left-color: var(--accent-warm);
+}
+.timeline-event.selected {
+  border-left-color: var(--accent);
+  background: rgba(106,79,165,0.05);
+}
+.timeline-event.correct {
+  border-left-color: #5a8a40;
+  background: rgba(80,138,64,0.05);
+}
+.timeline-event.wrong {
+  border-left-color: #8b3a3a;
+  background: rgba(139,58,58,0.05);
+}
+/* --- Deduction Chain Improvements --- */
+.chain-item {
+  transition: all 0.15s ease;
+}
+.chain-item.selected {
+  border-color: var(--accent);
+  background: rgba(106,79,165,0.05);
+}
+.chain-item.correct {
+  border-color: #5a8a40;
+  background: rgba(80,138,64,0.05);
+}
+.chain-item.wrong {
+  border-color: #8b3a3a;
+  background: rgba(139,58,58,0.05);
+}
+/* --- Loading States --- */
+.loading-spinner {
+  display: inline-block;
+  width: 20px; height: 20px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+/* --- Empty States --- */
+.empty-state {
+  text-align: center; padding: 40px 20px;
+  color: var(--muted); font-family: var(--font-display);
+  font-size: 16px; opacity: 0.6;
+}
+.empty-state .icon {
+  font-size: 32px; margin-bottom: 12px; opacity: 0.4;
+}
+/* --- Tooltip --- */
+.tooltip {
+  position: relative;
+}
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute; bottom: 100%; left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink); color: var(--surface);
+  padding: 4px 8px; border-radius: 3px;
+  font-size: 11px; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s;
+}
+.tooltip:hover::after {
+  opacity: 1;
+}
+/* --- Better Modal --- */
+.modal-mask {
+  backdrop-filter: blur(4px);
+}
+.modal-box {
+  animation: modalIn 0.2s ease-out;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+/* --- Responsive Improvements --- */
+@media (max-width: 768px) {
+  .brand h1 { font-size: 16px; }
+  .stamp { display: none; }
+  .header-actions { gap: 4px; }
+  .btn { padding: 8px 12px; font-size: 12px; }
+  .note-card { min-height: 140px; }
+  .stat-tile { padding: 12px; }
+  .stat-val { font-size: 24px; }
+  .inv-sidebar { display: none; }
+  .crime-scene-page { padding: 0 8px; }
+}
+@media (max-width: 480px) {
+  .case-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .brand h1 { font-size: 14px; }
+}
+/* --- Print Styles --- */
+@media print {
+  .btn, .header-actions, .inv-sidebar, .scene-popup,
+  .tutorial-overlay, .classified-warning, .gameover-screen,
+  .achievement-popup, .time-pressure-bar, .time-pressure-label {
+    display: none !important;
+  }
+  .page { page-break-inside: avoid; }
+  .note-card { break-inside: avoid; }
+}
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -9246,6 +9397,69 @@ submitDeductionChain = function() {
 var _origRouterPages = router.pages;
 if (_origRouterPages.indexOf('achievements') < 0) _origRouterPages.push('achievements');
 if (_origRouterPages.indexOf('case-report') < 0) _origRouterPages.push('case-report');
+
+/* === SAFE DOM ACCESS === */
+function safeGetElement(id) {
+  var el = document.getElementById(id);
+  if (!el) console.warn('Missing DOM element:', id);
+  return el;
+}
+
+/* === BETTER ERROR HANDLING === */
+function safeExecute(fn, context) {
+  try { return fn(); } catch(e) {
+    console.error('Error in ' + (context || 'unknown') + ':', e);
+    return null;
+  }
+}
+
+/* === PERFORMANCE: Debounce === */
+function debounce(fn, delay) {
+  var timer;
+  return function() {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function() { fn.apply(context, args); }, delay);
+  };
+}
+
+/* === KEYBOARD SHORTCUTS === */
+document.addEventListener('keydown', function(e) {
+  // Escape closes modals
+  if (e.key === 'Escape') {
+    ['result-modal', 'clue-modal', 'evidence-detail'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el && el.classList.contains('active')) closeModal(id);
+    });
+    var popup = document.getElementById('scene-popup');
+    if (popup && popup.style.display === 'block') popup.style.display = 'none';
+    var warning = document.getElementById('classified-warning');
+    if (warning && warning.style.display === 'flex') warning.style.display = 'none';
+  }
+  // H toggles highlight
+  if (e.key === 'h' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+    if (typeof toggleHL === 'function') toggleHL();
+  }
+  // 1-9 selects case (when on board page)
+  if (e.key >= '1' && e.key <= '9' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+    var idx = parseInt(e.key) - 1;
+    if (CASES[idx]) {
+      router.go('detail', {caseId: CASES[idx].id});
+    }
+  }
+});
+
+/* === BETTER RENDER PERFORMANCE === */
+var _renderQueue = [];
+function queueRender(fn) {
+  _renderQueue.push(fn);
+  if (_renderQueue.length === 1) {
+    requestAnimationFrame(function() {
+      _renderQueue.forEach(function(f) { f(); });
+      _renderQueue = [];
+    });
+  }
+}
 
 </script>
 
