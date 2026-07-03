@@ -776,7 +776,6 @@ footer {
 .case-progress .progress-dot.done { background: #5a8a40; }
 .case-progress .progress-dot.active { background: var(--accent); }
 
-
 /* --- Crime Scene --- */
 .crime-scene-page { max-width: 700px; margin: 0 auto; }
 .scene-map {
@@ -813,6 +812,61 @@ footer {
 /* --- Alt Ending --- */
 .alt-ending { background:var(--surface);border:1px solid var(--accent-warm);border-radius:4px;padding:16px;margin-top:12px;font-size:13px;line-height:1.7; }
 .alt-ending h4 { font-family:var(--font-heading);font-size:14px;font-weight:700;color:var(--accent-warm);margin-bottom:8px; }
+
+/* --- Tutorial Overlay --- */
+.tutorial-overlay {
+  position: fixed; inset: 0; z-index: 9998;
+  background: rgba(10,8,5,0.85); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  animation: loginFadeIn 0.3s ease-out;
+}
+.tutorial-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 32px; max-width: 480px; width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.tutorial-card h2 { font-family: var(--font-heading); font-size: 20px; margin-bottom: 16px; }
+.tutorial-card p { font-size: 13px; line-height: 1.7; color: var(--muted); margin-bottom: 12px; }
+.tutorial-card .step-list { list-style: none; padding: 0; margin: 16px 0; }
+.tutorial-card .step-list li { padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: 13px; display: flex; gap: 10px; }
+.tutorial-card .step-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); min-width: 20px; }
+/* --- Case Progress Dots --- */
+.case-dots { display: flex; gap: 4px; margin-top: 8px; }
+.case-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+.case-dot.done { background: #5a8a40; }
+.case-dot.active { background: var(--accent); }
+/* --- Scene Map Improvements --- */
+.scene-map-label {
+  position: absolute; top: 8px; left: 12px;
+  font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+  color: var(--ink); opacity: 0.6; pointer-events: none;
+}
+.scene-area::before {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--border); opacity: 0.5;
+}
+.scene-area.discovered::before { background: #5a8a40; opacity: 0.8; }
+.scene-area.discovered::after { content: "\2713"; position: absolute; top: 2px; right: 4px; color: #5a8a40; font-size: 14px; }
+/* --- Better Card Hover --- */
+.note-card { transition: all 0.2s cubic-bezier(0.4,0,0.2,1); }
+.note-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(20,15,8,0.2); }
+/* --- Investigation Phase Indicator --- */
+.phase-indicator { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; }
+.phase-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.phase-dot.done { background: #5a8a40; }
+.phase-dot.current { background: var(--accent); box-shadow: 0 0 0 3px rgba(148,60,60,0.2); }
+.phase-line { flex: 1; height: 1px; background: var(--border); }
+/* --- Better Sidebar --- */
+.inv-sidebar-card { transition: all 0.15s ease; }
+.inv-sidebar-card:hover { border-color: var(--accent); }
+/* --- Print improvements --- */
+@media print {
+  .scene-popup, .tutorial-overlay, .phase-indicator, .inv-sidebar { display: none !important; }
+  .scene-map { border: 2px solid #000; }
+  .scene-area { border: 1px solid #666; }
+}
 
 </style>
 <!-- v1783050176 --></head>
@@ -1033,7 +1087,6 @@ footer {
   </main>
 </section>
 
-
 <section class="page" id="page-crime-scene">
   <header>
     <div class="brand">
@@ -1143,7 +1196,6 @@ footer {
     <div id="modal-body"></div>
   </div>
 </div>
-
 
 <section class="page" id="page-crime-scene">
   <header>
@@ -1751,7 +1803,8 @@ const CASES = [
         { evidence: "c44", inference: "张某销赃渠道与李某某形成完整犯罪链" }
       ],
       conclusion: "李某某利用维修工身份进入小区，技术开锁入室盗窃。张某负责销赃。两人通过频繁通话协调作案和销赃时间。"
-    }
+    },
+    scene: {"name": "翠湖花园", "areas": [{"id": "a1", "x": 10, "y": 15, "w": 30, "h": 25, "label": "维修通道", "clue": null, "desc": "无门禁记录"}, {"id": "a2", "x": 50, "y": 15, "w": 35, "h": 25, "label": "顶楼住户", "clue": "e59", "desc": "纤维+机油"}, {"id": "a3", "x": 10, "y": 55, "w": 35, "h": 30, "label": "物业办公室", "clue": "e57", "desc": "工卡记录"}, {"id": "a4", "x": 55, "y": 55, "w": 35, "h": 30, "label": "金饰店", "clue": "e63", "desc": "赃物追踪"}]}
   },
   {
     id: "XA-2024-009", title: "深夜监控密室案",
@@ -1818,7 +1871,8 @@ const CASES = [
         { evidence: "c49", inference: "200 万保险是犯罪动机" }
       ],
       conclusion: "王某为骗取 200 万保险金杀害妻子陈某，在家中分尸后通过下水道冲入化粪池。监控显示无人出入是因为犯罪就在室内完成。"
-    }
+    },
+    scene: {"name": "锦绣花园801", "areas": [{"id": "a1", "x": 15, "y": 15, "w": 35, "h": 35, "label": "卫生间", "clue": "e68", "desc": "下水道血迹"}, {"id": "a2", "x": 60, "y": 15, "w": 30, "h": 25, "label": "入户门", "clue": "e65", "desc": "监控无出入"}, {"id": "a3", "x": 15, "y": 60, "w": 35, "h": 25, "label": "洗衣机", "clue": "e70", "desc": "衣物血迹"}, {"id": "a4", "x": 60, "y": 55, "w": 30, "h": 30, "label": "化粪池", "clue": "e67", "desc": "人体组织"}]}
   },
   {
     id: "XA-2024-010", title: "密码信件连环威胁案",
@@ -1880,7 +1934,8 @@ const CASES = [
         { evidence: "c53", inference: "打印机现金购买，有预谋" }
       ],
       conclusion: "赵某因工伤纠纷被辞退后怀恨在心，利用 2019 年市政工程内部编码系统发送密码信件，破坏市政设施进行报复。"
-    }
+    },
+    scene: {"name": "市政设施", "areas": [{"id": "a1", "x": 10, "y": 20, "w": 25, "h": 25, "label": "电力箱", "clue": null, "desc": "11/03被破坏"}, {"id": "a2", "x": 45, "y": 15, "w": 25, "h": 25, "label": "通信基站", "clue": null, "desc": "11/15被破坏"}, {"id": "a3", "x": 10, "y": 55, "w": 25, "h": 25, "label": "水厂阀门", "clue": null, "desc": "11/28被破坏"}, {"id": "a4", "x": 45, "y": 55, "w": 25, "h": 25, "label": "燃气管道", "clue": null, "desc": "12/10被破坏"}]}
   }
 ];
 
@@ -2946,7 +3001,6 @@ submitDeductionChain = function() {
   }
 };
 
-
 /* === CRIME SCENE === */
 var _discovered = {};
 function startCrimeScene() {
@@ -3021,8 +3075,85 @@ submitDeductionChain = function() {
   else { el.innerHTML = '<div class=\"answer-card\"><strong>推理链不完整</strong><br>匹配' + match + '/' + steps.length + '条。' + (red > 0 ? '<br><span style=\"color:var(--accent);\">' + red + '条干扰项</span>' : '') + '</div>'; playErrorSound(); }
 };
 
-</script>
+/* === TUTORIAL === */
+function showTutorial() { document.getElementById('tutorial').style.display = 'flex'; }
+function closeTutorial() { document.getElementById('tutorial').style.display = 'none'; localStorage.setItem('pa_tutorial_done', '1'); }
 
+/* === CASE PROGRESS DOTS === */
+function getCaseProgress(caseId) {
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return null;
+  try { var p = JSON.parse(localStorage.getItem('pa_progress_' + username) || '{}'); return p[caseId] || null; } catch(e) { return null; }
+}
+function renderProgressDots(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.timeline) return '';
+  var prog = getCaseProgress(caseId);
+  var phases = ['scene', 'timeline', 'interrogation', 'chain'];
+  var labels = ['勘查', '时间线', '审讯', '推理'];
+  var html = '<div class="case-dots" title="' + (prog ? '已完成' : '未完成') + '">';
+  phases.forEach(function(p, i) {
+    var done = prog && prog.rating;
+    html += '<div class="case-dot' + (done ? ' done' : '') + '" title="' + labels[i] + '"></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+/* === OVERRIDE renderBoard to show progress dots === */
+var _origRenderBoard = renderBoard;
+renderBoard = function() {
+  _origRenderBoard();
+  // Add progress dots to each card
+  var cards = document.querySelectorAll('.note-card');
+  CASES.forEach(function(c, i) {
+    if (cards[i]) {
+      var dots = renderProgressDots(c.id);
+      if (dots) {
+        var footer = cards[i].querySelector('.card-footer');
+        if (footer) footer.insertAdjacentHTML('beforeend', dots);
+      }
+    }
+  });
+  // Show tutorial on first visit
+  if (!localStorage.getItem('pa_tutorial_done')) {
+    setTimeout(showTutorial, 500);
+  }
+};
+
+/* === OVERRIDE startCrimeScene for scene label === */
+var _origRenderScene = renderScene;
+renderScene = function() {
+  _origRenderScene();
+  var mapEl = document.getElementById('scene-map');
+  if (mapEl && _invCase && _invCase.scene) {
+    if (!mapEl.querySelector('.scene-map-label')) {
+      mapEl.insertAdjacentHTML('afterbegin', '<div class="scene-map-label">' + escapeHtml(_invCase.scene.name) + '</div>');
+    }
+  }
+};
+
+/* === PHASE INDICATOR === */
+function renderPhaseIndicator(currentPhase) {
+  var phases = [
+    { id: 'scene', label: '勘查' },
+    { id: 'timeline', label: '时间线' },
+    { id: 'interrogation', label: '审讯' },
+    { id: 'chain', label: '推理' }
+  ];
+  var html = '<div class="phase-indicator">';
+  phases.forEach(function(p, i) {
+    var cls = 'phase-dot';
+    if (p.id === currentPhase) cls += ' current';
+    else if (phases.indexOf(phases.find(function(x) { return x.id === currentPhase; })) > i) cls += ' done';
+    html += '<div class="' + cls + '" title="' + p.label + '"></div>';
+    if (i < phases.length - 1) html += '<div class="phase-line"></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+</script>
 
 <section class="page" id="page-crime-scene">
   <header>
@@ -3073,5 +3204,23 @@ submitDeductionChain = function() {
 </div>
 
 <footer style="text-align:center;padding:20px;font-size:12px;color:var(--muted);letter-spacing:0.05em;">本系统为虚构解谜游戏，与任何真实机构无关</footer>
+
+<div class="tutorial-overlay" id="tutorial" style="display:none;">
+  <div class="tutorial-card">
+    <h2>欢迎来到羽鹭市侦探事务所</h2>
+    <p>你是一名侦探，负责调查羽鹭市的悬案。每个案件都需要经过以下步骤：</p>
+    <ul class="step-list">
+      <li><span class="step-num">01</span><span>犯罪现场勘查 — 点击地图区域发现线索</span></li>
+      <li><span class="step-num">02</span><span>时间线重建 — 将事件按正确顺序排列</span></li>
+      <li><span class="step-num">03</span><span>审讯嫌疑人 — 提问发现矛盾和关键线索</span></li>
+      <li><span class="step-num">04</span><span>构建推理链 — 选择关键证据提交推理</span></li>
+    </ul>
+    <p>注意：有些线索是干扰项（红鲱鱼），选择它们会扣分。发现矛盾和关键线索会有音效提示。</p>
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn primary" onclick="closeTutorial()">开始调查</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
