@@ -875,6 +875,57 @@ footer {
 .scene-hotspot.discovered rect { stroke: #5a8a40 !important; fill: rgba(80,120,60,0.08) !important; stroke-dasharray: none !important; }
 .scene-hotspot text { pointer-events: none; }
 
+/* --- Cipher Puzzle --- */
+.cipher-box {
+  background: var(--surface); border: 2px dashed var(--accent-warm);
+  border-radius: 4px; padding: 16px; margin: 12px 0;
+  font-family: var(--font-mono); position: relative;
+}
+.cipher-box::before {
+  content: "密码"; position: absolute; top: -10px; left: 12px;
+  background: var(--surface); padding: 0 6px;
+  font-size: 10px; color: var(--accent-warm); letter-spacing: 0.1em;
+}
+.cipher-input {
+  width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: 3px; background: var(--bg); color: var(--ink);
+  font-family: var(--font-mono); font-size: 14px; margin-top: 8px;
+  outline: none; transition: border-color 0.2s;
+}
+.cipher-input:focus { border-color: var(--accent-warm); }
+.cipher-input.correct { border-color: #5a8a40; background: rgba(80,120,60,0.05); }
+.cipher-input.wrong { border-color: var(--accent); background: rgba(148,60,60,0.05); }
+/* --- Twist Reveal --- */
+.twist-card {
+  background: linear-gradient(135deg, rgba(148,60,60,0.05), rgba(176,136,80,0.05));
+  border: 1px solid var(--accent); border-radius: 4px;
+  padding: 14px 18px; margin: 10px 0;
+  animation: twistReveal 0.5s ease-out;
+}
+@keyframes twistReveal {
+  0% { opacity: 0; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.twist-label {
+  font-family: var(--font-mono); font-size: 10px; color: var(--accent);
+  letter-spacing: 0.1em; margin-bottom: 6px; text-transform: uppercase;
+}
+.twist-dramatic {
+  font-family: var(--font-heading); font-size: 15px; font-weight: 700;
+  color: var(--accent); margin-bottom: 6px;
+}
+/* --- Combination --- */
+.combo-card {
+  background: rgba(176,136,80,0.06); border: 1px solid rgba(176,136,80,0.2);
+  border-radius: 4px; padding: 12px 16px; margin: 8px 0;
+  font-size: 13px; line-height: 1.6;
+}
+.combo-label {
+  font-family: var(--font-mono); font-size: 10px; color: var(--accent-warm);
+  letter-spacing: 0.08em; margin-bottom: 4px;
+}
+
 </style>
 <!-- v1783050176 --></head>
 <body>
@@ -1327,6 +1378,8 @@ const CASES = [
       conclusion: "刘某指使他人（可能是赵某的衣物被利用）纵火销毁'项目◇'腐败证据。王某的通话是确认信号。" 
     },
     scene: {"name": "墨迹书局", "areas": [{"id": "a1", "x": 10, "y": 20, "w": 25, "h": 30, "label": "后门", "clue": "e2", "desc": "门锁撬痕"}, {"id": "a2", "x": 50, "y": 15, "w": 30, "h": 25, "label": "铁皮柜", "clue": "e1", "desc": "烧毁文件夹"}, {"id": "a3", "x": 15, "y": 60, "w": 20, "h": 20, "label": "配电箱", "clue": null, "desc": "02:15断电"}, {"id": "a4", "x": 70, "y": 55, "w": 25, "h": 25, "label": "监控死角", "clue": "e4", "desc": "纤维样本"}, {"id": "a5", "x": 40, "y": 70, "w": 20, "h": 20, "label": "地面", "clue": "e6", "desc": "汽油残留"}]},
+    cipher: {"type": "substitution", "hint": "文件夹边缘的'项目◇'中，◇代表一个数字。根据市政工程编码规则，◇ = 第几个笔画?", "cipher": "项目◇", "answer": "光", "explanation": "◇是'光'字的第一笔（竖），指向'项目光锥'——2019年市政工程的秘密代号。"},
+    twists: [{"trigger": "c4", "reveal": "赵某的三轮车是电动的，不使用机油——纤维上的机油来自另一辆车。", "dramatic": "关键反转：赵某不是凶手"}, {"trigger": "c1", "reveal": "刘某是'项目◇'的丙方，文件夹里有他的签字——他有销毁证据的动机。", "dramatic": "幕后黑手浮现"}],
   },
   {
     id: "XA-2024-002", title: "东湖桥底溺亡案",
@@ -1397,6 +1450,7 @@ const CASES = [
       conclusion: "陈某因医疗纠纷报复李某，用苯二氮卓注射迷晕后推入湖中。张某可能在事后用死者手机转账给弟弟的公司（掩盖动机或趁机获利）。"
     },
     scene: {"name": "东湖桥底", "areas": [{"id": "a1", "x": 30, "y": 20, "w": 40, "h": 25, "label": "围栏", "clue": "e10", "desc": "液压剪痕迹"}, {"id": "a2", "x": 10, "y": 55, "w": 30, "h": 30, "label": "湖岸", "clue": "e9", "desc": "遗体发现处"}, {"id": "a3", "x": 60, "y": 60, "w": 30, "h": 25, "label": "土路", "clue": "e13", "desc": "车辙印"}]},
+    combinations: [{"clues": ["c1", "c5"], "result": "文件夹签字+租金纠纷=刘某有双重动机：销毁腐败证据+赶走王某", "unlocks": "隐藏线索：刘某的市政工程参与记录"}],
     alternativeEnding: {"correct": {"suspect": "s6", "conclusion": "陈某因医疗纠纷报复，苯二氮卓注射迷晕后推入湖中。"}, "alternative": {"suspect": "s7", "conclusion": "张某为骗取保险金杀害丈夫。", "trigger": "c14"}},
   },
   {
@@ -1465,7 +1519,10 @@ const CASES = [
       ],
       conclusion: "林某远程指挥，孙某在站内配合。林某用孙某的 SSH 密钥删除日志，孙某格式化 U 盘销毁证据。周某知情不报。"
     },
+    twists: [{"trigger": "c13", "reveal": "围栏锁芯掌纹与陈某吻合——但张某的手机基站也在现场附近。", "dramatic": "双线交汇"}, {"trigger": "c9", "reveal": "5万元转账发生在死者死后——操作手机的人不是死者。", "dramatic": "时间线反转"}],
     scene: {"name": "变电站", "areas": [{"id": "a1", "x": 10, "y": 15, "w": 35, "h": 30, "label": "机房", "clue": "e17", "desc": "交换机日志"}, {"id": "a2", "x": 55, "y": 15, "w": 35, "h": 30, "label": "监控室", "clue": "e19", "desc": "运维终端"}, {"id": "a3", "x": 10, "y": 60, "w": 35, "h": 25, "label": "值班室", "clue": "e21", "desc": "周某未离开"}]},
+    cipher: {"type": "number", "hint": "删除的472条日志中，有一条隐藏信息：02:00:00的第一帧包含一个IP地址的最后一位。这个数字是什么?", "cipher": "02:00:00 → 192.168.1.?", "answer": "15", "explanation": "运维终端IP是192.168.1.15，这是孙某的终端——但孙某声称在机房。IP地址证明有人用孙某的终端。"},
+    combinations: [{"clues": ["c8", "c13"], "result": "左利手注射+掌纹吻合=陈某的作案手法和物理证据双重确认", "unlocks": "隐藏线索：陈某的医疗用品采购记录"}],
   },
   {
     id: "XA-2024-004", title: "漕河渡口货物失窃案",
@@ -1535,7 +1592,9 @@ const CASES = [
       ],
       conclusion: "郑某策划、吴某配合。郑某用吊车搬运货物装上恒通物流的货车。吴某负责不巡逻并伪造签到。4.5 万是分成。"
     },
+    twists: [{"trigger": "c15", "reveal": "林某的短信'搞定了吗'发给的是周某，不是孙某——周某是共犯。", "dramatic": "共犯曝光"}, {"trigger": "c17", "reveal": "孙某的U盘被格式化——但格式化指令来自林某的短信'别忘了格式化'。", "dramatic": "棋子觉醒"}],
     scene: {"name": "码头堆场", "areas": [{"id": "a1", "x": 20, "y": 20, "w": 25, "h": 30, "label": "围栏", "clue": "e25", "desc": "锁梁痕迹"}, {"id": "a2", "x": 55, "y": 15, "w": 35, "h": 25, "label": "堆场", "clue": "e31", "desc": "吊车异常"}, {"id": "a3", "x": 10, "y": 60, "w": 30, "h": 25, "label": "土路", "clue": "e29", "desc": "轮胎印"}]},
+    combinations: [{"clues": ["c15", "c16"], "result": "短信指令+VPN连接=林某远程指挥，孙某现场执行的分工模式", "unlocks": "隐藏线索：林某和孙某的银行转账记录"}],
   },
   {
     id: "XA-2024-005", title: "社区诊所药物失窃案",
@@ -1669,7 +1728,9 @@ const CASES = [
       ],
       conclusion: "王某 14:20 收衣服时拉动晾衣架，绳索断裂弹向东侧击中花盆导致坠落。这是过失致死，王某隐瞒了真相。张某的赌博问题与本案无关。"
     },
+    twists: [{"trigger": "c25", "reveal": "45张伪造处方=200支地西泮=失窃数量——这不是一次性盗窃，是3个月的积累。", "dramatic": "长期计划"}, {"trigger": "c28", "reveal": "钱某22:45进药房但冰箱温度无波动——他在说谎，但不是窃贼。", "dramatic": "红鲱鱼揭示"}],
     scene: {"name": "6栋楼下", "areas": [{"id": "a1", "x": 30, "y": 60, "w": 40, "h": 25, "label": "入口", "clue": "e40", "desc": "花盆碎片"}, {"id": "a2", "x": 10, "y": 20, "w": 25, "h": 30, "label": "701阳台", "clue": "e45", "desc": "花盆空缺"}]},
+    combinations: [{"clues": ["c25", "c27"], "result": "伪造处方+黑市搜索=完整的犯罪链条：虚开处方→积攒药物→贩卖牟利", "unlocks": "隐藏线索：赵某的银行账户异常入账"}],
     alternativeEnding: {"correct": {"suspect": "s21", "conclusion": "王某收衣服碰倒花盆，过失致死。"}, "alternative": {"suspect": "s20", "conclusion": "张某因赌博债务故意推下花盆。", "trigger": "c32"}},
   },
   {
@@ -1742,7 +1803,9 @@ const CASES = [
       ],
       conclusion: "周某利用管理员密码在 00:55 打开 VIP 室门，带走林某（或配合他人），从后门消防通道转移，删除门锁记录伪造密室。动机是阻止林稿件发表，保护大学同学陈某。林某可能在汽车站逃脱。"
     },
-    scene: {"name": "拾光书屋", "areas": [{"id": "a1", "x": 20, "y": 15, "w": 35, "h": 35, "label": "VIP室", "clue": "e49", "desc": "密室内景"}, {"id": "a2", "x": 65, "y": 15, "w": 25, "h": 25, "label": "门锁", "clue": "e48", "desc": "密码锁"}, {"id": "a3", "x": 15, "y": 60, "w": 30, "h": 25, "label": "后门", "clue": "e53", "desc": "消防门"}]}
+    scene: {"name": "拾光书屋", "areas": [{"id": "a1", "x": 20, "y": 15, "w": 35, "h": 35, "label": "VIP室", "clue": "e49", "desc": "密室内景"}, {"id": "a2", "x": 65, "y": 15, "w": 25, "h": 25, "label": "门锁", "clue": "e48", "desc": "密码锁"}, {"id": "a3", "x": 15, "y": 60, "w": 30, "h": 25, "label": "后门", "clue": "e53", "desc": "消防门"}]},
+    cipher: {"type": "cipher", "hint": "林稿件标题'消失的证人'中，每个字的笔画数组合形成一个日期。消(10)失(5)的(8)证(7)人(2) → 10-5-8-7-2，这代表什么?", "cipher": "消失的证人 → 10-5-8-7-2", "answer": "2019年10月", "explanation": "笔画数组合暗示2019年10月——正是2019年医疗事故案开庭前一个月。林稿件直指这个时间点。"},
+    twists: [{"trigger": "c40", "reveal": "00:55的管理员开门记录被删除——删除者就是开门者。", "dramatic": "密室真相"}, {"trigger": "c38", "reveal": "周某是陈某的大学同学——他有动机阻止林稿件发表。", "dramatic": "关系网浮现"}]
   }
 ,
 {
@@ -1942,7 +2005,8 @@ const CASES = [
       ],
       conclusion: "赵某因工伤纠纷被辞退后怀恨在心，利用 2019 年市政工程内部编码系统发送密码信件，破坏市政设施进行报复。"
     },
-    scene: {"name": "市政设施", "areas": [{"id": "a1", "x": 10, "y": 20, "w": 25, "h": 25, "label": "电力箱", "clue": null, "desc": "11/03被破坏"}, {"id": "a2", "x": 45, "y": 15, "w": 25, "h": 25, "label": "通信基站", "clue": null, "desc": "11/15被破坏"}, {"id": "a3", "x": 10, "y": 55, "w": 25, "h": 25, "label": "水厂阀门", "clue": null, "desc": "11/28被破坏"}, {"id": "a4", "x": 45, "y": 55, "w": 25, "h": 25, "label": "燃气管道", "clue": null, "desc": "12/10被破坏"}]}
+    scene: {"name": "市政设施", "areas": [{"id": "a1", "x": 10, "y": 20, "w": 25, "h": 25, "label": "电力箱", "clue": null, "desc": "11/03被破坏"}, {"id": "a2", "x": 45, "y": 15, "w": 25, "h": 25, "label": "通信基站", "clue": null, "desc": "11/15被破坏"}, {"id": "a3", "x": 10, "y": 55, "w": 25, "h": 25, "label": "水厂阀门", "clue": null, "desc": "11/28被破坏"}, {"id": "a4", "x": 45, "y": 55, "w": 25, "h": 25, "label": "燃气管道", "clue": null, "desc": "12/10被破坏"}]},
+    cipher: {"type": "code", "hint": "第4封密码信中，有一个数字序列：3-1-4-1-5。这不是圆周率，而是市政工程内部编码的索引。解码后指向什么地点?", "cipher": "3-1-4-1-5", "answer": "市政大厅", "explanation": "3-1-4-1-5对应市政工程编码表中的第31415号设施——市政大厅的中央控制系统。这是赵某的最终目标。"}
   }
 ];
 
@@ -3395,6 +3459,162 @@ function renderPhaseIndicator(currentPhase) {
   html += '</div>';
   return html;
 }
+
+/* === CIPHER PUZZLE SYSTEM === */
+var _solvedCiphers = {};
+function renderCipherBox(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.cipher) return '';
+  if (_solvedCiphers[caseId]) {
+    return '<div class="cipher-box"><div style="color:#5a8a40;font-weight:700;">密码已破解</div><div style="font-size:12px;margin-top:4px;">' + escapeHtml(c.cipher.explanation) + '</div></div>';
+  }
+  return '<div class="cipher-box" id="cipher-box">' +
+    '<div style="font-size:12px;color:var(--muted);margin-bottom:8px;">' + escapeHtml(c.cipher.hint) + '</div>' +
+    '<div style="font-size:18px;font-weight:700;text-align:center;padding:8px;letter-spacing:0.2em;">' + escapeHtml(c.cipher.cipher) + '</div>' +
+    '<input class="cipher-input" id="cipher-input" placeholder="输入答案..." onkeydown="if(event.key===\'Enter\')checkCipher(\'' + caseId + '\')">' +
+    '<div style="margin-top:8px;text-align:center;"><button class="btn" onclick="checkCipher(\'' + caseId + '\')">解密</button></div>' +
+    '<div id="cipher-result" style="display:none;margin-top:8px;"></div>' +
+  '</div>';
+}
+function checkCipher(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.cipher) return;
+  var input = document.getElementById('cipher-input');
+  var result = document.getElementById('cipher-result');
+  if (!input || !result) return;
+  var answer = input.value.trim();
+  if (answer === c.cipher.answer) {
+    input.classList.add('correct');
+    input.classList.remove('wrong');
+    result.style.display = 'block';
+    result.innerHTML = '<div style="color:#5a8a40;font-weight:700;">破解成功！</div><div style="font-size:12px;margin-top:4px;">' + escapeHtml(c.cipher.explanation) + '</div>';
+    _solvedCiphers[caseId] = true;
+    playSuccessSound();
+  } else {
+    input.classList.add('wrong');
+    input.classList.remove('correct');
+    result.style.display = 'block';
+    result.innerHTML = '<div style="color:var(--accent);">答案不正确，再想想...</div>';
+    playErrorSound();
+  }
+}
+
+/* === PLOT TWIST SYSTEM === */
+var _revealedTwists = {};
+function checkTwists(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.twists) return '';
+  var html = '';
+  c.twists.forEach(function(twist) {
+    if (_revealedTwists[caseId + '_' + twist.trigger]) return;
+    // Check if the trigger clue has been discussed
+    var clueDiscussed = false;
+    if (_askedQuestions) {
+      Object.keys(_askedQuestions).forEach(function(sid) {
+        var susp = c.interrogations ? c.interrogations[sid] : null;
+        if (susp) {
+          _askedQuestions[sid].forEach(function(qi) {
+            var q = susp.questions[qi];
+            if (q && (q.tag === '矛盾' || q.tag === '关键')) clueDiscussed = true;
+          });
+        }
+      });
+    }
+    if (clueDiscussed || _contradictions.length >= 2) {
+      _revealedTwists[caseId + '_' + twist.trigger] = true;
+      html += '<div class="twist-card">' +
+        '<div class="twist-label">剧情反转</div>' +
+        '<div class="twist-dramatic">' + escapeHtml(twist.dramatic) + '</div>' +
+        '<div style="font-size:13px;line-height:1.6;">' + escapeHtml(twist.reveal) + '</div>' +
+      '</div>';
+      playContradictionSound();
+    }
+  });
+  return html;
+}
+
+/* === EVIDENCE COMBINATION SYSTEM === */
+var _discoveredCombos = {};
+function checkCombinations(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.combinations) return '';
+  var html = '';
+  c.combinations.forEach(function(combo, idx) {
+    var comboId = caseId + '_combo_' + idx;
+    if (_discoveredCombos[comboId]) {
+      html += '<div class="combo-card"><div class="combo-label">证据组合</div><div>' + escapeHtml(combo.result) + '</div><div style="margin-top:4px;font-size:11px;color:var(--accent-warm);">' + escapeHtml(combo.unlocks) + '</div></div>';
+      return;
+    }
+    // Check if both clues are selected in chain
+    var bothSelected = combo.clues.every(function(cid) { return _chainSelected.indexOf(cid) >= 0; });
+    if (bothSelected) {
+      _discoveredCombos[comboId] = true;
+      html += '<div class="combo-card"><div class="combo-label">新发现！证据组合</div><div>' + escapeHtml(combo.result) + '</div><div style="margin-top:4px;font-size:11px;color:var(--accent-warm);">' + escapeHtml(combo.unlocks) + '</div></div>';
+      playDiscoverySound();
+    }
+  });
+  return html;
+}
+
+/* === OVERRIDE: Add cipher/twist/combo to investigation flow === */
+// Add cipher box to crime scene completion
+var _origFinishCS = finishCrimeScene || function() { startTimeline(); };
+finishCrimeScene = function() {
+  var c = _invCase;
+  if (c && c.cipher && !_solvedCiphers[c.id]) {
+    // Show cipher puzzle before moving to timeline
+    var popup = document.getElementById('scene-popup');
+    if (popup) {
+      popup.innerHTML = '<div class="scene-popup-close" onclick="closePopup()">&#10005;</div>' +
+        '<div style="font-family:var(--font-heading);font-size:16px;font-weight:700;margin-bottom:12px;">现场发现密码</div>' +
+        '<div style="font-size:13px;color:var(--muted);margin-bottom:12px;">在勘查过程中你发现了加密信息。破解它可能揭示关键线索。</div>' +
+        renderCipherBox(c.id) +
+        '<div style="margin-top:12px;text-align:center;"><button class="btn" onclick="closePopup();startTimeline();">跳过，直接进入时间线</button></div>';
+      popup.style.display = 'block';
+      return;
+    }
+  }
+  startTimeline();
+};
+
+// Add twists and combos to interrogation result display
+var _origAskQ2 = askQuestion;
+askQuestion = function(sid, qi) {
+  _origAskQ2(sid, qi);
+  // Check for twists after asking
+  var twistHtml = checkTwists(_invCase.id);
+  if (twistHtml) {
+    var ansEl = document.getElementById('interrogation-answer');
+    if (ansEl) ansEl.insertAdjacentHTML('afterend', twistHtml);
+  }
+};
+
+// Add combos to chain preview
+var _origToggleChain2 = toggleChainItem;
+toggleChainItem = function(clueId) {
+  _origToggleChain2(clueId);
+  // Check for combinations
+  var comboHtml = checkCombinations(_invCase.id);
+  if (comboHtml) {
+    var preview = document.getElementById('chain-preview');
+    if (preview) {
+      var existingCombo = preview.querySelector('.combo-card');
+      if (!existingCombo) preview.insertAdjacentHTML('beforeend', comboHtml);
+    }
+  }
+};
+
+// Add cipher box to sidebar if available
+var _origRenderSidebar = renderInvSidebar;
+renderInvSidebar = function(containerId) {
+  _origRenderSidebar(containerId);
+  var el = document.getElementById(containerId);
+  if (!el || !_invCase) return;
+  if (_invCase.cipher) {
+    var cipherHtml = '<div class="inv-sidebar-card"><h4>密码谜题</h4>' + renderCipherBox(_invCase.id) + '</div>';
+    el.insertAdjacentHTML('beforeend', cipherHtml);
+  }
+};
 
 </script>
 
