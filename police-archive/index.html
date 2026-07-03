@@ -776,6 +776,44 @@ footer {
 .case-progress .progress-dot.done { background: #5a8a40; }
 .case-progress .progress-dot.active { background: var(--accent); }
 
+
+/* --- Crime Scene --- */
+.crime-scene-page { max-width: 700px; margin: 0 auto; }
+.scene-map {
+  position: relative; width: 100%; padding-bottom: 70%;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; overflow: hidden;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(80,60,35,0.04) 19px, rgba(80,60,35,0.04) 20px),
+    repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(80,60,35,0.04) 19px, rgba(80,60,35,0.04) 20px);
+}
+.scene-area {
+  position: absolute; cursor: pointer;
+  border: 2px dashed var(--border); border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-family: var(--font-mono); color: var(--muted);
+  text-align: center; padding: 4px;
+}
+.scene-area:hover { border-color: var(--accent); background: rgba(148,60,60,0.05); }
+.scene-area.discovered { border-color: #5a8a40; border-style: solid; background: rgba(80,120,60,0.05); }
+.scene-popup {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--surface); border: 1px solid var(--accent);
+  border-radius: 4px; padding: 14px 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 100;
+  max-width: 400px; width: 90%; font-size: 13px; line-height: 1.6;
+  animation: loginFadeIn 0.2s ease-out; display: none;
+}
+.scene-popup-title { font-family: var(--font-heading); font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.scene-popup-close { position: absolute; top: 8px; right: 12px; cursor: pointer; color: var(--muted); font-size: 16px; }
+/* --- Highlight --- */
+.highlight-on .chain-item:not(.selected) { animation: hlPulse 1.5s ease-in-out infinite; }
+@keyframes hlPulse { 0%,100%{box-shadow:0 0 0 0 rgba(148,60,60,0)} 50%{box-shadow:0 0 0 4px rgba(148,60,60,0.15)} }
+/* --- Alt Ending --- */
+.alt-ending { background:var(--surface);border:1px solid var(--accent-warm);border-radius:4px;padding:16px;margin-top:12px;font-size:13px;line-height:1.7; }
+.alt-ending h4 { font-family:var(--font-heading);font-size:14px;font-weight:700;color:var(--accent-warm);margin-bottom:8px; }
+
 </style>
 <!-- v1783050176 --></head>
 <body>
@@ -995,6 +1033,31 @@ footer {
   </main>
 </section>
 
+
+<section class="page" id="page-crime-scene">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div class="stamp stamp-sm">勘</div>
+      <div><h1>现场勘查</h1><small id="scene-case-id">点击区域发现线索</small></div>
+    </div>
+    <div class="header-actions">
+      <span class="btn" id="scene-progress" style="cursor:default;font-family:var(--font-mono);font-size:11px;">0/0</span>
+      <button class="btn primary" id="scene-next-btn" onclick="goToTimeline()" style="display:none;">继续调查</button>
+    </div>
+  </header>
+  <main class="board">
+    <div class="crime-scene-page">
+      <div class="scene-map" id="scene-map"></div>
+      <div id="scene-clue-list" style="margin-top:16px;"></div>
+    </div>
+  </main>
+</section>
+<div class="scene-popup" id="scene-popup">
+  <div class="scene-popup-close" onclick="closePopup()">&#10005;</div>
+  <div class="scene-popup-title" id="popup-title"></div>
+  <div id="popup-body"></div>
+</div>
 <!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
 <section class="page" id="page-timeline">
   <header>
@@ -1081,6 +1144,31 @@ footer {
   </div>
 </div>
 
+
+<section class="page" id="page-crime-scene">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div class="stamp stamp-sm">勘</div>
+      <div><h1>现场勘查</h1><small id="scene-case-id">点击区域发现线索</small></div>
+    </div>
+    <div class="header-actions">
+      <span class="btn" id="scene-progress" style="cursor:default;font-family:var(--font-mono);font-size:11px;">0/0</span>
+      <button class="btn primary" id="scene-next-btn" onclick="goToTimeline()" style="display:none;">继续调查</button>
+    </div>
+  </header>
+  <main class="board">
+    <div class="crime-scene-page">
+      <div class="scene-map" id="scene-map"></div>
+      <div id="scene-clue-list" style="margin-top:16px;"></div>
+    </div>
+  </main>
+</section>
+<div class="scene-popup" id="scene-popup">
+  <div class="scene-popup-close" onclick="closePopup()">&#10005;</div>
+  <div class="scene-popup-title" id="popup-title"></div>
+  <div id="popup-body"></div>
+</div>
 <!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
 
 <!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
@@ -1179,6 +1267,7 @@ const CASES = [
       ],
       conclusion: "刘某指使他人（可能是赵某的衣物被利用）纵火销毁'项目◇'腐败证据。王某的通话是确认信号。" 
     },
+    scene: {"name": "墨迹书局", "areas": [{"id": "a1", "x": 10, "y": 20, "w": 25, "h": 30, "label": "后门", "clue": "e2", "desc": "门锁撬痕"}, {"id": "a2", "x": 50, "y": 15, "w": 30, "h": 25, "label": "铁皮柜", "clue": "e1", "desc": "烧毁文件夹"}, {"id": "a3", "x": 15, "y": 60, "w": 20, "h": 20, "label": "配电箱", "clue": null, "desc": "02:15断电"}, {"id": "a4", "x": 70, "y": 55, "w": 25, "h": 25, "label": "监控死角", "clue": "e4", "desc": "纤维样本"}, {"id": "a5", "x": 40, "y": 70, "w": 20, "h": 20, "label": "地面", "clue": "e6", "desc": "汽油残留"}]},
   },
   {
     id: "XA-2024-002", title: "东湖桥底溺亡案",
@@ -1248,6 +1337,8 @@ const CASES = [
       ],
       conclusion: "陈某因医疗纠纷报复李某，用苯二氮卓注射迷晕后推入湖中。张某可能在事后用死者手机转账给弟弟的公司（掩盖动机或趁机获利）。"
     },
+    scene: {"name": "东湖桥底", "areas": [{"id": "a1", "x": 30, "y": 20, "w": 40, "h": 25, "label": "围栏", "clue": "e10", "desc": "液压剪痕迹"}, {"id": "a2", "x": 10, "y": 55, "w": 30, "h": 30, "label": "湖岸", "clue": "e9", "desc": "遗体发现处"}, {"id": "a3", "x": 60, "y": 60, "w": 30, "h": 25, "label": "土路", "clue": "e13", "desc": "车辙印"}]},
+    alternativeEnding: {"correct": {"suspect": "s6", "conclusion": "陈某因医疗纠纷报复，苯二氮卓注射迷晕后推入湖中。"}, "alternative": {"suspect": "s7", "conclusion": "张某为骗取保险金杀害丈夫。", "trigger": "c14"}},
   },
   {
     id: "XA-2024-003", title: "北山变电站信号丢失",
@@ -1315,6 +1406,7 @@ const CASES = [
       ],
       conclusion: "林某远程指挥，孙某在站内配合。林某用孙某的 SSH 密钥删除日志，孙某格式化 U 盘销毁证据。周某知情不报。"
     },
+    scene: {"name": "变电站", "areas": [{"id": "a1", "x": 10, "y": 15, "w": 35, "h": 30, "label": "机房", "clue": "e17", "desc": "交换机日志"}, {"id": "a2", "x": 55, "y": 15, "w": 35, "h": 30, "label": "监控室", "clue": "e19", "desc": "运维终端"}, {"id": "a3", "x": 10, "y": 60, "w": 35, "h": 25, "label": "值班室", "clue": "e21", "desc": "周某未离开"}]},
   },
   {
     id: "XA-2024-004", title: "漕河渡口货物失窃案",
@@ -1384,6 +1476,7 @@ const CASES = [
       ],
       conclusion: "郑某策划、吴某配合。郑某用吊车搬运货物装上恒通物流的货车。吴某负责不巡逻并伪造签到。4.5 万是分成。"
     },
+    scene: {"name": "码头堆场", "areas": [{"id": "a1", "x": 20, "y": 20, "w": 25, "h": 30, "label": "围栏", "clue": "e25", "desc": "锁梁痕迹"}, {"id": "a2", "x": 55, "y": 15, "w": 35, "h": 25, "label": "堆场", "clue": "e31", "desc": "吊车异常"}, {"id": "a3", "x": 10, "y": 60, "w": 30, "h": 25, "label": "土路", "clue": "e29", "desc": "轮胎印"}]},
   },
   {
     id: "XA-2024-005", title: "社区诊所药物失窃案",
@@ -1449,6 +1542,7 @@ const CASES = [
       ],
       conclusion: "赵某 3 个月内通过伪造处方分批积攒 200 支地西泮，9 月 7 日晚远程冻结监控后转移药物。钱某是无辜的。"
     },
+    scene: {"name": "社区诊所", "areas": [{"id": "a1", "x": 15, "y": 20, "w": 30, "h": 30, "label": "药柜", "clue": "e33", "desc": "药物失踪"}, {"id": "a2", "x": 55, "y": 20, "w": 30, "h": 25, "label": "监控", "clue": "e34", "desc": "画面冻结"}, {"id": "a3", "x": 15, "y": 60, "w": 35, "h": 25, "label": "电脑", "clue": "e39", "desc": "WiFi记录"}]},
   },
   {
     id: "XA-2024-006", title: "老旧小区高空坠物致死案",
@@ -1516,6 +1610,8 @@ const CASES = [
       ],
       conclusion: "王某 14:20 收衣服时拉动晾衣架，绳索断裂弹向东侧击中花盆导致坠落。这是过失致死，王某隐瞒了真相。张某的赌博问题与本案无关。"
     },
+    scene: {"name": "6栋楼下", "areas": [{"id": "a1", "x": 30, "y": 60, "w": 40, "h": 25, "label": "入口", "clue": "e40", "desc": "花盆碎片"}, {"id": "a2", "x": 10, "y": 20, "w": 25, "h": 30, "label": "701阳台", "clue": "e45", "desc": "花盆空缺"}]},
+    alternativeEnding: {"correct": {"suspect": "s21", "conclusion": "王某收衣服碰倒花盆，过失致死。"}, "alternative": {"suspect": "s20", "conclusion": "张某因赌博债务故意推下花盆。", "trigger": "c32"}},
   },
   {
     id: "XA-2024-007", title: "深夜书店密室失踪案",
@@ -1586,7 +1682,8 @@ const CASES = [
         { evidence: "c39", inference: "林某手机 02:15 在汽车站出现——可能逃脱或被转移" }
       ],
       conclusion: "周某利用管理员密码在 00:55 打开 VIP 室门，带走林某（或配合他人），从后门消防通道转移，删除门锁记录伪造密室。动机是阻止林稿件发表，保护大学同学陈某。林某可能在汽车站逃脱。"
-    }
+    },
+    scene: {"name": "拾光书屋", "areas": [{"id": "a1", "x": 20, "y": 15, "w": 35, "h": 35, "label": "VIP室", "clue": "e49", "desc": "密室内景"}, {"id": "a2", "x": 65, "y": 15, "w": 25, "h": 25, "label": "门锁", "clue": "e48", "desc": "密码锁"}, {"id": "a3", "x": 15, "y": 60, "w": 30, "h": 25, "label": "后门", "clue": "e53", "desc": "消防门"}]}
   }
 ,
 {
@@ -1815,7 +1912,7 @@ let _prevPage = null; /* previous page for back */
    ROUTER
    ══════════════════════════════════════════════════════ */
 const router = {
-  pages: ['board', 'detail', 'deduction', 'notebook', 'timeline', 'interrogation', 'deduction-chain'],
+  pages: ['board', 'detail', 'deduction', 'notebook', 'crime-scene', 'timeline', 'interrogation', 'deduction-chain'],
   go(page, params = {}) {
     if (!params._back) {
       const cur = document.querySelector('.page.active');
@@ -2849,8 +2946,108 @@ submitDeductionChain = function() {
   }
 };
 
+
+/* === CRIME SCENE === */
+var _discovered = {};
+function startCrimeScene() {
+  router.go('crime-scene');
+  document.getElementById('scene-case-id').textContent = _invCase.title;
+  _discovered = {};
+  renderScene();
+}
+function renderScene() {
+  var c = _invCase; if (!c || !c.scene) return;
+  var el = document.getElementById('scene-map');
+  el.innerHTML = c.scene.areas.map(function(a) {
+    return '<div class="scene-area' + (_discovered[a.id] ? ' discovered' : '') + '" style="left:' + a.x + '%;top:' + a.y + '%;width:' + a.w + '%;height:' + a.h + '%;" onclick="explore(\'' + a.id + '\')">' + escapeHtml(a.label) + '</div>';
+  }).join('');
+  var total = c.scene.areas.length, found = Object.keys(_discovered).length;
+  document.getElementById('scene-progress').textContent = found + '/' + total;
+  if (found >= total) document.getElementById('scene-next-btn').style.display = 'inline-flex';
+}
+function explore(aid) {
+  if (_discovered[aid]) return;
+  var c = _invCase, a = c.scene.areas.find(function(x) { return x.id === aid; });
+  if (!a) return;
+  _discovered[aid] = true;
+  renderScene(); playDiscoverySound();
+  document.getElementById('popup-title').textContent = a.label;
+  var body = escapeHtml(a.desc);
+  if (a.clue) { var cl = c.clues.find(function(x) { return x.id === a.clue; }); if (cl) body += '<div style=\"margin-top:8px;padding-top:8px;border-top:1px solid var(--border);\"><strong>' + escapeHtml(cl.title) + '</strong></div>'; }
+  document.getElementById('popup-body').innerHTML = body;
+  document.getElementById('scene-popup').style.display = 'block';
+  // Update clue list
+  var list = c.scene.areas.filter(function(x) { return _discovered[x.id]; });
+  document.getElementById('scene-clue-list').innerHTML = list.length ? '<div class=\"notebook\"><div style=\"font-family:var(--font-heading);font-size:14px;font-weight:700;margin-bottom:10px;\">发现的线索</div>' + list.map(function(x) { return '<div style=\"padding:6px 0;border-bottom:1px dashed var(--border);font-size:13px;\"><strong>' + escapeHtml(x.label) + '</strong>：' + escapeHtml(x.desc) + '</div>'; }).join('') + '</div>' : '';
+}
+function closePopup() { document.getElementById('scene-popup').style.display = 'none'; }
+function goToTimeline() { closePopup(); startTimeline(); }
+
+/* === HIGHLIGHT MODE === */
+var _hlMode = false;
+function toggleHL() { _hlMode = !_hlMode; document.body.classList.toggle('highlight-on', _hlMode); }
+
+/* === ALT ENDINGS === */
+function showEnding(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return '';
+  var r = calculateRating(caseId);
+  var alt = null;
+  if (c.alternativeEnding && c.alternativeEnding.trigger && _chainSelected.indexOf(c.alternativeEnding.trigger) >= 0) alt = c.alternativeEnding.alternative;
+  var rows = '';
+  Object.keys(r.breakdown).forEach(function(k) { var b = r.breakdown[k]; rows += '<div class=\"report-row\"><span class=\"report-label\">' + b.label + '</span><span class=\"report-value\">' + b.score + '/' + b.max + '</span></div>'; });
+  var altHtml = alt ? '<div class=\"alt-ending\"><h4>另一种可能</h4><div>' + escapeHtml(alt.conclusion) + '</div></div>' : '';
+  var bg = r.grade === 'S' && c.deductionChain ? '<div style=\"margin-top:16px;padding:12px;background:rgba(176,136,80,0.08);border-radius:3px;\"><div style=\"font-family:var(--font-mono);font-size:10px;color:var(--accent-warm);\">S级解锁 · 幕后档案</div><div style=\"font-size:13px;line-height:1.7;\">' + escapeHtml(c.deductionChain.conclusion) + '</div></div>' : '';
+  return '<div class=\"case-report\"><h3>案件报告 · ' + escapeHtml(c.title) + '</h3><div style=\"text-align:center;margin-bottom:16px;\"><div class=\"rating-badge rating-' + r.grade + '\">' + r.grade + '</div><div style=\"font-family:var(--font-mono);font-size:12px;color:var(--muted);\">评分：' + r.score + '/100</div></div>' + rows + altHtml + bg + '</div>';
+}
+
+/* === OVERRIDE startInvestigation === */
+var _origSI = startInvestigation;
+startInvestigation = function(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.timeline) { alert('暂无调查数据'); return; }
+  _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discovered = {};
+  if (c.scene) startCrimeScene(); else startTimeline();
+};
+
+/* === OVERRIDE submitDeductionChain === */
+var _origSDC = submitDeductionChain;
+submitDeductionChain = function() {
+  if (_chainSelected.length < 3) { document.getElementById('chain-result').style.display = 'block'; document.getElementById('chain-result').innerHTML = '<div class=\"answer-card\">请至少选择3条证据。</div>'; return; }
+  var steps = _invCase.deductionChain.steps, match = 0, red = 0;
+  _chainSelected.forEach(function(cid) { if (steps.find(function(s) { return s.evidence === cid; })) match++; var cl = _invCase.clues.find(function(c) { return c.id === cid; }); if (cl && cl.redHerring) red++; });
+  var el = document.getElementById('chain-result'); el.style.display = 'block';
+  if (match >= steps.length - 1) { el.innerHTML = showEnding(_invCase.id); saveInvestigationProgress(_invCase.id); playSuccessSound(); }
+  else { el.innerHTML = '<div class=\"answer-card\"><strong>推理链不完整</strong><br>匹配' + match + '/' + steps.length + '条。' + (red > 0 ? '<br><span style=\"color:var(--accent);\">' + red + '条干扰项</span>' : '') + '</div>'; playErrorSound(); }
+};
+
 </script>
 
+
+<section class="page" id="page-crime-scene">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div class="stamp stamp-sm">勘</div>
+      <div><h1>现场勘查</h1><small id="scene-case-id">点击区域发现线索</small></div>
+    </div>
+    <div class="header-actions">
+      <span class="btn" id="scene-progress" style="cursor:default;font-family:var(--font-mono);font-size:11px;">0/0</span>
+      <button class="btn primary" id="scene-next-btn" onclick="goToTimeline()" style="display:none;">继续调查</button>
+    </div>
+  </header>
+  <main class="board">
+    <div class="crime-scene-page">
+      <div class="scene-map" id="scene-map"></div>
+      <div id="scene-clue-list" style="margin-top:16px;"></div>
+    </div>
+  </main>
+</section>
+<div class="scene-popup" id="scene-popup">
+  <div class="scene-popup-close" onclick="closePopup()">&#10005;</div>
+  <div class="scene-popup-title" id="popup-title"></div>
+  <div id="popup-body"></div>
+</div>
 <!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
 
 <!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
