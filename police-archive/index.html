@@ -1809,6 +1809,12 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s4", motive: "销毁'项目◇'腐败证据", method: "提前切断监控电源", evidence: "c1" },
+    caseConnections: {
+  related: [
+"XA-2024-003"
+  ],
+  link: "刘某参与的市政工程与变电站案有关联"
+},
     twists: [
 {
     trigger: "c3",
@@ -2012,6 +2018,23 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s6", motive: "医疗纠纷报复", method: "苯二氮卓注射迷晕后推入湖中", evidence: "c13" },
+    caseConnections: {
+  related: [
+"XA-2024-005"
+  ],
+  link: "死者李某的药剂师身份与诊所药物失窃案有关"
+},
+    alternativeEnding: {
+  correct: {
+    suspect: "s6",
+    conclusion: "陈某因医疗纠纷报复李某，用苯二氮卓注射迷晕后推入湖中。"
+  },
+  alternative: {
+    suspect: "s7",
+    conclusion: "张某为骗取保险金杀害丈夫，利用弟弟的公司转移资金。",
+    trigger: "c14"
+  }
+},
     twists: [
 {
     trigger: "c10",
@@ -2205,6 +2228,12 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s10", motive: "掩盖设备故障通过安全考核", method: "SSH 远程登录删除日志", evidence: "c15" },
+    caseConnections: {
+  related: [
+"XA-2024-001"
+  ],
+  link: "变电站信号丢失与市政工程腐败案有关"
+},
     timeline: [
       { id: "t1", time: "18:05", text: "孙某刷卡进入变电站", order: 1 },
       { id: "t2", time: "21:00", text: "三组 SCADA 信号同步丢失（测试阶段）", order: 2 },
@@ -2573,6 +2602,12 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s17", motive: "贩卖管制药品牟利", method: "远程暂停监控录制", evidence: "c25" },
+    caseConnections: {
+  related: [
+"XA-2024-002"
+  ],
+  link: "失窃药物可能用于东湖溺亡案"
+},
     twists: [
 {
     trigger: "c25",
@@ -2953,6 +2988,12 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s24", motive: "灭口（掩盖 2019 医疗事故真相）", method: "管理员密码开门后伪造密室", evidence: "c40" },
+    caseConnections: {
+  related: [
+"XA-2024-013"
+  ],
+  link: "林稿件揭露的医疗事故与范思远有关"
+},
     twists: [
 {
     trigger: "c38",
@@ -3149,6 +3190,12 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s28", motive: "经济压力（消费超出收入）", method: "技术开锁（锡纸开锁器）", evidence: "c42" },
+    caseConnections: {
+  related: [
+"XA-2024-013"
+  ],
+  link: "赃物中有范思远妻子的戒指"
+},
     twists: [
 {
     trigger: "c41",
@@ -3342,6 +3389,12 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s31", motive: "保险诈骗（200 万受益人）", method: "分尸后冲入下水道", evidence: "c47" },
+    caseConnections: {
+  related: [
+"XA-2024-013"
+  ],
+  link: "保险购买时间在范思远案之后"
+},
     twists: [
 {
     trigger: "c46",
@@ -3535,6 +3588,12 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s34", motive: "报复（工伤纠纷被辞退）", method: "密码信件传达威胁", evidence: "c51" },
+    caseConnections: {
+  related: [
+"XA-2024-013"
+  ],
+  link: "密码编码来自范思远诊所"
+},
     twists: [
 {
     trigger: "c51",
@@ -3827,6 +3886,12 @@ const CASES = [
     method: "绳索勒颈窒息",
     evidence: "c56"
   },
+    caseConnections: {
+  related: [
+"XA-2024-012"
+  ],
+  link: "KTV监控被篡改，可能与红裙案有关"
+},
     twists: [
 {
     trigger: "c56",
@@ -4256,6 +4321,12 @@ const CASES = [
     method: "夜间尾随独行女性",
     evidence: "c63"
   },
+    caseConnections: {
+  related: [
+"XA-2024-013"
+  ],
+  link: "栀子花DNA与范思远案匹配"
+},
     twists: [
 {
     trigger: "c62",
@@ -4692,6 +4763,24 @@ const CASES = [
     method: "利用维修工身份进入",
     evidence: "c70"
   },
+    caseConnections: {
+  related: [
+"XA-2024-012",
+"XA-2024-015"
+  ],
+  link: "范思远是红裙案凶手，与骆父案有关"
+},
+    alternativeEnding: {
+  correct: {
+    suspect: "s45",
+    conclusion: "费渡因童年创伤报复范思远，利用维修工身份进入，杀害一家三口后取走档案灭口。"
+  },
+  alternative: {
+    suspect: "s46",
+    conclusion: "陈某因经济纠纷杀害范思远一家，费渡被冤枉。",
+    trigger: "c73"
+  }
+},
     twists: [
 {
     trigger: "c68",
@@ -5111,6 +5200,12 @@ const CASES = [
     method: "废弃工厂囚禁",
     evidence: "c74"
   },
+    caseConnections: {
+  related: [
+"XA-2024-013"
+  ],
+  link: "绑匪与范思远患者网络有关"
+},
     twists: [
 {
     trigger: "c74",
@@ -5541,6 +5636,23 @@ const CASES = [
     method: "钝器击打头部",
     evidence: "c81"
   },
+    caseConnections: {
+  related: [
+"XA-2024-013"
+  ],
+  link: "费承宇是范思远商业伙伴，费渡是费承宇之子"
+},
+    alternativeEnding: {
+  correct: {
+    suspect: "s52",
+    conclusion: "费承宇为阻止腐败案调查，深夜进入家属院杀害骆建国，取走卷宗灭口。"
+  },
+  alternative: {
+    suspect: "s53",
+    conclusion: "张某因怕牵连独立作案杀害骆建国，费承宇是幕后指使。",
+    trigger: "c83"
+  }
+},
     twists: [
 {
     trigger: "c79",
@@ -7862,18 +7974,18 @@ function checkComboResult() {
    ACHIEVEMENT SYSTEM
    ══════════════════════════════════════════════════════ */
 var _achievements = {
-  'first_case': { icon: '🔍', name: '初出茅庐', desc: '完成第一个案件', unlocked: false },
-  'all_cases': { icon: '🏆', name: '破案专家', desc: '完成所有15个案件', unlocked: false },
-  's_rank': { icon: '⭐', name: '完美推理', desc: '获得S级评价', unlocked: false },
-  'no_red_herring': { icon: '🎯', name: '火眼金睛', desc: '零红鲱鱼通关', unlocked: false },
-  'speed_demon': { icon: '⚡', name: '神速探员', desc: '10分钟内完成一个案件', unlocked: false },
-  'combo_master': { icon: '🔗', name: '证据组合大师', desc: '发现一条关键证据组合', unlocked: false },
-  'cipher_breaker': { icon: '🔐', name: '密码破译者', desc: '破解一个密码谜题', unlocked: false },
-  'witness_shake': { icon: '🤥', name: '戳穿谎言', desc: '发现一个证人的矛盾', unlocked: false },
-  'classified_access': { icon: '🔒', name: '最高机密', desc: '解锁机密案件', unlocked: false },
-  'full_report': { icon: '📋', name: '完美报告', desc: '生成一份完整案件报告', unlocked: false },
-  'all_twists': { icon: '🌀', name: '反转大师', desc: '发现所有剧情反转', unlocked: false },
-  'detective_legend': { icon: '👑', name: '侦探传奇', desc: '解锁所有成就', unlocked: false }
+  'first_case': { icon: '[查]', name: '初出茅庐', desc: '完成第一个案件', unlocked: false },
+  'all_cases': { icon: '[冠]', name: '破案专家', desc: '完成所有15个案件', unlocked: false },
+  's_rank': { icon: '[星]', name: '完美推理', desc: '获得S级评价', unlocked: false },
+  'no_red_herring': { icon: '[靶]', name: '火眼金睛', desc: '零红鲱鱼通关', unlocked: false },
+  'speed_demon': { icon: '[电]', name: '神速探员', desc: '10分钟内完成一个案件', unlocked: false },
+  'combo_master': { icon: '[链]', name: '证据组合大师', desc: '发现一条关键证据组合', unlocked: false },
+  'cipher_breaker': { icon: '[锁]', name: '密码破译者', desc: '破解一个密码谜题', unlocked: false },
+  'witness_shake': { icon: '[谎]', name: '戳穿谎言', desc: '发现一个证人的矛盾', unlocked: false },
+  'classified_access': { icon: '[密]', name: '最高机密', desc: '解锁机密案件', unlocked: false },
+  'full_report': { icon: '[报]', name: '完美报告', desc: '生成一份完整案件报告', unlocked: false },
+  'all_twists': { icon: '[旋]', name: '反转大师', desc: '发现所有剧情反转', unlocked: false },
+  'detective_legend': { icon: '[冠]', name: '侦探传奇', desc: '解锁所有成就', unlocked: false }
 };
 
 function showAchievement(id, name, desc) {
@@ -7883,7 +7995,7 @@ function showAchievement(id, name, desc) {
   
   var popup = document.createElement('div');
   popup.className = 'achievement-popup';
-  popup.innerHTML = '<div class="achievement-icon">' + (_achievements[id] ? _achievements[id].icon : '🏆') + '</div>' +
+  popup.innerHTML = '<div class="achievement-icon">' + (_achievements[id] ? _achievements[id].icon : '[冠]') + '</div>' +
     '<div class="achievement-title">' + escapeHtml(name) + '</div>' +
     '<div class="achievement-desc">' + escapeHtml(desc) + '</div>';
   document.body.appendChild(popup);
