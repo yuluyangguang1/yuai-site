@@ -724,6 +724,40 @@ footer {
 .blank-select.correct { border-color: #5a8a40; background-color: rgba(80,120,60,0.05); }
 .blank-select.wrong { border-color: var(--accent); background-color: rgba(148,60,60,0.05); }
 
+/* --- Investigation Sidebar --- */
+.inv-layout {
+  display: grid; grid-template-columns: 1fr 280px; gap: 20px;
+  max-width: 1000px; margin: 0 auto;
+}
+.inv-sidebar {
+  position: sticky; top: 80px; align-self: start;
+  max-height: calc(100vh - 100px); overflow-y: auto;
+}
+.inv-sidebar-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 3px; padding: 16px; margin-bottom: 12px;
+}
+.inv-sidebar-card h4 {
+  font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+  margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.inv-sidebar-meta {
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+}
+.inv-sidebar-meta .meta-row {
+  display: flex; justify-content: space-between; padding: 3px 0;
+}
+.inv-sidebar-evidence {
+  font-size: 12px; line-height: 1.5;
+}
+.inv-sidebar-evidence .ev-item {
+  padding: 4px 0; border-bottom: 1px dashed rgba(80,60,35,0.08);
+}
+@media (max-width: 768px) {
+  .inv-layout { grid-template-columns: 1fr; }
+  .inv-sidebar { position: static; max-height: none; order: -1; }
+}
+
 </style>
 </head>
 <body>
@@ -960,9 +994,9 @@ footer {
     </div>
   </header>
   <main class="board">
-    <p style="max-width:78ch;margin:0 auto 16px;font-size:13px;color:var(--muted);">点击两个事件交换位置，将所有事件按正确的时间顺序排列。</p>
+    <div class="inv-layout"><div><p style="margin:0 0 16px;font-size:13px;color:var(--muted);">点击两个事件交换位置，将所有事件按正确的时间顺序排列。</p>
     <div id="timeline-events" style="max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:8px;"></div>
-    <div id="timeline-result" style="max-width:700px;margin:20px auto 0;display:none;"></div>
+    <div id="timeline-result" style="margin:20px 0 0;display:none;"></div></div><div class="inv-sidebar" id="timeline-sidebar"></div></div>
   </main>
 </section>
 
@@ -983,7 +1017,7 @@ footer {
     </div>
   </header>
   <main class="board">
-    <div id="interrogation-suspects" style="max-width:700px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;"></div>
+    <div class="inv-layout"><div><div id="interrogation-suspects" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;"></div>
     <div id="interrogation-area" style="max-width:700px;margin:0 auto;display:none;">
       <div class="notebook" style="margin-bottom:16px;">
         <div style="font-family:var(--font-heading);font-size:16px;font-weight:700;margin-bottom:12px;" id="interrogation-name"></div>
@@ -991,7 +1025,7 @@ footer {
       </div>
       <div id="interrogation-answer" style="display:none;"></div>
     </div>
-    <div id="interrogation-contradictions" style="max-width:700px;margin:20px auto 0;"></div>
+    <div id="interrogation-contradictions" style="margin:20px 0 0;"></div></div><div class="inv-sidebar" id="interrogation-sidebar"></div></div>
   </main>
 </section>
 
@@ -1011,10 +1045,10 @@ footer {
     </div>
   </header>
   <main class="board">
-    <p style="max-width:78ch;margin:0 auto 16px;font-size:13px;color:var(--muted);">选择关键证据，系统将自动构建推理链。选择与真相最相关的 4 条证据。</p>
+    <div class="inv-layout"><div><p style="margin:0 0 16px;font-size:13px;color:var(--muted);">选择关键证据，系统将自动构建推理链。选择与真相最相关的 4 条证据。</p>
     <div id="chain-evidence" style="max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:8px;"></div>
     <div id="chain-preview" style="max-width:700px;margin:20px auto 0;"></div>
-    <div id="chain-result" style="max-width:700px;margin:20px auto 0;display:none;"></div>
+    <div id="chain-result" style="margin:20px 0 0;display:none;"></div></div><div class="inv-sidebar" id="chain-sidebar"></div></div>
   </main>
 </section>
 
@@ -1564,7 +1598,8 @@ const router = {
     window.scrollTo({ top: 0 });
   },
   back() {
-    const target = _prevPage || 'board';
+    const target = _prevPage && _prevPage !== 'login' ? _prevPage : 'board';
+    _prevPage = null;
     this.go(target, { _back: true });
   }
 };
@@ -2391,6 +2426,66 @@ askQuestion = function(sid, qi) {
     var answerEl = document.getElementById('interrogation-answer');
     answerEl.insertAdjacentHTML('afterend', profileHtml);
   }
+};
+
+/* --- Sidebar Population --- */
+function renderInvSidebar(containerId) {
+  var el = document.getElementById(containerId);
+  if (!el || !_invCase) return;
+  var c = _invCase;
+  
+  // Case summary card
+  var summaryHtml = '<div class="inv-sidebar-card">' +
+    '<h4>' + escapeHtml(c.title) + '</h4>' +
+    '<div class="inv-sidebar-meta">' +
+      '<div class="meta-row"><span>编号</span><span>' + escapeHtml(c.id) + '</span></div>' +
+      '<div class="meta-row"><span>日期</span><span>' + escapeHtml(c.date) + '</span></div>' +
+      '<div class="meta-row"><span>地点</span><span>' + escapeHtml(c.location) + '</span></div>' +
+      '<div class="meta-row"><span>级别</span><span>' + escapeHtml(c.level) + '</span></div>' +
+    '</div>' +
+    '<div style="margin-top:10px;font-size:12px;line-height:1.6;color:var(--ink);">' + escapeHtml(c.summary).substring(0, 200) + '...</div>' +
+  '</div>';
+  
+  // Evidence list card
+  var evHtml = '<div class="inv-sidebar-card">' +
+    '<h4>证据清单 (' + c.evidence.length + ')</h4>' +
+    '<div class="inv-sidebar-evidence">' +
+    c.evidence.map(function(e) {
+      return '<div class="ev-item">' + escapeHtml(e.name) + ' <span style="color:var(--muted);font-size:10px;">' + escapeHtml(e.status) + '</span></div>';
+    }).join('') +
+    '</div></div>';
+  
+  // Suspects card
+  var suspHtml = '<div class="inv-sidebar-card">' +
+    '<h4>嫌疑人 (' + c.suspects.length + ')</h4>' +
+    '<div class="inv-sidebar-evidence">' +
+    c.suspects.map(function(s) {
+      return '<div class="ev-item"><strong>' + escapeHtml(s.name) + '</strong><br><span style="color:var(--muted);font-size:11px;">' + escapeHtml(s.attr) + '</span></div>';
+    }).join('') +
+    '</div></div>';
+  
+  el.innerHTML = summaryHtml + evHtml + suspHtml;
+}
+
+// Override startTimeline to populate sidebar
+var _origStartTimeline = startTimeline;
+startTimeline = function() {
+  _origStartTimeline();
+  renderInvSidebar('timeline-sidebar');
+};
+
+// Override startInterrogation to populate sidebar
+var _origStartInterrogation2 = startInterrogation;
+startInterrogation = function() {
+  _origStartInterrogation2();
+  renderInvSidebar('interrogation-sidebar');
+};
+
+// Override startDeductionChain to populate sidebar
+var _origStartChain2 = startDeductionChain;
+startDeductionChain = function() {
+  _origStartChain2();
+  renderInvSidebar('chain-sidebar');
 };
 
 </script>
