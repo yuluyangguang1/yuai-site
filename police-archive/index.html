@@ -868,6 +868,13 @@ footer {
   .scene-area { border: 1px solid #666; }
 }
 
+/* --- SVG Scene Map --- */
+.scene-svg { width: 100%; height: auto; cursor: default; }
+.scene-hotspot { cursor: pointer; }
+.scene-hotspot:hover rect { stroke: var(--accent) !important; fill: rgba(148,60,60,0.1) !important; }
+.scene-hotspot.discovered rect { stroke: #5a8a40 !important; fill: rgba(80,120,60,0.08) !important; stroke-dasharray: none !important; }
+.scene-hotspot text { pointer-events: none; }
+
 </style>
 <!-- v1783050176 --></head>
 <body>
@@ -3009,16 +3016,252 @@ function startCrimeScene() {
   _discovered = {};
   renderScene();
 }
+
+/* === SVG SCENE MAPS === */
+var _sceneSVGs = {
+  "XA-2024-001": `<svg viewBox="0 0 500 350" class="scene-svg">
+  <rect x="0" y="0" width="500" height="350" fill="var(--surface)" rx="4"/>
+  <text x="250" y="25" text-anchor="middle" font-family="var(--font-heading)" font-size="14" fill="var(--muted)">墨迹书局 · 一楼/二楼俯视图</text>
+  <!-- Building outline -->
+  <rect x="40" y="40" width="420" height="260" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="4"/>
+  <line x1="250" y1="40" x2="250" y2="300" stroke="var(--border)" stroke-width="1" stroke-dasharray="2"/>
+  <text x="145" y="60" text-anchor="middle" font-size="10" fill="var(--muted)">一楼</text>
+  <text x="345" y="60" text-anchor="middle" font-size="10" fill="var(--muted)">二楼</text>
+  <!-- Hotspots -->
+  <g class="scene-hotspot" onclick="explore('a1')">
+    <rect x="50" y="80" width="100" height="60" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4" class="scene-rect"/>
+    <text x="100" y="105" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">后门</text>
+    <text x="100" y="120" text-anchor="middle" font-size="9" fill="var(--muted)">锁芯撬痕 14°</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a2')">
+    <rect x="270" y="70" width="120" height="70" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="330" y="100" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">铁皮柜</text>
+    <text x="330" y="115" text-anchor="middle" font-size="9" fill="var(--muted)">烧毁文件夹</text>
+    <text x="330" y="127" text-anchor="middle" font-size="8" fill="var(--accent)">起火点</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a3')">
+    <rect x="50" y="200" width="80" height="50" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="90" y="222" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">配电箱</text>
+    <text x="90" y="235" text-anchor="middle" font-size="9" fill="var(--muted)">02:15断电</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a4')">
+    <rect x="350" y="180" width="90" height="60" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="395" y="205" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">监控死角</text>
+    <text x="395" y="220" text-anchor="middle" font-size="9" fill="var(--muted)">纤维样本</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a5')">
+    <rect x="200" y="240" width="90" height="50" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="245" y="262" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">西侧地面</text>
+    <text x="245" y="275" text-anchor="middle" font-size="9" fill="var(--muted)">汽油残留</text>
+  </g>
+  <!-- Red string connections -->
+  <line x1="150" y1="110" x2="270" y2="105" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3" opacity="0.4"/>
+  <line x1="330" y1="140" x2="395" y2="180" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3" opacity="0.4"/>
+  <line x1="330" y1="140" x2="245" y2="240" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3" opacity="0.4"/>
+</svg>`,
+  "XA-2024-002": `<svg viewBox="0 0 500 350" class="scene-svg">
+  <rect x="0" y="0" width="500" height="350" fill="var(--surface)" rx="4"/>
+  <text x="250" y="25" text-anchor="middle" font-family="var(--font-heading)" font-size="14" fill="var(--muted)">东湖桥底 · 案发现场</text>
+  <!-- Bridge -->
+  <rect x="150" y="40" width="200" height="30" rx="4" fill="rgba(80,60,35,0.1)" stroke="var(--border)" stroke-width="1"/>
+  <text x="250" y="60" text-anchor="middle" font-size="10" fill="var(--muted)">东湖桥</text>
+  <!-- Water -->
+  <rect x="40" y="80" width="420" height="80" rx="4" fill="rgba(60,100,140,0.08)" stroke="rgba(60,100,140,0.2)" stroke-width="1"/>
+  <text x="250" y="125" text-anchor="middle" font-size="10" fill="rgba(60,100,140,0.5)">东湖</text>
+  <!-- Shore -->
+  <rect x="40" y="170" width="420" height="130" rx="4" fill="rgba(120,100,70,0.06)" stroke="var(--border)" stroke-width="1"/>
+  <!-- Hotspots -->
+  <g class="scene-hotspot" onclick="explore('a1')">
+    <rect x="170" y="175" width="160" height="50" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="250" y="198" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">施工围栏</text>
+    <text x="250" y="212" text-anchor="middle" font-size="9" fill="var(--muted)">液压剪破坏</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a2')">
+    <rect x="50" y="230" width="120" height="55" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="110" y="255" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">湖岸</text>
+    <text x="110" y="268" text-anchor="middle" font-size="9" fill="var(--accent)">遗体发现处</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a3')">
+    <rect x="330" y="230" width="120" height="55" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="390" y="255" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">土路</text>
+    <text x="390" y="268" text-anchor="middle" font-size="9" fill="var(--muted)">车辙印+烟蒂</text>
+  </g>
+  <!-- Red string -->
+  <line x1="250" y1="225" x2="110" y2="230" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3" opacity="0.4"/>
+  <line x1="250" y1="225" x2="390" y2="230" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3" opacity="0.4"/>
+</svg>`,
+  "XA-2024-003": `<svg viewBox="0 0 500 350" class="scene-svg">
+  <rect x="0" y="0" width="500" height="350" fill="var(--surface)" rx="4"/>
+  <text x="250" y="25" text-anchor="middle" font-family="var(--font-heading)" font-size="14" fill="var(--muted)">北山变电站 · 平面图</text>
+  <!-- Rooms -->
+  <rect x="40" y="50" width="200" height="120" rx="4" fill="rgba(80,60,35,0.04)" stroke="var(--border)" stroke-width="1"/>
+  <text x="140" y="70" text-anchor="middle" font-size="10" fill="var(--muted)">机房区域</text>
+  <rect x="260" y="50" width="200" height="120" rx="4" fill="rgba(80,60,35,0.04)" stroke="var(--border)" stroke-width="1"/>
+  <text x="360" y="70" text-anchor="middle" font-size="10" fill="var(--muted)">监控室</text>
+  <rect x="40" y="190" width="200" height="110" rx="4" fill="rgba(80,60,35,0.04)" stroke="var(--border)" stroke-width="1"/>
+  <text x="140" y="210" text-anchor="middle" font-size="10" fill="var(--muted)">值班室</text>
+  <rect x="260" y="190" width="200" height="110" rx="4" fill="rgba(80,60,35,0.04)" stroke="var(--border)" stroke-width="1"/>
+  <text x="360" y="210" text-anchor="middle" font-size="10" fill="var(--muted)">门卫室</text>
+  <!-- Hotspots -->
+  <g class="scene-hotspot" onclick="explore('a1')">
+    <rect x="60" y="80" width="160" height="70" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="140" y="110" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">核心交换机</text>
+    <text x="140" y="125" text-anchor="middle" font-size="9" fill="var(--muted)">472条日志删除</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a2')">
+    <rect x="280" y="80" width="160" height="70" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="360" y="110" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">运维终端</text>
+    <text x="360" y="125" text-anchor="middle" font-size="9" fill="var(--muted)">ops_b 01:55登录</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a3')">
+    <rect x="60" y="220" width="160" height="60" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="140" y="248" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">值班室</text>
+    <text x="140" y="262" text-anchor="middle" font-size="9" fill="var(--muted)">周某全程未离开</text>
+  </g>
+  <!-- Red string -->
+  <line x1="220" y1="115" x2="280" y2="115" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3" opacity="0.5"/>
+</svg>`,
+  "XA-2024-004": `<svg viewBox="0 0 500 350" class="scene-svg">
+  <rect x="0" y="0" width="500" height="350" fill="var(--surface)" rx="4"/>
+  <text x="250" y="25" text-anchor="middle" font-family="var(--font-heading)" font-size="14" fill="var(--muted)">漕河3号码头 · 堆场</text>
+  <!-- Dock/water -->
+  <rect x="40" y="40" width="420" height="60" rx="4" fill="rgba(60,100,140,0.06)" stroke="rgba(60,100,140,0.15)" stroke-width="1"/>
+  <text x="250" y="75" text-anchor="middle" font-size="10" fill="rgba(60,100,140,0.5)">漕河</text>
+  <!-- Yard -->
+  <rect x="40" y="110" width="420" height="190" rx="4" fill="rgba(120,100,70,0.05)" stroke="var(--border)" stroke-width="1"/>
+  <text x="250" y="130" text-anchor="middle" font-size="10" fill="var(--muted)">临时堆场</text>
+  <!-- Hotspots -->
+  <g class="scene-hotspot" onclick="explore('a1')">
+    <rect x="60" y="140" width="100" height="60" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="110" y="168" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">围栏</text>
+    <text x="110" y="182" text-anchor="middle" font-size="9" fill="var(--muted)">锁梁痕迹</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a2')">
+    <rect x="280" y="140" width="150" height="60" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="355" y="168" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">堆场/吊车</text>
+    <text x="355" y="182" text-anchor="middle" font-size="9" fill="var(--muted)">用电异常 00:15</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a3')">
+    <rect x="60" y="230" width="130" height="50" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="125" y="253" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">入口土路</text>
+    <text x="125" y="267" text-anchor="middle" font-size="9" fill="var(--muted)">两组轮胎印</text>
+  </g>
+  <!-- Red string -->
+  <line x1="160" y1="170" x2="280" y2="170" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3" opacity="0.4"/>
+</svg>`,
+  "XA-2024-005": `<svg viewBox="0 0 500 350" class="scene-svg">
+  <rect x="0" y="0" width="500" height="350" fill="var(--surface)" rx="4"/>
+  <text x="250" y="25" text-anchor="middle" font-family="var(--font-heading)" font-size="14" fill="var(--muted)">翠园社区卫生服务站 · 药房</text>
+  <!-- Room outline -->
+  <rect x="40" y="40" width="420" height="270" rx="4" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="4"/>
+  <!-- Hotspots -->
+  <g class="scene-hotspot" onclick="explore('a1')">
+    <rect x="60" y="60" width="140" height="100" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="130" y="105" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">药柜</text>
+    <text x="130" y="120" text-anchor="middle" font-size="9" fill="var(--accent)">3箱处方药失踪</text>
+    <text x="130" y="135" text-anchor="middle" font-size="8" fill="var(--muted)">含管制类地西泮200支</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a2')">
+    <rect x="300" y="60" width="140" height="80" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="370" y="95" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">监控设备</text>
+    <text x="370" y="110" text-anchor="middle" font-size="9" fill="var(--muted)">画面冻结30分钟</text>
+    <text x="370" y="125" text-anchor="middle" font-size="8" fill="var(--accent)">23:00-23:30</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a3')">
+    <rect x="60" y="200" width="140" height="70" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="130" y="230" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">电脑/WiFi</text>
+    <text x="130" y="245" text-anchor="middle" font-size="9" fill="var(--muted)">华为Mate60连接</text>
+  </g>
+  <!-- Red string -->
+  <line x1="200" y1="110" x2="300" y2="100" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3" opacity="0.4"/>
+</svg>`,
+  "XA-2024-006": `<svg viewBox="0 0 500 350" class="scene-svg">
+  <rect x="0" y="0" width="500" height="350" fill="var(--surface)" rx="4"/>
+  <text x="250" y="25" text-anchor="middle" font-family="var(--font-heading)" font-size="14" fill="var(--muted)">和平路89号6栋 · 侧视图</text>
+  <!-- Building -->
+  <rect x="150" y="40" width="200" height="260" rx="2" fill="rgba(80,60,35,0.06)" stroke="var(--border)" stroke-width="1"/>
+  <!-- Floors -->
+  <line x1="150" y1="105" x2="350" y2="105" stroke="var(--border)" stroke-width="0.5"/>
+  <line x1="150" y1="170" x2="350" y2="170" stroke="var(--border)" stroke-width="0.5"/>
+  <line x1="150" y1="235" x2="350" y2="235" stroke="var(--border)" stroke-width="0.5"/>
+  <text x="140" y="75" text-anchor="end" font-size="9" fill="var(--muted)">8F</text>
+  <text x="140" y="140" text-anchor="end" font-size="9" fill="var(--muted)">7F</text>
+  <text x="140" y="205" text-anchor="end" font-size="9" fill="var(--muted)">6F</text>
+  <!-- Hotspots -->
+  <g class="scene-hotspot" onclick="explore('a1')">
+    <rect x="200" y="270" width="100" height="25" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="250" y="288" text-anchor="middle" font-size="10" font-weight="600" fill="var(--ink)">入口处</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a2')">
+    <rect x="160" y="110" width="60" height="50" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="190" y="133" text-anchor="middle" font-size="10" font-weight="600" fill="var(--ink)">701</text>
+    <text x="190" y="148" text-anchor="middle" font-size="8" fill="var(--accent)">阳台花盆</text>
+  </g>
+  <!-- Trajectory line -->
+  <path d="M 190 160 Q 200 200 250 270" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4" fill="none" opacity="0.5"/>
+  <text x="220" y="220" font-size="8" fill="var(--accent)" transform="rotate(-60 220 220)">坠落轨迹</text>
+</svg>`,
+  "XA-2024-007": `<svg viewBox="0 0 500 350" class="scene-svg">
+  <rect x="0" y="0" width="500" height="350" fill="var(--surface)" rx="4"/>
+  <text x="250" y="25" text-anchor="middle" font-family="var(--font-heading)" font-size="14" fill="var(--muted)">拾光书屋 · 平面图</text>
+  <!-- Bookstore outline -->
+  <rect x="40" y="40" width="420" height="270" rx="4" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="4"/>
+  <!-- VIP Room -->
+  <rect x="60" y="60" width="160" height="140" rx="4" fill="rgba(80,60,35,0.04)" stroke="var(--border)" stroke-width="1"/>
+  <text x="140" y="80" text-anchor="middle" font-size="10" fill="var(--muted)">VIP阅读室</text>
+  <!-- Back door -->
+  <rect x="60" y="230" width="100" height="60" rx="4" fill="rgba(80,60,35,0.04)" stroke="var(--border)" stroke-width="1"/>
+  <text x="110" y="250" text-anchor="middle" font-size="10" fill="var(--muted)">后门通道</text>
+  <!-- Parking -->
+  <rect x="300" y="230" width="140" height="60" rx="4" fill="rgba(80,60,35,0.04)" stroke="var(--border)" stroke-width="1"/>
+  <text x="370" y="250" text-anchor="middle" font-size="10" fill="var(--muted)">停车场</text>
+  <!-- Hotspots -->
+  <g class="scene-hotspot" onclick="explore('a1')">
+    <rect x="80" y="90" width="120" height="90" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="140" y="130" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">密室</text>
+    <text x="140" y="145" text-anchor="middle" font-size="9" fill="var(--muted)">电脑/咖啡/外套</text>
+    <text x="140" y="158" text-anchor="middle" font-size="8" fill="var(--accent)">无人出入记录</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a2')">
+    <rect x="300" y="60" width="100" height="60" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="350" y="88" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">电子门锁</text>
+    <text x="350" y="102" text-anchor="middle" font-size="9" fill="var(--muted)">密码锁记录</text>
+  </g>
+  <g class="scene-hotspot" onclick="explore('a3')">
+    <rect x="80" y="240" width="60" height="40" rx="4" fill="rgba(148,60,60,0.05)" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="110" y="260" text-anchor="middle" font-size="10" font-weight="600" fill="var(--ink)">后门</text>
+    <text x="110" y="272" text-anchor="middle" font-size="8" fill="var(--accent)">手套印</text>
+  </g>
+  <!-- Escape route -->
+  <path d="M 140 200 L 110 230 L 110 260 L 370 260" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4" fill="none" opacity="0.5"/>
+  <text x="240" y="275" font-size="8" fill="var(--accent)">逃离路线</text>
+</svg>`,
+};
+
 function renderScene() {
   var c = _invCase; if (!c || !c.scene) return;
-  var el = document.getElementById('scene-map');
-  el.innerHTML = c.scene.areas.map(function(a) {
-    return '<div class="scene-area' + (_discovered[a.id] ? ' discovered' : '') + '" style="left:' + a.x + '%;top:' + a.y + '%;width:' + a.w + '%;height:' + a.h + '%;" onclick="explore(\'' + a.id + '\')">' + escapeHtml(a.label) + '</div>';
-  }).join('');
+  var mapEl = document.getElementById('scene-map');
+  var svgData = _sceneSVGs[c.id];
+  if (svgData) {
+    // Use SVG scene map
+    mapEl.style.paddingBottom = '70%';
+    mapEl.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">' + svgData + '</div>';
+    // Mark discovered areas
+    Object.keys(_discovered).forEach(function(aid) {
+      var hotspot = mapEl.querySelector('[onclick="explore(\'' + aid + '\')"]');
+      if (hotspot) hotspot.classList.add('discovered');
+    });
+  } else {
+    // Fallback to grid-based map
+    mapEl.innerHTML = c.scene.areas.map(function(a) {
+      return '<div class="scene-area' + (_discovered[a.id] ? ' discovered' : '') + '" style="left:' + a.x + '%;top:' + a.y + '%;width:' + a.w + '%;height:' + a.h + '%;" onclick="explore(\'' + a.id + '\')">' + escapeHtml(a.label) + '</div>';
+    }).join('');
+  }
   var total = c.scene.areas.length, found = Object.keys(_discovered).length;
   document.getElementById('scene-progress').textContent = found + '/' + total;
   if (found >= total) document.getElementById('scene-next-btn').style.display = 'inline-flex';
 }
+
 function explore(aid) {
   if (_discovered[aid]) return;
   var c = _invCase, a = c.scene.areas.find(function(x) { return x.id === aid; });
