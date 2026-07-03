@@ -1537,6 +1537,18 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s4", motive: "销毁'项目◇'腐败证据", method: "提前切断监控电源", evidence: "c1" },
+    twists: [
+{
+    trigger: "c3",
+    reveal: "KTV老板张东升的监控录像有2分钟被删除——删除的时间正是陈雪进入包厢的时间。",
+    dramatic: "监控被篡改"
+  },
+{
+    trigger: "c5",
+    reveal: "勒痕宽度0.8cm的绳索在张东升的KTV后台找到同款。",
+    dramatic: "物证锁定"
+  }
+],
     timeline: [
       { id: "t1", time: "01:30", text: "王某致电刘某（房东），通话 2 分 15 秒", order: 1 },
       { id: "t2", time: "01:50", text: "赵某驾三轮车经过中山路", order: 2 },
@@ -1615,6 +1627,18 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s6", motive: "医疗纠纷报复", method: "苯二氮卓注射迷晕后推入湖中", evidence: "c13" },
+    twists: [
+{
+    trigger: "c10",
+    reveal: "液压剪上发现的指纹属于一名已失踪的维修工——此人正是范思远的前患者。",
+    dramatic: "红裙案与范思远案关联"
+  },
+{
+    trigger: "c13",
+    reveal: "第三名受害者小雨接到的电话号码，与范思远诊所的预约电话来自同一部手机。",
+    dramatic: "范思远的影子"
+  }
+],
     timeline: [
       { id: "t1", time: "22:00", text: "死者接到电话后出门", order: 1 },
       { id: "t2", time: "22:05", text: "与尾号 3387 通话 4 分 12 秒", order: 2 },
@@ -1825,6 +1849,18 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s17", motive: "贩卖管制药品牟利", method: "远程暂停监控录制", evidence: "c25" },
+    twists: [
+{
+    trigger: "c25",
+    reveal: "45张伪造处方=200支地西泮=失窃数量——这不是一次性盗窃，是3个月的积累。",
+    dramatic: "长期计划"
+  },
+{
+    trigger: "c28",
+    reveal: "钱某22:45进药房但冰箱温度无波动——他在说谎，但不是窃贼。",
+    dramatic: "红鲱鱼揭示"
+  }
+],
     timeline: [
       { id: "t1", time: "6 月", text: "赵某入职药剂师岗位", order: 1 },
       { id: "t2", time: "6-8 月", text: "地西泮处方量下降 60%，45 张处方签名被伪造", order: 2 },
@@ -1967,6 +2003,18 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s24", motive: "灭口（掩盖 2019 医疗事故真相）", method: "管理员密码开门后伪造密室", evidence: "c40" },
+    twists: [
+{
+    trigger: "c38",
+    reveal: "周某是陈某的大学同学——他有动机阻止林稿件发表。",
+    dramatic: "关系网浮现"
+  },
+{
+    trigger: "c40",
+    reveal: "00:55的管理员开门记录被删除——删除者就是开门者。",
+    dramatic: "密室真相"
+  }
+],
     timeline: [
       { id: "t1", time: "22:00", text: "林某进入 VIP 阅读室", order: 1 },
       { id: "t2", time: "23:30", text: "后门监控 5 分钟画面模糊", order: 2 },
@@ -2038,6 +2086,18 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s28", motive: "经济压力（消费超出收入）", method: "技术开锁（锡纸开锁器）", evidence: "c42" },
+    twists: [
+{
+    trigger: "c41",
+    reveal: "李某某的工卡记录显示他在非维修时间进入小区——但物业声称维修工需要随时进出。",
+    dramatic: "物业的谎言"
+  },
+{
+    trigger: "c44",
+    reveal: "张某的金饰店收到的金饰中，有一枚刻有'范'字的戒指——属于范思远妻子。",
+    dramatic: "范思远案的赃物"
+  }
+],
     timeline: [
       { id: "t1", time: "2023-09", text: "第 1 起盗窃：翠湖花园 7 栋顶楼，失窃现金 2 万元", order: 1 },
       { id: "t2", time: "2023-10", text: "第 2 起：同小区 3 栋顶楼，失窃金饰价值 3 万元", order: 2 },
@@ -2106,6 +2166,18 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s31", motive: "保险诈骗（200 万受益人）", method: "分尸后冲入下水道", evidence: "c47" },
+    twists: [
+{
+    trigger: "c46",
+    reveal: "密室本身就是犯罪现场——分尸后通过下水道处理，嫌疑人无需离开房间。",
+    dramatic: "密室的真相"
+  },
+{
+    trigger: "c49",
+    reveal: "200万保险的受益人是王某——但保险购买时间恰好在范思远案之后一周。",
+    dramatic: "范思远案的连锁反应"
+  }
+],
     timeline: [
       { id: "t1", time: "22:50", text: "陈某最后进入 801 室", order: 1 },
       { id: "t2", time: "23:00", text: "王某称妻子'不见了'", order: 2 },
@@ -2174,6 +2246,18 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s34", motive: "报复（工伤纠纷被辞退）", method: "密码信件传达威胁", evidence: "c51" },
+    twists: [
+{
+    trigger: "c51",
+    reveal: "密码信件使用了范思远诊所的内部编码系统——只有范思远的患者才知道这套编码。",
+    dramatic: "范思远的患者网络"
+  },
+{
+    trigger: "c53",
+    reveal: "打印机的购买者使用了费渡的信用卡——但费渡声称卡已丢失。",
+    dramatic: "费渡的嫌疑"
+  }
+],
     timeline: [
       { id: "t1", time: "11/01", text: "第 1 封匿名信寄达公安局", order: 1 },
       { id: "t2", time: "11/03", text: "密码破解指向电力箱，发现已被破坏", order: 2 },
@@ -2341,6 +2425,18 @@ const CASES = [
     method: "绳索勒颈窒息",
     evidence: "c56"
   },
+    twists: [
+{
+    trigger: "c56",
+    reveal: "KTV包厢的监控录像被人为删除2分钟——删除时间正是陈雪遇害的时间段。",
+    dramatic: "监控被篡改"
+  },
+{
+    trigger: "c59",
+    reveal: "李明的暴力倾向与范思远的治疗记录有关——李明曾是范思远的患者。",
+    dramatic: "范思远的阴影"
+  }
+],
     scene: {
   name: "花市西区废弃仓库",
   areas: [
@@ -2645,6 +2741,18 @@ const CASES = [
     method: "夜间尾随独行女性",
     evidence: "c63"
   },
+    twists: [
+{
+    trigger: "c62",
+    reveal: "栀子花的DNA与范思远案中的皮肤细胞匹配——凶手是同一个人。",
+    dramatic: "连环杀手确认"
+  },
+{
+    trigger: "c63",
+    reveal: "通话录音中的钢琴声频率与范思远诊所的钢琴完全一致。",
+    dramatic: "范思远的诊所"
+  }
+],
     scene: {
   name: "三处案发地",
   areas: [
@@ -2956,6 +3064,18 @@ const CASES = [
     method: "利用维修工身份进入",
     evidence: "c70"
   },
+    twists: [
+{
+    trigger: "c68",
+    reveal: "维修工门禁卡的申请记录显示申请人是费渡——但费渡声称在外地出差。",
+    dramatic: "费渡的谎言"
+  },
+{
+    trigger: "c70",
+    reveal: "患者档案中有一份记录：'患者F，童年目睹母亲自杀，产生分离性身份障碍'——这正是费渡的病历。",
+    dramatic: "费渡的创伤"
+  }
+],
     scene: {
   name: "范思远住宅",
   areas: [
@@ -3250,6 +3370,18 @@ const CASES = [
     method: "废弃工厂囚禁",
     evidence: "c74"
   },
+    twists: [
+{
+    trigger: "c74",
+    reveal: "白色货车的车主正是范思远的商业合伙人陈某——但陈某声称车已卖给他人。",
+    dramatic: "陈某的嫌疑"
+  },
+{
+    trigger: "c76",
+    reveal: "赵某虽有动机但不符合体貌特征——绑匪另有其人。",
+    dramatic: "赵某排除"
+  }
+],
     scene: {
   name: "废弃工厂",
   areas: [
@@ -3555,6 +3687,23 @@ const CASES = [
     method: "钝器击打头部",
     evidence: "c81"
   },
+    twists: [
+{
+    trigger: "c79",
+    reveal: "门禁记录显示费承宇进入家属院——但费承宇的妻子证实他在家。",
+    drmatic: "门禁卡被盗"
+  },
+{
+    trigger: "c81",
+    reveal: "骆建国指甲内的DNA与费渡的DNA有亲缘关系——费渡是费承宇的儿子。",
+    dramatic: "父子关系曝光"
+  },
+{
+    trigger: "c83",
+    reveal: "张某在案发后被发现死于'意外'——但尸检显示他杀。",
+    dramatic: "灭口行动"
+  }
+],
     classified: {
   classified: true,
   requiredCases: [
