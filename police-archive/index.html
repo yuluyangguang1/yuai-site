@@ -387,17 +387,71 @@ header {
   );
   background-position: 0 18px;
 }
+/* --- Notes / Notebook --- */
 .note-list { margin-top: 10px; }
 .note-item {
-  padding: 8px 0;
-  border-bottom: 1px dashed rgba(80,60,35,0.1);
+  padding: 10px 12px; margin-bottom: 8px;
+  background: linear-gradient(180deg, rgba(255,253,240,0.5) 0%, transparent 100%);
+  border-left: 3px solid var(--accent-warm);
+  border-radius: 0 3px 3px 0;
   font-size: 13.5px; line-height: 1.6;
+  position: relative;
+  transition: all 0.15s ease;
 }
+.note-item:hover { background: rgba(255,253,240,0.8); }
 .note-time {
   font-family: var(--font-mono); font-size: 10px; color: var(--muted);
-  letter-spacing: 0.05em; margin-bottom: 2px;
+  letter-spacing: 0.05em; margin-bottom: 4px;
 }
-.note-input-area { margin-top: 14px; padding-left: 70px; }
+.note-text {
+  font-family: var(--font-display); font-size: 15px; line-height: 1.7;
+  color: var(--ink);
+}
+.note-delete {
+  position: absolute; top: 8px; right: 8px;
+  font-size: 11px; color: var(--muted); cursor: pointer;
+  opacity: 0; transition: opacity 0.15s;
+  padding: 2px 6px; border-radius: 2px;
+}
+.note-item:hover .note-delete { opacity: 1; }
+.note-delete:hover { color: var(--accent); background: rgba(148,60,60,0.08); }
+.note-empty {
+  text-align: center; padding: 32px 20px; color: var(--muted);
+  font-family: var(--font-display); font-size: 16px;
+  opacity: 0.6;
+}
+.note-empty-icon {
+  font-size: 32px; margin-bottom: 8px; opacity: 0.3;
+}
+.note-input-area {
+  margin-top: 16px; padding-left: 0;
+}
+.note-textarea {
+  width: 100%; min-height: 60px; padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: 3px;
+  background: var(--surface); color: var(--ink);
+  font-family: var(--font-display); font-size: 15px;
+  line-height: 1.6; resize: vertical;
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  /* Ruled lines effect */
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 23px, rgba(148,60,60,0.05) 23px, rgba(148,60,60,0.05) 24px
+  );
+  background-position: 0 11px;
+}
+.note-textarea:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(148,60,60,0.1);
+}
+.note-textarea::placeholder {
+  color: var(--muted); font-style: italic; opacity: 0.5;
+}
+.note-actions {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 8px;
+}
+.note-char-count {
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted);
+}
 .notebook-container { max-width: 780px; margin: 0 auto; }
 
 /* ─── 证物卡片 ─── */
@@ -1063,10 +1117,13 @@ footer {
       <h2>办案手记 · Notes</h2>
     </div>
     <div class="notebook">
-      <div class="note-list" id="note-list" style="margin-top:10px;"></div>
+      <div class="note-list" id="note-list"></div>
       <div class="note-input-area">
-        <input id="note-input" placeholder="写点什么…" onkeydown="if(event.key==='Enter')saveNote()">
-        <div style="margin-top:8px;"><button class="btn primary" onclick="saveNote()">记录</button></div>
+        <textarea class="note-textarea" id="note-input" placeholder="在这里记录你的推理思路..." rows="3" oninput="updateCharCount('note-input','note-chars')"></textarea>
+        <div class="note-actions">
+          <span class="note-char-count" id="note-chars">0 字</span>
+          <button class="btn primary" onclick="saveNote()">记录</button>
+        </div>
       </div>
     </div>
   </main>
@@ -1131,10 +1188,13 @@ footer {
   <main class="board">
     <div class="notebook-container">
       <div class="notebook">
-        <div class="note-list" id="global-note-list" style="margin-top:10px;"></div>
+        <div class="note-list" id="global-note-list"></div>
         <div class="note-input-area">
-          <input id="global-note-input" placeholder="写点什么…" onkeydown="if(event.key==='Enter')saveGlobalNote()">
-          <div style="margin-top:8px;"><button class="btn primary" onclick="saveGlobalNote()">记录</button></div>
+          <textarea class="note-textarea" id="global-note-input" placeholder="记录你的全局推理笔记..." rows="3" oninput="updateCharCount('global-note-input','global-note-chars')"></textarea>
+          <div class="note-actions">
+            <span class="note-char-count" id="global-note-chars">0 字</span>
+            <button class="btn primary" onclick="saveGlobalNote()">记录</button>
+          </div>
         </div>
       </div>
       <div class="notebook mt-20">
@@ -2337,8 +2397,11 @@ function openClue(clueId) {
 
 function renderNotes(c) {
   const el = document.getElementById('note-list');
-  if (!c.notes || !c.notes.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;">本案暂无笔记</div>'; return; }
-  el.innerHTML = c.notes.map(n => `<div class="note-item"><div class="note-time">${escapeHtml(n.time)}</div>${escapeHtml(n.text)}</div>`).join('');
+  if (!c.notes || !c.notes.length) {
+    el.innerHTML = '<div class="note-empty"><div class="note-empty-icon">&#9998;</div>本案暂无笔记<br><small style="font-size:12px;opacity:0.5;">记录你的推理思路和关键发现</small></div>';
+    return;
+  }
+  el.innerHTML = c.notes.map((n, i) => `<div class="note-item"><div class="note-time">${formatTime(n.time)}</div><div class="note-text">${escapeHtml(n.text)}</div><div class="note-delete" onclick="deleteNote(${i})" title="删除">删除</div></div>`).join('');
 }
 function saveNote() {
   if (!currentCase) return;
@@ -2415,7 +2478,7 @@ function renderNotebook() {
   CASES.forEach(c => (c.notes||[]).forEach(n => rows.push({ caseId: c.id, caseTitle: c.title, time: n.time, text: n.text })));
   rows.sort((a, b) => new Date(b.time) - new Date(a.time));
   if (!rows.length) { list.innerHTML = '<div style="color:var(--muted);">暂无记录</div>'; document.getElementById('all-notes').innerHTML = ''; return; }
-  list.innerHTML = rows.slice(0, 12).map(r => `<div class="note-item"><div class="note-time">[${escapeHtml(r.caseId)}] ${escapeHtml(r.time)}</div>${escapeHtml(r.text)}<div style="font-size:11px;color:var(--muted);margin-top:4px;">← ${escapeHtml(r.caseTitle)}</div></div>`).join('');
+  list.innerHTML = rows.slice(0, 12).map(r => `<div class="note-item"><div class="note-time">[${escapeHtml(r.caseId)}] ${formatTime(r.time)}</div><div class="note-text">${escapeHtml(r.text)}</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">← ${escapeHtml(r.caseTitle)}</div></div>`).join('');
   document.getElementById('all-notes').innerHTML = rows.length + ' 条记录 · 自动同步自各案件卷。';
 }
 function saveGlobalNote() {
@@ -3615,6 +3678,31 @@ renderInvSidebar = function(containerId) {
     el.insertAdjacentHTML('beforeend', cipherHtml);
   }
 };
+
+/* === NOTE HELPERS === */
+function formatTime(timeStr) {
+  if (!timeStr) return '';
+  try {
+    var d = new Date(timeStr);
+    if (isNaN(d.getTime())) return escapeHtml(timeStr);
+    var month = (d.getMonth() + 1).toString().padStart(2, '0');
+    var day = d.getDate().toString().padStart(2, '0');
+    var hour = d.getHours().toString().padStart(2, '0');
+    var min = d.getMinutes().toString().padStart(2, '0');
+    return month + '/' + day + ' ' + hour + ':' + min;
+  } catch(e) { return escapeHtml(timeStr); }
+}
+function updateCharCount(inputId, countId) {
+  var input = document.getElementById(inputId);
+  var count = document.getElementById(countId);
+  if (input && count) count.textContent = input.value.length + ' 字';
+}
+function deleteNote(index) {
+  if (!currentCase || !currentCase.notes) return;
+  if (index < 0 || index >= currentCase.notes.length) return;
+  currentCase.notes.splice(index, 1);
+  persist(); renderNotes(currentCase); renderBoard();
+}
 
 </script>
 
