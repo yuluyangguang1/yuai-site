@@ -760,6 +760,22 @@ footer {
   .inv-sidebar { position: static; max-height: none; order: -1; }
 }
 
+/* --- Enhanced Gameplay UI --- */
+.conn-card { animation: loginFadeIn 0.3s ease-out; }
+.chain-warning { animation: loginFadeIn 0.2s ease-out; }
+
+/* --- Investigation progress indicator --- */
+.case-progress {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted);
+}
+.case-progress .progress-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border);
+}
+.case-progress .progress-dot.done { background: #5a8a40; }
+.case-progress .progress-dot.active { background: var(--accent); }
+
 </style>
 </head>
 <body>
@@ -2588,8 +2604,8 @@ submitDeductionChain = function() {
   resultEl.style.display = 'block';
   
   if (matchCount >= expectedSteps.length - 1) {
-    // Show case report with rating instead of simple success
     resultEl.innerHTML = showRating(_invCase.id);
+    saveInvestigationProgress(_invCase.id);
   } else {
     resultEl.innerHTML = '<div class="answer-card"><strong>推理链不完整</strong><br>匹配 ' + matchCount + '/' + expectedSteps.length + ' 条。' +
       (redHerringCount > 0 ? '<br><span style="color:var(--accent);">注意：你选择了 ' + redHerringCount + ' 条干扰项。</span>' : '') +
@@ -2693,6 +2709,144 @@ var _origStartChain2 = startDeductionChain;
 startDeductionChain = function() {
   _origStartChain2();
   renderInvSidebar('chain-sidebar');
+};
+
+/* --- Red Herring Feedback --- */
+function checkRedHerringWarning() {
+  var warningEl = document.getElementById('chain-warning');
+  if (!warningEl) {
+    var previewEl = document.getElementById('chain-preview');
+    if (previewEl) {
+      previewEl.insertAdjacentHTML('beforebegin', '<div id="chain-warning" style="display:none;"></div>');
+      warningEl = document.getElementById('chain-warning');
+    }
+  }
+  if (!warningEl || !_invCase) return;
+  
+  var redCount = 0;
+  _chainSelected.forEach(function(cid) {
+    var clue = _invCase.clues.find(function(c) { return c.id === cid; });
+    if (clue && clue.redHerring) redCount++;
+  });
+  
+  if (redCount > 0) {
+    warningEl.style.display = 'block';
+    warningEl.innerHTML = '<div class="answer-card" style="border-left-color:#a06820;background:rgba(180,100,40,0.04);">' +
+      '<strong style="color:#a06820;">注意：你选择了 ' + redCount + ' 条干扰项</strong><br>' +
+      '<span style="font-size:12px;">这些线索可能是误导性证据，仔细考虑它们是否与真相相关。</span></div>';
+  } else {
+    warningEl.style.display = 'none';
+  }
+}
+
+// Override toggleChainItem to add warning check
+var _origToggleChain = toggleChainItem;
+toggleChainItem = function(clueId) {
+  _origToggleChain(clueId);
+  checkRedHerringWarning();
+};
+
+/* --- Case Connection Discovery --- */
+function checkCaseConnections() {
+  if (!_invCase || !_invCase.caseConnections) return;
+  var connIds = _invCase.caseConnections;
+  var discovered = [];
+  
+  // Check if connected cases have been solved
+  connIds.forEach(function(connId) {
+    var connCase = CASES.find(function(c) { return c.id === connId; });
+    if (connCase) {
+      // Check if player has investigated this case
+      var saved = localStorage.getItem('pa_progress_' + (Auth.getSession() || {}).username);
+      if (saved) {
+        try {
+          var progress = JSON.parse(saved);
+          if (progress[connId]) discovered.push(connCase);
+        } catch(e) {}
+      }
+    }
+  });
+  
+  if (discovered.length > 0) {
+    var connHtml = '<div class="inv-sidebar-card" style="border-left:3px solid var(--accent);">' +
+      '<h4 style="color:var(--accent);">案件关联</h4>' +
+      '<div style="font-size:12px;line-height:1.6;">';
+    discovered.forEach(function(c) {
+      connHtml += '<div style="padding:4px 0;border-bottom:1px dashed var(--border);">' +
+        '<strong>' + escapeHtml(c.title) + '</strong><br>' +
+        '<span style="color:var(--muted);">与此案存在隐藏联系</span></div>';
+    });
+    connHtml += '</div></div>';
+    
+    // Add to sidebar
+    var sidebar = document.querySelector('.inv-sidebar');
+    if (sidebar) {
+      var existingConn = sidebar.querySelector('.conn-card');
+      if (!existingConn) {
+        sidebar.insertAdjacentHTML('afterbegin', connHtml);
+      }
+    }
+  }
+}
+
+// Save progress when completing investigation
+function saveInvestigationProgress(caseId) {
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return;
+  var key = 'pa_progress_' + username;
+  var progress = {};
+  try { progress = JSON.parse(localStorage.getItem(key) || '{}'); } catch(e) {}
+  progress[caseId] = { completedAt: new Date().toISOString(), rating: calculateRating(caseId) };
+  localStorage.setItem(key, JSON.stringify(progress));
+}
+
+/* --- Sound Effects System --- */
+var _audioCtx = null;
+function getAudioCtx() {
+  if (!_audioCtx) {
+    try { _audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return _audioCtx;
+}
+
+function playTone(freq, duration, type) {
+  var ctx = getAudioCtx();
+  if (!ctx) return;
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0.1, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (duration || 0.3));
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + (duration || 0.3));
+}
+
+function playDiscoverySound() { playTone(880, 0.15, 'sine'); setTimeout(function() { playTone(1100, 0.2, 'sine'); }, 150); }
+function playContradictionSound() { playTone(440, 0.1, 'sawtooth'); setTimeout(function() { playTone(330, 0.15, 'sawtooth'); }, 100); }
+function playSuccessSound() { playTone(523, 0.15, 'sine'); setTimeout(function() { playTone(659, 0.15, 'sine'); }, 150); setTimeout(function() { playTone(784, 0.3, 'sine'); }, 300); }
+function playErrorSound() { playTone(300, 0.2, 'square'); setTimeout(function() { playTone(250, 0.3, 'square'); }, 200); }
+
+// Override key moments to add sounds
+var _origAskQ = askQuestion;
+askQuestion = function(sid, qi) {
+  _origAskQ(sid, qi);
+  var q = _invCase.interrogations[sid].questions[qi];
+  if (q.tag === '矛盾') playContradictionSound();
+  else if (q.tag === '关键') playDiscoverySound();
+};
+
+var _origSubmitChain2 = submitDeductionChain;
+submitDeductionChain = function() {
+  _origSubmitChain2();
+  var resultEl = document.getElementById('chain-result');
+  if (resultEl && resultEl.style.display === 'block') {
+    var text = resultEl.textContent;
+    if (text.indexOf('案件破解') >= 0) playSuccessSound();
+    else if (text.indexOf('不完整') >= 0) playErrorSound();
+  }
 };
 
 </script>
