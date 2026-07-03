@@ -310,7 +310,7 @@ header {
   border-radius: 3px;
   box-shadow: var(--shadow);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
   position: relative;
   min-height: 170px;
   display: flex; flex-direction: column; justify-content: space-between;
@@ -358,7 +358,7 @@ header {
 }
 .level-closed { opacity: 0.7; }
 .level-hot { position: relative; }
-.level-hot::after { content: ""; position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: var(--accent); border-radius: 50; opacity: 0.6; }
+.level-hot::after { content: ""; position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; opacity: 0.6; }
 
 /* ─── Badge：印章风格 ─── */
 .badge {
@@ -452,7 +452,11 @@ header {
 .note-char-count {
   font-family: var(--font-mono); font-size: 10px; color: var(--muted);
 }
+.mt-20 { margin-top: 20px; }
+
 .notebook-container { max-width: 780px; margin: 0 auto; }
+
+.dark-card { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; }
 
 /* ─── 证物卡片 ─── */
 .board-grid {
@@ -903,9 +907,7 @@ footer {
 }
 .scene-area.discovered::before { background: #5a8a40; opacity: 0.8; }
 .scene-area.discovered::after { content: "\2713"; position: absolute; top: 2px; right: 4px; color: #5a8a40; font-size: 14px; }
-/* --- Better Card Hover --- */
-.note-card { transition: all 0.2s cubic-bezier(0.4,0,0.2,1); }
-.note-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(20,15,8,0.2); }
+/* Card hover (merged with base .note-card rules above) */
 /* --- Investigation Phase Indicator --- */
 .phase-indicator { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; }
 .phase-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
@@ -947,6 +949,7 @@ footer {
   outline: none; transition: border-color 0.2s;
 }
 .cipher-input:focus { border-color: var(--accent-warm); }
+.cipher-input::placeholder { color: var(--muted); opacity: 0.5; }
 .cipher-input.correct { border-color: #5a8a40; background: rgba(80,120,60,0.05); }
 .cipher-input.wrong { border-color: var(--accent); background: rgba(148,60,60,0.05); }
 /* --- Twist Reveal --- */
@@ -969,6 +972,53 @@ footer {
   font-family: var(--font-heading); font-size: 15px; font-weight: 700;
   color: var(--accent); margin-bottom: 6px;
 }
+/* --- Toast notification --- */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--surface); color: var(--ink); border: 1px solid var(--border);
+  border-radius: 4px; padding: 12px 24px; font-size: 13px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 9999;
+  animation: loginFadeIn 0.3s ease-out;
+  font-family: var(--font-body);
+}
+.toast.success { border-left: 3px solid #5a8a40; }
+.toast.error { border-left: 3px solid var(--accent); }
+.toast.info { border-left: 3px solid var(--accent-warm); }
+
+/* --- Loading spinner --- */
+.spinner {
+  display: inline-block; width: 16px; height: 16px;
+  border: 2px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- Smooth page transitions --- */
+.page.active { animation: pageIn 0.25s ease-out; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- Better mobile touch targets --- */
+@media (max-width: 768px) {
+  .timeline-event, .suspect-btn, .q-btn, .chain-item, .clue-tile, .photo-tile { min-height: 48px; }
+  .btn { min-height: 44px; }
+}
+
+/* --- Dark mode coverage for new elements --- */
+[data-theme="dark"] .note-item { background: linear-gradient(180deg, rgba(40,35,25,0.5) 0%, transparent 100%); }
+[data-theme="dark"] .note-item:hover { background: rgba(40,35,25,0.8); }
+[data-theme="dark"] .cipher-box { background: var(--surface); }
+[data-theme="dark"] .answer-card { background: var(--surface); }
+[data-theme="dark"] .contradiction-card { background: var(--surface); }
+[data-theme="dark"] .twist-card { background: linear-gradient(135deg, rgba(148,60,60,0.08), rgba(176,136,80,0.08)); }
+[data-theme="dark"] .tutorial-card { background: var(--surface); }
+[data-theme="dark"] .evidence-note { background: var(--bg); }
+
+/* --- Focus states for interactive elements --- */
+.photo-tile:focus-visible, .clue-tile:focus-visible, .suspect-btn:focus-visible,
+.q-btn:focus-visible, .chain-item:focus-visible, .timeline-event:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+
 /* --- Combination --- */
 .combo-card {
   background: rgba(176,136,80,0.06); border: 1px solid rgba(176,136,80,0.2);
@@ -980,8 +1030,64 @@ footer {
   letter-spacing: 0.08em; margin-bottom: 4px;
 }
 
+/* --- Page Transitions --- */
+.page { display: none; animation: pageIn 0.25s ease-out; }
+.page.active { display: block; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- Smooth transitions for all interactive elements --- */
+.btn, .note-card, .clue-tile, .suspect-tile, .photo-tile, .chain-item,
+.timeline-event, .suspect-btn, .q-btn, .scene-area, .stat-tile,
+.note-item, .badge, .evidence-detail, .modal-mask {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Better focus states --- */
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.scene-area:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* --- Loading state --- */
+.loading { opacity: 0.5; pointer-events: none; }
+.loading::after { content: "..."; animation: dots 1.5s infinite; }
+@keyframes dots { 0% { content: "."; } 33% { content: ".."; } 66% { content: "..."; } }
+
+/* --- Better mobile touch targets --- */
+@media (max-width: 768px) {
+  .btn { min-height: 44px; }
+  .q-btn { min-height: 44px; padding: 12px 14px; }
+  .chain-item { min-height: 44px; }
+  .timeline-event { min-height: 44px; }
+  .scene-area { min-height: 44px; }
+  .note-card { min-height: 160px; }
+  .suspect-btn { min-height: 44px; padding: 12px 16px; }
+}
+
+/* --- Keyboard shortcut hints --- */
+.kbd {
+  display: inline-block; padding: 1px 5px; margin-left: 4px;
+  font-family: var(--font-mono); font-size: 9px;
+  background: rgba(80,60,35,0.08); border: 1px solid var(--border);
+  border-radius: 2px; color: var(--muted); vertical-align: middle;
+}
+
+[data-theme="dark"] .scene-area { border-color: rgba(200,185,155,0.15); }
+[data-theme="dark"] .scene-area:hover { border-color: var(--accent); background: rgba(148,60,60,0.08); }
+[data-theme="dark"] .scene-popup { background: var(--surface); border-color: var(--accent); }
+[data-theme="dark"] .cipher-box { border-color: var(--accent-warm); }
+[data-theme="dark"] .twist-card { background: linear-gradient(135deg, rgba(148,60,60,0.08), rgba(176,136,80,0.08)); }
+[data-theme="dark"] .combo-card { background: rgba(176,136,80,0.08); }
+[data-theme="dark"] .alt-ending { border-color: var(--accent-warm); }
+[data-theme="dark"] .note-item { background: linear-gradient(180deg, rgba(30,25,18,0.5) 0%, transparent 100%); }
+[data-theme="dark"] .note-textarea { background: var(--surface); }
+[data-theme="dark"] .tutorial-card { background: var(--surface); }
+[data-theme="dark"] .scene-map-label { color: var(--ink); }
+
 </style>
-<!-- v1783050176 --></head>
+<!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
+<meta name="theme-color" content="#1a1510">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128270;</text></svg>">
+</head>
 <body>
 
 <!-- ═══════════════════════════ PAGE: LOGIN ═══════════════════════════ -->
@@ -995,15 +1101,15 @@ footer {
     <div id="login-form-view">
       <div class="login-field">
         <label>用户名 / Username</label>
-        <input type="text" id="login-username" placeholder="请输入用户名" onkeydown="if(event.key==='Enter')doLogin()">
+        <input type="text" id="login-username" placeholder="请输入用户名" aria-label="用户名" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
       <div class="login-field">
         <label>密码 / Password</label>
-        <input type="password" id="login-password" placeholder="请输入密码" onkeydown="if(event.key==='Enter')doLogin()">
+        <input type="password" id="login-password" placeholder="请输入密码" aria-label="密码" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
       <div class="login-actions">
         <button class="btn primary" onclick="doLogin()">登 录</button>
-        <button class="btn" onclick="showRegister()">注 册</button>
+        <button class="btn" onclick="showRegister()" aria-label="注册新账号">注 册</button>
       </div>
       <div class="login-error" id="login-error"></div>
       <div class="login-hint">
@@ -1040,7 +1146,7 @@ footer {
 
 <!-- ═══════════════════════════ PAGE: BOARD ═══════════════════════════ -->
 <section class="page active" id="page-board">
-  <header>
+  <header role="banner">
     <div class="brand">
       <div class="stamp">侦</div>
       <div>
@@ -1055,12 +1161,12 @@ footer {
         <button class="btn btn-sm" onclick="doLogout()">退出</button>
       </div>
       <button class="btn" onclick="router.go('deduction')">推理板</button>
-      <button class="btn primary" onclick="router.go('notebook')">笔记本</button>
-      <button class="btn" id="tweak-btn">设置</button>
+      <button class="btn primary" onclick="router.go('notebook')" aria-label="打开笔记本">笔记本</button>
+      <button class="btn" id="tweak-btn" aria-label="切换主题设置">设置</button>
     </div>
   </header>
 
-  <main class="board">
+  <main class="board" role="main">
     <div class="stats" id="stats"></div>
 
     <div class="section-header">
@@ -1073,7 +1179,7 @@ footer {
 
 <!-- ═══════════════════════════ PAGE: CASE DETAIL ═══════════════════════════ -->
 <section class="page" id="page-detail">
-  <header>
+  <header role="banner">
     <div class="brand">
       <button class="btn" onclick="router.back()" aria-label="返回">← 返回</button>
       <div class="stamp stamp-sm">羽</div>
@@ -1088,7 +1194,7 @@ footer {
     </div>
   </header>
 
-  <main class="board">
+  <main class="board" role="main">
     <div class="notebook" style="margin-bottom:18px;">
       <div id="detail-summary" class="detail-summary"></div>
       <div id="detail-badges" class="detail-badges"></div>
@@ -1119,7 +1225,7 @@ footer {
     <div class="notebook">
       <div class="note-list" id="note-list"></div>
       <div class="note-input-area">
-        <textarea class="note-textarea" id="note-input" placeholder="在这里记录你的推理思路..." rows="3" oninput="updateCharCount('note-input','note-chars')"></textarea>
+        <textarea class="note-textarea" id="note-input" placeholder="在这里记录你的推理思路..." rows="3" aria-label="办案笔记" oninput="updateCharCount('note-input','note-chars')"></textarea>
         <div class="note-actions">
           <span class="note-char-count" id="note-chars">0 字</span>
           <button class="btn primary" onclick="saveNote()">记录</button>
@@ -1131,7 +1237,7 @@ footer {
 
 <!-- ═══════════════════════════ PAGE: DEDUCTION ═══════════════════════════ -->
 <section class="page" id="page-deduction">
-  <header>
+  <header role="banner">
     <div class="brand">
       <button class="btn" onclick="router.back()">← 返回</button>
       <div>
@@ -1145,7 +1251,7 @@ footer {
     </div>
   </header>
 
-  <main class="board">
+  <main class="board" role="main">
     <p style="max-width:78ch;margin:0 auto 14px;font-size:14px;color:var(--muted);">从下方各列选取要素，点击即加入推理台。完成后核对你的判断。</p>
     <div class="deduction-grid">
       <div class="ded-col">
@@ -1175,7 +1281,7 @@ footer {
 
 <!-- ═══════════════════════════ PAGE: NOTEBOOK ═══════════════════════════ -->
 <section class="page" id="page-notebook">
-  <header>
+  <header role="banner">
     <div class="brand">
       <button class="btn" onclick="router.back()">← 返回</button>
       <div>
@@ -1185,7 +1291,7 @@ footer {
     </div>
   </header>
 
-  <main class="board">
+  <main class="board" role="main">
     <div class="notebook-container">
       <div class="notebook">
         <div class="note-list" id="global-note-list"></div>
@@ -1206,7 +1312,7 @@ footer {
 </section>
 
 <section class="page" id="page-crime-scene">
-  <header>
+  <header role="banner">
     <div class="brand">
       <button class="btn" onclick="router.back()">← 返回</button>
       <div class="stamp stamp-sm">勘</div>
@@ -1217,7 +1323,7 @@ footer {
       <button class="btn primary" id="scene-next-btn" onclick="goToTimeline()" style="display:none;">继续调查</button>
     </div>
   </header>
-  <main class="board">
+  <main class="board" role="main">
     <div class="crime-scene-page">
       <div class="scene-map" id="scene-map"></div>
       <div id="scene-clue-list" style="margin-top:16px;"></div>
@@ -1226,12 +1332,12 @@ footer {
 </section>
 <div class="scene-popup" id="scene-popup">
   <div class="scene-popup-close" onclick="closePopup()">&#10005;</div>
-  <div class="scene-popup-title" id="popup-title"></div>
+  <div class="scene-popup-title" id="popup-title" role="heading" aria-level="2"></div>
   <div id="popup-body"></div>
 </div>
 <!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
 <section class="page" id="page-timeline">
-  <header>
+  <header role="banner">
     <div class="brand">
       <button class="btn" onclick="router.back()">← 返回</button>
       <div class="stamp stamp-sm">时</div>
@@ -1245,7 +1351,7 @@ footer {
       <button class="btn primary" id="timeline-check-btn" onclick="checkTimeline()">验证时间线</button>
     </div>
   </header>
-  <main class="board">
+  <main class="board" role="main">
     <div class="inv-layout"><div><p style="margin:0 0 16px;font-size:13px;color:var(--muted);">点击两个事件交换位置，将所有事件按正确的时间顺序排列。</p>
     <div id="timeline-events" style="max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:8px;"></div>
     <div id="timeline-result" style="margin:20px 0 0;display:none;"></div></div><div class="inv-sidebar" id="timeline-sidebar"></div></div>
@@ -1254,7 +1360,7 @@ footer {
 
 <!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
 <section class="page" id="page-interrogation">
-  <header>
+  <header role="banner">
     <div class="brand">
       <button class="btn" onclick="router.back()">← 返回</button>
       <div class="stamp stamp-sm">审</div>
@@ -1268,7 +1374,7 @@ footer {
       <button class="btn primary" id="interrogation-next-btn" onclick="finishInterrogation()" style="display:none;">进入推理</button>
     </div>
   </header>
-  <main class="board">
+  <main class="board" role="main">
     <div class="inv-layout"><div><div id="interrogation-suspects" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;"></div>
     <div id="interrogation-area" style="max-width:700px;margin:0 auto;display:none;">
       <div class="notebook" style="margin-bottom:16px;">
@@ -1283,7 +1389,7 @@ footer {
 
 <!-- ═══════════════════════════ PAGE: DEDUCTION-CHAIN ═══════════════════════════ -->
 <section class="page" id="page-deduction-chain">
-  <header>
+  <header role="banner">
     <div class="brand">
       <button class="btn" onclick="router.back()">← 返回</button>
       <div class="stamp stamp-sm">链</div>
@@ -1296,7 +1402,7 @@ footer {
       <button class="btn primary" onclick="submitDeductionChain()">提交推理</button>
     </div>
   </header>
-  <main class="board">
+  <main class="board" role="main">
     <div class="inv-layout"><div><p style="margin:0 0 16px;font-size:13px;color:var(--muted);">选择关键证据，系统将自动构建推理链。选择与真相最相关的 4 条证据。</p>
     <div id="chain-evidence" style="max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:8px;"></div>
     <div id="chain-preview" style="max-width:700px;margin:20px auto 0;"></div>
@@ -1305,52 +1411,22 @@ footer {
 </section>
 
 <!-- ═══════════════════════════ MODAL: Deduction Result ═══════════════════════════ -->
-<div class="modal-mask" id="result-modal">
+<div class="modal-mask" id="result-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-head">
       <div class="modal-title" id="modal-title">核对结果</div>
-      <button class="icon-btn" aria-label="关闭" onclick="closeModal('result-modal')">✕</button>
+      <button class="icon-btn" aria-label="关闭 (Esc)" onclick="closeModal('result-modal')">✕</button>
     </div>
     <div id="modal-body"></div>
   </div>
 </div>
 
-<section class="page" id="page-crime-scene">
-  <header>
-    <div class="brand">
-      <button class="btn" onclick="router.back()">← 返回</button>
-      <div class="stamp stamp-sm">勘</div>
-      <div><h1>现场勘查</h1><small id="scene-case-id">点击区域发现线索</small></div>
-    </div>
-    <div class="header-actions">
-      <span class="btn" id="scene-progress" style="cursor:default;font-family:var(--font-mono);font-size:11px;">0/0</span>
-      <button class="btn primary" id="scene-next-btn" onclick="goToTimeline()" style="display:none;">继续调查</button>
-    </div>
-  </header>
-  <main class="board">
-    <div class="crime-scene-page">
-      <div class="scene-map" id="scene-map"></div>
-      <div id="scene-clue-list" style="margin-top:16px;"></div>
-    </div>
-  </main>
-</section>
-<div class="scene-popup" id="scene-popup">
-  <div class="scene-popup-close" onclick="closePopup()">&#10005;</div>
-  <div class="scene-popup-title" id="popup-title"></div>
-  <div id="popup-body"></div>
-</div>
-<!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
-
-<!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
-
-<!-- ═══════════════════════════ PAGE: DEDUCTION-CHAIN ═══════════════════════════ -->
-
 <!-- ═══════════════════════════ MODAL: Clue detail ═══════════════════════════ -->
-<div class="modal-mask" id="clue-modal">
+<div class="modal-mask" id="clue-modal" role="dialog" aria-modal="true" aria-labelledby="clue-title">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="clue-title">
     <div class="modal-head">
       <div class="modal-title" id="clue-title">线索细节</div>
-      <button class="icon-btn" aria-label="关闭" onclick="closeModal('clue-modal')">✕</button>
+      <button class="icon-btn" aria-label="关闭 (Esc)" onclick="closeModal('clue-modal')">✕</button>
     </div>
     <div id="clue-body"></div>
   </div>
@@ -2070,22 +2146,7 @@ const CASES = [
   }
 ];
 
-/* --- Override startDeductionChain to show categories --- */
-var _origStartChain = startDeductionChain;
-startDeductionChain = function() {
-  router.go('deduction-chain');
-  document.getElementById('chain-case-id').textContent = _invCase.title;
-  _chainSelected = [];
-  var el = document.getElementById('chain-evidence');
-  el.innerHTML = _invCase.clues.map(function(cl) {
-    var catTag = getCategoryTag(cl.category);
-    var redTag = getRedHerringTag(cl.redHerring);
-    return '<div class="chain-item" onclick="toggleChainItem(\'' + cl.id + '\')" id="chain-' + cl.id + '">' +
-      '<div class="chain-check"></div>' +
-      '<div class="chain-text"><span class="chain-label">' + catTag + escapeHtml(cl.status) + redTag + '</span>' + escapeHtml(cl.title) + '</div></div>';
-  }).join('');
-  renderChainPreview();
-};
+/* startDeductionChain override moved to consolidated block at end */
 
 /* ══════════════════════════════════════════════════════
    STATE
@@ -2100,11 +2161,12 @@ let _prevPage = null; /* previous page for back */
 const router = {
   pages: ['board', 'detail', 'deduction', 'notebook', 'crime-scene', 'timeline', 'interrogation', 'deduction-chain'],
   go(page, params = {}) {
+    if (!page) return;
     if (!params._back) {
       const cur = document.querySelector('.page.active');
       if (cur) { const curId = cur.id.replace('page-', ''); if (curId !== page) _prevPage = curId; }
     }
-    this.pages.forEach(p => document.getElementById('page-' + p).classList.remove('active'));
+    this.pages.forEach(p => { var el = document.getElementById('page-' + p); if (el) el.classList.remove('active'); });
     const el = document.getElementById('page-' + page);
     if (el) el.classList.add('active');
     if (page === 'detail' && params.caseId) renderDetail(params.caseId);
@@ -2134,14 +2196,35 @@ function statusBadge(solved) {
 
 let _modalTrigger = null;
 function closeModal(id) {
-  document.getElementById(id).classList.remove('active');
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('active');
   if (_modalTrigger) { _modalTrigger.focus(); _modalTrigger = null; }
+}
+
+/* Toast notification system */
+function showToast(msg, type, duration) {
+  type = type || 'info'; duration = duration || 3000;
+  var existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  var t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  t.setAttribute('role', 'alert');
+  document.body.appendChild(t);
+  setTimeout(function() { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(function() { t.remove(); }, 300); }, duration);
 }
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
+    /* Close any active modal or popup */
     ['result-modal','clue-modal','evidence-detail'].forEach(function(id) {
-      if (document.getElementById(id).classList.contains('active')) closeModal(id);
+      var el = document.getElementById(id);
+      if (el && el.classList.contains('active')) closeModal(id);
     });
+    var popup = document.getElementById('scene-popup');
+    if (popup && popup.style.display === 'block') closePopup();
+    var tutorial = document.getElementById('tutorial');
+    if (tutorial && tutorial.style.display === 'flex') closeTutorial();
   }
 });
 var _trapController = null;
@@ -2164,19 +2247,23 @@ function trapFocus(el) {
 let _currentEvidence = null;
 function openEvidence(evidenceId) {
   var c = currentCase || CASES[0];
+  if (!c) return;
   var ev = c.evidence.find(function(x) { return x.id === evidenceId; });
   if (!ev) return;
   _currentEvidence = ev;
   _modalTrigger = document.activeElement;
-  document.getElementById('ev-detail-title').textContent = ev.name;
-  document.getElementById('ev-detail-meta').innerHTML =
+  var titleEl = document.getElementById('ev-detail-title');
+  var metaEl = document.getElementById('ev-detail-meta');
+  var noteEl = document.getElementById('ev-detail-note');
+  var imgWrap = document.getElementById('ev-detail-img');
+  if (!titleEl || !metaEl || !noteEl || !imgWrap) return;
+  titleEl.textContent = ev.name;
+  metaEl.innerHTML =
     '<span class="badge">' + escapeHtml(ev.location) + '</span>' +
     '<span class="badge">' + escapeHtml(ev.status) + '</span>';
-  document.getElementById('ev-detail-note').innerHTML =
-    '<strong>说明：</strong>' + escapeHtml(ev.note || '暂无详细说明');
+  noteEl.innerHTML = '<strong>说明：</strong>' + escapeHtml(ev.note || '暂无详细说明');
 
   // Image
-  var imgWrap = document.getElementById('ev-detail-img');
   var savedImg = getEvidenceImg(ev.id);
   if (savedImg && savedImg.indexOf('data:image/') === 0) {
     imgWrap.innerHTML = '<div class="evidence-img-wrap"><img src="' + savedImg + '" alt="' + escapeHtml(ev.name) + '"></div>';
@@ -2226,11 +2313,11 @@ function escapeHtml(s) { return String(s).replace(/[&<>'"]/g, c => ({ '&':'&amp;
    AUTH / ACCOUNTS
    ══════════════════════════════════════════════════════ */
 const Auth = {
-  getUsers() { try { return JSON.parse(localStorage.getItem('pa_users') || '{}'); } catch(e){ return {}; } },
-  saveUsers(users) { localStorage.setItem('pa_users', JSON.stringify(users)); },
+  getUsers() { try { return JSON.parse(localStorage.getItem('pa_users') || '{}'); } catch(e) { return {}; } },
+  saveUsers(users) { try { localStorage.setItem('pa_users', JSON.stringify(users)); } catch(e) { console.warn('Auth: failed to save users:', e); } },
   getSession() { try { return JSON.parse(localStorage.getItem('pa_session') || 'null'); } catch(e){ return null; } },
   setSession(username) {
-    localStorage.setItem('pa_session', JSON.stringify({ username, loginTime: new Date().toISOString() }));
+    try { localStorage.setItem('pa_session', JSON.stringify({ username, loginTime: new Date().toISOString() })); } catch(e) { console.warn('Auth: failed to set session:', e); }
   },
   clearSession() { localStorage.removeItem('pa_session'); },
   register(username, displayName, password) {
@@ -2282,11 +2369,15 @@ function doLogin() {
     const u = document.getElementById('login-username').value.trim();
     const p = document.getElementById('login-password').value;
     if (!u || !p) { showLoginError('请填写用户名和密码'); return; }
+    var btn = document.querySelector('#login-form-view .btn.primary');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 登录中...'; }
     const res = Auth.login(u, p);
-    if (!res.ok) { showLoginError(res.msg); return; }
+    if (!res.ok) { showLoginError(res.msg); if (btn) { btn.disabled = false; btn.textContent = '登 录'; } return; }
     onLoginSuccess(res.user);
   } catch(err) {
     showLoginError('登录失败: ' + err.message);
+    var btn = document.querySelector('#login-form-view .btn.primary');
+    if (btn) { btn.disabled = false; btn.textContent = '登 录'; }
   }
 }
 function doRegister() {
@@ -2321,7 +2412,11 @@ function loadPersisted() {
   } catch(e){}
 }
 function persist() {
-  const map = {}; CASES.forEach(c => map[c.id] = c.notes); localStorage.setItem('pa_notes_' + (Auth.getSession() || {}).username, JSON.stringify(map || {})); }
+  try {
+    const map = {}; CASES.forEach(c => map[c.id] = c.notes);
+    localStorage.setItem('pa_notes_' + (Auth.getSession() || {}).username, JSON.stringify(map || {}));
+  } catch(e) { console.warn('Failed to persist notes:', e); }
+}
 /* ══════════════════════════════════════════════════════
    RENDER: BOARD
    ══════════════════════════════════════════════════════ */
@@ -2851,7 +2946,6 @@ function showRating(caseId) {
 }
 
 /* --- Override renderChainPreview to show categories --- */
-var _origRenderChainPreview = renderChainPreview;
 renderChainPreview = function() {
   var el = document.getElementById('chain-preview');
   if (_chainSelected.length === 0) { el.innerHTML = ''; return; }
@@ -2870,42 +2964,10 @@ renderChainPreview = function() {
 };
 
 /* --- Override submitDeductionChain for rating + case report --- */
-var _origSubmitChain = submitDeductionChain;
-submitDeductionChain = function() {
-  if (_chainSelected.length < 3) {
-    document.getElementById('chain-result').style.display = 'block';
-    document.getElementById('chain-result').innerHTML = '<div class="answer-card">请至少选择 3 条关键证据。</div>';
-    return;
-  }
-  var expectedSteps = _invCase.deductionChain.steps;
-  var matchCount = 0;
-  var redHerringCount = 0;
-  _chainSelected.forEach(function(cid) {
-    if (expectedSteps.find(function(s) { return s.evidence === cid; })) matchCount++;
-    var clue = _invCase.clues.find(function(c) { return c.id === cid; });
-    if (clue && clue.redHerring) redHerringCount++;
-  });
-  
-  var resultEl = document.getElementById('chain-result');
-  resultEl.style.display = 'block';
-  
-  if (matchCount >= expectedSteps.length - 1) {
-    resultEl.innerHTML = showRating(_invCase.id);
-    saveInvestigationProgress(_invCase.id);
-  } else {
-    resultEl.innerHTML = '<div class="answer-card"><strong>推理链不完整</strong><br>匹配 ' + matchCount + '/' + expectedSteps.length + ' 条。' +
-      (redHerringCount > 0 ? '<br><span style="color:var(--accent);">注意：你选择了 ' + redHerringCount + ' 条干扰项。</span>' : '') +
-      '<br>回顾线索，选择更有力的证据。</div>';
-  }
-};
+/* Dead submitDeductionChain override removed — final version at end handles all features */
 
 /* --- Override startDeductionChain to show categories --- */
-var _origStartChain = startDeductionChain;
-startDeductionChain = function() {
-  router.go('deduction-chain');
-  document.getElementById('chain-case-id').textContent = _invCase.title;
-  _chainSelected = [];
-};
+/* Second startDeductionChain override removed — consolidated below */
 
 /* --- Override interrogation to show profiles --- */
 var _origSelectSuspect = selectSuspectForInterrogation;
@@ -2991,9 +3053,24 @@ startInterrogation = function() {
 };
 
 // Override startDeductionChain to populate sidebar
-var _origStartChain2 = startDeductionChain;
+/* CONSOLIDATED startDeductionChain — includes clue rendering, categories, and sidebar */
 startDeductionChain = function() {
-  _origStartChain2();
+  router.go('deduction-chain');
+  if (!_invCase) return;
+  var caseIdEl = document.getElementById('chain-case-id');
+  if (caseIdEl) caseIdEl.textContent = _invCase.title;
+  _chainSelected = [];
+  var el = document.getElementById('chain-evidence');
+  if (el) {
+    el.innerHTML = _invCase.clues.map(function(cl) {
+      var catTag = getCategoryTag(cl.category);
+      var redTag = getRedHerringTag(cl.redHerring);
+      return '<div class="chain-item" onclick="toggleChainItem(\'' + cl.id + '\')" id="chain-' + cl.id + '">' +
+        '<div class="chain-check"></div>' +
+        '<div class="chain-text"><span class="chain-label">' + catTag + escapeHtml(cl.status) + redTag + '</span>' + escapeHtml(cl.title) + '</div></div>';
+    }).join('');
+  }
+  renderChainPreview();
   renderInvSidebar('chain-sidebar');
 };
 
@@ -3077,13 +3154,15 @@ function checkCaseConnections() {
 
 // Save progress when completing investigation
 function saveInvestigationProgress(caseId) {
-  var username = (Auth.getSession() || {}).username;
-  if (!username) return;
-  var key = 'pa_progress_' + username;
-  var progress = {};
-  try { progress = JSON.parse(localStorage.getItem(key) || '{}'); } catch(e) {}
-  progress[caseId] = { completedAt: new Date().toISOString(), rating: calculateRating(caseId) };
-  localStorage.setItem(key, JSON.stringify(progress));
+  try {
+    var username = (Auth.getSession() || {}).username;
+    if (!username) return;
+    var key = 'pa_progress_' + username;
+    var progress = {};
+    try { progress = JSON.parse(localStorage.getItem(key) || '{}'); } catch(e) {}
+    progress[caseId] = { completedAt: new Date().toISOString(), rating: calculateRating(caseId) };
+    localStorage.setItem(key, JSON.stringify(progress));
+  } catch(e) { console.warn('Failed to save investigation progress:', e); }
 }
 
 /* --- Sound Effects System --- */
@@ -3124,16 +3203,7 @@ askQuestion = function(sid, qi) {
   else if (q.tag === '关键') playDiscoverySound();
 };
 
-var _origSubmitChain2 = submitDeductionChain;
-submitDeductionChain = function() {
-  _origSubmitChain2();
-  var resultEl = document.getElementById('chain-result');
-  if (resultEl && resultEl.style.display === 'block') {
-    var text = resultEl.textContent;
-    if (text.indexOf('案件破解') >= 0) playSuccessSound();
-    else if (text.indexOf('不完整') >= 0) playErrorSound();
-  }
-};
+/* Sound-only submitDeductionChain override removed — final version handles sounds */
 
 /* === CRIME SCENE === */
 var _discovered = {};
@@ -3426,7 +3496,6 @@ function showEnding(caseId) {
 }
 
 /* === OVERRIDE startInvestigation === */
-var _origSI = startInvestigation;
 startInvestigation = function(caseId) {
   var c = CASES.find(function(x) { return x.id === caseId; });
   if (!c || !c.timeline) { alert('暂无调查数据'); return; }
@@ -3435,7 +3504,6 @@ startInvestigation = function(caseId) {
 };
 
 /* === OVERRIDE submitDeductionChain === */
-var _origSDC = submitDeductionChain;
 submitDeductionChain = function() {
   if (_chainSelected.length < 3) { document.getElementById('chain-result').style.display = 'block'; document.getElementById('chain-result').innerHTML = '<div class=\"answer-card\">请至少选择3条证据。</div>'; return; }
   var steps = _invCase.deductionChain.steps, match = 0, red = 0;
@@ -3471,6 +3539,7 @@ function renderProgressDots(caseId) {
 }
 
 /* === OVERRIDE renderBoard to show progress dots === */
+var _tutorialShown = false;
 var _origRenderBoard = renderBoard;
 renderBoard = function() {
   _origRenderBoard();
@@ -3487,7 +3556,7 @@ renderBoard = function() {
   });
   // Show tutorial on first visit
   if (!localStorage.getItem('pa_tutorial_done')) {
-    setTimeout(showTutorial, 500);
+    if (!_tutorialShown) { _tutorialShown = true; setTimeout(showTutorial, 500); }
   }
 };
 
@@ -3621,7 +3690,6 @@ function checkCombinations(caseId) {
 
 /* === OVERRIDE: Add cipher/twist/combo to investigation flow === */
 // Add cipher box to crime scene completion
-var _origFinishCS = finishCrimeScene || function() { startTimeline(); };
 finishCrimeScene = function() {
   var c = _invCase;
   if (c && c.cipher && !_solvedCiphers[c.id]) {
@@ -3704,37 +3772,52 @@ function deleteNote(index) {
   persist(); renderNotes(currentCase); renderBoard();
 }
 
+/* === KEYBOARD SHORTCUTS === */
+document.addEventListener('keydown', function(e) {
+  // Escape closes all modals and popups
+  if (e.key === 'Escape') {
+    ['result-modal', 'clue-modal', 'evidence-detail'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el && el.classList.contains('active')) closeModal(id);
+    });
+    var popup = document.getElementById('scene-popup');
+    if (popup && popup.style.display === 'block') popup.style.display = 'none';
+    var tutorial = document.getElementById('tutorial');
+    if (tutorial && tutorial.style.display === 'flex') closeTutorial();
+  }
+  // H toggles highlight mode
+  if (e.key === 'h' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+    toggleHL();
+  }
+});
+
+/* === SAFE LOCALSTORAGE WRAPPER === */
+function safeGetItem(key, fallback) {
+  try { var val = localStorage.getItem(key); return val ? JSON.parse(val) : fallback; } catch(e) { return fallback; }
+}
+function safeSetItem(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch(e) { return false; }
+}
+
+/* === NULL-SAFE DOM ACCESS === */
+function $(id) { return document.getElementById(id); }
+function show(id) { var el = $(id); if (el) el.style.display = ''; }
+function hide(id) { var el = $(id); if (el) el.style.display = 'none'; }
+
+/* === PERFORMANCE: Cache DOM selectors === */
+var _domCache = {};
+function $(id) {
+  if (!_domCache[id]) _domCache[id] = document.getElementById(id);
+  return _domCache[id];
+}
+function clearDomCache() { _domCache = {}; }
+
+/* === ERROR BOUNDARY === */
+function safeRun(fn, fallback) {
+  try { return fn(); } catch(e) { console.warn('Safe run error:', e); return fallback; }
+}
+
 </script>
-
-<section class="page" id="page-crime-scene">
-  <header>
-    <div class="brand">
-      <button class="btn" onclick="router.back()">← 返回</button>
-      <div class="stamp stamp-sm">勘</div>
-      <div><h1>现场勘查</h1><small id="scene-case-id">点击区域发现线索</small></div>
-    </div>
-    <div class="header-actions">
-      <span class="btn" id="scene-progress" style="cursor:default;font-family:var(--font-mono);font-size:11px;">0/0</span>
-      <button class="btn primary" id="scene-next-btn" onclick="goToTimeline()" style="display:none;">继续调查</button>
-    </div>
-  </header>
-  <main class="board">
-    <div class="crime-scene-page">
-      <div class="scene-map" id="scene-map"></div>
-      <div id="scene-clue-list" style="margin-top:16px;"></div>
-    </div>
-  </main>
-</section>
-<div class="scene-popup" id="scene-popup">
-  <div class="scene-popup-close" onclick="closePopup()">&#10005;</div>
-  <div class="scene-popup-title" id="popup-title"></div>
-  <div id="popup-body"></div>
-</div>
-<!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
-
-<!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
-
-<!-- ═══════════════════════════ PAGE: DEDUCTION-CHAIN ═══════════════════════════ -->
 
 <!-- ═══════════════════════════ MODAL: Evidence Detail ═══════════════════════════ -->
 <div class="evidence-detail" id="evidence-detail" role="dialog" aria-modal="true" aria-labelledby="ev-detail-title">
