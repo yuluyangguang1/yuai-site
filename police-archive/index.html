@@ -1143,6 +1143,159 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   border-radius: 6px; padding: 40px; max-width: 500px; width: 90%; text-align: center;
 }
 
+/* --- Witness Credibility --- */
+.credibility-bar {
+  width: 100%; height: 6px; background: var(--border);
+  border-radius: 3px; overflow: hidden; margin-top: 4px;
+}
+.credibility-fill {
+  height: 100%; border-radius: 3px;
+  transition: width 0.3s ease;
+}
+.credibility-high { background: #5a8a40; }
+.credibility-medium { background: #b8944a; }
+.credibility-low { background: #8b3a3a; }
+.credibility-label {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--muted); margin-top: 2px;
+}
+/* --- Evidence Combination --- */
+.combo-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 16px; margin-top: 16px;
+}
+.combo-slots {
+  display: flex; gap: 12px; align-items: center; justify-content: center;
+  margin: 16px 0;
+}
+.combo-slot {
+  width: 120px; height: 60px; border: 2px dashed var(--border);
+  border-radius: 4px; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--muted); cursor: pointer;
+  transition: all 0.15s ease;
+}
+.combo-slot.filled {
+  border-style: solid; border-color: var(--accent);
+  background: rgba(106,79,165,0.05);
+}
+.combo-plus {
+  font-size: 20px; color: var(--muted); font-weight: 700;
+}
+.combo-result {
+  background: rgba(176,136,80,0.08); border: 1px solid rgba(176,136,80,0.2);
+  border-radius: 4px; padding: 12px; margin-top: 12px;
+  font-size: 13px; line-height: 1.6;
+}
+/* --- Achievement System --- */
+.achievement-popup {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--surface); border: 2px solid var(--accent-warm);
+  border-radius: 6px; padding: 16px 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 1000; animation: achievementSlide 0.5s ease-out;
+  max-width: 300px;
+}
+@keyframes achievementSlide {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.achievement-icon {
+  font-size: 24px; margin-right: 12px; float: left;
+}
+.achievement-title {
+  font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+  color: var(--accent-warm); margin-bottom: 4px;
+}
+.achievement-desc {
+  font-size: 12px; color: var(--muted);
+}
+.achievement-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px; margin-top: 16px;
+}
+.achievement-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 12px; text-align: center;
+  transition: all 0.15s ease;
+}
+.achievement-card.unlocked {
+  border-color: var(--accent-warm);
+  background: rgba(176,136,80,0.05);
+}
+.achievement-card.locked {
+  opacity: 0.5; filter: grayscale(0.5);
+}
+.achievement-card .icon { font-size: 32px; margin-bottom: 8px; }
+.achievement-card .name {
+  font-family: var(--font-heading); font-size: 13px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.achievement-card .desc { font-size: 11px; color: var(--muted); }
+/* --- Case Report --- */
+.case-report-full {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 24px; margin-top: 16px;
+  font-size: 13px; line-height: 1.7;
+}
+.case-report-section {
+  margin-bottom: 16px; padding-bottom: 16px;
+  border-bottom: 1px dashed var(--border);
+}
+.case-report-section:last-child { border-bottom: none; }
+.case-report-section h4 {
+  font-family: var(--font-heading); font-size: 15px; font-weight: 700;
+  margin-bottom: 8px; color: var(--ink);
+}
+/* --- Psychological Profile --- */
+.profile-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 16px; margin-top: 12px;
+}
+.profile-traits {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
+}
+.profile-trait {
+  background: rgba(106,79,165,0.08); border: 1px solid rgba(106,79,165,0.15);
+  border-radius: 3px; padding: 4px 10px;
+  font-size: 11px; color: var(--accent);
+}
+/* --- Time Pressure --- */
+.time-pressure-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 4px; background: var(--border); z-index: 100;
+}
+.time-pressure-fill {
+  height: 100%; background: linear-gradient(90deg, #5a8a40, #b8944a, #8b3a3a);
+  transition: width 1s linear;
+}
+.time-pressure-label {
+  position: fixed; top: 8px; right: 16px;
+  font-family: var(--font-mono); font-size: 12px;
+  color: var(--accent); z-index: 100;
+  background: var(--surface); padding: 4px 8px; border-radius: 3px;
+  border: 1px solid var(--border);
+}
+/* --- Digital Forensics --- */
+.forensics-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 16px; margin-top: 16px;
+}
+.forensics-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px; margin-top: 12px;
+}
+.forensics-item {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 3px; padding: 8px; font-size: 11px;
+  cursor: pointer; transition: all 0.15s ease;
+}
+.forensics-item:hover {
+  border-color: var(--accent); background: rgba(106,79,165,0.05);
+}
+.forensics-item.suspicious {
+  border-color: #8b3a3a; background: rgba(139,58,58,0.05);
+}
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -1395,6 +1548,34 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   <div class="scene-popup-title" id="popup-title" role="heading" aria-level="2"></div>
   <div id="popup-body"></div>
 </div>
+
+<!-- ═══════════════════════════ PAGE: ACHIEVEMENTS ═══════════════════════════ -->
+<section class="page" id="page-achievements">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div class="stamp stamp-sm">勋</div>
+      <div><h1>成就系统</h1><small>解锁特殊成就</small></div>
+    </div>
+  </header>
+  <main class="board">
+    <div id="achievement-grid" class="achievement-grid"></div>
+  </main>
+</section>
+
+<!-- ═══════════════════════════ PAGE: CASE REPORT ═══════════════════════════ -->
+<section class="page" id="page-case-report">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div class="stamp stamp-sm">报</div>
+      <div><h1>案件报告</h1><small id="report-case-id">详细分析报告</small></div>
+    </div>
+  </header>
+  <main class="board">
+    <div id="case-report-content" class="case-report-full"></div>
+  </main>
+</section>
 <!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
 <section class="page" id="page-timeline">
   <header role="banner">
@@ -5572,7 +5753,7 @@ let _prevPage = null; /* previous page for back */
    ROUTER
    ══════════════════════════════════════════════════════ */
 const router = {
-  pages: ['board', 'detail', 'deduction', 'notebook', 'crime-scene', 'timeline', 'interrogation', 'deduction-chain'],
+  pages: ['board', 'detail', 'deduction', 'notebook', 'crime-scene', 'timeline', 'interrogation', 'deduction-chain', 'achievements', 'case-report'],
   go(page, params = {}) {
     if (!page) return;
     if (!params._back) {
@@ -7523,6 +7704,565 @@ renderBoard = function() {
     }
   });
 };
+
+/* ══════════════════════════════════════════════════════
+   WITNESS CREDIBILITY SYSTEM
+   ══════════════════════════════════════════════════════ */
+var _witnessCredibility = {};
+
+function initCredibility() {
+  if (!_invCase || !_invCase.suspects) return;
+  _invCase.suspects.forEach(function(sus) {
+    _witnessCredibility[sus.id] = {
+      score: 70, // Start at 70%
+      contradictions: 0,
+      verified: 0
+    };
+  });
+}
+
+function updateCredibility(susId, isContradiction, isVerified) {
+  if (!_witnessCredibility[susId]) return;
+  var w = _witnessCredibility[susId];
+  if (isContradiction) { w.score -= 15; w.contradictions++; }
+  if (isVerified) { w.score += 10; w.verified++; }
+  w.score = Math.max(0, Math.min(100, w.score));
+}
+
+function renderCredibilityBar(susId) {
+  var w = _witnessCredibility[susId];
+  if (!w) return '';
+  var cls = w.score >= 70 ? 'credibility-high' : w.score >= 40 ? 'credibility-medium' : 'credibility-low';
+  var label = w.score >= 70 ? '可信' : w.score >= 40 ? '存疑' : '不可信';
+  return '<div class="credibility-bar"><div class="credibility-fill ' + cls + '" style="width:' + w.score + '%"></div></div>' +
+    '<div class="credibility-label">可信度: ' + w.score + '% (' + label + ')</div>';
+}
+
+/* ══════════════════════════════════════════════════════
+   EVIDENCE COMBINATION SYSTEM
+   ══════════════════════════════════════════════════════ */
+var _comboSlots = [null, null];
+var _discoveredCombos = {};
+
+var _comboRecipes = {
+  // Case 001 combinations
+  'c3+c5': { result: '监控被篡改+绳索匹配KTV → 张东升在KTV作案', unlock: '张东升的作案时间窗口' },
+  'c58+c60': { result: '张东升赌博债务+货车GPS → 张东升利用货车抛尸', unlock: '抛尸路线' },
+  // Case 002 combinations
+  'c8+c13': { result: '左利手注射+掌纹吻合 → 陈某作案手法确认', unlock: '陈某的作案细节' },
+  'c81+c82': { result: '伪造自杀搜索+费承宇货车GPS → 费承宇在现场', unlock: '费承宇的参与程度' },
+  // Case 003 combinations
+  'c15+c16': { result: '短信指令+VPN连接 → 林某远程指挥分工', unlock: '远程指挥链条' },
+  'c81+c83': { result: '林某5万元+周某异常联系 → 周某是共犯', unlock: '周某的角色' },
+  // Case 004 combinations
+  'c19+c22': { result: '吊车操作+郑某指纹 → 郑某亲自搬运货物', unlock: '搬运过程' },
+  'c82+c83': { result: '保安假巡逻+吴某2万元 → 吴某收受贿赂', unlock: '内部配合' },
+  // Case 005 combinations
+  'c25+c27': { result: '伪造处方+黑市搜索 → 完整犯罪链条', unlock: '销售渠道' },
+  'c81+c82': { result: '赵某宝马+暗网记录 → 赵某通过暗网销售', unlock: '暗网交易细节' },
+  // Case 006 combinations
+  'c32+c34': { result: '绳索割痕+菜刀指纹 → 王某故意割断绳索', unlock: '王某的预谋' },
+  'c84+c85': { result: '老陈身份+菜刀证据 → 陈某可能参与', unlock: '陈某的角色' },
+  // Case 007 combinations
+  'c38+c40': { result: '周某与陈某关系+门锁记录删除 → 周某帮助陈某灭口', unlock: '灭口过程' },
+  'c84+c85': { result: '陈某医疗事故+周某贿赂 → 周某被收买', unlock: '贿赂细节' },
+  // Case 008 combinations
+  'c41+c44': { result: '工卡记录+张某销赃渠道 → 李某盗窃+张某销赃', unlock: '犯罪分工' },
+  'c84+c85': { result: '物业经理受贿+范思远患者 → 范思远网络参与', unlock: '范思远的网络' },
+  // Case 009 combinations
+  'c46+c49': { result: '密室真相+保险诈骗 → 王某为保险金杀人', unlock: '保险诈骗细节' },
+  'c84+c86': { result: '王某赌博债务+化粪池清理 → 王某销毁证据', unlock: '销毁过程' },
+  // Case 010 combinations
+  'c51+c53': { result: '内部编码+打印机追踪 → 赵某是主谋', unlock: '赵某的计划' },
+  'c84+c86': { result: '赵某妻子嫌疑+第5封信草稿 → 赵某妻子是同谋', unlock: '同谋关系' },
+  // Case 011 combinations
+  'c56+c58': { result: 'KTV包厢时间线+张东升赌博债务 → 张东升因债务杀人', unlock: '杀人动机' },
+  'c84+c85': { result: '范思远联系+暗网记录 → 范思远指挥犯罪', unlock: '范思远的角色' },
+  // Case 012 combinations
+  'c62+c63': { result: '栀子花DNA+钢琴声 → 范思远诊所是作案基地', unlock: '作案基地确认' },
+  'c84+c85': { result: '助手恐惧+心理操控 → 范思远胁迫助手', unlock: '胁迫细节' },
+  // Case 013 combinations
+  'c68+c69': { result: '门禁卡+鞋印 → 费渡伪造不在场证明', unlock: '伪造过程' },
+  'c84+c86': { result: '司机包庇+外套血迹 → 费渡在案发现场', unlock: '费渡的行动' },
+  // Case 014 combinations
+  'c74+c77': { result: '货车追踪+赎金账户 → 绑匪有专业背景', unlock: '绑匪身份' },
+  'c84+c86': { result: '陈某工厂+范思远资金 → 范思远和陈某合作', unlock: '合作关系' },
+  // Case 015 combinations
+  'c79+c81': { result: '门禁记录+指甲DNA → 费承宇是凶手', unlock: '凶手确认' },
+  'c84+c86': { result: '范思远嫌疑+内鬼 → 范思远帮助费承宇', unlock: '范思远的参与' }
+};
+
+function selectComboSlot(slotIndex) {
+  // Show evidence selection modal
+  var clues = _invCase ? _invCase.clues : [];
+  var html = '<div style="max-height:400px;overflow-y:auto;">';
+  clues.forEach(function(cl) {
+    var selected = _comboSlots[0] === cl.id || _comboSlots[1] === cl.id;
+    html += '<div class="clue-tile' + (selected ? ' selected' : '') + '" onclick="fillComboSlot(' + slotIndex + ', \'' + cl.id + '\')">' +
+      getCategoryTag(cl.category) + ' ' + escapeHtml(cl.title) + '</div>';
+  });
+  html += '</div>';
+  
+  document.getElementById('clue-modal-body').innerHTML = html;
+  document.getElementById('clue-modal').classList.add('active');
+}
+
+function fillComboSlot(slotIndex, clueId) {
+  _comboSlots[slotIndex] = clueId;
+  closeModal('clue-modal');
+  renderComboPanel();
+  checkComboResult();
+}
+
+function renderComboPanel() {
+  var panel = document.getElementById('combo-panel');
+  if (!panel) return;
+  
+  var clues = _invCase ? _invCase.clues : [];
+  var slot1 = _comboSlots[0] ? clues.find(function(c) { return c.id === _comboSlots[0]; }) : null;
+  var slot2 = _comboSlots[1] ? clues.find(function(c) { return c.id === _comboSlots[1]; }) : null;
+  
+  panel.innerHTML = '<h4 style="font-family:var(--font-heading);margin-bottom:12px;">证据组合</h4>' +
+    '<div class="combo-slots">' +
+    '<div class="combo-slot' + (slot1 ? ' filled' : '') + '" onclick="selectComboSlot(0)">' + (slot1 ? escapeHtml(slot1.title) : '选择证据') + '</div>' +
+    '<div class="combo-plus">+</div>' +
+    '<div class="combo-slot' + (slot2 ? ' filled' : '') + '" onclick="selectComboSlot(1)">' + (slot2 ? escapeHtml(slot2.title) : '选择证据') + '</div>' +
+    '</div>' +
+    '<div id="combo-result"></div>';
+}
+
+function checkComboResult() {
+  if (!_comboSlots[0] || !_comboSlots[1]) return;
+  var key1 = _comboSlots[0] + '+' + _comboSlots[1];
+  var key2 = _comboSlots[1] + '+' + _comboSlots[0];
+  var recipe = _comboRecipes[key1] || _comboRecipes[key2];
+  
+  var resultEl = document.getElementById('combo-result');
+  if (!resultEl) return;
+  
+  if (recipe) {
+    var comboKey = _invCase.id + '_' + key1;
+    if (!_discoveredCombos[comboKey]) {
+      _discoveredCombos[comboKey] = true;
+      playDiscoverySound();
+      showAchievement('combo', '证据组合大师', '发现了一条关键证据组合');
+    }
+    resultEl.innerHTML = '<div class="combo-result">' +
+      '<div style="font-weight:700;color:var(--accent-warm);margin-bottom:4px;">发现关联！</div>' +
+      '<div>' + escapeHtml(recipe.result) + '</div>' +
+      '<div style="margin-top:8px;font-size:11px;color:var(--muted);">解锁：' + escapeHtml(recipe.unlock) + '</div>' +
+    '</div>';
+  } else {
+    resultEl.innerHTML = '<div class="combo-result" style="border-color:var(--border);">' +
+      '<div style="color:var(--muted);">这两条证据之间没有发现关联。</div></div>';
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   ACHIEVEMENT SYSTEM
+   ══════════════════════════════════════════════════════ */
+var _achievements = {
+  'first_case': { icon: '🔍', name: '初出茅庐', desc: '完成第一个案件', unlocked: false },
+  'all_cases': { icon: '🏆', name: '破案专家', desc: '完成所有15个案件', unlocked: false },
+  's_rank': { icon: '⭐', name: '完美推理', desc: '获得S级评价', unlocked: false },
+  'no_red_herring': { icon: '🎯', name: '火眼金睛', desc: '零红鲱鱼通关', unlocked: false },
+  'speed_demon': { icon: '⚡', name: '神速探员', desc: '10分钟内完成一个案件', unlocked: false },
+  'combo_master': { icon: '🔗', name: '证据组合大师', desc: '发现一条关键证据组合', unlocked: false },
+  'cipher_breaker': { icon: '🔐', name: '密码破译者', desc: '破解一个密码谜题', unlocked: false },
+  'witness_shake': { icon: '🤥', name: '戳穿谎言', desc: '发现一个证人的矛盾', unlocked: false },
+  'classified_access': { icon: '🔒', name: '最高机密', desc: '解锁机密案件', unlocked: false },
+  'full_report': { icon: '📋', name: '完美报告', desc: '生成一份完整案件报告', unlocked: false },
+  'all_twists': { icon: '🌀', name: '反转大师', desc: '发现所有剧情反转', unlocked: false },
+  'detective_legend': { icon: '👑', name: '侦探传奇', desc: '解锁所有成就', unlocked: false }
+};
+
+function showAchievement(id, name, desc) {
+  if (_achievements[id] && _achievements[id].unlocked) return;
+  if (_achievements[id]) _achievements[id].unlocked = true;
+  saveAchievements();
+  
+  var popup = document.createElement('div');
+  popup.className = 'achievement-popup';
+  popup.innerHTML = '<div class="achievement-icon">' + (_achievements[id] ? _achievements[id].icon : '🏆') + '</div>' +
+    '<div class="achievement-title">' + escapeHtml(name) + '</div>' +
+    '<div class="achievement-desc">' + escapeHtml(desc) + '</div>';
+  document.body.appendChild(popup);
+  
+  setTimeout(function() { popup.remove(); }, 4000);
+}
+
+function saveAchievements() {
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return;
+  var data = {};
+  Object.keys(_achievements).forEach(function(id) {
+    data[id] = _achievements[id].unlocked;
+  });
+  localStorage.setItem('pa_achievements_' + username, JSON.stringify(data));
+}
+
+function loadAchievements() {
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return;
+  try {
+    var data = JSON.parse(localStorage.getItem('pa_achievements_' + username) || '{}');
+    Object.keys(data).forEach(function(id) {
+      if (_achievements[id]) _achievements[id].unlocked = data[id];
+    });
+  } catch(e) {}
+}
+
+function renderAchievements() {
+  var grid = document.getElementById('achievement-grid');
+  if (!grid) return;
+  grid.innerHTML = Object.keys(_achievements).map(function(id) {
+    var a = _achievements[id];
+    return '<div class="achievement-card ' + (a.unlocked ? 'unlocked' : 'locked') + '">' +
+      '<div class="icon">' + a.icon + '</div>' +
+      '<div class="name">' + escapeHtml(a.name) + '</div>' +
+      '<div class="desc">' + escapeHtml(a.desc) + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════════
+   CASE REPORT GENERATION
+   ══════════════════════════════════════════════════════ */
+function generateCaseReport(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return '';
+  
+  var rating = calculateRating(caseId);
+  var contradictions = _contradictions || [];
+  var chainSelected = _chainSelected || [];
+  
+  var html = '<h3 style="font-family:var(--font-heading);font-size:20px;margin-bottom:16px;">案件报告 · ' + escapeHtml(c.title) + '</h3>';
+  
+  // Basic info
+  html += '<div class="case-report-section">' +
+    '<h4>基本信息</h4>' +
+    '<div>案件编号：' + c.id + '</div>' +
+    '<div>案发时间：' + c.date + '</div>' +
+    '<div>案发地点：' + escapeHtml(c.location) + '</div>' +
+    '<div>案件等级：' + escapeHtml(c.level) + '</div>' +
+  '</div>';
+  
+  // Summary
+  html += '<div class="case-report-section">' +
+    '<h4>案件概要</h4>' +
+    '<div>' + escapeHtml(c.summary) + '</div>' +
+  '</div>';
+  
+  // Evidence analysis
+  html += '<div class="case-report-section">' +
+    '<h4>证据分析</h4>' +
+    '<div>总证据数：' + c.evidence.length + '</div>' +
+    '<div>物证：' + c.evidence.filter(function(e) { return e.status === '已化验' || e.status === '已提取'; }).length + '</div>' +
+    '<div>待核实：' + c.evidence.filter(function(e) { return e.status === '待化验' || e.status === '待核实'; }).length + '</div>' +
+  '</div>';
+  
+  // Suspects
+  html += '<div class="case-report-section">' +
+    '<h4>嫌疑人分析</h4>' +
+    c.suspects.map(function(s) {
+      var w = _witnessCredibility[s.id];
+      var credibility = w ? w.score + '%' : '未评估';
+      return '<div style="margin-bottom:8px;">' +
+        '<strong>' + escapeHtml(s.name) + '</strong> - 可信度: ' + credibility +
+        '<div style="font-size:12px;color:var(--muted);margin-left:12px;">' + escapeHtml(s.attr) + '</div>' +
+      '</div>';
+    }).join('') +
+  '</div>';
+  
+  // Deduction
+  if (c.deductionChain) {
+    html += '<div class="case-report-section">' +
+      '<h4>推理链</h4>' +
+      c.deductionChain.steps.map(function(step, i) {
+        return '<div style="margin-bottom:4px;">' + (i+1) + '. ' + escapeHtml(step.inference) + '</div>';
+      }).join('') +
+      '<div style="margin-top:8px;font-weight:700;">结论：' + escapeHtml(c.deductionChain.conclusion) + '</div>' +
+    '</div>';
+  }
+  
+  // Rating
+  html += '<div class="case-report-section">' +
+    '<h4>评价</h4>' +
+    '<div style="text-align:center;">' +
+    '<div class="rating-badge rating-' + rating.grade + '" style="font-size:32px;padding:12px 24px;">' + rating.grade + '</div>' +
+    '<div style="margin-top:8px;font-family:var(--font-mono);">综合评分：' + rating.score + '/100</div>' +
+    '</div>' +
+  '</div>';
+  
+  return html;
+}
+
+function showCaseReport(caseId) {
+  router.go('case-report');
+  document.getElementById('report-case-id').textContent = caseId;
+  document.getElementById('case-report-content').innerHTML = generateCaseReport(caseId);
+  showAchievement('full_report', '完美报告', '生成一份完整案件报告');
+}
+
+/* ══════════════════════════════════════════════════════
+   PSYCHOLOGICAL PROFILING
+   ══════════════════════════════════════════════════════ */
+var _psychProfiles = {};
+
+function initPsychProfiles() {
+  if (!_invCase || !_invCase.suspects) return;
+  _invCase.suspects.forEach(function(sus) {
+    _psychProfiles[sus.id] = {
+      traits: [],
+      confidence: 0,
+      interviews: 0
+    };
+  });
+}
+
+function updatePsychProfile(susId, questionTag) {
+  if (!_psychProfiles[susId]) return;
+  var p = _psychProfiles[susId];
+  p.interviews++;
+  
+  if (questionTag === '矛盾') {
+    p.confidence -= 10;
+    if (p.traits.indexOf('说谎者') < 0) p.traits.push('说谎者');
+  } else if (questionTag === '关键') {
+    p.confidence += 15;
+    if (p.traits.indexOf('知情者') < 0) p.traits.push('知情者');
+  }
+  
+  // Add traits based on interview count
+  if (p.interviews >= 3 && p.traits.indexOf('配合调查') < 0) p.traits.push('配合调查');
+  if (p.confidence < -20 && p.traits.indexOf('高度可疑') < 0) p.traits.push('高度可疑');
+}
+
+function renderPsychProfile(susId) {
+  var p = _psychProfiles[susId];
+  if (!p || p.interviews === 0) return '';
+  
+  return '<div class="profile-card">' +
+    '<div style="font-family:var(--font-heading);font-size:13px;font-weight:700;margin-bottom:8px;">心理画像</div>' +
+    '<div style="font-size:11px;color:var(--muted);margin-bottom:8px;">审讯次数: ' + p.interviews + ' | 信任度: ' + Math.max(0, 100 + p.confidence) + '%</div>' +
+    '<div class="profile-traits">' +
+    p.traits.map(function(t) { return '<span class="profile-trait">' + escapeHtml(t) + '</span>'; }).join('') +
+    '</div></div>';
+}
+
+/* ══════════════════════════════════════════════════════
+   TIME PRESSURE (for kidnapping case)
+   ══════════════════════════════════════════════════════ */
+var _timePressure = null;
+
+function startTimePressure(hours) {
+  _timePressure = {
+    total: hours * 3600,
+    remaining: hours * 3600,
+    active: true
+  };
+  renderTimePressure();
+  _timePressure.interval = setInterval(function() {
+    if (!_timePressure || !_timePressure.active) return;
+    _timePressure.remaining--;
+    renderTimePressure();
+    if (_timePressure.remaining <= 0) {
+      clearInterval(_timePressure.interval);
+      timePressureFailed();
+    }
+  }, 1000);
+}
+
+function renderTimePressure() {
+  if (!_timePressure) return;
+  var percent = (_timePressure.remaining / _timePressure.total) * 100;
+  var hours = Math.floor(_timePressure.remaining / 3600);
+  var minutes = Math.floor((_timePressure.remaining % 3600) / 60);
+  var seconds = _timePressure.remaining % 60;
+  
+  var bar = document.getElementById('time-pressure-bar');
+  var label = document.getElementById('time-pressure-label');
+  
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'time-pressure-bar';
+    bar.className = 'time-pressure-bar';
+    bar.innerHTML = '<div class="time-pressure-fill" id="time-pressure-fill"></div>';
+    document.body.appendChild(bar);
+  }
+  if (!label) {
+    label = document.createElement('div');
+    label.id = 'time-pressure-label';
+    label.className = 'time-pressure-label';
+    document.body.appendChild(label);
+  }
+  
+  document.getElementById('time-pressure-fill').style.width = percent + '%';
+  label.textContent = '剩余时间: ' + hours + ':' + String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+}
+
+function stopTimePressure() {
+  if (_timePressure) {
+    _timePressure.active = false;
+    clearInterval(_timePressure.interval);
+    var bar = document.getElementById('time-pressure-bar');
+    var label = document.getElementById('time-pressure-label');
+    if (bar) bar.remove();
+    if (label) label.remove();
+    _timePressure = null;
+  }
+}
+
+function timePressureFailed() {
+  alert('时间耗尽！绑匪已经逃跑，林芷下落不明。案件失败。');
+  stopTimePressure();
+}
+
+/* ══════════════════════════════════════════════════════
+   DIGITAL FORENSICS
+   ══════════════════════════════════════════════════════ */
+function renderForensicsPanel() {
+  if (!_invCase) return '';
+  
+  var phoneRecords = _invCase.evidence.filter(function(e) {
+    return e.name.indexOf('通话') >= 0 || e.name.indexOf('手机') >= 0 || e.name.indexOf('信号') >= 0;
+  });
+  
+  var financialRecords = _invCase.evidence.filter(function(e) {
+    return e.name.indexOf('银行') >= 0 || e.name.indexOf('转账') >= 0 || e.name.indexOf('资金') >= 0;
+  });
+  
+  var digitalRecords = _invCase.evidence.filter(function(e) {
+    return e.name.indexOf('监控') >= 0 || e.name.indexOf('网络') >= 0 || e.name.indexOf('暗网') >= 0;
+  });
+  
+  var html = '<div class="forensics-panel">' +
+    '<h4 style="font-family:var(--font-heading);margin-bottom:12px;">数字取证</h4>';
+  
+  if (phoneRecords.length > 0) {
+    html += '<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">通讯记录</div>' +
+      '<div class="forensics-grid">' +
+      phoneRecords.map(function(e) {
+        return '<div class="forensics-item" onclick="showEvidenceDetail(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
+      }).join('') +
+      '</div></div>';
+  }
+  
+  if (financialRecords.length > 0) {
+    html += '<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">财务记录</div>' +
+      '<div class="forensics-grid">' +
+      financialRecords.map(function(e) {
+        return '<div class="forensics-item" onclick="showEvidenceDetail(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
+      }).join('') +
+      '</div></div>';
+  }
+  
+  if (digitalRecords.length > 0) {
+    html += '<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">数字证据</div>' +
+      '<div class="forensics-grid">' +
+      digitalRecords.map(function(e) {
+        return '<div class="forensics-item" onclick="showEvidenceDetail(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
+      }).join('') +
+      '</div></div>';
+  }
+  
+  html += '</div>';
+  return html;
+}
+
+/* ══════════════════════════════════════════════════════
+   OVERRIDE: Add new features to existing functions
+   ══════════════════════════════════════════════════════ */
+
+// Override startInvestigation to init new systems
+var _origSI4 = startInvestigation;
+startInvestigation = function(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
+  var access = checkCaseAccess(caseId);
+  if (!access.allowed) { showClassifiedWarning(caseId); return; }
+  _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discoveredAreas = {};
+  _witnessCredibility = {}; _psychProfiles = {}; _comboSlots = [null, null];
+  initCredibility(); initPsychProfiles(); loadAchievements();
+  
+  // Start time pressure for kidnapping case
+  if (caseId === 'XA-2024-014') startTimePressure(72);
+  else stopTimePressure();
+  
+  if (c.scene) startCrimeScene(); else startTimeline();
+};
+
+// Override askQuestion to update credibility and profile
+var _origAskQ3 = askQuestion;
+askQuestion = function(sid, qi) {
+  _origAskQ3(sid, qi);
+  var q = _invCase.interrogations[sid].questions[qi];
+  if (q) {
+    updateCredibility(sid, q.tag === '矛盾', q.tag === '关键');
+    updatePsychProfile(sid, q.tag);
+    if (q.tag === '矛盾') showAchievement('witness_shake', '戳穿谎言', '发现一个证人的矛盾');
+  }
+};
+
+// Override renderDetail to add combo panel and forensics
+var _origRenderDetail2 = renderDetail;
+renderDetail = function(caseId) {
+  _origRenderDetail2(caseId);
+  
+  // Add combo panel and forensics to detail page
+  var detailContent = document.getElementById('detail-content');
+  if (detailContent) {
+    var comboPanel = document.createElement('div');
+    comboPanel.id = 'combo-panel';
+    comboPanel.className = 'combo-panel';
+    detailContent.appendChild(comboPanel);
+    renderComboPanel();
+    
+    var forensicsHtml = renderForensicsPanel();
+    if (forensicsHtml) {
+      detailContent.insertAdjacentHTML('beforeend', forensicsHtml);
+    }
+  }
+};
+
+// Override finishCrimeScene for achievements
+var _origFinishCS3 = finishCrimeScene;
+finishCrimeScene = function() {
+  savePhaseProgress(_invCase.id, 'scene');
+  if (_invCase.cipher) {
+    showAchievement('cipher_breaker', '密码破译者', '破解一个密码谜题');
+  }
+  _origFinishCS3();
+};
+
+// Add achievement check for first case completion
+var _origSubmitChain5 = submitDeductionChain;
+submitDeductionChain = function() {
+  _origSubmitChain5();
+  var resultEl = document.getElementById('chain-result');
+  if (resultEl && resultEl.style.display === 'block') {
+    var text = resultEl.textContent;
+    if (text.indexOf('案件破解') >= 0 || text.indexOf('案件报告') >= 0) {
+      showAchievement('first_case', '初出茅庐', '完成第一个案件');
+      stopTimePressure();
+      
+      // Check if all cases completed
+      var username = (Auth.getSession() || {}).username;
+      if (username) {
+        try {
+          var saved = JSON.parse(localStorage.getItem('pa_progress_' + username) || '{}');
+          var completed = Object.keys(saved).filter(function(id) { return saved[id] && saved[id].rating; }).length;
+          if (completed >= 15) showAchievement('all_cases', '破案专家', '完成所有15个案件');
+        } catch(e) {}
+      }
+    }
+  }
+};
+
+// Add router entry for new pages
+var _origRouterPages = router.pages;
+if (_origRouterPages.indexOf('achievements') < 0) _origRouterPages.push('achievements');
+if (_origRouterPages.indexOf('case-report') < 0) _origRouterPages.push('case-report');
 
 </script>
 
