@@ -1108,6 +1108,41 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 .phase-dot-sm.done { background: #5a8a40; }
 .phase-dot-sm.active { background: var(--accent); box-shadow: 0 0 0 2px rgba(106,79,165,0.2); }
 
+/* --- Classified Case Mechanic --- */
+.classified-warning {
+  position: fixed; inset: 0; z-index: 9997;
+  background: rgba(139,58,58,0.95); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  animation: loginFadeIn 0.3s ease-out;
+}
+.classified-card {
+  background: var(--surface); border: 3px solid #8b3a3a;
+  border-radius: 6px; padding: 40px; max-width: 500px; width: 90%;
+  box-shadow: 0 20px 60px rgba(139,58,58,0.5); text-align: center;
+}
+.classified-stamp {
+  font-family: var(--font-mono); font-size: 24px; font-weight: 700;
+  color: #8b3a3a; letter-spacing: 0.2em; margin-bottom: 16px;
+  border: 3px solid #8b3a3a; display: inline-block; padding: 8px 20px;
+  transform: rotate(-5deg);
+}
+.classified-btn {
+  background: #8b3a3a; color: white; border: none; padding: 12px 24px;
+  border-radius: 4px; font-size: 14px; cursor: pointer; margin: 0 8px;
+}
+.classified-btn:hover { background: #6b2a2a; }
+.classified-btn.secondary { background: transparent; color: #8b3a3a; border: 1px solid #8b3a3a; }
+.classified-btn.secondary:hover { background: rgba(139,58,58,0.1); }
+.gameover-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(10,8,5,0.98); backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+}
+.gameover-card {
+  background: var(--surface); border: 2px solid #8b3a3a;
+  border-radius: 6px; padding: 40px; max-width: 500px; width: 90%; text-align: center;
+}
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -3520,6 +3555,27 @@ const CASES = [
     method: "钝器击打头部",
     evidence: "c81"
   },
+    classified: {
+  classified: true,
+  requiredCases: [
+"XA-2024-001",
+"XA-2024-002",
+"XA-2024-003",
+"XA-2024-004",
+"XA-2024-005",
+"XA-2024-006",
+"XA-2024-007",
+"XA-2024-008",
+"XA-2024-009",
+"XA-2024-010",
+"XA-2024-011",
+"XA-2024-012",
+"XA-2024-013",
+"XA-2024-014"
+  ],
+  failMessage: "你在调查过程中触及了公安局高层的利益。你的账户被强制注销，所有案件进度已清除。这个案件只有在掌握足够证据后才能调查。",
+  successUnlock: "你已经掌握了所有案件的证据链。现在可以安全调查骆父被杀案的真相了。"
+},
     scene: {
   name: "骆建国书房",
   areas: [
@@ -5562,6 +5618,88 @@ submitDeductionChain = function() {
       savePhaseProgress(_invCase.id, 'deduction');
     }
   }
+};
+
+/* === CLASSIFIED CASE MECHANIC === */
+function checkCaseAccess(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.classified || !c.classified.classified) return { allowed: true };
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return { allowed: false, reason: 'login' };
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem('pa_progress_' + username) || '{}'); } catch(e) {}
+  var required = c.classified.requiredCases;
+  var completed = 0;
+  required.forEach(function(reqId) { if (saved[reqId] && saved[reqId].rating) completed++; });
+  if (completed < required.length) {
+    return { allowed: false, reason: 'classified', completed: completed, total: required.length, message: c.classified.failMessage };
+  }
+  return { allowed: true, message: c.classified.successUnlock };
+}
+
+function showClassifiedWarning(caseId) {
+  var access = checkCaseAccess(caseId);
+  if (access.allowed) { startInvestigation(caseId); return; }
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  var el = document.getElementById('classified-warning');
+  if (!el) { el = document.createElement('div'); el.id = 'classified-warning'; document.body.appendChild(el); }
+  el.innerHTML = '<div class="classified-card">' +
+    '<div class="classified-stamp">机密</div>' +
+    '<h2 style="font-family:var(--font-heading);margin-bottom:16px;">' + escapeHtml(c.title) + '</h2>' +
+    '<div style="font-size:14px;line-height:1.7;margin-bottom:24px;">' +
+    '<p>案件进度：' + access.completed + '/' + access.total + '</p>' +
+    '<p>' + escapeHtml(access.message) + '</p>' +
+    '<p style="color:#8b3a3a;font-weight:700;">继续调查将导致账户所有进度被清除</p></div>' +
+    '<div><button class="classified-btn secondary" onclick="document.getElementById(\'classified-warning\').style.display=\'none\'">返回</button>' +
+    '<button class="classified-btn" onclick="forceInvestigate(\'' + caseId + '\')">强制调查</button></div></div>';
+  el.style.display = 'flex';
+}
+
+function forceInvestigate(caseId) {
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return;
+  var el = document.getElementById('gameover-screen');
+  if (!el) { el = document.createElement('div'); el.id = 'gameover-screen'; document.body.appendChild(el); }
+  el.innerHTML = '<div class="gameover-card">' +
+    '<div style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:#8b3a3a;margin-bottom:16px;">账户已注销</div>' +
+    '<p style="font-size:14px;line-height:1.7;margin-bottom:24px;">你在调查过程中触及了公安局高层的利益。<br>你的账户被强制注销，所有案件进度已清除。</p>' +
+    '<button class="classified-btn" onclick="resetAndRestart()">重新开始</button></div>';
+  el.style.display = 'flex';
+  try { localStorage.removeItem('pa_progress_' + username); localStorage.removeItem('pa_notes_' + username); } catch(e) {}
+}
+
+function resetAndRestart() {
+  var el = document.getElementById('gameover-screen');
+  if (el) el.style.display = 'none';
+  router.go('board');
+  renderBoard();
+}
+
+/* === OVERRIDE startInvestigation === */
+var _origSI3 = startInvestigation;
+startInvestigation = function(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
+  var access = checkCaseAccess(caseId);
+  if (!access.allowed) { showClassifiedWarning(caseId); return; }
+  _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discoveredAreas = {};
+  if (c.scene) startCrimeScene(); else startTimeline();
+};
+
+/* === Add classified badges === */
+var _origRB3 = renderBoard;
+renderBoard = function() {
+  _origRB3();
+  var cards = document.querySelectorAll('.note-card');
+  CASES.forEach(function(c, i) {
+    if (cards[i] && c.classified && c.classified.classified) {
+      var access = checkCaseAccess(c.id);
+      var color = access.allowed ? '#5a8a40' : '#8b3a3a';
+      var text = access.allowed ? '已解锁' : '机密';
+      cards[i].insertAdjacentHTML('beforeend',
+        '<div style="position:relative;"><span style="position:absolute;top:8px;right:8px;background:' + color + ';color:white;font-family:var(--font-mono);font-size:9px;padding:2px 6px;border-radius:2px;letter-spacing:0.1em;">' + text + '</span></div>');
+    }
+  });
 };
 
 </script>
