@@ -1083,6 +1083,31 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 [data-theme="dark"] .tutorial-card { background: var(--surface); }
 [data-theme="dark"] .scene-map-label { color: var(--ink); }
 
+/* --- Case Progress Bar --- */
+.case-progress-bar {
+  width: 100%; height: 4px; background: var(--border);
+  border-radius: 2px; overflow: hidden; margin-top: 8px;
+}
+.case-progress-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-warm) 100%);
+  transition: width 0.3s ease;
+}
+.case-progress-text {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--muted); margin-top: 4px; text-align: right;
+}
+/* --- Phase progress dots --- */
+.phase-dots {
+  display: flex; gap: 4px; margin-top: 6px;
+}
+.phase-dot-sm {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); transition: all 0.2s ease;
+}
+.phase-dot-sm.done { background: #5a8a40; }
+.phase-dot-sm.active { background: var(--accent); box-shadow: 0 0 0 2px rgba(106,79,165,0.2); }
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -4647,6 +4672,109 @@ function clearDomCache() { _domCache = {}; }
 function safeRun(fn, fallback) {
   try { return fn(); } catch(e) { console.warn('Safe run error:', e); return fallback; }
 }
+
+/* === CASE PROGRESS SYSTEM === */
+function getCaseProgress(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return { percent: 0, phases: {} };
+  
+  var username = (Auth.getSession() || {}).username;
+  var progress = { percent: 0, phases: {} };
+  var totalPhases = 4; // scene, timeline, interrogation, deduction
+  var completedPhases = 0;
+  
+  // Check localStorage for completed phases
+  try {
+    var saved = JSON.parse(localStorage.getItem('pa_progress_' + username) || '{}');
+    if (saved[caseId]) {
+      var p = saved[caseId];
+      if (p.scene) { progress.phases.scene = true; completedPhases++; }
+      if (p.timeline) { progress.phases.timeline = true; completedPhases++; }
+      if (p.interrogation) { progress.phases.interrogation = true; completedPhases++; }
+      if (p.deduction) { progress.phases.deduction = true; completedPhases++; }
+      if (p.rating) { completedPhases = totalPhases; } // Full completion
+    }
+  } catch(e) {}
+  
+  progress.percent = Math.round((completedPhases / totalPhases) * 100);
+  return progress;
+}
+
+function savePhaseProgress(caseId, phase) {
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return;
+  var key = 'pa_progress_' + username;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(key) || '{}'); } catch(e) {}
+  if (!saved[caseId]) saved[caseId] = {};
+  saved[caseId][phase] = true;
+  localStorage.setItem(key, JSON.stringify(saved));
+}
+
+function renderProgressBar(caseId) {
+  var p = getCaseProgress(caseId);
+  var phases = ['scene', 'timeline', 'interrogation', 'deduction'];
+  var labels = ['勘查', '时间线', '审讯', '推理'];
+  
+  var dotsHtml = phases.map(function(phase, i) {
+    var cls = 'phase-dot-sm';
+    if (p.phases[phase]) cls += ' done';
+    return '<div class="' + cls + '" title="' + labels[i] + '"></div>';
+  }).join('');
+  
+  return '<div class="case-progress-bar"><div class="case-progress-fill" style="width:' + p.percent + '%"></div></div>' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">' +
+    '<div class="phase-dots">' + dotsHtml + '</div>' +
+    '<div class="case-progress-text">' + p.percent + '%</div>' +
+    '</div>';
+}
+
+/* === OVERRIDE renderBoard to show progress === */
+var _origRenderBoard2 = renderBoard;
+renderBoard = function() {
+  _origRenderBoard2();
+  
+  // Add progress bars to each card
+  var cards = document.querySelectorAll('.note-card');
+  CASES.forEach(function(c, i) {
+    if (cards[i]) {
+      var progressHtml = renderProgressBar(c.id);
+      var footer = cards[i].querySelector('.card-footer');
+      if (footer) {
+        footer.insertAdjacentHTML('afterend', progressHtml);
+      }
+    }
+  });
+  
+  // Show tutorial on first visit
+  if (!localStorage.getItem('pa_tutorial_done')) {
+    setTimeout(showTutorial, 500);
+  }
+};
+
+/* === Save phase progress when completing each phase === */
+// Override finishCrimeScene to save
+var _origFinishCS2 = finishCrimeScene;
+finishCrimeScene = function() {
+  savePhaseProgress(_invCase.id, 'scene');
+  _origFinishCS2();
+};
+
+// Override startTimeline to save when timeline is completed
+// (timeline completion is verified in the existing code)
+
+// Override submitDeductionChain to save
+var _origSubmitChain4 = submitDeductionChain;
+submitDeductionChain = function() {
+  _origSubmitChain4();
+  var resultEl = document.getElementById('chain-result');
+  if (resultEl && resultEl.style.display === 'block') {
+    var text = resultEl.textContent;
+    if (text.indexOf('案件破解') >= 0 || text.indexOf('案件报告') >= 0) {
+      savePhaseProgress(_invCase.id, 'deduction');
+    }
+  }
+};
 
 </script>
 
