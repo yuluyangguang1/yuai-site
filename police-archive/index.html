@@ -643,6 +643,87 @@ footer {
 .chain-step { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-size: 13px; }
 .chain-arrow { font-family: var(--font-mono); color: var(--accent); font-size: 18px; flex-shrink: 0; }
 
+/* --- Evidence Categories --- */
+.category-tag {
+  display: inline-block; padding: 1px 6px; border-radius: 2px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+  font-family: var(--font-mono); margin-right: 4px;
+}
+.category-物证 { background: rgba(148,60,60,0.1); color: #8b3a3a; }
+.category-证词 { background: rgba(80,120,160,0.1); color: #4a7a9a; }
+.category-文档 { background: rgba(176,136,80,0.15); color: #8a6830; }
+.category-数字记录 { background: rgba(80,120,60,0.1); color: #5a8a40; }
+
+/* --- Red Herring --- */
+.red-herring-tag {
+  display: inline-block; padding: 1px 6px; border-radius: 2px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+  font-family: var(--font-mono); margin-left: 4px;
+  background: rgba(180,100,40,0.12); color: #a06820;
+}
+
+/* --- Locked Clue --- */
+.clue-locked {
+  opacity: 0.4; cursor: default; border-style: dashed;
+}
+.clue-locked:hover { border-color: var(--border); }
+
+/* --- Suspect Profile Card --- */
+.profile-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-warm); padding: 12px 16px;
+  border-radius: 3px; margin-top: 12px; font-size: 13px; line-height: 1.6;
+}
+.profile-card .profile-label {
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted);
+  letter-spacing: 0.08em; margin-bottom: 4px;
+}
+
+/* --- Rating Badge --- */
+.rating-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: 50%;
+  font-family: var(--font-heading); font-size: 24px; font-weight: 800;
+  margin: 8px;
+}
+.rating-S { background: linear-gradient(135deg, #d4a855, #b8944a); color: #fff; }
+.rating-A { background: #5a8a40; color: #fff; }
+.rating-B { background: #4a7a9a; color: #fff; }
+.rating-C { background: #7a6e5a; color: #fff; }
+.rating-D { background: #8b3a3a; color: #fff; }
+
+/* --- Case Report --- */
+.case-report {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 24px; max-width: 600px; margin: 0 auto;
+}
+.case-report h3 {
+  font-family: var(--font-heading); font-size: 18px; font-weight: 700;
+  margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.case-report .report-row {
+  display: flex; justify-content: space-between; padding: 8px 0;
+  border-bottom: 1px dashed rgba(80,60,35,0.1); font-size: 13px;
+}
+.case-report .report-label { color: var(--muted); }
+.case-report .report-value { font-weight: 600; }
+
+/* --- Fill-in-the-blank --- */
+.blank-select {
+  display: inline-block; min-width: 120px; padding: 4px 8px;
+  border: 1px dashed var(--border); border-radius: 3px;
+  background: var(--surface); color: var(--ink);
+  font-family: var(--font-body); font-size: 13px;
+  cursor: pointer; transition: all 0.15s ease;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' fill='none' stroke='%237a6e5a' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+  padding-right: 24px;
+}
+.blank-select:focus { border-color: var(--accent); outline: none; }
+.blank-select.correct { border-color: #5a8a40; background-color: rgba(80,120,60,0.05); }
+.blank-select.wrong { border-color: var(--accent); background-color: rgba(148,60,60,0.05); }
+
 </style>
 </head>
 <body>
@@ -950,12 +1031,9 @@ footer {
 
 <!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
 
-
 <!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
 
-
 <!-- ═══════════════════════════ PAGE: DEDUCTION-CHAIN ═══════════════════════════ -->
-
 
 <!-- ═══════════════════════════ MODAL: Clue detail ═══════════════════════════ -->
 <div class="modal-mask" id="clue-modal">
@@ -989,22 +1067,27 @@ const CASES = [
       { id: "e8", name: "王某手机通话记录", location: "通讯运营商", status: "已调取", note: "01:30 王某与尾号 8821 号码通话 2 分 15 秒。02:05 再次通话 45 秒。尾号 8821 登记人为刘某（房东）。王某声称通话内容是催缴租金，刘某声称是王某主动打来谈退租。两人说法矛盾。" }
     ],
     suspects: [
-      { id: "s1", name: "王某", attr: "店主 · 55 岁 · 称三楼休息 · 有二楼钥匙 · 01:30/02:05 两次通话" },
-      { id: "s2", name: "赵某", attr: "收废品 · 49 岁 · 01:50 驾三轮车经过 · 前科 2019 盗窃 · 衣物有机油痕迹" },
-      { id: "s3", name: "未知人员 A", attr: "监控人影 · 175-180cm · 深色衣物 · 02:05 出现 · 右手提桶状物" },
-      { id: "s4", name: "房东刘某", attr: "64 岁 · 租金纠纷 · 2023 年 11 月威胁收回 · 签署过'项目◇'相关文件" },
-      { id: "s5", name: "邻居陈某", attr: "42 岁 · 文具店老板 · 称 02:10 闻到烟味 · 与王某有店铺漏水纠纷" }
+      { id: "s1", name: "王某", attr: "店主 · 55 岁 · 称三楼休息 · 有二楼钥匙 · 01:30/02:05 两次通话",
+      profile: "谨慎型 · 有不在场证明但凌晨通话可疑" },
+      { id: "s2", name: "赵某", attr: "收废品 · 49 岁 · 01:50 驾三轮车经过 · 前科 2019 盗窃 · 衣物有机油痕迹",
+      profile: "边缘人物 · 有前科但本案证据指向他人" },
+      { id: "s3", name: "未知人员 A", attr: "监控人影 · 175-180cm · 深色衣物 · 02:05 出现 · 右手提桶状物",
+      profile: "未知 · 监控模糊人影，身份待查" },
+      { id: "s4", name: "房东刘某", attr: "64 岁 · 租金纠纷 · 2023 年 11 月威胁收回 · 签署过'项目◇'相关文件",
+      profile: "主谋型 · 有腐败动机，指使他人作案" },
+      { id: "s5", name: "邻居陈某", attr: "42 岁 · 文具店老板 · 称 02:10 闻到烟味 · 与王某有店铺漏水纠纷",
+      profile: "旁观者 · 邻居，时间线有异常但可能无辜" }
     ],
     motives: ["销毁租赁纠纷证据", "销毁'项目◇'腐败证据", "保险诈骗", "报复纵火", "商业竞争"],
     methods: ["TYPE-B 撬棍破门", "提前切断监控电源", "少量汽油助燃", "利用凌晨时段作案", "三轮车运送工具"],
     clues: [
-      { id: "c1", title: "'项目◇'与刘某签字", body: "红外扫描显示文件夹内有'丙方签字：刘某某'。'项目◇'格式与 2019 年市政工程招标文件一致。若刘某是项目丙方，这些文件可能是违规操作的证据——刘某有动机销毁。", status: "已记录" },
-      { id: "c2", title: "两次通话的矛盾", body: "王某 01:30 和 02:05 两次致电刘某。王某说催租，刘某说谈退租。凌晨两点谈租金不合常理。第二次通话仅 45 秒——更像是确认信号而非谈判。", status: "待研判" },
-      { id: "c3", title: "02:15 手动断电", body: "烟感系统日志显示 02:15:00 有手动断电操作，比起火早 2 分 43 秒。断电操作需要物理接触配电箱（位于一楼后厨）。王某声称在三楼，但配电箱在一楼。", status: "已记录" },
-      { id: "c4", title: "赵某的三轮车与纤维", body: "赵某三轮车 GPS 01:48 经过中山路，01:56 停留 3 分钟。纤维样本 A 有 SAE 10W-40 机油残留，常见于三轮摩托车。但赵某的三轮是电动的，不使用机油。纤维来源另有其人。", status: "待研判" },
-      { id: "c5", title: "购油记录", body: "2024-01-10 中石化加油站现金购 5L 桶装 92 号汽油。购油人戴黑色棒球帽，监控无法识别面部。但体型与监控人影（未知人员 A）吻合。桶装汽油可在 2 天后使用。", status: "待比对" },
-      { id: "c6", title: "指纹与斗型纹", body: "后门门框不完整指纹（右手食指，斗型纹）。需与所有嫌疑人比对。王某右手食指为箕型纹，排除。赵某指纹不完整无法比对。刘某拒绝采样。", status: "待化验" },
-      { id: "c7", title: "邻居陈某的时间线", body: "陈某称 02:10 闻到烟味，但烟感 02:17 才触发。提前 7 分钟闻到烟味暗示起火可能早于烟感记录。陈某的文具店与书店共用一面墙，后门通道相连。", status: "待核实" }
+      { id: "c1", title: "'项目◇'与刘某签字", body: "红外扫描显示文件夹内有'丙方签字：刘某某'。'项目◇'格式与 2019 年市政工程招标文件一致。若刘某是项目丙方，这些文件可能是违规操作的证据——刘某有动机销毁。", category: "文档", status: "已记录" },
+      { id: "c2", title: "两次通话的矛盾", body: "王某 01:30 和 02:05 两次致电刘某。王某说催租，刘某说谈退租。凌晨两点谈租金不合常理。第二次通话仅 45 秒——更像是确认信号而非谈判。", category: "物证", status: "待研判" },
+      { id: "c3", title: "02:15 手动断电", body: "烟感系统日志显示 02:15:00 有手动断电操作，比起火早 2 分 43 秒。断电操作需要物理接触配电箱（位于一楼后厨）。王某声称在三楼，但配电箱在一楼。", category: "数字记录", status: "已记录" },
+      { id: "c4", title: "赵某的三轮车与纤维", body: "赵某三轮车 GPS 01:48 经过中山路，01:56 停留 3 分钟。纤维样本 A 有 SAE 10W-40 机油残留，常见于三轮摩托车。但赵某的三轮是电动的，不使用机油。纤维来源另有其人。", category: "数字记录", redHerring: true, status: "待研判" },
+      { id: "c5", title: "购油记录", body: "2024-01-10 中石化加油站现金购 5L 桶装 92 号汽油。购油人戴黑色棒球帽，监控无法识别面部。但体型与监控人影（未知人员 A）吻合。桶装汽油可在 2 天后使用。", category: "文档", status: "待比对" },
+      { id: "c6", title: "指纹与斗型纹", body: "后门门框不完整指纹（右手食指，斗型纹）。需与所有嫌疑人比对。王某右手食指为箕型纹，排除。赵某指纹不完整无法比对。刘某拒绝采样。", category: "物证", status: "待化验" },
+      { id: "c7", title: "邻居陈某的时间线", body: "陈某称 02:10 闻到烟味，但烟感 02:17 才触发。提前 7 分钟闻到烟味暗示起火可能早于烟感记录。陈某的文具店与书店共用一面墙，后门通道相连。", category: "证词", status: "待核实" }
     ],
     notes: [],
     solution: { suspect: "s4", motive: "销毁'项目◇'腐败证据", method: "提前切断监控电源", evidence: "c1" },
@@ -1061,21 +1144,25 @@ const CASES = [
       { id: "e16", name: "蓝色纤维", location: "死者指甲缝", status: "待化验", note: "微量蓝色涤纶纤维，与围栏帆布材质不一致。颜色与医院工作服（蓝色涤纶）一致。需进一步比对纤维染料批次。" }
     ],
     suspects: [
-      { id: "s6", name: "陈某", attr: "前同事 · 36 岁 · 23:22 通话 · 被辞退 · 左利手 · 有医疗背景" },
-      { id: "s7", name: "张某（妻子）", attr: "35 岁 · 称不知来电者 · 弟弟经营已注销公司 · 死者账户转出 5 万" },
-      { id: "s8", name: "未知号码机主", attr: "尾号 3387 · 预付费卡 · 2 月 15 日购入 · 基站东湖公园" },
-      { id: "s9", name: "张某弟弟", attr: "30 岁 · 鑫达贸易法人 · 公司已注销 · 收到 5 万转账" }
+      { id: "s6", name: "陈某", attr: "前同事 · 36 岁 · 23:22 通话 · 被辞退 · 左利手 · 有医疗背景",
+      profile: "报复型 · 左利手，医疗背景，被辞退怨恨" },
+      { id: "s7", name: "张某（妻子）", attr: "35 岁 · 称不知来电者 · 弟弟经营已注销公司 · 死者账户转出 5 万",
+      profile: "机会主义 · 可能在事后利用死者手机转账" },
+      { id: "s8", name: "未知号码机主", attr: "尾号 3387 · 预付费卡 · 2 月 15 日购入 · 基站东湖公园",
+      profile: "未知 · 预付费号码，身份成谜" },
+      { id: "s9", name: "张某弟弟", attr: "30 岁 · 鑫达贸易法人 · 公司已注销 · 收到 5 万转账",
+      profile: "受益者 · 收到转账，公司已注销" }
     ],
     motives: ["医疗纠纷报复", "保险诈骗（妻子）", "债务追杀", "灭口（掩盖公司违规）"],
     methods: ["苯二氮卓注射迷晕后推入湖中", "诱骗至偏僻地点", "预付费号码隐匿身份", "液压剪破坏围栏"],
     clues: [
-      { id: "c8", title: "注射角度与左利手", body: "左手腕注射角度显示为左手持针。陈某为左利手，有医疗背景，可获取苯二氮卓。但死者的妻子张某也是护士出身，同样可获取药物。", status: "已记录" },
-      { id: "c9", title: "5 万元转账", body: "03:20 死者账户向妻子弟弟的已注销公司转账 5 万元。时间在死者被推入湖中之后（03:00-04:30 死亡时间）。这意味着有人在死者濒死或已死后操作了他的手机完成转账。张某声称不知情。", status: "待研判" },
-      { id: "c10", title: "纸条笔迹", body: "'东湖桥下见'非死者笔迹，疑似左手书写。左手书写常见于故意伪装笔迹。陈某和张某均可用左手书写。纸条用纸为医院处方笺背面。", status: "待化验" },
-      { id: "c11", title: "蓝色纤维", body: "指甲缝内蓝色涤纶纤维与医院工作服一致。死者在水下挣扎时抓挠了接触者。纤维颜色与市第二人民医院标准工作服（批次 2023-BLU-07）一致。陈某和张某均可接触此类工作服。", status: "待比对" },
-      { id: "c12", title: "烟蒂 DNA", body: "土路上利群牌烟蒂 DNA 比对结果：匹配一名有前科人员（2021 年醉驾），与本案无关。为路人遗留。排除车辙印与本案直接关联。", status: "已排除" },
-      { id: "c13", title: "掌纹比对", body: "围栏锁芯掌纹（右手掌）比对结果：与陈某右手掌纹吻合（12 个特征点匹配，超过认定标准 8 个）。陈某无法解释为何接触围栏锁芯。", status: "已比对" },
-      { id: "c14", title: "张某的不在场证明", body: "张某称 22:00 后一直在家。但其手机基站记录显示 02:00-03:30 手机信号出现在东湖公园附近（距案发地 800 米）。张某解释称'可能基站误差'。", status: "待核实" }
+      { id: "c8", title: "注射角度与左利手", body: "左手腕注射角度显示为左手持针。陈某为左利手，有医疗背景，可获取苯二氮卓。但死者的妻子张某也是护士出身，同样可获取药物。", category: "物证", status: "已记录" },
+      { id: "c9", title: "5 万元转账", body: "03:20 死者账户向妻子弟弟的已注销公司转账 5 万元。时间在死者被推入湖中之后（03:00-04:30 死亡时间）。这意味着有人在死者濒死或已死后操作了他的手机完成转账。张某声称不知情。", category: "数字记录", status: "待研判" },
+      { id: "c10", title: "纸条笔迹", body: "'东湖桥下见'非死者笔迹，疑似左手书写。左手书写常见于故意伪装笔迹。陈某和张某均可用左手书写。纸条用纸为医院处方笺背面。", category: "物证", status: "待化验" },
+      { id: "c11", title: "蓝色纤维", body: "指甲缝内蓝色涤纶纤维与医院工作服一致。死者在水下挣扎时抓挠了接触者。纤维颜色与市第二人民医院标准工作服（批次 2023-BLU-07）一致。陈某和张某均可接触此类工作服。", category: "物证", status: "待比对" },
+      { id: "c12", title: "烟蒂 DNA", body: "土路上利群牌烟蒂 DNA 比对结果：匹配一名有前科人员（2021 年醉驾），与本案无关。为路人遗留。排除车辙印与本案直接关联。", category: "物证", redHerring: true, status: "已排除" },
+      { id: "c13", title: "掌纹比对", body: "围栏锁芯掌纹（右手掌）比对结果：与陈某右手掌纹吻合（12 个特征点匹配，超过认定标准 8 个）。陈某无法解释为何接触围栏锁芯。", category: "物证", status: "已比对" },
+      { id: "c14", title: "张某的不在场证明", body: "张某称 22:00 后一直在家。但其手机基站记录显示 02:00-03:30 手机信号出现在东湖公园附近（距案发地 800 米）。张某解释称'可能基站误差'。", category: "证词", redHerring: true, status: "待核实" }
     ],
     notes: [],
     solution: { suspect: "s6", motive: "医疗纠纷报复", method: "苯二氮卓注射迷晕后推入湖中", evidence: "c13" },
@@ -1126,18 +1213,21 @@ const CASES = [
       { id: "e24", name: "林某电脑远程记录", location: "林某家中电脑", status: "已提取", note: "林某家中电脑 01:50-02:40 有 VPN 连接记录，目标为变电站内网。VPN 账户为林某个人账户。林某声称当晚在家看电影，但电脑的浏览器历史显示无视频网站访问记录。" }
     ],
     suspects: [
-      { id: "s10", name: "运维 A 林某", attr: "30 岁 · 当日休息 · 有 VPN 远程权限 · 02:15 发短信'搞定了吗'" },
-      { id: "s11", name: "运维 B 孙某", attr: "35 岁 · 当日值班 · SSH 密钥归属 · U 盘被格式化" },
-      { id: "s12", name: "值班班长 周某", attr: "46 岁 · 值班负责人 · 6 小时后才汇报 · 收到林某短信" }
+      { id: "s10", name: "运维 A 林某", attr: "30 岁 · 当日休息 · 有 VPN 远程权限 · 02:15 发短信'搞定了吗'",
+      profile: "主谋型 · 远程指挥，发短信操控" },
+      { id: "s11", name: "运维 B 孙某", attr: "35 岁 · 当日值班 · SSH 密钥归属 · U 盘被格式化",
+      profile: "执行者 · 被利用的棋子，U 盘被格式化" },
+      { id: "s12", name: "值班班长 周某", attr: "46 岁 · 值班负责人 · 6 小时后才汇报 · 收到林某短信",
+      profile: "共犯 · 知情不报，延迟汇报" }
     ],
     motives: ["掩盖设备故障通过安全考核", "林某指使孙某配合", "内部报复（绩效纠纷）", "数据窃取"],
     methods: ["SSH 远程登录删除日志", "利用值班时段无人监督", "U 盘格式化销毁密钥", "延迟汇报模糊时间线"],
     clues: [
-      { id: "c15", title: "林某的短信", body: "02:15 林某发短信'搞定了吗？'，02:16 又发'别忘了格式化'。林某当日休息却知道事件进展，说明他是幕后指挥。'格式化'指令与孙某 U 盘 06:30 被格式化吻合。", status: "已记录" },
-      { id: "c16", title: "VPN 远程连接", body: "林某家中电脑 01:50-02:40 有 VPN 连接变电站内网。时间与日志删除完全重叠。林某可用自己的 VPN 账户远程操作，但需要孙某在站内配合（提供物理访问或掩护）。", status: "已记录" },
-      { id: "c17", title: "孙某的矛盾", body: "孙某声称 01:50 进入机房检查设备，但机房门禁记录显示其刷卡后未再刷卡进入监控室（运维终端所在）。孙某的 SSH 密钥被他人使用——但密钥在 U 盘上，U 盘在孙某身上。除非孙某主动交出 U 盘。", status: "待研判" },
-      { id: "c18", title: "周某的隐瞒", body: "周某 02:15 收到林某短信却未上报。06:30 孙某格式化 U 盘后，08:12 周某才汇报，且隐瞒日志被删除。周某的角色是知情不报还是共谋？", status: "待核实" },
-      { id: "c19", title: "SCADA 信号丢失的真实原因", body: "21:00 信号丢失半小时后自动恢复，系统无跳闸。这不是设备故障——更可能是人为断开再恢复。目的是测试'信号丢失是否会被上报'。答案是不会（因为恢复了），所以 02:00 才执行真正的日志删除。", status: "已记录" }
+      { id: "c15", title: "林某的短信", body: "02:15 林某发短信'搞定了吗？'，02:16 又发'别忘了格式化'。林某当日休息却知道事件进展，说明他是幕后指挥。'格式化'指令与孙某 U 盘 06:30 被格式化吻合。", category: "数字记录", status: "已记录" },
+      { id: "c16", title: "VPN 远程连接", body: "林某家中电脑 01:50-02:40 有 VPN 连接变电站内网。时间与日志删除完全重叠。林某可用自己的 VPN 账户远程操作，但需要孙某在站内配合（提供物理访问或掩护）。", category: "数字记录", status: "已记录" },
+      { id: "c17", title: "孙某的矛盾", body: "孙某声称 01:50 进入机房检查设备，但机房门禁记录显示其刷卡后未再刷卡进入监控室（运维终端所在）。孙某的 SSH 密钥被他人使用——但密钥在 U 盘上，U 盘在孙某身上。除非孙某主动交出 U 盘。", category: "证词", status: "待研判" },
+      { id: "c18", title: "周某的隐瞒", body: "周某 02:15 收到林某短信却未上报。06:30 孙某格式化 U 盘后，08:12 周某才汇报，且隐瞒日志被删除。周某的角色是知情不报还是共谋？", category: "证词", status: "待核实" },
+      { id: "c19", title: "SCADA 信号丢失的真实原因", body: "21:00 信号丢失半小时后自动恢复，系统无跳闸。这不是设备故障——更可能是人为断开再恢复。目的是测试'信号丢失是否会被上报'。答案是不会（因为恢复了），所以 02:00 才执行真正的日志删除。", category: "数字记录", status: "已记录" }
     ],
     notes: [],
     solution: { suspect: "s10", motive: "掩盖设备故障通过安全考核", method: "SSH 远程登录删除日志", evidence: "c15" },
@@ -1190,19 +1280,23 @@ const CASES = [
       { id: "e32", name: "郑某银行流水", location: "市建设银行", status: "已调取", note: "7 月 22 日 09:00 郑某账户收到 4.5 万元转账，转账人信息为现金存入（无法追踪来源）。郑某月薪 6000 元，这笔转账为其月薪 7.5 倍。" }
     ],
     suspects: [
-      { id: "s13", name: "值班员吴某", attr: "53 岁 · 夜间唯一值守 · 签到表疑似补签 · 00:05 与郑某通话" },
-      { id: "s14", name: "恒通物流司机", attr: "身份待查 · 车型与监控吻合 · 有运费纠纷动机" },
-      { id: "s15", name: "管理员郑某", attr: "39 岁 · 知悉货物位置 · 有吊车资质 · 与恒通有借贷 · 7/22 收到 4.5 万" },
-      { id: "s16", name: "技术员马某", attr: "28 岁 · 有吊车资质 · 当日休息 · 无法排除远程配合可能" }
+      { id: "s13", name: "值班员吴某", attr: "53 岁 · 夜间唯一值守 · 签到表疑似补签 · 00:05 与郑某通话",
+      profile: "配合者 · 巡逻记录伪造，与郑某通话" },
+      { id: "s14", name: "恒通物流司机", attr: "身份待查 · 车型与监控吻合 · 有运费纠纷动机",
+      profile: "红鲱鱼 · 恒通司机，车型吻合但不太可能直接参与" },
+      { id: "s15", name: "管理员郑某", attr: "39 岁 · 知悉货物位置 · 有吊车资质 · 与恒通有借贷 · 7/22 收到 4.5 万",
+      profile: "主谋型 · 策划分赃，有吊车资质，收到 4.5 万" },
+      { id: "s16", name: "技术员马某", attr: "28 岁 · 有吊车资质 · 当日休息 · 无法排除远程配合可能",
+      profile: "排除项 · 有资质但当日休息" }
     ],
     motives: ["运费纠纷报复", "内外勾结销赃", "监守自盗", "债务抵扣"],
     methods: ["钝器敲击锁梁开锁", "利用监控切换电源窗口", "吊车搬运重物", "中型货车转运"],
     clues: [
-      { id: "c20", title: "签到表伪造", body: "四次签到用同一支笔、笔压一致，无自然书写变化。正常巡逻应在不同时间、不同光线条件下用不同力度签到。签到表是事后一次性填写的，说明吴某可能整晚未巡逻。", status: "已记录" },
-      { id: "c21", title: "吊车使用记录", body: "00:15-00:25 吊车用电异常，与货车进出时间（00:19-00:21）高度重叠。3 桶 600kg+ 原料单人无法搬运，必须使用吊车。持证人员中，吴某在场、郑某有动机。", status: "已记录" },
-      { id: "c22", title: "郑某的 4.5 万", body: "7 月 22 日 09:00 郑某收到 4.5 万现金存入。12 万元货物的中间人分成通常为 30-40%（3.6-4.8 万）。4.5 万恰好在此范围内。郑某解释为'朋友还钱'但无法提供借条。", status: "待核实" },
-      { id: "c23", title: "00:05 通话", body: "吴某 00:05 与郑某通话 3 分 22 秒——在巡逻签到表上记录的 00:00 巡逻之后 5 分钟。如果吴某真的在 00:00 巡逻了，为什么 5 分钟后就打电话给郑某？更可能是 00:00 根本没巡逻，而是在确认行动时间。", status: "已记录" },
-      { id: "c24", title: "恒通物流的角色", body: "恒通物流与码头有运费纠纷，且吴某 00:20 与恒通调度员通话。恒通司机的车型与监控吻合。但恒通作为正规物流公司，直接参与盗窃风险太大——更可能是郑某借恒通的车和纠纷作为掩护。", status: "待研判" }
+      { id: "c20", title: "签到表伪造", body: "四次签到用同一支笔、笔压一致，无自然书写变化。正常巡逻应在不同时间、不同光线条件下用不同力度签到。签到表是事后一次性填写的，说明吴某可能整晚未巡逻。", category: "物证", status: "已记录" },
+      { id: "c21", title: "吊车使用记录", body: "00:15-00:25 吊车用电异常，与货车进出时间（00:19-00:21）高度重叠。3 桶 600kg+ 原料单人无法搬运，必须使用吊车。持证人员中，吴某在场、郑某有动机。", category: "数字记录", status: "已记录" },
+      { id: "c22", title: "郑某的 4.5 万", body: "7 月 22 日 09:00 郑某收到 4.5 万现金存入。12 万元货物的中间人分成通常为 30-40%（3.6-4.8 万）。4.5 万恰好在此范围内。郑某解释为'朋友还钱'但无法提供借条。", category: "数字记录", status: "待核实" },
+      { id: "c23", title: "00:05 通话", body: "吴某 00:05 与郑某通话 3 分 22 秒——在巡逻签到表上记录的 00:00 巡逻之后 5 分钟。如果吴某真的在 00:00 巡逻了，为什么 5 分钟后就打电话给郑某？更可能是 00:00 根本没巡逻，而是在确认行动时间。", category: "数字记录", status: "已记录" },
+      { id: "c24", title: "恒通物流的角色", body: "恒通物流与码头有运费纠纷，且吴某 00:20 与恒通调度员通话。恒通司机的车型与监控吻合。但恒通作为正规物流公司，直接参与盗窃风险太大——更可能是郑某借恒通的车和纠纷作为掩护。", category: "证词", redHerring: true, status: "待研判" }
     ],
     notes: [],
     solution: { suspect: "s15", motive: "内外勾结销赃", method: "吊车搬运重物", evidence: "c22" },
@@ -1254,18 +1348,21 @@ const CASES = [
       { id: "e39", name: "诊所内网访问日志", location: "IT 部门", status: "已提取", note: "9 月 7 日 22:50 有设备通过诊所 WiFi 连接监控系统（MAC 地址归属华为 Mate 60）。赵某使用华为 Mate 60。钱某使用 iPhone 15。设备连接 WiFi 时的认证账户为'guest'（访客账户，无需密码）。" }
     ],
     suspects: [
-      { id: "s17", name: "药剂师赵某", attr: "29 岁 · 6 月入职 · 8 月买豪车 · 搜索过黑市价格 · 手机 MAC 连接监控" },
-      { id: "s18", name: "主任医师钱某", attr: "52 岁 · 22:45 进入药房 · 有机械备用钥匙 · 部分处方签名被模仿" },
-      { id: "s19", name: "行政人员孙某", attr: "35 岁 · 管理备用钥匙 · 无明确动机 · 当日加班至 21:00" }
+      { id: "s17", name: "药剂师赵某", attr: "29 岁 · 6 月入职 · 8 月买豪车 · 搜索过黑市价格 · 手机 MAC 连接监控",
+      profile: "贪婪型 · 3 个月分批积攒，搜索黑市价格" },
+      { id: "s18", name: "主任医师钱某", attr: "52 岁 · 22:45 进入药房 · 有机械备用钥匙 · 部分处方签名被模仿",
+      profile: "红鲱鱼 · 进药房是检查冰箱，签名被伪造" },
+      { id: "s19", name: "行政人员孙某", attr: "35 岁 · 管理备用钥匙 · 无明确动机 · 当日加班至 21:00",
+      profile: "排除项 · 管理备用钥匙，无明确动机" }
     ],
     motives: ["贩卖管制药品牟利", "掩盖处方异常", "个人经济压力"],
     methods: ["远程暂停监控录制", "模仿签名虚开处方", "利用访客 WiFi 匿名操作", "分批积攒后一次性转移"],
     clues: [
-      { id: "c25", title: "处方签名伪造", body: "45 张处方的医师签名被模仿，对应 200 支地西泮——与失窃数量完全吻合。这意味着失窃不是一次性的，而是 3 个月内分批积攒的。赵某作为药剂师有接触处方的机会。", status: "已记录" },
-      { id: "c26", title: "监控冻结技术", body: "远程访问监控端口 8080 执行'暂停录制'。赵某的手机 MAC 在 22:50 连接诊所 WiFi——时间在监控冻结（23:00）前 10 分钟，足够完成技术准备。钱某的 iPhone 未连接 WiFi。", status: "已记录" },
-      { id: "c27", title: "黑市搜索记录", body: "赵某 8 月 20 日搜索'地西泮注射液黑市价格'。地西泮在黑市的价格约为正规渠道的 10-15 倍。200 支地西泮黑市价值约 30-45 万元——远超赵某新车首付。", status: "已记录" },
-      { id: "c28", title: "钱某 22:45 进入药房", body: "钱某 22:45 刷卡进入药房，22:55 离开。这 10 分钟内钱某在做什么？钱某称'检查冰箱温度'。但冰箱温度记录仪显示 22:45-22:55 无温度波动（开门应有波动）。钱某在说谎。", status: "待研判" },
-      { id: "c29", title: "访客 WiFi 的匿名性", body: "诊所 guest WiFi 无需密码，任何人可连接。赵某的手机 MAC 连接了 WiFi，但这不能证明赵某本人操作了监控系统——手机可能在自动连接范围内。需要进一步检查赵某手机的浏览器历史或远程控制 App。", status: "待核实" }
+      { id: "c25", title: "处方签名伪造", body: "45 张处方的医师签名被模仿，对应 200 支地西泮——与失窃数量完全吻合。这意味着失窃不是一次性的，而是 3 个月内分批积攒的。赵某作为药剂师有接触处方的机会。", category: "文档", status: "已记录" },
+      { id: "c26", title: "监控冻结技术", body: "远程访问监控端口 8080 执行'暂停录制'。赵某的手机 MAC 在 22:50 连接诊所 WiFi——时间在监控冻结（23:00）前 10 分钟，足够完成技术准备。钱某的 iPhone 未连接 WiFi。", category: "数字记录", status: "已记录" },
+      { id: "c27", title: "黑市搜索记录", body: "赵某 8 月 20 日搜索'地西泮注射液黑市价格'。地西泮在黑市的价格约为正规渠道的 10-15 倍。200 支地西泮黑市价值约 30-45 万元——远超赵某新车首付。", category: "数字记录", status: "已记录" },
+      { id: "c28", title: "钱某 22:45 进入药房", body: "钱某 22:45 刷卡进入药房，22:55 离开。这 10 分钟内钱某在做什么？钱某称'检查冰箱温度'。但冰箱温度记录仪显示 22:45-22:55 无温度波动（开门应有波动）。钱某在说谎。", category: "证词", redHerring: true, status: "待研判" },
+      { id: "c29", title: "访客 WiFi 的匿名性", body: "诊所 guest WiFi 无需密码，任何人可连接。赵某的手机 MAC 连接了 WiFi，但这不能证明赵某本人操作了监控系统——手机可能在自动连接范围内。需要进一步检查赵某手机的浏览器历史或远程控制 App。", category: "数字记录", status: "待核实" }
     ],
     notes: [],
     solution: { suspect: "s17", motive: "贩卖管制药品牟利", method: "远程暂停监控录制", evidence: "c25" },
@@ -1317,19 +1414,23 @@ const CASES = [
       { id: "e47", name: "王某（张某妻子）证词", location: "二次走访", status: "已记录", note: "王某二次走访时改口：'14:20 左右我在阳台收衣服，不小心碰了一下晾衣架，好像有个花盆晃了一下。我当时没在意。'王某此前声称 14:30 在厨房。证词前后矛盾。" }
     ],
     suspects: [
-      { id: "s20", name: "张某（701）", attr: "46 岁 · 花盆主人 · 14:25 收到可疑消息 · 有赌博前科联系人" },
-      { id: "s21", name: "王某（701 妻子）", attr: "43 岁 · 二次走访改口 · 承认碰过晾衣架 · 证词矛盾" },
-      { id: "s22", name: "孙某（802）", attr: "51 岁 · 也购买过绿园花盆 · 称午休无不在场证明" },
-      { id: "s23", name: "钱某（801）", attr: "32 岁 · 戴降噪耳机 · 可能听到异响但未注意" }
+      { id: "s20", name: "张某（701）", attr: "46 岁 · 花盆主人 · 14:25 收到可疑消息 · 有赌博前科联系人",
+      profile: "赌博者 · 有债务但与花盆无关" },
+      { id: "s21", name: "王某（701 妻子）", attr: "43 岁 · 二次走访改口 · 承认碰过晾衣架 · 证词矛盾",
+      profile: "过失者 · 收衣服碰倒花盆，隐瞒真相" },
+      { id: "s22", name: "孙某（802）", attr: "51 岁 · 也购买过绿园花盆 · 称午休无不在场证明",
+      profile: "排除项 · 也买过花盆但物理轨迹不符" },
+      { id: "s23", name: "钱某（801）", attr: "32 岁 · 戴降噪耳机 · 可能听到异响但未注意",
+      profile: "排除项 · 戴耳机可能没听到" }
     ],
     motives: ["意外（风吹/晾衣架碰倒）", "过失致人死亡", "掩盖赌博债务纠纷"],
     methods: ["花盆从阳台坠落", "晾衣架绳索断裂带动花盆", "人为碰倒花盆"],
     clues: [
-      { id: "c30", title: "绳索断裂与花盆位置", body: "701 阳台晾衣架红色尼龙绳有一处新鲜断裂，与花盆碎片上绳段材质一致。花盆原位于阳台东侧栏杆，晾衣架在西侧。绳索断裂如何导致东侧花盆坠落？——可能的解释：王某收衣服时拉动晾衣架，绳索断裂后弹向东侧，击中花盆导致坠落。", status: "已记录" },
-      { id: "c31", title: "王某改口证词", body: "王某首次走访称 14:30 在厨房，二次走访改口称 14:20 在阳台收衣服并碰了晾衣架。改口的原因是什么？是良心发现还是被发现无法自圆其说？王某承认'花盆晃了一下'但'没在意'——这构成过失致人死亡的要件。", status: "已记录" },
-      { id: "c32", title: "张某的可疑消息", body: "14:25 张某收到'钱到了，晚上去拿'——来自有赌博前科的'老陈'。张某可能有赌博债务。但这与花盆坠落无直接关联。张某 14:35 拨打 120 的时间在案发后 5 分钟，行为正常。", status: "待研判" },
-      { id: "c33", title: "花盆主人确认", body: "701 阳台有 3 个绿园花盆，第 4 个位置有空缺印记。碎片品牌为绿园。张某 8 月购买 3 盆。但 802 孙某也购买过 2 盆绿园花盆——需要确认坠落花盆是否为 701 的。花盆底部批次号比对中。", status: "待化验" },
-      { id: "c34", title: "风向与轨迹", body: "东南风 3m/s，花盆水平偏移 1.5m 向西北。从 701 阳台（东侧）坠落的轨迹与撞击点吻合。从 802 阳台（西侧）坠落的轨迹偏移方向不符。物理分析支持花盆从 701 坠落。", status: "已记录" }
+      { id: "c30", title: "绳索断裂与花盆位置", body: "701 阳台晾衣架红色尼龙绳有一处新鲜断裂，与花盆碎片上绳段材质一致。花盆原位于阳台东侧栏杆，晾衣架在西侧。绳索断裂如何导致东侧花盆坠落？——可能的解释：王某收衣服时拉动晾衣架，绳索断裂后弹向东侧，击中花盆导致坠落。", category: "物证", status: "已记录" },
+      { id: "c31", title: "王某改口证词", body: "王某首次走访称 14:30 在厨房，二次走访改口称 14:20 在阳台收衣服并碰了晾衣架。改口的原因是什么？是良心发现还是被发现无法自圆其说？王某承认'花盆晃了一下'但'没在意'——这构成过失致人死亡的要件。", category: "证词", status: "已记录" },
+      { id: "c32", title: "张某的可疑消息", body: "14:25 张某收到'钱到了，晚上去拿'——来自有赌博前科的'老陈'。张某可能有赌博债务。但这与花盆坠落无直接关联。张某 14:35 拨打 120 的时间在案发后 5 分钟，行为正常。", category: "数字记录", redHerring: true, status: "待研判" },
+      { id: "c33", title: "花盆主人确认", body: "701 阳台有 3 个绿园花盆，第 4 个位置有空缺印记。碎片品牌为绿园。张某 8 月购买 3 盆。但 802 孙某也购买过 2 盆绿园花盆——需要确认坠落花盆是否为 701 的。花盆底部批次号比对中。", category: "物证", status: "待化验" },
+      { id: "c34", title: "风向与轨迹", body: "东南风 3m/s，花盆水平偏移 1.5m 向西北。从 701 阳台（东侧）坠落的轨迹与撞击点吻合。从 802 阳台（西侧）坠落的轨迹偏移方向不符。物理分析支持花盆从 701 坠落。", category: "物证", status: "已记录" }
     ],
     notes: [],
     solution: { suspect: "s21", motive: "意外（风吹/晾衣架碰倒）", method: "人为碰倒花盆", evidence: "c31" },
@@ -1381,20 +1482,24 @@ const CASES = [
       { id: "e56", name: "店长周某背景", location: "人事调查", status: "已核实", note: "周某（38 岁）2018-2020 年在市第一人民医院担任行政岗位。2020 年辞职后开办拾光书屋。周某与陈某（副院长）为大学同学。周某声称辞职原因是'追求文艺梦想'。" }
     ],
     suspects: [
-      { id: "s24", name: "店长周某", attr: "39 岁 · 有管理员密码 · 前医院行政 · 与陈某（副院长）是同学" },
-      { id: "s25", name: "夜班店员小杨", attr: "22 岁 · 有管理员密码 · 23:30 在收银台（有监控为证）" },
-      { id: "s26", name: "副院长陈某", attr: "55 岁 · 林某稿件的核心人物 · 有动机灭口" },
-      { id: "s27", name: "林某本人", attr: "35 岁 · 自由撰稿人 · 可能自行离开以躲避威胁" }
+      { id: "s24", name: "店长周某", attr: "39 岁 · 有管理员密码 · 前医院行政 · 与陈某（副院长）是同学",
+      profile: "关系网 · 前医院行政，副院长同学，有管理员密码" },
+      { id: "s25", name: "夜班店员小杨", attr: "22 岁 · 有管理员密码 · 23:30 在收银台（有监控为证）",
+      profile: "排除项 · 有密码但监控证明在收银台" },
+      { id: "s26", name: "副院长陈某", attr: "55 岁 · 林某稿件的核心人物 · 有动机灭口",
+      profile: "幕后 · 林某稿件核心人物，有灭口动机" },
+      { id: "s27", name: "林某本人", attr: "35 岁 · 自由撰稿人 · 可能自行离开以躲避威胁",
+      profile: "受害者 · 可能逃脱或被转移" }
     ],
     motives: ["灭口（掩盖 2019 医疗事故真相）", "林某自行逃离（受到威胁）", "绑架（阻止稿件发表）"],
     methods: ["利用后门消防通道转移", "管理员密码开门后伪造密室", "后门监控盲区逃脱", "黑色轿车接应"],
     clues: [
-      { id: "c35", title: "密室的真相", body: "电子门锁显示 22:00 后无开门记录，但管理员密码可以覆盖所有记录。周某或小杨可用管理员密码开门，带走林某后从内部反锁——这样门锁系统只记录'管理员开门'，而这段记录可能被删除。需检查门锁系统是否有管理员操作日志。", status: "待核实" },
-      { id: "c36", title: "后门的 5 分钟", body: "23:30 后门监控 5 分钟模糊（雾气？人为？）。23:32 黑色轿车驶出。如果林某在 23:30 被从后门带走，时间线吻合。但咖啡温度推断制作时间约 01:00——如果林某 23:30 就被带走，谁在 01:00 制作了咖啡？", status: "待研判" },
-      { id: "c37", title: "杯底未知指纹", body: "咖啡杯底的左手指纹非林某、非店员。咖啡杯底的指纹通常出现在'放下杯子'的动作中——这意味着有第三人在场接触过咖啡杯。此人可能是最后与林某接触的人。", status: "待化验" },
-      { id: "c38", title: "稿件与灭口动机", body: "林某的稿件涉及 2019 年医疗事故，直指副院长陈某。2019 年关键证人张某已失踪。如果陈某为阻止稿件发表而灭口，周某（前医院行政、陈某同学）可能是执行者。但这是间接证据链。", status: "已记录" },
-      { id: "c39", title: "林某的手机信号", body: "02:15 手机在城北汽车站出现 3 分钟。如果林某被绑架，绑匪不太可能让手机开着。更可能是林某本人在逃跑途中短暂开机求助。林某可能在 23:30 从后门被带走，但 02:15 在汽车站出现——说明他可能逃脱了。", status: "待研判" },
-      { id: "c40", title: "门锁管理员日志", body: "技术鉴定发现门锁系统管理员日志在 12 月 3 日 00:58 有一条删除记录。被删除的记录时间戳为 00:55——恰好在林某最后编辑稿件（00:45）之后 10 分钟。00:55 的开门记录被删除，说明有人在 00:55 用管理员密码打开了 VIP 室的门。", status: "已记录" }
+      { id: "c35", title: "密室的真相", body: "电子门锁显示 22:00 后无开门记录，但管理员密码可以覆盖所有记录。周某或小杨可用管理员密码开门，带走林某后从内部反锁——这样门锁系统只记录'管理员开门'，而这段记录可能被删除。需检查门锁系统是否有管理员操作日志。", category: "数字记录", status: "待核实" },
+      { id: "c36", title: "后门的 5 分钟", body: "23:30 后门监控 5 分钟模糊（雾气？人为？）。23:32 黑色轿车驶出。如果林某在 23:30 被从后门带走，时间线吻合。但咖啡温度推断制作时间约 01:00——如果林某 23:30 就被带走，谁在 01:00 制作了咖啡？", category: "证词", status: "待研判" },
+      { id: "c37", title: "杯底未知指纹", body: "咖啡杯底的左手指纹非林某、非店员。咖啡杯底的指纹通常出现在'放下杯子'的动作中——这意味着有第三人在场接触过咖啡杯。此人可能是最后与林某接触的人。", category: "物证", status: "待化验" },
+      { id: "c38", title: "稿件与灭口动机", body: "林某的稿件涉及 2019 年医疗事故，直指副院长陈某。2019 年关键证人张某已失踪。如果陈某为阻止稿件发表而灭口，周某（前医院行政、陈某同学）可能是执行者。但这是间接证据链。", category: "文档", status: "已记录" },
+      { id: "c39", title: "林某的手机信号", body: "02:15 手机在城北汽车站出现 3 分钟。如果林某被绑架，绑匪不太可能让手机开着。更可能是林某本人在逃跑途中短暂开机求助。林某可能在 23:30 从后门被带走，但 02:15 在汽车站出现——说明他可能逃脱了。", category: "数字记录", status: "待研判" },
+      { id: "c40", title: "门锁管理员日志", body: "技术鉴定发现门锁系统管理员日志在 12 月 3 日 00:58 有一条删除记录。被删除的记录时间戳为 00:55——恰好在林某最后编辑稿件（00:45）之后 10 分钟。00:55 的开门记录被删除，说明有人在 00:55 用管理员密码打开了 VIP 室的门。", category: "数字记录", status: "已记录" }
     ],
     notes: [],
     solution: { suspect: "s24", motive: "灭口（掩盖 2019 医疗事故真相）", method: "管理员密码开门后伪造密室", evidence: "c40" },
@@ -2070,16 +2175,231 @@ function submitDeductionChain() {
   }
 }
 
+/* ══════════════════════════════════════════════════════
+   ENHANCED GAMEPLAY SYSTEMS
+   ══════════════════════════════════════════════════════ */
+
+/* --- Evidence Category Display --- */
+function getCategoryTag(category) {
+  if (!category) return '';
+  return '<span class="category-tag category-' + escapeHtml(category) + '">' + escapeHtml(category) + '</span>';
+}
+
+function getRedHerringTag(isRed) {
+  if (!isRed) return '';
+  return '<span class="red-herring-tag">干扰项</span>';
+}
+
+/* --- Suspect Profile Display --- */
+function showSuspectProfile(sid) {
+  var c = _invCase;
+  if (!c || !c.interrogations || !c.interrogations[sid]) return '';
+  var susp = c.interrogations[sid];
+  // Find the suspect in the case data
+  var suspect = c.suspects.find(function(s) { return s.id === sid; });
+  if (!suspect || !suspect.profile) return '';
+  
+  var askedCount = (_askedQuestions[sid] || []).length;
+  var totalQ = susp.questions.length;
+  var completeness = Math.round(askedCount / totalQ * 100);
+  
+  return '<div class="profile-card">' +
+    '<div class="profile-label">嫌疑人画像 · ' + escapeHtml(suspect.name) + '</div>' +
+    '<div>' + escapeHtml(suspect.profile) + '</div>' +
+    '<div style="margin-top:8px;font-size:11px;color:var(--muted);">审讯进度：' + askedCount + '/' + totalQ + ' (' + completeness + '%)</div>' +
+  '</div>';
+}
+
+/* --- Detective Rating System --- */
+function calculateRating(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return { grade: 'D', score: 0, breakdown: {} };
+  
+  var score = 0;
+  var breakdown = {};
+  
+  // Timeline accuracy (0-30 points)
+  var timelineCorrect = 0;
+  if (_timelineOrder && _timelineOrder.length > 0) {
+    for (var i = 0; i < _timelineOrder.length; i++) {
+      if (_timelineOrder[i].order === i + 1) timelineCorrect++;
+    }
+    var timelinePct = Math.round(timelineCorrect / _timelineOrder.length * 100);
+    var timelineScore = Math.round(timelinePct * 0.3);
+    score += timelineScore;
+    breakdown.timeline = { label: '时间线', score: timelineScore, max: 30, detail: timelineCorrect + '/' + _timelineOrder.length + ' 正确' };
+  }
+  
+  // Contradictions found (0-25 points)
+  var contradictionScore = Math.min(_contradictions.length * 8, 25);
+  score += contradictionScore;
+  breakdown.contradictions = { label: '矛盾发现', score: contradictionScore, max: 25, detail: _contradictions.length + ' 个矛盾' };
+  
+  // Deduction chain accuracy (0-30 points)
+  var expectedSteps = c.deductionChain ? c.deductionChain.steps.length : 4;
+  var chainMatch = 0;
+  if (_chainSelected && c.deductionChain) {
+    _chainSelected.forEach(function(cid) {
+      if (c.deductionChain.steps.find(function(s) { return s.evidence === cid; })) chainMatch++;
+    });
+  }
+  var chainScore = Math.round(chainMatch / expectedSteps * 30);
+  score += chainScore;
+  breakdown.chain = { label: '推理链', score: chainScore, max: 30, detail: chainMatch + '/' + expectedSteps + ' 匹配' };
+  
+  // Questions efficiency (0-15 points) — fewer questions = higher score
+  var totalAsked = 0;
+  Object.keys(_askedQuestions).forEach(function(sid) { totalAsked += _askedQuestions[sid].length; });
+  var totalQuestions = 0;
+  if (c.interrogations) {
+    Object.keys(c.interrogations).forEach(function(sid) { totalQuestions += c.interrogations[sid].questions.length; });
+  }
+  var efficiency = totalQuestions > 0 ? Math.round((1 - totalAsked / totalQuestions) * 100) : 0;
+  var efficiencyScore = Math.round(efficiency * 0.15);
+  score += efficiencyScore;
+  breakdown.efficiency = { label: '审讯效率', score: efficiencyScore, max: 15, detail: '问了 ' + totalAsked + '/' + totalQuestions + ' 题' };
+  
+  // Grade
+  var grade = 'D';
+  if (score >= 90) grade = 'S';
+  else if (score >= 75) grade = 'A';
+  else if (score >= 60) grade = 'B';
+  else if (score >= 40) grade = 'C';
+  
+  return { grade: grade, score: score, breakdown: breakdown };
+}
+
+function showRating(caseId) {
+  var rating = calculateRating(caseId);
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  
+  var rows = '';
+  Object.keys(rating.breakdown).forEach(function(key) {
+    var b = rating.breakdown[key];
+    rows += '<div class="report-row"><span class="report-label">' + b.label + '</span><span class="report-value">' + b.score + '/' + b.max + ' · ' + b.detail + '</span></div>';
+  });
+  
+  var backstory = '';
+  if (rating.grade === 'S' && c.deductionChain) {
+    backstory = '<div style="margin-top:16px;padding:12px;background:rgba(176,136,80,0.08);border-radius:3px;border:1px solid rgba(176,136,80,0.2);">' +
+      '<div style="font-family:var(--font-mono);font-size:10px;color:var(--accent-warm);letter-spacing:0.08em;margin-bottom:6px;">S 级解锁 · 幕后档案</div>' +
+      '<div style="font-size:13px;line-height:1.7;">' + escapeHtml(c.deductionChain.conclusion) + '</div></div>';
+  }
+  
+  return '<div class="case-report">' +
+    '<h3>案件报告 · ' + escapeHtml(c ? c.title : '') + '</h3>' +
+    '<div style="text-align:center;margin-bottom:16px;">' +
+      '<div class="rating-badge rating-' + rating.grade + '">' + rating.grade + '</div>' +
+      '<div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:4px;">综合评分：' + rating.score + '/100</div>' +
+    '</div>' +
+    rows +
+    backstory +
+  '</div>';
+}
+
+/* --- Override renderChainPreview to show categories --- */
+var _origRenderChainPreview = renderChainPreview;
+renderChainPreview = function() {
+  var el = document.getElementById('chain-preview');
+  if (_chainSelected.length === 0) { el.innerHTML = ''; return; }
+  var steps = _invCase.deductionChain.steps;
+  el.innerHTML = '<div class="notebook" style="margin-top:16px;"><div style="font-family:var(--font-heading);font-size:14px;font-weight:700;margin-bottom:12px;">推理链预览</div>' +
+    _chainSelected.map(function(cid, i) {
+      var clue = _invCase.clues.find(function(c) { return c.id === cid; });
+      var step = steps.find(function(s) { return s.evidence === cid; });
+      var arrow = i < _chainSelected.length - 1 ? '<div class="chain-arrow">↓</div>' : '';
+      var catTag = clue ? getCategoryTag(clue.category) : '';
+      var redTag = clue ? getRedHerringTag(clue.redHerring) : '';
+      return '<div class="chain-step"><span style="color:var(--accent);font-family:var(--font-mono);font-size:11px;">[' + (i+1) + ']</span>' +
+        '<span>' + catTag + escapeHtml(clue ? clue.title : cid) + redTag + '</span>' +
+        (step ? '<span style="color:var(--muted);font-size:12px;"> → ' + escapeHtml(step.inference) + '</span>' : '') + '</div>' + arrow;
+    }).join('') + '</div>';
+};
+
+/* --- Override submitDeductionChain for rating + case report --- */
+var _origSubmitChain = submitDeductionChain;
+submitDeductionChain = function() {
+  if (_chainSelected.length < 3) {
+    document.getElementById('chain-result').style.display = 'block';
+    document.getElementById('chain-result').innerHTML = '<div class="answer-card">请至少选择 3 条关键证据。</div>';
+    return;
+  }
+  var expectedSteps = _invCase.deductionChain.steps;
+  var matchCount = 0;
+  var redHerringCount = 0;
+  _chainSelected.forEach(function(cid) {
+    if (expectedSteps.find(function(s) { return s.evidence === cid; })) matchCount++;
+    var clue = _invCase.clues.find(function(c) { return c.id === cid; });
+    if (clue && clue.redHerring) redHerringCount++;
+  });
+  
+  var resultEl = document.getElementById('chain-result');
+  resultEl.style.display = 'block';
+  
+  if (matchCount >= expectedSteps.length - 1) {
+    // Show case report with rating instead of simple success
+    resultEl.innerHTML = showRating(_invCase.id);
+  } else {
+    resultEl.innerHTML = '<div class="answer-card"><strong>推理链不完整</strong><br>匹配 ' + matchCount + '/' + expectedSteps.length + ' 条。' +
+      (redHerringCount > 0 ? '<br><span style="color:var(--accent);">注意：你选择了 ' + redHerringCount + ' 条干扰项。</span>' : '') +
+      '<br>回顾线索，选择更有力的证据。</div>';
+  }
+};
+
+/* --- Override startDeductionChain to show categories --- */
+var _origStartChain = startDeductionChain;
+startDeductionChain = function() {
+  router.go('deduction-chain');
+  document.getElementById('chain-case-id').textContent = _invCase.title;
+  _chainSelected = [];
+  var el = document.getElementById('chain-evidence');
+  el.innerHTML = _invCase.clues.map(function(cl) {
+    var catTag = getCategoryTag(cl.category);
+    var redTag = getRedHerringTag(cl.redHerring);
+    return '<div class="chain-item" onclick="toggleChainItem(\'' + cl.id + '\')" id="chain-' + cl.id + '">' +
+      '<div class="chain-check"></div>' +
+      '<div class="chain-text"><span class="chain-label">' + catTag + escapeHtml(cl.status) + redTag + '</span>' + escapeHtml(cl.title) + '</div></div>';
+  }).join('');
+  renderChainPreview();
+};
+
+/* --- Override interrogation to show profiles --- */
+var _origSelectSuspect = selectSuspectForInterrogation;
+selectSuspectForInterrogation = function(sid) {
+  _origSelectSuspect(sid);
+  // Add profile card
+  var profileHtml = showSuspectProfile(sid);
+  var area = document.getElementById('interrogation-area');
+  var existingProfile = area.querySelector('.profile-card');
+  if (existingProfile) existingProfile.remove();
+  if (profileHtml) {
+    var answerEl = document.getElementById('interrogation-answer');
+    answerEl.insertAdjacentHTML('afterend', profileHtml);
+  }
+};
+
+/* --- Override askQuestion to update profile --- */
+var _origAskQuestion = askQuestion;
+askQuestion = function(sid, qi) {
+  _origAskQuestion(sid, qi);
+  // Update profile card
+  var area = document.getElementById('interrogation-area');
+  var existingProfile = area.querySelector('.profile-card');
+  if (existingProfile) existingProfile.remove();
+  var profileHtml = showSuspectProfile(sid);
+  if (profileHtml) {
+    var answerEl = document.getElementById('interrogation-answer');
+    answerEl.insertAdjacentHTML('afterend', profileHtml);
+  }
+};
+
 </script>
 
 <!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
 
-
 <!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
 
-
 <!-- ═══════════════════════════ PAGE: DEDUCTION-CHAIN ═══════════════════════════ -->
-
 
 <!-- ═══════════════════════════ MODAL: Evidence Detail ═══════════════════════════ -->
 <div class="evidence-detail" id="evidence-detail" role="dialog" aria-modal="true" aria-labelledby="ev-detail-title">
