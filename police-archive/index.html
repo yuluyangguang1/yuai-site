@@ -1579,6 +1579,57 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   header { padding-top: max(8px, env(safe-area-inset-top)); }
 }
 
+/* --- Enhanced Tutorial --- */
+.tutorial-overlay {
+  position: fixed; inset: 0; z-index: 9998;
+  background: rgba(10,8,5,0.92); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  animation: loginFadeIn 0.3s ease-out;
+}
+.tutorial-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 32px; max-width: 500px; width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.tutorial-card h2 {
+  font-family: var(--font-heading); font-size: 22px; margin-bottom: 16px;
+  text-align: center;
+}
+.tutorial-steps {
+  list-style: none; padding: 0; margin: 20px 0;
+}
+.tutorial-steps li {
+  padding: 12px 0; border-bottom: 1px dashed var(--border);
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.tutorial-steps li:last-child { border-bottom: none; }
+.tutorial-step-num {
+  font-family: var(--font-mono); font-size: 12px; color: var(--accent);
+  min-width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(106,79,165,0.1); display: flex;
+  align-items: center; justify-content: center;
+}
+.tutorial-step-text {
+  font-size: 13px; line-height: 1.6;
+}
+.tutorial-step-text strong {
+  color: var(--ink);
+}
+.tutorial-tips {
+  background: rgba(176,136,80,0.08); border: 1px solid rgba(176,136,80,0.15);
+  border-radius: 4px; padding: 12px; margin-top: 16px;
+  font-size: 12px; line-height: 1.6;
+}
+.tutorial-btn {
+  display: block; width: 100%; margin-top: 20px;
+  background: var(--accent); color: white; border: none;
+  padding: 14px; border-radius: 4px; font-size: 15px;
+  font-weight: 600; cursor: pointer;
+  transition: all 0.15s ease;
+}
+.tutorial-btn:hover { background: #5a3d7a; }
+.tutorial-btn:active { transform: scale(0.98); }
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -10561,6 +10612,163 @@ function showRelatedClues(evidenceId) {
       return '<div style="font-size:12px;padding:4px 0;">' + getCategoryTag(cl.category) + ' ' + escapeHtml(cl.title) + '</div>';
     }).join('') + '</div>';
 }
+
+/* === ENHANCED GAME FLOW === */
+
+/* Better tutorial with step-by-step guide */
+function showTutorial() {
+  var el = document.getElementById('tutorial');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'tutorial';
+    el.className = 'tutorial-overlay';
+    document.body.appendChild(el);
+  }
+  
+  el.innerHTML = '<div class="tutorial-card">' +
+    '<h2>欢迎来到羽鹭市侦探事务所</h2>' +
+    '<p style="text-align:center;color:var(--muted);font-size:13px;">你是一名侦探，负责调查一系列悬案</p>' +
+    '<ul class="tutorial-steps">' +
+    '<li><div class="tutorial-step-num">1</div><div class="tutorial-step-text"><strong>犯罪现场勘查</strong> — 点击地图区域发现隐藏线索，有些区域需要先发现其他线索才能解锁</div></li>' +
+    '<li><div class="tutorial-step-num">2</div><div class="tutorial-step-text"><strong>时间线重建</strong> — 将打乱的事件按正确顺序排列，完成后解锁审讯</div></li>' +
+    '<li><div class="tutorial-step-num">3</div><div class="tutorial-step-text"><strong>审讯嫌疑人</strong> — 选择问题提问，发现矛盾和关键线索</div></li>' +
+    '<li><div class="tutorial-step-num">4</div><div class="tutorial-step-text"><strong>构建推理链</strong> — 选择关键证据提交推理，完成案件</div></li>' +
+    '</ul>' +
+    '<div class="tutorial-tips">' +
+    '<strong>提示：</strong>' +
+    '<ul style="margin:8px 0 0 16px;padding:0;">' +
+    '<li>有些线索是<strong style="color:#8b3a3a;">红鲱鱼</strong>（干扰项），选择它们会扣分</li>' +
+    '<li>发现矛盾时会有<strong>音效提示</strong></li>' +
+    '<li>完成所有案件后才能解锁<strong>机密案件</strong></li>' +
+    '<li>按 <kbd style="background:var(--border);padding:1px 5px;border-radius:2px;font-size:11px;">H</kbd> 切换高亮模式</li>' +
+    '</ul></div>' +
+    '<button class="tutorial-btn" onclick="closeTutorial()">开始调查</button>' +
+    '</div>';
+  
+  el.style.display = 'flex';
+}
+
+function closeTutorial() {
+  var el = document.getElementById('tutorial');
+  if (el) el.style.display = 'none';
+  localStorage.setItem('pa_tutorial_done', '1');
+}
+
+/* Better case selection feedback */
+function selectCase(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return;
+  
+  // Check if case has investigation data
+  if (!c.timeline) {
+    // Show a brief overview modal instead
+    showCaseOverview(caseId);
+    return;
+  }
+  
+  // Check classified access
+  var access = checkCaseAccess(caseId);
+  if (!access.allowed) {
+    showClassifiedWarning(caseId);
+    return;
+  }
+  
+  // Start investigation
+  startInvestigation(caseId);
+}
+
+/* Case overview modal for cases without investigation data */
+function showCaseOverview(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return;
+  
+  var html = '<div class="modal-box">' +
+    '<div class="modal-title">' + escapeHtml(c.title) + '</div>' +
+    '<div style="margin:12px 0;">' +
+    '<div><strong>案件编号：</strong>' + c.id + '</div>' +
+    '<div><strong>案发时间：</strong>' + c.date + '</div>' +
+    '<div><strong>案发地点：</strong>' + escapeHtml(c.location) + '</div>' +
+    '<div><strong>案件等级：</strong>' + escapeHtml(c.level) + '</div>' +
+    '</div>' +
+    '<div style="margin:12px 0;font-size:13px;line-height:1.7;">' + escapeHtml(c.summary) + '</div>' +
+    '<div style="text-align:center;margin-top:16px;">' +
+    '<button class="btn primary" onclick="closeModal(\'result-modal\')">关闭</button>' +
+    '</div></div>';
+  
+  document.getElementById('result-modal').querySelector('.modal-box').innerHTML = html;
+  document.getElementById('result-modal').classList.add('active');
+}
+
+/* Better evidence detail with image placeholder */
+function showEvidenceDetail(evidenceId) {
+  if (!_invCase) return;
+  var ev = _invCase.evidence.find(function(e) { return e.id === evidenceId; });
+  if (!ev) return;
+  
+  var html = '<div class="modal-box">' +
+    '<div class="modal-title">' + escapeHtml(ev.name) + '</div>' +
+    '<div style="margin:12px 0;">' +
+    '<div><strong>位置：</strong>' + escapeHtml(ev.location) + '</div>' +
+    '<div><strong>状态：</strong>' + escapeHtml(ev.status) + '</div>' +
+    '</div>' +
+    '<div style="margin:12px 0;font-size:13px;line-height:1.7;">' + escapeHtml(ev.note) + '</div>' +
+    showRelatedClues(evidenceId) +
+    '<div style="text-align:center;margin-top:16px;">' +
+    '<button class="btn" onclick="closeModal(\'result-modal\')">关闭</button>' +
+    '</div></div>';
+  
+  document.getElementById('result-modal').querySelector('.modal-box').innerHTML = html;
+  document.getElementById('result-modal').classList.add('active');
+}
+
+/* Better phase transition with loading state */
+function transitionToPhase(phase) {
+  var board = document.querySelector('.board');
+  if (board) board.classList.add('loading');
+  
+  setTimeout(function() {
+    if (board) board.classList.remove('loading');
+    router.go(phase);
+  }, 200);
+}
+
+/* Better investigation flow with progress tracking */
+function getInvestigationProgress() {
+  if (!_invCase) return null;
+  var progress = {
+    scene: !!_discovered && Object.keys(_discovered).length > 0,
+    timeline: false,
+    interrogation: Object.keys(_askedQuestions || {}).length > 0,
+    deduction: (_chainSelected || []).length > 0
+  };
+  return progress;
+}
+
+/* Auto-save investigation state */
+function autoSaveInvestigation() {
+  if (!_invCase) return;
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return;
+  
+  var state = {
+    caseId: _invCase.id,
+    phase: _invPhase,
+    discovered: _discovered || {},
+    askedQuestions: _askedQuestions || {},
+    contradictions: _contradictions || [],
+    chainSelected: _chainSelected || [],
+    timestamp: new Date().toISOString()
+  };
+  
+  try {
+    localStorage.setItem('pa_autosave_' + username, JSON.stringify(state));
+  } catch(e) {}
+}
+
+/* Auto-save every 30 seconds during investigation */
+setInterval(function() {
+  if (_invCase) autoSaveInvestigation();
+}, 30000);
 
 </script>
 
