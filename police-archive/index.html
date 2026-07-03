@@ -574,6 +574,75 @@ footer {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* --- Investigation Phases --- */
+.timeline-event {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 12px 16px; border-radius: 3px; cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  transition: all 0.15s ease; user-select: none;
+}
+.timeline-event:hover { border-color: var(--accent); }
+.timeline-event.selected { border-color: var(--accent); background: rgba(148,60,60,0.05); }
+.timeline-event.correct { border-color: #5a8a40; background: rgba(80,120,60,0.05); }
+.timeline-event.wrong { border-color: var(--accent); background: rgba(148,60,60,0.05); }
+.timeline-num { font-family: var(--font-mono); font-size: 11px; color: var(--muted); min-width: 20px; text-align: center; }
+.timeline-time { font-family: var(--font-mono); font-size: 12px; color: var(--accent); min-width: 50px; font-weight: 700; }
+.timeline-text { font-size: 13px; line-height: 1.5; }
+
+.suspect-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 10px 16px; border-radius: 3px; cursor: pointer;
+  font-family: var(--font-heading); font-size: 13px; font-weight: 600;
+  transition: all 0.15s ease;
+}
+.suspect-btn:hover { border-color: var(--accent); }
+.suspect-btn.active { border-color: var(--accent); background: rgba(148,60,60,0.08); }
+
+.q-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 10px 14px; border-radius: 3px; cursor: pointer;
+  font-size: 13px; text-align: left; transition: all 0.15s ease;
+}
+.q-btn:hover { border-color: var(--accent); }
+.q-btn.asked { opacity: 0.5; cursor: default; }
+
+.answer-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); padding: 14px 18px;
+  border-radius: 3px; margin-top: 12px; font-size: 13.5px; line-height: 1.7;
+}
+.answer-tag { display: inline-block; padding: 2px 8px; border-radius: 2px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; font-family: var(--font-mono); margin-top: 8px; }
+.answer-tag.contradiction { background: rgba(148,60,60,0.1); color: var(--accent); }
+.answer-tag.key { background: rgba(176,136,80,0.15); color: var(--accent-warm); }
+
+.contradiction-card {
+  background: var(--surface); border: 1px solid var(--accent);
+  padding: 12px 16px; border-radius: 3px; margin-bottom: 8px;
+  font-size: 13px; line-height: 1.6;
+}
+
+.chain-item {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 12px 16px; border-radius: 3px; cursor: pointer;
+  display: flex; align-items: flex-start; gap: 12px;
+  transition: all 0.15s ease;
+}
+.chain-item:hover { border-color: var(--accent); }
+.chain-item.selected { border-color: var(--accent); background: rgba(148,60,60,0.05); }
+.chain-check {
+  width: 20px; height: 20px; border: 2px solid var(--border);
+  border-radius: 3px; flex-shrink: 0; margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s ease;
+}
+.chain-item.selected .chain-check { border-color: var(--accent); background: var(--accent); }
+.chain-item.selected .chain-check::after { content: "✓"; color: var(--surface); font-size: 12px; }
+.chain-text { font-size: 13px; line-height: 1.5; }
+.chain-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; display: block; margin-bottom: 2px; }
+.chain-step { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-size: 13px; }
+.chain-arrow { font-family: var(--font-mono); color: var(--accent); font-size: 18px; flex-shrink: 0; }
+
 </style>
 </head>
 <body>
@@ -678,7 +747,7 @@ footer {
     </div>
     <div class="header-actions">
       <button class="btn" onclick="window.print()">打印</button>
-      <button class="btn primary" onclick="router.go('deduction')">进入推理</button>
+      <button class="btn primary" onclick="startInvestigation(currentCase ? currentCase.id : CASES[0].id)">开始调查</button>
     </div>
   </header>
 
@@ -793,6 +862,81 @@ footer {
   </main>
 </section>
 
+<!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
+<section class="page" id="page-timeline">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div class="stamp stamp-sm">时</div>
+      <div>
+        <h1>时间线重建 · Timeline</h1>
+        <small id="timeline-case-id">按时间顺序排列事件</small>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="btn" id="timeline-progress" style="cursor:default;font-family:var(--font-mono);font-size:11px;">0 / 0</span>
+      <button class="btn primary" id="timeline-check-btn" onclick="checkTimeline()">验证时间线</button>
+    </div>
+  </header>
+  <main class="board">
+    <p style="max-width:78ch;margin:0 auto 16px;font-size:13px;color:var(--muted);">点击两个事件交换位置，将所有事件按正确的时间顺序排列。</p>
+    <div id="timeline-events" style="max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:8px;"></div>
+    <div id="timeline-result" style="max-width:700px;margin:20px auto 0;display:none;"></div>
+  </main>
+</section>
+
+<!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
+<section class="page" id="page-interrogation">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div class="stamp stamp-sm">审</div>
+      <div>
+        <h1>审讯室 · Interrogation</h1>
+        <small id="interrogation-case-id">选择嫌疑人进行审讯</small>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="btn" id="interrogation-progress" style="cursor:default;font-family:var(--font-mono);font-size:11px;">矛盾: 0</span>
+      <button class="btn primary" id="interrogation-next-btn" onclick="finishInterrogation()" style="display:none;">进入推理</button>
+    </div>
+  </header>
+  <main class="board">
+    <div id="interrogation-suspects" style="max-width:700px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;"></div>
+    <div id="interrogation-area" style="max-width:700px;margin:0 auto;display:none;">
+      <div class="notebook" style="margin-bottom:16px;">
+        <div style="font-family:var(--font-heading);font-size:16px;font-weight:700;margin-bottom:12px;" id="interrogation-name"></div>
+        <div id="interrogation-questions" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+      <div id="interrogation-answer" style="display:none;"></div>
+    </div>
+    <div id="interrogation-contradictions" style="max-width:700px;margin:20px auto 0;"></div>
+  </main>
+</section>
+
+<!-- ═══════════════════════════ PAGE: DEDUCTION-CHAIN ═══════════════════════════ -->
+<section class="page" id="page-deduction-chain">
+  <header>
+    <div class="brand">
+      <button class="btn" onclick="router.back()">← 返回</button>
+      <div class="stamp stamp-sm">链</div>
+      <div>
+        <h1>推理链 · Deduction Chain</h1>
+        <small id="chain-case-id">连接证据，构建推理链</small>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn primary" onclick="submitDeductionChain()">提交推理</button>
+    </div>
+  </header>
+  <main class="board">
+    <p style="max-width:78ch;margin:0 auto 16px;font-size:13px;color:var(--muted);">选择关键证据，系统将自动构建推理链。选择与真相最相关的 4 条证据。</p>
+    <div id="chain-evidence" style="max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:8px;"></div>
+    <div id="chain-preview" style="max-width:700px;margin:20px auto 0;"></div>
+    <div id="chain-result" style="max-width:700px;margin:20px auto 0;display:none;"></div>
+  </main>
+</section>
+
 <!-- ═══════════════════════════ MODAL: Deduction Result ═══════════════════════════ -->
 <div class="modal-mask" id="result-modal">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -803,6 +947,15 @@ footer {
     <div id="modal-body"></div>
   </div>
 </div>
+
+<!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
+
+
+<!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
+
+
+<!-- ═══════════════════════════ PAGE: DEDUCTION-CHAIN ═══════════════════════════ -->
+
 
 <!-- ═══════════════════════════ MODAL: Clue detail ═══════════════════════════ -->
 <div class="modal-mask" id="clue-modal">
@@ -854,7 +1007,43 @@ const CASES = [
       { id: "c7", title: "邻居陈某的时间线", body: "陈某称 02:10 闻到烟味，但烟感 02:17 才触发。提前 7 分钟闻到烟味暗示起火可能早于烟感记录。陈某的文具店与书店共用一面墙，后门通道相连。", status: "待核实" }
     ],
     notes: [],
-    solution: { suspect: "s4", motive: "销毁'项目◇'腐败证据", method: "提前切断监控电源", evidence: "c1" }
+    solution: { suspect: "s4", motive: "销毁'项目◇'腐败证据", method: "提前切断监控电源", evidence: "c1" },
+    timeline: [
+      { id: "t1", time: "01:30", text: "王某致电刘某（房东），通话 2 分 15 秒", order: 1 },
+      { id: "t2", time: "01:50", text: "赵某驾三轮车经过中山路", order: 2 },
+      { id: "t3", time: "02:00", text: "监控画面出现规律性光斑波动（深色衣物人影）", order: 3 },
+      { id: "t4", time: "02:05", text: "王某再次致电刘某，通话 45 秒", order: 4 },
+      { id: "t5", time: "02:05", text: "未知人员 A 出现在后巷，右手提桶状物", order: 5 },
+      { id: "t6", time: "02:15", text: "配电箱手动断电操作", order: 6 },
+      { id: "t7", time: "02:17", text: "二楼西侧烟感触发报警", order: 7 },
+      { id: "t8", time: "02:22", text: "未知人员 A 离开后巷", order: 8 }
+    ],
+    interrogations: {
+      "s1": { name: "王某（店主）", questions: [
+        { q: "凌晨两点为什么打电话给刘某？", a: "催缴租金，他欠了三个月。", tag: "矛盾" },
+        { q: "你听到断电的声音了吗？", a: "没有，我在三楼睡觉，什么都没听到。", tag: "" },
+        { q: "后门的钥匙谁还有？", a: "只有我有。但上个月丢过一次，后来在柜台下面找到了。", tag: "关键" }
+      ]},
+      "s4": { name: "刘某（房东）", questions: [
+        { q: "王某凌晨打电话给你说了什么？", a: "他主动打来谈退租条件，不是催租。", tag: "矛盾" },
+        { q: "你认识'项目◇'这个文件名吗？", a: "不清楚，可能是以前的合同编号吧。", tag: "" },
+        { q: "2019 年市政工程招标你参与过吗？", a: "……我需要律师在场才能回答这个问题。", tag: "关键" }
+      ]},
+      "s2": { name: "赵某（收废品）", questions: [
+        { q: "凌晨一点多你在中山路做什么？", a: "捡纸箱，我每天这个时间出来。", tag: "" },
+        { q: "你的三轮车用什么燃料？", a: "电动的，不用油。", tag: "关键" },
+        { q: "你看到后巷有人吗？", a: "好像有个黑影，但我没在意。", tag: "" }
+      ]}
+    },
+    deductionChain: {
+      steps: [
+        { evidence: "c2", inference: "两次通话凌晨两点不合常理，王某和刘某说法矛盾" },
+        { evidence: "c1", inference: "刘某是'项目◇'的丙方，有销毁文件的动机" },
+        { evidence: "c3", inference: "02:15 断电操作需要物理接触一楼配电箱" },
+        { evidence: "c7", inference: "邻居 02:10 闻到烟味，起火早于烟感记录" }
+      ],
+      conclusion: "刘某指使他人（可能是赵某的衣物被利用）纵火销毁'项目◇'腐败证据。王某的通话是确认信号。" 
+    },
   },
   {
     id: "XA-2024-002", title: "东湖桥底溺亡案",
@@ -889,7 +1078,37 @@ const CASES = [
       { id: "c14", title: "张某的不在场证明", body: "张某称 22:00 后一直在家。但其手机基站记录显示 02:00-03:30 手机信号出现在东湖公园附近（距案发地 800 米）。张某解释称'可能基站误差'。", status: "待核实" }
     ],
     notes: [],
-    solution: { suspect: "s6", motive: "医疗纠纷报复", method: "苯二氮卓注射迷晕后推入湖中", evidence: "c13" }
+    solution: { suspect: "s6", motive: "医疗纠纷报复", method: "苯二氮卓注射迷晕后推入湖中", evidence: "c13" },
+    timeline: [
+      { id: "t1", time: "22:00", text: "死者接到电话后出门", order: 1 },
+      { id: "t2", time: "22:05", text: "与尾号 3387 通话 4 分 12 秒", order: 2 },
+      { id: "t3", time: "23:22", text: "陈某与死者最后一次通话", order: 3 },
+      { id: "t4", time: "02:00", text: "张某手机信号出现在东湖公园附近", order: 4 },
+      { id: "t5", time: "03:00", text: "推定死亡时间开始", order: 5 },
+      { id: "t6", time: "03:20", text: "死者账户向鑫达贸易转账 5 万元", order: 6 },
+      { id: "t7", time: "03:47", text: "手机解锁搜索'东湖桥'", order: 7 }
+    ],
+    interrogations: {
+      "s6": { name: "陈某", questions: [
+        { q: "23:22 你和李某通话说了什么？", a: "聊以前的事，没什么特别的。", tag: "" },
+        { q: "你为什么被医院辞退？", a: "是李某出卖了我。他作证说我用药失误。", tag: "关键" },
+        { q: "你左手还是右手写字？", a: "……右手。", tag: "矛盾" }
+      ]},
+      "s7": { name: "张某（妻子）", questions: [
+        { q: "你丈夫出门前说了什么？", a: "没说什么，接了个电话就走了。", tag: "" },
+        { q: "你弟弟的公司为什么注销了？", a: "经营不善，跟这事没关系。", tag: "" },
+        { q: "凌晨两点你的手机为什么在东湖公园？", a: "不可能，我在家睡觉。基站误差吧。", tag: "矛盾" }
+      ]}
+    },
+    deductionChain: {
+      steps: [
+        { evidence: "c13", inference: "围栏锁芯掌纹与陈某吻合——陈某去过案发现场" },
+        { evidence: "c8", inference: "注射角度为左利手，陈某是左利手" },
+        { evidence: "c11", inference: "指甲缝蓝色纤维与医院工作服一致" },
+        { evidence: "c9", inference: "03:20 转账发生在死后，有人用死者手机操作" }
+      ],
+      conclusion: "陈某因医疗纠纷报复李某，用苯二氮卓注射迷晕后推入湖中。张某可能在事后用死者手机转账给弟弟的公司（掩盖动机或趁机获利）。"
+    },
   },
   {
     id: "XA-2024-003", title: "北山变电站信号丢失",
@@ -921,7 +1140,39 @@ const CASES = [
       { id: "c19", title: "SCADA 信号丢失的真实原因", body: "21:00 信号丢失半小时后自动恢复，系统无跳闸。这不是设备故障——更可能是人为断开再恢复。目的是测试'信号丢失是否会被上报'。答案是不会（因为恢复了），所以 02:00 才执行真正的日志删除。", status: "已记录" }
     ],
     notes: [],
-    solution: { suspect: "s10", motive: "掩盖设备故障通过安全考核", method: "SSH 远程登录删除日志", evidence: "c15" }
+    solution: { suspect: "s10", motive: "掩盖设备故障通过安全考核", method: "SSH 远程登录删除日志", evidence: "c15" },
+    timeline: [
+      { id: "t1", time: "18:05", text: "孙某刷卡进入变电站", order: 1 },
+      { id: "t2", time: "21:00", text: "三组 SCADA 信号同步丢失（测试阶段）", order: 2 },
+      { id: "t3", time: "21:30", text: "信号自动恢复", order: 3 },
+      { id: "t4", time: "01:50", text: "孙某离开值班室进入机房", order: 4 },
+      { id: "t5", time: "01:55", text: "ops_b 账户登录运维终端", order: 5 },
+      { id: "t6", time: "02:00", text: "日志删除开始", order: 6 },
+      { id: "t7", time: "02:15", text: "林某发短信'搞定了吗？'", order: 7 },
+      { id: "t8", time: "02:41", text: "日志删除完成", order: 8 },
+      { id: "t9", time: "06:30", text: "孙某 U 盘被格式化", order: 9 }
+    ],
+    interrogations: {
+      "s11": { name: "运维 B 孙某", questions: [
+        { q: "01:55 你登录了运维终端吗？", a: "没有，我在机房检查设备。", tag: "矛盾" },
+        { q: "你的 U 盘为什么被格式化了？", a: "不小心按错了。", tag: "" },
+        { q: "林某让你做什么了？", a: "……他让我把 U 盘借给他用一下。", tag: "关键" }
+      ]},
+      "s10": { name: "运维 A 林某", questions: [
+        { q: "你当天休息，为什么发短信问'搞定了吗'？", a: "我问的是别的事。", tag: "矛盾" },
+        { q: "你的 VPN 账户当晚有连接记录，你知道吗？", a: "可能是我老婆用的。", tag: "" },
+        { q: "'别忘了格式化'这条短信是什么意思？", a: "……我要律师。", tag: "关键" }
+      ]}
+    },
+    deductionChain: {
+      steps: [
+        { evidence: "c15", inference: "林某 02:15 发短信'搞定了吗'说明他是指挥者" },
+        { evidence: "c16", inference: "林某 VPN 远程连接与日志删除时间完全重叠" },
+        { evidence: "c17", inference: "孙某的 SSH 密钥在 U 盘上，U 盘被格式化销毁证据" },
+        { evidence: "c19", inference: "21:00 信号丢失是测试，02:00 才是真正的行动" }
+      ],
+      conclusion: "林某远程指挥，孙某在站内配合。林某用孙某的 SSH 密钥删除日志，孙某格式化 U 盘销毁证据。周某知情不报。"
+    },
   },
   {
     id: "XA-2024-004", title: "漕河渡口货物失窃案",
@@ -954,7 +1205,39 @@ const CASES = [
       { id: "c24", title: "恒通物流的角色", body: "恒通物流与码头有运费纠纷，且吴某 00:20 与恒通调度员通话。恒通司机的车型与监控吻合。但恒通作为正规物流公司，直接参与盗窃风险太大——更可能是郑某借恒通的车和纠纷作为掩护。", status: "待研判" }
     ],
     notes: [],
-    solution: { suspect: "s15", motive: "内外勾结销赃", method: "吊车搬运重物", evidence: "c22" }
+    solution: { suspect: "s15", motive: "内外勾结销赃", method: "吊车搬运重物", evidence: "c22" },
+    timeline: [
+      { id: "t1", time: "22:00", text: "吴某签到开始值班", order: 1 },
+      { id: "t2", time: "22:30", text: "3 桶原料卸货完毕存放堆场", order: 2 },
+      { id: "t3", time: "00:00", text: "吴某签到巡逻（疑似补签）", order: 3 },
+      { id: "t4", time: "00:05", text: "吴某与郑某通话 3 分 22 秒", order: 4 },
+      { id: "t5", time: "00:15", text: "门式吊车用电异常开始", order: 5 },
+      { id: "t6", time: "00:18", text: "监控画面抖动开始", order: 6 },
+      { id: "t7", time: "00:19", text: "白色货车驶入堆场", order: 7 },
+      { id: "t8", time: "00:21", text: "货车驶出堆场", order: 8 },
+      { id: "t9", time: "09:00", text: "郑某账户收到 4.5 万元", order: 9 }
+    ],
+    interrogations: {
+      "s13": { name: "值班员吴某", questions: [
+        { q: "00:05 你和郑某说了什么？", a: "聊值班的事，没什么特别的。", tag: "" },
+        { q: "你的签到表为什么笔迹都一样？", a: "我一直用同一支笔。", tag: "矛盾" },
+        { q: "你当晚巡逻了吗？", a: "当然巡逻了，00:00 和 03:00 各一次。", tag: "矛盾" }
+      ]},
+      "s15": { name: "管理员郑某", questions: [
+        { q: "7 月 22 日你收到 4.5 万元是什么钱？", a: "朋友还的借款。", tag: "" },
+        { q: "你能提供借条吗？", a: "……口头借的，没有借条。", tag: "矛盾" },
+        { q: "你有码头吊车的操作资质对吗？", a: "有，但我当晚不在码头。", tag: "" }
+      ]}
+    },
+    deductionChain: {
+      steps: [
+        { evidence: "c20", inference: "签到表伪造，吴某整晚未巡逻" },
+        { evidence: "c21", inference: "吊车用电与货车进出时间重叠，600kg 必须用吊车" },
+        { evidence: "c22", inference: "郑某收到 4.5 万恰好是 12 万货物的 37.5%" },
+        { evidence: "c23", inference: "00:05 通话是确认行动时间" }
+      ],
+      conclusion: "郑某策划、吴某配合。郑某用吊车搬运货物装上恒通物流的货车。吴某负责不巡逻并伪造签到。4.5 万是分成。"
+    },
   },
   {
     id: "XA-2024-005", title: "社区诊所药物失窃案",
@@ -985,7 +1268,38 @@ const CASES = [
       { id: "c29", title: "访客 WiFi 的匿名性", body: "诊所 guest WiFi 无需密码，任何人可连接。赵某的手机 MAC 连接了 WiFi，但这不能证明赵某本人操作了监控系统——手机可能在自动连接范围内。需要进一步检查赵某手机的浏览器历史或远程控制 App。", status: "待核实" }
     ],
     notes: [],
-    solution: { suspect: "s17", motive: "贩卖管制药品牟利", method: "远程暂停监控录制", evidence: "c25" }
+    solution: { suspect: "s17", motive: "贩卖管制药品牟利", method: "远程暂停监控录制", evidence: "c25" },
+    timeline: [
+      { id: "t1", time: "6 月", text: "赵某入职药剂师岗位", order: 1 },
+      { id: "t2", time: "6-8 月", text: "地西泮处方量下降 60%，45 张处方签名被伪造", order: 2 },
+      { id: "t3", time: "8 月 15 日", text: "赵某晒出宝马 3 系新车", order: 3 },
+      { id: "t4", time: "8 月 20 日", text: "赵某搜索'地西泮注射液黑市价格'", order: 4 },
+      { id: "t5", time: "9 月 7 日 22:45", text: "钱某刷卡进入药房", order: 5 },
+      { id: "t6", time: "22:50", text: "华为 Mate 60 连接诊所 WiFi", order: 6 },
+      { id: "t7", time: "23:00", text: "监控画面冻结 30 分钟", order: 7 },
+      { id: "t8", time: "23:30", text: "监控恢复正常", order: 8 }
+    ],
+    interrogations: {
+      "s17": { name: "药剂师赵某", questions: [
+        { q: "你的新车怎么买的？", a: "家里给的钱。", tag: "" },
+        { q: "你搜索过'地西泮黑市价格'吗？", a: "没有，可能手机中毒了。", tag: "矛盾" },
+        { q: "6-8 月地西泮处方量下降 60%，你怎么解释？", a: "可能是医生开得少了。", tag: "" }
+      ]},
+      "s18": { name: "主任医师钱某", questions: [
+        { q: "22:45 你进药房做什么？", a: "检查冰箱温度。", tag: "矛盾" },
+        { q: "冰箱温度记录仪显示那段时间没有温度波动，你开了冰箱门吗？", a: "……我只是看了一眼温度计，没开门。", tag: "" },
+        { q: "有 45 张处方的签名不是你签的，你知道吗？", a: "什么？不可能。", tag: "关键" }
+      ]}
+    },
+    deductionChain: {
+      steps: [
+        { evidence: "c25", inference: "45 张伪造处方 = 200 支地西泮 = 失窃数量，是分批积攒" },
+        { evidence: "c26", inference: "赵某手机 MAC 在 22:50 连接 WiFi，10 分钟后监控冻结" },
+        { evidence: "c27", inference: "赵某搜索黑市价格，有贩卖动机" },
+        { evidence: "c28", inference: "钱某 22:45 进药房是红鲱鱼——他只是检查冰箱" }
+      ],
+      conclusion: "赵某 3 个月内通过伪造处方分批积攒 200 支地西泮，9 月 7 日晚远程冻结监控后转移药物。钱某是无辜的。"
+    },
   },
   {
     id: "XA-2024-006", title: "老旧小区高空坠物致死案",
@@ -1018,7 +1332,37 @@ const CASES = [
       { id: "c34", title: "风向与轨迹", body: "东南风 3m/s，花盆水平偏移 1.5m 向西北。从 701 阳台（东侧）坠落的轨迹与撞击点吻合。从 802 阳台（西侧）坠落的轨迹偏移方向不符。物理分析支持花盆从 701 坠落。", status: "已记录" }
     ],
     notes: [],
-    solution: { suspect: "s21", motive: "意外（风吹/晾衣架碰倒）", method: "人为碰倒花盆", evidence: "c31" }
+    solution: { suspect: "s21", motive: "意外（风吹/晾衣架碰倒）", method: "人为碰倒花盆", evidence: "c31" },
+    timeline: [
+      { id: "t1", time: "14:00", text: "702 赵某出门（便利店监控为证）", order: 1 },
+      { id: "t2", time: "14:20", text: "王某在阳台收衣服", order: 2 },
+      { id: "t3", time: "14:25", text: "张某收到'老陈'微信'钱到了，晚上去拿'", order: 3 },
+      { id: "t4", time: "14:28", text: "张某回复'好'", order: 4 },
+      { id: "t5", time: "14:30", text: "花盆坠落击中快递员周某", order: 5 },
+      { id: "t6", time: "14:35", text: "张某拨打 120", order: 6 },
+      { id: "t7", time: "16:00", text: "周某在医院宣告死亡", order: 7 }
+    ],
+    interrogations: {
+      "s21": { name: "王某（701 妻子）", questions: [
+        { q: "14:30 你在做什么？", a: "在厨房。", tag: "矛盾" },
+        { q: "你确定没去过阳台？", a: "……我 14:20 去阳台收过衣服。", tag: "矛盾" },
+        { q: "你碰晾衣架的时候花盆动了吗？", a: "晃了一下，我没在意。", tag: "关键" }
+      ]},
+      "s20": { name: "张某（701）", questions: [
+        { q: "'老陈'是谁？", a: "一个朋友。", tag: "" },
+        { q: "'钱到了，晚上去拿'是什么意思？", a: "他还我钱。", tag: "" },
+        { q: "你有赌博的习惯吗？", a: "……这跟案件有什么关系？", tag: "" }
+      ]}
+    },
+    deductionChain: {
+      steps: [
+        { evidence: "c30", inference: "晾衣架绳索断裂与花盆碎片绳段吻合" },
+        { evidence: "c31", inference: "王某二次走访改口——承认在阳台碰了晾衣架" },
+        { evidence: "c33", inference: "花盆品牌绿园 + 701 阳台空缺位置 = 花盆归属 701" },
+        { evidence: "c34", inference: "风向分析支持花盆从 701 坠落" }
+      ],
+      conclusion: "王某 14:20 收衣服时拉动晾衣架，绳索断裂弹向东侧击中花盆导致坠落。这是过失致死，王某隐瞒了真相。张某的赌博问题与本案无关。"
+    },
   },
   {
     id: "XA-2024-007", title: "深夜书店密室失踪案",
@@ -1053,7 +1397,39 @@ const CASES = [
       { id: "c40", title: "门锁管理员日志", body: "技术鉴定发现门锁系统管理员日志在 12 月 3 日 00:58 有一条删除记录。被删除的记录时间戳为 00:55——恰好在林某最后编辑稿件（00:45）之后 10 分钟。00:55 的开门记录被删除，说明有人在 00:55 用管理员密码打开了 VIP 室的门。", status: "已记录" }
     ],
     notes: [],
-    solution: { suspect: "s24", motive: "灭口（掩盖 2019 医疗事故真相）", method: "管理员密码开门后伪造密室", evidence: "c40" }
+    solution: { suspect: "s24", motive: "灭口（掩盖 2019 医疗事故真相）", method: "管理员密码开门后伪造密室", evidence: "c40" },
+    timeline: [
+      { id: "t1", time: "22:00", text: "林某进入 VIP 阅读室", order: 1 },
+      { id: "t2", time: "23:30", text: "后门监控 5 分钟画面模糊", order: 2 },
+      { id: "t3", time: "23:32", text: "黑色轿车（车牌遮挡）驶出停车场", order: 3 },
+      { id: "t4", time: "00:45", text: "林某最后编辑稿件", order: 4 },
+      { id: "t5", time: "00:55", text: "管理员密码开门（记录被删除）", order: 5 },
+      { id: "t6", time: "00:58", text: "门锁系统管理员日志删除 00:55 记录", order: 6 },
+      { id: "t7", time: "01:00", text: "林某手机信号消失", order: 7 },
+      { id: "t8", time: "02:15", text: "林某手机在城北汽车站出现 3 分钟", order: 8 }
+    ],
+    interrogations: {
+      "s24": { name: "店长周某", questions: [
+        { q: "你之前在市第一人民医院工作过吗？", a: "是的，做行政。2020 年辞职的。", tag: "" },
+        { q: "你认识医院副院长陈某吗？", a: "认识，大学同学。但很久没联系了。", tag: "" },
+        { q: "门锁管理员密码只有你和小杨知道？", a: "对，只有我们两个人。", tag: "" },
+        { q: "门锁系统 00:58 有一条管理员日志被删除，是你操作的吗？", a: "不是我。可能是系统故障。", tag: "矛盾" }
+      ]},
+      "s25": { name: "夜班店员小杨", questions: [
+        { q: "23:30 你在哪里？", a: "在收银台，有监控为证。", tag: "" },
+        { q: "你当晚用过管理员密码吗？", a: "没有，只有 01:30 开门时用过。", tag: "矛盾" },
+        { q: "你认识店长周某以前的同事吗？", a: "不认识。但他提过以前在医院工作。", tag: "" }
+      ]}
+    },
+    deductionChain: {
+      steps: [
+        { evidence: "c40", inference: "00:55 管理员开门记录被删除——有人掩盖开门事实" },
+        { evidence: "c35", inference: "管理员密码可覆盖所有记录，周某和小杨都有权限" },
+        { evidence: "c38", inference: "周某是陈某大学同学，林稿件直指陈某——周某有动机" },
+        { evidence: "c39", inference: "林某手机 02:15 在汽车站出现——可能逃脱或被转移" }
+      ],
+      conclusion: "周某利用管理员密码在 00:55 打开 VIP 室门，带走林某（或配合他人），从后门消防通道转移，删除门锁记录伪造密室。动机是阻止林稿件发表，保护大学同学陈某。林某可能在汽车站逃脱。"
+    }
   }
 ];
 
@@ -1068,7 +1444,7 @@ let _prevPage = null; /* previous page for back */
    ROUTER
    ══════════════════════════════════════════════════════ */
 const router = {
-  pages: ['board', 'detail', 'deduction', 'notebook'],
+  pages: ['board', 'detail', 'deduction', 'notebook', 'timeline', 'interrogation', 'deduction-chain'],
   go(page, params = {}) {
     if (!params._back) {
       const cur = document.querySelector('.page.active');
@@ -1487,7 +1863,223 @@ document.getElementById('tweak-btn').addEventListener('click', () => {
   localStorage.setItem('pa_theme', next);
 });
 (function initTheme(){ const t = localStorage.getItem('pa_theme'); if (t) document.documentElement.setAttribute('data-theme', t); })();
+
+/* ══════════════════════════════════════════════════════
+   INVESTIGATION SYSTEM — Three Phases
+   ══════════════════════════════════════════════════════ */
+var _invCase = null;
+var _invPhase = 0;
+var _timelineSelected = null;
+var _timelineOrder = [];
+var _askedQuestions = {};
+var _contradictions = [];
+var _chainSelected = [];
+
+function startInvestigation(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
+  _invCase = c;
+  _invPhase = 1;
+  _timelineSelected = null;
+  _askedQuestions = {};
+  _contradictions = [];
+  _chainSelected = [];
+  startTimeline();
+}
+
+function startTimeline() {
+  router.go('timeline');
+  document.getElementById('timeline-case-id').textContent = _invCase.title;
+  _timelineOrder = _invCase.timeline.slice().sort(function() { return Math.random() - 0.5; });
+  renderTimeline();
+}
+
+function renderTimeline() {
+  var el = document.getElementById('timeline-events');
+  var correctCount = 0;
+  el.innerHTML = _timelineOrder.map(function(ev, i) {
+    var isCorrect = ev.order === i + 1;
+    if (isCorrect) correctCount++;
+    return '<div class="timeline-event' + (_timelineSelected === i ? ' selected' : '') + '" onclick="timelineClick(' + i + ')">' +
+      '<span class="timeline-num">' + (i + 1) + '</span>' +
+      '<span class="timeline-time">' + escapeHtml(ev.time) + '</span>' +
+      '<span class="timeline-text">' + escapeHtml(ev.text) + '</span>' +
+    '</div>';
+  }).join('');
+  document.getElementById('timeline-progress').textContent = correctCount + ' / ' + _timelineOrder.length;
+}
+
+function timelineClick(idx) {
+  if (_timelineSelected === null) {
+    _timelineSelected = idx;
+  } else if (_timelineSelected === idx) {
+    _timelineSelected = null;
+  } else {
+    var temp = _timelineOrder[_timelineSelected];
+    _timelineOrder[_timelineSelected] = _timelineOrder[idx];
+    _timelineOrder[idx] = temp;
+    _timelineSelected = null;
+  }
+  renderTimeline();
+}
+
+function checkTimeline() {
+  var allCorrect = true;
+  for (var i = 0; i < _timelineOrder.length; i++) {
+    if (_timelineOrder[i].order !== i + 1) { allCorrect = false; break; }
+  }
+  var resultEl = document.getElementById('timeline-result');
+  resultEl.style.display = 'block';
+  if (allCorrect) {
+    resultEl.innerHTML = '<div class="answer-card" style="border-left-color:#5a8a40;">' +
+      '<strong style="color:#5a8a40;">时间线正确！</strong><br>' +
+      '进入审讯阶段，发现嫌疑人证词中的矛盾。' +
+      '<div style="margin-top:12px;"><button class="btn primary" onclick="startInterrogation()">进入审讯室</button></div></div>';
+    var els = document.querySelectorAll('.timeline-event');
+    for (var j = 0; j < els.length; j++) els[j].classList.add('correct');
+  } else {
+    var cc = 0;
+    for (var k = 0; k < _timelineOrder.length; k++) { if (_timelineOrder[k].order === k + 1) cc++; }
+    resultEl.innerHTML = '<div class="answer-card"><strong>还有 ' + (_timelineOrder.length - cc) + ' 个事件位置不对</strong><br>继续调整。</div>';
+  }
+}
+
+function startInterrogation() {
+  _invPhase = 2;
+  router.go('interrogation');
+  document.getElementById('interrogation-case-id').textContent = _invCase.title;
+  renderInterrogationSuspects();
+}
+
+function renderInterrogationSuspects() {
+  var el = document.getElementById('interrogation-suspects');
+  var susps = _invCase.interrogations;
+  el.innerHTML = Object.keys(susps).map(function(sid) {
+    return '<div class="suspect-btn" onclick="selectSuspectForInterrogation(\'' + sid + '\')">' + escapeHtml(susps[sid].name) + '</div>';
+  }).join('');
+}
+
+function selectSuspectForInterrogation(sid) {
+  document.getElementById('interrogation-area').style.display = 'block';
+  var susp = _invCase.interrogations[sid];
+  document.getElementById('interrogation-name').textContent = '审讯：' + susp.name;
+  if (!_askedQuestions[sid]) _askedQuestions[sid] = [];
+  var qEl = document.getElementById('interrogation-questions');
+  qEl.innerHTML = susp.questions.map(function(q, i) {
+    var asked = _askedQuestions[sid].indexOf(i) >= 0;
+    return '<div class="q-btn' + (asked ? ' asked' : '') + '" onclick="askQuestion(\'' + sid + '\',' + i + ')">' +
+      (asked ? '[已问] ' : '') + escapeHtml(q.q) + '</div>';
+  }).join('');
+  document.getElementById('interrogation-answer').style.display = 'none';
+  var btns = document.querySelectorAll('.suspect-btn');
+  for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+  var keys = Object.keys(_invCase.interrogations);
+  if (keys.indexOf(sid) >= 0 && btns[keys.indexOf(sid)]) btns[keys.indexOf(sid)].classList.add('active');
+}
+
+function askQuestion(sid, qi) {
+  if (_askedQuestions[sid] && _askedQuestions[sid].indexOf(qi) >= 0) return;
+  if (!_askedQuestions[sid]) _askedQuestions[sid] = [];
+  _askedQuestions[sid].push(qi);
+  var q = _invCase.interrogations[sid].questions[qi];
+  var ansEl = document.getElementById('interrogation-answer');
+  ansEl.style.display = 'block';
+  var tagHtml = '';
+  if (q.tag === 'contradiction') {
+    tagHtml = '<span class="answer-tag contradiction">矛盾</span>';
+    _contradictions.push({ suspect: _invCase.interrogations[sid].name, question: q.q, answer: q.a });
+    renderContradictions();
+  } else if (q.tag === 'key') {
+    tagHtml = '<span class="answer-tag key">关键线索</span>';
+  }
+  ansEl.innerHTML = '<div class="answer-card"><strong>' + escapeHtml(_invCase.interrogations[sid].name) + '：</strong>"' + escapeHtml(q.a) + '"' + tagHtml + '</div>';
+  selectSuspectForInterrogation(sid);
+  document.getElementById('interrogation-progress').textContent = '矛盾: ' + _contradictions.length;
+  if (_contradictions.length >= 2) document.getElementById('interrogation-next-btn').style.display = 'inline-flex';
+}
+
+function renderContradictions() {
+  var el = document.getElementById('interrogation-contradictions');
+  if (_contradictions.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = '<div style="margin-bottom:8px;font-family:var(--font-heading);font-size:14px;font-weight:700;">发现的矛盾：</div>' +
+    _contradictions.map(function(c) {
+      return '<div class="contradiction-card"><strong>' + escapeHtml(c.suspect) + '</strong>："' + escapeHtml(c.answer) + '"<br><small style="color:var(--muted);">问题：' + escapeHtml(c.question) + '</small></div>';
+    }).join('');
+}
+
+function finishInterrogation() { _invPhase = 3; startDeductionChain(); }
+
+function startDeductionChain() {
+  router.go('deduction-chain');
+  document.getElementById('chain-case-id').textContent = _invCase.title;
+  _chainSelected = [];
+  var el = document.getElementById('chain-evidence');
+  el.innerHTML = _invCase.clues.map(function(cl) {
+    return '<div class="chain-item" onclick="toggleChainItem(\'' + cl.id + '\')" id="chain-' + cl.id + '">' +
+      '<div class="chain-check"></div>' +
+      '<div class="chain-text"><span class="chain-label">' + escapeHtml(cl.status) + '</span>' + escapeHtml(cl.title) + '</div></div>';
+  }).join('');
+  renderChainPreview();
+}
+
+function toggleChainItem(clueId) {
+  var idx = _chainSelected.indexOf(clueId);
+  if (idx >= 0) { _chainSelected.splice(idx, 1); }
+  else if (_chainSelected.length < 4) { _chainSelected.push(clueId); }
+  var items = document.querySelectorAll('.chain-item');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('selected');
+  _chainSelected.forEach(function(cid) { var el = document.getElementById('chain-' + cid); if (el) el.classList.add('selected'); });
+  renderChainPreview();
+}
+
+function renderChainPreview() {
+  var el = document.getElementById('chain-preview');
+  if (_chainSelected.length === 0) { el.innerHTML = ''; return; }
+  var steps = _invCase.deductionChain.steps;
+  el.innerHTML = '<div class="notebook" style="margin-top:16px;"><div style="font-family:var(--font-heading);font-size:14px;font-weight:700;margin-bottom:12px;">推理链预览</div>' +
+    _chainSelected.map(function(cid, i) {
+      var clue = _invCase.clues.find(function(c) { return c.id === cid; });
+      var step = steps.find(function(s) { return s.evidence === cid; });
+      var arrow = i < _chainSelected.length - 1 ? '<div class="chain-arrow">↓</div>' : '';
+      return '<div class="chain-step"><span style="color:var(--accent);font-family:var(--font-mono);font-size:11px;">[' + (i+1) + ']</span><span>' + escapeHtml(clue ? clue.title : cid) + '</span>' +
+        (step ? '<span style="color:var(--muted);font-size:12px;"> → ' + escapeHtml(step.inference) + '</span>' : '') + '</div>' + arrow;
+    }).join('') + '</div>';
+}
+
+function submitDeductionChain() {
+  if (_chainSelected.length < 3) {
+    document.getElementById('chain-result').style.display = 'block';
+    document.getElementById('chain-result').innerHTML = '<div class="answer-card">请至少选择 3 条关键证据。</div>';
+    return;
+  }
+  var expectedSteps = _invCase.deductionChain.steps;
+  var matchCount = 0;
+  _chainSelected.forEach(function(cid) { if (expectedSteps.find(function(s) { return s.evidence === cid; })) matchCount++; });
+  var resultEl = document.getElementById('chain-result');
+  resultEl.style.display = 'block';
+  var totalScore = matchCount + _contradictions.length;
+  var maxScore = expectedSteps.length + 2;
+  var pct = Math.round(totalScore / maxScore * 100);
+  if (matchCount >= expectedSteps.length - 1) {
+    resultEl.innerHTML = '<div class="answer-card" style="border-left-color:#5a8a40;">' +
+      '<strong style="color:#5a8a40;">案件破解！</strong><br>' +
+      '<div style="margin-top:8px;font-size:14px;line-height:1.8;"><strong>结论：</strong>' + escapeHtml(_invCase.deductionChain.conclusion) + '</div>' +
+      '<div style="margin-top:12px;font-family:var(--font-mono);font-size:12px;color:var(--muted);">推理链：' + matchCount + '/' + expectedSteps.length + ' · 矛盾：' + _contradictions.length + ' · 评分：' + pct + '%</div></div>';
+  } else {
+    resultEl.innerHTML = '<div class="answer-card"><strong>推理链不完整</strong><br>匹配 ' + matchCount + '/' + expectedSteps.length + ' 条。回顾线索，选择更有力的证据。</div>';
+  }
+}
+
 </script>
+
+<!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
+
+
+<!-- ═══════════════════════════ PAGE: INTERROGATION ═══════════════════════════ -->
+
+
+<!-- ═══════════════════════════ PAGE: DEDUCTION-CHAIN ═══════════════════════════ -->
+
 
 <!-- ═══════════════════════════ MODAL: Evidence Detail ═══════════════════════════ -->
 <div class="evidence-detail" id="evidence-detail" role="dialog" aria-modal="true" aria-labelledby="ev-detail-title">
