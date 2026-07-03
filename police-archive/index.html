@@ -1576,6 +1576,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
     <div id="case-report-content" class="case-report-full"></div>
   </main>
 </section>
+<div id="detail-content"></div>
 <!-- ═══════════════════════════ PAGE: TIMELINE ═══════════════════════════ -->
 <section class="page" id="page-timeline">
   <header role="banner">
@@ -4572,7 +4573,7 @@ const CASES = [
       w: 40,
       h: 25,
       label: "地面痕迹",
-      clue: None,
+      clue: null,
       desc: "拖拽痕迹"
     }
   ]
@@ -6060,7 +6061,7 @@ const CASES = [
       w: 30,
       h: 20,
       label: "监控死角",
-      clue: None,
+      clue: null,
       desc: "绑匪逃离路线"
     }
   ]
@@ -7692,7 +7693,7 @@ function checkCaseConnections() {
   var discovered = [];
   
   // Check if connected cases have been solved
-  connIds.forEach(function(connId) {
+  (conn.related || []).forEach(function(connId) {
     var connCase = CASES.find(function(c) { return c.id === connId; });
     if (connCase) {
       // Check if player has investigated this case
@@ -8351,7 +8352,7 @@ function checkTwists(caseId) {
 }
 
 /* === EVIDENCE COMBINATION SYSTEM === */
-var _discoveredCombos = {};
+// _discoveredCombos already declared
 function checkCombinations(caseId) {
   var c = CASES.find(function(x) { return x.id === caseId; });
   if (!c || !c.combinations) return '';
@@ -8667,7 +8668,7 @@ startInvestigation = function(caseId) {
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
   var access = checkCaseAccess(caseId);
   if (!access.allowed) { showClassifiedWarning(caseId); return; }
-  _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discoveredAreas = {};
+  _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discovered = {};
   if (c.scene) startCrimeScene(); else startTimeline();
 };
 
@@ -8724,7 +8725,7 @@ function renderCredibilityBar(susId) {
    EVIDENCE COMBINATION SYSTEM
    ══════════════════════════════════════════════════════ */
 var _comboSlots = [null, null];
-var _discoveredCombos = {};
+// _discoveredCombos already declared
 
 var _comboRecipes = {
   // Case 001 combinations
@@ -9125,7 +9126,7 @@ function renderForensicsPanel() {
     html += '<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">通讯记录</div>' +
       '<div class="forensics-grid">' +
       phoneRecords.map(function(e) {
-        return '<div class="forensics-item" onclick="showEvidenceDetail(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
+        return '<div class="forensics-item" onclick="openEvidence(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
       }).join('') +
       '</div></div>';
   }
@@ -9134,7 +9135,7 @@ function renderForensicsPanel() {
     html += '<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">财务记录</div>' +
       '<div class="forensics-grid">' +
       financialRecords.map(function(e) {
-        return '<div class="forensics-item" onclick="showEvidenceDetail(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
+        return '<div class="forensics-item" onclick="openEvidence(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
       }).join('') +
       '</div></div>';
   }
@@ -9143,7 +9144,7 @@ function renderForensicsPanel() {
     html += '<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">数字证据</div>' +
       '<div class="forensics-grid">' +
       digitalRecords.map(function(e) {
-        return '<div class="forensics-item" onclick="showEvidenceDetail(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
+        return '<div class="forensics-item" onclick="openEvidence(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
       }).join('') +
       '</div></div>';
   }
@@ -9163,7 +9164,7 @@ startInvestigation = function(caseId) {
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
   var access = checkCaseAccess(caseId);
   if (!access.allowed) { showClassifiedWarning(caseId); return; }
-  _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discoveredAreas = {};
+  _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discovered = {};
   _witnessCredibility = {}; _psychProfiles = {}; _comboSlots = [null, null];
   initCredibility(); initPsychProfiles(); loadAchievements();
   
