@@ -1750,6 +1750,103 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 .skeleton-title { height: 20px; width: 60%; margin-bottom: 12px; }
 .skeleton-card { height: 120px; margin-bottom: 12px; }
 
+/* --- Suspect Relationship Map --- */
+.relationship-map {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: 16px; margin: 16px 0;
+  min-height: 200px; position: relative;
+}
+.relationship-node {
+  position: absolute; background: var(--surface);
+  border: 2px solid var(--border); border-radius: 50%;
+  width: 60px; height: 60px; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 10px; text-align: center; cursor: pointer;
+  transition: all 0.2s ease; z-index: 2;
+}
+.relationship-node:hover { border-color: var(--accent); transform: scale(1.1); }
+.relationship-node.suspect { border-color: #8b3a3a; }
+.relationship-node.victim { border-color: var(--accent); }
+.relationship-line {
+  position: absolute; height: 2px; background: var(--border);
+  transform-origin: left center; z-index: 1;
+}
+.relationship-line.strong { background: var(--accent); height: 3px; }
+.relationship-line.weak { background: var(--border); stroke-dasharray: 4; }
+/* --- Evidence Timeline --- */
+.evidence-timeline {
+  margin: 16px 0; padding: 16px; background: var(--bg);
+  border-radius: 4px; border: 1px solid var(--border);
+  position: relative;
+}
+.evidence-timeline::before {
+  content: ''; position: absolute; left: 30px; top: 0;
+  bottom: 0; width: 2px; background: var(--border);
+}
+.evidence-timeline-item {
+  display: flex; gap: 16px; padding: 8px 0;
+  position: relative; padding-left: 40px;
+}
+.evidence-timeline-item::before {
+  content: ''; position: absolute; left: 26px; top: 12px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--border); border: 2px solid var(--surface);
+}
+.evidence-timeline-item.important::before { background: var(--accent); }
+.evidence-timeline-item.suspicious::before { background: #8b3a3a; }
+/* --- Detective Intuition (Hint System) --- */
+.hint-btn {
+  position: fixed; bottom: 20px; left: 20px;
+  background: var(--accent-warm); color: white;
+  border: none; border-radius: 50%; width: 48px; height: 48px;
+  font-size: 20px; cursor: pointer; z-index: 100;
+  box-shadow: 0 4px 12px rgba(176,136,80,0.3);
+  transition: all 0.2s ease;
+}
+.hint-btn:hover { transform: scale(1.1); }
+.hint-popup {
+  position: fixed; bottom: 80px; left: 20px;
+  background: var(--surface); border: 1px solid var(--accent-warm);
+  border-radius: 8px; padding: 16px; max-width: 300px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 100;
+  animation: hintSlide 0.3s ease-out;
+}
+@keyframes hintSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* --- Case Connections Visualization --- */
+.case-connections {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: 16px; margin: 16px 0;
+}
+.case-connection-line {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 0; border-bottom: 1px dashed var(--border);
+}
+.case-connection-line:last-child { border-bottom: none; }
+.case-connection-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+/* --- Evidence Photo Upload --- */
+.evidence-upload {
+  border: 2px dashed var(--border); border-radius: 4px;
+  padding: 20px; text-align: center; cursor: pointer;
+  transition: all 0.15s ease; margin: 12px 0;
+}
+.evidence-upload:hover { border-color: var(--accent); background: rgba(106,79,165,0.03); }
+.evidence-upload input { display: none; }
+.evidence-upload .icon { font-size: 24px; color: var(--muted); margin-bottom: 8px; }
+.evidence-upload .text { font-size: 12px; color: var(--muted); }
+/* --- Better Modal Backdrop --- */
+.modal-mask { backdrop-filter: blur(4px); }
+.modal-box { animation: modalIn 0.2s ease-out; }
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -11946,6 +12043,200 @@ submitDeductionChain = function() {
       if (elapsed < 600) showAchievement('speed_demon', '神速探员', '10分钟内完成一个案件');
     }
   }
+};
+
+/* === SUSPECT RELATIONSHIP MAP === */
+function renderRelationshipMap() {
+  if (!_invCase) return '';
+  var suspects = _invCase.suspects || [];
+  if (suspects.length < 2) return '';
+  
+  var html = '<div class="relationship-map" style="height:' + Math.max(200, suspects.length * 40) + 'px;">';
+  var centerX = 150, centerY = Math.max(100, suspects.length * 20);
+  
+  suspects.forEach(function(sus, i) {
+    var angle = (2 * Math.PI * i) / suspects.length - Math.PI / 2;
+    var x = centerX + 80 * Math.cos(angle);
+    var y = centerY + 60 * Math.sin(angle);
+    var w = _witnessCredibility[sus.id];
+    var borderColor = w && w.score < 40 ? '#8b3a3a' : w && w.score >= 70 ? '#5a8a40' : 'var(--border)';
+    
+    html += '<div class="relationship-node" style="left:' + x + 'px;top:' + y + 'px;border-color:' + borderColor + ';" onclick="showSuspectDetail(\'' + sus.id + '\')">' +
+      escapeHtml(sus.name.split('（')[0]) + '</div>';
+  });
+  
+  html += '</div>';
+  return html;
+}
+
+/* === EVIDENCE TIMELINE VIEW === */
+function renderEvidenceTimeline() {
+  if (!_invCase) return '';
+  var evidence = _invCase.evidence || [];
+  
+  var html = '<div class="evidence-timeline">';
+  evidence.forEach(function(ev, i) {
+    var cls = '';
+    if (ev.status === '已化验' || ev.status === '已鉴定') cls = 'important';
+    if (ev.note && ev.note.indexOf('矛盾') >= 0) cls = 'suspicious';
+    
+    html += '<div class="evidence-timeline-item ' + cls + '">' +
+      '<div style="flex:1;">' +
+      '<div style="font-size:12px;font-weight:600;">' + escapeHtml(ev.name) + '</div>' +
+      '<div style="font-size:11px;color:var(--muted);margin-top:2px;">' + escapeHtml(ev.location) + ' · ' + escapeHtml(ev.status) + '</div>' +
+      '<div style="font-size:11px;margin-top:4px;">' + escapeHtml(ev.note).substring(0, 100) + '...</div>' +
+      '</div>' +
+      renderEvidenceStrength(ev.id) +
+    '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+/* === DETECTIVE INTUITION (HINT SYSTEM) === */
+var _hintsUsed = 0;
+var _maxHints = 3;
+
+function showHint() {
+  if (!_invCase) return;
+  if (_hintsUsed >= _maxHints) {
+    alert('已用完所有提示次数');
+    return;
+  }
+  
+  var hint = generateHint();
+  _hintsUsed++;
+  
+  var popup = document.createElement('div');
+  popup.className = 'hint-popup';
+  popup.innerHTML = '<div style="font-family:var(--font-heading);font-size:14px;font-weight:700;margin-bottom:8px;color:var(--accent-warm);">侦探直觉</div>' +
+    '<div style="font-size:13px;line-height:1.6;">' + escapeHtml(hint) + '</div>' +
+    '<div style="font-size:11px;color:var(--muted);margin-top:8px;">剩余提示: ' + (_maxHints - _hintsUsed) + '</div>';
+  document.body.appendChild(popup);
+  
+  setTimeout(function() { popup.remove(); }, 8000);
+}
+
+function generateHint() {
+  var hints = [
+    '注意证人证词中的时间矛盾——如果两个人的说法对不上，其中一人在说谎。',
+    '检查银行记录——资金流向往往能揭示真正的动机。',
+    'DNA证据是最可靠的物证，但要注意是否存在样本污染的可能。',
+    '不在场证明如果太完美，反而值得怀疑——真正的巧合很少见。',
+    '注意受害者的社交关系——凶手往往是受害者认识的人。',
+    '监控录像的时间戳很重要——即使画面模糊，时间记录是准确的。',
+    '暗网交易记录可以追踪——使用加密货币并不意味着完全匿名。',
+    '心理评估报告能揭示嫌疑人的深层动机——注意创伤和执念这两个关键词。'
+  ];
+  return hints[Math.floor(Math.random() * hints.length)];
+}
+
+/* === CASE CONNECTIONS VISUALIZATION === */
+function renderCaseConnections(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.caseConnections) return '';
+  
+  var conn = c.caseConnections;
+  var related = conn.related || [];
+  
+  var html = '<div class="case-connections">' +
+    '<h4 style="font-family:var(--font-heading);font-size:13px;margin-bottom:12px;">案件关联</h4>';
+  
+  related.forEach(function(relatedId) {
+    var relatedCase = CASES.find(function(x) { return x.id === relatedId; });
+    if (relatedCase) {
+      html += '<div class="case-connection-line">' +
+        '<div class="case-connection-dot"></div>' +
+        '<div style="flex:1;">' +
+        '<div style="font-size:12px;font-weight:600;">' + escapeHtml(relatedCase.title) + '</div>' +
+        '<div style="font-size:11px;color:var(--muted);">' + escapeHtml(conn.link || '') + '</div>' +
+        '</div></div>';
+    }
+  });
+  
+  html += '</div>';
+  return html;
+}
+
+/* === EVIDENCE PHOTO UPLOAD === */
+function uploadEvidencePhoto(evidenceId) {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        // Resize
+        var canvas = document.createElement('canvas');
+        var maxW = 600, maxH = 400;
+        var w = img.width, h = img.height;
+        if (w > maxW) { h = h * maxW / w; w = maxW; }
+        if (h > maxH) { w = w * maxH / h; h = maxH; }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        
+        // Save to localStorage
+        var username = (Auth.getSession() || {}).username;
+        if (username) {
+          try {
+            localStorage.setItem('pa_evimg_' + evidenceId + '_' + username, dataUrl);
+            alert('照片已保存');
+          } catch(e) {
+            alert('存储空间不足');
+          }
+        }
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function getEvidencePhoto(evidenceId) {
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return null;
+  return localStorage.getItem('pa_evimg_' + evidenceId + '_' + username);
+}
+
+/* === OVERRIDE: Add hint button to investigation pages === */
+var _origSI6 = startInvestigation;
+startInvestigation = function(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
+  var access = checkCaseAccess(caseId);
+  if (!access.allowed) { showClassifiedWarning(caseId); return; }
+  _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discovered = {};
+  _witnessCredibility = {}; _psychProfiles = {}; _comboSlots = [null, null]; _hintsUsed = 0;
+  initCredibility(); initPsychProfiles(); loadAchievements(); startInvestigationTimer();
+  if (caseId === 'XA-2024-014') startTimePressure(72);
+  else stopTimePressure();
+  if (c.scene) startCrimeScene(); else startTimeline();
+  
+  // Add hint button
+  var existingBtn = document.getElementById('hint-btn');
+  if (!existingBtn) {
+    var btn = document.createElement('button');
+    btn.id = 'hint-btn';
+    btn.className = 'hint-btn';
+    btn.textContent = '?';
+    btn.onclick = showHint;
+    document.body.appendChild(btn);
+  }
+};
+
+/* === OVERRIDE: Remove hint button when leaving investigation === */
+var _origBack2 = router.back;
+router.back = function() {
+  var hintBtn = document.getElementById('hint-btn');
+  if (hintBtn) hintBtn.remove();
+  _origBack2.call(router);
 };
 
 </script>
