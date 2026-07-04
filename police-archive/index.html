@@ -10985,7 +10985,6 @@ function resetAndRestart() {
 }
 
 /* === OVERRIDE startInvestigation === */
-var _origSI3 = startInvestigation;
 startInvestigation = function(caseId) {
   var c = CASES.find(function(x) { return x.id === caseId; });
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
@@ -11482,7 +11481,6 @@ function renderForensicsPanel() {
    ══════════════════════════════════════════════════════ */
 
 // Override startInvestigation to init new systems
-var _origSI4 = startInvestigation;
 startInvestigation = function(caseId) {
   var c = CASES.find(function(x) { return x.id === caseId; });
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
@@ -11550,7 +11548,7 @@ submitDeductionChain = function() {
   if (resultEl && resultEl.style.display === 'block') {
     var text = resultEl.textContent;
     if (text.indexOf('案件破解') >= 0 || text.indexOf('案件报告') >= 0) {
-      showAchievement('first_case', '初出茅庐', '完成第一个案件');
+      // first_case achievement handled by completeCase()
       stopTimePressure();
       
       // Check if all cases completed
@@ -12016,7 +12014,6 @@ function stopInvestigationTimer() {
 }
 
 /* === OVERRIDE startInvestigation to add timer === */
-var _origSI5 = startInvestigation;
 startInvestigation = function(caseId) {
   var c = CASES.find(function(x) { return x.id === caseId; });
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
@@ -12206,7 +12203,6 @@ function getEvidencePhoto(evidenceId) {
 }
 
 /* === OVERRIDE: Add hint button to investigation pages === */
-var _origSI6 = startInvestigation;
 startInvestigation = function(caseId) {
   var c = CASES.find(function(x) { return x.id === caseId; });
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
@@ -12238,6 +12234,18 @@ router.back = function() {
   if (hintBtn) hintBtn.remove();
   _origBack2.call(router);
 };
+
+/* === PASSWORD HASHING === */
+async function hashPassword(password) {
+  try {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  } catch(e) {
+    return password; // Fallback to plain text if crypto not available
+  }
+}
 
 </script>
 
