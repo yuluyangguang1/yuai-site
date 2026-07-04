@@ -2323,6 +2323,25 @@ input:focus, textarea:focus, select:focus {
 .connection-item.completed::before { background: var(--accent); }
 .connection-item.current::before { background: var(--accent-warm); box-shadow: 0 0 0 3px rgba(176,136,80,0.2); }
 
+/* --- Keyboard Hints --- */
+.keyboard-hints {
+  position: fixed; bottom: 80px; right: 20px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 16px; max-width: 200px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100;
+  display: none;
+}
+.keyboard-hints.visible { display: block; }
+.keyboard-hint-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 0; font-size: 12px;
+}
+.keyboard-hint-key {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 3px; padding: 2px 6px; font-family: var(--font-mono);
+  font-size: 10px;
+}
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -10313,7 +10332,7 @@ var _contradictions = [];
 var _chainSelected = [];
 
 function startInvestigation(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
   _invCase = c;
   _invPhase = 1;
@@ -10544,7 +10563,7 @@ function showSuspectProfile(sid) {
 
 /* --- Detective Rating System --- */
 function calculateRating(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return { grade: 'D', score: 0, breakdown: {} };
   
   var score = 0;
@@ -10603,7 +10622,7 @@ function calculateRating(caseId) {
 
 function showRating(caseId) {
   var rating = calculateRating(caseId);
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   
   var rows = '';
   Object.keys(rating.breakdown).forEach(function(key) {
@@ -11276,7 +11295,7 @@ function toggleHL() { _hlMode = !_hlMode; document.body.classList.toggle('highli
 
 /* === ALT ENDINGS === */
 function showEnding(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return '';
   var r = calculateRating(caseId);
   var alt = null;
@@ -11290,7 +11309,7 @@ function showEnding(caseId) {
 
 /* === OVERRIDE startInvestigation === */
 startInvestigation = function(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.timeline) { alert('暂无调查数据'); return; }
   _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discovered = {};
   if (c.scene) startCrimeScene(); else startTimeline();
@@ -11310,7 +11329,7 @@ submitDeductionChain = function() {
 
 /* === CASE PROGRESS DOTS === */
 function renderProgressDots(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.timeline) return '';
   var prog = getCaseProgress(caseId);
   var phases = ['scene', 'timeline', 'interrogation', 'chain'];
@@ -11381,7 +11400,7 @@ function renderPhaseIndicator(currentPhase) {
 /* === CIPHER PUZZLE SYSTEM === */
 var _solvedCiphers = {};
 function renderCipherBox(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.cipher) return '';
   if (_solvedCiphers[caseId]) {
     return '<div class="cipher-box"><div style="color:#5a8a40;font-weight:700;">密码已破解</div><div style="font-size:12px;margin-top:4px;">' + escapeHtml(c.cipher.explanation) + '</div></div>';
@@ -11395,7 +11414,7 @@ function renderCipherBox(caseId) {
   '</div>';
 }
 function checkCipher(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.cipher) return;
   var input = document.getElementById('cipher-input');
   var result = document.getElementById('cipher-result');
@@ -11420,7 +11439,7 @@ function checkCipher(caseId) {
 /* === PLOT TWIST SYSTEM === */
 var _revealedTwists = {};
 function checkTwists(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.twists) return '';
   var html = '';
   c.twists.forEach(function(twist) {
@@ -11454,7 +11473,7 @@ function checkTwists(caseId) {
 /* === EVIDENCE COMBINATION SYSTEM === */
 // _discoveredCombos already declared
 function checkCombinations(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.combinations) return '';
   var html = '';
   c.combinations.forEach(function(combo, idx) {
@@ -11604,7 +11623,7 @@ function safeRun(fn, fallback) {
 
 /* === CASE PROGRESS SYSTEM === */
 function getCaseProgress(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return { percent: 0, phases: {} };
   
   var username = (Auth.getSession() || {}).username;
@@ -11707,7 +11726,7 @@ submitDeductionChain = function() {
 
 /* === CLASSIFIED CASE MECHANIC === */
 function checkCaseAccess(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.classified || !c.classified.classified) return { allowed: true };
   var username = (Auth.getSession() || {}).username;
   if (!username) return { allowed: false, reason: 'login' };
@@ -11725,7 +11744,7 @@ function checkCaseAccess(caseId) {
 function showClassifiedWarning(caseId) {
   var access = checkCaseAccess(caseId);
   if (access.allowed) { startInvestigation(caseId); return; }
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   var el = document.getElementById('classified-warning');
   if (!el) { el = document.createElement('div'); el.id = 'classified-warning'; document.body.appendChild(el); }
   el.innerHTML = '<div class="classified-card">' +
@@ -11762,7 +11781,7 @@ function resetAndRestart() {
 
 /* === OVERRIDE startInvestigation === */
 startInvestigation = function(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
   var access = checkCaseAccess(caseId);
   if (!access.allowed) { showClassifiedWarning(caseId); return; }
@@ -12022,7 +12041,7 @@ function renderAchievements() {
    CASE REPORT GENERATION
    ══════════════════════════════════════════════════════ */
 function generateCaseReport(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return '';
   
   var rating = calculateRating(caseId);
@@ -12269,7 +12288,7 @@ function renderForensicsPanel() {
 
 // Override startInvestigation to init new systems
 startInvestigation = function(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
   var access = checkCaseAccess(caseId);
   if (!access.allowed) { showClassifiedWarning(caseId); return; }
@@ -12561,7 +12580,7 @@ function closeTutorial() {
 
 /* Better case selection feedback */
 function selectCase(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return;
   
   // Check if case has investigation data
@@ -12584,7 +12603,7 @@ function selectCase(caseId) {
 
 /* Case overview modal for cases without investigation data */
 function showCaseOverview(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return;
   
   var html = '<div class="modal-box">' +
@@ -12700,7 +12719,7 @@ function renderEvidenceStrength(evidenceId) {
 
 /* === CASE DIFFICULTY SYSTEM === */
 function getCaseDifficulty(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return 1;
   var difficulty = 1;
   if (c.evidence && c.evidence.length > 15) difficulty++;
@@ -12802,7 +12821,7 @@ function stopInvestigationTimer() {
 
 /* === OVERRIDE startInvestigation to add timer === */
 startInvestigation = function(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
   var access = checkCaseAccess(caseId);
   if (!access.allowed) { showClassifiedWarning(caseId); return; }
@@ -12917,7 +12936,7 @@ function generateHint() {
 
 /* === CASE CONNECTIONS VISUALIZATION === */
 function renderCaseConnections(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.caseConnections) return '';
   
   var conn = c.caseConnections;
@@ -12991,7 +13010,7 @@ function getEvidencePhoto(evidenceId) {
 
 /* === OVERRIDE: Add hint button to investigation pages === */
 startInvestigation = function(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
   var access = checkCaseAccess(caseId);
   if (!access.allowed) { showClassifiedWarning(caseId); return; }
@@ -13038,7 +13057,7 @@ async function hashPassword(password) {
 
 /* Render prologue when starting investigation */
 function renderPrologue(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.prologue) return '';
   
   var p = c.prologue;
@@ -13057,7 +13076,7 @@ function renderPrologue(caseId) {
 
 /* Render epilogue after solving case */
 function renderEpilogue(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.prologue || !c.prologue.epilogue) return '';
   
   return '<div class="prologue-card">' +
@@ -13068,7 +13087,7 @@ function renderEpilogue(caseId) {
 
 /* Render witness stories */
 function renderWitnessStories(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.witnessStories) return '';
   
   var html = '<div style="margin-top:16px;">' +
@@ -13087,7 +13106,7 @@ function renderWitnessStories(caseId) {
 
 /* Render hidden lore */
 function renderHiddenLore(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c || !c.hiddenLore) return '';
   
   var lore = c.hiddenLore;
@@ -13100,7 +13119,7 @@ function renderHiddenLore(caseId) {
 
 /* Render suspect backstory */
 function renderSuspectBackstory(caseId, suspectId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return '';
   
   var storyKey = 'suspectStory_' + suspectId;
@@ -13157,7 +13176,7 @@ generateCaseReport = function(caseId) {
 
 /* === DETECTIVE JOURNAL === */
 function generateJournal(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return '';
   
   var journal = [];
@@ -13319,7 +13338,7 @@ function showNarrativeReward(title, content) {
 
 /* === CASE COMPLETION SUMMARY === */
 function renderCaseCompletion(caseId) {
-  var c = CASES.find(function(x) { return x.id === caseId; });
+  var c = CASES.find(function(x) { return x.id === caseId; }); if (!c) return;
   if (!c) return '';
   
   var rating = calculateRating(caseId);
@@ -13407,6 +13426,35 @@ submitDeductionChain = function() {
     }
   }
 };
+
+/* === MEMORY LEAK PREVENTION === */
+window.addEventListener('beforeunload', function() {
+  // Clear all intervals
+  if (_investigationTimer) clearInterval(_investigationTimer);
+  if (_timePressure && _timePressure.interval) clearInterval(_timePressure.interval);
+  stopTimePressure();
+});
+
+/* === LOADING STATE === */
+function showLoading(message) {
+  var el = document.getElementById('loading-overlay');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'loading-overlay';
+    el.style.cssText = 'position:fixed;inset:0;background:rgba(10,8,5,0.8);display:flex;align-items:center;justify-content:center;z-index:9999;';
+    el.innerHTML = '<div style="text-align:center;color:var(--surface);">' +
+      '<div class="loading-spinner" style="width:32px;height:32px;margin:0 auto 12px;"></div>' +
+      '<div id="loading-message" style="font-size:14px;">' + escapeHtml(message || '加载中...') + '</div></div>';
+    document.body.appendChild(el);
+  }
+  document.getElementById('loading-message').textContent = message || '加载中...';
+  el.style.display = 'flex';
+}
+
+function hideLoading() {
+  var el = document.getElementById('loading-overlay');
+  if (el) el.style.display = 'none';
+}
 
 </script>
 
