@@ -14124,6 +14124,182 @@ function restoreFocus() {
   }
 }
 
+/* === CACHING STRATEGY === */
+/* Cache frequently accessed data */
+var DataCache = {
+  _cache: {},
+  
+  get: function(key) {
+    return this._cache[key];
+  },
+  
+  set: function(key, value, ttl) {
+    this._cache[key] = {
+      value: value,
+      expires: ttl ? Date.now() + ttl : null
+    };
+  },
+  
+  has: function(key) {
+    var item = this._cache[key];
+    if (!item) return false;
+    if (item.expires && Date.now() > item.expires) {
+      delete this._cache[key];
+      return false;
+    }
+    return true;
+  },
+  
+  clear: function() {
+    this._cache = {};
+  }
+};
+
+/* === ARIA LIVE REGIONS === */
+/* Announce dynamic content changes */
+function announce(message, priority) {
+  var region = document.getElementById('sr-announcer');
+  if (!region) {
+    region = document.createElement('div');
+    region.id = 'sr-announcer';
+    region.setAttribute('aria-live', priority || 'polite');
+    region.setAttribute('aria-atomic', 'true');
+    region.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;';
+    document.body.appendChild(region);
+  }
+  region.textContent = '';
+  setTimeout(function() { region.textContent = message; }, 100);
+}
+
+/* === ERROR RECOVERY === */
+/* Auto-save investigation state */
+function autoSaveState() {
+  if (!_invCase) return;
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return;
+  
+  try {
+    var state = {
+      caseId: _invCase.id,
+      phase: _invPhase,
+      discovered: _discovered || {},
+      askedQuestions: _askedQuestions || {},
+      contradictions: _contradictions || [],
+      chainSelected: _chainSelected || [],
+      timestamp: Date.now()
+    };
+    localStorage.setItem('pa_autosave_' + username, JSON.stringify(state));
+  } catch(e) {}
+}
+
+/* Auto-save every 30 seconds */
+setInterval(autoSaveState, 30000);
+
+/* Restore state on page load */
+function restoreState() {
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return;
+  
+  try {
+    var saved = JSON.parse(localStorage.getItem('pa_autosave_' + username));
+    if (saved && saved.caseId) {
+      var timeDiff = Date.now() - saved.timestamp;
+      if (timeDiff < 3600000) { // Less than 1 hour old
+        _discovered = saved.discovered || {};
+        _askedQuestions = saved.askedQuestions || {};
+        _contradictions = saved.contradictions || [];
+        _chainSelected = saved.chainSelected || [];
+      }
+    }
+  } catch(e) {}
+}
+
+/* === VIRTUAL SCROLLING === */
+/* For large evidence/clue lists */
+function renderVirtualList(items, renderItem, containerHeight) {
+  var itemHeight = 60; // Estimated item height
+  var visibleItems = Math.ceil(containerHeight / itemHeight);
+  var startIndex = 0;
+  
+  return function(scrollTop) {
+    startIndex = Math.floor(scrollTop / itemHeight);
+    var endIndex = Math.min(startIndex + visibleItems + 1, items.length);
+    
+    var html = '';
+    for (var i = startIndex; i < endIndex; i++) {
+      html += renderItem(items[i], i);
+    }
+    
+    return {
+      html: html,
+      offsetY: startIndex * itemHeight,
+      totalHeight: items.length * itemHeight
+    };
+  };
+}
+
+/* === SECURITY === */
+/* Sanitize user input */
+function sanitizeInput(input) {
+  if (typeof input !== 'string') return input;
+  return input
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
+/* Validate case ID format */
+function isValidCaseId(caseId) {
+  return /^XA-\d{4}-\d{3}$/.test(caseId);
+}
+
+/* Validate evidence ID format */
+function isValidEvidenceId(evidenceId) {
+  return /^e\d+$/.test(evidenceId);
+}
+
+/* Validate suspect ID format */
+function isValidSuspectId(suspectId) {
+  return /^s\d+$/.test(suspectId);
+}
+
+/* Validate clue ID format */
+function isValidClueId(clueId) {
+  return /^c\d+$/.test(clueId);
+}
+
+/* === ANALYTICS === */
+/* Track user behavior for improvement */
+var Analytics = {
+  _events: [],
+  
+  track: function(event, data) {
+    this._events.push({
+      event: event,
+      data: data,
+      timestamp: Date.now()
+    });
+    
+    // Keep only last 100 events
+    if (this._events.length > 100) {
+      this._events = this._events.slice(-100);
+    }
+  },
+  
+  getEvents: function() {
+    return this._events;
+  },
+  
+  clear: function() {
+    this._events = [];
+  }
+};
+
+// Track key actions
+Analytics.track('page_load', { url: window.location.href });
+
 </script>
 
 <!-- ═══════════════════════════ MODAL: Evidence Detail ═══════════════════════════ -->
