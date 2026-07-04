@@ -2090,6 +2090,92 @@ input:focus, textarea:focus, select:focus {
   .note-card { border: 1px solid #ccc; box-shadow: none; }
 }
 
+/* --- Prologue Card --- */
+.prologue-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 24px; margin: 16px 0;
+  position: relative; overflow: hidden;
+}
+.prologue-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 4px; background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+}
+.prologue-card h3 {
+  font-family: var(--font-heading); font-size: 18px; margin-bottom: 12px;
+  color: var(--ink);
+}
+.prologue-card p {
+  font-size: 14px; line-height: 1.8; color: var(--ink); margin-bottom: 12px;
+}
+.prologue-card .epilogue {
+  border-top: 1px dashed var(--border); padding-top: 12px; margin-top: 12px;
+  font-style: italic; color: var(--muted);
+}
+.prologue-card .moral-dilemma {
+  background: rgba(139,58,58,0.05); border: 1px solid rgba(139,58,58,0.1);
+  border-radius: 4px; padding: 12px; margin-top: 12px;
+  font-size: 13px; color: var(--accent);
+}
+
+/* --- Witness Story --- */
+.witness-story {
+  background: var(--surface); border-left: 3px solid var(--accent-warm);
+  border-radius: 0 4px 4px 0; padding: 16px; margin: 12px 0;
+}
+.witness-story .witness-name {
+  font-family: var(--font-heading); font-size: 14px; font-weight: 700;
+  color: var(--accent-warm); margin-bottom: 8px;
+}
+.witness-story .witness-text {
+  font-size: 13px; line-height: 1.7; font-style: italic;
+}
+
+/* --- Hidden Lore --- */
+.hidden-lore {
+  background: linear-gradient(135deg, rgba(106,79,165,0.05), rgba(176,136,80,0.05));
+  border: 1px solid rgba(106,79,165,0.15); border-radius: 6px;
+  padding: 20px; margin: 16px 0;
+}
+.hidden-lore h4 {
+  font-family: var(--font-heading); font-size: 16px; margin-bottom: 12px;
+  color: var(--accent);
+}
+.hidden-lore p {
+  font-size: 13px; line-height: 1.7;
+}
+.hidden-lore .unlock-condition {
+  font-size: 11px; color: var(--muted); margin-top: 8px;
+  font-family: var(--font-mono);
+}
+
+/* --- Suspect Backstory --- */
+.suspect-backstory {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 16px; margin: 12px 0;
+}
+.suspect-backstory h4 {
+  font-family: var(--font-heading); font-size: 14px; margin-bottom: 8px;
+}
+.suspect-backstory p {
+  font-size: 13px; line-height: 1.7; margin-bottom: 8px;
+}
+.suspect-backstory .motive {
+  border-top: 1px dashed var(--border); padding-top: 8px;
+  font-size: 12px; color: var(--accent);
+}
+
+/* --- Narrative Navigation --- */
+.narrative-nav {
+  display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap;
+}
+.narrative-nav-btn {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: 8px 16px; font-size: 12px;
+  cursor: pointer; transition: all 0.15s ease;
+}
+.narrative-nav-btn:hover { border-color: var(--accent); }
+.narrative-nav-btn.active { border-color: var(--accent); background: rgba(106,79,165,0.05); }
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -2778,6 +2864,30 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s4", motive: "销毁'项目◇'腐败证据", method: "提前切断监控电源", evidence: "c1" },
+    witnessStories: [
+{
+    witness: "邻居陈某",
+    story: "那天凌晨2点，我听到书店后门有脚步声。我以为是小偷，就从窗户往外看。我看到一个穿黑色外套的人影，拿着什么东西往巷子深处走了。我当时太困了，就没在意。现在想起来，那个人影可能是……"
+  },
+{
+    witness: "KTV服务员小李",
+    story: "那天晚上，陈雪一个人来KTV。她看起来心情不好，一个人喝了很多酒。后来张老板来了，说要跟她谈谈。他们进了包厢，门就关上了。我再也没见过陈雪出来。"
+  }
+],
+    hiddenLore: {
+  title: "腐败网络",
+  content: "刘某参与的'项目◇'只是冰山一角。在羽鹭市的市政工程中，有一个庞大的腐败网络。这个网络涉及多名官员和商人，涉案金额超过1亿元。王某的书店，只是这个网络中的一个小小棋子。",
+  unlock_condition: "完成案件001+003"
+},
+    suspectStory_s4: {
+  backstory: "刘某，55岁，羽鹭市知名商人。表面上是成功的房地产开发商，实际上参与了多起市政工程腐败案。他与王某的'项目◇'文件，是整个腐败网络的关键证据。刘某曾经也是一个有理想的年轻人，但在金钱的诱惑下，他一步步走向了深渊。",
+  motive_detail: "王某的书店二楼存放着刘某参与腐败的证据。刘某多次要求王某交出文件，但王某拒绝了。刘某决定铤而走险——纵火销毁证据。"
+},
+    prologue: {
+  prologue: "羽鹭市的旧书店'墨迹书局'已经开了26年。店主王某是个沉默寡言的中年人，每天准时开门，准时关门。街坊们都说他是个老实人。但最近三个月，王某变了——他开始频繁出入城东的KTV，与一些不三不四的人来往。邻居们不知道的是，王某的二楼档案室里，藏着一份足以让某些人身败名裂的文件。",
+  epilogue: "案件告破后，刘某因腐败罪被判处有期徒刑15年。王某的书店被大火烧毁，但他保存了备份文件——那些文件最终成为了扳倒整个腐败网络的关键证据。羽鹭市的旧书店消失了，但真相永远不会被烧毁。",
+  moral_dilemma: "王某为了保护证据而冒险，最终导致书店被烧毁。如果他早点交出文件，书店可能还在。但那样的话，真相可能永远被埋没。你会怎么选择？"
+},
     caseConnections: {
   related: [
 "XA-2024-003"
@@ -3161,6 +3271,30 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s6", motive: "医疗纠纷报复", method: "苯二氮卓注射迷晕后推入湖中", evidence: "c13" },
+    witnessStories: [
+{
+    witness: "湖边钓鱼的老张",
+    story: "那天凌晨3点多，我听到桥下有水声。我以为是鱼，就没在意。后来我看到一辆黑色轿车从桥上开过，车灯很亮。我心想，这么晚了还有人开车。"
+  },
+{
+    witness: "李某的同事王护士",
+    story: "李某最近状态很差，经常一个人发呆。他说有人在跟踪他，但他不肯说是谁。有一次我看到他在办公室哭，他说'我撑不下去了'。我以为他只是工作压力大。"
+  }
+],
+    hiddenLore: {
+  title: "医疗黑幕",
+  content: "陈某的医疗事故只是羽鹭市医疗系统腐败的一个缩影。在过去的十年里，有多起医疗事故被掩盖，多名关键证人'失踪'。李某的死，揭开了这个黑幕的一角。",
+  unlock_condition: "完成案件002+005+007"
+},
+    suspectStory_s6: {
+  backstory: "陈某，42岁，市第一人民医院外科医生。十年前，他因为一次医疗事故导致患者死亡。关键证人张某在开庭前失踪，案件因证据不足撤诉。但陈某知道，李某——当时的药剂师——掌握着关键证据。十年来，陈某一直生活在恐惧中。",
+  motive_detail: "李某掌握了陈某伪造手术记录的证据。如果这些证据曝光，陈某将面临刑事指控。陈某决定先下手为强——杀掉李某，永绝后患。"
+},
+    prologue: {
+  prologue: "东湖是羽鹭市最安静的地方。白天有人钓鱼，晚上有人散步。但3月的凌晨，湖水见证了一场谋杀。李某，38岁，市第二人民医院药剂师，一个看起来毫无特点的中年人。他的死，揭开了一张跨越十年的复仇之网。",
+  epilogue: "陈某因故意杀人罪被判处无期徒刑。但案件的真相远比判决书复杂——李某的死，只是冰山一角。在羽鹭市的医疗系统里，还有更多未被揭露的秘密。",
+  moral_dilemma: "李某生前曾试图举报医院的腐败行为，但被威胁后选择了沉默。如果他当初勇敢站出来，结局会不同吗？"
+},
     caseConnections: {
   related: [
 "XA-2024-005"
@@ -3562,6 +3696,11 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s10", motive: "掩盖设备故障通过安全考核", method: "SSH 远程登录删除日志", evidence: "c15" },
+    prologue: {
+  prologue: "北山变电站是羽鹭市的电力命脉。每天凌晨，值班人员都要检查设备运行状态。但6月17日的凌晨，监控信号突然消失——30分钟后恢复，系统显示一切正常。没有人注意到，472条关键日志已经被悄悄删除。",
+  epilogue: "林某和孙某因破坏电力设施罪被判处有期徒刑。周某因知情不报被行政处分。但真正的幕后黑手'幽灵'至今未被抓获——他可能正在策划下一次行动。",
+  moral_dilemma: "孙某只是一个被利用的棋子，他并不知道自己的行为会造成多大的后果。在法律面前，无知能否成为减刑的理由？"
+},
     caseConnections: {
   related: [
 "XA-2024-001"
@@ -3937,6 +4076,11 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s15", motive: "内外勾结销赃", method: "吊车搬运重物", evidence: "c22" },
+    prologue: {
+  prologue: "漕河3号码头是羽鹭市最繁忙的货运码头。每天有上百吨货物在这里装卸。但7月21日的夜晚，3桶价值12万元的丙烯酸丁酯不翼而飞。监控显示一辆货车在凌晨驶入，但车牌被遮挡。这不是普通的盗窃——这是一场精心策划的犯罪。",
+  epilogue: "郑某因盗窃罪被判处有期徒刑5年。吴某因受贿罪被判处有期徒刑2年。但案件的真相是：郑某只是执行者，真正的幕后策划者另有其人。",
+  moral_dilemma: "吴某只是一个普通的值班员，他收了2万元就放行了货物。在巨大的利益诱惑面前，普通人能坚守底线吗？"
+},
     timeline: [
       { id: "t1", time: "22:00", text: "吴某签到开始值班", order: 1 },
       { id: "t2", time: "22:30", text: "3 桶原料卸货完毕存放堆场", order: 2 },
@@ -4293,6 +4437,11 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s17", motive: "贩卖管制药品牟利", method: "远程暂停监控录制", evidence: "c25" },
+    prologue: {
+  prologue: "翠园社区卫生服务站是羽鹭市最基层的医疗机构。每天有上百名患者来这里取药。但9月8日的盘点发现，3箱处方药不翼而飞——其中包括200支管制类地西泮注射液。这不是普通的失窃，这是一场持续三个月的精心策划。",
+  epilogue: "赵某因盗窃罪和贩卖毒品罪被判处有期徒刑8年。钱某因监管失职被免职。但案件的影响远不止于此——那些流入黑市的药物，可能已经造成了无法挽回的伤害。",
+  moral_dilemma: "赵某月薪只有5000元，却要养活一家三口。当他看到那些价值不菲的药物时，他想到了黑市上的高价。贫穷能否成为犯罪的理由？"
+},
     caseConnections: {
   related: [
 "XA-2024-002"
@@ -4676,6 +4825,11 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s21", motive: "意外（风吹/晾衣架碰倒）", method: "人为碰倒花盆", evidence: "c31" },
+    prologue: {
+  prologue: "和平路89号6栋是羽鹭市最老旧的小区之一。外墙斑驳，阳台栏杆锈迹斑斑。8月的下午，快递员周某正在楼下整理包裹，一个红陶花盆从天而降，正中后脑。这不是意外——这是一个被赌博债务逼到绝境的家庭悲剧。",
+  epilogue: "王某因过失致人死亡罪被判处有期徒刑3年。张某因赌博被行政拘留。但最令人心痛的是：一个年轻的生命，就这样被一个花盆夺走了。",
+  moral_dilemma: "王某只是想收衣服，她碰了一下晾衣架，花盆就掉了下去。她害怕承担责任，所以选择了隐瞒。在意外发生后，人们的第一反应往往是自保。你能理解她的选择吗？"
+},
     timeline: [
       { id: "t1", time: "14:00", text: "702 赵某出门（便利店监控为证）", order: 1 },
       { id: "t2", time: "14:20", text: "王某在阳台收衣服", order: 2 },
@@ -5036,6 +5190,30 @@ const CASES = [
     ],
     notes: [],
     solution: { suspect: "s24", motive: "灭口（掩盖 2019 医疗事故真相）", method: "管理员密码开门后伪造密室", evidence: "c40" },
+    witnessStories: [
+{
+    witness: "夜班店员小杨",
+    story: "那天凌晨1点，我巡店时看到VIP室的灯还亮着。我敲门，林先生说'我在写稿，别打扰'。他的声音听起来很正常。1点半我再去看，灯灭了。我以为他走了，就没在意。"
+  },
+{
+    witness: "隔壁咖啡店老板",
+    story: "那天晚上11点多，我看到一辆黑色轿车停在书店后门。我以为是来取书的顾客。后来我看到一个穿黑色外套的人从后门出来，上车就走了。那个人看起来很高，但天太黑了看不清脸。"
+  }
+],
+    hiddenLore: {
+  title: "消失的证人",
+  content: "林某调查的'消失的证人'系列报道，揭露了一个令人震惊的真相：在羽鹭市，有多名关键证人在开庭前'失踪'。这些失踪案背后，都有陈某的影子。林某的死，让这个真相浮出水面。",
+  unlock_condition: "完成案件007+013"
+},
+    suspectStory_s24: {
+  backstory: "周某，39岁，拾光书屋店长。表面上是一个文艺青年，实际上是陈某的大学同学。十年前，陈某帮周某解决了一起医疗纠纷。从此，周某欠下了陈某一个'人情'。当陈某要求周某帮忙处理林某时，周某无法拒绝。",
+  motive_detail: "林某的稿件揭露了陈某的罪行。如果稿件发表，陈某将面临刑事指控。陈某要求周某'处理'林某——周某理解为'让林某永远闭嘴'。"
+},
+    prologue: {
+  prologue: "拾光书屋是羽鹭市唯一一家24小时营业的独立书店。VIP阅读室是一间12平方米的密室——无窗，仅一扇电子密码门。12月3日的凌晨，自由撰稿人林某在这里消失了。这不是魔术，这是一场精心策划的谋杀。",
+  epilogue: "周某因故意杀人罪被判处无期徒刑。林某的稿件最终被发表——那篇揭露医疗事故真相的报道，让陈某受到了法律的制裁。林某用生命换来了真相。",
+  moral_dilemma: "林某知道揭露真相的危险，但他选择了继续调查。在真相和生命之间，你会怎么选择？"
+},
     caseConnections: {
   related: [
 "XA-2024-013"
@@ -12495,6 +12673,127 @@ async function hashPassword(password) {
     return password; // Fallback to plain text if crypto not available
   }
 }
+
+/* === NARRATIVE SYSTEM === */
+
+/* Render prologue when starting investigation */
+function renderPrologue(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.prologue) return '';
+  
+  var p = c.prologue;
+  var html = '<div class="prologue-card">' +
+    '<h3>案件背景</h3>' +
+    '<p>' + escapeHtml(p.prologue) + '</p>';
+  
+  if (p.moral_dilemma) {
+    html += '<div class="moral-dilemma">' +
+      '<strong>道德困境：</strong>' + escapeHtml(p.moral_dilemma) + '</div>';
+  }
+  
+  html += '</div>';
+  return html;
+}
+
+/* Render epilogue after solving case */
+function renderEpilogue(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.prologue || !c.prologue.epilogue) return '';
+  
+  return '<div class="prologue-card">' +
+    '<h3>案件后续</h3>' +
+    '<div class="epilogue">' + escapeHtml(c.prologue.epilogue) + '</div>' +
+  '</div>';
+}
+
+/* Render witness stories */
+function renderWitnessStories(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.witnessStories) return '';
+  
+  var html = '<div style="margin-top:16px;">' +
+    '<h4 style="font-family:var(--font-heading);margin-bottom:12px;">证人陈述</h4>';
+  
+  c.witnessStories.forEach(function(ws) {
+    html += '<div class="witness-story">' +
+      '<div class="witness-name">' + escapeHtml(ws.witness) + '</div>' +
+      '<div class="witness-text">"' + escapeHtml(ws.story) + '"</div>' +
+    '</div>';
+  });
+  
+  html += '</div>';
+  return html;
+}
+
+/* Render hidden lore */
+function renderHiddenLore(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.hiddenLore) return '';
+  
+  var lore = c.hiddenLore;
+  return '<div class="hidden-lore">' +
+    '<h4>' + escapeHtml(lore.title) + '</h4>' +
+    '<p>' + escapeHtml(lore.content) + '</p>' +
+    '<div class="unlock-condition">解锁条件: ' + escapeHtml(lore.unlock_condition) + '</div>' +
+  '</div>';
+}
+
+/* Render suspect backstory */
+function renderSuspectBackstory(caseId, suspectId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return '';
+  
+  var storyKey = 'suspectStory_' + suspectId;
+  var story = c[storyKey];
+  if (!story) return '';
+  
+  return '<div class="suspect-backstory">' +
+    '<h4>嫌疑人背景</h4>' +
+    '<p>' + escapeHtml(story.backstory) + '</p>' +
+    '<div class="motive"><strong>动机详情：</strong>' + escapeHtml(story.motive_detail) + '</div>' +
+  '</div>';
+}
+
+/* Override renderDetail to add narrative elements */
+var _origRenderDetail3 = renderDetail;
+renderDetail = function(caseId) {
+  _origRenderDetail3(caseId);
+  
+  var detailContent = document.getElementById('detail-content');
+  if (!detailContent) return;
+  
+  // Add prologue at the top
+  var prologueHtml = renderPrologue(caseId);
+  if (prologueHtml) {
+    detailContent.insertAdjacentHTML('afterbegin', prologueHtml);
+  }
+  
+  // Add witness stories
+  var witnessHtml = renderWitnessStories(caseId);
+  if (witnessHtml) {
+    detailContent.insertAdjacentHTML('beforeend', witnessHtml);
+  }
+  
+  // Add hidden lore
+  var loreHtml = renderHiddenLore(caseId);
+  if (loreHtml) {
+    detailContent.insertAdjacentHTML('beforeend', loreHtml);
+  }
+};
+
+/* Override case report to add epilogue */
+var _origGenReport = generateCaseReport;
+generateCaseReport = function(caseId) {
+  var html = _origGenReport(caseId);
+  
+  // Add epilogue
+  var epilogueHtml = renderEpilogue(caseId);
+  if (epilogueHtml) {
+    html += epilogueHtml;
+  }
+  
+  return html;
+};
 
 </script>
 
