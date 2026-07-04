@@ -10526,8 +10526,6 @@ submitDeductionChain = function() {
 };
 
 /* === TUTORIAL === */
-function showTutorial() { document.getElementById('tutorial').style.display = 'flex'; }
-function closeTutorial() { document.getElementById('tutorial').style.display = 'none'; localStorage.setItem('pa_tutorial_done', '1'); }
 
 /* === CASE PROGRESS DOTS === */
 function getCaseProgress(caseId) {
@@ -10812,7 +10810,6 @@ function safeSetItem(key, val) {
 }
 
 /* === NULL-SAFE DOM ACCESS === */
-function $(id) { return document.getElementById(id); }
 function show(id) { var el = $(id); if (el) el.style.display = ''; }
 function hide(id) { var el = $(id); if (el) el.style.display = 'none'; }
 
@@ -11053,6 +11050,7 @@ function renderCredibilityBar(susId) {
 var _comboSlots = [null, null];
 // _discoveredCombos already declared
 
+var _discoveredCombos = {};
 var _comboRecipes = {
   // Case 001 combinations
   'c3+c5': { result: '监控被篡改+绳索匹配KTV → 张东升在KTV作案', unlock: '张东升的作案时间窗口' },
@@ -11112,7 +11110,7 @@ function selectComboSlot(slotIndex) {
   });
   html += '</div>';
   
-  document.getElementById('clue-modal-body').innerHTML = html;
+  document.getElementById('clue-body').innerHTML = html;
   document.getElementById('clue-modal').classList.add('active');
 }
 
@@ -11154,7 +11152,7 @@ function checkComboResult() {
     if (!_discoveredCombos[comboKey]) {
       _discoveredCombos[comboKey] = true;
       playDiscoverySound();
-      showAchievement('combo', '证据组合大师', '发现了一条关键证据组合');
+      showAchievement('combo_master', '证据组合大师', '发现了一条关键证据组合');
     }
     resultEl.innerHTML = '<div class="combo-result">' +
       '<div style="font-weight:700;color:var(--accent-warm);margin-bottom:4px;">发现关联！</div>' +
@@ -11995,6 +11993,8 @@ var _investigationTimer = null;
 var _investigationStartTime = null;
 
 function startInvestigationTimer() {
+  var timerEl = document.getElementById("investigation-timer");
+  if (!timerEl) { timerEl = document.createElement("div"); timerEl.id = "investigation-timer"; timerEl.style.cssText = "position:fixed;top:8px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:12px;color:var(--accent);background:var(--surface);padding:4px 8px;border-radius:3px;border:1px solid var(--border);z-index:100;"; document.body.appendChild(timerEl); }
   _investigationStartTime = Date.now();
   _investigationTimer = setInterval(function() {
     var elapsed = Math.floor((Date.now() - _investigationStartTime) / 1000);
@@ -12061,7 +12061,7 @@ function renderRelationshipMap() {
     var w = _witnessCredibility[sus.id];
     var borderColor = w && w.score < 40 ? '#8b3a3a' : w && w.score >= 70 ? '#5a8a40' : 'var(--border)';
     
-    html += '<div class="relationship-node" style="left:' + x + 'px;top:' + y + 'px;border-color:' + borderColor + ';" onclick="showSuspectDetail(\'' + sus.id + '\')">' +
+    html += '<div class="relationship-node" style="left:' + x + 'px;top:' + y + 'px;border-color:' + borderColor + ';" onclick="showSuspectProfile(\'' + sus.id + '\')">' +
       escapeHtml(sus.name.split('（')[0]) + '</div>';
   });
   
