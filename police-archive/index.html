@@ -3082,6 +3082,23 @@ const CASES = [
   status: "已记录",
   category: "数字记录"
 }
+    ,
+      {
+  id: "c103",
+  title: "外部黑客攻击",
+  body: "变电站系统有外部IP访问记录——但追踪后发现是正常的远程运维。这是红鲱鱼，不是攻击。",
+  status: "已排除",
+  category: "数字记录",
+  redHerring: true
+},
+{
+  id: "c104",
+  title: "设备老化故障",
+  body: "变电站设备有老化记录，但本案发生时间与设备维护周期不符。设备老化不是原因。",
+  status: "已排除",
+  category: "物证",
+  redHerring: true
+}
     ],
     notes: [],
     solution: { suspect: "s10", motive: "掩盖设备故障通过安全考核", method: "SSH 远程登录删除日志", evidence: "c15" },
@@ -3447,6 +3464,15 @@ const CASES = [
   body: "失窃货物在黑市出现——郑某有销赃渠道。",
   status: "已记录",
   category: "证词"
+}
+    ,
+      {
+  id: "c103",
+  title: "恒通物流嫌疑",
+  body: "恒通物流的货车在案发时段出现在码头——但追踪后发现是正常配送。恒通物流是红鲱鱼。",
+  status: "已排除",
+  category: "证词",
+  redHerring: true
 }
     ],
     notes: [],
@@ -4177,6 +4203,15 @@ const CASES = [
   body: "花盆从701阳台东侧坠落——701阳台东侧有3个花盆，第4个位置有空缺。",
   status: "已记录",
   category: "物证"
+}
+    ,
+      {
+  id: "c103",
+  title: "张某赌博前科",
+  body: "张某有赌博前科，看起来很可疑——但张某的赌博与本案无关。张某是红鲱鱼。",
+  status: "已排除",
+  category: "文档",
+  redHerring: true
 }
     ],
     notes: [],
