@@ -1630,6 +1630,126 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 .tutorial-btn:hover { background: #5a3d7a; }
 .tutorial-btn:active { transform: scale(0.98); }
 
+/* --- Evidence Chain Visualization --- */
+.evidence-chain {
+  display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0;
+  padding: 12px; background: var(--bg); border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.chain-node {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 8px 12px; font-size: 11px;
+  cursor: pointer; transition: all 0.15s ease;
+  position: relative;
+}
+.chain-node:hover { border-color: var(--accent); }
+.chain-node.active { border-color: var(--accent); background: rgba(106,79,165,0.05); }
+.chain-node::after {
+  content: ''; position: absolute; right: -12px; top: 50%;
+  width: 10px; height: 2px; background: var(--border);
+}
+.chain-node:last-child::after { display: none; }
+/* --- Suspect Timeline --- */
+.suspect-timeline {
+  margin: 16px 0; padding: 16px; background: var(--bg);
+  border-radius: 4px; border: 1px solid var(--border);
+}
+.suspect-timeline-item {
+  display: flex; gap: 12px; padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.suspect-timeline-item:last-child { border-bottom: none; }
+.suspect-timeline-time {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--accent); min-width: 60px;
+}
+.suspect-timeline-text { font-size: 12px; flex: 1; }
+/* --- Evidence Strength Meter --- */
+.evidence-strength {
+  display: flex; gap: 2px; margin-top: 4px;
+}
+.strength-bar {
+  width: 4px; height: 12px; border-radius: 2px;
+  background: var(--border); transition: all 0.2s ease;
+}
+.strength-bar.filled { background: var(--accent); }
+.strength-bar.strong { background: #5a8a40; }
+/* --- Case Difficulty Indicator --- */
+.difficulty-stars {
+  display: flex; gap: 2px; margin-top: 4px;
+}
+.difficulty-star {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--border);
+}
+.difficulty-star.filled { background: var(--accent-warm); }
+/* --- Investigation Notes --- */
+.investigation-notes {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 16px; margin-top: 16px;
+  font-family: var(--font-display); font-size: 14px;
+  line-height: 1.8;
+}
+.investigation-notes h4 {
+  font-family: var(--font-heading); font-size: 14px;
+  margin-bottom: 12px; color: var(--ink);
+}
+/* --- Evidence Photo Frame --- */
+.evidence-photo {
+  width: 100%; height: 200px; border-radius: 4px;
+  background: var(--bg); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 12px;
+  margin-bottom: 12px; overflow: hidden;
+}
+.evidence-photo img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+/* --- Witness Statement Card --- */
+.witness-statement {
+  background: var(--surface); border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0; padding: 12px 16px;
+  margin: 12px 0; font-style: italic; font-size: 13px;
+  line-height: 1.6;
+}
+.witness-statement .witness-name {
+  font-style: normal; font-weight: 700;
+  color: var(--accent); font-size: 12px;
+  margin-bottom: 4px;
+}
+/* --- Crime Scene Hotspot Glow --- */
+.scene-hotspot.discovered rect {
+  stroke: #5a8a40 !important;
+  fill: rgba(80,138,64,0.1) !important;
+}
+.scene-hotspot.discovered::after {
+  content: '✓'; position: absolute; top: 2px; right: 4px;
+  color: #5a8a40; font-size: 14px;
+}
+/* --- Better Button States --- */
+.btn.primary {
+  background: var(--accent); color: white;
+  transition: all 0.15s ease;
+}
+.btn.primary:hover { background: #5a3d7a; transform: translateY(-1px); }
+.btn.primary:active { transform: translateY(0); }
+.btn.danger { background: #8b3a3a; color: white; }
+.btn.danger:hover { background: #6b2a2a; }
+/* --- Skeleton Loading --- */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg) 25%, var(--border) 50%, var(--bg) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton-text { height: 14px; margin-bottom: 8px; }
+.skeleton-title { height: 20px; width: 60%; margin-bottom: 12px; }
+.skeleton-card { height: 120px; margin-bottom: 12px; }
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -11674,6 +11794,159 @@ function autoSaveInvestigation() {
 setInterval(function() {
   if (_invCase) autoSaveInvestigation();
 }, 30000);
+
+/* === EVIDENCE STRENGTH SYSTEM === */
+function getEvidenceStrength(evidenceId) {
+  if (!_invCase) return 0;
+  var ev = _invCase.evidence.find(function(e) { return e.id === evidenceId; });
+  if (!ev) return 0;
+  var strength = 0;
+  if (ev.status === '已化验' || ev.status === '已鉴定') strength += 3;
+  else if (ev.status === '已调取' || ev.status === '已提取') strength += 2;
+  else if (ev.status === '已记录') strength += 1;
+  if (ev.note && ev.note.length > 100) strength += 1;
+  return Math.min(5, strength);
+}
+
+function renderEvidenceStrength(evidenceId) {
+  var strength = getEvidenceStrength(evidenceId);
+  var html = '<div class="evidence-strength">';
+  for (var i = 0; i < 5; i++) {
+    html += '<div class="strength-bar' + (i < strength ? (strength >= 4 ? ' strong' : ' filled') : '') + '"></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+/* === CASE DIFFICULTY SYSTEM === */
+function getCaseDifficulty(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return 1;
+  var difficulty = 1;
+  if (c.evidence && c.evidence.length > 15) difficulty++;
+  if (c.suspects && c.suspects.length > 5) difficulty++;
+  if (c.clues && c.clues.length > 15) difficulty++;
+  if (c.twists && c.twists.length > 2) difficulty++;
+  if (c.cipher) difficulty++;
+  if (c.classified && c.classified.classified) difficulty += 2;
+  return Math.min(5, difficulty);
+}
+
+function renderDifficultyStars(caseId) {
+  var difficulty = getCaseDifficulty(caseId);
+  var html = '<div class="difficulty-stars">';
+  for (var i = 0; i < 5; i++) {
+    html += '<div class="difficulty-star' + (i < difficulty ? ' filled' : '') + '"></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+/* === SUSPECT ALIBI VERIFICATION === */
+function verifyAlibi(suspectId) {
+  if (!_invCase) return null;
+  var sus = _invCase.suspects.find(function(s) { return s.id === suspectId; });
+  if (!sus) return null;
+  
+  var w = _witnessCredibility[suspectId];
+  if (!w) return null;
+  
+  if (w.score >= 70) return { status: 'verified', text: '不在场证明已验证' };
+  if (w.score >= 40) return { status: 'questionable', text: '不在场证明存疑' };
+  return { status: 'false', text: '不在场证明不成立' };
+}
+
+function renderAlibiStatus(suspectId) {
+  var alibi = verifyAlibi(suspectId);
+  if (!alibi) return '';
+  var color = alibi.status === 'verified' ? '#5a8a40' : alibi.status === 'questionable' ? '#b8944a' : '#8b3a3a';
+  return '<span style="font-size:11px;color:' + color + ';">' + alibi.text + '</span>';
+}
+
+/* === EVIDENCE CROSS-REFERENCE === */
+function crossReferenceEvidence(evidenceId) {
+  if (!_invCase) return [];
+  var ev = _invCase.evidence.find(function(e) { return e.id === evidenceId; });
+  if (!ev) return [];
+  
+  var related = [];
+  _invCase.evidence.forEach(function(other) {
+    if (other.id === evidenceId) return;
+    // Check if evidence notes mention similar keywords
+    var keywords = ['DNA', '指纹', '监控', '手机', '银行', '保险', '前科'];
+    keywords.forEach(function(kw) {
+      if (ev.note.indexOf(kw) >= 0 && other.note.indexOf(kw) >= 0) {
+        if (related.indexOf(other) < 0) related.push(other);
+      }
+    });
+  });
+  return related;
+}
+
+function renderCrossReference(evidenceId) {
+  var related = crossReferenceEvidence(evidenceId);
+  if (related.length === 0) return '';
+  return '<div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);">' +
+    '<div style="font-size:11px;color:var(--muted);margin-bottom:8px;">交叉引用 (' + related.length + ')</div>' +
+    related.slice(0, 3).map(function(r) {
+      return '<div style="font-size:11px;padding:2px 0;">' + escapeHtml(r.name) + '</div>';
+    }).join('') + '</div>';
+}
+
+/* === INVESTIGATION TIMER === */
+var _investigationTimer = null;
+var _investigationStartTime = null;
+
+function startInvestigationTimer() {
+  _investigationStartTime = Date.now();
+  _investigationTimer = setInterval(function() {
+    var elapsed = Math.floor((Date.now() - _investigationStartTime) / 1000);
+    var minutes = Math.floor(elapsed / 60);
+    var seconds = elapsed % 60;
+    var timerEl = document.getElementById('investigation-timer');
+    if (timerEl) {
+      timerEl.textContent = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+    }
+  }, 1000);
+}
+
+function stopInvestigationTimer() {
+  if (_investigationTimer) {
+    clearInterval(_investigationTimer);
+    _investigationTimer = null;
+  }
+  return _investigationStartTime ? Math.floor((Date.now() - _investigationStartTime) / 1000) : 0;
+}
+
+/* === OVERRIDE startInvestigation to add timer === */
+var _origSI5 = startInvestigation;
+startInvestigation = function(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c || !c.timeline) { alert('该案件暂无调查数据'); return; }
+  var access = checkCaseAccess(caseId);
+  if (!access.allowed) { showClassifiedWarning(caseId); return; }
+  _invCase = c; _invPhase = 0; _timelineSelected = null; _askedQuestions = {}; _contradictions = []; _chainSelected = []; _discovered = {};
+  _witnessCredibility = {}; _psychProfiles = {}; _comboSlots = [null, null];
+  initCredibility(); initPsychProfiles(); loadAchievements(); startInvestigationTimer();
+  if (caseId === 'XA-2024-014') startTimePressure(72);
+  else stopTimePressure();
+  if (c.scene) startCrimeScene(); else startTimeline();
+};
+
+/* === OVERRIDE submitDeductionChain to stop timer === */
+var _origSubmitChain6 = submitDeductionChain;
+submitDeductionChain = function() {
+  _origSubmitChain6();
+  var resultEl = document.getElementById('chain-result');
+  if (resultEl && resultEl.style.display === 'block') {
+    var text = resultEl.textContent;
+    if (text.indexOf('案件破解') >= 0 || text.indexOf('案件报告') >= 0) {
+      var elapsed = stopInvestigationTimer();
+      completeCase(_invCase.id);
+      if (elapsed < 600) showAchievement('speed_demon', '神速探员', '10分钟内完成一个案件');
+    }
+  }
+};
 
 </script>
 
