@@ -10771,11 +10771,6 @@ submitDeductionChain = function() {
 /* === TUTORIAL === */
 
 /* === CASE PROGRESS DOTS === */
-function getCaseProgress(caseId) {
-  var username = (Auth.getSession() || {}).username;
-  if (!username) return null;
-  try { var p = JSON.parse(localStorage.getItem('pa_progress_' + username) || '{}'); return p[caseId] || null; } catch(e) { return null; }
-}
 function renderProgressDots(caseId) {
   var c = CASES.find(function(x) { return x.id === caseId; });
   if (!c || !c.timeline) return '';
