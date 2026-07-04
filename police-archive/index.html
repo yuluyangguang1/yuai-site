@@ -2176,6 +2176,153 @@ input:focus, textarea:focus, select:focus {
 .narrative-nav-btn:hover { border-color: var(--accent); }
 .narrative-nav-btn.active { border-color: var(--accent); background: rgba(106,79,165,0.05); }
 
+/* --- Detective Journal --- */
+.journal-container {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 24px; margin: 16px 0;
+  font-family: var(--font-display); line-height: 1.8;
+}
+.journal-entry {
+  margin-bottom: 20px; padding-bottom: 20px;
+  border-bottom: 1px dashed var(--border);
+}
+.journal-entry:last-child { border-bottom: none; }
+.journal-date {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--accent); margin-bottom: 8px;
+}
+.journal-title {
+  font-family: var(--font-heading); font-size: 16px;
+  margin-bottom: 8px; color: var(--ink);
+}
+.journal-text {
+  font-size: 14px; color: var(--ink);
+}
+.journal-clue {
+  display: inline-block; background: rgba(106,79,165,0.08);
+  border: 1px solid rgba(106,79,165,0.15); border-radius: 3px;
+  padding: 2px 8px; font-size: 11px; margin: 2px 4px 2px 0;
+  cursor: pointer;
+}
+.journal-clue:hover { background: rgba(106,79,165,0.15); }
+
+/* --- Story Progress Indicator --- */
+.story-progress {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: 16px; margin: 16px 0;
+}
+.story-progress-title {
+  font-family: var(--font-heading); font-size: 13px;
+  margin-bottom: 12px; color: var(--ink);
+}
+.story-progress-bar {
+  height: 6px; background: var(--border); border-radius: 3px;
+  overflow: hidden; margin-bottom: 8px;
+}
+.story-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+  border-radius: 3px; transition: width 0.5s ease;
+}
+.story-progress-labels {
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: var(--muted);
+}
+
+/* --- Narrative Choice --- */
+.narrative-choice {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 20px; margin: 16px 0;
+}
+.narrative-choice h4 {
+  font-family: var(--font-heading); font-size: 14px;
+  margin-bottom: 12px;
+}
+.narrative-choice-options {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.narrative-choice-btn {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: 12px 16px; text-align: left;
+  cursor: pointer; transition: all 0.15s ease;
+  font-size: 13px;
+}
+.narrative-choice-btn:hover {
+  border-color: var(--accent); background: rgba(106,79,165,0.03);
+}
+.narrative-choice-btn.selected {
+  border-color: var(--accent); background: rgba(106,79,165,0.05);
+}
+
+/* --- Case Completion Summary --- */
+.case-completion {
+  background: var(--surface); border: 2px solid var(--accent-warm);
+  border-radius: 8px; padding: 32px; margin: 16px 0;
+  text-align: center;
+}
+.case-completion h2 {
+  font-family: var(--font-heading); font-size: 24px;
+  margin-bottom: 16px; color: var(--ink);
+}
+.case-completion .rating {
+  font-size: 48px; font-weight: 700;
+  color: var(--accent); margin: 16px 0;
+}
+.case-completion .stats {
+  display: flex; justify-content: center; gap: 32px;
+  margin: 16px 0;
+}
+.case-completion .stat {
+  text-align: center;
+}
+.case-completion .stat-value {
+  font-family: var(--font-mono); font-size: 24px;
+  color: var(--accent);
+}
+.case-completion .stat-label {
+  font-size: 11px; color: var(--muted);
+}
+
+/* --- Narrative Reward --- */
+.narrative-reward {
+  background: linear-gradient(135deg, rgba(106,79,165,0.05), rgba(176,136,80,0.05));
+  border: 1px solid rgba(106,79,165,0.15); border-radius: 6px;
+  padding: 20px; margin: 16px 0;
+  animation: rewardFadeIn 0.5s ease;
+}
+@keyframes rewardFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.narrative-reward h4 {
+  font-family: var(--font-heading); font-size: 16px;
+  color: var(--accent); margin-bottom: 12px;
+}
+.narrative-reward p {
+  font-size: 13px; line-height: 1.7;
+}
+
+/* --- Case Connection Timeline --- */
+.connection-timeline {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: 16px; margin: 16px 0;
+  position: relative;
+}
+.connection-timeline::before {
+  content: ''; position: absolute; left: 20px; top: 0;
+  bottom: 0; width: 2px; background: var(--border);
+}
+.connection-item {
+  display: flex; gap: 16px; padding: 12px 0;
+  padding-left: 32px; position: relative;
+}
+.connection-item::before {
+  content: ''; position: absolute; left: 16px; top: 18px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--border); border: 2px solid var(--surface);
+}
+.connection-item.completed::before { background: var(--accent); }
+.connection-item.current::before { background: var(--accent-warm); box-shadow: 0 0 0 3px rgba(176,136,80,0.2); }
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -13006,6 +13153,259 @@ generateCaseReport = function(caseId) {
   }
   
   return html;
+};
+
+/* === DETECTIVE JOURNAL === */
+function generateJournal(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return '';
+  
+  var journal = [];
+  var username = (Auth.getSession() || {}).username;
+  
+  // Add case opening
+  journal.push({
+    date: c.date,
+    title: '案件开始',
+    text: '接到案件：' + c.title + '。案发地点：' + c.location + '。'
+  });
+  
+  // Add discovered clues
+  var discovered = _discovered || {};
+  var discoveredClues = c.clues.filter(function(cl) {
+    return discovered[cl.id];
+  });
+  
+  discoveredClues.forEach(function(cl) {
+    journal.push({
+      date: c.date,
+      title: cl.title,
+      text: cl.body,
+      clueId: cl.id
+    });
+  });
+  
+  // Add interrogation findings
+  var asked = _askedQuestions || {};
+  Object.keys(asked).forEach(function(sid) {
+    var sus = c.suspects.find(function(s) { return s.id === sid; });
+    if (sus) {
+      journal.push({
+        date: c.date,
+        title: '审讯 ' + sus.name.split('（')[0],
+        text: '审讯了' + sus.name + '，发现了' + (asked[sid].length || 0) + '条信息。'
+      });
+    }
+  });
+  
+  // Add narrative elements
+  if (c.prologue) {
+    journal.push({
+      date: c.date,
+      title: '案件背景',
+      text: c.prologue.prologue
+    });
+  }
+  
+  // Add witness stories
+  if (c.witnessStories) {
+    c.witnessStories.forEach(function(ws) {
+      journal.push({
+        date: c.date,
+        title: '证人 ' + ws.witness,
+        text: ws.story
+      });
+    });
+  }
+  
+  return journal;
+}
+
+function renderJournal(caseId) {
+  var journal = generateJournal(caseId);
+  if (!journal || journal.length === 0) return '';
+  
+  var html = '<div class="journal-container">' +
+    '<h4 style="font-family:var(--font-heading);margin-bottom:16px;font-size:16px;">侦探笔记</h4>';
+  
+  journal.forEach(function(entry) {
+    html += '<div class="journal-entry">' +
+      '<div class="journal-date">' + escapeHtml(entry.date) + '</div>' +
+      '<div class="journal-title">' + escapeHtml(entry.title) + '</div>' +
+      '<div class="journal-text">' + escapeHtml(entry.text) + '</div>' +
+    '</div>';
+  });
+  
+  html += '</div>';
+  return html;
+}
+
+/* === STORY PROGRESS TRACKER === */
+function calculateStoryProgress() {
+  var username = (Auth.getSession() || {}).username;
+  if (!username) return { completed: 0, total: 15, percent: 0 };
+  
+  try {
+    var saved = JSON.parse(localStorage.getItem('pa_progress_' + username) || '{}');
+    var completed = Object.keys(saved).filter(function(id) { 
+      return saved[id] && saved[id].rating; 
+    }).length;
+    return {
+      completed: completed,
+      total: 15,
+      percent: Math.round((completed / 15) * 100)
+    };
+  } catch(e) {
+    return { completed: 0, total: 15, percent: 0 };
+  }
+}
+
+function renderStoryProgress() {
+  var progress = calculateStoryProgress();
+  var unlockedLore = [];
+  
+  // Check which lore is unlocked
+  CASES.forEach(function(c) {
+    if (c.hiddenLore) {
+      var condition = c.hiddenLore.unlock_condition || '';
+      var met = true;
+      if (condition.indexOf('完成案件') >= 0) {
+        var requiredCases = condition.match(/\d+/g) || [];
+        var username = (Auth.getSession() || {}).username;
+        try {
+          var saved = JSON.parse(localStorage.getItem('pa_progress_' + username) || '{}');
+          requiredCases.forEach(function(num) {
+            var caseId = 'XA-2024-' + num.padStart(3, '0');
+            if (!saved[caseId] || !saved[caseId].rating) met = false;
+          });
+        } catch(e) { met = false; }
+      }
+      if (met) unlockedLore.push(c.hiddenLore);
+    }
+  });
+  
+  var html = '<div class="story-progress">' +
+    '<div class="story-progress-title">故事进度</div>' +
+    '<div class="story-progress-bar"><div class="story-progress-fill" style="width:' + progress.percent + '%"></div></div>' +
+    '<div class="story-progress-labels">' +
+    '<span>已破 ' + progress.completed + ' 案</span>' +
+    '<span>' + progress.percent + '%</span>' +
+    '<span>共 ' + progress.total + ' 案</span>' +
+    '</div>';
+  
+  if (unlockedLore.length > 0) {
+    html += '<div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);">' +
+      '<div style="font-size:11px;color:var(--muted);margin-bottom:8px;">已解锁档案 (' + unlockedLore.length + ')</div>';
+    unlockedLore.forEach(function(lore) {
+      html += '<div style="font-size:12px;padding:4px 0;">' + escapeHtml(lore.title) + '</div>';
+    });
+    html += '</div>';
+  }
+  
+  html += '</div>';
+  return html;
+}
+
+/* === NARRATIVE REWARD SYSTEM === */
+function showNarrativeReward(title, content) {
+  var popup = document.createElement('div');
+  popup.className = 'narrative-reward';
+  popup.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1000;max-width:400px;width:90%;';
+  popup.innerHTML = '<h4>' + escapeHtml(title) + '</h4><p>' + escapeHtml(content) + '</p>' +
+    '<div style="text-align:center;margin-top:16px;">' +
+    '<button class="btn" onclick="this.parentElement.parentElement.remove()">关闭</button></div>';
+  document.body.appendChild(popup);
+}
+
+/* === CASE COMPLETION SUMMARY === */
+function renderCaseCompletion(caseId) {
+  var c = CASES.find(function(x) { return x.id === caseId; });
+  if (!c) return '';
+  
+  var rating = calculateRating(caseId);
+  var elapsed = _investigationStartTime ? Math.floor((Date.now() - _investigationStartTime) / 1000) : 0;
+  var minutes = Math.floor(elapsed / 60);
+  var seconds = elapsed % 60;
+  
+  var html = '<div class="case-completion">' +
+    '<h2>案件告破</h2>' +
+    '<div class="rating">' + rating.grade + '</div>' +
+    '<div class="stats">' +
+    '<div class="stat"><div class="stat-value">' + minutes + ':' + String(seconds).padStart(2, '0') + '</div><div class="stat-label">用时</div></div>' +
+    '<div class="stat"><div class="stat-value">' + (_contradictions || []).length + '</div><div class="stat-label">矛盾</div></div>' +
+    '<div class="stat"><div class="stat-value">' + Object.keys(_discovered || {}).length + '</div><div class="stat-label">线索</div></div>' +
+    '</div>';
+  
+  // Add narrative elements
+  if (c.prologue && c.prologue.epilogue) {
+    html += '<div style="margin-top:24px;padding-top:24px;border-top:1px dashed var(--border);text-align:left;">' +
+      '<h3 style="font-family:var(--font-heading);margin-bottom:12px;">案件后续</h3>' +
+      '<p style="font-size:14px;line-height:1.7;">' + escapeHtml(c.prologue.epilogue) + '</p></div>';
+  }
+  
+  if (c.prologue && c.prologue.moral_dilemma) {
+    html += '<div style="margin-top:16px;padding:16px;background:rgba(139,58,58,0.05);border:1px solid rgba(139,58,58,0.1);border-radius:4px;text-align:left;">' +
+      '<div style="font-size:12px;color:var(--accent);margin-bottom:8px;">道德困境</div>' +
+      '<p style="font-size:13px;line-height:1.6;">' + escapeHtml(c.prologue.moral_dilemma) + '</p></div>';
+  }
+  
+  html += '</div>';
+  return html;
+}
+
+/* === OVERRIDE: Add narrative elements to investigation === */
+var _origRenderDetail4 = renderDetail;
+renderDetail = function(caseId) {
+  _origRenderDetail4(caseId);
+  
+  var detailContent = document.getElementById('detail-content');
+  if (!detailContent) return;
+  
+  // Add story progress
+  var progressHtml = renderStoryProgress();
+  if (progressHtml) {
+    detailContent.insertAdjacentHTML('beforeend', progressHtml);
+  }
+  
+  // Add detective journal
+  var journalHtml = renderJournal(caseId);
+  if (journalHtml) {
+    detailContent.insertAdjacentHTML('beforeend', journalHtml);
+  }
+};
+
+/* === OVERRIDE: Show narrative reward on evidence combination === */
+var _origCheckCombo = checkComboResult;
+checkComboResult = function() {
+  _origCheckCombo();
+  
+  // Check if combo was successful
+  if (!_comboSlots[0] || !_comboSlots[1]) return;
+  var key1 = _comboSlots[0] + '+' + _comboSlots[1];
+  var key2 = _comboSlots[1] + '+' + _comboSlots[0];
+  var recipe = _comboRecipes[key1] || _comboRecipes[key2];
+  
+  if (recipe) {
+    showNarrativeReward('证据组合成功', recipe.result + '\n\n解锁：' + recipe.unlock);
+  }
+};
+
+/* === OVERRIDE: Show case completion with narrative === */
+var _origSubmitChain7 = submitDeductionChain;
+submitDeductionChain = function() {
+  _origSubmitChain7();
+  
+  var resultEl = document.getElementById('chain-result');
+  if (resultEl && resultEl.style.display === 'block') {
+    var text = resultEl.textContent;
+    if (text.indexOf('案件破解') >= 0 || text.indexOf('案件报告') >= 0) {
+      // Show case completion summary
+      var completionHtml = renderCaseCompletion(_invCase.id);
+      if (completionHtml) {
+        resultEl.innerHTML = completionHtml;
+      }
+    }
+  }
 };
 
 </script>
