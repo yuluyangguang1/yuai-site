@@ -2725,6 +2725,44 @@ textarea:valid {
   a { color: black; text-decoration: underline; }
 }
 
+/* --- Performance-optimized Animations --- */
+/* Use transform and opacity for smooth animations */
+.animate-in {
+  animation: animateIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes animateIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-out {
+  animation: animateOut 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes animateOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- WCAG AA Color Contrast --- */
+/* Ensure minimum 4.5:1 contrast ratio */
+.muted-text {
+  color: var(--muted);
+  /* Ensure contrast */
+}
+.success-text { color: #2d6a2d; }
+.error-text { color: #8b1a1a; }
+.warning-text { color: #8a6d00; }
+.info-text { color: #1a5276; }
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -13949,6 +13987,141 @@ function batchUpdate(updates) {
   raf(function() {
     updates.forEach(function(update) { update(); });
   });
+}
+
+/* === EVENT DELEGATION === */
+/* Use event delegation for better performance */
+function delegateEvent(parent, eventType, selector, handler) {
+  parent.addEventListener(eventType, function(e) {
+    var target = e.target.closest(selector);
+    if (target && parent.contains(target)) {
+      handler.call(target, e);
+    }
+  });
+}
+
+/* Example usage:
+delegateEvent(document.body, 'click', '.note-card', function(e) {
+  var caseId = this.dataset.caseId;
+  if (caseId) router.go('detail', {caseId: caseId});
+});
+*/
+
+/* === STATE MANAGEMENT === */
+/* Centralized state for better debugging */
+var AppState = {
+  currentUser: null,
+  currentCase: null,
+  currentPhase: null,
+  discovered: {},
+  askedQuestions: {},
+  contradictions: [],
+  chainSelected: [],
+  achievements: {},
+  
+  reset: function() {
+    this.currentCase = null;
+    this.currentPhase = null;
+    this.discovered = {};
+    this.askedQuestions = {};
+    this.contradictions = [];
+    this.chainSelected = [];
+  },
+  
+  save: function() {
+    var username = (Auth.getSession() || {}).username;
+    if (!username) return;
+    try {
+      localStorage.setItem('pa_state_' + username, JSON.stringify({
+        discovered: this.discovered,
+        askedQuestions: this.askedQuestions,
+        contradictions: this.contradictions,
+        chainSelected: this.chainSelected
+      }));
+    } catch(e) {}
+  },
+  
+  load: function() {
+    var username = (Auth.getSession() || {}).username;
+    if (!username) return;
+    try {
+      var saved = JSON.parse(localStorage.getItem('pa_state_' + username) || '{}');
+      this.discovered = saved.discovered || {};
+      this.askedQuestions = saved.askedQuestions || {};
+      this.contradictions = saved.contradictions || [];
+      this.chainSelected = saved.chainSelected || [];
+    } catch(e) {}
+  }
+};
+
+/* === ERROR BOUNDARIES === */
+/* Wrap critical functions in try-catch */
+function safeExecute(fn, context) {
+  try {
+    return fn();
+  } catch(e) {
+    console.error('Error in ' + (context || 'unknown') + ':', e);
+    showToast('发生了一个错误，请重试');
+    return null;
+  }
+}
+
+/* Safe localStorage operations */
+function safeGetItem(key) {
+  try { return localStorage.getItem(key); } catch(e) { return null; }
+}
+
+function safeSetItem(key, value) {
+  try { localStorage.setItem(key, value); return true; } catch(e) { return false; }
+}
+
+function safeRemoveItem(key) {
+  try { localStorage.removeItem(key); return true; } catch(e) { return false; }
+}
+
+/* Safe JSON parse */
+function safeJsonParse(str) {
+  try { return JSON.parse(str); } catch(e) { return null; }
+}
+
+/* === FOCUS MANAGEMENT === */
+/* Better focus trap for modals */
+function trapFocus(element) {
+  var focusableElements = element.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  var firstFocusable = focusableElements[0];
+  var lastFocusable = focusableElements[focusableElements.length - 1];
+  
+  element.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          lastFocusable.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          firstFocusable.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  });
+  
+  firstFocusable.focus();
+}
+
+/* Restore focus after modal closes */
+var _lastFocusedElement = null;
+function saveFocus() {
+  _lastFocusedElement = document.activeElement;
+}
+function restoreFocus() {
+  if (_lastFocusedElement) {
+    _lastFocusedElement.focus();
+    _lastFocusedElement = null;
+  }
 }
 
 </script>
