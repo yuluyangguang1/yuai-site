@@ -223,7 +223,7 @@ header {
   color: var(--surface); border: 1px solid rgba(120,100,70,0.2);
   border-radius: 3px;
   font-family: var(--font-body); font-size: 12px; font-weight: 600;
-  cursor: pointer; transition: all 0.15s ease;
+  cursor: pointer; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .btn:hover { background: rgba(240,230,210,0.12); border-color: rgba(120,100,70,0.3); }
 .btn:active { transform: translateY(1px); }
@@ -396,7 +396,7 @@ header {
   border-radius: 0 3px 3px 0;
   font-size: 13.5px; line-height: 1.6;
   position: relative;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .note-item:hover { background: rgba(255,253,240,0.8); }
 .note-time {
@@ -469,7 +469,7 @@ header {
   padding: 14px; border-radius: 3px;
   font-size: 13px; line-height: 1.5;
   box-shadow: var(--shadow);
-  cursor: pointer; transition: all 0.15s ease;
+  cursor: pointer; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
 .photo-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
@@ -480,7 +480,7 @@ header {
   border: 1px solid var(--border);
   padding: 10px 14px; border-radius: 3px;
   font-size: 13px; cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: var(--font-heading);
 }
 .clue-tile:hover { border-color: var(--accent); }
@@ -640,7 +640,7 @@ footer {
   background: var(--surface); border: 1px solid var(--border);
   padding: 12px 16px; border-radius: 3px; cursor: pointer;
   display: flex; align-items: center; gap: 12px;
-  transition: all 0.15s ease; user-select: none;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); user-select: none;
 }
 .timeline-event:hover { border-color: var(--accent); }
 .timeline-event.selected { border-color: var(--accent); background: rgba(148,60,60,0.05); }
@@ -654,7 +654,7 @@ footer {
   background: var(--surface); border: 1px solid var(--border);
   padding: 10px 16px; border-radius: 3px; cursor: pointer;
   font-family: var(--font-heading); font-size: 13px; font-weight: 600;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .suspect-btn:hover { border-color: var(--accent); }
 .suspect-btn.active { border-color: var(--accent); background: rgba(148,60,60,0.08); }
@@ -662,7 +662,7 @@ footer {
 .q-btn {
   background: var(--surface); border: 1px solid var(--border);
   padding: 10px 14px; border-radius: 3px; cursor: pointer;
-  font-size: 13px; text-align: left; transition: all 0.15s ease;
+  font-size: 13px; text-align: left; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .q-btn:hover { border-color: var(--accent); }
 .q-btn.asked { opacity: 0.5; cursor: default; }
@@ -686,7 +686,7 @@ footer {
   background: var(--surface); border: 1px solid var(--border);
   padding: 12px 16px; border-radius: 3px; cursor: pointer;
   display: flex; align-items: flex-start; gap: 12px;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .chain-item:hover { border-color: var(--accent); }
 .chain-item.selected { border-color: var(--accent); background: rgba(148,60,60,0.05); }
@@ -694,7 +694,7 @@ footer {
   width: 20px; height: 20px; border: 2px solid var(--border);
   border-radius: 3px; flex-shrink: 0; margin-top: 2px;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .chain-item.selected .chain-check { border-color: var(--accent); background: var(--accent); }
 .chain-item.selected .chain-check::after { content: "✓"; color: var(--surface); font-size: 12px; }
@@ -774,7 +774,7 @@ footer {
   border: 1px dashed var(--border); border-radius: 3px;
   background: var(--surface); color: var(--ink);
   font-family: var(--font-body); font-size: 13px;
-  cursor: pointer; transition: all 0.15s ease;
+  cursor: pointer; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   appearance: none; -webkit-appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' fill='none' stroke='%237a6e5a' stroke-width='1.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 8px center;
@@ -805,7 +805,7 @@ footer {
   font-size: 12px; color: var(--muted); line-height: 1.6;
 }
 .inv-sidebar-meta .meta-row {
-  display: flex; justify-content: space-between; padding: 3px 0;
+  display: flex; justify-content: space-between; padding: 4px 0;
 }
 .inv-sidebar-evidence {
   font-size: 12px; line-height: 1.5;
@@ -847,7 +847,7 @@ footer {
 .scene-area {
   position: absolute; cursor: pointer;
   border: 2px dashed var(--border); border-radius: 4px;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-family: var(--font-mono); color: var(--muted);
   text-align: center; padding: 4px;
@@ -915,12 +915,12 @@ footer {
 .phase-dot.current { background: var(--accent); box-shadow: 0 0 0 3px rgba(148,60,60,0.2); }
 .phase-line { flex: 1; height: 1px; background: var(--border); }
 /* --- Better Sidebar --- */
-.inv-sidebar-card { transition: all 0.15s ease; }
+.inv-sidebar-card { transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
 .inv-sidebar-card:hover { border-color: var(--accent); }
 /* --- Print improvements --- */
 @media print {
   .scene-popup, .tutorial-overlay, .phase-indicator, .inv-sidebar { display: none !important; }
-  .scene-map { border: 2px solid #000; }
+  .scene-map { border: 2px solid var(--ink); }
   .scene-area { border: 1px solid #666; }
 }
 
@@ -1103,7 +1103,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 }
 .phase-dot-sm {
   width: 6px; height: 6px; border-radius: 50%;
-  background: var(--border); transition: all 0.2s ease;
+  background: var(--border); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .phase-dot-sm.done { background: #5a8a40; }
 .phase-dot-sm.active { background: var(--accent); box-shadow: 0 0 0 2px rgba(106,79,165,0.2); }
@@ -1172,7 +1172,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   width: 120px; height: 60px; border: 2px dashed var(--border);
   border-radius: 4px; display: flex; align-items: center; justify-content: center;
   font-size: 11px; color: var(--muted); cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .combo-slot.filled {
   border-style: solid; border-color: var(--accent);
@@ -1216,7 +1216,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 .achievement-card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 4px; padding: 12px; text-align: center;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .achievement-card.unlocked {
   border-color: var(--accent-warm);
@@ -1287,7 +1287,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 .forensics-item {
   background: var(--bg); border: 1px solid var(--border);
   border-radius: 3px; padding: 8px; font-size: 11px;
-  cursor: pointer; transition: all 0.15s ease;
+  cursor: pointer; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .forensics-item:hover {
   border-color: var(--accent); background: rgba(106,79,165,0.05);
@@ -1311,7 +1311,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 }
 .note-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(20,15,8,0.15);
+  box-shadow: 0 4px 12px rgba(20,15,8,0.1);
 }
 .note-card:active {
   transform: translateY(-2px);
@@ -1323,7 +1323,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 .badge.cat-数字记录 { background: rgba(70,130,90,0.1); color: #468250; }
 /* --- Suspect Card Improvements --- */
 .suspect-tile {
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   border-left: 3px solid transparent;
 }
 .suspect-tile:hover {
@@ -1336,7 +1336,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 }
 /* --- Timeline Event Improvements --- */
 .timeline-event {
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   border-left: 3px solid transparent;
 }
 .timeline-event:hover {
@@ -1356,7 +1356,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 }
 /* --- Deduction Chain Improvements --- */
 .chain-item {
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .chain-item.selected {
   border-color: var(--accent);
@@ -1529,7 +1529,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   
   /* Profile */
   .profile-card { padding: 12px; }
-  .profile-trait { font-size: 10px; padding: 3px 8px; }
+  .profile-trait { font-size: 10px; padding: 4px 8px; }
   
   /* Report */
   .case-report-full { padding: 16px; font-size: 12px; }
@@ -1545,7 +1545,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   .stats { grid-template-columns: repeat(2, 1fr); }
   .brand h1 { font-size: 13px; }
   .brand small { display: none; }
-  .header-actions .btn { padding: 5px 8px; font-size: 10px; }
+  .header-actions .btn { padding: 4px 8px; font-size: 10px; }
   .note-card { min-height: 120px; padding: 10px; }
   .card-title { font-size: 13px; }
   .stat-val { font-size: 18px; }
@@ -1625,7 +1625,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   background: var(--accent); color: white; border: none;
   padding: 14px; border-radius: 4px; font-size: 15px;
   font-weight: 600; cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .tutorial-btn:hover { background: #5a3d7a; }
 .tutorial-btn:active { transform: scale(0.98); }
@@ -1639,7 +1639,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 .chain-node {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 4px; padding: 8px 12px; font-size: 11px;
-  cursor: pointer; transition: all 0.15s ease;
+  cursor: pointer; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
 .chain-node:hover { border-color: var(--accent); }
@@ -1670,7 +1670,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 }
 .strength-bar {
   width: 4px; height: 12px; border-radius: 2px;
-  background: var(--border); transition: all 0.2s ease;
+  background: var(--border); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .strength-bar.filled { background: var(--accent); }
 .strength-bar.strong { background: #5a8a40; }
@@ -1729,7 +1729,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 /* --- Better Button States --- */
 .btn.primary {
   background: var(--accent); color: white;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .btn.primary:hover { background: #5a3d7a; transform: translateY(-1px); }
 .btn.primary:active { transform: translateY(0); }
@@ -1762,7 +1762,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   width: 60px; height: 60px; display: flex;
   align-items: center; justify-content: center;
   font-size: 10px; text-align: center; cursor: pointer;
-  transition: all 0.2s ease; z-index: 2;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2;
 }
 .relationship-node:hover { border-color: var(--accent); transform: scale(1.1); }
 .relationship-node.suspect { border-color: #8b3a3a; }
@@ -1801,7 +1801,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   border: none; border-radius: 50%; width: 48px; height: 48px;
   font-size: 20px; cursor: pointer; z-index: 100;
   box-shadow: 0 4px 12px rgba(176,136,80,0.3);
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hint-btn:hover { transform: scale(1.1); }
 .hint-popup {
@@ -1833,7 +1833,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 .evidence-upload {
   border: 2px dashed var(--border); border-radius: 4px;
   padding: 20px; text-align: center; cursor: pointer;
-  transition: all 0.15s ease; margin: 12px 0;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); margin: 12px 0;
 }
 .evidence-upload:hover { border-color: var(--accent); background: rgba(106,79,165,0.03); }
 .evidence-upload input { display: none; }
@@ -1856,7 +1856,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
 }
 .note-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(20,15,8,0.18);
+  box-shadow: 0 6px 16px rgba(20,15,8,0.12);
 }
 .note-card:active {
   transform: translateY(-3px);
@@ -1930,7 +1930,7 @@ input:focus, textarea:focus, select:focus {
 .evidence-card {
   position: relative;
   border-left: 3px solid transparent;
-  transition: all 0.15s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .evidence-card:hover {
   border-left-color: var(--accent);
@@ -1950,7 +1950,7 @@ input:focus, textarea:focus, select:focus {
   border-radius: 50%;
   background: var(--border);
   transform: translateY(-50%);
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .timeline-event:hover::before {
   background: var(--accent);
@@ -1982,7 +1982,7 @@ input:focus, textarea:focus, select:focus {
   bottom: 0; left: 0; right: 0;
   height: 3px;
   background: var(--border);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Better achievement popup with slide-in */
@@ -2171,7 +2171,7 @@ input:focus, textarea:focus, select:focus {
 .narrative-nav-btn {
   background: var(--bg); border: 1px solid var(--border);
   border-radius: 4px; padding: 8px 16px; font-size: 12px;
-  cursor: pointer; transition: all 0.15s ease;
+  cursor: pointer; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .narrative-nav-btn:hover { border-color: var(--accent); }
 .narrative-nav-btn.active { border-color: var(--accent); background: rgba(106,79,165,0.05); }
@@ -2243,7 +2243,7 @@ input:focus, textarea:focus, select:focus {
 .narrative-choice-btn {
   background: var(--bg); border: 1px solid var(--border);
   border-radius: 4px; padding: 12px 16px; text-align: left;
-  cursor: pointer; transition: all 0.15s ease;
+  cursor: pointer; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 13px;
 }
 .narrative-choice-btn:hover {
@@ -3116,7 +3116,7 @@ const CASES = [
     id: "XA-2024-002", title: "东湖桥底溺亡案",
     date: "2024-03-05", location: "东湖桥下施工围栏",
     level: "重大", solved: false,
-    summary: "三月的东湖，水温 7°C。晨跑者在桥底施工围栏旁发现了李某——38 岁，市第二人民医院药剂师，面部朝下，衣着完整。法医判断死因是溺亡，但左手腕内侧有一处 1.2cm 的圆形瘀斑——注射器的痕迹。血液中检出微量苯二氮卓类药物。这不是意外。围栏锁芯被液压剪整齐地剪断。李某的妻子张某说，丈夫昨晚 10 点接到一个电话后就出门了，此后音讯全无。手机最后一次解锁是凌晨 3:47，打开了地图搜索'东湖桥'。手机壳里夹着一张纸条，上面写着'东湖桥下见'——笔迹鉴定显示，这不是李某的字。22:05，李某与一个尾号 3387 的预付费号码通话 4 分 12 秒。这个号码在 2 月 15 日购入，此后只打过这一个电话。凌晨 3:20，李某的银行账户向一家已注销的公司转账 5 万元——收款方是他妻子弟弟的公司。有人在李某死后操作了他的手机。蹊跷的是，死者银行账户在 03:20 有一笔 5 万元转账，收款人为一个已注销的公司账户。",
+    summary: "三月的东湖，水温 7°C。晨跑者在桥底施工围栏旁发现了李某——38 岁，市第二人民医院药剂师，面部朝下，衣着完整。法医判断死因是溺亡，但左手腕内侧有一处 1.2cm 的圆形瘀斑——注射器的痕迹。血液中检出微量苯二氮卓类药物。这不是意外。围栏锁芯被液压剪整齐地剪断。李某的妻子张某说，丈夫昨晚 10 点接到一个电话后就出门了，此后音讯全无。手机最终一次解锁是凌晨 3:47，打开了地图搜索'东湖桥'。手机壳里夹着一张纸条，上面写着'东湖桥下见'——笔迹鉴定显示，这不是李某的字。22:05，李某与一个尾号 3387 的预付费号码通话 4 分 12 秒。这个号码在 2 月 15 日购入，此后只打过这一个电话。凌晨 3:20，李某的银行账户向一家已注销的公司转账 5 万元——收款方是他妻子弟弟的公司。有人在李某死后操作了他的手机。蹊跷的是，死者银行账户在 03:20 有一笔 5 万元转账，收款人为一个已注销的公司账户。",
     evidence: [
       { id: "e9", name: "遗体检验报告", location: "法医中心", status: "已归档", note: "肺腔积水含东湖藻类，死因溺亡。左手腕注射痕迹（苯二氮卓地西泮代谢物 0.3ng/ml）。胃内容物面条与 21:30 进食吻合。死亡时间 03:00-04:30。指甲缝内有微量蓝色纤维（与围栏帆布材质不一致）。" },
       { id: "e10", name: "液压剪痕迹", location: "围栏锁芯", status: "已提取", note: "24 寸工业液压剪，剪口单一。本地五金店 2 月底男性现金购买。锁芯上提取到一枚掌纹（右手掌），比对中。" },
@@ -3146,7 +3146,7 @@ const CASES = [
   name: "李某手机浏览器记录",
   location: "刑侦技术科",
   status: "已提取",
-  note: "李某手机浏览器历史：搜索'东湖桥'、'溺水急救'、'如何伪造自杀'。最后一条搜索在凌晨3:45，但李某已死亡——搜索者另有其人。"
+  note: "李某手机浏览器历史：搜索'东湖桥'、'溺水急救'、'如何伪造自杀'。最终一条搜索在凌晨3:45，但李某已死亡——搜索者另有其人。"
 },
 {
   id: "e132",
@@ -3493,7 +3493,7 @@ const CASES = [
     timeline: [
       { id: "t1", time: "22:00", text: "死者接到电话后出门", order: 1 },
       { id: "t2", time: "22:05", text: "与尾号 3387 通话 4 分 12 秒", order: 2 },
-      { id: "t3", time: "23:22", text: "陈某与死者最后一次通话", order: 3 },
+      { id: "t3", time: "23:22", text: "陈某与死者最终一次通话", order: 3 },
       { id: "t4", time: "02:00", text: "张某手机信号出现在东湖公园附近", order: 4 },
       { id: "t5", time: "03:00", text: "推定死亡时间开始", order: 5 },
       { id: "t6", time: "03:20", text: "死者账户向鑫达贸易转账 5 万元", order: 6 },
@@ -3926,7 +3926,7 @@ const CASES = [
     },
     twists: [{"trigger": "c13", "reveal": "围栏锁芯掌纹与陈某吻合——但张某的手机基站也在现场附近。", "dramatic": "双线交汇"}, {"trigger": "c9", "reveal": "5万元转账发生在死者死后——操作手机的人不是死者。", "dramatic": "时间线反转"}],
     scene: {"name": "变电站", "areas": [{"id": "a1", "x": 10, "y": 15, "w": 35, "h": 30, "label": "机房", "clue": "e17", "desc": "交换机日志"}, {"id": "a2", "x": 55, "y": 15, "w": 35, "h": 30, "label": "监控室", "clue": "e19", "desc": "运维终端"}, {"id": "a3", "x": 10, "y": 60, "w": 35, "h": 25, "label": "值班室", "clue": "e21", "desc": "周某未离开"}]},
-    cipher: {"type": "number", "hint": "删除的472条日志中，有一条隐藏信息：02:00:00的第一帧包含一个IP地址的最后一位。这个数字是什么?", "cipher": "02:00:00 → 192.168.1.?", "answer": "15", "explanation": "运维终端IP是192.168.1.15，这是孙某的终端——但孙某声称在机房。IP地址证明有人用孙某的终端。"},
+    cipher: {"type": "number", "hint": "删除的472条日志中，有一条隐藏信息：02:00:00的第一帧包含一个IP地址的最终一位。这个数字是什么?", "cipher": "02:00:00 → 192.168.1.?", "answer": "15", "explanation": "运维终端IP是192.168.1.15，这是孙某的终端——但孙某声称在机房。IP地址证明有人用孙某的终端。"},
     combinations: [{"clues": ["c8", "c13"], "result": "左利手注射+掌纹吻合=陈某的作案手法和物理证据双重确认", "unlocks": "隐藏线索：陈某的医疗用品采购记录"}],
   },
   {
@@ -4325,10 +4325,10 @@ const CASES = [
     id: "XA-2024-005", title: "社区诊所药物失窃案",
     date: "2024-09-08", location: "翠园社区卫生服务站",
     level: "一般", solved: false,
-    summary: "9 月 8 日药房盘点发现 3 箱处方药（含管制类地西泮注射液 200 支）失踪。药房门锁完好，监控显示 9 月 7 日 23:00-23:30 有 30 分钟画面静止（非断电，画面冻结在最后一帧）。药房钥匙仅药剂师赵某和主任医师钱某持有。蹊跷的是，失窃的地西泮恰好是近期用量异常减少的品类——过去三个月的处方记录显示地西泮使用量下降了 60%，但患者数量并未减少。",
+    summary: "9 月 8 日药房盘点发现 3 箱处方药（含管制类地西泮注射液 200 支）失踪。药房门锁完好，监控显示 9 月 7 日 23:00-23:30 有 30 分钟画面静止（非断电，画面冻结在最终一帧）。药房钥匙仅药剂师赵某和主任医师钱某持有。蹊跷的是，失窃的地西泮恰好是近期用量异常减少的品类——过去三个月的处方记录显示地西泮使用量下降了 60%，但患者数量并未减少。",
     evidence: [
       { id: "e33", name: "药房盘点报告", location: "诊所档案", status: "已归档", note: "地西泮注射液（5mg/支）库存差异 200 支。另有布洛芬缓释胶囊 50 盒、阿莫西林胶囊 30 盒一并失踪。总价值约 3.8 万元。地西泮为二类管制药品，失窃需上报药监局。" },
-      { id: "e34", name: "监控录像", location: "诊所监控室", status: "已提取", note: "9 月 7 日 23:00:00-23:30:00 画面静止（30 分钟）。非断电——画面冻结在 23:00:00 的最后一帧。技术分析：监控系统被远程访问（端口 8080），执行了'暂停录制 30 分钟'命令。系统日志显示登录 IP 为诊所内网。" },
+      { id: "e34", name: "监控录像", location: "诊所监控室", status: "已提取", note: "9 月 7 日 23:00:00-23:30:00 画面静止（30 分钟）。非断电——画面冻结在 23:00:00 的最终一帧。技术分析：监控系统被远程访问（端口 8080），执行了'暂停录制 30 分钟'命令。系统日志显示登录 IP 为诊所内网。" },
       { id: "e35", name: "处方记录分析", location: "医保系统", status: "已调取", note: "6-8 月地西泮处方量下降 60%（从月均 150 支降至 60 支）。同期患者数量增长 15%。其他药品处方量正常。异常始于 6 月——恰好是赵某入职的时间。" },
       { id: "e36", name: "药房钥匙记录", location: "诊所行政", status: "已提取", note: "药房电子门禁记录：9 月 7 日 22:45 钱某刷卡进入药房，22:55 离开。赵某当日未刷卡（休息日）。但药房还有一把机械备用钥匙，存放于行政办公室抽屉，抽屉锁无撬痕。" },
       { id: "e37", name: "赵某社交媒体", location: "网络调查", status: "已截图", note: "赵某微信朋友圈 8 月 15 日晒出一辆新车（宝马 3 系，市场价约 30 万）。赵某月薪 5500 元。8 月 20 日赵某在某医疗论坛发帖询问'地西泮注射液黑市价格'（已删除，缓存已恢复）。" },
@@ -5111,15 +5111,15 @@ const CASES = [
     id: "XA-2024-007", title: "深夜书店密室失踪案",
     date: "2024-12-03", location: "学府路 12 号'拾光书屋'",
     level: "紧急", solved: false,
-    summary: "拾光书屋，学府路 12 号，24 小时营业的独立书店。VIP 阅读室是一间 12 平方米的密室——无窗，仅一扇电子密码门。12 月 3 日凌晨 01:30，夜班店员小杨报警：顾客林某（34 岁，自由撰稿人）失踪了。01:00 巡店时门从内部反锁，敲门无人应。01:30 用管理员密码开门后，室内空无一人。桌上：笔记本电脑（屏幕亮着，稿件标题'消失的证人'，最后编辑 00:45）、一杯拿铁（约 40°C，推断制作时间 01:00 左右）、一件灰色冲锋衣挂在椅背上。电子密码锁记录：22:00 林某输入密码进入，此后至 01:30 管理员开门——无任何开门记录。人从密室中消失了。但 23:30 后门监控有 5 分钟画面模糊（镜头被雾气覆盖？人为？），23:32 一辆黑色轿车（车牌遮挡）驶出停车场。咖啡杯底有一枚左手指纹——非林某、非店员，是第三人的。00:58 门锁系统管理员日志有一条记录被删除——被删除的时间戳是 00:55。有人在 00:55 用管理员密码打开了门，然后删除了这条记录。店长周某（39 岁）2018-2020 年在市第一人民医院做行政——与副院长陈某是大学同学。林稿件直指 2019 年一起手术事故：患者死亡，关键证人张某在开庭前一周失踪，陈某涉嫌销毁手术记录。案件因证据不足撤诉。",
+    summary: "拾光书屋，学府路 12 号，24 小时营业的独立书店。VIP 阅读室是一间 12 平方米的密室——无窗，仅一扇电子密码门。12 月 3 日凌晨 01:30，夜班店员小杨报警：顾客林某（34 岁，自由撰稿人）失踪了。01:00 巡店时门从内部反锁，敲门无人应。01:30 用管理员密码开门后，室内空无一人。桌上：笔记本电脑（屏幕亮着，稿件标题'消失的证人'，最终编辑 00:45）、一杯拿铁（约 40°C，推断制作时间 01:00 左右）、一件灰色冲锋衣挂在椅背上。电子密码锁记录：22:00 林某输入密码进入，此后至 01:30 管理员开门——无任何开门记录。人从密室中消失了。但 23:30 后门监控有 5 分钟画面模糊（镜头被雾气覆盖？人为？），23:32 一辆黑色轿车（车牌遮挡）驶出停车场。咖啡杯底有一枚左手指纹——非林某、非店员，是第三人的。00:58 门锁系统管理员日志有一条记录被删除——被删除的时间戳是 00:55。有人在 00:55 用管理员密码打开了门，然后删除了这条记录。店长周某（39 岁）2018-2020 年在市第一人民医院做行政——与副院长陈某是大学同学。林稿件直指 2019 年一起手术事故：患者死亡，关键证人张某在开庭前一周失踪，陈某涉嫌销毁手术记录。案件因证据不足撤诉。",
     evidence: [
       { id: "e48", name: "门锁电子记录", location: "书屋安保系统", status: "已提取", note: "电子密码锁记录：22:00 林某输入密码进入。此后至 01:30 管理员开门，无任何开门记录（包括内部开门按钮）。锁芯无撬痕。管理员密码仅店长周某和夜班店员小杨知晓。" },
       { id: "e49", name: "VIP 室内部勘查", location: "案发现场", status: "已勘查", note: "室内 12 平方米。无窗。天花板有通风口（40cm×40cm），但栅栏螺丝完好，无人通过痕迹。地板为实心混凝土。墙壁无暗门。桌上有笔记本电脑（稿件标题'消失的证人'）、咖啡杯（拿铁，尚温约 40°C）、外套（男式灰色冲锋衣）。" },
-      { id: "e50", name: "笔记本电脑内容", location: "证物室", status: "已分析", note: "屏幕显示未完成稿件'消失的证人'，内容涉及一桩 2019 年的医疗事故案件。文中提到'关键证人张某在开庭前一周失踪'、'医院副院长陈某涉嫌销毁证据'。最后编辑时间 00:45。浏览器最后访问页面：一个加密邮箱登录页面（已登出）。" },
+      { id: "e50", name: "笔记本电脑内容", location: "证物室", status: "已分析", note: "屏幕显示未完成稿件'消失的证人'，内容涉及一桩 2019 年的医疗事故案件。文中提到'关键证人张某在开庭前一周失踪'、'医院副院长陈某涉嫌销毁证据'。最终编辑时间 00:45。浏览器最终访问页面：一个加密邮箱登录页面（已登出）。" },
       { id: "e51", name: "咖啡杯指纹", location: "物证鉴定", status: "已提取", note: "咖啡杯上提取到 2 组指纹：林某（右手，杯身）和另一组未知指纹（左手，杯底）。杯底指纹非店员指纹。咖啡温度 40°C（拿铁出杯温度约 65°C，降温至 40°C 约需 25-30 分钟，推断咖啡制作时间约 01:00）。" },
       { id: "e52", name: "书屋监控", location: "书屋安保室", status: "已提取", note: "书店正门监控：22:00 林某进入。至 01:30 无林某离开记录。后门（员工通道）监控：23:30 有一段 5 分钟画面模糊（疑似镜头被雾气覆盖）。前门监控覆盖无死角，后门监控有 2 秒盲区（镜头切换间隙）。" },
       { id: "e53", name: "后门通道勘查", location: "书屋后巷", status: "已勘查", note: "后门通向学府路后巷，连接停车场。后门为消防门（只能从内部推开，外部无法进入）。门把手上提取到新鲜手套印（乳胶手套材质）。后巷无监控覆盖。停车场监控显示 23:32 一辆黑色轿车（车牌遮挡）驶出。" },
-      { id: "e54", name: "林某手机定位", location: "通讯运营商", status: "已调取", note: "林某手机信号 00:50 最后出现在书屋附近基站。01:00 信号消失（关机或离开基站范围）。02:15 信号在城北汽车站出现 3 分钟后再次消失。城北汽车站有长途大巴通往邻市。" },
+      { id: "e54", name: "林某手机定位", location: "通讯运营商", status: "已调取", note: "林某手机信号 00:50 最终出现在书屋附近基站。01:00 信号消失（关机或离开基站范围）。02:15 信号在城北汽车站出现 3 分钟后再次消失。城北汽车站有长途大巴通往邻市。" },
       { id: "e55", name: "2019 医疗事故调查", location: "法院档案", status: "已调取", note: "2019 年市第一人民医院一起手术事故，患者死亡。关键证人张某在开庭前失踪（至今未找到）。医院副院长陈某涉嫌销毁手术记录。案件 2020 年因证据不足撤诉。林某稿件涉及此案。" },
       { id: "e56", name: "店长周某背景", location: "人事调查", status: "已核实", note: "周某（38 岁）2018-2020 年在市第一人民医院担任行政岗位。2020 年辞职后开办拾光书屋。周某与陈某（副院长）为大学同学。周某声称辞职原因是'追求文艺梦想'。" }
     ,
@@ -5294,10 +5294,10 @@ const CASES = [
     clues: [
       { id: "c35", title: "密室的真相", body: "电子门锁显示 22:00 后无开门记录，但管理员密码可以覆盖所有记录。周某或小杨可用管理员密码开门，带走林某后从内部反锁——这样门锁系统只记录'管理员开门'，而这段记录可能被删除。需检查门锁系统是否有管理员操作日志。", category: "数字记录", status: "待核实" },
       { id: "c36", title: "后门的 5 分钟", body: "23:30 后门监控 5 分钟模糊（雾气？人为？）。23:32 黑色轿车驶出。如果林某在 23:30 被从后门带走，时间线吻合。但咖啡温度推断制作时间约 01:00——如果林某 23:30 就被带走，谁在 01:00 制作了咖啡？", category: "证词", status: "待研判" },
-      { id: "c37", title: "杯底未知指纹", body: "咖啡杯底的左手指纹非林某、非店员。咖啡杯底的指纹通常出现在'放下杯子'的动作中——这意味着有第三人在场接触过咖啡杯。此人可能是最后与林某接触的人。", category: "物证", status: "待化验" },
+      { id: "c37", title: "杯底未知指纹", body: "咖啡杯底的左手指纹非林某、非店员。咖啡杯底的指纹通常出现在'放下杯子'的动作中——这意味着有第三人在场接触过咖啡杯。此人可能是最终与林某接触的人。", category: "物证", status: "待化验" },
       { id: "c38", title: "稿件与灭口动机", body: "林某的稿件涉及 2019 年医疗事故，直指副院长陈某。2019 年关键证人张某已失踪。如果陈某为阻止稿件发表而灭口，周某（前医院行政、陈某同学）可能是执行者。但这是间接证据链。", category: "文档", status: "已记录" },
       { id: "c39", title: "林某的手机信号", body: "02:15 手机在城北汽车站出现 3 分钟。如果林某被绑架，绑匪不太可能让手机开着。更可能是林某本人在逃跑途中短暂开机求助。林某可能在 23:30 从后门被带走，但 02:15 在汽车站出现——说明他可能逃脱了。", category: "数字记录", status: "待研判" },
-      { id: "c40", title: "门锁管理员日志", body: "技术鉴定发现门锁系统管理员日志在 12 月 3 日 00:58 有一条删除记录。被删除的记录时间戳为 00:55——恰好在林某最后编辑稿件（00:45）之后 10 分钟。00:55 的开门记录被删除，说明有人在 00:55 用管理员密码打开了 VIP 室的门。", category: "数字记录", status: "已记录" }
+      { id: "c40", title: "门锁管理员日志", body: "技术鉴定发现门锁系统管理员日志在 12 月 3 日 00:58 有一条删除记录。被删除的记录时间戳为 00:55——恰好在林某最终编辑稿件（00:45）之后 10 分钟。00:55 的开门记录被删除，说明有人在 00:55 用管理员密码打开了 VIP 室的门。", category: "数字记录", status: "已记录" }
     ,
       {
   id: "c148",
@@ -5478,7 +5478,7 @@ const CASES = [
       { id: "t1", time: "22:00", text: "林某进入 VIP 阅读室", order: 1 },
       { id: "t2", time: "23:30", text: "后门监控 5 分钟画面模糊", order: 2 },
       { id: "t3", time: "23:32", text: "黑色轿车（车牌遮挡）驶出停车场", order: 3 },
-      { id: "t4", time: "00:45", text: "林某最后编辑稿件", order: 4 },
+      { id: "t4", time: "00:45", text: "林某最终编辑稿件", order: 4 },
       { id: "t5", time: "00:55", text: "管理员密码开门（记录被删除）", order: 5 },
       { id: "t6", time: "00:58", text: "门锁系统管理员日志删除 00:55 记录", order: 6 },
       { id: "t7", time: "01:00", text: "林某手机信号消失", order: 7 },
@@ -5912,9 +5912,9 @@ const CASES = [
     id: "XA-2024-009", title: "深夜监控密室案",
     date: "2024-08-20", location: "城东锦绣花园 12 栋 801",
     level: "重大", solved: false,
-    summary: "8 月 20 日 06:30，锦绣花园 12 栋 801 室住户陈某（女，35 岁）失踪。其丈夫王某（38 岁）报警称妻子昨晚 23:00 后就不见了。警方调取监控发现：801 室入户门监控显示 22:50 陈某最后进入家门，此后至 06:30 王某报警期间，无任何人从 801 室门口出入。电梯监控和楼梯监控也无异常。801 室为密室——只有正门一个出入口（8 楼无阳台可用）。蹊跷的是，化粪池在 8 月 21 日凌晨出现堵塞，疏通时发现人体组织碎片。",
+    summary: "8 月 20 日 06:30，锦绣花园 12 栋 801 室住户陈某（女，35 岁）失踪。其丈夫王某（38 岁）报警称妻子昨晚 23:00 后就不见了。警方调取监控发现：801 室入户门监控显示 22:50 陈某最终进入家门，此后至 06:30 王某报警期间，无任何人从 801 室门口出入。电梯监控和楼梯监控也无异常。801 室为密室——只有正门一个出入口（8 楼无阳台可用）。蹊跷的是，化粪池在 8 月 21 日凌晨出现堵塞，疏通时发现人体组织碎片。",
     evidence: [
-      { id: "e65", name: "入户门监控", location: "801 室门口", status: "已提取", note: "22:50 陈某最后进入。06:30 王某出门报警期间无其他人员出入。监控无中断、无篡改痕迹。" },
+      { id: "e65", name: "入户门监控", location: "801 室门口", status: "已提取", note: "22:50 陈某最终进入。06:30 王某出门报警期间无其他人员出入。监控无中断、无篡改痕迹。" },
       { id: "e66", name: "电梯/楼梯监控", location: "12 栋公共区域", status: "已提取", note: "22:50-06:30 期间，电梯仅有 1 次使用记录（3 楼住户 02:00 下楼取快递）。楼梯无使用记录。" },
       { id: "e67", name: "化粪池人体组织", location: "小区化粪池", status: "已化验", note: "8 月 21 日凌晨化粪池堵塞，疏通时发现人体组织碎片。DNA 比对与陈某一致。组织碎片显示被切割后冲入下水道。" },
       { id: "e68", name: "801 室下水道检查", location: "案发现场", status: "已勘查", note: "801 室卫生间下水道有残留人体组织（DNA 与陈某一致）。下水道壁有切割工具痕迹。浴缸排水口有微量血迹。" },
@@ -6069,7 +6069,7 @@ const CASES = [
 }
     ],
     suspects: [
-      { id: "s31", name: "王某（丈夫）", attr: "38 岁 · 最后接触者 · 搜索记录异常 · 200 万保险受益人",
+      { id: "s31", name: "王某（丈夫）", attr: "38 岁 · 最终接触者 · 搜索记录异常 · 200 万保险受益人",
       profile: "冷血型 · 为保险金杀害妻子，分尸灭迹" },
       { id: "s32", name: "陈某情人（待查）", attr: "身份不明 · 陈某手机有暧昧短信记录 · 案发当晚有通话",
       profile: "旁证 · 陈某情人，提供婚外情背景信息" },
@@ -6249,7 +6249,7 @@ const CASES = [
   }
 ],
     prologue: {
-  prologue: "锦绣花园12栋801室，一间普通的两居室。8月20日的清晨，陈某（女，35岁）从这里消失了。监控显示22:50她最后进入家门，此后至06:30——整整7个半小时——无任何人从801室门口出入。人从密室中消失了。但化粪池在凌晨出现了堵塞，疏通时发现的人体组织碎片，揭开了一个令人毛骨悚然的真相。",
+  prologue: "锦绣花园12栋801室，一间普通的两居室。8月20日的清晨，陈某（女，35岁）从这里消失了。监控显示22:50她最终进入家门，此后至06:30——整整7个半小时——无任何人从801室门口出入。人从密室中消失了。但化粪池在凌晨出现了堵塞，疏通时发现的人体组织碎片，揭开了一个令人毛骨悚然的真相。",
   epilogue: "王某因故意杀人罪被判处死刑。200万保险金被追回。但最令人心寒的是：王某杀害妻子的动机，仅仅是为了200万保险金和一套房子。在金钱面前，人性可以扭曲到什么程度？",
   moral_dilemma: "王某声称自己是被赌博债务逼到绝境的。他欠了30万赌债，每天被催债电话轰炸。在绝望中，他想到了妻子的保险金。绝望能否成为杀人的理由？"
 },
@@ -6272,7 +6272,7 @@ const CASES = [
   }
 ],
     timeline: [
-      { id: "t1", time: "22:50", text: "陈某最后进入 801 室", order: 1 },
+      { id: "t1", time: "22:50", text: "陈某最终进入 801 室", order: 1 },
       { id: "t2", time: "23:00", text: "王某称妻子'不见了'", order: 2 },
       { id: "t3", time: "23:30", text: "邻居听到拖拽声和水流声", order: 3 },
       { id: "t4", time: "01:00", text: "王某搜索'下水道堵塞'、'化粪池清理'", order: 4 },
@@ -6705,7 +6705,7 @@ const CASES = [
   location: "燕城市花市西区废弃仓库",
   level: "重大",
   solved: false,
-  summary: "环卫工人凌晨在花市西区废弃仓库发现一具年轻女性遗体。死者陈雪，22岁，大学生，失踪三个月。死因机械性窒息，颈部有勒痕。遗体被装在编织袋中，抛尸于此。死者手机最后定位在城东'金色年华'KTV。KTV老板张东升称不认识死者，但监控显示陈雪失踪当晚曾进入该KTV。",
+  summary: "环卫工人凌晨在花市西区废弃仓库发现一具年轻女性遗体。死者陈雪，22岁，大学生，失踪三个月。死因机械性窒息，颈部有勒痕。遗体被装在编织袋中，抛尸于此。死者手机最终定位在城东'金色年华'KTV。KTV老板张东升称不认识死者，但监控显示陈雪失踪当晚曾进入该KTV。",
   evidence: [
     {
       id: "e243",
@@ -6726,7 +6726,7 @@ const CASES = [
       name: "死者手机定位",
       location: "通讯运营商",
       status: "已调取",
-      note: "陈雪手机最后信号：12月15日22:30在城东'金色年华'KTV附近。此后手机关机，再无信号。"
+      note: "陈雪手机最终信号：12月15日22:30在城东'金色年华'KTV附近。此后手机关机，再无信号。"
     },
     {
       id: "e246",
@@ -6755,7 +6755,7 @@ const CASES = [
   name: "张东升赌博记录",
   location: "网络调查",
   status: "已提取",
-  note: "张东升近半年有大额网络赌博记录，累计输掉20万元。赌博网站记录显示其最后登录时间为案发当晚22:00。"
+  note: "张东升近半年有大额网络赌博记录，累计输掉20万元。赌博网站记录显示其最终登录时间为案发当晚22:00。"
 },
 {
   id: "e82",
@@ -6776,7 +6776,7 @@ const CASES = [
   name: "陈雪的日记",
   location: "陈雪住所",
   status: "已提取",
-  note: "陈雪日记记录：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'日记最后日期为12月14日。"
+  note: "陈雪日记记录：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'日记最终日期为12月14日。"
 }
     ,
       {
@@ -6813,7 +6813,7 @@ const CASES = [
   name: "张东升赌博记录",
   location: "网络调查",
   status: "已提取",
-  note: "张东升近半年有大额网络赌博记录，累计输掉20万元。赌博网站记录显示其最后登录时间为案发当晚22:00。"
+  note: "张东升近半年有大额网络赌博记录，累计输掉20万元。赌博网站记录显示其最终登录时间为案发当晚22:00。"
 },
 {
   id: "e252",
@@ -6834,7 +6834,7 @@ const CASES = [
   name: "陈雪的日记",
   location: "陈雪住所",
   status: "已提取",
-  note: "陈雪日记记录：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'日记最后日期为12月14日。"
+  note: "陈雪日记记录：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'日记最终日期为12月14日。"
 }
     ,
       {
@@ -6842,7 +6842,7 @@ const CASES = [
   name: "张东升赌博记录",
   location: "网络调查",
   status: "已提取",
-  note: "张东升近半年有大额网络赌博记录，累计输掉20万元。赌博网站记录显示其最后登录时间为案发当晚22:00。"
+  note: "张东升近半年有大额网络赌博记录，累计输掉20万元。赌博网站记录显示其最终登录时间为案发当晚22:00。"
 },
 {
   id: "e122",
@@ -6863,7 +6863,7 @@ const CASES = [
   name: "陈雪的日记",
   location: "陈雪住所",
   status: "已提取",
-  note: "陈雪日记记录：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'日记最后日期为12月14日。"
+  note: "陈雪日记记录：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'日记最终日期为12月14日。"
 }
     ,
       {
@@ -6871,7 +6871,7 @@ const CASES = [
   name: "张东升赌博记录",
   location: "网络调查",
   status: "已提取",
-  note: "张东升近半年有大额网络赌博记录，累计输掉20万元。赌博网站记录显示其最后登录时间为案发当晚22:00。"
+  note: "张东升近半年有大额网络赌博记录，累计输掉20万元。赌博网站记录显示其最终登录时间为案发当晚22:00。"
 },
 {
   id: "e126",
@@ -6892,14 +6892,14 @@ const CASES = [
   name: "陈雪的日记",
   location: "陈雪住所",
   status: "已提取",
-  note: "陈雪日记记录：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'日记最后日期为12月14日。"
+  note: "陈雪日记记录：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'日记最终日期为12月14日。"
 }
     ],
   suspects: [
     {
       id: "s37",
       name: "张东升（KTV老板）",
-      attr: "45岁 · 有前科（赌博） · 声称不认识死者 · 监控显示死者最后出现在其场所"
+      attr: "45岁 · 有前科（赌博） · 声称不认识死者 · 监控显示死者最终出现在其场所"
     },
     {
       id: "s38",
@@ -6909,7 +6909,7 @@ const CASES = [
     {
       id: "s39",
       name: "王芳（死者室友）",
-      attr: "21岁 · 最后见到死者的人 · 称死者当晚去见朋友"
+      attr: "21岁 · 最终见到死者的人 · 称死者当晚去见朋友"
     },
     {
       id: "s40",
@@ -6977,7 +6977,7 @@ const CASES = [
     {
       id: "c61",
       title: "手机通话记录",
-      body: "陈雪手机最后通话记录：12月15日22:00与尾号3387通话2分钟。该号码为预付费卡，无法实名。",
+      body: "陈雪手机最终通话记录：12月15日22:00与尾号3387通话2分钟。该号码为预付费卡，无法实名。",
       status: "待核实",
       category: "数字记录"
     }
@@ -7133,7 +7133,7 @@ const CASES = [
 },
     prologue: {
   prologue: "花市西区的废弃仓库已经荒废了十年。周围杂草丛生，路灯昏暗。3月15日的凌晨，环卫工人在这里发现了一具年轻女性的遗体——陈雪，22岁，大学生，失踪三个月。她的遗体被装在编织袋中，抛尸于此。在她失踪的那天晚上，她曾独自走进城东的一家KTV。从那以后，她就从这个世界上消失了。",
-  epilogue: "张东升因故意杀人罪被判处死刑。KTV被查封。但陈雪的生命永远停留在了22岁。她的日记本里，最后一页写着：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'如果她当时相信了自己的直觉，结局会不会不同？",
+  epilogue: "张东升因故意杀人罪被判处死刑。KTV被查封。但陈雪的生命永远停留在了22岁。她的日记本里，最终一页写着：'张老板说可以帮我介绍工作，但我觉得他眼神不对。'如果她当时相信了自己的直觉，结局会不会不同？",
   moral_dilemma: "陈雪只是一个想找工作的大学生。她相信了张东升的承诺，却不知道这是一个陷阱。在陌生人的善意面前，我们应该保持多少警惕？"
 },
     caseConnections: {
@@ -7255,7 +7255,7 @@ const CASES = [
         tag: "关键"
       },
 {
-        q: "你最后一次见陈雪是什么时候？",
+        q: "你最终一次见陈雪是什么时候？",
         a: "分手后就没联系了。",
         tag: ""
       }
@@ -8604,7 +8604,7 @@ const CASES = [
       name: "手机信号追踪",
       location: "通讯运营商",
       status: "已调取",
-      note: "绑匪手机信号在城郊废弃工厂附近消失，最后一次定位8月5日22:30。"
+      note: "绑匪手机信号在城郊废弃工厂附近消失，最终一次定位8月5日22:30。"
     },
 {
       id: "e297",
@@ -9229,7 +9229,7 @@ const CASES = [
       name: "通话记录",
       location: "通讯运营商",
       status: "已调取",
-      note: "骆建国最后通话：12月23日23:00与下属张某通话8分钟，内容为案件进展汇报。"
+      note: "骆建国最终通话：12月23日23:00与下属张某通话8分钟，内容为案件进展汇报。"
     },
 {
       id: "e319",
@@ -9446,7 +9446,7 @@ const CASES = [
 {
       id: "c80",
       title: "张某通话内容",
-      body: "张某与骆建国最后通话内容为'案件有重大突破，明天汇报'。张某可能掌握关键证据。",
+      body: "张某与骆建国最终通话内容为'案件有重大突破，明天汇报'。张某可能掌握关键证据。",
       status: "已记录",
       category: "数字记录"
     },
@@ -9774,7 +9774,7 @@ const CASES = [
     name: "张某（下属）",
     questions: [
 {
-        q: "你和骆建国最后通话内容是什么？",
+        q: "你和骆建国最终通话内容是什么？",
         a: "汇报案件进展，他说有重大突破。",
         tag: ""
       },
