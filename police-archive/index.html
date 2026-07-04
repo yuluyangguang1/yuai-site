@@ -56,7 +56,7 @@
 [data-theme="light"] {
   --bg: #f8f4ec;
   --bg-warm: #f5f0e5;
-  --surface: #fffef8;
+  --surface: var(--surface)ef8;
   --surface2: #f5f0e5;
   --ink: #2a1f14;
   --muted: #6a5e4a;
@@ -746,11 +746,11 @@ footer {
   font-family: var(--font-heading); font-size: 24px; font-weight: 800;
   margin: 8px;
 }
-.rating-S { background: linear-gradient(135deg, #d4a855, #b8944a); color: #fff; }
-.rating-A { background: #5a8a40; color: #fff; }
-.rating-B { background: #4a7a9a; color: #fff; }
-.rating-C { background: #7a6e5a; color: #fff; }
-.rating-D { background: #8b3a3a; color: #fff; }
+.rating-S { background: linear-gradient(135deg, #d4a855, #b8944a); color: var(--surface); }
+.rating-A { background: #5a8a40; color: var(--surface); }
+.rating-B { background: #4a7a9a; color: var(--surface); }
+.rating-C { background: #7a6e5a; color: var(--surface); }
+.rating-D { background: #8b3a3a; color: var(--surface); }
 
 /* --- Case Report --- */
 .case-report {
@@ -2495,6 +2495,137 @@ input[type="radio"] {
 }
 [data-tooltip]:hover::after {
   opacity: 1;
+}
+
+/* --- Enhanced Mobile Experience --- */
+@media (max-width: 768px) {
+  /* Better touch targets */
+  .btn { min-height: 44px; min-width: 44px; }
+  .scene-area { min-height: 48px; }
+  .chain-item { min-height: 48px; }
+  .timeline-event { min-height: 48px; }
+  .q-btn { min-height: 48px; }
+  .combo-slot { min-height: 56px; }
+  
+  /* Better spacing */
+  .board { padding: 12px; }
+  .case-grid { gap: 10px; }
+  .stats { gap: 8px; }
+  
+  /* Better typography */
+  .brand h1 { font-size: 15px; }
+  .brand small { font-size: 10px; }
+  .card-title { font-size: 14px; }
+  .card-excerpt { font-size: 11px; }
+  .stat-val { font-size: 22px; }
+  .stat-key { font-size: 10px; }
+  
+  /* Better navigation */
+  .header-actions { gap: 4px; flex-wrap: wrap; }
+  .header-actions .btn { padding: 6px 10px; font-size: 11px; }
+  
+  /* Better cards */
+  .case-grid { grid-template-columns: 1fr 1fr; }
+  .note-card { min-height: 140px; padding: 12px; }
+  
+  /* Better sidebar - hide on mobile */
+  .inv-sidebar { display: none; }
+  
+  /* Better modals */
+  .modal-box { padding: 16px; margin: 8px; max-width: 95%; }
+  .modal-title { font-size: 16px; }
+  
+  /* Better crime scene */
+  .crime-scene-page { padding: 0; }
+  .scene-map { min-height: 250px; }
+  .scene-area { font-size: 10px; }
+  .scene-popup { bottom: 10px; padding: 12px; max-width: 95%; }
+  
+  /* Better timeline */
+  .timeline-event { padding: 10px; font-size: 12px; }
+  
+  /* Better interrogation */
+  .q-btn { padding: 10px 12px; font-size: 12px; }
+  .answer-card { padding: 12px; font-size: 12px; }
+  
+  /* Better chain */
+  .chain-item { padding: 10px; font-size: 12px; }
+  .chain-preview { font-size: 11px; }
+  
+  /* Better notebook */
+  .note-textarea { font-size: 14px; min-height: 50px; }
+  .note-item { padding: 8px 10px; }
+  .note-text { font-size: 13px; }
+  
+  /* Better achievements */
+  .achievement-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .achievement-card { padding: 10px; }
+  .achievement-card .icon { font-size: 24px; }
+  .achievement-card .name { font-size: 11px; }
+  
+  /* Better progress */
+  .case-progress-bar { height: 3px; }
+  .case-progress-text { font-size: 9px; }
+  .phase-dots { gap: 3px; }
+  .phase-dot-sm { width: 5px; height: 5px; }
+  
+  /* Better forensics */
+  .forensics-grid { grid-template-columns: repeat(2, 1fr); }
+  .forensics-item { padding: 6px; font-size: 10px; }
+  
+  /* Better profile */
+  .profile-card { padding: 12px; }
+  .profile-trait { font-size: 10px; padding: 3px 8px; }
+  
+  /* Better report */
+  .case-report-full { padding: 16px; font-size: 12px; }
+  .case-report-section h4 { font-size: 13px; }
+  
+  /* Better classified */
+  .classified-card { padding: 24px; }
+  .classified-stamp { font-size: 18px; padding: 6px 16px; }
+  
+  /* Better game over */
+  .gameover-card { padding: 24px; }
+  
+  /* Better tutorial */
+  .tutorial-card { padding: 24px; }
+  .tutorial-card h2 { font-size: 18px; }
+  .tutorial-steps li { padding: 10px 0; }
+  .tutorial-step-text { font-size: 12px; }
+  .tutorial-tips { padding: 10px; font-size: 11px; }
+}
+
+@media (max-width: 480px) {
+  /* Even smaller screens */
+  .case-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .brand h1 { font-size: 13px; }
+  .brand small { display: none; }
+  .header-actions .btn { padding: 5px 8px; font-size: 10px; }
+  .note-card { min-height: 120px; padding: 10px; }
+  .card-title { font-size: 13px; }
+  .stat-val { font-size: 18px; }
+  .achievement-grid { grid-template-columns: 1fr 1fr; }
+  .forensics-grid { grid-template-columns: 1fr; }
+}
+
+/* --- Touch Device Optimizations --- */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch */
+  .note-card:hover { transform: none; box-shadow: none; }
+  .note-card:active { transform: scale(0.98); }
+  .btn:active { transform: scale(0.95); }
+  .scene-area:active { background: rgba(148,60,60,0.1); }
+  .chain-item:active { background: rgba(106,79,165,0.08); }
+  .timeline-event:active { background: rgba(106,79,165,0.08); }
+  .q-btn:active { background: rgba(106,79,165,0.08); }
+}
+
+/* --- Safe Area (iPhone notch) --- */
+@supports (padding: max(0px)) {
+  .board { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+  header { padding-top: max(8px, env(safe-area-inset-top)); }
 }
 
 </style>
@@ -10333,7 +10464,7 @@ function renderDetail(caseId) {
 
   /* clues */
   document.getElementById('clues').innerHTML = c.clues.map(cl => `
-    <div class="clue-tile" style="background:#fffef6;" onclick="openClue('${cl.id}')">${escapeHtml(cl.title)}</div>
+    <div class="clue-tile" style="background:var(--surface)ef6;" onclick="openClue('${cl.id}')">${escapeHtml(cl.title)}</div>
   `).join('');
 
   renderNotes(c);
@@ -13661,6 +13792,57 @@ document.addEventListener('DOMContentLoaded', function() {
   addSkipLink();
   enhanceAccessibility();
 });
+
+/* === PERFORMANCE OPTIMIZATIONS === */
+/* Cache DOM queries */
+var _domCache = {};
+function $(id) {
+  if (!_domCache[id]) {
+    _domCache[id] = document.getElementById(id);
+  }
+  return _domCache[id];
+}
+
+/* Clear cache on page change */
+function clearDomCache() {
+  _domCache = {};
+}
+
+/* Debounce function */
+function debounce(fn, delay) {
+  var timer;
+  return function() {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function() { fn.apply(context, args); }, delay);
+  };
+}
+
+/* Throttle function */
+function throttle(fn, limit) {
+  var inThrottle;
+  return function() {
+    var args = arguments;
+    var context = this;
+    if (!inThrottle) {
+      fn.apply(context, args);
+      inThrottle = true;
+      setTimeout(function() { inThrottle = false; }, limit);
+    }
+  };
+}
+
+/* RequestAnimationFrame wrapper */
+function raf(fn) {
+  return requestAnimationFrame(fn);
+}
+
+/* Batch DOM updates */
+function batchUpdate(updates) {
+  raf(function() {
+    updates.forEach(function(update) { update(); });
+  });
+}
 
 </script>
 
