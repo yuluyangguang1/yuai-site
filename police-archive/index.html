@@ -921,7 +921,7 @@ footer {
 @media print {
   .scene-popup, .tutorial-overlay, .phase-indicator, .inv-sidebar { display: none !important; }
   .scene-map { border: 2px solid var(--ink); }
-  .scene-area { border: 1px solid #666; }
+  .scene-area { border: 1px solid var(--muted); }
 }
 
 /* --- SVG Scene Map --- */
@@ -2087,7 +2087,7 @@ input:focus, textarea:focus, select:focus {
     display: none !important;
   }
   body { background: white; color: black; }
-  .note-card { border: 1px solid #ccc; box-shadow: none; }
+  .note-card { border: 1px solid var(--border); box-shadow: none; }
 }
 
 /* --- Prologue Card --- */
@@ -2340,6 +2340,161 @@ input:focus, textarea:focus, select:focus {
   background: var(--bg); border: 1px solid var(--border);
   border-radius: 3px; padding: 2px 6px; font-family: var(--font-mono);
   font-size: 10px;
+}
+
+/* --- Spring-like Animations --- */
+.spring-in {
+  animation: springIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes springIn {
+  from { opacity: 0; transform: scale(0.9) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.spring-out {
+  animation: springOut 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes springOut {
+  from { opacity: 1; transform: scale(1) translateY(0); }
+  to { opacity: 0; transform: scale(0.95) translateY(-5px); }
+}
+
+/* Better card hover with spring */
+.note-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Better button press */
+.btn:active {
+  transform: scale(0.96);
+  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Better modal entrance */
+.modal-box {
+  animation: modalSpring 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modalSpring {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Better toast notification */
+.toast {
+  animation: toastSpring 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes toastSpring {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.9); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+/* Better achievement popup */
+.achievement-popup {
+  animation: achievementSpring 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes achievementSpring {
+  from { opacity: 0; transform: translateX(100%) scale(0.9); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+/* Better hint popup */
+.hint-popup {
+  animation: hintSpring 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes hintSpring {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* --- Micro-interactions --- */
+/* Checkbox/radio custom styling */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--accent);
+}
+
+/* Better focus ring */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Better text selection */
+::selection {
+  background: rgba(106,79,165,0.15);
+  color: var(--ink);
+}
+
+/* Better scrollbar */
+::-webkit-scrollbar {
+  width: 6px; height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Better placeholder text */
+::placeholder {
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+/* Better disabled state */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Better loading state */
+.loading {
+  position: relative;
+  pointer-events: none;
+}
+.loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.7);
+  border-radius: inherit;
+  animation: loadingPulse 1.5s ease-in-out infinite;
+}
+@keyframes loadingPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 0.3; }
+}
+
+/* Better tooltip */
+[data-tooltip] {
+  position: relative;
+}
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--surface);
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+[data-tooltip]:hover::after {
+  opacity: 1;
 }
 
 </style>
@@ -10196,7 +10351,7 @@ function openClue(clueId) {
 function renderNotes(c) {
   const el = document.getElementById('note-list');
   if (!c.notes || !c.notes.length) {
-    el.innerHTML = '<div class="note-empty"><div class="note-empty-icon">&#9998;</div>本案暂无笔记<br><small style="font-size:12px;opacity:0.5;">记录你的推理思路和关键发现</small></div>';
+    el.innerHTML = '<div class="note-empty"><div class="note-empty-icon">&var(--muted)8;</div>本案暂无笔记<br><small style="font-size:12px;opacity:0.5;">记录你的推理思路和关键发现</small></div>';
     return;
   }
   el.innerHTML = c.notes.map((n, i) => `<div class="note-item"><div class="note-time">${formatTime(n.time)}</div><div class="note-text">${escapeHtml(n.text)}</div><div class="note-delete" onclick="deleteNote(${i})" title="删除">删除</div></div>`).join('');
@@ -13455,6 +13610,57 @@ function hideLoading() {
   var el = document.getElementById('loading-overlay');
   if (el) el.style.display = 'none';
 }
+
+/* === ACCESSIBILITY === */
+/* Skip to main content link */
+function addSkipLink() {
+  var link = document.createElement('a');
+  link.href = '#main-content';
+  link.className = 'skip-link';
+  link.textContent = '跳到主要内容';
+  link.style.cssText = 'position:absolute;top:-40px;left:0;background:var(--accent);color:white;padding:8px;z-index:10000;transition:top 0.2s;';
+  link.addEventListener('focus', function() { link.style.top = '0'; });
+  link.addEventListener('blur', function() { link.style.top = '-40px'; });
+  document.body.insertBefore(link, document.body.firstChild);
+}
+
+/* Announce page changes to screen readers */
+function announcePageChange(message) {
+  var announcer = document.getElementById('sr-announcer');
+  if (!announcer) {
+    announcer = document.createElement('div');
+    announcer.id = 'sr-announcer';
+    announcer.setAttribute('aria-live', 'polite');
+    announcer.setAttribute('aria-atomic', 'true');
+    announcer.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;';
+    document.body.appendChild(announcer);
+  }
+  announcer.textContent = message;
+}
+
+/* Add ARIA labels to interactive elements */
+function enhanceAccessibility() {
+  // Add ARIA labels to buttons without text
+  document.querySelectorAll('button:not([aria-label])').forEach(function(btn) {
+    if (!btn.textContent.trim()) {
+      btn.setAttribute('aria-label', '按钮');
+    }
+  });
+  
+  // Add ARIA labels to inputs without labels
+  document.querySelectorAll('input:not([aria-label])').forEach(function(input) {
+    var label = document.querySelector('label[for="' + input.id + '"]');
+    if (!label && !input.getAttribute('aria-label')) {
+      input.setAttribute('aria-label', input.placeholder || '输入框');
+    }
+  });
+}
+
+// Run on page load
+document.addEventListener('DOMContentLoaded', function() {
+  addSkipLink();
+  enhanceAccessibility();
+});
 
 </script>
 
