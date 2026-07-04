@@ -11365,6 +11365,17 @@ function fillComboSlot(slotIndex, clueId) {
 
 function renderComboPanel() {
   var panel = document.getElementById('combo-panel');
+  if (!panel) {
+    var detailContent = document.getElementById('detail-content');
+    if (detailContent) {
+      panel = document.createElement('div');
+      panel.id = 'combo-panel';
+      panel.className = 'combo-panel';
+      detailContent.appendChild(panel);
+    }
+  }
+  if (!panel) return;
+  var panel = document.getElementById('combo-panel');
   if (!panel) return;
   
   var clues = _invCase ? _invCase.clues : [];
