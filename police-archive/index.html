@@ -2763,6 +2763,21 @@ textarea:valid {
 .warning-text { color: #8a6d00; }
 .info-text { color: #1a5276; }
 
+/* --- Skip Links --- */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent);
+  color: white;
+  padding: 8px;
+  z-index: 10000;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -14299,6 +14314,107 @@ var Analytics = {
 
 // Track key actions
 Analytics.track('page_load', { url: window.location.href });
+
+/* === LAZY LOADING === */
+/* Load non-critical features on demand */
+var LazyLoader = {
+  _loaded: {},
+  
+  load: function(name, loader) {
+    if (this._loaded[name]) return Promise.resolve(this._loaded[name]);
+    return loader().then(function(module) {
+      this._loaded[name] = module;
+      return module;
+    }.bind(this));
+  },
+  
+  isLoaded: function(name) {
+    return !!this._loaded[name];
+  }
+};
+
+/* === KEYBOARD NAVIGATION === */
+/* Enhanced keyboard support */
+function setupKeyboardNavigation() {
+  document.addEventListener('keydown', function(e) {
+    // Escape closes modals
+    if (e.key === 'Escape') {
+      var modals = document.querySelectorAll('.modal-mask.active, .tutorial-overlay, .classified-warning, .gameover-screen');
+      modals.forEach(function(modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+      });
+      restoreFocus();
+    }
+    
+    // Enter activates buttons
+    if (e.key === 'Enter' && e.target.tagName === 'BUTTON') {
+      e.target.click();
+    }
+    
+    // Arrow keys navigate lists
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      var focusable = Array.from(document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
+      var index = focusable.indexOf(document.activeElement);
+      if (index !== -1) {
+        e.preventDefault();
+        var nextIndex = e.key === 'ArrowDown' 
+          ? Math.min(index + 1, focusable.length - 1)
+          : Math.max(index - 1, 0);
+        focusable[nextIndex].focus();
+      }
+    }
+  });
+}
+
+/* === IDLE CALLBACK === */
+/* Defer non-critical work */
+function onIdle(callback) {
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(callback);
+  } else {
+    setTimeout(callback, 1);
+  }
+}
+
+/* Example: defer analytics */
+onIdle(function() {
+  Analytics.track('page_loaded', { timestamp: Date.now() });
+});
+
+/* === IMAGE OPTIMIZATION === */
+/* Lazy load images */
+function setupLazyImages() {
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var img = entry.target;
+          if (img.dataset.src) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+          }
+          observer.unobserve(img);
+        }
+      });
+    });
+    
+    document.querySelectorAll('img[data-src]').forEach(function(img) {
+      observer.observe(img);
+    });
+  }
+}
+
+/* === GLOBAL ERROR HANDLING === */
+window.addEventListener('error', function(e) {
+  console.error('Global error:', e.error);
+  Analytics.track('error', { message: e.message, filename: e.filename, lineno: e.lineno });
+});
+
+window.addEventListener('unhandledrejection', function(e) {
+  console.error('Unhandled promise rejection:', e.reason);
+  Analytics.track('promise_error', { reason: String(e.reason) });
+});
 
 </script>
 
