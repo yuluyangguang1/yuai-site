@@ -121,11 +121,18 @@
   .blink{animation:none;opacity:1}
   .fade-up{animation:none;opacity:1;transform:none}
 }
+.skip-link{position:absolute;top:-40px;left:0}.skip-link:focus{top:0}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
 </style>
 </head>
 <body>
+<a href="#products" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--accent);color:var(--bg);padding:8px 16px;z-index:1000;transition:top 0.2s;">跳到主要内容</a>
 
 <!-- Background layers -->
+<main role="main">
 <div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
 <div class="bg-n" aria-hidden="true"></div>
 <div class="bg-g" aria-hidden="true"></div>
@@ -144,6 +151,7 @@
 <div class="page">
 
 <!-- Nav -->
+<header>
 <nav class="row" aria-label="Primary">
   <div class="cell s1"><svg width="80" height="28" viewBox="0 0 180 64" fill="none" aria-label="yu.ai" style="display:block"><path d="M 12 12 L 24 40" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M 36 12 L 24 40 L 18 56" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M 46 16 L 46 42 Q 46 52 56 52 L 64 52" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 64 16 L 64 52" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="78" cy="50" r="4" fill="currentColor"/><path d="M 92 28 Q 92 18 102 18 Q 112 18 112 28 L 112 52" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 112 36 Q 112 28 102 28 Q 92 28 92 36 Q 92 52 102 52 L 112 52" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 126 24 L 126 52" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="126" cy="14" r="4" fill="currentColor"/></svg></div>
   <div class="cell s2" style="padding:0"></div>
@@ -160,6 +168,8 @@
     </button>
   </div>
 </nav>
+</header>
+</header>
 
 <!-- Hero -->
 <div class="row">
@@ -192,7 +202,7 @@
 
       <div class="cta fade-up d5">
         <a href="/openclaw/" class="primary"><span class="zh">了解 openclaw</span><span class="en">openclaw</span> →</a>
-        <a href="/hermes/"><span class="zh">了解 hermes</span><span class="en">hermes</span> →</a>
+        <a href="/hermes/" tabindex="0"><span class="zh">了解 hermes</span><span class="en">hermes</span> →</a>
         <a href="https://v.douyin.com/i77dSpkMYZI/" target="_blank" rel="noopener"><span class="zh">购买 U 盘版</span><span class="en">buy usb edition</span> →</a>
         <a href="/sovereign/"><span class="zh">企业定制</span><span class="en">enterprise</span> →</a>
       </div>
@@ -229,62 +239,63 @@
 
 <div class="row" style="border-top:none">
   <div class="cell s6" style="padding:0;border-right:none">
-    <div class="cards" style="border:none">
+    <section id="products" aria-label="产品列表">
+<div class="cards" style="border:none">
 
       <div>
         <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">匣</div>
-        <div class="card-title">openclaw<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">百川</small></div>
+        <div class="card-title" aria-label="openclaw"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">百川</small></div>
         <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 应 物</div>
         <div class="card-desc"><span class="zh">一匣纳百川，万象皆可谈。</span><span class="en">All models, all channels, one box.</span></div>
         <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/openclaw/">使用说明 →</a>
-          <a href="/openclaw/skills/">技能中心 →</a>
-          <a href="/openclaw/changelog/">更新日志 →</a>
+          <a href="/openclaw/" tabindex="0">使用说明 →</a>
+          <a href="/openclaw/skills/" tabindex="0">技能中心 →</a>
+          <a href="/openclaw/changelog/" tabindex="0">更新日志 →</a>
         </div>
         <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v1.1.6</div>
       </div>
 
       <div>
         <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">砚</div>
-        <div class="card-title">hermes<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">砚墨</small></div>
+        <div class="card-title" aria-label="hermes"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">砚墨</small></div>
         <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 养 识</div>
         <div class="card-desc"><span class="zh">日久弥深，记忆生长。越用越懂你的 AI。</span><span class="en">Memory that grows. An AI that knows you.</span></div>
         <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/hermes/">使用说明 →</a>
-          <a href="/hermes/changelog/">更新日志 →</a>
+          <a href="/hermes/" tabindex="0">使用说明 →</a>
+          <a href="/hermes/changelog/" tabindex="0">更新日志 →</a>
         </div>
         <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v0.15.0</div>
       </div>
 
       <div>
         <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">刃</div>
-        <div class="card-title">claude portable<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">利刃</small></div>
+        <div class="card-title" aria-label="claude portable"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">利刃</small></div>
         <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 编 程</div>
         <div class="card-desc"><span class="zh">终端里的编程搭档，第三方 API 随心切换。</span><span class="en">Your coding partner in the terminal.</span></div>
         <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/claude/">使用说明 →</a>
+          <a href="/claude/" tabindex="0">使用说明 →</a>
         </div>
         <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v0.7.0</div>
       </div>
 
       <div>
         <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">盒</div>
-        <div class="card-title">codex portable<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">方盒</small></div>
+        <div class="card-title" aria-label="codex portable"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">方盒</small></div>
         <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 编 程</div>
         <div class="card-desc"><span class="zh">OpenAI 阵营对照，Codex CLI 便携版。</span><span class="en">Codex CLI portable. The OpenAI counterpart.</span></div>
         <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/codex/">使用说明 →</a>
+          <a href="/codex/" tabindex="0">使用说明 →</a>
         </div>
         <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v0.7.0</div>
       </div>
 
       <div>
         <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">镜</div>
-        <div class="card-title">openhuman<small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">明镜</small></div>
+        <div class="card-title" aria-label="openhuman"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">明镜</small></div>
         <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 洞 察</div>
         <div class="card-desc"><span class="zh">桌面级 AI 超级智能，本地记忆，深度推理，越用越懂你。</span><span class="en">Desktop AI super intelligence. Local memory. Deep reasoning.</span></div>
         <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/openhuman/">使用说明 →</a>
+          <a href="/openhuman/" tabindex="0">使用说明 →</a>
         </div>
         <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>beta · v0.1.0</div>
       </div>
@@ -322,13 +333,13 @@
 </div>
 
 <!-- Footer -->
-<div class="footer">
+<footer class="footer" role="contentinfo">
   <span>yu.ai</span>
   <span id="footer-year">mit</span>
   <span>与 AI 同行</span>
 </div>
 
-</div>
+</footer>
 
 <script>
 (function(){
@@ -436,7 +447,11 @@
 </script>
 
 <!-- WeChat detection -->
-<style>.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}.wechat-mask.show{display:flex}.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}</style>
+<style>.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}.wechat-mask.show{display:flex}.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+</style>
 <div class="wechat-mask" id="wechatMask">
   <div class="arrow">···</div>
   <h2>请用浏览器打开</h2>
@@ -449,5 +464,6 @@
 </div>
 <script>(function(){if(navigator.userAgent.toLowerCase().indexOf('micromessenger')!==-1)document.getElementById('wechatMask').classList.add('show')})();</script>
 
+</main>
 </body>
 </html>
