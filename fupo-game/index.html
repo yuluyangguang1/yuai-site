@@ -1,0 +1,2806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>富婆的联系方式 - 燕城物语</title>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;--card:#1a1a2e;--accent:#e94560;--gold:#ffd700;
+  --text:#eee;--dim:#888;--success:#4ade80;--info:#60a5fa;
+  --card2:#16213e;--card3:#0f3460;
+  --glass:rgba(26,26,46,0.85);
+  --font:'LXGW WenKai TC','LXGW WenKai','PingFang SC','Microsoft YaHei',serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.6}
+#app{width:100%;height:100%;position:relative;overflow:hidden}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;opacity:0;transition:opacity .4s}
+.screen.active{display:flex;opacity:1;z-index:10}
+.screen.entering{display:flex;animation:fadeIn .4s forwards}
+.screen.leaving{animation:fadeOut .4s forwards}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0;transform:translateY(-20px)}}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes glow{0%,100%{box-shadow:0 0 5px var(--accent)}50%{box-shadow:0 0 20px var(--accent),0 0 40px rgba(233,69,96,0.3)}}
+@keyframes typing{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes confetti{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.btn{background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-family:var(--font);font-size:15px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(233,69,96,0.4)}
+.btn:active{transform:translateY(0)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),#f59e0b);color:#1a1a2e}
+.btn.ghost{background:transparent;border:1px solid var(--accent);color:var(--accent)}
+.btn.small{padding:6px 14px;font-size:13px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+.scroll{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{width:4px}
+.scroll::-webkit-scrollbar-thumb{background:rgba(233,69,96,0.3);border-radius:2px}
+.card{background:var(--card);border-radius:12px;padding:16px;margin:8px;border:1px solid rgba(233,69,96,0.1);transition:all .2s}
+.card:hover{border-color:rgba(233,69,96,0.3);transform:translateY(-1px)}
+.badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;padding:2px 8px;border-radius:10px}
+.badge.gold{background:var(--gold);color:#1a1a2e}
+.badge.info{background:var(--info)}
+.avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;font-weight:700}
+.avatar.sm{width:36px;height:36px;font-size:14px}
+.avatar.lg{width:80px;height:80px;font-size:32px}
+.bar{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden}
+.bar .fill{height:100%;border-radius:3px;transition:width .5s}
+.hbar{display:flex;align-items:center;gap:8px;padding:4px 0}
+.hbar label{font-size:12px;color:var(--dim);min-width:60px}
+.hbar .bar{flex:1}
+.tag{display:inline-block;background:rgba(233,69,96,0.15);color:var(--accent);font-size:12px;padding:3px 10px;border-radius:12px;margin:2px}
+.tooltip{position:relative}
+.tooltip::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:#222;color:#fff;font-size:12px;padding:4px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.tooltip:hover::after{opacity:1}
+.notification{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--accent);color:var(--text);padding:12px 24px;border-radius:12px;z-index:9999;animation:slideDown .3s;font-size:14px;max-width:90vw;text-align:center}
+.notification.hiding{animation:slideUp .3s reverse forwards}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s}
+.modal{background:var(--card);border-radius:16px;padding:24px;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;border:1px solid rgba(233,69,96,0.2)}
+.modal h3{color:var(--accent);margin-bottom:12px;font-size:18px}
+.input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:border-color .2s}
+.input:focus{border-color:var(--accent)}
+textarea.input{resize:vertical;min-height:80px}
+select.input{cursor:pointer}
+
+/* Title Screen */
+#title-screen{align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 30%,rgba(233,69,96,0.15),transparent 70%)}
+#title-screen .logo{font-size:clamp(32px,8vw,56px);font-weight:700;background:linear-gradient(135deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:glow 3s infinite}
+#title-screen .subtitle{color:var(--dim);font-size:16px;margin:12px 0 40px}
+#title-screen .menu-btns{display:flex;flex-direction:column;gap:12px;width:260px}
+#title-screen .menu-btns .btn{width:100%;justify-content:center;padding:14px;font-size:16px}
+#title-screen .version{position:absolute;bottom:20px;color:var(--dim);font-size:12px}
+
+/* Character Select */
+#char-select{padding:20px;background:radial-gradient(ellipse at 50% 0%,rgba(233,69,96,0.08),transparent 60%)}
+#char-select h2{text-align:center;margin-bottom:4px;color:var(--accent);font-size:22px}
+#char-select .desc{text-align:center;color:var(--dim);margin-bottom:16px;font-size:13px}
+.char-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;padding:8px}
+.char-card{background:var(--card);border-radius:14px;padding:16px;cursor:pointer;border:2px solid transparent;transition:all .3s;position:relative;overflow:hidden}
+.char-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));opacity:0;transition:opacity .3s}
+.char-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.char-card:hover::before{opacity:1}
+.char-card.selected{border-color:var(--accent);box-shadow:0 0 20px rgba(233,69,96,0.3)}
+.char-card.selected::before{opacity:1}
+.char-card .top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.char-card .name{font-size:18px;font-weight:700}
+.char-card .age{color:var(--dim);font-size:13px}
+.char-card .role{color:var(--gold);font-size:13px}
+.char-card .bio{color:var(--dim);font-size:13px;line-height:1.5}
+.char-card .skills{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+
+/* Main Hub */
+#main-hub{flex-direction:column}
+#hub-header{background:var(--card);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(233,69,96,0.1);flex-shrink:0}
+#hub-header .player-info{display:flex;align-items:center;gap:10px}
+#hub-header .player-name{font-weight:700;font-size:16px}
+#hub-header .player-role{font-size:12px;color:var(--gold)}
+#hub-header .time-display{font-size:13px;color:var(--dim);text-align:right}
+#hub-header .time-display .game-time{color:var(--accent);font-weight:700}
+#hub-body{flex:1;display:flex;overflow:hidden}
+#hub-nav{display:flex;flex-direction:column;background:var(--card);border-right:1px solid rgba(233,69,96,0.1);width:70px;flex-shrink:0;overflow-y:auto;padding:8px 0}
+.nav-item{display:flex;flex-direction:column;align-items:center;padding:10px 4px;cursor:pointer;transition:all .2s;border-left:3px solid transparent;font-size:10px;gap:4px;color:var(--dim)}
+.nav-item:hover,.nav-item.active{color:var(--accent);background:rgba(233,69,96,0.05);border-left-color:var(--accent)}
+.nav-item .icon{font-size:22px}
+#hub-content{flex:1;overflow-y:auto;padding:0}
+
+/* Phone Screen */
+.phone-frame{max-width:380px;margin:0 auto;background:var(--bg);border-radius:30px;padding:12px;height:100%;display:flex;flex-direction:column;border:2px solid #333}
+.phone-notch{height:24px;background:var(--bg);border-radius:0 0 12px 12px;margin:-12px -12px 8px;display:flex;align-items:center;justify-content:center}
+.phone-notch span{width:60px;height:6px;background:#333;border-radius:3px}
+.phone-screen{flex:1;background:var(--bg);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.chat-header{background:var(--card);padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(233,69,96,0.1);flex-shrink:0}
+.chat-header .back-btn{cursor:pointer;font-size:20px;padding:4px}
+.chat-header .contact-name{font-weight:700;font-size:16px;flex:1}
+.chat-header .status{font-size:11px;color:var(--success)}
+.chat-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:78%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.5;animation:fadeIn .3s;word-break:break-word}
+.msg.them{background:var(--card);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--accent);align-self:flex-end;border-bottom-right-radius:4px}
+.msg .time{font-size:10px;color:var(--dim);margin-top:4px}
+.msg.me .time{color:rgba(255,255,255,0.6)}
+.msg.system{text-align:center;font-size:12px;color:var(--dim);align-self:center;background:rgba(255,255,255,0.05);padding:4px 12px;border-radius:10px}
+.typing-indicator{display:flex;gap:4px;padding:10px 14px;background:var(--card);border-radius:16px;align-self:flex-start;border-bottom-left-radius:4px;max-width:78%}
+.typing-indicator span{width:8px;height:8px;background:var(--dim);border-radius:50%;animation:typing 1.4s infinite}
+.typing-indicator span:nth-child(2){animation-delay:.2s}
+.typing-indicator span:nth-child(3){animation-delay:.4s}
+.chat-input-area{display:flex;gap:8px;padding:10px;background:var(--card);border-top:1px solid rgba(233,69,96,0.1);flex-shrink:0}
+.chat-input-area input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:8px 16px;color:var(--text);font-family:var(--font);font-size:14px;outline:none}
+.chat-input-area input:focus{border-color:var(--accent)}
+.chat-input-area button{background:var(--accent);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;flex-shrink:0}
+.msg-options{display:flex;flex-direction:column;gap:6px;padding:8px;flex-shrink:0}
+.msg-option{background:var(--card);border:1px solid rgba(233,69,96,0.2);color:var(--text);padding:10px 16px;border-radius:12px;cursor:pointer;font-family:var(--font);font-size:14px;text-align:left;transition:all .2s}
+.msg-option:hover{border-color:var(--accent);background:rgba(233,69,96,0.1)}
+
+/* WeChat List */
+.wechat-list{padding:0}
+.wechat-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;transition:background .2s;position:relative}
+.wechat-item:hover{background:rgba(233,69,96,0.05)}
+.wechat-item .unread{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:var(--accent);color:#fff;font-size:11px;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.wechat-item .last-msg{color:var(--dim);font-size:12px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.wechat-item .info{flex:1;min-width:0}
+.wechat-item .name-row{display:flex;justify-content:space-between;align-items:center}
+.wechat-item .msg-time{font-size:11px;color:var(--dim)}
+
+/* Moments (朋友圈) */
+.moments{padding:12px}
+.moment-card{background:var(--card);border-radius:12px;padding:14px;margin-bottom:12px}
+.moment-card .header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.moment-card .content{font-size:14px;line-height:1.6;margin-bottom:10px}
+.moment-card .images{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:10px}
+.moment-card .img{aspect-ratio:1;background:rgba(233,69,96,0.1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.moment-card .actions{display:flex;gap:20px;font-size:13px;color:var(--dim)}
+.moment-card .actions span{cursor:pointer}
+.moment-card .actions span:hover{color:var(--accent)}
+.moment-card .comments{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05)}
+.moment-card .comment{font-size:13px;padding:4px 0}
+.moment-card .comment b{color:var(--accent);margin-right:4px}
+
+/* City Map */
+.city-map{padding:16px}
+.map-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.map-location{background:var(--card);border-radius:12px;padding:14px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .3s}
+.map-location:hover{border-color:var(--accent);transform:translateY(-3px)}
+.map-location.locked{opacity:0.4;cursor:not-allowed}
+.map-location .loc-icon{font-size:32px;margin-bottom:8px}
+.map-location .loc-name{font-weight:700;font-size:14px}
+.map-location .loc-desc{font-size:11px;color:var(--dim);margin-top:4px}
+.map-location .loc-time{font-size:11px;color:var(--gold);margin-top:4px}
+
+/* Story View */
+.story-view{display:flex;flex-direction:column;height:100%}
+.story-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(233,69,96,0.05),rgba(26,26,46,0.95));z-index:0}
+.story-content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:20px;max-width:600px;margin:0 auto;width:100%}
+.story-char-name{color:var(--accent);font-size:16px;font-weight:700;margin-bottom:4px}
+.story-text{font-size:16px;line-height:1.8;padding:16px;background:rgba(0,0,0,0.3);border-radius:12px;backdrop-filter:blur(10px);margin-bottom:16px;animation:fadeIn .5s}
+.story-choices{display:flex;flex-direction:column;gap:8px;padding-bottom:20px}
+.story-choice{background:var(--card);border:1px solid rgba(233,69,96,0.2);color:var(--text);padding:14px 20px;border-radius:12px;cursor:pointer;font-family:var(--font);font-size:15px;text-align:left;transition:all .3s;position:relative;overflow:hidden}
+.story-choice::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transform:scaleY(0);transition:transform .3s}
+.story-choice:hover{border-color:var(--accent);background:rgba(233,69,96,0.1);transform:translateX(4px)}
+.story-choice:hover::before{transform:scaleY(1)}
+.story-choice .effect{font-size:11px;color:var(--gold);margin-top:4px}
+.story-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.story-header .back{cursor:pointer;font-size:20px;padding:4px 8px}
+.story-header .title{color:var(--accent);font-size:16px;font-weight:700}
+
+/* Investigation */
+.invest-board{padding:16px}
+.clue-card{background:var(--card);border-radius:12px;padding:14px;margin-bottom:10px;border-left:3px solid var(--gold);transition:all .2s}
+.clue-card.locked{border-left-color:var(--dim);opacity:0.5}
+.clue-card .clue-title{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.clue-card .clue-desc{font-size:13px;color:var(--dim);margin-top:6px;line-height:1.5}
+.clue-card .clue-source{font-size:11px;color:var(--info);margin-top:4px}
+.invest-progress{background:var(--card);border-radius:12px;padding:16px;margin-bottom:16px}
+.invest-progress h3{color:var(--accent);margin-bottom:8px}
+
+/* Relationship */
+.rel-view{padding:16px}
+.rel-card{background:var(--card);border-radius:14px;padding:16px;margin-bottom:12px;transition:all .2s}
+.rel-card:hover{transform:translateY(-2px)}
+.rel-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.rel-name{font-size:17px;font-weight:700;flex:1}
+.rel-title{font-size:12px;color:var(--gold)}
+.rel-bars{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.rel-info{display:flex;gap:8px;flex-wrap:wrap}
+.rel-secret{font-size:12px;color:var(--accent);background:rgba(233,69,96,0.1);padding:4px 10px;border-radius:8px;margin-top:4px}
+
+/* Achievements */
+.achievement-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:16px}
+.ach-card{background:var(--card);border-radius:12px;padding:14px;text-align:center;border:1px solid transparent;transition:all .3s}
+.ach-card.unlocked{border-color:var(--gold)}
+.ach-card.locked{opacity:0.4}
+.ach-card .ach-icon{font-size:36px;margin-bottom:8px}
+.ach-card .ach-name{font-weight:700;font-size:14px}
+.ach-card .ach-desc{font-size:12px;color:var(--dim);margin-top:4px}
+.ach-card .ach-date{font-size:10px;color:var(--gold);margin-top:4px}
+
+/* Save/Load */
+.save-slots{padding:16px}
+.save-slot{background:var(--card);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.save-slot:hover{border-color:var(--accent)}
+.save-slot .slot-num{background:var(--accent);color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.save-slot .slot-info{flex:1}
+.save-slot .slot-name{font-weight:700}
+.save-slot .slot-detail{font-size:12px;color:var(--dim)}
+.save-slot .slot-time{font-size:11px;color:var(--gold)}
+
+/* Settings */
+.settings{padding:20px;max-width:500px;margin:0 auto}
+.setting-group{margin-bottom:20px}
+.setting-group h3{color:var(--accent);margin-bottom:8px;font-size:15px}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.toggle{width:44px;height:24px;background:rgba(255,255,255,0.1);border-radius:12px;cursor:pointer;position:relative;transition:background .2s}
+.toggle.on{background:var(--accent)}
+.toggle::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:2px;left:2px;transition:left .2s}
+.toggle.on::after{left:22px}
+
+/* Relationship Web SVG */
+.rel-web-container{padding:16px}
+.rel-web-container svg{width:100%;height:auto}
+
+/* Confetti */
+.confetti-piece{position:fixed;width:10px;height:10px;top:-10px;z-index:9999;animation:confetti 3s ease-in forwards;pointer-events:none}
+
+/* Responsive */
+@media(max-width:768px){
+  #hub-nav{width:56px}
+  #hub-nav .nav-item span:not(.icon){display:none}
+  .char-grid{grid-template-columns:1fr}
+  .map-grid{grid-template-columns:repeat(2,1fr)}
+  .phone-frame{border-radius:0;max-width:100%;padding:0}
+  .phone-notch{display:none}
+}
+@media(max-width:480px){
+  .map-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- Title Screen -->
+  <div id="title-screen" role="main" aria-label="游戏标题" role="main" aria-label="游戏标题" class="screen active">
+    <div class="logo">富婆的联系方式</div>
+    <div class="subtitle">燕城物语 · 每个人都有秘密</div>
+    <div class="menu-btns">
+      <button class="btn gold" onclick="G.newGame()" tabindex="0" tabindex="0">✨ 新游戏</button>
+      <button class="btn" onclick="G.continueGame()" tabindex="0" tabindex="0" id="continue-btn" style="display:none">📖 继续游戏</button>
+      <button class="btn ghost" onclick="G.showScreen" tabindex="0"" tabindex="0"('settings-screen')">⚙️ 设置</button>
+    </div>
+    <div class="version">v1.0 · 燕城互动小说</div>
+  </div>
+
+  <!-- Character Select -->
+  <div id="char-select" role="main" aria-label="角色选择" role="main" aria-label="角色选择" class="screen">
+    <h2>选择你的身份</h2>
+    <p class="desc">每个身份都有独特的视角和故事线</p>
+    <div class="scroll">
+      <div class="char-grid" id="char-grid"></div>
+    </div>
+    <div style="padding:12px 16px;text-align:center;flex-shrink:0">
+      <button class="btn gold" id="confirm-char-btn" onclick="G.confirmCharacter()" disabled>确认选择</button>
+    </div>
+  </div>
+
+  <!-- Main Hub -->
+  <div id="main-hub" role="main" aria-label="游戏主界面" role="main" aria-label="游戏主界面" class="screen">
+    <div id="hub-header">
+      <div class="player-info">
+        <div class="avatar sm" id="hub-avatar" style="background:var(--accent)"></div>
+        <div>
+          <div class="player-name" id="hub-player-name"></div>
+          <div class="player-role" id="hub-player-role"></div>
+        </div>
+      </div>
+      <div class="time-display">
+        <div class="game-time" id="game-time"></div>
+        <div id="game-day"></div>
+      </div>
+    </div>
+    <div id="hub-body">
+      <div id="hub-nav">
+        <div class="nav-item active" onclick="G.switchTab('map')" data-tab="map"><span class="icon">🗺️</span><span>地图</span></div>
+        <div class="nav-item" onclick="G.switchTab('phone')" data-tab="phone"><span class="icon">📱</span><span>手机</span></div>
+        <div class="nav-item" onclick="G.switchTab('stories')" data-tab="stories"><span class="icon">📖</span><span>故事</span></div>
+        <div class="nav-item" onclick="G.switchTab('invest')" data-tab="invest"><span class="icon">🔍</span><span>调查</span></div>
+        <div class="nav-item" onclick="G.switchTab('relations')" data-tab="relations"><span class="icon">💕</span><span>关系</span></div>
+        <div class="nav-item" onclick="G.switchTab('achievements')" data-tab="achievements"><span class="icon">🏆</span><span>成就</span></div>
+        <div class="nav-item" onclick="G.switchTab('save')" data-tab="save"><span class="icon">💾</span><span>存档</span></div>
+      </div>
+      <div id="hub-content" class="scroll"></div>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div id="settings-screen" role="main" aria-label="设置" class="screen">
+    <div style="padding:12px 16px;background:var(--card);display:flex;align-items:center;gap:12px;flex-shrink:0">
+      <span style="cursor:pointer;font-size:20px" onclick="G.goBack()">←</span>
+      <span style="font-weight:700;color:var(--accent)">设置</span>
+    </div>
+    <div class="scroll">
+      <div class="settings">
+        <div class="setting-group">
+          <h3>🎵 游戏设置</h3>
+          <div class="setting-row"><span>文字速度</span><input type="range" min="1" max="5" value="3" id="text-speed"></div>
+          <div class="setting-row"><span>自动播放</span><div class="toggle" id="auto-toggle" onclick="this.classList.toggle('on')"></div></div>
+          <div class="setting-row"><span>消息通知</span><div class="toggle on" id="notif-toggle" onclick="this.classList.toggle('on')"></div></div>
+        </div>
+        <div class="setting-group">
+          <h3>💾 数据管理</h3>
+          <button class="btn ghost" onclick="G.exportSave()" style="margin:4px">导出存档</button>
+          <button class="btn ghost" onclick="G.importSave()" style="margin:4px">导入存档</button>
+          <button class="btn" style="background:#c0392b;margin:4px" onclick="G.resetGame()">重置游戏</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== GAME DATA =====================
+const GAME_DATA = {
+  players: {
+    luyuan: {
+      id:'luyuan', name:'陆远', age:28, role:'程序员',
+      avatar:'👨‍💻', color:'#60a5fa',
+      bio:'刚毕业的程序员，性格内向但聪明。前女友是李梦琪的助理小雅，分手后一直放不下。',
+      skills:['代码破解','网络追踪','逻辑推理'],
+      startLocation:'office',
+      contacts:['limengqi','xiaoya','wangshihan'],
+      intro:'你叫陆远，28岁，刚刚从燕城大学毕业，进入了一家互联网公司当程序员。虽然你性格内向，但你的技术能力在公司里无人能及。\n\n你的前女友小雅是网红主播李梦琪的助理，分手后你一直心有不甘。今天，你在公司加班时，意外发现了一个关于李梦琪的秘密...'
+    },
+    linxiaoyu: {
+      id:'linxiaoyu', name:'林小雨', age:25, role:'摄影师',
+      avatar:'📷', color:'#4ade80',
+      bio:'自由摄影师，性格开朗善于社交。曾拍到过张雨萱的秘密照片，手里握着重要证据。',
+      skills:['观察力','社交达人','摄影取证'],
+      startLocation:'studio',
+      contacts:['zhangyuxuan','liuqiqi','zhaouxeting'],
+      intro:'你叫林小雨，25岁，燕城小有名气的自由摄影师。你的镜头记录过这座城市的无数故事。\n\n一个月前，你在一次商业活动的拍摄中，意外拍到了医院院长女儿张雨萱的一张照片——那张照片里，她和一个不该在一起的人在一起...'
+    },
+    
+    linxiaoyu_ch4: {
+      title:'刘思琪的提议',
+      scenes:[
+        {speaker:'narration',text:'刘思琪再次找到你，这次她带来了一个更大的交易。'},
+        {speaker:'刘思琪',text:'小雨，我知道你在调查大火的事。我手里有更多证据，但你需要帮我一个忙。'},
+        {speaker:'林小雨',text:'什么忙？'},
+        {speaker:'刘思琪',text:'帮我拍一组照片——周美玲和一个神秘人的会面。我需要证据。'},
+        {choices:[
+          {text:'同意合作',next:'cooperate_liu',effect:'获得关键线索'},
+          {text:'拒绝，但保持联系',next:'refuse_liu2',effect:'好感度+5'},
+          {text:'问她为什么要调查周美玲',next:'ask_liu_reason',effect:'获得背景信息'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch5: {
+      title:'张雨萱的告白',
+      scenes:[
+        {speaker:'narration',text:'张雨萱主动约你见面，她的眼神里满是疲惫。'},
+        {speaker:'张雨萱',text:'林小姐...我知道你拍到了那张照片。我想告诉你真相。'},
+        {speaker:'林小雨',text:'什么真相？'},
+        {speaker:'张雨萱',text:'五年前那场火...是我父亲放的。他为了掩盖医院的医疗事故，烧死了所有知情者。'},
+        {choices:[
+          {text:'安慰她，继续听她讲述',next:'comfort_yuxuan',effect:'好感度+20'},
+          {text:'问她为什么现在才说',next:'ask_why_now',effect:'获得线索'},
+          {text:'把这些告诉苏雅',next:'tell_suya2',effect:'触发苏雅剧情'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch6: {
+      title:'周美玲的威胁',
+      scenes:[
+        {speaker:'narration',text:'你收到了一封匿名信，里面是你跟踪张雨萱的照片，还有一行字：「别多管闲事。」'},
+        {speaker:'林小雨',text:'这是周美玲干的...她在警告我。'},
+        {speaker:'narration',text:'你的手机响了，是一个陌生号码：「林小姐，我们该谈谈了。」'},
+        {choices:[
+          {text:'赴约，看她想说什么',next:'meet_meiling',effect:'触发周美玲剧情'},
+          {text:'拒绝，继续调查',next:'refuse_meiling',effect:'危险增加'},
+          {text:'告诉陈默',next:'tell_chenmo2',effect:'获得保护'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch7: {
+      title:'陈雨欣的线索',
+      scenes:[
+        {speaker:'narration',text:'陈雨欣找到你，说她有重要的东西要给你看。'},
+        {speaker:'陈雨欣',text:'这是我前男友的日记...他在大火前一天写的。里面提到了一个叫「永辉计划」的东西。'},
+        {speaker:'林小雨',text:'永辉计划？那是什么？'},
+        {speaker:'陈雨欣',text:'我不知道。但他在日记里说，如果他出事了，这本日记就是证据。'},
+        {choices:[
+          {text:'研究日记内容',next:'study_diary',effect:'获得关键线索'},
+          {text:'把日记交给苏雅',next:'give_diary_suya',effect:'触发苏雅剧情'},
+          {text:'找王诗涵询问永辉计划',next:'ask_wang_plan',effect:'触发王诗涵剧情'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch8: {
+      title:'赵雪婷的过去',
+      scenes:[
+        {speaker:'narration',text:'你在燕城大学的档案室里找到了赵雪婷的个人档案。档案里有一张泛黄的照片——年轻的赵雪婷和黄世杰的合影。'},
+        {speaker:'林小雨',text:'原来赵雪婷曾经是黄世杰的私人教师...她教的不是黄诗雅，而是黄世杰本人！'},
+        {speaker:'narration',text:'照片背面写着：「世杰，永远的秘密。——雪婷」'},
+        {choices:[
+          {text:'找赵雪婷当面问清楚',next:'confront_xueting',effect:'触发赵雪婷剧情'},
+          {text:'继续调查黄世杰',next:'investigate_huang2',effect:'获得线索'},
+          {text:'告诉陈默这个发现',next:'share_discovery',effect:'解锁合作'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch9: {
+      title:'黄诗雅的反抗',
+      scenes:[
+        {speaker:'narration',text:'黄诗雅找到你，她的眼里满是愤怒和绝望。'},
+        {speaker:'黄诗雅',text:'林姐，我受够了！我父亲...他不是好人。五年前那场火，他是幕后主使！'},
+        {speaker:'林小雨',text:'你怎么知道的？'},
+        {speaker:'黄诗雅',text:'我偷看了他的保险箱...里面有所有的证据。但他发现了，现在要送我出国。'},
+        {choices:[
+          {text:'帮她逃离燕城',next:'help_shiya_escape',effect:'好感度+20'},
+          {text:'让她先复制证据',next:'copy_evidence',effect:'获得关键证据'},
+          {text:'告诉她周美玲也在调查',next:'connect_meiling',effect:'触发周美玲剧情'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch10: {
+      title:'大火的真相',
+      scenes:[
+        {speaker:'narration',text:'你站在旧商场废墟前，手里握着所有的证据。真相终于拼凑完整了。'},
+        {speaker:'林小雨',text:'原来...五年前的大火是一场精心策划的谋杀。黄世杰为了掩盖医疗事故，买通了周美玲，烧死了所有知情者。'},
+        {speaker:'narration',text:'但还有一个问题没有答案——那个在大火中「死亡」的人，到底是谁？'},
+        {choices:[
+          {text:'去找陈雨欣，她可能知道',next:'ask_yuxin_death',effect:'触发陈雨欣剧情'},
+          {text:'继续调查死者身份',next:'investigate_death',effect:'获得关键线索'},
+          {text:'把所有证据公之于众',next:'expose_truth',effect:'触发结局'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch11: {
+      title:'终章：最终的快门',
+      scenes:[
+        {speaker:'narration',text:'你站在燕城大桥上，夕阳西下。你的相机里记录了这座城市所有的秘密。'},
+        {speaker:'林小雨',text:'原来...那张照片里的人，是陈雨欣的前男友。他没有死，他一直在暗中保护着所有人。'},
+        {speaker:'narration',text:'你的手机响了，是张雨萱：「林小姐，我愿意和你谈谈。在那个废墟见面...我想告诉你真相。」'},
+        {choices:[
+          {text:'赴约，听张雨萱讲述完整真相',ending:'linxiaoyu_truth',effect:'结局：真相之镜'},
+          {text:'带着所有证据去找苏雅',ending:'linxiaoyu_expose',effect:'结局：曝光之路'},
+          {text:'销毁所有证据，保护所有人',ending:'linxiaoyu_mercy',effect:'结局：守护之选'},
+          {text:'用照片威胁张雨萱',ending:'linxiaoyu_dark',effect:'结局：勒索之路'}
+        ]}
+      ]
+    },
+  chenmo: {
+      id:'chenmo', name:'陈默', age:30, role:'私家侦探',
+      avatar:'🕵️', color:'#a78bfa',
+      bio:'冷静的私家侦探，观察力极强。曾受雇调查商会副会长周美玲，掌握大量隐秘信息。',
+      skills:['跟踪调查','信息分析','格斗术'],
+      startLocation:'detective',
+      contacts:['zhoumeiling','chenyuxin','wangshihan'],
+      intro:'你叫陈默，30岁，燕城唯一的私家侦探。你的事务所虽小，但接过的案子从没失手过。\n\n三个月前，一个神秘客户委托你调查商会副会长周美玲。调查过程中，你发现了一个牵涉燕城顶层圈子的巨大秘密...'
+    },
+    
+    chenmo_ch4: {
+      title:'周美玲的秘密',
+      scenes:[
+        {speaker:'narration',text:'你跟踪周美玲来到了一个偏僻的仓库。她进去后，你透过窗户看到了惊人的一幕。'},
+        {speaker:'陈默',text:'她...她在销毁文件？那些是什么文件？'},
+        {speaker:'narration',text:'你拍下了她销毁文件的过程。但就在这时，你的手机响了——是陈雨欣打来的。'},
+        {choices:[
+          {text:'继续监视',next:'continue_watch',effect:'获得证据'},
+          {text:'接电话，告诉陈雨欣你发现了什么',next:'answer_phone',effect:'触发陈雨欣剧情'},
+          {text:'离开，避免被发现',next:'escape',effect:'安全撤离'}
+        ]}
+      ]
+    },
+    chenmo_ch5: {
+      title:'陈雨欣的信任',
+      scenes:[
+        {speaker:'narration',text:'陈雨欣来到你的事务所，她看起来很紧张。'},
+        {speaker:'陈雨欣',text:'陈默，我...我想告诉你一些关于我前男友的事。他在大火中「死」了，但...'},
+        {speaker:'陈默',text:'但什么？'},
+        {speaker:'陈雨欣',text:'但他可能还活着。我最近收到了他的消息。'},
+        {choices:[
+          {text:'帮她寻找前男友',next:'help_find_boyfriend',effect:'好感度+20'},
+          {text:'问她为什么现在才说',next:'ask_why_now2',effect:'获得线索'},
+          {text:'告诉她这可能是陷阱',next:'warn_yuxin',effect:'信任度+10'}
+        ]}
+      ]
+    },
+    chenmo_ch6: {
+      title:'刘思琪的保险柜',
+      scenes:[
+        {speaker:'narration',text:'刘思琪找到你，说她愿意把保险柜里的东西给你看——但有一个条件。'},
+        {speaker:'刘思琪',text:'侦探先生，保险柜里有五年前大火的证据。但你要帮我一个忙——找到我的弟弟。'},
+        {speaker:'陈默',text:'你弟弟怎么了？'},
+        {speaker:'刘思琪',text:'他五年前失踪了，我怀疑和大火有关。'},
+        {choices:[
+          {text:'同意帮她找弟弟',next:'help_find_brother',effect:'获得关键线索'},
+          {text:'先看保险柜里的东西',next:'see_safe_first',effect:'信任度-10'},
+          {text:'问她弟弟的详细信息',next:'ask_brother_info',effect:'获得线索'}
+        ]}
+      ]
+    },
+    chenmo_ch7: {
+      title:'张雨萱的父亲',
+      scenes:[
+        {speaker:'narration',text:'你调查了张雨萱的父亲——燕城医院院长张建国。他的过去比你想象的更复杂。'},
+        {speaker:'陈默',text:'张建国...他在大火前一周突然转移了所有资产。这不是巧合。'},
+        {speaker:'narration',text:'更让你震惊的是，张建国的资产转移记录里，有一个名字反复出现：黄世杰。'},
+        {choices:[
+          {text:'找张雨萱询问她父亲的事',next:'ask_yuxuan_father',effect:'触发张雨萱剧情'},
+          {text:'继续调查黄世杰',next:'investigate_huang3',effect:'获得线索'},
+          {text:'把这些告诉苏雅',next:'tell_suya3',effect:'触发苏雅剧情'}
+        ]}
+      ]
+    },
+    chenmo_ch8: {
+      title:'李梦琪的债务',
+      scenes:[
+        {speaker:'narration',text:'你发现李梦琪的债务不是普通的债务——那些钱来自一个地下钱庄。'},
+        {speaker:'陈默',text:'地下钱庄...这个钱庄的幕后老板是谁？'},
+        {speaker:'narration',text:'追查下去，你发现钱庄的真正主人是周美玲。李梦琪欠的不是钱，而是人情。'},
+        {choices:[
+          {text:'找李梦琪当面问清楚',next:'confront_mengqi',effect:'触发李梦琪剧情'},
+          {text:'告诉周美玲你知道了',next:'tell_meiling',effect:'危险增加'},
+          {text:'把这些作为筹码',next:'use_as_leverage',effect:'获得谈判筹码'}
+        ]}
+      ]
+    },
+    chenmo_ch9: {
+      title:'王诗涵的赎罪',
+      scenes:[
+        {speaker:'narration',text:'你跟踪王诗涵来到了旧商场废墟。她跪在地上，面前摆着五束白花。'},
+        {speaker:'王诗涵',text:'对不起...对不起...我不该听他们的...'},
+        {speaker:'陈默',text:'原来...王诗涵一直在赎罪。她知道大火的真相，但她选择了沉默。'},
+        {choices:[
+          {text:'现身和她谈谈',next:'talk_to_wang',effect:'触发王诗涵剧情'},
+          {text:'继续监视',next:'continue_monitor',effect:'获得证据'},
+          {text:'离开，给她空间',next:'leave_wang',effect:'好感度+5'}
+        ]}
+      ]
+    },
+    chenmo_ch10: {
+      title:'五年前的真相',
+      scenes:[
+        {speaker:'narration',text:'所有的线索终于拼凑在一起。五年前的大火，是一场精心策划的谋杀。'},
+        {speaker:'陈默',text:'黄世杰为了掩盖医疗事故，买通了周美玲，让张建国放火。而王诗涵和李梦琪...是被迫的帮凶。'},
+        {speaker:'narration',text:'但还有一个谜团没有解开——那个在大火中「死亡」的人，到底是谁？'},
+        {choices:[
+          {text:'去找陈雨欣，她可能知道答案',next:'ask_yuxin_answer',effect:'触发陈雨欣剧情'},
+          {text:'继续追查死者身份',next:'investigate_dead2',effect:'获得关键线索'},
+          {text:'把这些告诉所有人',next:'tell_everyone',effect:'触发结局'}
+        ]}
+      ]
+    },
+    chenmo_ch11: {
+      title:'终章：侦探的宿命',
+      scenes:[
+        {speaker:'narration',text:'你站在侦探事务所里，墙上挂满了这个案子的照片和线索。是时候做出最终决定了。'},
+        {speaker:'陈默',text:'原来...陈雨欣的前男友没有死。他一直在暗中保护着所有人，包括我。'},
+        {speaker:'narration',text:'你的手机响了，是周美玲：「陈默先生，我知道你发现了全部真相。我们该谈谈了。」'},
+        {choices:[
+          {text:'去见周美玲，听她解释',ending:'chenmo_truth',effect:'结局：真相之路'},
+          {text:'把证据交给警方',ending:'chenmo_justice',effect:'结局：正义之选'},
+          {text:'销毁证据，保护所有人',ending:'chenmo_mercy',effect:'结局：宽恕之选'},
+          {text:'用证据要挟周美玲',ending:'chenmo_dark',effect:'结局：黑暗之路'}
+        ]}
+      ]
+    },
+  suya: {
+      id:'suya', name:'苏雅', age:27, role:'记者',
+      avatar:'✍️', color:'#f59e0b',
+      bio:'正义感强的好奇记者，正在调查一桩与所有人都有关的旧案——五年前的燕城大火。',
+      skills:['采访调查','舆论操控','人脉广泛'],
+      startLocation:'newsroom',
+      contacts:['liuqiqi','zhaouxeting','zhangyuxuan'],
+      intro:'你叫苏雅，27岁，燕城日报的调查记者。你一直在追查五年前那场神秘大火的真相。\n\n那场大火烧毁了燕城最大的商业综合体，造成了数十人伤亡，但最终被定性为意外事故。你不信——你的线人说，那场火里藏着燕城所有富人的秘密...'
+    },
+    
+    suya_ch4: {
+      title:'周美玲的过去',
+      scenes:[
+        {speaker:'narration',text:'你查到了周美玲的过去——她在十年前还不存在。没有学历，没有工作记录，仿佛凭空出现。'},
+        {speaker:'苏雅',text:'周美玲...你到底是谁？'},
+        {speaker:'narration',text:'你的线人告诉你，周美玲的真名叫刘小红，十年前从一个小县城来到燕城。'},
+        {choices:[
+          {text:'去她的家乡调查',next:'visit_hometown',effect:'获得关键线索'},
+          {text:'找周美玲当面问清楚',next:'confront_meiling2',effect:'触发周美玲剧情'},
+          {text:'继续在燕城调查',next:'stay_investigate2',effect:'获得线索'}
+        ]}
+      ]
+    },
+    suya_ch5: {
+      title:'陈雨欣的证词',
+      scenes:[
+        {speaker:'narration',text:'陈雨欣找到你，说她愿意作为证人。'},
+        {speaker:'陈雨欣',text:'苏雅，我愿意告诉你我知道的一切。但你要保护我的安全。'},
+        {speaker:'苏雅',text:'当然。你知道什么？'},
+        {speaker:'陈雨欣',text:'五年前那场火...我前男友是知情人。他没有死，他一直在暗中调查。'},
+        {choices:[
+          {text:'帮她联系前男友',next:'help_contact_boyfriend',effect:'获得关键证据'},
+          {text:'问她还有谁知道',next:'ask_who_knows',effect:'获得线索'},
+          {text:'保护她的安全',next:'protect_yuxin',effect:'好感度+15'}
+        ]}
+      ]
+    },
+    suya_ch6: {
+      title:'刘思琪的证据',
+      scenes:[
+        {speaker:'narration',text:'刘思琪把一个U盘交给了你。'},
+        {speaker:'刘思琪',text:'这里面有五年前大火的全部证据。包括周美玲和黄世杰的通话录音。'},
+        {speaker:'苏雅',text:'你为什么要给我？'},
+        {speaker:'刘思琪',text:'因为...我弟弟也是受害者之一。我要真相大白。'},
+        {choices:[
+          {text:'立即查看U盘内容',next:'check_usb',effect:'获得关键证据'},
+          {text:'备份U盘内容',next:'backup_usb',effect:'安全措施'},
+          {text:'问她弟弟的事',next:'ask_brother',effect:'获得线索'}
+        ]}
+      ]
+    },
+    suya_ch7: {
+      title:'张雨萱的恐惧',
+      scenes:[
+        {speaker:'narration',text:'张雨萱找到你，她浑身发抖。'},
+        {speaker:'张雨萱',text:'苏雅...我父亲知道了。他知道我在调查大火的事。他要送我出国。'},
+        {speaker:'苏雅',text:'别怕。我会保护你。你父亲到底做了什么？'},
+        {speaker:'张雨萱',text:'他...他放了那场火。为了掩盖医院的医疗事故。'},
+        {choices:[
+          {text:'保护张雨萱',next:'protect_yuxuan',effect:'好感度+20'},
+          {text:'让她提供更多证据',next:'ask_more_evidence',effect:'获得关键证据'},
+          {text:'告诉她陈默也在调查',next:'connect_chenmo',effect:'解锁合作'}
+        ]}
+      ]
+    },
+    suya_ch8: {
+      title:'赵雪婷的论文',
+      scenes:[
+        {speaker:'narration',text:'你找到了赵雪婷那篇被撤回的论文。论文里的数据证明，大火不是意外。'},
+        {speaker:'苏雅',text:'赵雪婷...你为什么要撤回这篇论文？'},
+        {speaker:'narration',text:'你联系了赵雪婷，她说她被威胁了。'},
+        {choices:[
+          {text:'保护赵雪婷',next:'protect_xueting',effect:'好感度+15'},
+          {text:'让她重新发表论文',next:'republish_paper',effect:'获得关键证据'},
+          {text:'问她谁威胁了她',next:'ask_who_threatened',effect:'获得线索'}
+        ]}
+      ]
+    },
+    suya_ch9: {
+      title:'黄家的阴谋',
+      scenes:[
+        {speaker:'narration',text:'你查到了黄世杰的全部阴谋——他为了掩盖医疗事故，策划了整场大火。'},
+        {speaker:'苏雅',text:'黄世杰...你为了钱，害死了多少人？'},
+        {speaker:'narration',text:'但黄世杰已经死了——他在三年前「意外」身亡。现在掌管黄家的是他的女儿黄诗雅。'},
+        {choices:[
+          {text:'找黄诗雅谈谈',next:'talk_to_shiya',effect:'触发黄诗雅剧情'},
+          {text:'继续调查黄世杰的死因',next:'investigate_death2',effect:'获得线索'},
+          {text:'把这些写成报道',next:'write_article',effect:'触发结局'}
+        ]}
+      ]
+    },
+    suya_ch10: {
+      title:'大火的真相',
+      scenes:[
+        {speaker:'narration',text:'所有的证据都指向了同一个真相——五年前的大火是一场精心策划的谋杀。'},
+        {speaker:'苏雅',text:'原来...黄世杰、周美玲、张建国...他们都是凶手。而王诗涵和李梦琪...是被迫的帮凶。'},
+        {speaker:'narration',text:'但还有一个谜团——那个在大火中「死亡」的人，到底是谁？'},
+        {choices:[
+          {text:'去找陈雨欣，她可能知道答案',next:'ask_yuxin_answer2',effect:'触发陈雨欣剧情'},
+          {text:'继续追查死者身份',next:'investigate_dead3',effect:'获得关键线索'},
+          {text:'准备发表报道',next:'prepare_article',effect:'触发结局'}
+        ]}
+      ]
+    },
+    suya_ch11: {
+      title:'终章：正义之声',
+      scenes:[
+        {speaker:'narration',text:'你坐在报社的办公室里，面前是你的报道草稿。标题是：《燕城大火真相：一场精心策划的谋杀》。'},
+        {speaker:'苏雅',text:'原来...陈雨欣的前男友没有死。他一直在暗中保护着所有人，包括我。'},
+        {speaker:'narration',text:'你的手机响了，是主编：「苏雅，你的报道通过了。明天见报。」'},
+        {choices:[
+          {text:'发表报道，揭露真相',ending:'suya_truth',effect:'结局：真相之声'},
+          {text:'保护消息来源，匿名发表',ending:'suya_anonymous',effect:'结局：无名英雄'},
+          {text:'销毁报道，保护所有人',ending:'suya_mercy',effect:'结局：宽恕之选'},
+          {text:'用报道要挟当事人',ending:'suya_dark',effect:'结局：黑暗之路'}
+        ]}
+      ]
+    },
+  zhouzixuan: {
+      id:'zhouzixuan', name:'周子轩', age:26, role:'外卖骑手',
+      avatar:'🛵', color:'#f97316',
+      bio:'市井智慧的外卖骑手，穿梭于燕城的大街小巷。送外卖时目睹了不该看到的事。',
+      skills:['街头智慧','人脉网络','消息灵通'],
+      startLocation:'street',
+      contacts:['huangshiya','liuqiqi','zhoumeiling'],
+      intro:'你叫周子轩，26岁，燕城的外卖骑手。你对这座城市的每一条巷子都了如指掌。\n\n昨晚送最终一单外卖时，你看到了一件不该看到的事——一辆豪车停在夜店后门，车上下来两个你认识的人...'
+    }
+  },
+  richWomen: {
+    wangshihan: {
+      id:'wangshihan', name:'王诗涵', age:32, role:'房地产CEO',
+      avatar:'👩‍💼', color:'#e94560',
+      bio:'外表冷艳内心孤独的女强人，大学时和李梦琪是室友，关系微妙。',
+      personality:'高冷理性，不轻易信任人，但一旦认定就会全心付出',
+      schedule:{morning:'公司',afternoon:'公司',evening:'高级餐厅',night:'公寓'},
+      secret:'五年前的大火和她有关，她一直在用自己的方式赎罪'
+    },
+    limengqi: {
+      id:'limengqi', name:'李梦琪', age:29, role:'网红主播',
+      avatar:'💄', color:'#ec4899',
+      bio:'表面光鲜实则背负巨债的网红，靠直播维持着奢侈生活的假象。',
+      personality:'外表活泼，内心焦虑，善于伪装',
+      schedule:{morning:'睡觉',afternoon:'直播',evening:'社交',night:'夜店'},
+      secret:'她的巨额债务来自五年前的一笔投资，那笔投资和大火有关'
+    },
+    zhangyuxuan: {
+      id:'zhangyuxuan', name:'张雨萱', age:35, role:'医院院长女儿',
+      avatar:'🏥', color:'#10b981',
+      bio:'温柔的名门千金，父亲是燕城医院院长，也是王诗涵的商业对手。',
+      personality:'温柔善良，但内心有不能说的秘密',
+      schedule:{morning:'医院',afternoon:'慈善活动',evening:'读书',night:'失眠'},
+      secret:'她知道大火的真相，因为她的父亲就是当年的纵火者之一'
+    },
+    liuqiqi: {
+      id:'liuqiqi', name:'刘思琪', age:28, role:'夜店老板娘',
+      avatar:'🍸', color:'#8b5cf6',
+      bio:'掌握着燕城很多人秘密的夜店老板娘，在黑白两道都有人脉。',
+      personality:'八面玲珑，重义气，有自己的底线',
+      schedule:{morning:'睡觉',afternoon:'处理事务',evening:'夜店',night:'夜店'},
+      secret:'她的夜店是燕城信息交易中心，大火的关键证据就在她手里'
+    },
+    zhaouxeting: {
+      id:'zhaouxeting', name:'赵雪婷', age:31, role:'大学教授',
+      avatar:'📚', color:'#06b6d4',
+      bio:'学术圈精英，曾是黄诗雅的家庭教师，对那段经历讳莫如深。',
+      personality:'知性优雅，完美主义者，有些控制欲',
+      schedule:{morning:'大学',afternoon:'大学',evening:'独处',night:'研究'},
+      secret:'她教黄诗雅时发现了黄家的一个惊天秘密'
+    },
+    huangshiya: {
+      id:'huangshiya', name:'黄诗雅', age:26, role:'富二代',
+      avatar:'👠', color:'#f43f5e',
+      bio:'叛逆不羁的富二代，赵雪婷曾是她的家庭教师。讨厌被管束。',
+      personality:'叛逆张扬，重感情，渴望自由',
+      schedule:{morning:'睡觉',afternoon:'购物',evening:'派对',night:'酒吧'},
+      secret:'她知道父亲的秘密，一直在用自己的方式反抗'
+    },
+    zhoumeiling: {
+      id:'zhoumeiling', name:'周美玲', age:40, role:'商会副会长',
+      avatar:'👑', color:'#d97706',
+      bio:'城府极深的商会副会长，燕城政商两界的幕后操盘手。',
+      personality:'精明老练，善于布局，表面和蔼',
+      schedule:{morning:'商会',afternoon:'社交',evening:'应酬',night:'书房'},
+      secret:'大火的幕后主使之一，这些年一直在消灭证据'
+    },
+    chenyuxin: {
+      id:'chenyuxin', name:'陈雨欣', age:33, role:'心理咨询师',
+      avatar:'🧠', color:'#7c3aed',
+      bio:'洞察人心的心理咨询师，同时是王诗涵和李梦琪的心理咨询师，知道太多人的秘密。',
+      personality:'温和专业，善于倾听，但自己也有创伤',
+      schedule:{morning:'诊所',afternoon:'诊所',evening:'独处',night:'失眠'},
+      secret:'她的前男友死于五年前的大火，她一直在暗中调查真相'
+    }
+  },
+  locations: {
+    office:{name:'互联网大厦',icon:'🏢',desc:'陆远工作的科技公司',time:'全天'},
+    studio:{name:'摄影工作室',icon:'📷',desc:'林小雨的工作室',time:'全天'},
+    detective:{name:'侦探事务所',icon:'🕵️',desc:'陈默的小事务所',time:'全天'},
+    newsroom:{name:'燕城日报',icon:'📰',desc:'苏雅的报社',time:'全天'},
+    street:{name:'街头巷尾',icon:'🛵',desc:'周子轩的骑行路线',time:'全天'},
+    cafe:{name:'星空咖啡馆',icon:'☕',desc:'燕城最有格调的咖啡馆',time:'8:00-22:00'},
+    restaurant:{name:'翡翠轩',icon:'🍜',desc:'高级中餐厅',time:'11:00-22:00'},
+    nightclub:{name:'月色酒吧',icon:'🌙',desc:'刘思琪的夜店',time:'20:00-02:00'},
+    mall:{name:'万象城',icon:'🛍️',desc:'燕城最大的购物中心',time:'10:00-22:00'},
+    hospital:{name:'燕城医院',icon:'🏥',desc:'张雨萱父亲的医院',time:'全天'},
+    university:{name:'燕城大学',icon:'🎓',desc:'赵雪婷任教的大学',time:'8:00-18:00'},
+    park:{name:'燕城公园',icon:'🌳',desc:'城市中心公园',time:'6:00-22:00'},
+    club:{name:'商会大楼',icon:'🏛️',desc:'周美玲的地盘',time:'9:00-18:00'},
+    clinic:{name:'心灵诊所',icon:'💆',desc:'陈雨欣的心理诊所',time:'9:00-18:00'},
+    bridge:{name:'燕城大桥',icon:'🌉',desc:'连接新旧城区的地标',time:'全天'},
+    ruins:{name:'旧商场废墟',icon:'🏚️',desc:'五年前大火的遗迹',time:'全天'}
+  },
+  achievements: [
+    {id:'first_chat',name:'第一次对话',desc:'完成第一次微信聊天',icon:'💬'},
+    {id:'first_clue',name:'初露端倪',desc:'获得第一条线索',icon:'🔍'},
+    {id:'trust_50',name:'建立信任',desc:'与任意角色信任度达到50',icon:'🤝'},
+    {id:'love_50',name:'心动瞬间',desc:'与任意角色好感度达到50',icon:'💕'},
+    {id:'chapter1',name:'第一章完成',desc:'完成任意角色第一章',icon:'📖'},
+    {id:'chapter2',name:'第二章完成',desc:'完成任意角色第二章',icon:'📖'},
+    {id:'chapter3',name:'第三章完成',desc:'完成任意角色第三章',icon:'📖'},
+    {id:'all_clues',name:'真相大白',desc:'收集所有线索',icon:'🧩'},
+    {id:'all_endings',name:'人生百态',desc:'解锁所有结局',icon:'🎭'},
+    {id:'rich_contact',name:'富婆的联系方式',desc:'获得任意富婆的真实联系方式',icon:'📱'},
+    {id:'night_visit',name:'夜探酒吧',desc:'深夜造访月色酒吧',icon:'🌙'},
+    {id:'secret_found',name:'秘密猎人',desc:'发现第一个角色的秘密',icon:'🗝️'},
+    {id:'social_butterfly',name:'社交蝴蝶',desc:'同时与3个以上角色保持高好感',icon:'🦋'},
+    {id:'detective_master',name:'侦探大师',desc:'推理出大火真相',icon:'🏆'}
+  ],
+  clues: [
+    {id:'fire_photo',title:'大火照片',desc:'一张五年前燕城大火的照片，火光中似乎有人影。',source:'林小雨摄影集'},
+    {id:'debt_record',title:'债务记录',desc:'李梦琪的巨额债务记录，资金流向指向一家已注销的公司。',source:'陆远的调查'},
+    {id:'secret_meeting',title:'秘密会面',desc:'周美玲与一个神秘人在深夜会面的照片。',source:'陈默的跟踪记录'},
+    {id:'hospital_doc',title:'医院文件',desc:'燕城医院五年前的一份被修改过的事故报告。',source:'张雨萱的档案'},
+    {id:'club_recording',title:'酒吧录音',desc:'一段在月色酒吧偷录的对话，提到了"那场火"。',source:'刘思琪的保险柜'},
+    {id:'thesis_paper',title:'学术论文',desc:'赵雪婷的一篇被撤回的论文，内容涉及建筑材料的防火性能。',source:'燕城大学档案室'},
+    {id:'trust_fund',title:'信托基金',desc:'黄家名下一笔来源不明的信托基金，受益人是一个不存在的人。',source:'黄诗雅的家'},
+    {id:'therapy_notes',title:'咨询笔记',desc:'陈雨欣的心理咨询笔记，记录了多位当事人的心理创伤。',source:'陈雨欣的诊所'}
+  ]
+};
+
+// ===================== STORY ENGINE =====================
+const STORIES = {
+  luyuan: {
+    1: {
+      title:'代码里的秘密',
+      scenes:[
+        {speaker:'narration',text:'深夜十一点，互联网大厦23层只有你工位上的屏幕还亮着。你正在调试一段代码，突然注意到服务器日志里有一条奇怪的请求记录。'},
+        {speaker:'陆远',text:'这个IP地址...怎么会在凌晨三点反复访问同一个数据库？而且这个数据库是...'},
+        {speaker:'narration',text:'你追踪了这条请求，发现它来自一个加密代理，但你用技术手段绕过了加密。请求的目标是一个人事档案数据库——里面存着李梦琪公司的员工信息。'},
+        {speaker:'陆远',text:'小雅...？她的名字为什么在一份加密的转账记录里？'},
+        {speaker:'narration',text:'你的心跳加速了。你的前女友小雅，是李梦琪的助理。你们分手时她说是因为"工作太忙"，但你一直觉得另有隐情。'},
+        {choices:[
+          {text:'继续深挖数据库，查看完整的转账记录',next:'dig_deeper',effect:'获得线索：债务记录'},
+          {text:'给小雅发消息询问',next:'contact_xiaoya',effect:'触发微信对话'},
+          {text:'暂时搁置，明天再查',next:'wait',effect:'时间推进'}
+        ]}
+      ]
+    },
+    luyuan_ch1_dig: {
+      title:'深挖真相',
+      scenes:[
+        {speaker:'narration',text:'你花了两个小时，终于破解了完整的数据库。屏幕上的数字让你震惊——李梦琪名下的公司有一笔五千万的异常转账，收款方是一家叫"永辉地产"的公司。'},
+        {speaker:'陆远',text:'永辉地产...那不是王诗涵的公司吗？李梦琪和王诗涵之间有什么交易？'},
+        {speaker:'narration',text:'更让你不安的是，转账日期是五年前的11月15日——燕城大火发生的前一天。'},
+        {speaker:'system',text:'🔓 获得线索：债务记录'},
+        {choices:[
+          {text:'调查王诗涵的公司',next:'investigate_wang',effect:'解锁新地点：商会大楼'},
+          {text:'找李梦琪当面问清楚',next:'confront_li',effect:'触发李梦琪对话'},
+          {text:'把这个发现告诉苏雅记者',next:'tell_suya',effect:'触发苏雅对话'}
+        ]}
+      ]
+    },
+    luyuan_ch2: {
+      title:'前女友的电话',
+      scenes:[
+        {speaker:'narration',text:'凌晨一点，你的手机突然响了。来电显示是小雅——你存了很久没删的号码。'},
+        {speaker:'小雅',text:'陆远...我知道你在查什么。求你停下来，有些事你不知道比知道好。'},
+        {speaker:'陆远',text:'小雅？你...你怎么知道我在查什么？'},
+        {speaker:'小雅',text:'因为我一直在看着你。诗涵姐...她不是你想的那种人。那场火...'},
+        {speaker:'narration',text:'电话突然断了。你回拨过去，提示已关机。'},
+        {choices:[
+          {text:'立刻去李梦琪公司找小雅',next:'rush_to_li',effect:'时间：深夜'},
+          {text:'联系王诗涵',next:'contact_wang',effect:'解锁王诗涵联系方式'},
+          {text:'继续在公司调查',next:'stay_investigate',effect:'获得新线索'}
+        ]}
+      ]
+    },
+    luyuan_ch3: {
+      title:'真相的代价',
+      scenes:[
+        {speaker:'narration',text:'你在公司天台上，手里握着所有证据。风吹过你的脸，你知道，一旦你公布这些，燕城的格局将彻底改变。'},
+        {speaker:'陆远',text:'原来...那场火不是意外。王诗涵、李梦琪、张雨萱...她们都是那场火的受害者，也是参与者。'},
+        {speaker:'narration',text:'手机震动，是王诗涵发来的消息："我知道你发现了。来找我，我给你一个解释。"'},
+        {choices:[
+          {text:'去见王诗涵，听她解释',ending:'luyuan_truth',effect:'结局：真相之路'},
+          {text:'把证据交给苏雅，让媒体曝光',ending:'luyuan_justice',effect:'结局：正义之选'},
+          {text:'删除所有证据，保护小雅',ending:'luyuan_love',effect:'结局：爱情之选'}
+        ]}
+      ]
+    },
+    
+    luyuan_ch4: {
+      title:'深夜的抉择',
+      scenes:[
+        {speaker:'narration',text:'凌晨三点，你收到了一条匿名短信：「如果你想知道小雅的下落，明天晚上十点，月色酒吧后门。」'},
+        {speaker:'陆远',text:'这是陷阱吗？还是小雅真的出事了？'},
+        {speaker:'narration',text:'你犹豫了很久。作为程序员，你知道这条短信可能是钓鱼；但作为前男友，你无法忽视小雅的安全。'},
+        {choices:[
+          {text:'去月色酒吧赴约',next:'meet_mystery',effect:'触发新剧情'},
+          {text:'用技术手段追踪短信来源',next:'trace_sms',effect:'获得线索'},
+          {text:'告诉陈默侦探',next:'tell_chenmo',effect:'解锁陈默合作'}
+        ]}
+      ]
+    },
+    luyuan_ch5: {
+      title:'王诗涵的邀请',
+      scenes:[
+        {speaker:'narration',text:'你的邮箱里躺着一封来自永辉地产的正式邀请函——王诗涵邀请你参加一个私人晚宴。'},
+        {speaker:'陆远',text:'王诗涵...她为什么要邀请我？难道她知道我在查她？'},
+        {speaker:'narration',text:'邀请函上写着：「陆远先生，久仰大名。我有一笔生意想和你谈。关于五年前的事，我知道的比你多。」'},
+        {choices:[
+          {text:'赴约，看她想说什么',next:'attend_dinner',effect:'好感度+10'},
+          {text:'拒绝，继续暗中调查',next:'refuse_dinner',effect:'信任度-5'},
+          {text:'带着录音笔赴约',next:'record_dinner',effect:'获得证据'}
+        ]}
+      ]
+    },
+    luyuan_ch6: {
+      title:'李梦琪的眼泪',
+      scenes:[
+        {speaker:'narration',text:'你在咖啡馆偶遇了李梦琪。她的眼妆花了，显然刚哭过。'},
+        {speaker:'李梦琪',text:'陆远...你能帮帮我吗？我...我不知道该怎么办了。'},
+        {speaker:'陆远',text:'怎么了？发生什么事了？'},
+        {speaker:'李梦琪',text:'有人在威胁我...他们说如果我不还钱，就把五年前的事公之于众。'},
+        {choices:[
+          {text:'帮她分析威胁来源',next:'help_mengqi',effect:'好感度+15'},
+          {text:'问她五年前到底发生了什么',next:'ask_past',effect:'获得线索'},
+          {text:'建议她报警',next:'suggest_police',effect:'信任度-10'}
+        ]}
+      ]
+    },
+    luyuan_ch7: {
+      title:'张雨萱的秘密',
+      scenes:[
+        {speaker:'narration',text:'你通过技术手段查到了张雨萱的一个隐藏社交媒体账号。上面记录着她不为人知的另一面。'},
+        {speaker:'陆远',text:'原来张雨萱一直在匿名资助五年前大火的受害者家属...她为什么要这么做？'},
+        {speaker:'narration',text:'更让你震惊的是，她的资助记录显示，她每个月都会去旧商场废墟待一个小时。'},
+        {choices:[
+          {text:'去废墟看看能不能遇到她',next:'meet_yuxuan',effect:'触发张雨萱剧情'},
+          {text:'继续深挖她的过去',next:'investigate_yuxuan',effect:'获得线索'},
+          {text:'把这些告诉苏雅',next:'tell_suya_yuxuan',effect:'触发苏雅剧情'}
+        ]}
+      ]
+    },
+    luyuan_ch8: {
+      title:'刘思琪的交易',
+      scenes:[
+        {speaker:'narration',text:'刘思琪主动联系你，说她手里有你想要的东西——但需要用你的技术能力来换。'},
+        {speaker:'刘思琪',text:'小帅哥，我听说你技术不错。帮我黑进一个人的电脑，我给你关于大火的独家情报。'},
+        {speaker:'陆远',text:'你要我黑谁的电脑？'},
+        {speaker:'刘思琪',text:'周美玲。那个女人的电脑里有整个燕城的秘密。'},
+        {choices:[
+          {text:'同意交易',next:'accept_deal',effect:'获得关键线索'},
+          {text:'拒绝，但愿意用其他方式合作',next:'negotiate',effect:'好感度+5'},
+          {text:'告诉她这是违法的',next:'refuse_deal',effect:'信任度-15'}
+        ]}
+      ]
+    },
+    luyuan_ch9: {
+      title:'赵雪婷的论文',
+      scenes:[
+        {speaker:'narration',text:'你在学术数据库里找到了赵雪婷那篇被撤回的论文。论文标题是《燕城商业综合体建筑材料防火性能分析》。'},
+        {speaker:'陆远',text:'这篇论文的撤回日期...是大火后的第三天。而且撤回原因是「数据造假」，但论文里的实验数据看起来完全真实。'},
+        {speaker:'narration',text:'论文的致谢部分提到了一个名字：黄世杰——黄诗雅的父亲。'},
+        {choices:[
+          {text:'联系赵雪婷询问论文的事',next:'contact_xueting',effect:'触发赵雪婷剧情'},
+          {text:'调查黄世杰和论文的关系',next:'investigate_huang',effect:'获得线索'},
+          {text:'把论文发给苏雅',next:'send_to_suya',effect:'触发苏雅剧情'}
+        ]}
+      ]
+    },
+    luyuan_ch10: {
+      title:'黄家的遗产',
+      scenes:[
+        {speaker:'narration',text:'你破解了黄家的一个加密文件夹。里面是一份信托基金的详细记录——受益人是一个不存在的人，但签字人是周美玲。'},
+        {speaker:'陆远',text:'这笔钱...是用来封口的？五年前大火的受害者家属，每个月都会收到一笔匿名转账。'},
+        {speaker:'narration',text:'更让你震惊的是，转账记录里有一个名字反复出现：陈雨欣的前男友——那个在大火中「死亡」的人。'},
+        {choices:[
+          {text:'去找陈雨欣当面问清楚',next:'confront_yuxin',effect:'触发陈雨欣剧情'},
+          {text:'继续追查信托基金',next:'investigate_trust',effect:'获得关键证据'},
+          {text:'把所有发现告诉陈默',next:'share_with_chenmo',effect:'解锁合作剧情'}
+        ]}
+      ]
+    },
+    luyuan_ch11: {
+      title:'终章：燕城之火',
+      scenes:[
+        {speaker:'narration',text:'你站在燕城大桥上，手里握着五年前大火的全部真相。风吹过你的脸，你知道，这个秘密足以摧毁整个燕城的权力格局。'},
+        {speaker:'陆远',text:'原来...那场火不是意外。王诗涵、李梦琪、张雨萱、周美玲...她们都参与了。但她们也是受害者。'},
+        {speaker:'narration',text:'手机震动，是王诗涵发来的消息：「我知道你发现了全部真相。来找我，我给你一个解释。也是给我自己一个解脱。」'},
+        {choices:[
+          {text:'去见王诗涵，听她讲述完整真相',ending:'luyuan_truth',effect:'结局：真相之路'},
+          {text:'把证据交给苏雅，让媒体曝光',ending:'luyuan_justice',effect:'结局：正义之选'},
+          {text:'删除所有证据，保护所有人',ending:'luyuan_mercy',effect:'结局：宽恕之选'},
+          {text:'用证据要挟王诗涵',ending:'luyuan_dark',effect:'结局：黑暗之路'}
+        ]}
+      ]
+    },
+    luyuan_wang_chat: {
+      title:'与王诗涵的对话',
+      scenes:[
+        {speaker:'王诗涵',text:'陆远先生，我知道你是小雅的前男友。你很聪明，但有些事情，聪明人不该碰。'},
+        {speaker:'陆远',text:'我只是想知道真相。五年前那场大火...'},
+        {speaker:'王诗涵',text:'...你来我的办公室，我们面谈。有些话不适合在微信上说。'},
+        {choices:[
+          {text:'好的，我马上来',next:'meet_wang',effect:'好感度+5'},
+          {text:'先告诉我一点，我再决定',next:'press_wang',effect:'信任度-5'},
+          {text:'我不方便见面，微信说吧',next:'wechat_only',effect:'无效果'}
+        ]}
+      ]
+    },
+    // WeChat dialogue trees for AI responses
+    
+    zhouzixuan_ch4: {
+      title:'夜店的秘密',
+      scenes:[
+        {speaker:'narration',text:'你又来到了月色酒吧送外卖。但这次，你注意到了一些不同寻常的事。'},
+        {speaker:'周子轩',text:'那个VIP包厢...每次都有不同的人进去，但出来的时候都面无表情。'},
+        {speaker:'narration',text:'你偷偷观察了一会儿，发现VIP包厢有一个隐藏的后门。'},
+        {choices:[
+          {text:'偷偷跟着进去',next:'sneak_in',effect:'获得线索'},
+          {text:'告诉刘思琪你看到了什么',next:'tell_liuqi',effect:'触发刘思琪剧情'},
+          {text:'继续送外卖，假装什么都没看到',next:'ignore',effect:'安全'}
+        ]}
+      ]
+    },
+    zhouzixuan_ch5: {
+      title:'外卖的线索',
+      scenes:[
+        {speaker:'narration',text:'你在送外卖时，无意中听到了一段对话。'},
+        {speaker:'陌生人',text:'...那笔钱已经转过去了。周美玲说没问题。'},
+        {speaker:'另一个陌生人',text:'...但五年前的事...万一被查出来...'},
+        {speaker:'周子轩',text:'五年前？周美玲？这些人在说什么？'},
+        {choices:[
+          {text:'继续偷听',next:'eavesdrop',effect:'获得线索'},
+          {text:'假装没听到，离开',next:'leave',effect:'安全'},
+          {text:'告诉陈默你听到了什么',next:'tell_chenmo3',effect:'触发陈默剧情'}
+        ]}
+      ]
+    },
+    zhouzixuan_ch6: {
+      title:'王诗涵的善意',
+      scenes:[
+        {speaker:'narration',text:'你在送外卖时遇到了王诗涵。她看起来很疲惫。'},
+        {speaker:'王诗涵',text:'小哥，能帮我一个忙吗？我需要把这些东西送到一个地方。'},
+        {speaker:'周子轩',text:'当然可以。送到哪里？'},
+        {speaker:'王诗涵',text:'旧商场废墟...帮我把这些花放在那里。'},
+        {choices:[
+          {text:'帮她送花',next:'deliver_flowers',effect:'好感度+10'},
+          {text:'问她为什么要去废墟',next:'ask_why_ruins',effect:'获得线索'},
+          {text:'告诉她你看到过可疑的事',next:'tell_suspicious',effect:'触发剧情'}
+        ]}
+      ]
+    },
+    zhouzixuan_ch7: {
+      title:'李梦琪的求助',
+      scenes:[
+        {speaker:'narration',text:'李梦琪在直播中突然崩溃了。你正好在给她送外卖。'},
+        {speaker:'李梦琪',text:'小哥...你能帮我吗？我不知道该怎么办了。'},
+        {speaker:'周子轩',text:'怎么了？发生什么事了？'},
+        {speaker:'李梦琪',text:'有人在威胁我...他们说要曝光我的秘密。'},
+        {choices:[
+          {text:'安慰她，帮她想办法',next:'comfort_mengqi2',effect:'好感度+15'},
+          {text:'问她是什么秘密',next:'ask_secret',effect:'获得线索'},
+          {text:'建议她报警',next:'suggest_police2',effect:'信任度-5'}
+        ]}
+      ]
+    },
+    zhouzixuan_ch8: {
+      title:'陈雨欣的诊所',
+      scenes:[
+        {speaker:'narration',text:'你给陈雨欣的诊所送外卖时，无意中看到了一些病历。'},
+        {speaker:'周子轩',text:'这些病历...都是五年前大火的受害者？陈雨欣在治疗他们？'},
+        {speaker:'narration',text:'你偷偷记下了几个名字，发现其中有一个是王诗涵。'},
+        {choices:[
+          {text:'找陈雨欣谈谈',next:'talk_to_yuxin',effect:'触发陈雨欣剧情'},
+          {text:'找王诗涵谈谈',next:'talk_to_wang2',effect:'触发王诗涵剧情'},
+          {text:'继续调查',next:'continue_investigate',effect:'获得线索'}
+        ]}
+      ]
+    },
+    zhouzixuan_ch9: {
+      title:'周美玲的司机',
+      scenes:[
+        {speaker:'narration',text:'你发现周美玲的司机经常去一个偏僻的地方。你决定跟踪他。'},
+        {speaker:'周子轩',text:'那个司机...他去的地方是旧商场废墟。他在那里做什么？'},
+        {speaker:'narration',text:'你看到司机从废墟里搬出了几个箱子，装进了车里。'},
+        {choices:[
+          {text:'跟踪司机的车',next:'follow_driver',effect:'获得线索'},
+          {text:'告诉陈默你看到了什么',next:'tell_chenmo4',effect:'触发陈默剧情'},
+          {text:'自己去废墟看看',next:'explore_ruins',effect:'危险'}
+        ]}
+      ]
+    },
+    zhouzixuan_ch10: {
+      title:'五年前的目击',
+      scenes:[
+        {speaker:'narration',text:'你突然想起来——五年前大火那天，你也在现场。你当时是一个快递员。'},
+        {speaker:'周子轩',text:'我想起来了...那天我看到了几个人从后门跑出来。其中一个...是周美玲！'},
+        {speaker:'narration',text:'你的心跳加速了。你可能是唯一一个看到真相的人。'},
+        {choices:[
+          {text:'告诉苏雅你看到了什么',next:'tell_suya4',effect:'触发苏雅剧情'},
+          {text:'告诉陈默',next:'tell_chenmo5',effect:'触发陈默剧情'},
+          {text:'保持沉默，保护自己',next:'stay_silent',effect:'安全'}
+        ]}
+      ]
+    },
+    zhouzixuan_ch11: {
+      title:'终章：小人物的大英雄',
+      scenes:[
+        {speaker:'narration',text:'你站在燕城大桥上，看着这座城市的夜景。你只是一个外卖骑手，但你知道了这座城市的秘密。'},
+        {speaker:'周子轩',text:'原来...五年前那场火，改变了所有人的命运。而我，是唯一的目击者。'},
+        {speaker:'narration',text:'你的手机响了，是苏雅：「子轩，我需要你的证词。你是唯一一个看到真相的人。」'},
+        {choices:[
+          {text:'出庭作证，揭露真相',ending:'zhouzixuan_truth',effect:'结局：证人之路'},
+          {text:'匿名提供线索',ending:'zhouzixuan_anonymous',effect:'结局：无名英雄'},
+          {text:'保持沉默，保护自己',ending:'zhouzixuan_silence',effect:'结局：沉默之选'},
+          {text:'用证词要挟当事人',ending:'zhouzixuan_dark',effect:'结局：黑暗之路'}
+        ]}
+      ]
+    },
+    chat_wangshihan: {
+      default:[
+        {trigger:'你好',responses:[
+          '你好，陆远先生。有什么事吗？',
+          '嗯，说吧。',
+          '...你又在加班？'
+        ]},
+        {trigger:'大火',responses:[
+          '...你为什么要问这个？',
+          '有些事情，不是你该知道的。',
+          '如果你想了解真相，来我办公室。'
+        ]},
+        {trigger:'小雅',responses:[
+          '小雅是个好女孩。你和她分手是你的损失。',
+          '她现在很好，不用担心。',
+          '...你还在想她？'
+        ]},
+        {trigger:'default',responses:[
+          '嗯。',
+          '我知道了。',
+          '有空再聊。',
+          '我在开会，晚点说。'
+        ]}
+      ]
+    },
+    chat_limengqi: {
+      default:[
+        {trigger:'你好',responses:[
+          '嗨~陆远！好久不见！',
+          '你找我什么事呀~',
+          '我正在直播呢，等会聊~'
+        ]},
+        {trigger:'债务',responses:[
+          '？？？你在说什么？',
+          '你怎么知道的...',
+          '求你别告诉别人...'
+        ]},
+        {trigger:'王诗涵',responses:[
+          '诗涵姐？我们大学同学呀~',
+          '别提她了...',
+          '她那个人...表面冷冰冰的，其实人挺好的。'
+        ]},
+        {trigger:'default',responses:[
+          '哈哈~',
+          '嗯嗯~',
+          '好啦好啦~',
+          '我先忙啦~'
+        ]}
+      ]
+    }
+  },
+  linxiaoyu: {
+    1: {
+      title:'一张不该拍到的照片',
+      scenes:[
+        {speaker:'narration',text:'你的摄影工作室里，一面墙上挂满了你在燕城拍摄的作品。但有一个上锁的抽屉里，藏着一张你从未展示过的照片。'},
+        {speaker:'林小雨',text:'张雨萱...你到底在隐瞒什么？'},
+        {speaker:'narration',text:'一个月前，你受雇为一个商业活动拍摄。在VIP休息室，你透过门缝拍到了张雨萱——燕城医院院长的女儿——和一个男人的合影。那个男人...是五年前大火中被宣布"死亡"的人。'},
+        {choices:[
+          {text:'联系张雨萱，告诉她你拍到了什么',next:'contact_zhang',effect:'触发张雨萱对话'},
+          {text:'先调查那个"死人"的身份',next:'investigate_dead',effect:'获得线索：大火照片'},
+          {text:'把照片藏好，假装什么都没发生',next:'hide_photo',effect:'时间推进'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch2: {
+      title:'意想不到的访客',
+      scenes:[
+        {speaker:'narration',text:'深夜，有人敲响了你工作室的门。你打开门，看到一个衣着精致的女人站在门口。'},
+        {speaker:'刘思琪',text:'林小雨小姐？我是月色酒吧的刘思琪。我知道你手里有一张照片...我出双倍价钱买。'},
+        {speaker:'林小雨',text:'你怎么知道照片的事？'},
+        {speaker:'刘思琪',text:'在燕城，没有我不知道的事。那张照片牵涉到的人，比你想象的多得多。'},
+        {choices:[
+          {text:'拒绝出售，追问她知道什么',next:'refuse_liu',effect:'信任度+10'},
+          {text:'同意交易，但要她提供更多内幕',next:'deal_liu',effect:'获得线索：酒吧录音'},
+          {text:'让她先告诉你照片里的人是谁',next:'ask_liu',effect:'好感度+5'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch3: {
+      title:'镜头下的真相',
+      scenes:[
+        {speaker:'narration',text:'你站在燕城大桥上，手里握着相机。远处，旧商场的废墟在夕阳下显得格外凄凉。'},
+        {speaker:'林小雨',text:'原来...那张照片里的人，才是解开一切的关键。五年前的大火...不是意外。'},
+        {speaker:'narration',text:'你的手机响了，是张雨萱："林小姐，我愿意和你谈谈。在那个废墟见面...我想告诉你真相。"'},
+        {choices:[
+          {text:'赴约，听张雨萱讲述真相',ending:'linxiaoyu_truth',effect:'结局：真相之镜'},
+          {text:'带着证据去找苏雅记者',ending:'linxiaoyu_expose',effect:'结局：曝光之路'},
+          {text:'把照片销毁，保护张雨萱',ending:'linxiaoyu_protection',effect:'结局：守护之选'}
+        ]}
+      ]
+    }
+  },
+  
+    linxiaoyu_ch4: {
+      title:'刘思琪的提议',
+      scenes:[
+        {speaker:'narration',text:'刘思琪再次找到你，这次她带来了一个更大的交易。'},
+        {speaker:'刘思琪',text:'小雨，我知道你在调查大火的事。我手里有更多证据，但你需要帮我一个忙。'},
+        {speaker:'林小雨',text:'什么忙？'},
+        {speaker:'刘思琪',text:'帮我拍一组照片——周美玲和一个神秘人的会面。我需要证据。'},
+        {choices:[
+          {text:'同意合作',next:'cooperate_liu',effect:'获得关键线索'},
+          {text:'拒绝，但保持联系',next:'refuse_liu2',effect:'好感度+5'},
+          {text:'问她为什么要调查周美玲',next:'ask_liu_reason',effect:'获得背景信息'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch5: {
+      title:'张雨萱的告白',
+      scenes:[
+        {speaker:'narration',text:'张雨萱主动约你见面，她的眼神里满是疲惫。'},
+        {speaker:'张雨萱',text:'林小姐...我知道你拍到了那张照片。我想告诉你真相。'},
+        {speaker:'林小雨',text:'什么真相？'},
+        {speaker:'张雨萱',text:'五年前那场火...是我父亲放的。他为了掩盖医院的医疗事故，烧死了所有知情者。'},
+        {choices:[
+          {text:'安慰她，继续听她讲述',next:'comfort_yuxuan',effect:'好感度+20'},
+          {text:'问她为什么现在才说',next:'ask_why_now',effect:'获得线索'},
+          {text:'把这些告诉苏雅',next:'tell_suya2',effect:'触发苏雅剧情'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch6: {
+      title:'周美玲的威胁',
+      scenes:[
+        {speaker:'narration',text:'你收到了一封匿名信，里面是你跟踪张雨萱的照片，还有一行字：「别多管闲事。」'},
+        {speaker:'林小雨',text:'这是周美玲干的...她在警告我。'},
+        {speaker:'narration',text:'你的手机响了，是一个陌生号码：「林小姐，我们该谈谈了。」'},
+        {choices:[
+          {text:'赴约，看她想说什么',next:'meet_meiling',effect:'触发周美玲剧情'},
+          {text:'拒绝，继续调查',next:'refuse_meiling',effect:'危险增加'},
+          {text:'告诉陈默',next:'tell_chenmo2',effect:'获得保护'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch7: {
+      title:'陈雨欣的线索',
+      scenes:[
+        {speaker:'narration',text:'陈雨欣找到你，说她有重要的东西要给你看。'},
+        {speaker:'陈雨欣',text:'这是我前男友的日记...他在大火前一天写的。里面提到了一个叫「永辉计划」的东西。'},
+        {speaker:'林小雨',text:'永辉计划？那是什么？'},
+        {speaker:'陈雨欣',text:'我不知道。但他在日记里说，如果他出事了，这本日记就是证据。'},
+        {choices:[
+          {text:'研究日记内容',next:'study_diary',effect:'获得关键线索'},
+          {text:'把日记交给苏雅',next:'give_diary_suya',effect:'触发苏雅剧情'},
+          {text:'找王诗涵询问永辉计划',next:'ask_wang_plan',effect:'触发王诗涵剧情'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch8: {
+      title:'赵雪婷的过去',
+      scenes:[
+        {speaker:'narration',text:'你在燕城大学的档案室里找到了赵雪婷的个人档案。档案里有一张泛黄的照片——年轻的赵雪婷和黄世杰的合影。'},
+        {speaker:'林小雨',text:'原来赵雪婷曾经是黄世杰的私人教师...她教的不是黄诗雅，而是黄世杰本人！'},
+        {speaker:'narration',text:'照片背面写着：「世杰，永远的秘密。——雪婷」'},
+        {choices:[
+          {text:'找赵雪婷当面问清楚',next:'confront_xueting',effect:'触发赵雪婷剧情'},
+          {text:'继续调查黄世杰',next:'investigate_huang2',effect:'获得线索'},
+          {text:'告诉陈默这个发现',next:'share_discovery',effect:'解锁合作'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch9: {
+      title:'黄诗雅的反抗',
+      scenes:[
+        {speaker:'narration',text:'黄诗雅找到你，她的眼里满是愤怒和绝望。'},
+        {speaker:'黄诗雅',text:'林姐，我受够了！我父亲...他不是好人。五年前那场火，他是幕后主使！'},
+        {speaker:'林小雨',text:'你怎么知道的？'},
+        {speaker:'黄诗雅',text:'我偷看了他的保险箱...里面有所有的证据。但他发现了，现在要送我出国。'},
+        {choices:[
+          {text:'帮她逃离燕城',next:'help_shiya_escape',effect:'好感度+20'},
+          {text:'让她先复制证据',next:'copy_evidence',effect:'获得关键证据'},
+          {text:'告诉她周美玲也在调查',next:'connect_meiling',effect:'触发周美玲剧情'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch10: {
+      title:'大火的真相',
+      scenes:[
+        {speaker:'narration',text:'你站在旧商场废墟前，手里握着所有的证据。真相终于拼凑完整了。'},
+        {speaker:'林小雨',text:'原来...五年前的大火是一场精心策划的谋杀。黄世杰为了掩盖医疗事故，买通了周美玲，烧死了所有知情者。'},
+        {speaker:'narration',text:'但还有一个问题没有答案——那个在大火中「死亡」的人，到底是谁？'},
+        {choices:[
+          {text:'去找陈雨欣，她可能知道',next:'ask_yuxin_death',effect:'触发陈雨欣剧情'},
+          {text:'继续调查死者身份',next:'investigate_death',effect:'获得关键线索'},
+          {text:'把所有证据公之于众',next:'expose_truth',effect:'触发结局'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch11: {
+      title:'终章：最终的快门',
+      scenes:[
+        {speaker:'narration',text:'你站在燕城大桥上，夕阳西下。你的相机里记录了这座城市所有的秘密。'},
+        {speaker:'林小雨',text:'原来...那张照片里的人，是陈雨欣的前男友。他没有死，他一直在暗中保护着所有人。'},
+        {speaker:'narration',text:'你的手机响了，是张雨萱：「林小姐，我愿意和你谈谈。在那个废墟见面...我想告诉你真相。」'},
+        {choices:[
+          {text:'赴约，听张雨萱讲述完整真相',ending:'linxiaoyu_truth',effect:'结局：真相之镜'},
+          {text:'带着所有证据去找苏雅',ending:'linxiaoyu_expose',effect:'结局：曝光之路'},
+          {text:'销毁所有证据，保护所有人',ending:'linxiaoyu_mercy',effect:'结局：守护之选'},
+          {text:'用照片威胁张雨萱',ending:'linxiaoyu_dark',effect:'结局：勒索之路'}
+        ]}
+      ]
+    },
+  chenmo: {
+    1: {
+      title:'不可能的任务',
+      scenes:[
+        {speaker:'narration',text:'你的事务所只有一张桌子、一把椅子和满墙的案件档案。今天，你收到了一封匿名信，信封里是一张周美玲的照片和一句话："查她。"'},
+        {speaker:'陈默',text:'周美玲...商会副会长。这个女人的履历干净得不像话，越是干净越有问题。'},
+        {speaker:'narration',text:'你开始调查周美玲的背景。表面上，她是一个成功的商人，但你发现她的过去几乎是一片空白——仿佛十年前的她根本不存在。'},
+        {choices:[
+          {text:'跟踪周美玲的日常活动',next:'tail_zhou',effect:'获得线索：秘密会面'},
+          {text:'调查她的公司账目',next:'investigate_finance',effect:'获得线索：信托基金'},
+          {text:'潜入商会大楼',next:'sneak_club',effect:'危险行动'}
+        ]}
+      ]
+    },
+    chenmo_ch2: {
+      title:'意外的同盟',
+      scenes:[
+        {speaker:'narration',text:'你在跟踪周美玲时，被一个女人发现了。她叫陈雨欣，是周美玲的心理咨询师。'},
+        {speaker:'陈雨欣',text:'陈默先生，我知道你在调查周美玲。我也是。'},
+        {speaker:'陈默',text:'...你为什么要调查自己的客户？'},
+        {speaker:'陈雨欣',text:'因为五年前那场大火...我男朋友死在了里面。而周美玲，是那场火的关键人物。'},
+        {choices:[
+          {text:'和陈雨欣合作，共享情报',next:'ally_chen',effect:'获得线索：咨询笔记'},
+          {text:'保持独立，但答应互相通报',next:'independent',effect:'好感度+5'},
+          {text:'不信任她，继续独自调查',next:'reject_chen',effect:'信任度-10'}
+        ]}
+      ]
+    },
+    chenmo_ch3: {
+      title:'侦探的抉择',
+      scenes:[
+        {speaker:'narration',text:'你站在旧商场废墟前，手里拿着所有的调查资料。真相已经浮出水面——周美玲、王诗涵的父亲、张雨萱的父亲...他们都是那场火的参与者。'},
+        {speaker:'陈默',text:'我的客户...就是周美玲自己。她雇我调查，是为了找出谁在暗中查她。她怕了。'},
+        {speaker:'narration',text:'手机响了，周美玲的声音传来："陈默先生，你比我想象的能干。来商会大楼，我们谈谈你的报酬。"'},
+        {choices:[
+          {text:'去见周美玲，假装继续为她工作',ending:'chenmo_undercover',effect:'结局：卧底之路'},
+          {text:'把证据交给苏雅记者',ending:'chenmo_justice',effect:'结局：正义之剑'},
+          {text:'带着证据消失，让真相自己浮出水面',ending:'chenmo_disappear',effect:'结局：隐退之选'}
+        ]}
+      ]
+    }
+  },
+  
+    chenmo_ch4: {
+      title:'周美玲的秘密',
+      scenes:[
+        {speaker:'narration',text:'你跟踪周美玲来到了一个偏僻的仓库。她进去后，你透过窗户看到了惊人的一幕。'},
+        {speaker:'陈默',text:'她...她在销毁文件？那些是什么文件？'},
+        {speaker:'narration',text:'你拍下了她销毁文件的过程。但就在这时，你的手机响了——是陈雨欣打来的。'},
+        {choices:[
+          {text:'继续监视',next:'continue_watch',effect:'获得证据'},
+          {text:'接电话，告诉陈雨欣你发现了什么',next:'answer_phone',effect:'触发陈雨欣剧情'},
+          {text:'离开，避免被发现',next:'escape',effect:'安全撤离'}
+        ]}
+      ]
+    },
+    chenmo_ch5: {
+      title:'陈雨欣的信任',
+      scenes:[
+        {speaker:'narration',text:'陈雨欣来到你的事务所，她看起来很紧张。'},
+        {speaker:'陈雨欣',text:'陈默，我...我想告诉你一些关于我前男友的事。他在大火中「死」了，但...'},
+        {speaker:'陈默',text:'但什么？'},
+        {speaker:'陈雨欣',text:'但他可能还活着。我最近收到了他的消息。'},
+        {choices:[
+          {text:'帮她寻找前男友',next:'help_find_boyfriend',effect:'好感度+20'},
+          {text:'问她为什么现在才说',next:'ask_why_now2',effect:'获得线索'},
+          {text:'告诉她这可能是陷阱',next:'warn_yuxin',effect:'信任度+10'}
+        ]}
+      ]
+    },
+    chenmo_ch6: {
+      title:'刘思琪的保险柜',
+      scenes:[
+        {speaker:'narration',text:'刘思琪找到你，说她愿意把保险柜里的东西给你看——但有一个条件。'},
+        {speaker:'刘思琪',text:'侦探先生，保险柜里有五年前大火的证据。但你要帮我一个忙——找到我的弟弟。'},
+        {speaker:'陈默',text:'你弟弟怎么了？'},
+        {speaker:'刘思琪',text:'他五年前失踪了，我怀疑和大火有关。'},
+        {choices:[
+          {text:'同意帮她找弟弟',next:'help_find_brother',effect:'获得关键线索'},
+          {text:'先看保险柜里的东西',next:'see_safe_first',effect:'信任度-10'},
+          {text:'问她弟弟的详细信息',next:'ask_brother_info',effect:'获得线索'}
+        ]}
+      ]
+    },
+    chenmo_ch7: {
+      title:'张雨萱的父亲',
+      scenes:[
+        {speaker:'narration',text:'你调查了张雨萱的父亲——燕城医院院长张建国。他的过去比你想象的更复杂。'},
+        {speaker:'陈默',text:'张建国...他在大火前一周突然转移了所有资产。这不是巧合。'},
+        {speaker:'narration',text:'更让你震惊的是，张建国的资产转移记录里，有一个名字反复出现：黄世杰。'},
+        {choices:[
+          {text:'找张雨萱询问她父亲的事',next:'ask_yuxuan_father',effect:'触发张雨萱剧情'},
+          {text:'继续调查黄世杰',next:'investigate_huang3',effect:'获得线索'},
+          {text:'把这些告诉苏雅',next:'tell_suya3',effect:'触发苏雅剧情'}
+        ]}
+      ]
+    },
+    chenmo_ch8: {
+      title:'李梦琪的债务',
+      scenes:[
+        {speaker:'narration',text:'你发现李梦琪的债务不是普通的债务——那些钱来自一个地下钱庄。'},
+        {speaker:'陈默',text:'地下钱庄...这个钱庄的幕后老板是谁？'},
+        {speaker:'narration',text:'追查下去，你发现钱庄的真正主人是周美玲。李梦琪欠的不是钱，而是人情。'},
+        {choices:[
+          {text:'找李梦琪当面问清楚',next:'confront_mengqi',effect:'触发李梦琪剧情'},
+          {text:'告诉周美玲你知道了',next:'tell_meiling',effect:'危险增加'},
+          {text:'把这些作为筹码',next:'use_as_leverage',effect:'获得谈判筹码'}
+        ]}
+      ]
+    },
+    chenmo_ch9: {
+      title:'王诗涵的赎罪',
+      scenes:[
+        {speaker:'narration',text:'你跟踪王诗涵来到了旧商场废墟。她跪在地上，面前摆着五束白花。'},
+        {speaker:'王诗涵',text:'对不起...对不起...我不该听他们的...'},
+        {speaker:'陈默',text:'原来...王诗涵一直在赎罪。她知道大火的真相，但她选择了沉默。'},
+        {choices:[
+          {text:'现身和她谈谈',next:'talk_to_wang',effect:'触发王诗涵剧情'},
+          {text:'继续监视',next:'continue_monitor',effect:'获得证据'},
+          {text:'离开，给她空间',next:'leave_wang',effect:'好感度+5'}
+        ]}
+      ]
+    },
+    chenmo_ch10: {
+      title:'五年前的真相',
+      scenes:[
+        {speaker:'narration',text:'所有的线索终于拼凑在一起。五年前的大火，是一场精心策划的谋杀。'},
+        {speaker:'陈默',text:'黄世杰为了掩盖医疗事故，买通了周美玲，让张建国放火。而王诗涵和李梦琪...是被迫的帮凶。'},
+        {speaker:'narration',text:'但还有一个谜团没有解开——那个在大火中「死亡」的人，到底是谁？'},
+        {choices:[
+          {text:'去找陈雨欣，她可能知道答案',next:'ask_yuxin_answer',effect:'触发陈雨欣剧情'},
+          {text:'继续追查死者身份',next:'investigate_dead2',effect:'获得关键线索'},
+          {text:'把这些告诉所有人',next:'tell_everyone',effect:'触发结局'}
+        ]}
+      ]
+    },
+    chenmo_ch11: {
+      title:'终章：侦探的宿命',
+      scenes:[
+        {speaker:'narration',text:'你站在侦探事务所里，墙上挂满了这个案子的照片和线索。是时候做出最终决定了。'},
+        {speaker:'陈默',text:'原来...陈雨欣的前男友没有死。他一直在暗中保护着所有人，包括我。'},
+        {speaker:'narration',text:'你的手机响了，是周美玲：「陈默先生，我知道你发现了全部真相。我们该谈谈了。」'},
+        {choices:[
+          {text:'去见周美玲，听她解释',ending:'chenmo_truth',effect:'结局：真相之路'},
+          {text:'把证据交给警方',ending:'chenmo_justice',effect:'结局：正义之选'},
+          {text:'销毁证据，保护所有人',ending:'chenmo_mercy',effect:'结局：宽恕之选'},
+          {text:'用证据要挟周美玲',ending:'chenmo_dark',effect:'结局：黑暗之路'}
+        ]}
+      ]
+    },
+  suya: {
+    1: {
+      title:'被遗忘的线索',
+      scenes:[
+        {speaker:'narration',text:'燕城日报的档案室里，你翻出了五年前大火的旧报道。所有报纸都写着"意外事故"，但你的线人告诉你，有人篡改了报道。'},
+        {speaker:'苏雅',text:'这些报道...有三篇被撤回了。撤回的理由是"信息不准确"，但原文根本找不到。'},
+        {speaker:'narration',text:'你找到了当年负责这组报道的老编辑。他退休了，住在燕城郊区的一个小院里。'},
+        {choices:[
+          {text:'去找老编辑了解当年的情况',next:'visit_editor',effect:'获得线索：医院文件'},
+          {text:'调查撤回报道的审批人',next:'investigate_approval',effect:'获得线索：学术论文'},
+          {text:'在网上搜索大火的民间记录',next:'online_search',effect:'获得线索：大火照片'}
+        ]}
+      ]
+    },
+    suya_ch2: {
+      title:'暗流涌动',
+      scenes:[
+        {speaker:'narration',text:'你的调查引起了某些人的注意。今天，你的办公桌上多了一张纸条："停手，否则后果自负。"'},
+        {speaker:'苏雅',text:'威胁我？好啊，这说明我查对了方向。'},
+        {speaker:'narration',text:'你决定去月色酒吧找刘思琪——你听说她知道燕城所有的秘密。但刚到门口，你看到了一个意想不到的人：赵雪婷教授。'},
+        {choices:[
+          {text:'跟踪赵雪婷，看她来酒吧做什么',next:'follow_zhao',effect:'获得新线索'},
+          {text:'直接进去找刘思琪',next:'ask_liu_suya',effect:'好感度+5'},
+          {text:'先回去重新评估形势',next:'retreat',effect:'时间推进'}
+        ]}
+      ]
+    },
+    suya_ch3: {
+      title:'最终的报道',
+      scenes:[
+        {speaker:'narration',text:'你坐在报社的办公室里，面前是写好的报道。标题是《燕城大火：五年前的真相》。你的手悬在发送键上方。'},
+        {speaker:'苏雅',text:'这篇报道一旦发出，燕城的天就要变了。王诗涵、周美玲、张雨萱的父亲...所有人都会被牵连。'},
+        {speaker:'narration',text:'你的手机响了，是陆远："苏雅，我有新的证据。还有...小雅失踪了。"'},
+        {choices:[
+          {text:'先发布报道，再救小雅',ending:'suya_publish',effect:'结局：真相之声'},
+          {text:'先救小雅，暂缓发布',ending:'suya_rescue',effect:'结局：人命关天'},
+          {text:'和陆远合作，一起揭开真相',ending:'suya_team',effect:'结局：联手出击'}
+        ]}
+      ]
+    }
+  },
+  
+    suya_ch4: {
+      title:'周美玲的过去',
+      scenes:[
+        {speaker:'narration',text:'你查到了周美玲的过去——她在十年前还不存在。没有学历，没有工作记录，仿佛凭空出现。'},
+        {speaker:'苏雅',text:'周美玲...你到底是谁？'},
+        {speaker:'narration',text:'你的线人告诉你，周美玲的真名叫刘小红，十年前从一个小县城来到燕城。'},
+        {choices:[
+          {text:'去她的家乡调查',next:'visit_hometown',effect:'获得关键线索'},
+          {text:'找周美玲当面问清楚',next:'confront_meiling2',effect:'触发周美玲剧情'},
+          {text:'继续在燕城调查',next:'stay_investigate2',effect:'获得线索'}
+        ]}
+      ]
+    },
+    suya_ch5: {
+      title:'陈雨欣的证词',
+      scenes:[
+        {speaker:'narration',text:'陈雨欣找到你，说她愿意作为证人。'},
+        {speaker:'陈雨欣',text:'苏雅，我愿意告诉你我知道的一切。但你要保护我的安全。'},
+        {speaker:'苏雅',text:'当然。你知道什么？'},
+        {speaker:'陈雨欣',text:'五年前那场火...我前男友是知情人。他没有死，他一直在暗中调查。'},
+        {choices:[
+          {text:'帮她联系前男友',next:'help_contact_boyfriend',effect:'获得关键证据'},
+          {text:'问她还有谁知道',next:'ask_who_knows',effect:'获得线索'},
+          {text:'保护她的安全',next:'protect_yuxin',effect:'好感度+15'}
+        ]}
+      ]
+    },
+    suya_ch6: {
+      title:'刘思琪的证据',
+      scenes:[
+        {speaker:'narration',text:'刘思琪把一个U盘交给了你。'},
+        {speaker:'刘思琪',text:'这里面有五年前大火的全部证据。包括周美玲和黄世杰的通话录音。'},
+        {speaker:'苏雅',text:'你为什么要给我？'},
+        {speaker:'刘思琪',text:'因为...我弟弟也是受害者之一。我要真相大白。'},
+        {choices:[
+          {text:'立即查看U盘内容',next:'check_usb',effect:'获得关键证据'},
+          {text:'备份U盘内容',next:'backup_usb',effect:'安全措施'},
+          {text:'问她弟弟的事',next:'ask_brother',effect:'获得线索'}
+        ]}
+      ]
+    },
+    suya_ch7: {
+      title:'张雨萱的恐惧',
+      scenes:[
+        {speaker:'narration',text:'张雨萱找到你，她浑身发抖。'},
+        {speaker:'张雨萱',text:'苏雅...我父亲知道了。他知道我在调查大火的事。他要送我出国。'},
+        {speaker:'苏雅',text:'别怕。我会保护你。你父亲到底做了什么？'},
+        {speaker:'张雨萱',text:'他...他放了那场火。为了掩盖医院的医疗事故。'},
+        {choices:[
+          {text:'保护张雨萱',next:'protect_yuxuan',effect:'好感度+20'},
+          {text:'让她提供更多证据',next:'ask_more_evidence',effect:'获得关键证据'},
+          {text:'告诉她陈默也在调查',next:'connect_chenmo',effect:'解锁合作'}
+        ]}
+      ]
+    },
+    suya_ch8: {
+      title:'赵雪婷的论文',
+      scenes:[
+        {speaker:'narration',text:'你找到了赵雪婷那篇被撤回的论文。论文里的数据证明，大火不是意外。'},
+        {speaker:'苏雅',text:'赵雪婷...你为什么要撤回这篇论文？'},
+        {speaker:'narration',text:'你联系了赵雪婷，她说她被威胁了。'},
+        {choices:[
+          {text:'保护赵雪婷',next:'protect_xueting',effect:'好感度+15'},
+          {text:'让她重新发表论文',next:'republish_paper',effect:'获得关键证据'},
+          {text:'问她谁威胁了她',next:'ask_who_threatened',effect:'获得线索'}
+        ]}
+      ]
+    },
+    suya_ch9: {
+      title:'黄家的阴谋',
+      scenes:[
+        {speaker:'narration',text:'你查到了黄世杰的全部阴谋——他为了掩盖医疗事故，策划了整场大火。'},
+        {speaker:'苏雅',text:'黄世杰...你为了钱，害死了多少人？'},
+        {speaker:'narration',text:'但黄世杰已经死了——他在三年前「意外」身亡。现在掌管黄家的是他的女儿黄诗雅。'},
+        {choices:[
+          {text:'找黄诗雅谈谈',next:'talk_to_shiya',effect:'触发黄诗雅剧情'},
+          {text:'继续调查黄世杰的死因',next:'investigate_death2',effect:'获得线索'},
+          {text:'把这些写成报道',next:'write_article',effect:'触发结局'}
+        ]}
+      ]
+    },
+    suya_ch10: {
+      title:'大火的真相',
+      scenes:[
+        {speaker:'narration',text:'所有的证据都指向了同一个真相——五年前的大火是一场精心策划的谋杀。'},
+        {speaker:'苏雅',text:'原来...黄世杰、周美玲、张建国...他们都是凶手。而王诗涵和李梦琪...是被迫的帮凶。'},
+        {speaker:'narration',text:'但还有一个谜团——那个在大火中「死亡」的人，到底是谁？'},
+        {choices:[
+          {text:'去找陈雨欣，她可能知道答案',next:'ask_yuxin_answer2',effect:'触发陈雨欣剧情'},
+          {text:'继续追查死者身份',next:'investigate_dead3',effect:'获得关键线索'},
+          {text:'准备发表报道',next:'prepare_article',effect:'触发结局'}
+        ]}
+      ]
+    },
+    suya_ch11: {
+      title:'终章：正义之声',
+      scenes:[
+        {speaker:'narration',text:'你坐在报社的办公室里，面前是你的报道草稿。标题是：《燕城大火真相：一场精心策划的谋杀》。'},
+        {speaker:'苏雅',text:'原来...陈雨欣的前男友没有死。他一直在暗中保护着所有人，包括我。'},
+        {speaker:'narration',text:'你的手机响了，是主编：「苏雅，你的报道通过了。明天见报。」'},
+        {choices:[
+          {text:'发表报道，揭露真相',ending:'suya_truth',effect:'结局：真相之声'},
+          {text:'保护消息来源，匿名发表',ending:'suya_anonymous',effect:'结局：无名英雄'},
+          {text:'销毁报道，保护所有人',ending:'suya_mercy',effect:'结局：宽恕之选'},
+          {text:'用报道要挟当事人',ending:'suya_dark',effect:'结局：黑暗之路'}
+        ]}
+      ]
+    },
+  zhouzixuan: {
+    1: {
+      title:'不该看到的事',
+      scenes:[
+        {speaker:'narration',text:'昨晚十一点半，你送最终一单外卖到月色酒吧后门。你看到了不该看到的东西——一辆黑色迈巴赫停在暗处，车上下来两个人：商会副会长周美玲，和...一个你认识的外卖客户——黄诗雅。'},
+        {speaker:'周子轩',text:'黄诗雅？那个富二代？她怎么会和周美玲在深夜见面？而且...她们看起来很紧张。'},
+        {speaker:'narration',text:'你假装在调导航，偷偷听到了她们的对话碎片："...那场火...证据...销毁..."'},
+        {choices:[
+          {text:'假装什么都没看到，继续送外卖',next:'ignore',effect:'时间推进'},
+          {text:'跟踪黄诗雅，看看她要去哪',next:'follow_huang',effect:'好感度+5'},
+          {text:'把这个消息告诉你的骑手群',next:'spread_news',effect:'危险行为'}
+        ]}
+      ]
+    },
+    zhouzixuan_ch2: {
+      title:'意外的邂逅',
+      scenes:[
+        {speaker:'narration',text:'今天送外卖时，你接到了一个特殊的订单——黄诗雅点的奶茶。送到时，她认出了你。'},
+        {speaker:'黄诗雅',text:'你是...昨晚在酒吧后门的骑手？你...看到了什么？'},
+        {speaker:'周子轩',text:'我什么都没看到，我就是个送外卖的。'},
+        {speaker:'黄诗雅',text:'...你的眼神告诉我你在撒谎。不过没关系，你看起来不是坏人。帮我一个忙？'},
+        {choices:[
+          {text:'答应帮忙',next:'help_huang',effect:'好感度+15'},
+          {text:'拒绝，但答应保密',next:'refuse_help',effect:'信任度+10'},
+          {text:'要报酬',next:'ask_payment',effect:'获得金钱'}
+        ]}
+      ]
+    },
+    zhouzixuan_ch3: {
+      title:'小人物的大选择',
+      scenes:[
+        {speaker:'narration',text:'你站在燕城大桥上，风吹着你的外卖制服。黄诗雅给你的U盘在口袋里，里面是足以撼动燕城的证据。'},
+        {speaker:'周子轩',text:'我就是个送外卖的...但这一次，我送的不是外卖，是正义。'},
+        {speaker:'narration',text:'手机响了，是刘思琪："小周，来月色酒吧，我有话跟你说。还有...周美玲在找你。"'},
+        {choices:[
+          {text:'去月色酒吧找刘思琪',ending:'zhouzixuan_bar',effect:'结局：暗夜抉择'},
+          {text:'把U盘送给苏雅记者',ending:'zhouzixuan_truth',effect:'结局：小人物的胜利'},
+          {text:'把U盘还给黄诗雅',ending:'zhouzixuan_love',effect:'结局：意外之恋'}
+        ]}
+      ]
+    }
+  }
+};
+
+// ===================== GAME ENGINE =====================
+const G = {
+  state: null,
+  currentScreen: 'title-screen',
+  history: [],
+
+  init() {
+    this.loadState();
+    if (this.state && this.state.player) {
+      document.getElementById('continue-btn').style.display = '';
+    }
+    this.renderTitle();
+  },
+
+  newGame() {
+    this.state = {
+      player: null,
+      chapter: {luyuan:0,linxiaoyu:0,chenmo:0,suya:0,zhouzixuan:0},
+      relationships: {},
+      clues: [],
+      achievements: [],
+      messages: {},
+      time: {day:1, hour:8, period:'morning'},
+      storyFlags: {},
+      unread: {}
+    };
+    // Init relationships
+    Object.keys(GAME_DATA.richWomen).forEach(k => {
+      this.state.relationships[k] = {affection:0, trust:0, secret:0, met:false};
+    });
+    this.showScreen('char-select');
+    this.renderCharSelect();
+  },
+
+  continueGame() {
+    if (this.state && this.state.player) {
+      this.showScreen('main-hub');
+      this.renderHub();
+    }
+  },
+
+  loadState() {
+    try {
+      const s = localStorage.getItem('fupo_save');
+      if (s) this.state = JSON.parse(s);
+    } catch(e) {}
+  },
+
+  saveState() {
+    try {
+      localStorage.setItem('fupo_save', JSON.stringify(this.state));
+    } catch(e) {}
+  },
+
+  showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.remove('active','entering');
+    });
+    const el = document.getElementById(id);
+    el.classList.add('active','entering');
+    this.currentScreen = id;
+    setTimeout(() => el.classList.remove('entering'), 400);
+  },
+
+  goBack() {
+    if (this.state && this.state.player) {
+      this.showScreen('main-hub');
+    } else {
+      this.showScreen('title-screen');
+    }
+  },
+
+  notify(msg) {
+    const n = document.createElement('div');
+    n.className = 'notification';
+    n.textContent = msg;
+    document.body.appendChild(n);
+    setTimeout(() => { n.classList.add('hiding'); setTimeout(() => n.remove(), 300); }, 2500);
+  },
+
+  // ===== Character Select =====
+  renderCharSelect() {
+    const grid = document.getElementById('char-grid');
+    grid.innerHTML = '';
+    Object.values(GAME_DATA.players).forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'char-card';
+      card.dataset.id = p.id;
+      card.innerHTML = `
+        <div class="top">
+          <div class="avatar" style="background:${p.color}">${p.avatar}</div>
+          <div>
+            <div class="name">${p.name}</div>
+            <div><span class="age">${p.age}岁</span> · <span class="role">${p.role}</span></div>
+          </div>
+        </div>
+        <div class="bio">${p.bio}</div>
+        <div class="skills">${p.skills.map(s => `<span class="tag">${s}</span>`).join('')}</div>
+      `;
+      card.onclick = () => {
+        grid.querySelectorAll('.char-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        document.getElementById('confirm-char-btn').disabled = false;
+        this._selectedChar = p.id;
+      };
+      grid.appendChild(card);
+    });
+  },
+
+  confirmCharacter() {
+    if (!this._selectedChar) return;
+    this.state.player = this._selectedChar;
+    this.saveState();
+    // Show intro
+    const p = GAME_DATA.players[this._selectedChar];
+    this.showIntro(p);
+  },
+
+  showIntro(player) {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.style.zIndex = 200;
+    overlay.innerHTML = `
+      <div class="modal" style="max-width:500px">
+        <h3>${player.avatar} ${player.name}的故事</h3>
+        <div style="font-size:14px;line-height:1.8;color:var(--dim);max-height:50vh;overflow-y:auto">${player.intro.split('\n').map(p => `<p style="margin-bottom:8px">${p}</p>`).join('')}</div>
+        <div style="margin-top:16px;text-align:center">
+          <button class="btn gold" onclick="this.closest('.modal-overlay').remove();G.startGame()">开始旅程</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+  },
+
+  startGame() {
+    this.showScreen('main-hub');
+    this.renderHub();
+    this.advanceTime(0);
+    // Unlock first story
+    this.unlockChapter(this.state.player, 1);
+    this.notify('欢迎来到燕城，' + GAME_DATA.players[this.state.player].name);
+  },
+
+  // ===== Hub Rendering =====
+  renderHub() {
+    const p = GAME_DATA.players[this.state.player];
+    document.getElementById('hub-avatar').textContent = p.avatar;
+    document.getElementById('hub-avatar').style.background = p.color;
+    document.getElementById('hub-player-name').textContent = p.name;
+    document.getElementById('hub-player-role').textContent = p.role + ' · ' + p.age + '岁';
+    this.switchTab('map');
+  },
+
+  switchTab(tab) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === tab));
+    const content = document.getElementById('hub-content');
+    content.scrollTop = 0;
+    switch(tab) {
+      case 'map': this.renderMap(content); break;
+      case 'phone': this.renderPhone(content); break;
+      case 'stories': this.renderStories(content); break;
+      case 'invest': this.renderInvestigation(content); break;
+      case 'relations': this.renderRelationships(content); break;
+      case 'achievements': this.renderAchievements(content); break;
+      case 'save': this.renderSaveLoad(content); break;
+    }
+  },
+
+  // ===== Map =====
+  renderMap(el) {
+    const locs = GAME_DATA.locations;
+    const p = GAME_DATA.players[this.state.player];
+    let html = '<div class="city-map"><h3 style="color:var(--accent);margin-bottom:12px">🗺️ 燕城地图</h3><div class="map-grid">';
+    Object.entries(locs).forEach(([key, loc]) => {
+      const isHome = key === p.startLocation;
+      html += `
+        <div class="map-location" onclick="G.visitLocation('${key}')" ${isHome ? 'style="border-color:var(--gold)"' : ''}>
+          <div class="loc-icon">${loc.icon}</div>
+          <div class="loc-name">${loc.name}</div>
+          <div class="loc-desc">${loc.desc}</div>
+          <div class="loc-time">🕐 ${loc.time}</div>
+          ${isHome ? '<div class="badge gold" style="margin-top:4px">🏠 据点</div>' : ''}
+        </div>
+      `;
+    });
+    html += '</div></div>';
+    el.innerHTML = html;
+  },
+
+  visitLocation(loc) {
+    const locData = GAME_DATA.locations[loc];
+    // Check for events based on location and time
+    const events = this.getLocationEvents(loc);
+    if (events.length > 0) {
+      this.triggerEvent(events[0]);
+    } else {
+      this.notify(`你来到了${locData.name}，这里似乎没什么特别的事情发生。`);
+      this.advanceTime(1);
+    }
+  },
+
+  getLocationEvents(loc) {
+    const events = [];
+    const p = this.state.player;
+    const ch = this.state.chapter[p];
+    // Character-specific location events
+    if (p === 'luyuan' && loc === 'office' && ch >= 1) {
+      events.push({type:'story', id:'luyuan_ch' + (ch+1)});
+    }
+    if (p === 'chenmo' && loc === 'club' && ch >= 1) {
+      events.push({type:'story', id:'chenmo_ch' + (ch+1)});
+    }
+    if (p === 'zhouzixuan' && loc === 'nightclub') {
+      events.push({type:'story', id:'zhouzixuan_ch2'});
+    }
+    return events;
+  },
+
+  triggerEvent(event) {
+    if (event.type === 'story') {
+      this.startStory(event.id);
+    }
+  },
+
+  // ===== Phone =====
+  renderPhone(el) {
+    const p = GAME_DATA.players[this.state.player];
+    const contacts = p.contacts;
+    let html = '<div class="phone-frame"><div class="phone-notch"><span></span></div><div class="phone-screen">';
+    html += '<div class="chat-header"><span style="font-size:20px">📱</span><span class="contact-name" style="flex:1;text-align:center">微信</span></div>';
+    html += '<div class="wechat-list scroll">';
+    contacts.forEach(cid => {
+      const c = GAME_DATA.richWomen[cid];
+      const msgs = this.state.messages[cid] || [];
+      const lastMsg = msgs.length > 0 ? msgs[msgs.length-1].text : '点击开始对话';
+      const unread = this.state.unread[cid] || 0;
+      html += `
+        <div class="wechat-item" onclick="G.openChat('${cid}')">
+          <div class="avatar" style="background:${c.color}">${c.avatar}</div>
+          <div class="info">
+            <div class="name-row"><span style="font-weight:700">${c.name}</span><span class="msg-time">${this.getTimeStr()}</span></div>
+            <div class="last-msg">${lastMsg}</div>
+          </div>
+          ${unread > 0 ? `<div class="unread">${unread}</div>` : ''}
+        </div>
+      `;
+    });
+    // Also show other players as contacts
+    Object.values(GAME_DATA.players).forEach(op => {
+      if (op.id === p.id) return;
+      html += `
+        <div class="wechat-item" onclick="G.openChat('${op.id}')">
+          <div class="avatar" style="background:${op.color}">${op.avatar}</div>
+          <div class="info">
+            <div class="name-row"><span style="font-weight:700">${op.name}</span><span class="msg-time">${this.getTimeStr()}</span></div>
+            <div class="last-msg">${op.role}</div>
+          </div>
+        </div>
+      `;
+    });
+    html += '</div></div></div>';
+    el.innerHTML = html;
+  },
+
+  openChat(contactId) {
+    const content = document.getElementById('hub-content');
+    const isRichWoman = GAME_DATA.richWomen[contactId];
+    const contact = isRichWoman ? GAME_DATA.richWomen[contactId] : GAME_DATA.players[contactId];
+    const msgs = this.state.messages[contactId] || [];
+    this.state.unread[contactId] = 0;
+
+    let html = '<div class="phone-frame"><div class="phone-notch"><span></span></div><div class="phone-screen">';
+    html += `<div class="chat-header">
+      <span class="back-btn" onclick="G.switchTab('phone')">←</span>
+      <div class="avatar sm" style="background:${contact.color}">${contact.avatar}</div>
+      <div class="contact-name">${contact.name}</div>
+      ${isRichWoman ? `<span class="status">在线</span>` : ''}
+    </div>`;
+    html += '<div class="chat-messages scroll" id="chat-messages">';
+    if (msgs.length === 0) {
+      html += '<div class="msg system">你开始了一段新对话</div>';
+    }
+    msgs.forEach(m => {
+      html += `<div class="msg ${m.from === 'me' ? 'me' : 'them'}"><div>${m.text}</div><div class="time">${m.time || this.getTimeStr()}</div></div>`;
+    });
+    html += '</div>';
+    // Options or input
+    if (isRichWoman && msgs.length === 0) {
+      // Show conversation starters
+      const starters = this.getChatStarters(contactId);
+      html += '<div class="msg-options">';
+      starters.forEach(s => {
+        html += `<div class="msg-option" onclick="G.sendFirstMsg('${contactId}','${s.text}')">${s.text}</div>`;
+      });
+      html += '</div>';
+    } else if (isRichWoman) {
+      html += `<div class="msg-options" id="chat-opts"></div>`;
+      html += `<div class="chat-input-area"><input type="text" id="chat-input" placeholder="输入消息..." onkeydown="if(event.key==='Enter')G.sendMsg('${contactId}')"><button onclick="G.sendMsg('${contactId}')">➤</button></div>`;
+    } else {
+      html += `<div class="chat-input-area"><input type="text" id="chat-input" placeholder="输入消息..." onkeydown="if(event.key==='Enter')G.sendMsg('${contactId}')"><button onclick="G.sendMsg('${contactId}')">➤</button></div>`;
+    }
+    html += '</div></div>';
+    content.innerHTML = html;
+
+    // Scroll to bottom
+    setTimeout(() => {
+      const chatBox = document.getElementById('chat-messages');
+      if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+    }, 50);
+
+    // Unlock achievement
+    if (!this.state.achievements.includes('first_chat')) {
+      this.unlockAchievement('first_chat');
+    }
+    // Mark as met
+    if (isRichWoman && !this.state.relationships[contactId].met) {
+      this.state.relationships[contactId].met = true;
+      this.state.relationships[contactId].affection += 5;
+      this.notify(`你与${contact.name}建立了联系！`);
+    }
+  },
+
+  getChatStarters(cid) {
+    const starters = {
+      wangshihan: [{text:'你好，王总。我是陆远。'},{text:'听说您公司最近有个新项目？'}],
+      limengqi: [{text:'梦琪姐好！我是小雅的朋友。'},{text:'你的直播我看过，很有意思！'}],
+      zhangyuxuan: [{text:'张小姐您好，冒昧打扰。'},{text:'我有一些关于医院的事想请教。'}],
+      liuqiqi: [{text:'思琪姐，月色酒吧还招人吗？'},{text:'听说你这里什么消息都有？'}],
+      zhaouxeting: [{text:'赵教授您好，我是您的读者。'},{text:'关于五年前的那篇论文...'}],
+      huangshiya: [{text:'诗雅，是我。'},{text:'今晚有什么安排？'}],
+      zhoumeiling: [{text:'周会长您好。'},{text:'关于商会的合作...'}],
+      chenyuxin: [{text:'陈医生，我想预约咨询。'},{text:'最近压力比较大，想找人聊聊。'}]
+    };
+    return starters[cid] || [{text:'你好！'}];
+  },
+
+  sendFirstMsg(cid, text) {
+    if (!this.state.messages[cid]) this.state.messages[cid] = [];
+    this.state.messages[cid].push({from:'me', text, time:this.getTimeStr()});
+    this.saveState();
+    this.openChat(cid);
+    // Show typing then reply
+    setTimeout(() => this.showTypingReply(cid), 1000);
+  },
+
+  sendMsg(cid) {
+    const input = document.getElementById('chat-input');
+    if (!input || !input.value.trim()) return;
+    const text = input.value.trim();
+    if (!this.state.messages[cid]) this.state.messages[cid] = [];
+    this.state.messages[cid].push({from:'me', text, time:this.getTimeStr()});
+    input.value = '';
+    // Update chat display
+    const chatBox = document.getElementById('chat-messages');
+    chatBox.innerHTML += `<div class="msg me"><div>${text}</div><div class="time">${this.getTimeStr()}</div></div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+    this.saveState();
+    // Show typing then reply
+    setTimeout(() => this.showTypingReply(cid, text), 800 + Math.random() * 1500);
+  },
+
+  showTypingReply(cid, userMsg) {
+    const chatBox = document.getElementById('chat-messages');
+    if (!chatBox) return;
+    // Show typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'typing-indicator';
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    chatBox.appendChild(typing);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    setTimeout(() => {
+      typing.remove();
+      const reply = this.generateReply(cid, userMsg);
+      this.state.messages[cid].push({from:'them', text:reply, time:this.getTimeStr()});
+      chatBox.innerHTML += `<div class="msg them"><div>${reply}</div><div class="time">${this.getTimeStr()}</div></div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+      // Update relationship
+      if (this.state.relationships[cid]) {
+        this.state.relationships[cid].affection += 2;
+        this.state.relationships[cid].trust += 1;
+      }
+      this.saveState();
+      // Show new options
+      this.updateChatOptions(cid);
+    }, 1500 + Math.random() * 2000);
+  },
+
+  generateReply(cid, userMsg) {
+    const msg = (userMsg || '').toLowerCase();
+    const chatData = STORIES[this.state.player]?.['chat_' + cid];
+    if (chatData) {
+      for (const rule of chatData.default) {
+        if (rule.trigger === 'default') continue;
+        if (msg.includes(rule.trigger)) {
+          return rule.responses[Math.floor(Math.random() * rule.responses.length)];
+        }
+      }
+      // Default responses
+      const defaults = chatData.default.find(r => r.trigger === 'default');
+      if (defaults) {
+        return defaults.responses[Math.floor(Math.random() * defaults.responses.length)];
+      }
+    }
+    // Generic replies
+    const genericReplies = [
+      '嗯，我知道了。',
+      '好的，有空再聊~',
+      '你说的有道理。',
+      '这件事...我需要想想。',
+      '你很有趣呢。',
+      '改天见面聊吧。',
+      '我正在忙，晚点回你。',
+      '你为什么会问这个？',
+      '嗯...',
+      '我考虑一下。'
+    ];
+    return genericReplies[Math.floor(Math.random() * genericReplies.length)];
+  },
+
+  updateChatOptions(cid) {
+    const opts = document.getElementById('chat-opts');
+    if (!opts) return;
+    const rel = this.state.relationships[cid];
+    const options = [];
+    if (rel.affection < 20) {
+      options.push({text:'你今天过得怎么样？',action:'casual'});
+      options.push({text:'有空一起喝杯咖啡吗？',action:'invite'});
+    } else if (rel.affection < 50) {
+      options.push({text:'最近有什么有趣的事吗？',action:'story'});
+      options.push({text:'我想更了解你。',action:'deep'});
+    } else {
+      options.push({text:'我有件事想告诉你...',action:'secret'});
+      options.push({text:'周末有空吗？',action:'date'});
+    }
+    opts.innerHTML = options.map(o =>
+      `<div class="msg-option" onclick="G.sendMsg('${cid}')">${o.text}</div>`
+    ).join('');
+  },
+
+  // ===== Stories =====
+  renderStories(el) {
+    const p = this.state.player;
+    const ch = this.state.chapter[p];
+    const pData = GAME_DATA.players[p];
+    let html = `<div style="padding:16px"><h3 style="color:var(--accent);margin-bottom:4px">📖 ${pData.name}的故事</h3>`;
+    html += `<p style="color:var(--dim);font-size:13px;margin-bottom:16px">当前章节：第${ch}章</p>`;
+
+    // Chapter list
+    const chapters = [
+      {num:1, title:this.getChapterTitle(p,1), unlocked:ch >= 0},
+      {num:2, title:this.getChapterTitle(p,2), unlocked:ch >= 1},
+      {num:3, title:this.getChapterTitle(p,3), unlocked:ch >= 2},
+      {num:4, title:this.getChapterTitle(p,4), unlocked:ch >= 3},
+      {num:5, title:this.getChapterTitle(p,5), unlocked:ch >= 4},
+      {num:6, title:this.getChapterTitle(p,6), unlocked:ch >= 5},
+      {num:7, title:this.getChapterTitle(p,7), unlocked:ch >= 6},
+      {num:8, title:this.getChapterTitle(p,8), unlocked:ch >= 7},
+      {num:9, title:this.getChapterTitle(p,9), unlocked:ch >= 8},
+      {num:10, title:this.getChapterTitle(p,10), unlocked:ch >= 9},
+      {num:11, title:this.getChapterTitle(p,11), unlocked:ch >= 10}
+    ];
+
+    chapters.forEach(c => {
+      html += `
+        <div class="card" style="cursor:${c.unlocked ? 'pointer' : 'not-allowed'};opacity:${c.unlocked ? 1 : 0.4}" onclick="${c.unlocked ? `G.startStory('${p}_${c.num}')` : ''}">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="background:${c.unlocked ? 'var(--accent)' : 'var(--dim)'};color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700">${c.num}</div>
+            <div>
+              <div style="font-weight:700;font-size:16px">${c.title}</div>
+              <div style="font-size:12px;color:var(--dim)">${c.unlocked ? '点击开始' : '🔒 未解锁'}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    // Available character interactions
+    html += '<h3 style="color:var(--accent);margin:20px 0 8px">💬 可用互动</h3>';
+    pData.contacts.forEach(cid => {
+      const c = GAME_DATA.richWomen[cid];
+      const rel = this.state.relationships[cid];
+      if (rel && rel.met) {
+        html += `
+          <div class="card" style="cursor:pointer" onclick="G.openChat('${cid}')">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div class="avatar sm" style="background:${c.color}">${c.avatar}</div>
+              <div>
+                <div style="font-weight:700">${c.name}</div>
+                <div style="font-size:12px;color:var(--dim)">好感度: ${rel.affection} | 信任度: ${rel.trust}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    html += '</div>';
+    el.innerHTML = html;
+  },
+
+  getChapterTitle(p, ch) {
+    const titles = {
+      luyuan: ['','代码里的秘密','前女友的电话','真相的代价','深夜的抉择','王诗涵的邀请','李梦琪的眼泪','张雨萱的秘密','刘思琪的交易','赵雪婷的论文','黄家的遗产','终章：燕城之火'],
+      linxiaoyu: ['','一张不该拍到的照片','意想不到的访客','镜头下的真相','刘思琪的提议','张雨萱的告白','周美玲的威胁','陈雨欣的线索','赵雪婷的过去','黄诗雅的反抗','大火的真相','终章：最终的快门'],
+      chenmo: ['','不可能的任务','意外的同盟','侦探的抉择','周美玲的秘密','陈雨欣的信任','刘思琪的保险柜','张雨萱的父亲','李梦琪的债务','王诗涵的赎罪','五年前的真相','终章：侦探的宿命'],
+      suya: ['','被遗忘的线索','暗流涌动','最终的报道','周美玲的过去','陈雨欣的证词','刘思琪的证据','张雨萱的恐惧','赵雪婷的论文','黄家的阴谋','大火的真相','终章：正义之声'],
+      zhouzixuan: ['','不该看到的事','意外的邂逅','小人物的大选择','夜店的秘密','外卖的线索','王诗涵的善意','李梦琪的求助','陈雨欣的诊所','周美玲的司机','五年前的目击','终章：小人物的大英雄']
+    };
+    return titles[p]?.[ch] || '未解锁';
+  },
+
+  startStory(storyId) {
+    // Normalize story ID
+    let id = storyId;
+    if (!id.includes('_ch') && !id.includes('_')) {
+      id = this.state.player + '_1';
+    }
+    // Try to find the story
+    const playerStories = STORIES[this.state.player];
+    if (!playerStories) return;
+
+    let story = playerStories[id];
+    if (!story) {
+      // Try mapping
+      const parts = id.split('_');
+      if (parts.length >= 2) {
+        const chapterNum = parts[parts.length - 1];
+        story = playerStories[parts[0] + '_' + chapterNum];
+      }
+    }
+    if (!story) {
+      // Try direct chapter
+      const p = this.state.player;
+      const chNum = parseInt(id.replace(p + '_', ''));
+      if (chNum && playerStories[chNum]) {
+        story = playerStories[chNum];
+      }
+    }
+    if (!story) {
+      this.notify('这个故事还没有准备好...');
+      return;
+    }
+
+    this._currentStory = story;
+    this._storySceneIdx = 0;
+    this.renderStoryScene();
+  },
+
+  renderStoryScene() {
+    const story = this._currentStory;
+    if (!story || !story.scenes) return;
+    const scene = story.scenes[this._storySceneIdx];
+    if (!scene) return;
+
+    const content = document.getElementById('hub-content');
+    let html = '<div class="story-view" style="padding:16px">';
+    html += `<div class="story-header">
+      <span class="back" onclick="G.switchTab('stories')">←</span>
+      <span class="title">${story.title}</span>
+      <span style="font-size:12px;color:var(--dim)">${this._storySceneIdx + 1}/${story.scenes.length}</span>
+    </div>`;
+
+    // Render all scenes up to current
+    for (let i = 0; i <= this._storySceneIdx; i++) {
+      const s = story.scenes[i];
+      if (s.speaker === 'narration') {
+        html += `<div class="story-text" style="color:var(--dim)">${s.text}</div>`;
+      } else if (s.speaker === 'system') {
+        html += `<div class="story-text" style="color:var(--gold);text-align:center;background:rgba(255,215,0,0.1)">${s.text}</div>`;
+      } else {
+        html += `<div class="story-char-name">${s.speaker}</div>`;
+        html += `<div class="story-text">${s.text}</div>`;
+      }
+    }
+
+    // Choices
+    if (scene.choices) {
+      html += '<div class="story-choices">';
+      scene.choices.forEach((c, idx) => {
+        html += `<div class="story-choice" onclick="G.makeChoice(${idx})">
+          <div>${c.text}</div>
+          ${c.effect ? `<div class="effect">✦ ${c.effect}</div>` : ''}
+        </div>`;
+      });
+      html += '</div>';
+    } else if (this._storySceneIdx < story.scenes.length - 1) {
+      html += `<div style="text-align:center;padding:16px"><button class="btn" onclick="G.nextScene()">继续 ▶</button></div>`;
+    } else {
+      html += `<div style="text-align:center;padding:16px"><button class="btn gold" onclick="G.endStory()">章节结束</button></div>`;
+    }
+
+    html += '</div>';
+    content.innerHTML = html;
+    content.scrollTop = content.scrollHeight;
+  },
+
+  nextScene() {
+    this._storySceneIdx++;
+    this.renderStoryScene();
+  },
+
+  makeChoice(idx) {
+    const scene = this._currentStory.scenes[this._storySceneIdx];
+    const choice = scene.choices[idx];
+    // Apply effects
+    if (choice.effect) {
+      if (choice.effect.includes('好感度')) {
+        const match = choice.effect.match(/\+(\d+)/);
+        // Apply to relevant character
+      }
+      if (choice.effect.includes('线索')) {
+        // Add clue
+        const clueId = this.inferClueId(choice.effect);
+        if (clueId && !this.state.clues.includes(clueId)) {
+          this.state.clues.push(clueId);
+          this.unlockAchievement('first_clue');
+          this.notify('🔍 获得新线索！');
+        }
+      }
+    }
+    // Handle endings
+    if (choice.ending) {
+      this.triggerEnding(choice.ending);
+      return;
+    }
+    // Move to next scene or story
+    if (choice.next) {
+      // Try to load the next story branch
+      const nextStory = STORIES[this.state.player]?.[choice.next] || STORIES[this.state.player]?.[this.state.player + '_' + choice.next];
+      if (nextStory) {
+        this._currentStory = nextStory;
+        this._storySceneIdx = 0;
+        this.renderStoryScene();
+      } else {
+        this._storySceneIdx++;
+        if (this._storySceneIdx >= this._currentStory.scenes.length) {
+          this.endStory();
+        } else {
+          this.renderStoryScene();
+        }
+      }
+    } else {
+      this._storySceneIdx++;
+      if (this._storySceneIdx >= this._currentStory.scenes.length) {
+        this.endStory();
+      } else {
+        this.renderStoryScene();
+      }
+    }
+    this.saveState();
+  },
+
+  inferClueId(effect) {
+    const map = {
+      '债务记录':'debt_record',
+      '大火照片':'fire_photo',
+      '秘密会面':'secret_meeting',
+      '酒吧录音':'club_recording',
+      '咨询笔记':'therapy_notes',
+      '信托基金':'trust_fund',
+      '医院文件':'hospital_doc',
+      '学术论文':'thesis_paper'
+    };
+    for (const [key, val] of Object.entries(map)) {
+      if (effect.includes(key)) return val;
+    }
+    return null;
+  },
+
+  endStory() {
+    const p = this.state.player;
+    const ch = this.state.chapter[p];
+    // Advance chapter
+    this.state.chapter[p] = Math.min(ch + 1, 3);
+    // Unlock achievements
+    if (this.state.chapter[p] === 1) this.unlockAchievement('chapter1');
+    if (this.state.chapter[p] === 2) this.unlockAchievement('chapter2');
+    if (this.state.chapter[p] === 3) this.unlockAchievement('chapter3');
+    this.advanceTime(2);
+    this.saveState();
+    this.switchTab('stories');
+    this.notify('📖 章节完成！新内容已解锁。');
+  },
+
+  triggerEnding(endingId) {
+    const endings = {
+      luyuan_truth: {title:'真相之路',desc:'你选择相信王诗涵，听她讲述五年前的真相。你发现，那场火是一场阴谋的牺牲品，而王诗涵也是受害者。你们一起揭开了真相，为逝者讨回了公道。'},
+      luyuan_justice: {title:'正义之选',desc:'你把所有证据交给了苏雅，燕城日报的头版揭露了一切。正义虽然迟到，但从未缺席。'},
+      luyuan_love: {title:'爱情之选',desc:'为了保护小雅，你删除了所有证据。有些真相，不如永远埋葬。你选择重新开始。'},
+      linxiaoyu_truth: {title:'真相之镜',desc:'你的镜头记录下了张雨萱的告白，五年前的真相终于大白于天下。'},
+      linxiaoyu_expose: {title:'曝光之路',desc:'你和苏雅合作，用照片和证据揭露了一切。新闻界为之震动。'},
+      linxiaoyu_protection: {title:'守护之选',desc:'你选择保护张雨萱，销毁了照片。有些秘密，应该由当事人自己决定。'},
+      chenmo_undercover: {title:'卧底之路',desc:'你假装继续为周美玲工作，暗中收集了更多证据。最终的真相远比想象的复杂。'},
+      chenmo_justice: {title:'正义之剑',desc:'你把证据公之于众，周美玲的帝国轰然倒塌。'},
+      chenmo_disappear: {title:'隐退之选',desc:'你带着证据消失了，让真相自己浮出水面。有时候，沉默比呐喊更有力。'},
+      suya_publish: {title:'真相之声',desc:'你发布了报道，燕城为之震动。五年前的真相终于被世人所知。'},
+      suya_rescue: {title:'人命关天',desc:'你选择先救小雅。报道可以晚发，但人命不能等。'},
+      suya_team: {title:'联手出击',desc:'你和陆远联手，一边救人一边揭露真相。正义不会缺席。'},
+      zhouzixuan_bar: {title:'暗夜抉择',desc:'你在月色酒吧做出了改变命运的选择。小人物，也能改变大世界。'},
+      zhouzixuan_truth: {title:'小人物的胜利',desc:'你把U盘送到了苏雅手里。一个小外卖骑手，撬动了燕城的权力格局。'},
+      zhouzixuan_love: {title:'意外之恋',desc:'你把U盘还给了黄诗雅，却意外收获了一段跨越阶层的爱情。'}
+    };
+    const ending = endings[endingId];
+    if (!ending) return;
+
+    // Save ending
+    if (!this.state.storyFlags.endings) this.state.storyFlags.endings = [];
+    if (!this.state.storyFlags.endings.includes(endingId)) {
+      this.state.storyFlags.endings.push(endingId);
+    }
+    this.saveState();
+
+    // Show ending screen
+    const content = document.getElementById('hub-content');
+    content.innerHTML = `
+      <div style="padding:24px;text-align:center;animation:fadeIn .5s">
+        <div style="font-size:48px;margin-bottom:16px">🎭</div>
+        <h2 style="color:var(--gold);font-size:24px;margin-bottom:8px">${ending.title}</h2>
+        <div class="badge" style="margin-bottom:16px">结局 #${this.state.storyFlags.endings.length}</div>
+        <div class="story-text" style="max-width:500px;margin:0 auto 20px;text-align:left">${ending.desc}</div>
+        <button class="btn gold" onclick="G.switchTab('stories')">继续探索</button>
+      </div>
+    `;
+    this.notify('🎭 解锁新结局！');
+    this.checkAllEndings();
+  },
+
+  checkAllEndings() {
+    if (this.state.storyFlags.endings && this.state.storyFlags.endings.length >= 9) {
+      this.unlockAchievement('all_endings');
+    }
+  },
+
+  // ===== Investigation =====
+  renderInvestigation(el) {
+    const clues = GAME_DATA.clues;
+    const found = this.state.clues;
+    let html = '<div class="invest-board">';
+    html += '<h3 style="color:var(--accent);margin-bottom:4px">🔍 调查面板</h3>';
+    html += `<div class="invest-progress"><h3>调查进度</h3><div class="bar"><div class="fill" style="width:${(found.length/clues.length)*100}%;background:var(--gold)"></div></div><div style="font-size:12px;color:var(--dim);margin-top:4px">${found.length}/${clues.length} 线索已收集</div></div>`;
+
+    clues.forEach(clue => {
+      const isFound = found.includes(clue.id);
+      html += `
+        <div class="clue-card ${isFound ? '' : 'locked'}">
+          <div class="clue-title">${isFound ? '🔓' : '🔒'} ${isFound ? clue.title : '???'}</div>
+          <div class="clue-desc">${isFound ? clue.desc : '尚未发现此线索'}</div>
+          ${isFound ? `<div class="clue-source">来源: ${clue.source}</div>` : ''}
+        </div>
+      `;
+    });
+
+    // Connection analysis
+    if (found.length >= 3) {
+      html += '<div class="card" style="border-color:var(--gold);margin-top:16px"><h3 style="color:var(--gold)">🧩 关联分析</h3>';
+      html += '<p style="font-size:13px;color:var(--dim);margin-top:8px">根据已收集的线索，你发现了以下关联：</p>';
+      html += '<ul style="font-size:13px;color:var(--dim);padding-left:16px;margin-top:8px">';
+      if (found.includes('debt_record') && found.includes('fire_photo')) {
+        html += '<li>李梦琪的债务与大火的时间高度吻合</li>';
+      }
+      if (found.includes('secret_meeting') && found.includes('trust_fund')) {
+        html += '<li>周美玲与黄家的资金往来异常频繁</li>';
+      }
+      if (found.includes('hospital_doc') && found.includes('therapy_notes')) {
+        html += '<li>大火当天的伤亡人数可能被隐瞒</li>';
+      }
+      html += '</ul></div>';
+    }
+
+    html += '</div>';
+    el.innerHTML = html;
+  },
+
+  // ===== Relationships =====
+  renderRelationships(el) {
+    let html = '<div class="rel-view">';
+    html += '<h3 style="color:var(--accent);margin-bottom:16px">💕 人物关系</h3>';
+
+    Object.entries(this.state.relationships).forEach(([cid, rel]) => {
+      const c = GAME_DATA.richWomen[cid];
+      if (!c) return;
+      html += `
+        <div class="rel-card">
+          <div class="rel-header">
+            <div class="avatar" style="background:${c.color}">${c.avatar}</div>
+            <div style="flex:1">
+              <div class="rel-name">${c.name}</div>
+              <div class="rel-title">${c.role} · ${c.age}岁</div>
+            </div>
+            ${rel.met ? '<span class="badge">已认识</span>' : '<span class="badge" style="background:var(--dim)">未认识</span>'}
+          </div>
+          <div class="rel-bars">
+            <div class="hbar"><label>好感</label><div class="bar"><div class="fill" style="width:${Math.min(rel.affection,100)}%;background:var(--accent)"></div></div><span style="font-size:12px;min-width:30px;text-align:right">${rel.affection}</span></div>
+            <div class="hbar"><label>信任</label><div class="bar"><div class="fill" style="width:${Math.min(rel.trust,100)}%;background:var(--info)"></div></div><span style="font-size:12px;min-width:30px;text-align:right">${rel.trust}</span></div>
+            <div class="hbar"><label>秘密</label><div class="bar"><div class="fill" style="width:${Math.min(rel.secret,100)}%;background:var(--gold)"></div></div><span style="font-size:12px;min-width:30px;text-align:right">${rel.secret}</span></div>
+          </div>
+          <div class="rel-info">
+            <span class="tag">${c.personality?.split('，')[0] || '未知'}</span>
+            ${rel.affection >= 30 ? '<span class="tag" style="background:rgba(255,215,0,0.15);color:var(--gold)">亲密</span>' : ''}
+            ${rel.trust >= 50 ? '<span class="tag" style="background:rgba(96,165,250,0.15);color:var(--info)">信任</span>' : ''}
+          </div>
+          ${rel.secret >= 30 ? `<div class="rel-secret">🗝️ 已发现部分秘密</div>` : ''}
+        </div>
+      `;
+    });
+
+    // Relationship web
+    html += '<h3 style="color:var(--accent);margin:20px 0 8px">🕸️ 关系网络</h3>';
+    html += '<div class="rel-web-container"><svg viewBox="0 0 400 350" id="rel-web"></svg></div>';
+
+    html += '</div>';
+    el.innerHTML = html;
+
+    // Draw relationship web
+    this.drawRelWeb();
+  },
+
+  drawRelWeb() {
+    const svg = document.getElementById('rel-web');
+    if (!svg) return;
+    const nodes = [
+      {id:'wangshihan',x:200,y:40,label:'王诗涵',color:'#e94560'},
+      {id:'limengqi',x:100,y:100,label:'李梦琪',color:'#ec4899'},
+      {id:'zhangyuxuan',x:300,y:100,label:'张雨萱',color:'#10b981'},
+      {id:'liuqiqi',x:60,y:200,label:'刘思琪',color:'#8b5cf6'},
+      {id:'zhaouxeting',x:340,y:200,label:'赵雪婷',color:'#06b6d4'},
+      {id:'huangshiya',x:140,y:280,label:'黄诗雅',color:'#f43f5e'},
+      {id:'zhoumeiling',x:260,y:280,label:'周美玲',color:'#d97706'},
+      {id:'chenyuxin',x:200,y:180,label:'陈雨欣',color:'#7c3aed'}
+    ];
+    const edges = [
+      ['wangshihan','limengqi','大学同学'],
+      ['wangshihan','zhangyuxuan','商业对手'],
+      ['liuqiqi','zhoumeiling','情报'],
+      ['zhaouxeting','huangshiya','师生'],
+      ['zhoumeiling','chenyuxin','咨询'],
+      ['wangshihan','chenyuxin','咨询'],
+      ['limengqi','chenyuxin','咨询'],
+      ['liuqiqi','zhangyuxuan','秘密'],
+      ['huangshiya','wangshihan','社交']
+    ];
+
+    let svgContent = '<defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+
+    // Draw edges
+    edges.forEach(([from, to, label]) => {
+      const n1 = nodes.find(n => n.id === from);
+      const n2 = nodes.find(n => n.id === to);
+      if (n1 && n2) {
+        svgContent += `<line x1="${n1.x}" y1="${n1.y}" x2="${n2.x}" y2="${n2.y}" stroke="rgba(233,69,96,0.3)" stroke-width="1" stroke-dasharray="4,4"/>`;
+        const mx = (n1.x + n2.x) / 2;
+        const my = (n1.y + n2.y) / 2;
+        svgContent += `<text x="${mx}" y="${my-6}" fill="rgba(255,255,255,0.3)" font-size="8" text-anchor="middle" font-family="var(--font)">${label}</text>`;
+      }
+    });
+
+    // Draw nodes
+    nodes.forEach(n => {
+      const rel = this.state.relationships[n.id];
+      const met = rel && rel.met;
+      svgContent += `<circle cx="${n.x}" cy="${n.y}" r="${met ? 22 : 18}" fill="${met ? n.color : 'rgba(100,100,100,0.3)'}" filter="url(#glow)" opacity="${met ? 1 : 0.4}"/>`;
+      svgContent += `<text x="${n.x}" y="${n.y+4}" fill="white" font-size="10" text-anchor="middle" font-family="var(--font)" font-weight="700">${n.label}</text>`;
+    });
+
+    // Player node
+    const p = GAME_DATA.players[this.state.player];
+    svgContent += `<circle cx="200" cy="340" r="24" fill="${p.color}" filter="url(#glow)"/>`;
+    svgContent += `<text x="200" y="344" fill="white" font-size="10" text-anchor="middle" font-family="var(--font)" font-weight="700">${p.name}</text>`;
+
+    svg.innerHTML = svgContent;
+  },
+
+  // ===== Achievements =====
+  renderAchievements(el) {
+    const achs = GAME_DATA.achievements;
+    const unlocked = this.state.achievements;
+    let html = '<div style="padding:16px"><h3 style="color:var(--accent);margin-bottom:4px">🏆 成就系统</h3>';
+    html += `<p style="color:var(--dim);font-size:13px;margin-bottom:16px">已解锁: ${unlocked.length}/${achs.length}</p>`;
+    html += '<div class="achievement-grid" style="padding:0">';
+    achs.forEach(ach => {
+      const isUnlocked = unlocked.includes(ach.id);
+      html += `
+        <div class="ach-card ${isUnlocked ? 'unlocked' : 'locked'}">
+          <div class="ach-icon">${ach.icon}</div>
+          <div class="ach-name">${ach.name}</div>
+          <div class="ach-desc">${isUnlocked ? ach.desc : '???'}</div>
+          ${isUnlocked ? '<div class="ach-date">✅ 已解锁</div>' : ''}
+        </div>
+      `;
+    });
+    html += '</div></div>';
+    el.innerHTML = html;
+  },
+
+  unlockAchievement(id) {
+    if (this.state.achievements.includes(id)) return;
+    this.state.achievements.push(id);
+    const ach = GAME_DATA.achievements.find(a => a.id === id);
+    if (ach) {
+      this.notify(`🏆 成就解锁: ${ach.name}`);
+    }
+    this.saveState();
+    this.confetti();
+  },
+
+  unlockChapter(player, ch) {
+    if (this.state.chapter[player] < ch) {
+      this.state.chapter[player] = ch;
+      this.saveState();
+    }
+  },
+
+  // ===== Save/Load =====
+  renderSaveLoad(el) {
+    let html = '<div class="save-slots">';
+    html += '<h3 style="color:var(--accent);margin-bottom:16px">💾 存档管理</h3>';
+    for (let i = 1; i <= 5; i++) {
+      const saveKey = 'fupo_slot_' + i;
+      const saveData = localStorage.getItem(saveKey);
+      let detail = '空存档';
+      let time = '';
+      if (saveData) {
+        try {
+          const d = JSON.parse(saveData);
+          detail = `${GAME_DATA.players[d.player]?.name || '未知'} · 第${d.chapter?.[d.player] || 0}章`;
+          time = d.saveTime || '';
+        } catch(e) {}
+      }
+      html += `
+        <div class="save-slot" onclick="G.slotAction(${i})">
+          <div class="slot-num">${i}</div>
+          <div class="slot-info">
+            <div class="slot-name">${saveData ? '存档 ' + i : '空存档'}</div>
+            <div class="slot-detail">${detail}</div>
+          </div>
+          <div class="slot-time">${time}</div>
+        </div>
+      `;
+    }
+    html += `
+      <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+        <button class="btn small" onclick="G.quickSave()">⚡ 快速存档</button>
+        <button class="btn small ghost" onclick="G.quickLoad()">📂 快速读档</button>
+      </div>
+    `;
+    html += '</div>';
+    el.innerHTML = html;
+  },
+
+  slotAction(slot) {
+    const saveKey = 'fupo_slot_' + slot;
+    const existing = localStorage.getItem(saveKey);
+    if (existing) {
+      // Show options
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+      overlay.innerHTML = `
+        <div class="modal">
+          <h3>存档 ${slot}</h3>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button class="btn" onclick="G.saveToSlot(${slot});this.closest('.modal-overlay').remove()">覆盖保存</button>
+            <button class="btn gold" onclick="G.loadFromSlot(${slot});this.closest('.modal-overlay').remove()">读取存档</button>
+            <button class="btn ghost" onclick="this.closest('.modal-overlay').remove()">取消</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    } else {
+      this.saveToSlot(slot);
+    }
+  },
+
+  saveToSlot(slot) {
+    this.state.saveTime = new Date().toLocaleString('zh-CN');
+    localStorage.setItem('fupo_slot_' + slot, JSON.stringify(this.state));
+    this.notify('💾 存档成功！');
+    this.renderSaveLoad(document.getElementById('hub-content'));
+  },
+
+  loadFromSlot(slot) {
+    const data = localStorage.getItem('fupo_slot_' + slot);
+    if (data) {
+      this.state = JSON.parse(data);
+      this.saveState();
+      this.showScreen('main-hub');
+      this.renderHub();
+      this.notify('📂 读档成功！');
+    }
+  },
+
+  quickSave() {
+    localStorage.setItem('fupo_quicksave', JSON.stringify(this.state));
+    this.notify('⚡ 快速存档成功！');
+  },
+
+  quickLoad() {
+    const data = localStorage.getItem('fupo_quicksave');
+    if (data) {
+      this.state = JSON.parse(data);
+      this.saveState();
+      this.showScreen('main-hub');
+      this.renderHub();
+      this.notify('📂 快速读档成功！');
+    } else {
+      this.notify('没有快速存档');
+    }
+  },
+
+  exportSave() {
+    const data = JSON.stringify(this.state);
+    const blob = new Blob([data], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'fupo_save.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    this.notify('存档已导出');
+  },
+
+  importSave() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          this.state = JSON.parse(ev.target.result);
+          this.saveState();
+          this.notify('存档已导入');
+          if (this.state.player) {
+            this.showScreen('main-hub');
+            this.renderHub();
+          }
+        } catch(err) {
+          this.notify('导入失败：文件格式错误');
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  },
+
+  resetGame() {
+    if (confirm('确定要重置游戏吗？所有存档将被清除！')) {
+      localStorage.clear();
+      this.state = null;
+      this.showScreen('title-screen');
+      this.notify('游戏已重置');
+    }
+  },
+
+  // ===== Time System =====
+  advanceTime(hours) {
+    if (!this.state.time) this.state.time = {day:1, hour:8, period:'morning'};
+    this.state.time.hour += hours;
+    while (this.state.time.hour >= 24) {
+      this.state.time.hour -= 24;
+      this.state.time.day++;
+    }
+    const h = this.state.time.hour;
+    if (h >= 6 && h < 12) this.state.time.period = 'morning';
+    else if (h >= 12 && h < 18) this.state.time.period = 'afternoon';
+    else if (h >= 18 && h < 22) this.state.time.period = 'evening';
+    else this.state.time.period = 'night';
+
+    this.updateTimeDisplay();
+    this.checkTimedEvents();
+    this.saveState();
+  },
+
+  updateTimeDisplay() {
+    const t = this.state.time;
+    document.getElementById('game-time').textContent = `${String(t.hour).padStart(2,'0')}:00`;
+    document.getElementById('game-day').textContent = `第${t.day}天 · ${this.getPeriodName(t.period)}`;
+  },
+
+  getPeriodName(p) {
+    return {morning:'上午',afternoon:'下午',evening:'傍晚',night:'深夜'}[p] || '';
+  },
+
+  getTimeStr() {
+    const h = this.state.time?.hour || 8;
+    return `${String(h).padStart(2,'0')}:${String(Math.floor(Math.random()*60)).padStart(2,'0')}`;
+  },
+
+  checkTimedEvents() {
+    // Trigger random messages
+    if (Math.random() < 0.3) {
+      const p = GAME_DATA.players[this.state.player];
+      const contacts = p.contacts;
+      const cid = contacts[Math.floor(Math.random() * contacts.length)];
+      const c = GAME_DATA.richWomen[cid];
+      if (c && this.state.relationships[cid]?.met) {
+        const msgs = [
+          `${c.name}发了一条朋友圈`,
+          `${c.name}给你发了一条消息`,
+          `你收到了${c.name}的微信`
+        ];
+        this.state.unread[cid] = (this.state.unread[cid] || 0) + 1;
+        this.notify(msgs[Math.floor(Math.random() * msgs.length)]);
+      }
+    }
+  },
+
+  // ===== Utilities =====
+  confetti() {
+    const colors = ['#e94560','#ffd700','#4ade80','#60a5fa','#a78bfa','#ec4899'];
+    for (let i = 0; i < 30; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDelay = Math.random() * 2 + 's';
+      el.style.animationDuration = (2 + Math.random() * 2) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 5000);
+    }
+  },
+
+  renderTitle() {
+    // Already in HTML
+  }
+};
+
+// ===== Initialize =====
+document.addEventListener('DOMContentLoaded', () => G.init());
+G.init();
+</script>
+</body>
+</html>
