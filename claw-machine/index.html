@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>抓娃娃机</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a1a;
+  --machine: #1a1a3a;
+  --glass: rgba(100, 200, 255, 0.1);
+  --claw: #c0c0c0;
+  --neon-pink: #ff6b9d;
+  --neon-blue: #4ecdc4;
+  --neon-yellow: #ffe66d;
+  --neon-purple: #a855f7;
+  --text: #fff;
+  --dim: #888;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.game-container {
+  position: relative;
+  width: 400px;
+  height: 600px;
+  background: var(--machine);
+  border-radius: 20px;
+  border: 3px solid var(--neon-blue);
+  box-shadow: 0 0 30px rgba(78, 205, 196, 0.3), inset 0 0 30px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+
+/* Machine top */
+.machine-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, #2a2a4a, #1a1a3a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid var(--neon-blue);
+}
+
+.machine-title {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--neon-pink), var(--neon-yellow), var(--neon-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+}
+
+/* Glass area */
+.glass-area {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  right: 20px;
+  bottom: 150px;
+  background: var(--glass);
+  border: 2px solid rgba(100, 200, 255, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Claw */
+.claw-container {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.claw-rail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--claw);
+}
+
+.claw-arm {
+  position: absolute;
+  top: 4px;
+  width: 4px;
+  height: 60px;
+  background: var(--claw);
+  transform-origin: top center;
+}
+
+.claw {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 20px;
+}
+
+.claw-left, .claw-right {
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 30px;
+  background: var(--claw);
+  border-radius: 0 0 4px 4px;
+  transform-origin: top center;
+  transition: transform 0.3s;
+}
+
+.claw-left { left: 0; transform: rotate(15deg); }
+.claw-right { right: 0; transform: rotate(-15deg); }
+
+.claw.closed .claw-left { transform: rotate(5deg); }
+.claw.closed .claw-right { transform: rotate(-5deg); }
+
+/* Toys */
+.toys-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+}
+
+.toy {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  user-select: none;
+}
+
+.toy:hover { transform: scale(1.1); }
+
+.toy.duck { background: var(--neon-yellow); }
+.toy.bear { background: var(--neon-pink); }
+.toy.panda { background: #fff; color: #000; }
+.toy.bunny { background: #ffb6c1; }
+.toy.dino { background: var(--neon-blue); }
+.toy.penguin { background: #2c3e50; }
+.toy.fox { background: #e67e22; }
+.toy.frog { background: #27ae60; }
+.toy.whale { background: #3498db; }
+.toy.cat { background: #9b59b6; }
+.toy.puppy { background: #e74c3c; }
+.toy.unicorn { background: linear-gradient(135deg, #ff6b9d, #a855f7, #4ecdc4); }
+
+/* Controls */
+.controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(180deg, #1a1a3a, #0a0a2a);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  border-top: 2px solid var(--neon-blue);
+}
+
+.joystick {
+  width: 80px;
+  height: 80px;
+  background: #2a2a4a;
+  border-radius: 50%;
+  border: 3px solid var(--neon-blue);
+  position: relative;
+  cursor: pointer;
+}
+
+.joystick-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: var(--neon-blue);
+  border-radius: 50%;
+  transition: transform 0.1s;
+}
+
+.grab-btn {
+  width: 80px;
+  height: 80px;
+  background: var(--neon-pink);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.grab-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(255, 107, 157, 0.7);
+}
+
+.grab-btn:active {
+  transform: scale(0.95);
+}
+
+/* Score */
+.score-board {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.5);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 1px solid var(--neon-yellow);
+}
+
+.score-board .score {
+  color: var(--neon-yellow);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* Timer */
+.timer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0,0,0,0.5);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 1px solid var(--neon-blue);
+}
+
+.timer .time {
+  color: var(--neon-blue);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* Start screen */
+.start-screen {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.start-screen h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, var(--neon-pink), var(--neon-yellow), var(--neon-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.start-btn {
+  padding: 15px 40px;
+  background: var(--neon-pink);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+  transition: transform 0.2s;
+}
+
+.start-btn:hover { transform: scale(1.1); }
+
+/* Result screen */
+.result-screen {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.result-screen h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: var(--neon-yellow);
+}
+
+.result-screen .caught-toy {
+  font-size: 60px;
+  margin: 20px 0;
+}
+
+.result-screen .result-text {
+  font-size: 18px;
+  color: var(--dim);
+  margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 450px) {
+  .game-container {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+  }
+  
+  .glass-area {
+    left: 10px;
+    right: 10px;
+  }
+}
+
+/* Animations */
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes toy-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.toy.bouncing {
+  animation: toy-bounce 0.5s ease;
+}
+
+/* Keyboard hints */
+.keyboard-hints {
+  position: absolute;
+  bottom: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--dim);
+}
+
+.key {
+  background: rgba(255,255,255,0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+</style>
+</head>
+<body>
+
+<div class="game-container">
+  <!-- Machine Top -->
+  <div class="machine-top">
+    <div class="machine-title">抓娃娃机</div>
+  </div>
+
+  <!-- Score -->
+  <div class="score-board">
+    得分: <span class="score" id="score">0</span>
+  </div>
+
+  <!-- Timer -->
+  <div class="timer">
+    时间: <span class="time" id="timer">60</span>
+  </div>
+
+  <!-- Glass Area -->
+  <div class="glass-area">
+    <div class="claw-container">
+      <div class="claw-rail"></div>
+      <div class="claw-arm" id="claw-arm">
+        <div class="claw" id="claw">
+          <div class="claw-left"></div>
+          <div class="claw-right"></div>
+        </div>
+      </div>
+    </div>
+    <div class="toys-container" id="toys-container"></div>
+  </div>
+
+  <!-- Keyboard Hints -->
+  <div class="keyboard-hints">
+    <span class="key">←</span><span class="key">→</span> 移动
+    <span class="key">空格</span> 抓取
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="joystick" id="joystick">
+      <div class="joystick-knob" id="joystick-knob"></div>
+    </div>
+    <button class="grab-btn" id="grab-btn">抓取</button>
+  </div>
+
+  <!-- Start Screen -->
+  <div class="start-screen" id="start-screen">
+    <h1>抓娃娃机</h1>
+    <p style="color: var(--dim); margin-bottom: 30px; text-align: center; padding: 0 20px;">
+      移动摇杆控制爪子<br>
+      按下按钮抓取娃娃
+    </p>
+    <button class="start-btn" id="start-btn">开始游戏</button>
+  </div>
+
+  <!-- Result Screen -->
+  <div class="result-screen" id="result-screen">
+    <h2>游戏结束</h2>
+    <div class="caught-toy" id="caught-toy"></div>
+    <div class="result-text" id="result-text"></div>
+    <button class="start-btn" id="restart-btn">再来一次</button>
+  </div>
+</div>
+
+<script>
+// Game state
+const state = {
+  clawX: 50,
+  clawY: 0,
+  isGrabbing: false,
+  isDropping: false,
+  score: 0,
+  time: 60,
+  gameActive: false,
+  toys: [],
+  caughtToy: null,
+  joystickActive: false,
+  joystickStartX: 0,
+  clawSpeed: 2
+};
+
+// Toy types
+const TOY_TYPES = [
+  { id: 'duck', emoji: '🦆', name: '小黄鸭', points: 10 },
+  { id: 'bear', emoji: '🧸', name: '小熊', points: 15 },
+  { id: 'panda', emoji: '🐼', name: '熊猫', points: 20 },
+  { id: 'bunny', emoji: '🐰', name: '兔子', points: 15 },
+  { id: 'dino', emoji: '🦕', name: '恐龙', points: 25 },
+  { id: 'penguin', emoji: '🐧', name: '企鹅', points: 20 },
+  { id: 'fox', emoji: '🦊', name: '狐狸', points: 15 },
+  { id: 'frog', emoji: '🐸', name: '青蛙', points: 10 },
+  { id: 'whale', emoji: '🐳', name: '鲸鱼', points: 30 },
+  { id: 'cat', emoji: '🐱', name: '猫咪', points: 15 },
+  { id: 'puppy', emoji: '🐶', name: '小狗', points: 15 },
+  { id: 'unicorn', emoji: '🦄', name: '独角兽', points: 50 }
+];
+
+// DOM elements
+const elements = {
+  clawArm: document.getElementById('claw-arm'),
+  claw: document.getElementById('claw'),
+  toysContainer: document.getElementById('toys-container'),
+  score: document.getElementById('score'),
+  timer: document.getElementById('timer'),
+  startScreen: document.getElementById('start-screen'),
+  resultScreen: document.getElementById('result-screen'),
+  caughtToy: document.getElementById('caught-toy'),
+  resultText: document.getElementById('result-text'),
+  joystick: document.getElementById('joystick'),
+  joystickKnob: document.getElementById('joystick-knob'),
+  grabBtn: document.getElementById('grab-btn'),
+  startBtn: document.getElementById('start-btn'),
+  restartBtn: document.getElementById('restart-btn')
+};
+
+// Initialize toys
+function initToys() {
+  state.toys = [];
+  elements.toysContainer.innerHTML = '';
+  
+  const toyCount = 12;
+  const containerWidth = elements.toysContainer.offsetWidth;
+  const containerHeight = elements.toysContainer.offsetHeight;
+  
+  for (let i = 0; i < toyCount; i++) {
+    const toyType = TOY_TYPES[Math.floor(Math.random() * TOY_TYPES.length)];
+    const toy = {
+      ...toyType,
+      x: Math.random() * (containerWidth - 40),
+      y: Math.random() * (containerHeight - 40),
+      element: null
+    };
+    
+    const el = document.createElement('div');
+    el.className = `toy ${toyType.id}`;
+    el.textContent = toyType.emoji;
+    el.style.left = toy.x + 'px';
+    el.style.top = toy.y + 'px';
+    el.dataset.index = i;
+    
+    elements.toysContainer.appendChild(el);
+    toy.element = el;
+    state.toys.push(toy);
+  }
+}
+
+// Update claw position
+function updateClaw() {
+  const glassWidth = document.querySelector('.glass-area').offsetWidth - 40;
+  const x = (state.clawX / 100) * glassWidth;
+  
+  elements.clawArm.style.left = (x + 20) + 'px';
+  elements.clawArm.style.height = (60 + state.clawY) + 'px';
+}
+
+// Move claw
+function moveClaw(direction) {
+  if (!state.gameActive || state.isDropping) return;
+  
+  if (direction === 'left') {
+    state.clawX = Math.max(0, state.clawX - state.clawSpeed);
+  } else if (direction === 'right') {
+    state.clawX = Math.min(100, state.clawX + state.clawSpeed);
+  }
+  
+  updateClaw();
+}
+
+// Drop claw
+function dropClaw() {
+  if (!state.gameActive || state.isDropping) return;
+  
+  state.isDropping = true;
+  state.isGrabbing = true;
+  elements.claw.classList.add('closed');
+  
+  // Animate claw dropping
+  const dropInterval = setInterval(() => {
+    state.clawY += 5;
+    updateClaw();
+    
+    if (state.clawY >= 150) {
+      clearInterval(dropInterval);
+      checkGrab();
+    }
+  }, 20);
+}
+
+// Check if claw grabs a toy
+function checkGrab() {
+  const clawX = (state.clawX / 100) * (document.querySelector('.glass-area').offsetWidth - 40) + 20;
+  const clawY = state.clawY + 60;
+  
+  let grabbedToy = null;
+  let minDistance = 50;
+  
+  state.toys.forEach((toy, index) => {
+    const toyCenterX = toy.x + 20;
+    const toyCenterY = toy.y + 20;
+    const distance = Math.sqrt(Math.pow(clawX - toyCenterX, 2) + Math.pow(clawY - toyCenterY, 2));
+    
+    if (distance < minDistance) {
+      minDistance = distance;
+      grabbedToy = { ...toy, index };
+    }
+  });
+  
+  if (grabbedToy && Math.random() > 0.3) { // 70% grab success rate
+    state.caughtToy = grabbedToy;
+    state.toys[grabbedToy.index].element.style.display = 'none';
+    state.score += grabbedToy.points;
+    elements.score.textContent = state.score;
+    
+    // Show grab animation
+    state.toys[grabbedToy.index].element.classList.add('bouncing');
+  }
+  
+  // Retract claw
+  setTimeout(() => {
+    const retractInterval = setInterval(() => {
+      state.clawY -= 5;
+      updateClaw();
+      
+      if (state.clawY <= 0) {
+        clearInterval(retractInterval);
+        state.isDropping = false;
+        state.isGrabbing = false;
+        elements.claw.classList.remove('closed');
+        
+        if (state.caughtToy) {
+          showCatchResult(state.caughtToy);
+          state.caughtToy = null;
+        }
+      }
+    }, 20);
+  }, 500);
+}
+
+// Show catch result
+function showCatchResult(toy) {
+  elements.caughtToy.textContent = toy.emoji;
+  elements.resultText.textContent = `抓到了 ${toy.name}！+${toy.points}分`;
+  elements.resultScreen.style.display = 'flex';
+  
+  // Auto hide after 2 seconds
+  setTimeout(() => {
+    elements.resultScreen.style.display = 'none';
+  }, 2000);
+}
+
+// Timer
+function startTimer() {
+  const timerInterval = setInterval(() => {
+    if (!state.gameActive) {
+      clearInterval(timerInterval);
+      return;
+    }
+    
+    state.time--;
+    elements.timer.textContent = state.time;
+    
+    if (state.time <= 0) {
+      clearInterval(timerInterval);
+      endGame();
+    }
+  }, 1000);
+}
+
+// Start game
+function startGame() {
+  state.score = 0;
+  state.time = 60;
+  state.gameActive = true;
+  state.clawX = 50;
+  state.clawY = 0;
+  
+  elements.score.textContent = '0';
+  elements.timer.textContent = '60';
+  elements.startScreen.style.display = 'none';
+  elements.resultScreen.style.display = 'none';
+  
+  initToys();
+  updateClaw();
+  startTimer();
+}
+
+// End game
+function endGame() {
+  state.gameActive = false;
+  
+  elements.caughtToy.textContent = '🎮';
+  elements.resultText.textContent = `游戏结束！最终得分：${state.score}`;
+  elements.resultScreen.style.display = 'flex';
+}
+
+// Joystick control
+function initJoystick() {
+  const joystick = elements.joystick;
+  const knob = elements.joystickKnob;
+  
+  let startX = 0;
+  let startY = 0;
+  
+  joystick.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    state.joystickActive = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  });
+  
+  joystick.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (!state.joystickActive) return;
+    
+    const deltaX = e.touches[0].clientX - startX;
+    const deltaY = e.touches[0].clientY - startY;
+    
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const maxDistance = 30;
+    
+    if (distance > maxDistance) {
+      const angle = Math.atan2(deltaY, deltaX);
+      deltaX = Math.cos(angle) * maxDistance;
+      deltaY = Math.sin(angle) * maxDistance;
+    }
+    
+    knob.style.transform = `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px))`;
+    
+    if (Math.abs(deltaX) > 10) {
+      moveClaw(deltaX > 0 ? 'right' : 'left');
+    }
+  });
+  
+  joystick.addEventListener('touchend', () => {
+    state.joystickActive = false;
+    knob.style.transform = 'translate(-50%, -50%)';
+  });
+  
+  // Mouse control
+  joystick.addEventListener('mousedown', (e) => {
+    state.joystickActive = true;
+    startX = e.clientX;
+    startY = e.clientY;
+  });
+  
+  document.addEventListener('mousemove', (e) => {
+    if (!state.joystickActive) return;
+    
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+    
+    knob.style.transform = `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px))`;
+    
+    if (Math.abs(deltaX) > 10) {
+      moveClaw(deltaX > 0 ? 'right' : 'left');
+    }
+  });
+  
+  document.addEventListener('mouseup', () => {
+    state.joystickActive = false;
+    knob.style.transform = 'translate(-50%, -50%)';
+  });
+}
+
+// Keyboard control
+function initKeyboard() {
+  const keys = {};
+  
+  document.addEventListener('keydown', (e) => {
+    keys[e.key] = true;
+    
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      dropClaw();
+    }
+  });
+  
+  document.addEventListener('keyup', (e) => {
+    keys[e.key] = false;
+  });
+  
+  // Continuous movement
+  function gameLoop() {
+    if (keys['ArrowLeft'] || keys['a']) {
+      moveClaw('left');
+    }
+    if (keys['ArrowRight'] || keys['d']) {
+      moveClaw('right');
+    }
+    requestAnimationFrame(gameLoop);
+  }
+  
+  gameLoop();
+}
+
+// Event listeners
+elements.grabBtn.addEventListener('click', dropClaw);
+elements.startBtn.addEventListener('click', startGame);
+elements.restartBtn.addEventListener('click', startGame);
+
+// Keyboard shortcut for grab
+document.addEventListener('keydown', (e) => {
+  if (e.key === ' ' && state.gameActive) {
+    e.preventDefault();
+    dropClaw();
+  }
+});
+
+// Initialize
+initJoystick();
+initKeyboard();
+
+// Handle window resize
+window.addEventListener('resize', () => {
+  if (state.gameActive) {
+    updateClaw();
+  }
+});
+</script>
+
+</body>
+</html>
