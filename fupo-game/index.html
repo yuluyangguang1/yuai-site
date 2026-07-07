@@ -365,7 +365,91 @@ const GAME_DATA = {
       intro:'你叫林小雨，25岁，燕城小有名气的自由摄影师。你的镜头记录过这座城市的无数故事。\n\n一个月前，你在一次商业活动的拍摄中，意外拍到了医院院长女儿张雨萱的一张照片——那张照片里，她和一个不该在一起的人在一起...'
     },
     
-    linxiaoyu_ch4: {
+    chat_wangshihan: {
+      default:[
+        {trigger:'你好',responses:[
+          '你好，陆远先生。有什么事吗？',
+          '嗯，说吧。',
+          '...你又在加班？'
+        ]},
+        {trigger:'大火',responses:[
+          '...你为什么要问这个？',
+          '有些事情，不是你该知道的。',
+          '如果你想了解真相，来我办公室。'
+        ]},
+        {trigger:'小雅',responses:[
+          '小雅是个好女孩。你和她分手是你的损失。',
+          '她现在很好，不用担心。',
+          '...你还在想她？'
+        ]},
+        {trigger:'default',responses:[
+          '嗯。',
+          '我知道了。',
+          '有空再聊。',
+          '我在开会，晚点说。'
+        ]}
+      ]
+    },
+    chat_limengqi: {
+      default:[
+        {trigger:'你好',responses:[
+          '嗨~陆远！好久不见！',
+          '你找我什么事呀~',
+          '我正在直播呢，等会聊~'
+        ]},
+        {trigger:'债务',responses:[
+          '？？？你在说什么？',
+          '你怎么知道的...',
+          '求你别告诉别人...'
+        ]},
+        {trigger:'王诗涵',responses:[
+          '诗涵姐？我们大学同学呀~',
+          '别提她了...',
+          '她那个人...表面冷冰冰的，其实人挺好的。'
+        ]},
+        {trigger:'default',responses:[
+          '哈哈~',
+          '嗯嗯~',
+          '好啦好啦~',
+          '我先忙啦~'
+        ]}
+      ]
+    }
+  },
+  linxiaoyu: {
+    1: {
+      title:'一张不该拍到的照片',
+      scenes:[
+        {speaker:'narration',text:'你的摄影工作室里，一面墙上挂满了你在燕城拍摄的作品。但有一个上锁的抽屉里，藏着一张你从未展示过的照片。'},
+        {speaker:'林小雨',text:'张雨萱...你到底在隐瞒什么？'},
+        {speaker:'narration',text:'一个月前，你受雇为一个商业活动拍摄。在VIP休息室，你透过门缝拍到了张雨萱——燕城医院院长的女儿——和一个男人的合影。那个男人...是五年前大火中被宣布"死亡"的人。'},
+        {choices:[
+          {text:'联系张雨萱，告诉她你拍到了什么',next:'contact_zhang',effect:'触发张雨萱对话'},
+          {text:'先调查那个"死人"的身份',next:'investigate_dead',effect:'获得线索：大火照片'},
+          {text:'把照片藏好，假装什么都没发生',next:'hide_photo',effect:'时间推进'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch2: {
+      title:'意想不到的访客',
+      scenes:[
+        {speaker:'narration',text:'深夜，有人敲响了你工作室的门。你打开门，看到一个衣着精致的女人站在门口。'},
+        {speaker:'刘思琪',text:'林小雨小姐？我是月色酒吧的刘思琪。我知道你手里有一张照片...我出双倍价钱买。'},
+        {speaker:'林小雨',text:'你怎么知道照片的事？'},
+        {speaker:'刘思琪',text:'在燕城，没有我不知道的事。那张照片牵涉到的人，比你想象的多得多。'},
+        {choices:[
+          {text:'拒绝出售，追问她知道什么',next:'refuse_liu',effect:'信任度+10'},
+          {text:'同意交易，但要她提供更多内幕',next:'deal_liu',effect:'获得线索：酒吧录音'},
+          {text:'让她先告诉你照片里的人是谁',next:'ask_liu',effect:'好感度+5'}
+        ]}
+      ]
+    },
+    linxiaoyu_ch3: {
+      title:'镜头下的真相',
+      scenes:[
+        {speaker:'narration',text:'你站在燕城大桥上，手里握着相机。远处，旧商场的废墟在夕阳下显得格外凄凉。'},
+        {speaker:'林小雨',text:'原来...那张照片里的人，才是解开一切的关键。五年前的大火...不是意外。'},
+linxiaoyu_ch4: {
       title:'刘思琪的提议',
       scenes:[
         {speaker:'narration',text:'刘思琪再次找到你，这次她带来了一个更大的交易。'},
@@ -1121,91 +1205,8 @@ const STORIES = {
           {text:'用证词要挟当事人',ending:'zhouzixuan_dark',effect:'结局：黑暗之路'}
         ]}
       ]
-    },
-    chat_wangshihan: {
-      default:[
-        {trigger:'你好',responses:[
-          '你好，陆远先生。有什么事吗？',
-          '嗯，说吧。',
-          '...你又在加班？'
-        ]},
-        {trigger:'大火',responses:[
-          '...你为什么要问这个？',
-          '有些事情，不是你该知道的。',
-          '如果你想了解真相，来我办公室。'
-        ]},
-        {trigger:'小雅',responses:[
-          '小雅是个好女孩。你和她分手是你的损失。',
-          '她现在很好，不用担心。',
-          '...你还在想她？'
-        ]},
-        {trigger:'default',responses:[
-          '嗯。',
-          '我知道了。',
-          '有空再聊。',
-          '我在开会，晚点说。'
-        ]}
-      ]
-    },
-    chat_limengqi: {
-      default:[
-        {trigger:'你好',responses:[
-          '嗨~陆远！好久不见！',
-          '你找我什么事呀~',
-          '我正在直播呢，等会聊~'
-        ]},
-        {trigger:'债务',responses:[
-          '？？？你在说什么？',
-          '你怎么知道的...',
-          '求你别告诉别人...'
-        ]},
-        {trigger:'王诗涵',responses:[
-          '诗涵姐？我们大学同学呀~',
-          '别提她了...',
-          '她那个人...表面冷冰冰的，其实人挺好的。'
-        ]},
-        {trigger:'default',responses:[
-          '哈哈~',
-          '嗯嗯~',
-          '好啦好啦~',
-          '我先忙啦~'
-        ]}
-      ]
     }
-  },
-  linxiaoyu: {
-    1: {
-      title:'一张不该拍到的照片',
-      scenes:[
-        {speaker:'narration',text:'你的摄影工作室里，一面墙上挂满了你在燕城拍摄的作品。但有一个上锁的抽屉里，藏着一张你从未展示过的照片。'},
-        {speaker:'林小雨',text:'张雨萱...你到底在隐瞒什么？'},
-        {speaker:'narration',text:'一个月前，你受雇为一个商业活动拍摄。在VIP休息室，你透过门缝拍到了张雨萱——燕城医院院长的女儿——和一个男人的合影。那个男人...是五年前大火中被宣布"死亡"的人。'},
-        {choices:[
-          {text:'联系张雨萱，告诉她你拍到了什么',next:'contact_zhang',effect:'触发张雨萱对话'},
-          {text:'先调查那个"死人"的身份',next:'investigate_dead',effect:'获得线索：大火照片'},
-          {text:'把照片藏好，假装什么都没发生',next:'hide_photo',effect:'时间推进'}
-        ]}
-      ]
-    },
-    linxiaoyu_ch2: {
-      title:'意想不到的访客',
-      scenes:[
-        {speaker:'narration',text:'深夜，有人敲响了你工作室的门。你打开门，看到一个衣着精致的女人站在门口。'},
-        {speaker:'刘思琪',text:'林小雨小姐？我是月色酒吧的刘思琪。我知道你手里有一张照片...我出双倍价钱买。'},
-        {speaker:'林小雨',text:'你怎么知道照片的事？'},
-        {speaker:'刘思琪',text:'在燕城，没有我不知道的事。那张照片牵涉到的人，比你想象的多得多。'},
-        {choices:[
-          {text:'拒绝出售，追问她知道什么',next:'refuse_liu',effect:'信任度+10'},
-          {text:'同意交易，但要她提供更多内幕',next:'deal_liu',effect:'获得线索：酒吧录音'},
-          {text:'让她先告诉你照片里的人是谁',next:'ask_liu',effect:'好感度+5'}
-        ]}
-      ]
-    },
-    linxiaoyu_ch3: {
-      title:'镜头下的真相',
-      scenes:[
-        {speaker:'narration',text:'你站在燕城大桥上，手里握着相机。远处，旧商场的废墟在夕阳下显得格外凄凉。'},
-        {speaker:'林小雨',text:'原来...那张照片里的人，才是解开一切的关键。五年前的大火...不是意外。'},
+,
         {speaker:'narration',text:'你的手机响了，是张雨萱："林小姐，我愿意和你谈谈。在那个废墟见面...我想告诉你真相。"'},
         {choices:[
           {text:'赴约，听张雨萱讲述真相',ending:'linxiaoyu_truth',effect:'结局：真相之镜'},
