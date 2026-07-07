@@ -2929,6 +2929,48 @@ header { display: contents; }
   body { background: white; color: black; }
   .card { border: 1px solid #ccc; box-shadow: none; }
 }
+
+/* Error boundary */
+.error-boundary {
+  padding: 20px;
+  background: rgba(148, 60, 60, 0.1);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.error-boundary h3 {
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.error-boundary p {
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+.divider.with-text {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.85em;
+}
+
+.divider.with-text::before,
+.divider.with-text::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
