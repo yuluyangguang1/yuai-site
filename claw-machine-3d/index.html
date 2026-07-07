@@ -3,30 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>3D 抓娃娃机</title>
+<title>3D 抓娃娃机 - 沉浸式体验</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: #0a0a1a;
-  color: #fff;
   overflow: hidden;
-  height: 100vh;
+  background: #000;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
   touch-action: none;
 }
 
-/* Loading screen */
+#canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Loading */
 .loading {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #0f0f23, #1a1a3a);
+  background: linear-gradient(135deg, #0a0a1a, #1a1a3a);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  transition: opacity 0.5s;
+  transition: opacity 1s;
 }
 
 .loading.hidden {
@@ -34,39 +39,41 @@ body {
   pointer-events: none;
 }
 
-.loading-spinner {
-  width: 60px;
-  height: 60px;
+.loading-ring {
+  width: 80px;
+  height: 80px;
   border: 4px solid rgba(255,255,255,0.1);
   border-top-color: #e74c3c;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .loading-text {
-  margin-top: 20px;
-  font-size: 18px;
+  margin-top: 24px;
   color: rgba(255,255,255,0.6);
+  font-size: 16px;
 }
 
-/* Game UI overlay */
-.game-ui {
+.loading-hint {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.3);
+  font-size: 12px;
+}
+
+/* HUD */
+.hud {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 100;
 }
 
-.game-ui > * {
-  pointer-events: auto;
-}
+.hud > * { pointer-events: auto; }
 
-/* Header */
-.header {
+/* Top bar */
+.top-bar {
   position: absolute;
   top: 0;
   left: 0;
@@ -78,23 +85,23 @@ body {
   align-items: center;
 }
 
-.title {
-  font-size: 24px;
+.game-title {
+  font-size: 20px;
   font-weight: 800;
-  background: linear-gradient(90deg, #e74c3c, #f39c12);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #e74c3c;
+  text-shadow: 0 0 20px rgba(231,76,60,0.5);
 }
 
 .stats {
   display: flex;
-  gap: 20px;
+  gap: 24px;
 }
 
 .stat {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: rgba(255,255,255,0.8);
   font-size: 14px;
 }
 
@@ -102,6 +109,35 @@ body {
   font-weight: 700;
   color: #f39c12;
   font-size: 18px;
+  font-family: 'Courier New', monospace;
+}
+
+/* Gyro indicator */
+.gyro-indicator {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  background: rgba(0,0,0,0.6);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #2ecc71;
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+
+.gyro-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2ecc71;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 /* Controls */
@@ -142,8 +178,7 @@ body {
   height: 50px;
   background: radial-gradient(circle, #e74c3c, #c0392b);
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
-  transition: transform 0.1s;
+  box-shadow: 0 4px 12px rgba(231,76,60,0.4);
 }
 
 /* Grab button */
@@ -157,52 +192,62 @@ body {
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 
-    0 6px 0 #96281b,
-    0 8px 20px rgba(231, 76, 60, 0.4);
+  box-shadow: 0 6px 0 #96281b, 0 8px 20px rgba(231,76,60,0.4);
   transition: all 0.1s;
   letter-spacing: 2px;
 }
 
-.grab-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 8px 0 #96281b,
-    0 10px 30px rgba(231, 76, 60, 0.5);
-}
-
 .grab-btn:active {
   transform: translateY(4px);
-  box-shadow: 
-    0 2px 0 #96281b,
-    0 4px 10px rgba(231, 76, 60, 0.3);
+  box-shadow: 0 2px 0 #96281b, 0 4px 10px rgba(231,76,60,0.3);
 }
 
-/* Gyroscope indicator */
-.gyro-indicator {
-  position: absolute;
-  top: 80px;
-  right: 20px;
-  background: rgba(0,0,0,0.6);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 12px;
+/* Instructions */
+.instructions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+}
+
+.instruction {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
-.gyro-dot {
-  width: 8px;
-  height: 8px;
+.key {
+  background: rgba(255,255,255,0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.2);
+  font-family: monospace;
+}
+
+/* Camera hint */
+.camera-hint {
+  position: absolute;
+  bottom: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+}
+
+/* Crosshair */
+.crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
   border-radius: 50%;
-  background: #2ecc71;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  pointer-events: none;
 }
 
 /* Achievement popup */
@@ -219,17 +264,15 @@ body {
   align-items: center;
   gap: 12px;
   z-index: 200;
-  box-shadow: 0 0 30px rgba(243, 156, 18, 0.3);
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 30px rgba(243,156,18,0.3);
+  transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
 }
 
 .achievement.show {
   transform: translateX(-50%) translateY(0);
 }
 
-.achievement-icon {
-  font-size: 32px;
-}
+.achievement-icon { font-size: 32px; }
 
 .achievement-info h3 {
   color: #f39c12;
@@ -254,14 +297,12 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.result-popup.show {
-  display: flex;
-}
+.result-popup.show { display: flex; }
 
 .result-plushie {
   font-size: 100px;
   margin: 20px 0;
-  animation: bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: bounce-in 0.5s cubic-bezier(0.34,1.56,0.64,1);
 }
 
 @keyframes bounce-in {
@@ -290,12 +331,7 @@ body {
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
-  transition: transform 0.2s;
-}
-
-.result-btn:hover {
-  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(231,76,60,0.4);
 }
 
 /* Start screen */
@@ -341,64 +377,32 @@ body {
   font-size: 20px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+  box-shadow: 0 8px 25px rgba(231,76,60,0.4);
   transition: all 0.3s;
 }
 
 .start-btn:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(231, 76, 60, 0.5);
-}
-
-/* Instructions */
-.instructions {
-  position: absolute;
-  bottom: 180px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 24px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
-}
-
-.instruction {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.key {
-  background: rgba(255,255,255,0.1);
-  padding: 2px 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.2);
-  font-family: monospace;
-}
-
-/* Camera controls hint */
-.camera-hint {
-  position: absolute;
-  bottom: 180px;
-  left: 20px;
-  font-size: 11px;
-  color: rgba(255,255,255,0.3);
+  box-shadow: 0 12px 35px rgba(231,76,60,0.5);
 }
 </style>
 </head>
 <body>
 
-<!-- Loading Screen -->
+<!-- Canvas -->
+<canvas id="canvas"></canvas>
+
+<!-- Loading -->
 <div class="loading" id="loading">
-  <div class="loading-spinner"></div>
+  <div class="loading-ring"></div>
   <div class="loading-text">加载 3D 场景...</div>
+  <div class="loading-hint">正在构建游戏厅环境</div>
 </div>
 
-<!-- Game UI -->
-<div class="game-ui">
-  <!-- Header -->
-  <div class="header">
-    <div class="title">3D 抓娃娃机</div>
+<!-- HUD -->
+<div class="hud">
+  <div class="top-bar">
+    <div class="game-title">3D 抓娃娃机</div>
     <div class="stats">
       <div class="stat">
         <span>🪙</span>
@@ -418,16 +422,15 @@ body {
     </div>
   </div>
 
-  <!-- Gyroscope Indicator -->
-  <div class="gyro-indicator" id="gyro-indicator" style="display:none">
+  <div class="gyro-indicator" id="gyro-indicator">
     <div class="gyro-dot"></div>
     <span>陀螺仪</span>
   </div>
 
-  <!-- Camera Hint -->
-  <div class="camera-hint">拖动屏幕旋转视角</div>
+  <div class="camera-hint">拖动屏幕旋转视角 · 滚轮缩放</div>
 
-  <!-- Instructions -->
+  <div class="crosshair"></div>
+
   <div class="instructions">
     <div class="instruction">
       <span class="key">←</span>
@@ -440,7 +443,6 @@ body {
     </div>
   </div>
 
-  <!-- Controls -->
   <div class="controls">
     <div class="controls-row">
       <div class="joystick-area" id="joystick">
@@ -451,7 +453,7 @@ body {
   </div>
 </div>
 
-<!-- Achievement Popup -->
+<!-- Achievement -->
 <div class="achievement" id="achievement">
   <div class="achievement-icon" id="achievement-icon">🎯</div>
   <div class="achievement-info">
@@ -460,7 +462,7 @@ body {
   </div>
 </div>
 
-<!-- Result Popup -->
+<!-- Result -->
 <div class="result-popup" id="result-popup">
   <div class="result-plushie" id="result-plushie">🧸</div>
   <div class="result-title" id="result-title">抓到了！</div>
@@ -472,17 +474,26 @@ body {
 <div class="start-screen" id="start-screen">
   <h1>3D 抓娃娃机</h1>
   <p>
-    真实 3D 物理引擎<br>
-    移动端陀螺仪控制<br>
+    沉浸式 3D 游戏厅体验<br>
+    真实物理引擎 · 陀螺仪控制<br>
     收集所有娃娃成就
   </p>
   <button class="start-btn" id="start-btn">投币开始</button>
 </div>
 
-<!-- Three.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
 
-<script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
 // Game state
 const state = {
   score: 0,
@@ -493,11 +504,9 @@ const state = {
   clawZ: 0,
   clawY: 0,
   isDropping: false,
-  isGrabbing: false,
   caughtToy: null,
   achievements: {},
-  gyroEnabled: false,
-  cameraAngle: { x: 0.3, y: -0.5 }
+  gyroEnabled: false
 };
 
 // Toy types
@@ -526,99 +535,163 @@ const ACHIEVEMENTS = [
 ];
 
 // Three.js setup
-let scene, camera, renderer, clock;
+let scene, camera, renderer, controls, clock;
 let claw, clawFingers, toys = [];
-let raycaster, mouse;
+let room, arcadeMachines = [];
 
-// Initialize Three.js
-function initThree() {
+// Canvas
+const canvas = document.getElementById('canvas');
+
+// Initialize
+function init() {
+  // Scene
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0a0a1a);
-  scene.fog = new THREE.Fog(0x0a0a1a, 10, 30);
+  scene.fog = new THREE.FogExp2(0x0a0a1a, 0.05);
   
-  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-  camera.position.set(0, 3, 5);
-  camera.lookAt(0, 1, 0);
+  // Camera
+  camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100);
+  camera.position.set(0, 2, 4);
   
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  // Renderer
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
+  renderer.toneMappingExposure = 1.0;
   
-  document.body.insertBefore(renderer.domElement, document.body.firstChild);
-  renderer.domElement.style.position = 'fixed';
-  renderer.domElement.style.inset = '0';
-  renderer.domElement.style.zIndex = '0';
+  // Controls
+  controls = new OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.maxPolarAngle = Math.PI / 2;
+  controls.minDistance = 2;
+  controls.maxDistance = 8;
+  controls.target.set(0, 1, 0);
   
+  // Clock
   clock = new THREE.Clock();
-  raycaster = new THREE.Raycaster();
-  mouse = new THREE.Vector2();
   
-  // Lights
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-  scene.add(ambientLight);
-  
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  directionalLight.position.set(5, 10, 5);
-  directionalLight.castShadow = true;
-  directionalLight.shadow.mapSize.width = 2048;
-  directionalLight.shadow.mapSize.height = 2048;
-  scene.add(directionalLight);
-  
-  const pointLight1 = new THREE.PointLight(0xe74c3c, 1, 10);
-  pointLight1.position.set(-2, 3, 0);
-  scene.add(pointLight1);
-  
-  const pointLight2 = new THREE.PointLight(0xf39c12, 1, 10);
-  pointLight2.position.set(2, 3, 0);
-  scene.add(pointLight2);
-  
-  // Create machine
-  createMachine();
-  
-  // Create claw
-  createClaw();
-  
-  // Create toys
+  // Create scene
+  createRoom();
+  createClawMachine();
   createToys();
+  createArcadeMachines();
+  createLights();
   
   // Hide loading
   setTimeout(() => {
     document.getElementById('loading').classList.add('hidden');
-  }, 1000);
+  }, 2000);
+}
+
+// Create room
+function createRoom() {
+  // Floor
+  const floorGeometry = new THREE.PlaneGeometry(20, 20);
+  const floorMaterial = new THREE.MeshStandardMaterial({
+    color: 0x1a1a2e,
+    roughness: 0.8,
+    metalness: 0.2
+  });
+  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+  
+  // Checkered pattern
+  const checkGeometry = new THREE.PlaneGeometry(20, 20, 20, 20);
+  const checkMaterial = new THREE.MeshStandardMaterial({
+    color: 0x0f0f23,
+    roughness: 0.9,
+    metalness: 0.1
+  });
+  const check = new THREE.Mesh(checkGeometry, checkMaterial);
+  check.rotation.x = -Math.PI / 2;
+  check.position.y = 0.01;
+  check.receiveShadow = true;
+  scene.add(check);
+  
+  // Walls
+  const wallMaterial = new THREE.MeshStandardMaterial({
+    color: 0x1a1a3a,
+    roughness: 0.9,
+    metalness: 0.1
+  });
+  
+  // Back wall
+  const backWall = new THREE.Mesh(new THREE.PlaneGeometry(20, 6), wallMaterial);
+  backWall.position.set(0, 3, -10);
+  backWall.receiveShadow = true;
+  scene.add(backWall);
+  
+  // Side walls
+  const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(20, 6), wallMaterial);
+  leftWall.rotation.y = Math.PI / 2;
+  leftWall.position.set(-10, 3, 0);
+  leftWall.receiveShadow = true;
+  scene.add(leftWall);
+  
+  const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(20, 6), wallMaterial);
+  rightWall.rotation.y = -Math.PI / 2;
+  rightWall.position.set(10, 3, 0);
+  rightWall.receiveShadow = true;
+  scene.add(rightWall);
+  
+  // Ceiling
+  const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), wallMaterial);
+  ceiling.rotation.x = Math.PI / 2;
+  ceiling.position.y = 6;
+  scene.add(ceiling);
+  
+  // Neon strips on ceiling
+  const neonGeometry = new THREE.BoxGeometry(18, 0.1, 0.1);
+  const neonMaterial = new THREE.MeshStandardMaterial({
+    color: 0xe74c3c,
+    emissive: 0xe74c3c,
+    emissiveIntensity: 2
+  });
+  
+  for (let i = 0; i < 3; i++) {
+    const neon = new THREE.Mesh(neonGeometry, neonMaterial);
+    neon.position.set(0, 5.9, -5 + i * 5);
+    scene.add(neon);
+  }
 }
 
 // Create claw machine
-function createMachine() {
+function createClawMachine() {
+  const machineGroup = new THREE.Group();
+  
   // Base
-  const baseGeometry = new THREE.BoxGeometry(3, 0.2, 3);
-  const baseMaterial = new THREE.MeshStandardMaterial({ 
+  const baseGeometry = new THREE.BoxGeometry(2.5, 0.3, 2.5);
+  const baseMaterial = new THREE.MeshStandardMaterial({
     color: 0x1a1a2e,
     metalness: 0.8,
     roughness: 0.2
   });
   const base = new THREE.Mesh(baseGeometry, baseMaterial);
-  base.position.y = 0.1;
+  base.position.y = 0.15;
+  base.castShadow = true;
   base.receiveShadow = true;
-  scene.add(base);
+  machineGroup.add(base);
   
-  // Glass walls
-  const glassGeometry = new THREE.BoxGeometry(3, 2.5, 3);
+  // Glass
+  const glassGeometry = new THREE.BoxGeometry(2.5, 2, 2.5);
   const glassMaterial = new THREE.MeshPhysicalMaterial({
     color: 0x88ccff,
     transparent: true,
-    opacity: 0.15,
+    opacity: 0.1,
     roughness: 0,
     metalness: 0,
-    transmission: 0.9,
+    transmission: 0.95,
     thickness: 0.1
   });
   const glass = new THREE.Mesh(glassGeometry, glassMaterial);
-  glass.position.y = 1.45;
-  scene.add(glass);
+  glass.position.y = 1.3;
+  machineGroup.add(glass);
   
   // Metal frame
   const frameMaterial = new THREE.MeshStandardMaterial({
@@ -629,108 +702,89 @@ function createMachine() {
   
   // Vertical frames
   for (let i = 0; i < 4; i++) {
-    const frameGeometry = new THREE.CylinderGeometry(0.03, 0.03, 2.5);
+    const frameGeometry = new THREE.CylinderGeometry(0.03, 0.03, 2);
     const frame = new THREE.Mesh(frameGeometry, frameMaterial);
-    const x = (i % 2 === 0 ? -1 : 1) * 1.5;
-    const z = (i < 2 ? -1 : 1) * 1.5;
-    frame.position.set(x, 1.45, z);
+    const x = (i % 2 === 0 ? -1 : 1) * 1.25;
+    const z = (i < 2 ? -1 : 1) * 1.25;
+    frame.position.set(x, 1.3, z);
     frame.castShadow = true;
-    scene.add(frame);
+    machineGroup.add(frame);
   }
   
-  // Top frame
-  const topFrameGeometry = new THREE.BoxGeometry(3.2, 0.1, 3.2);
-  const topFrame = new THREE.Mesh(topFrameGeometry, frameMaterial);
-  topFrame.position.y = 2.75;
-  topFrame.castShadow = true;
-  scene.add(topFrame);
-  
-  // Red top
-  const topGeometry = new THREE.BoxGeometry(3.4, 0.3, 3.4);
+  // Top
+  const topGeometry = new THREE.BoxGeometry(2.7, 0.2, 2.7);
   const topMaterial = new THREE.MeshStandardMaterial({
     color: 0xe74c3c,
     metalness: 0.3,
     roughness: 0.7
   });
   const top = new THREE.Mesh(topGeometry, topMaterial);
-  top.position.y = 3.0;
+  top.position.y = 2.4;
   top.castShadow = true;
-  scene.add(top);
+  machineGroup.add(top);
   
   // Lights on top
   for (let i = 0; i < 8; i++) {
-    const lightGeometry = new THREE.SphereGeometry(0.08, 16, 16);
+    const lightGeometry = new THREE.SphereGeometry(0.06, 16, 16);
     const lightMaterial = new THREE.MeshStandardMaterial({
       color: 0xf39c12,
       emissive: 0xf39c12,
-      emissiveIntensity: 2
+      emissiveIntensity: 3
     });
     const light = new THREE.Mesh(lightGeometry, lightMaterial);
     const angle = (i / 8) * Math.PI * 2;
-    light.position.set(Math.cos(angle) * 1.4, 3.15, Math.sin(angle) * 1.4);
-    scene.add(light);
+    light.position.set(Math.cos(angle) * 1.1, 2.5, Math.sin(angle) * 1.1);
+    machineGroup.add(light);
   }
   
-  // Floor inside machine
-  const floorGeometry = new THREE.PlaneGeometry(2.8, 2.8);
+  // Floor inside
+  const floorGeometry = new THREE.PlaneGeometry(2.3, 2.3);
   const floorMaterial = new THREE.MeshStandardMaterial({
     color: 0x2c3e50,
     roughness: 0.8
   });
   const floor = new THREE.Mesh(floorGeometry, floorMaterial);
   floor.rotation.x = -Math.PI / 2;
-  floor.position.y = 0.21;
+  floor.position.y = 0.31;
   floor.receiveShadow = true;
-  scene.add(floor);
+  machineGroup.add(floor);
   
   // Prize chute
-  const chuteGeometry = new THREE.BoxGeometry(0.8, 0.6, 0.3);
+  const chuteGeometry = new THREE.BoxGeometry(0.6, 0.5, 0.2);
   const chuteMaterial = new THREE.MeshStandardMaterial({
     color: 0x2c3e50,
     metalness: 0.5,
     roughness: 0.5
   });
   const chute = new THREE.Mesh(chuteGeometry, chuteMaterial);
-  chute.position.set(0, 0.5, 1.65);
-  scene.add(chute);
-}
-
-// Create claw
-function createClaw() {
+  chute.position.set(0, 0.5, 1.35);
+  machineGroup.add(chute);
+  
+  // Claw
   claw = new THREE.Group();
   
   // Rail
-  const railGeometry = new THREE.BoxGeometry(2.8, 0.05, 0.05);
-  const railMaterial = new THREE.MeshStandardMaterial({
-    color: 0xbdc3c7,
-    metalness: 0.9,
-    roughness: 0.1
-  });
-  const rail = new THREE.Mesh(railGeometry, railMaterial);
-  rail.position.y = 2.6;
+  const railGeometry = new THREE.BoxGeometry(2.3, 0.04, 0.04);
+  const rail = new THREE.Mesh(railGeometry, frameMaterial);
+  rail.position.y = 2.2;
   claw.add(rail);
   
   // Carriage
-  const carriageGeometry = new THREE.BoxGeometry(0.3, 0.15, 0.3);
-  const carriageMaterial = new THREE.MeshStandardMaterial({
-    color: 0xbdc3c7,
-    metalness: 0.9,
-    roughness: 0.1
-  });
-  const carriage = new THREE.Mesh(carriageGeometry, carriageMaterial);
-  carriage.position.y = 2.5;
+  const carriageGeometry = new THREE.BoxGeometry(0.25, 0.12, 0.25);
+  const carriage = new THREE.Mesh(carriageGeometry, frameMaterial);
+  carriage.position.y = 2.1;
   claw.add(carriage);
   
   // Wire
-  const wireGeometry = new THREE.CylinderGeometry(0.01, 0.01, 1);
+  const wireGeometry = new THREE.CylinderGeometry(0.008, 0.008, 0.8);
   const wireMaterial = new THREE.MeshStandardMaterial({ color: 0x95a5a6 });
   const wire = new THREE.Mesh(wireGeometry, wireMaterial);
-  wire.position.y = 2.0;
+  wire.position.y = 1.7;
   claw.add(wire);
   
   // Claw head
   clawFingers = new THREE.Group();
-  clawFingers.position.y = 1.5;
+  clawFingers.position.y = 1.3;
   
   const fingerMaterial = new THREE.MeshStandardMaterial({
     color: 0xbdc3c7,
@@ -738,12 +792,11 @@ function createClaw() {
     roughness: 0.1
   });
   
-  // Three fingers
   for (let i = 0; i < 3; i++) {
-    const fingerGeometry = new THREE.BoxGeometry(0.04, 0.4, 0.04);
+    const fingerGeometry = new THREE.BoxGeometry(0.03, 0.3, 0.03);
     const finger = new THREE.Mesh(fingerGeometry, fingerMaterial);
     const angle = (i / 3) * Math.PI * 2;
-    finger.position.set(Math.cos(angle) * 0.1, -0.2, Math.sin(angle) * 0.1);
+    finger.position.set(Math.cos(angle) * 0.08, -0.15, Math.sin(angle) * 0.08);
     finger.rotation.z = Math.cos(angle) * 0.3;
     finger.rotation.x = Math.sin(angle) * 0.3;
     finger.castShadow = true;
@@ -751,12 +804,13 @@ function createClaw() {
   }
   
   claw.add(clawFingers);
-  scene.add(claw);
+  machineGroup.add(claw);
+  
+  scene.add(machineGroup);
 }
 
 // Create toys
 function createToys() {
-  // Clear existing toys
   toys.forEach(toy => scene.remove(toy));
   toys = [];
   
@@ -765,8 +819,7 @@ function createToys() {
   for (let i = 0; i < toyCount; i++) {
     const toyType = TOY_TYPES[Math.floor(Math.random() * TOY_TYPES.length)];
     
-    // Body
-    const bodyGeometry = new THREE.SphereGeometry(0.2, 32, 32);
+    const bodyGeometry = new THREE.SphereGeometry(0.15, 32, 32);
     const bodyMaterial = new THREE.MeshStandardMaterial({
       color: toyType.color,
       roughness: 0.8,
@@ -774,27 +827,24 @@ function createToys() {
     });
     const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
     
-    // Eyes
-    const eyeGeometry = new THREE.SphereGeometry(0.04, 16, 16);
+    const eyeGeometry = new THREE.SphereGeometry(0.03, 16, 16);
     const eyeMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
     
     const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-    leftEye.position.set(-0.06, 0.06, 0.18);
+    leftEye.position.set(-0.04, 0.04, 0.13);
     
     const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-    rightEye.position.set(0.06, 0.06, 0.18);
+    rightEye.position.set(0.04, 0.04, 0.13);
     
-    // Group
     const toy = new THREE.Group();
     toy.add(body);
     toy.add(leftEye);
     toy.add(rightEye);
     
-    // Random position
     toy.position.set(
-      (Math.random() - 0.5) * 2,
-      0.4,
-      (Math.random() - 0.5) * 2
+      (Math.random() - 0.5) * 1.8,
+      0.45,
+      (Math.random() - 0.5) * 1.8
     );
     
     toy.rotation.y = Math.random() * Math.PI * 2;
@@ -806,26 +856,92 @@ function createToys() {
   }
 }
 
-// Update claw position
+// Create arcade machines
+function createArcadeMachines() {
+  const machineColors = [0x2c3e50, 0x34495e, 0x1a1a3a, 0x2a2a4a];
+  
+  for (let i = 0; i < 6; i++) {
+    const machineGroup = new THREE.Group();
+    
+    const bodyGeometry = new THREE.BoxGeometry(0.8, 1.5, 0.6);
+    const bodyMaterial = new THREE.MeshStandardMaterial({
+      color: machineColors[i % machineColors.length],
+      metalness: 0.5,
+      roughness: 0.5
+    });
+    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+    body.position.y = 0.75;
+    body.castShadow = true;
+    body.receiveShadow = true;
+    machineGroup.add(body);
+    
+    const screenGeometry = new THREE.PlaneGeometry(0.6, 0.4);
+    const screenMaterial = new THREE.MeshStandardMaterial({
+      color: 0x00ff00,
+      emissive: 0x00ff00,
+      emissiveIntensity: 0.5
+    });
+    const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+    screen.position.set(0, 1.2, 0.31);
+    machineGroup.add(screen);
+    
+    const angle = (i / 6) * Math.PI * 2;
+    const radius = 4;
+    machineGroup.position.set(
+      Math.cos(angle) * radius,
+      0,
+      Math.sin(angle) * radius
+    );
+    machineGroup.rotation.y = -angle + Math.PI;
+    
+    scene.add(machineGroup);
+    arcadeMachines.push(machineGroup);
+  }
+}
+
+// Create lights
+function createLights() {
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+  scene.add(ambientLight);
+  
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  directionalLight.position.set(5, 10, 5);
+  directionalLight.castShadow = true;
+  directionalLight.shadow.mapSize.width = 2048;
+  directionalLight.shadow.mapSize.height = 2048;
+  scene.add(directionalLight);
+  
+  const pointLight1 = new THREE.PointLight(0xe74c3c, 2, 10);
+  pointLight1.position.set(0, 4, 0);
+  scene.add(pointLight1);
+  
+  const pointLight2 = new THREE.PointLight(0xf39c12, 2, 10);
+  pointLight2.position.set(2, 3, 2);
+  scene.add(pointLight2);
+  
+  const pointLight3 = new THREE.PointLight(0x4ecdc4, 1, 8);
+  pointLight3.position.set(-3, 2, -2);
+  scene.add(pointLight3);
+}
+
+// Update claw
 function updateClaw() {
   claw.position.x = state.clawX;
   claw.position.z = state.clawZ;
   
-  // Update wire length
   const wire = claw.children[2];
   wire.scale.y = 1 + state.clawY;
-  wire.position.y = 2.0 - state.clawY / 2;
+  wire.position.y = 1.7 - state.clawY / 2;
   
-  // Update claw head position
-  clawFingers.position.y = 1.5 - state.clawY;
+  clawFingers.position.y = 1.3 - state.clawY;
 }
 
 // Move claw
 function moveClaw(dx, dz) {
   if (!state.gameActive || state.isDropping) return;
   
-  state.clawX = Math.max(-1.2, Math.min(1.2, state.clawX + dx * 0.05));
-  state.clawZ = Math.max(-1.2, Math.min(1.2, state.clawZ + dz * 0.05));
+  state.clawX = Math.max(-0.9, Math.min(0.9, state.clawX + dx * 0.03));
+  state.clawZ = Math.max(-0.9, Math.min(0.9, state.clawZ + dz * 0.03));
   
   updateClaw();
 }
@@ -835,20 +951,12 @@ function dropClaw() {
   if (!state.gameActive || state.isDropping) return;
   
   state.isDropping = true;
-  state.isGrabbing = true;
   
-  // Animate dropping
   const dropInterval = setInterval(() => {
-    state.clawY += 0.05;
+    state.clawY += 0.03;
     updateClaw();
     
-    // Close fingers as dropping
-    clawFingers.children.forEach(finger => {
-      finger.rotation.z *= 0.95;
-      finger.rotation.x *= 0.95;
-    });
-    
-    if (state.clawY >= 1.0) {
+    if (state.clawY >= 0.8) {
       clearInterval(dropInterval);
       checkGrab();
     }
@@ -858,7 +966,7 @@ function dropClaw() {
 // Check grab
 function checkGrab() {
   let grabbedToy = null;
-  let minDistance = 0.5;
+  let minDistance = 0.4;
   
   toys.forEach(toy => {
     if (!toy.visible) return;
@@ -874,7 +982,7 @@ function checkGrab() {
     }
   });
   
-  if (grabbedToy && Math.random() > 0.3) {
+  if (grabbedToy && Math.random() > 0.25) {
     state.caughtToy = grabbedToy.userData.type;
     grabbedToy.visible = false;
     state.score += grabbedToy.userData.type.points;
@@ -884,16 +992,14 @@ function checkGrab() {
     document.getElementById('catches').textContent = state.catches;
   }
   
-  // Retract
   setTimeout(() => {
     const retractInterval = setInterval(() => {
-      state.clawY -= 0.05;
+      state.clawY -= 0.03;
       updateClaw();
       
       if (state.clawY <= 0) {
         clearInterval(retractInterval);
         state.isDropping = false;
-        state.isGrabbing = false;
         
         if (state.caughtToy) {
           showResult(state.caughtToy);
@@ -967,7 +1073,6 @@ function startGame() {
   document.getElementById('timer').textContent = '90';
   document.getElementById('catches').textContent = '0';
   document.getElementById('start-screen').style.display = 'none';
-  document.getElementById('result-popup').classList.remove('show');
   
   createToys();
   updateClaw();
@@ -991,17 +1096,16 @@ function initGyroscope() {
     window.addEventListener('deviceorientation', (e) => {
       if (!state.gyroEnabled || !state.gameActive) return;
       
-      const gamma = e.gamma; // Left/right tilt (-90 to 90)
-      const beta = e.beta;   // Front/back tilt (-180 to 180)
+      const gamma = e.gamma;
+      const beta = e.beta;
       
       if (gamma !== null && beta !== null) {
-        state.clawX = (gamma / 45) * 1.2;
-        state.clawZ = ((beta - 45) / 45) * 1.2;
+        state.clawX = (gamma / 45) * 0.9;
+        state.clawZ = ((beta - 45) / 45) * 0.9;
         updateClaw();
       }
     });
     
-    // Request permission on iOS
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
       document.getElementById('start-btn').addEventListener('click', async () => {
         const permission = await DeviceOrientationEvent.requestPermission();
@@ -1016,55 +1120,6 @@ function initGyroscope() {
     }
   }
 }
-
-// Camera controls
-let isDragging = false;
-let previousMousePosition = { x: 0, y: 0 };
-
-document.addEventListener('mousedown', (e) => {
-  if (e.target.closest('.controls') || e.target.closest('.game-ui > *')) return;
-  isDragging = true;
-  previousMousePosition = { x: e.clientX, y: e.clientY };
-});
-
-document.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
-  
-  const deltaX = e.clientX - previousMousePosition.x;
-  const deltaY = e.clientY - previousMousePosition.y;
-  
-  state.cameraAngle.y -= deltaX * 0.005;
-  state.cameraAngle.x = Math.max(-0.5, Math.min(0.8, state.cameraAngle.x - deltaY * 0.005));
-  
-  previousMousePosition = { x: e.clientX, y: e.clientY };
-});
-
-document.addEventListener('mouseup', () => {
-  isDragging = false;
-});
-
-// Touch camera
-document.addEventListener('touchstart', (e) => {
-  if (e.target.closest('.controls') || e.target.closest('.game-ui > *')) return;
-  isDragging = true;
-  previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-});
-
-document.addEventListener('touchmove', (e) => {
-  if (!isDragging) return;
-  
-  const deltaX = e.touches[0].clientX - previousMousePosition.x;
-  const deltaY = e.touches[0].clientY - previousMousePosition.y;
-  
-  state.cameraAngle.y -= deltaX * 0.005;
-  state.cameraAngle.x = Math.max(-0.5, Math.min(0.8, state.cameraAngle.x - deltaY * 0.005));
-  
-  previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-});
-
-document.addEventListener('touchend', () => {
-  isDragging = false;
-});
 
 // Joystick
 function initJoystick() {
@@ -1138,18 +1193,12 @@ function animate() {
   
   const delta = clock.getDelta();
   
-  // Update camera
-  const cameraDistance = 5;
-  camera.position.x = Math.sin(state.cameraAngle.y) * cameraDistance;
-  camera.position.y = 2 + state.cameraAngle.x * 2;
-  camera.position.z = Math.cos(state.cameraAngle.y) * cameraDistance;
-  camera.lookAt(0, 1, 0);
+  controls.update();
   
-  // Animate toys
   toys.forEach((toy, i) => {
     if (toy.visible) {
       toy.rotation.y += delta * 0.5;
-      toy.position.y = 0.4 + Math.sin(Date.now() * 0.001 + i) * 0.05;
+      toy.position.y = 0.45 + Math.sin(Date.now() * 0.001 + i) * 0.03;
     }
   });
   
@@ -1164,7 +1213,7 @@ window.addEventListener('resize', () => {
 });
 
 // Initialize
-initThree();
+init();
 initJoystick();
 initKeyboard();
 initGyroscope();
