@@ -8,439 +8,735 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0a0a1a;
-  --machine: #1a1a3a;
-  --glass: rgba(100, 200, 255, 0.1);
-  --claw: #c0c0c0;
-  --neon-pink: #ff6b9d;
-  --neon-blue: #4ecdc4;
-  --neon-yellow: #ffe66d;
-  --neon-purple: #a855f7;
-  --text: #fff;
-  --dim: #888;
+  --machine-red: #e74c3c;
+  --machine-dark: #1a1a2e;
+  --machine-body: #2c2c3e;
+  --glass-shine: rgba(255,255,255,0.15);
+  --metal: #bdc3c7;
+  --metal-dark: #7f8c8d;
+  --neon-glow: rgba(255, 107, 157, 0.6);
+  --gold: #f39c12;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: linear-gradient(135deg, #0f0f23, #1a1a3a);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  padding: 20px;
 }
 
-.game-container {
+/* Machine container */
+.machine {
   position: relative;
-  width: 400px;
-  height: 600px;
-  background: var(--machine);
-  border-radius: 20px;
-  border: 3px solid var(--neon-blue);
-  box-shadow: 0 0 30px rgba(78, 205, 196, 0.3), inset 0 0 30px rgba(0,0,0,0.5);
+  width: 420px;
+  max-width: 100%;
+  background: var(--machine-body);
+  border-radius: 24px;
+  border: 4px solid var(--machine-red);
+  box-shadow: 
+    0 0 40px rgba(231, 76, 60, 0.3),
+    0 20px 60px rgba(0,0,0,0.5),
+    inset 0 0 60px rgba(0,0,0,0.3);
   overflow: hidden;
 }
 
-/* Machine top */
-.machine-top {
+/* Machine header */
+.machine-header {
+  background: linear-gradient(180deg, var(--machine-red), #c0392b);
+  padding: 16px 20px;
+  text-align: center;
+  position: relative;
+  border-bottom: 4px solid #96281b;
+}
+
+.machine-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  letter-spacing: 4px;
+}
+
+.machine-subtitle {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 4px;
+}
+
+/* Lights */
+.lights {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 80px;
-  background: linear-gradient(180deg, #2a2a4a, #1a1a3a);
+  display: flex;
+  justify-content: space-around;
+  padding: 0 10px;
+}
+
+.light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 10px var(--gold), 0 0 20px rgba(243, 156, 18, 0.5);
+  animation: light-blink 1s infinite alternate;
+}
+
+.light:nth-child(2n) { animation-delay: 0.5s; }
+
+@keyframes light-blink {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Score and timer bar */
+.info-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+
+.info-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-bottom: 2px solid var(--neon-blue);
+  gap: 8px;
+  font-size: 14px;
+  color: #fff;
 }
 
-.machine-title {
-  font-size: 24px;
+.info-item .icon {
+  font-size: 16px;
+}
+
+.info-item .value {
   font-weight: 700;
-  background: linear-gradient(90deg, var(--neon-pink), var(--neon-yellow), var(--neon-blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+  color: var(--gold);
+  font-size: 18px;
 }
 
-/* Glass area */
-.glass-area {
-  position: absolute;
-  top: 80px;
-  left: 20px;
-  right: 20px;
-  bottom: 150px;
-  background: var(--glass);
-  border: 2px solid rgba(100, 200, 255, 0.2);
-  border-radius: 10px;
+/* Glass window */
+.glass-window {
+  position: relative;
+  height: 400px;
+  margin: 16px;
+  background: linear-gradient(180deg, rgba(100,200,255,0.05), rgba(100,200,255,0.02));
+  border: 3px solid var(--metal);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
 }
 
-/* Claw */
-.claw-container {
+/* Glass shine effect */
+.glass-window::before {
+  content: '';
   position: absolute;
   top: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(135deg, var(--glass-shine) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Claw system */
+.claw-system {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 100%;
 }
 
 .claw-rail {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--claw);
+  left: 10px;
+  right: 10px;
+  height: 8px;
+  background: linear-gradient(180deg, var(--metal), var(--metal-dark));
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.claw-arm {
+.claw-carriage {
   position: absolute;
-  top: 4px;
-  width: 4px;
-  height: 60px;
-  background: var(--claw);
-  transform-origin: top center;
-}
-
-.claw {
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 8px;
   width: 40px;
   height: 20px;
+  background: var(--metal);
+  border-radius: 4px;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.claw-left, .claw-right {
+.claw-wire {
   position: absolute;
-  top: 0;
-  width: 8px;
+  top: 28px;
+  left: 50%;
+  width: 2px;
+  height: 60px;
+  background: var(--metal);
+  transform: translateX(-50%);
+}
+
+.claw-head {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
   height: 30px;
-  background: var(--claw);
-  border-radius: 0 0 4px 4px;
+}
+
+.claw-finger {
+  position: absolute;
+  bottom: 0;
+  width: 6px;
+  height: 35px;
+  background: var(--metal);
+  border-radius: 0 0 3px 3px;
   transform-origin: top center;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
 }
 
-.claw-left { left: 0; transform: rotate(15deg); }
-.claw-right { right: 0; transform: rotate(-15deg); }
+.claw-finger.left {
+  left: 5px;
+  transform: rotate(20deg);
+}
 
-.claw.closed .claw-left { transform: rotate(5deg); }
-.claw.closed .claw-right { transform: rotate(-5deg); }
+.claw-finger.right {
+  right: 5px;
+  transform: rotate(-20deg);
+}
 
-/* Toys */
-.toys-container {
+.claw-finger.center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.claw-head.grabbing .claw-finger.left { transform: rotate(5deg); }
+.claw-head.grabbing .claw-finger.right { transform: rotate(-5deg); }
+
+/* Plushie toys */
+.toys-area {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 200px;
+  height: 180px;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.2));
 }
 
-.toy {
+.plushie {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   transition: transform 0.3s;
-  user-select: none;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
 }
 
-.toy:hover { transform: scale(1.1); }
-
-.toy.duck { background: var(--neon-yellow); }
-.toy.bear { background: var(--neon-pink); }
-.toy.panda { background: #fff; color: #000; }
-.toy.bunny { background: #ffb6c1; }
-.toy.dino { background: var(--neon-blue); }
-.toy.penguin { background: #2c3e50; }
-.toy.fox { background: #e67e22; }
-.toy.frog { background: #27ae60; }
-.toy.whale { background: #3498db; }
-.toy.cat { background: #9b59b6; }
-.toy.puppy { background: #e74c3c; }
-.toy.unicorn { background: linear-gradient(135deg, #ff6b9d, #a855f7, #4ecdc4); }
-
-/* Controls */
-.controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 150px;
-  background: linear-gradient(180deg, #1a1a3a, #0a0a2a);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 20px;
-  border-top: 2px solid var(--neon-blue);
+.plushie:hover {
+  transform: scale(1.1);
 }
 
-.joystick {
-  width: 80px;
-  height: 80px;
-  background: #2a2a4a;
+.plushie-body {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  border: 3px solid var(--neon-blue);
   position: relative;
-  cursor: pointer;
+  overflow: hidden;
 }
 
-.joystick-knob {
+.plushie-body::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 30%;
+  height: 30%;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+}
+
+.plushie-face {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 30px;
-  height: 30px;
-  background: var(--neon-blue);
+  font-size: 24px;
+  z-index: 2;
+}
+
+.plushie-duck .plushie-body { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+.plushie-bear .plushie-body { background: linear-gradient(135deg, #e67e22, #d35400); }
+.plushie-panda .plushie-body { background: linear-gradient(135deg, #ecf0f1, #bdc3c7); }
+.plushie-bunny .plushie-body { background: linear-gradient(135deg, #ffb6c1, #ff69b4); }
+.plushie-dino .plushie-body { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+.plushie-penguin .plushie-body { background: linear-gradient(135deg, #2c3e50, #34495e); }
+.plushie-fox .plushie-body { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.plushie-frog .plushie-body { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+.plushie-whale .plushie-body { background: linear-gradient(135deg, #3498db, #2980b9); }
+.plushie-cat .plushie-body { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+.plushie-puppy .plushie-body { background: linear-gradient(135deg, #f39c12, #e67e22); }
+.plushie-unicorn .plushie-body { background: linear-gradient(135deg, #ff6b9d, #a855f7, #4ecdc4); }
+
+/* Controls panel */
+.controls-panel {
+  background: linear-gradient(180deg, #1a1a2e, #0f0f1f);
+  padding: 20px;
+  border-top: 4px solid var(--metal-dark);
+}
+
+.controls-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Joystick */
+.joystick-base {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, #3a3a4a, #2a2a3a);
   border-radius: 50%;
+  border: 3px solid var(--metal-dark);
+  position: relative;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+.joystick-stick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--metal), var(--metal-dark));
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   transition: transform 0.1s;
 }
 
-.grab-btn {
-  width: 80px;
-  height: 80px;
-  background: var(--neon-pink);
-  border: none;
+/* Grab button */
+.grab-button {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, #e74c3c, #c0392b);
+  border: 4px solid #96281b;
   border-radius: 50%;
   color: white;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 
+    0 6px 0 #96281b,
+    0 8px 20px rgba(231, 76, 60, 0.4);
+  transition: all 0.1s;
+  letter-spacing: 2px;
 }
 
-.grab-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 30px rgba(255, 107, 157, 0.7);
+.grab-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 0 #96281b,
+    0 10px 30px rgba(231, 76, 60, 0.5);
 }
 
-.grab-btn:active {
-  transform: scale(0.95);
+.grab-button:active {
+  transform: translateY(4px);
+  box-shadow: 
+    0 2px 0 #96281b,
+    0 4px 10px rgba(231, 76, 60, 0.3);
 }
 
-/* Score */
-.score-board {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0,0,0,0.5);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  border: 1px solid var(--neon-yellow);
+/* Keyboard hints */
+.keyboard-hints {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
 }
 
-.score-board .score {
-  color: var(--neon-yellow);
-  font-weight: 700;
-  font-size: 18px;
+.key-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-/* Timer */
-.timer {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(0,0,0,0.5);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  border: 1px solid var(--neon-blue);
-}
-
-.timer .time {
-  color: var(--neon-blue);
-  font-weight: 700;
-  font-size: 18px;
+.key-cap {
+  background: rgba(255,255,255,0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.2);
+  font-family: monospace;
 }
 
 /* Start screen */
-.start-screen {
+.start-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.85);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 100;
+  backdrop-filter: blur(10px);
 }
 
-.start-screen h1 {
-  font-size: 32px;
-  margin-bottom: 20px;
-  background: linear-gradient(90deg, var(--neon-pink), var(--neon-yellow), var(--neon-blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.start-overlay h1 {
+  font-size: 36px;
+  color: var(--machine-red);
+  margin-bottom: 8px;
+  text-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
 }
 
-.start-btn {
-  padding: 15px 40px;
-  background: var(--neon-pink);
+.start-overlay p {
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 30px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.start-button {
+  padding: 16px 48px;
+  background: var(--machine-red);
   border: none;
   border-radius: 30px;
   color: white;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
   transition: transform 0.2s;
 }
 
-.start-btn:hover { transform: scale(1.1); }
+.start-button:hover { transform: scale(1.05); }
 
-/* Result screen */
-.result-screen {
+/* Result popup */
+.result-popup {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.85);
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 100;
+  backdrop-filter: blur(10px);
 }
 
-.result-screen h2 {
-  font-size: 28px;
-  margin-bottom: 10px;
-  color: var(--neon-yellow);
-}
+.result-popup.show { display: flex; }
 
-.result-screen .caught-toy {
-  font-size: 60px;
+.result-plushie {
+  font-size: 80px;
   margin: 20px 0;
+  animation: bounce-in 0.5s ease;
 }
 
-.result-screen .result-text {
-  font-size: 18px;
-  color: var(--dim);
+@keyframes bounce-in {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.result-title {
+  font-size: 24px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.result-desc {
+  color: rgba(255,255,255,0.6);
   margin-bottom: 20px;
+}
+
+/* Achievement popup */
+.achievement-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #2c2c3e, #1a1a2e);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  z-index: 200;
+  box-shadow: 0 0 30px rgba(243, 156, 18, 0.3);
+  animation: slide-in 0.3s ease;
+}
+
+.achievement-popup.show { display: flex; }
+
+@keyframes slide-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.achievement-icon {
+  font-size: 32px;
+}
+
+.achievement-info h3 {
+  color: var(--gold);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.achievement-info p {
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+}
+
+/* Achievement list */
+.achievements-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: var(--gold);
+  font-size: 12px;
+  cursor: pointer;
+  z-index: 50;
+}
+
+.achievements-panel {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  flex-direction: column;
+  z-index: 150;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.achievements-panel.show { display: flex; }
+
+.achievements-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.achievements-header h2 {
+  color: var(--gold);
+  font-size: 20px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.achievement-item.unlocked {
+  border-color: var(--gold);
+  background: rgba(243, 156, 18, 0.1);
+}
+
+.achievement-item .icon {
+  font-size: 24px;
+  width: 40px;
+  text-align: center;
+}
+
+.achievement-item .info h4 {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.achievement-item .info p {
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+}
+
+.achievement-item.locked .icon {
+  filter: grayscale(1);
+  opacity: 0.3;
+}
+
+.achievement-item.locked .info h4 {
+  color: rgba(255,255,255,0.3);
+}
+
+.achievement-item.locked .info p {
+  color: rgba(255,255,255,0.2);
 }
 
 /* Responsive */
 @media (max-width: 450px) {
-  .game-container {
-    width: 100vw;
-    height: 100vh;
+  .machine {
     border-radius: 0;
-    border: none;
+    border-left: none;
+    border-right: none;
   }
   
-  .glass-area {
-    left: 10px;
-    right: 10px;
+  .glass-window {
+    height: 300px;
+    margin: 10px;
   }
-}
-
-/* Animations */
-@keyframes neon-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-@keyframes toy-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.toy.bouncing {
-  animation: toy-bounce 0.5s ease;
-}
-
-/* Keyboard hints */
-.keyboard-hints {
-  position: absolute;
-  bottom: 160px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-  font-size: 11px;
-  color: var(--dim);
-}
-
-.key {
-  background: rgba(255,255,255,0.1);
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.2);
+  
+  .controls-panel {
+    padding: 15px;
+  }
+  
+  .joystick-base, .grab-button {
+    width: 80px;
+    height: 80px;
+  }
 }
 </style>
 </head>
 <body>
 
-<div class="game-container">
-  <!-- Machine Top -->
-  <div class="machine-top">
+<div class="machine">
+  <!-- Machine Header -->
+  <div class="machine-header">
+    <div class="lights">
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+    </div>
     <div class="machine-title">抓娃娃机</div>
+    <div class="machine-subtitle">投入硬币，试试运气！</div>
   </div>
 
-  <!-- Score -->
-  <div class="score-board">
-    得分: <span class="score" id="score">0</span>
+  <!-- Info Bar -->
+  <div class="info-bar">
+    <div class="info-item">
+      <span class="icon">🪙</span>
+      <span>得分</span>
+      <span class="value" id="score">0</span>
+    </div>
+    <div class="info-item">
+      <span class="icon">⏱️</span>
+      <span>时间</span>
+      <span class="value" id="timer">60</span>
+    </div>
+    <div class="info-item">
+      <span class="icon">🎯</span>
+      <span>抓取</span>
+      <span class="value" id="catches">0</span>
+    </div>
   </div>
 
-  <!-- Timer -->
-  <div class="timer">
-    时间: <span class="time" id="timer">60</span>
-  </div>
+  <!-- Achievements Button -->
+  <div class="achievements-btn" id="achievements-btn">🏆 成就</div>
 
-  <!-- Glass Area -->
-  <div class="glass-area">
-    <div class="claw-container">
+  <!-- Glass Window -->
+  <div class="glass-window">
+    <!-- Claw System -->
+    <div class="claw-system">
       <div class="claw-rail"></div>
-      <div class="claw-arm" id="claw-arm">
-        <div class="claw" id="claw">
-          <div class="claw-left"></div>
-          <div class="claw-right"></div>
+      <div class="claw-carriage" id="claw-carriage">
+        <div class="claw-wire" id="claw-wire">
+          <div class="claw-head" id="claw-head">
+            <div class="claw-finger left"></div>
+            <div class="claw-finger center"></div>
+            <div class="claw-finger right"></div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="toys-container" id="toys-container"></div>
-  </div>
 
-  <!-- Keyboard Hints -->
-  <div class="keyboard-hints">
-    <span class="key">←</span><span class="key">→</span> 移动
-    <span class="key">空格</span> 抓取
-  </div>
+    <!-- Toys Area -->
+    <div class="toys-area" id="toys-area"></div>
 
-  <!-- Controls -->
-  <div class="controls">
-    <div class="joystick" id="joystick">
-      <div class="joystick-knob" id="joystick-knob"></div>
+    <!-- Result Popup -->
+    <div class="result-popup" id="result-popup">
+      <div class="result-plushie" id="result-plushie"></div>
+      <div class="result-title" id="result-title"></div>
+      <div class="result-desc" id="result-desc"></div>
+      <button class="start-button" id="continue-btn">继续抓取</button>
     </div>
-    <button class="grab-btn" id="grab-btn">抓取</button>
+
+    <!-- Achievements Panel -->
+    <div class="achievements-panel" id="achievements-panel">
+      <div class="achievements-header">
+        <h2>🏆 成就列表</h2>
+        <button class="close-btn" id="close-achievements">✕</button>
+      </div>
+      <div id="achievements-list"></div>
+    </div>
   </div>
 
-  <!-- Start Screen -->
-  <div class="start-screen" id="start-screen">
+  <!-- Controls Panel -->
+  <div class="controls-panel">
+    <div class="controls-row">
+      <div class="joystick-base" id="joystick">
+        <div class="joystick-stick" id="joystick-stick"></div>
+      </div>
+      <button class="grab-button" id="grab-btn">抓取</button>
+    </div>
+    <div class="keyboard-hints">
+      <div class="key-hint">
+        <span class="key-cap">←</span>
+        <span class="key-cap">→</span>
+        <span>移动</span>
+      </div>
+      <div class="key-hint">
+        <span class="key-cap">空格</span>
+        <span>抓取</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Overlay -->
+  <div class="start-overlay" id="start-overlay">
     <h1>抓娃娃机</h1>
-    <p style="color: var(--dim); margin-bottom: 30px; text-align: center; padding: 0 20px;">
-      移动摇杆控制爪子<br>
-      按下按钮抓取娃娃
+    <p>
+      控制摇杆移动爪子<br>
+      按下按钮抓取娃娃<br>
+      收集所有成就！
     </p>
-    <button class="start-btn" id="start-btn">开始游戏</button>
+    <button class="start-button" id="start-btn">投币开始</button>
   </div>
+</div>
 
-  <!-- Result Screen -->
-  <div class="result-screen" id="result-screen">
-    <h2>游戏结束</h2>
-    <div class="caught-toy" id="caught-toy"></div>
-    <div class="result-text" id="result-text"></div>
-    <button class="start-btn" id="restart-btn">再来一次</button>
+<!-- Achievement Popup -->
+<div class="achievement-popup" id="achievement-popup">
+  <div class="achievement-icon" id="achievement-icon"></div>
+  <div class="achievement-info">
+    <h3 id="achievement-name"></h3>
+    <p id="achievement-desc"></p>
   </div>
 </div>
 
@@ -453,74 +749,112 @@ const state = {
   isDropping: false,
   score: 0,
   time: 60,
+  catches: 0,
   gameActive: false,
   toys: [],
   caughtToy: null,
-  joystickActive: false,
-  joystickStartX: 0,
-  clawSpeed: 2
+  achievements: {},
+  joystickActive: false
 };
 
-// Toy types
+// Toy types with realistic names and points
 const TOY_TYPES = [
-  { id: 'duck', emoji: '🦆', name: '小黄鸭', points: 10 },
-  { id: 'bear', emoji: '🧸', name: '小熊', points: 15 },
-  { id: 'panda', emoji: '🐼', name: '熊猫', points: 20 },
-  { id: 'bunny', emoji: '🐰', name: '兔子', points: 15 },
-  { id: 'dino', emoji: '🦕', name: '恐龙', points: 25 },
-  { id: 'penguin', emoji: '🐧', name: '企鹅', points: 20 },
-  { id: 'fox', emoji: '🦊', name: '狐狸', points: 15 },
-  { id: 'frog', emoji: '🐸', name: '青蛙', points: 10 },
-  { id: 'whale', emoji: '🐳', name: '鲸鱼', points: 30 },
-  { id: 'cat', emoji: '🐱', name: '猫咪', points: 15 },
-  { id: 'puppy', emoji: '🐶', name: '小狗', points: 15 },
-  { id: 'unicorn', emoji: '🦄', name: '独角兽', points: 50 }
+  { id: 'duck', emoji: '🦆', name: '小黄鸭', points: 10, rarity: 'common' },
+  { id: 'bear', emoji: '🧸', name: '泰迪熊', points: 15, rarity: 'common' },
+  { id: 'panda', emoji: '🐼', name: '熊猫', points: 20, rarity: 'uncommon' },
+  { id: 'bunny', emoji: '🐰', name: '兔兔', points: 15, rarity: 'common' },
+  { id: 'dino', emoji: '🦕', name: '恐龙', points: 25, rarity: 'uncommon' },
+  { id: 'penguin', emoji: '🐧', name: '企鹅', points: 20, rarity: 'uncommon' },
+  { id: 'fox', emoji: '🦊', name: '狐狸', points: 15, rarity: 'common' },
+  { id: 'frog', emoji: '🐸', name: '青蛙', points: 10, rarity: 'common' },
+  { id: 'whale', emoji: '🐳', name: '鲸鱼', points: 30, rarity: 'rare' },
+  { id: 'cat', emoji: '🐱', name: '猫咪', points: 15, rarity: 'common' },
+  { id: 'puppy', emoji: '🐶', name: '小狗', points: 15, rarity: 'common' },
+  { id: 'unicorn', emoji: '🦄', name: '独角兽', points: 50, rarity: 'legendary' }
 ];
+
+// Achievements
+const ACHIEVEMENTS = [
+  { id: 'first_catch', name: '初次抓取', desc: '成功抓到第一个娃娃', icon: '🎯', condition: (s) => s.catches >= 1 },
+  { id: 'catch_5', name: '抓取新手', desc: '累计抓到5个娃娃', icon: '🥉', condition: (s) => s.catches >= 5 },
+  { id: 'catch_10', name: '抓取达人', desc: '累计抓到10个娃娃', icon: '🥈', condition: (s) => s.catches >= 10 },
+  { id: 'catch_20', name: '抓取大师', desc: '累计抓到20个娃娃', icon: '🥇', condition: (s) => s.catches >= 20 },
+  { id: 'score_100', name: '百分选手', desc: '单局得分超过100', icon: '💯', condition: (s) => s.score >= 100 },
+  { id: 'score_500', name: '高分玩家', desc: '单局得分超过500', icon: '⭐', condition: (s) => s.score >= 500 },
+  { id: 'rare_catch', name: '稀有收藏家', desc: '抓到稀有娃娃', icon: '💎', condition: (s) => s.caughtToy && s.caughtToy.rarity === 'rare' },
+  { id: 'legendary_catch', name: '传说降临', desc: '抓到传说级娃娃', icon: '👑', condition: (s) => s.caughtToy && s.caughtToy.rarity === 'legendary' },
+  { id: 'all_common', name: '普通全集', desc: '收集所有普通娃娃', icon: '📚', condition: (s) => checkCollection('common') },
+  { id: 'all_uncommon', name: '进阶收藏', desc: '收集所有稀有娃娃', icon: '📖', condition: (s) => checkCollection('uncommon') },
+  { id: 'speed_catch', name: '闪电抓取', desc: '10秒内抓到3个娃娃', icon: '⚡', condition: (s) => false },
+  { id: 'perfect_game', name: '完美游戏', desc: '一局游戏抓到所有娃娃类型', icon: '🏆', condition: (s) => false }
+];
+
+// Track collected toys
+const collectedToys = new Set();
+
+function checkCollection(rarity) {
+  const rarityToys = TOY_TYPES.filter(t => t.rarity === rarity);
+  return rarityToys.every(t => collectedToys.has(t.id));
+}
 
 // DOM elements
 const elements = {
-  clawArm: document.getElementById('claw-arm'),
-  claw: document.getElementById('claw'),
-  toysContainer: document.getElementById('toys-container'),
+  clawCarriage: document.getElementById('claw-carriage'),
+  clawWire: document.getElementById('claw-wire'),
+  clawHead: document.getElementById('claw-head'),
+  toysArea: document.getElementById('toys-area'),
   score: document.getElementById('score'),
   timer: document.getElementById('timer'),
-  startScreen: document.getElementById('start-screen'),
-  resultScreen: document.getElementById('result-screen'),
-  caughtToy: document.getElementById('caught-toy'),
-  resultText: document.getElementById('result-text'),
+  catches: document.getElementById('catches'),
+  startOverlay: document.getElementById('start-overlay'),
+  resultPopup: document.getElementById('result-popup'),
+  resultPlushie: document.getElementById('result-plushie'),
+  resultTitle: document.getElementById('result-title'),
+  resultDesc: document.getElementById('result-desc'),
+  achievementsPanel: document.getElementById('achievements-panel'),
+  achievementsList: document.getElementById('achievements-list'),
+  achievementPopup: document.getElementById('achievement-popup'),
+  achievementIcon: document.getElementById('achievement-icon'),
+  achievementName: document.getElementById('achievement-name'),
+  achievementDesc: document.getElementById('achievement-desc'),
   joystick: document.getElementById('joystick'),
-  joystickKnob: document.getElementById('joystick-knob'),
+  joystickStick: document.getElementById('joystick-stick'),
   grabBtn: document.getElementById('grab-btn'),
   startBtn: document.getElementById('start-btn'),
-  restartBtn: document.getElementById('restart-btn')
+  continueBtn: document.getElementById('continue-btn'),
+  achievementsBtn: document.getElementById('achievements-btn'),
+  closeAchievements: document.getElementById('close-achievements')
 };
 
 // Initialize toys
 function initToys() {
   state.toys = [];
-  elements.toysContainer.innerHTML = '';
+  elements.toysArea.innerHTML = '';
   
-  const toyCount = 12;
-  const containerWidth = elements.toysContainer.offsetWidth;
-  const containerHeight = elements.toysContainer.offsetHeight;
+  const toyCount = 15;
+  const containerWidth = elements.toysArea.offsetWidth;
+  const containerHeight = elements.toysArea.offsetHeight;
   
   for (let i = 0; i < toyCount; i++) {
     const toyType = TOY_TYPES[Math.floor(Math.random() * TOY_TYPES.length)];
     const toy = {
       ...toyType,
-      x: Math.random() * (containerWidth - 40),
-      y: Math.random() * (containerHeight - 40),
+      x: Math.random() * (containerWidth - 50),
+      y: Math.random() * (containerHeight - 50),
       element: null
     };
     
     const el = document.createElement('div');
-    el.className = `toy ${toyType.id}`;
-    el.textContent = toyType.emoji;
+    el.className = `plushie plushie-${toyType.id}`;
+    el.innerHTML = `
+      <div class="plushie-body"></div>
+      <div class="plushie-face">${toyType.emoji}</div>
+    `;
     el.style.left = toy.x + 'px';
     el.style.top = toy.y + 'px';
     el.dataset.index = i;
     
-    elements.toysContainer.appendChild(el);
+    elements.toysArea.appendChild(el);
     toy.element = el;
     state.toys.push(toy);
   }
@@ -528,11 +862,11 @@ function initToys() {
 
 // Update claw position
 function updateClaw() {
-  const glassWidth = document.querySelector('.glass-area').offsetWidth - 40;
-  const x = (state.clawX / 100) * glassWidth;
+  const glassWidth = document.querySelector('.glass-window').offsetWidth - 60;
+  const x = (state.clawX / 100) * glassWidth + 30;
   
-  elements.clawArm.style.left = (x + 20) + 'px';
-  elements.clawArm.style.height = (60 + state.clawY) + 'px';
+  elements.clawCarriage.style.left = x + 'px';
+  elements.clawWire.style.height = (60 + state.clawY) + 'px';
 }
 
 // Move claw
@@ -540,9 +874,9 @@ function moveClaw(direction) {
   if (!state.gameActive || state.isDropping) return;
   
   if (direction === 'left') {
-    state.clawX = Math.max(0, state.clawX - state.clawSpeed);
+    state.clawX = Math.max(0, state.clawX - 2);
   } else if (direction === 'right') {
-    state.clawX = Math.min(100, state.clawX + state.clawSpeed);
+    state.clawX = Math.min(100, state.clawX + 2);
   }
   
   updateClaw();
@@ -554,7 +888,7 @@ function dropClaw() {
   
   state.isDropping = true;
   state.isGrabbing = true;
-  elements.claw.classList.add('closed');
+  elements.clawHead.classList.add('grabbing');
   
   // Animate claw dropping
   const dropInterval = setInterval(() => {
@@ -570,15 +904,18 @@ function dropClaw() {
 
 // Check if claw grabs a toy
 function checkGrab() {
-  const clawX = (state.clawX / 100) * (document.querySelector('.glass-area').offsetWidth - 40) + 20;
+  const glassWidth = document.querySelector('.glass-window').offsetWidth - 60;
+  const clawX = (state.clawX / 100) * glassWidth + 30;
   const clawY = state.clawY + 60;
   
   let grabbedToy = null;
-  let minDistance = 50;
+  let minDistance = 60;
   
   state.toys.forEach((toy, index) => {
-    const toyCenterX = toy.x + 20;
-    const toyCenterY = toy.y + 20;
+    if (!toy.element) return;
+    
+    const toyCenterX = toy.x + 25;
+    const toyCenterY = toy.y + 25;
     const distance = Math.sqrt(Math.pow(clawX - toyCenterX, 2) + Math.pow(clawY - toyCenterY, 2));
     
     if (distance < minDistance) {
@@ -587,14 +924,15 @@ function checkGrab() {
     }
   });
   
-  if (grabbedToy && Math.random() > 0.3) { // 70% grab success rate
+  if (grabbedToy && Math.random() > 0.25) { // 75% grab success rate
     state.caughtToy = grabbedToy;
     state.toys[grabbedToy.index].element.style.display = 'none';
     state.score += grabbedToy.points;
-    elements.score.textContent = state.score;
+    state.catches++;
+    collectedToys.add(grabbedToy.id);
     
-    // Show grab animation
-    state.toys[grabbedToy.index].element.classList.add('bouncing');
+    elements.score.textContent = state.score;
+    elements.catches.textContent = state.catches;
   }
   
   // Retract claw
@@ -607,10 +945,11 @@ function checkGrab() {
         clearInterval(retractInterval);
         state.isDropping = false;
         state.isGrabbing = false;
-        elements.claw.classList.remove('closed');
+        elements.clawHead.classList.remove('grabbing');
         
         if (state.caughtToy) {
           showCatchResult(state.caughtToy);
+          checkAchievements();
           state.caughtToy = null;
         }
       }
@@ -620,14 +959,52 @@ function checkGrab() {
 
 // Show catch result
 function showCatchResult(toy) {
-  elements.caughtToy.textContent = toy.emoji;
-  elements.resultText.textContent = `抓到了 ${toy.name}！+${toy.points}分`;
-  elements.resultScreen.style.display = 'flex';
+  elements.resultPlushie.textContent = toy.emoji;
+  elements.resultTitle.textContent = `抓到了 ${toy.name}！`;
+  elements.resultDesc.textContent = `+${toy.points}分 | ${toy.rarity === 'legendary' ? '传说级' : toy.rarity === 'rare' ? '稀有' : toy.rarity === 'uncommon' ? ' uncommon' : '普通'}`;
+  elements.resultPopup.classList.add('show');
+}
+
+// Check achievements
+function checkAchievements() {
+  ACHIEVEMENTS.forEach(achievement => {
+    if (!state.achievements[achievement.id] && achievement.condition(state)) {
+      state.achievements[achievement.id] = true;
+      showAchievementPopup(achievement);
+      updateAchievementsList();
+    }
+  });
+}
+
+// Show achievement popup
+function showAchievementPopup(achievement) {
+  elements.achievementIcon.textContent = achievement.icon;
+  elements.achievementName.textContent = achievement.name;
+  elements.achievementDesc.textContent = achievement.desc;
+  elements.achievementPopup.classList.add('show');
   
-  // Auto hide after 2 seconds
   setTimeout(() => {
-    elements.resultScreen.style.display = 'none';
-  }, 2000);
+    elements.achievementPopup.classList.remove('show');
+  }, 3000);
+}
+
+// Update achievements list
+function updateAchievementsList() {
+  elements.achievementsList.innerHTML = '';
+  
+  ACHIEVEMENTS.forEach(achievement => {
+    const unlocked = state.achievements[achievement.id];
+    const item = document.createElement('div');
+    item.className = `achievement-item ${unlocked ? 'unlocked' : 'locked'}`;
+    item.innerHTML = `
+      <div class="icon">${achievement.icon}</div>
+      <div class="info">
+        <h4>${achievement.name}</h4>
+        <p>${achievement.desc}</p>
+      </div>
+    `;
+    elements.achievementsList.appendChild(item);
+  });
 }
 
 // Timer
@@ -652,42 +1029,45 @@ function startTimer() {
 function startGame() {
   state.score = 0;
   state.time = 60;
+  state.catches = 0;
   state.gameActive = true;
   state.clawX = 50;
   state.clawY = 0;
   
   elements.score.textContent = '0';
   elements.timer.textContent = '60';
-  elements.startScreen.style.display = 'none';
-  elements.resultScreen.style.display = 'none';
+  elements.catches.textContent = '0';
+  elements.startOverlay.style.display = 'none';
+  elements.resultPopup.classList.remove('show');
   
   initToys();
   updateClaw();
   startTimer();
+  updateAchievementsList();
 }
 
 // End game
 function endGame() {
   state.gameActive = false;
   
-  elements.caughtToy.textContent = '🎮';
-  elements.resultText.textContent = `游戏结束！最终得分：${state.score}`;
-  elements.resultScreen.style.display = 'flex';
+  elements.resultPlushie.textContent = '🎮';
+  elements.resultTitle.textContent = '游戏结束';
+  elements.resultDesc.textContent = `最终得分：${state.score} | 抓取：${state.catches}个`;
+  elements.continueBtn.textContent = '再来一次';
+  elements.resultPopup.classList.add('show');
 }
 
 // Joystick control
 function initJoystick() {
   const joystick = elements.joystick;
-  const knob = elements.joystickKnob;
+  const stick = elements.joystickStick;
   
   let startX = 0;
-  let startY = 0;
   
   joystick.addEventListener('touchstart', (e) => {
     e.preventDefault();
     state.joystickActive = true;
     startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
   });
   
   joystick.addEventListener('touchmove', (e) => {
@@ -695,52 +1075,44 @@ function initJoystick() {
     if (!state.joystickActive) return;
     
     const deltaX = e.touches[0].clientX - startX;
-    const deltaY = e.touches[0].clientY - startY;
-    
-    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     const maxDistance = 30;
+    const clampedDelta = Math.max(-maxDistance, Math.min(maxDistance, deltaX));
     
-    if (distance > maxDistance) {
-      const angle = Math.atan2(deltaY, deltaX);
-      deltaX = Math.cos(angle) * maxDistance;
-      deltaY = Math.sin(angle) * maxDistance;
-    }
+    stick.style.transform = `translate(calc(-50% + ${clampedDelta}px), -50%)`;
     
-    knob.style.transform = `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px))`;
-    
-    if (Math.abs(deltaX) > 10) {
-      moveClaw(deltaX > 0 ? 'right' : 'left');
+    if (Math.abs(clampedDelta) > 10) {
+      moveClaw(clampedDelta > 0 ? 'right' : 'left');
     }
   });
   
   joystick.addEventListener('touchend', () => {
     state.joystickActive = false;
-    knob.style.transform = 'translate(-50%, -50%)';
+    stick.style.transform = 'translate(-50%, -50%)';
   });
   
   // Mouse control
   joystick.addEventListener('mousedown', (e) => {
     state.joystickActive = true;
     startX = e.clientX;
-    startY = e.clientY;
   });
   
   document.addEventListener('mousemove', (e) => {
     if (!state.joystickActive) return;
     
     const deltaX = e.clientX - startX;
-    const deltaY = e.clientY - startY;
+    const maxDistance = 30;
+    const clampedDelta = Math.max(-maxDistance, Math.min(maxDistance, deltaX));
     
-    knob.style.transform = `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px))`;
+    stick.style.transform = `translate(calc(-50% + ${clampedDelta}px), -50%)`;
     
-    if (Math.abs(deltaX) > 10) {
-      moveClaw(deltaX > 0 ? 'right' : 'left');
+    if (Math.abs(clampedDelta) > 10) {
+      moveClaw(clampedDelta > 0 ? 'right' : 'left');
     }
   });
   
   document.addEventListener('mouseup', () => {
     state.joystickActive = false;
-    knob.style.transform = 'translate(-50%, -50%)';
+    stick.style.transform = 'translate(-50%, -50%)';
   });
 }
 
@@ -778,19 +1150,25 @@ function initKeyboard() {
 // Event listeners
 elements.grabBtn.addEventListener('click', dropClaw);
 elements.startBtn.addEventListener('click', startGame);
-elements.restartBtn.addEventListener('click', startGame);
-
-// Keyboard shortcut for grab
-document.addEventListener('keydown', (e) => {
-  if (e.key === ' ' && state.gameActive) {
-    e.preventDefault();
-    dropClaw();
+elements.continueBtn.addEventListener('click', () => {
+  elements.resultPopup.classList.remove('show');
+  if (state.time <= 0) {
+    startGame();
   }
+});
+
+elements.achievementsBtn.addEventListener('click', () => {
+  elements.achievementsPanel.classList.add('show');
+});
+
+elements.closeAchievements.addEventListener('click', () => {
+  elements.achievementsPanel.classList.remove('show');
 });
 
 // Initialize
 initJoystick();
 initKeyboard();
+updateAchievementsList();
 
 // Handle window resize
 window.addEventListener('resize', () => {
