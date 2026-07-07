@@ -2971,6 +2971,637 @@ header { display: contents; }
   height: 1px;
   background: var(--border);
 }
+
+/* === 犯罪现场热点系统 === */
+.crime-scene {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.crime-scene-bg {
+  width: 100%;
+  height: 400px;
+  background: var(--card);
+  position: relative;
+}
+
+.hotspot {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(148, 60, 60, 0.3);
+  border: 2px solid var(--accent);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.hotspot::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  opacity: 0;
+  animation: hotspot-pulse 2s infinite;
+}
+
+.hotspot:hover {
+  background: rgba(148, 60, 60, 0.6);
+  transform: scale(1.2);
+}
+
+.hotspot.found {
+  background: rgba(46, 204, 113, 0.3);
+  border-color: #2ecc71;
+}
+
+.hotspot.found::before {
+  border-color: #2ecc71;
+  animation: none;
+}
+
+@keyframes hotspot-pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* 放大镜效果 */
+.magnifier {
+  position: fixed;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  box-shadow: 0 0 20px rgba(148, 60, 60, 0.5);
+  pointer-events: none;
+  z-index: 1000;
+  display: none;
+  overflow: hidden;
+}
+
+.magnifier.active {
+  display: block;
+}
+
+.magnifier-content {
+  width: 200%;
+  height: 200%;
+  transform: translate(-25%, -25%);
+}
+
+/* 证据收集动画 */
+.evidence-collect {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card);
+  border: 2px solid var(--emerald);
+  padding: 24px;
+  border-radius: 12px;
+  z-index: 1000;
+  animation: evidence-appear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 400px;
+  width: 90%;
+}
+
+@keyframes evidence-appear {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.evidence-collect .evidence-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.evidence-collect .evidence-name {
+  font-size: 1.2em;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+  color: var(--emerald);
+}
+
+.evidence-collect .evidence-desc {
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+.evidence-collect .evidence-category {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--border);
+  border-radius: 999px;
+  font-size: 0.8em;
+  margin-top: 12px;
+}
+
+/* 证据飞入动画 */
+.evidence-fly {
+  position: fixed;
+  font-size: 32px;
+  z-index: 1001;
+  pointer-events: none;
+  animation: fly-to-inventory 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fly-to-inventory {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.5) translateY(-200px); opacity: 0; }
+}
+
+/* 线索连接线 */
+.clue-connection {
+  position: absolute;
+  height: 2px;
+  background: var(--accent);
+  transform-origin: left center;
+  opacity: 0.6;
+  z-index: 5;
+}
+
+.clue-connection.active {
+  opacity: 1;
+  animation: connection-pulse 1.5s infinite;
+}
+
+@keyframes connection-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* === 审讯系统增强 === */
+.interrogation-room {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.interrogation-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.suspect-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.suspect-info h3 {
+  font-size: 1.2em;
+  margin-bottom: 4px;
+}
+
+.suspect-info .mood {
+  font-size: 0.9em;
+  color: var(--muted);
+}
+
+/* 情绪条 */
+.mood-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.mood-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mood-fill.calm { background: #3498db; width: 30%; }
+.mood-fill.nervous { background: #f39c12; width: 60%; }
+.mood-fill.angry { background: #e74c3c; width: 90%; }
+.mood-fill.confessing { background: #2ecc71; width: 100%; }
+
+/* 审讯选项 */
+.interrogation-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.interrogation-option {
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.interrogation-option:hover {
+  border-color: var(--accent);
+  background: rgba(148, 60, 60, 0.1);
+}
+
+.interrogation-option .strategy {
+  font-size: 0.85em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.interrogation-option .text {
+  font-size: 0.95em;
+}
+
+.interrogation-option .effect {
+  font-size: 0.8em;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* 审讯记录 */
+.interrogation-log {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--bg);
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.interrogation-log .entry {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.interrogation-log .entry:last-child {
+  border-bottom: none;
+}
+
+.interrogation-log .speaker {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.interrogation-log .text {
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+/* === 推理系统增强 === */
+.deduction-board {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.deduction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.deduction-score {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.deduction-score .stars {
+  color: #f39c12;
+}
+
+/* 推理路径 */
+.deduction-path {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.deduction-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--border);
+}
+
+.deduction-step.correct {
+  border-left-color: #2ecc71;
+}
+
+.deduction-step.wrong {
+  border-left-color: #e74c3c;
+}
+
+.deduction-step.pending {
+  border-left-color: var(--accent);
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h4 {
+  margin-bottom: 4px;
+}
+
+.step-content p {
+  font-size: 0.9em;
+  color: var(--muted);
+}
+
+/* 推理提示 */
+.deduction-hint {
+  margin-top: 20px;
+  padding: 16px;
+  background: rgba(243, 156, 18, 0.1);
+  border: 1px solid #f39c12;
+  border-radius: 8px;
+}
+
+.deduction-hint .hint-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.deduction-hint .hint-text {
+  font-size: 0.9em;
+  color: #f39c12;
+}
+
+/* === 证据系统增强 === */
+.evidence-panel {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.evidence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.evidence-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.evidence-filter {
+  padding: 6px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.evidence-filter:hover,
+.evidence-filter.active {
+  border-color: var(--accent);
+  background: rgba(148, 60, 60, 0.1);
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.evidence-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.evidence-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.evidence-card .icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.evidence-card .name {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.evidence-card .category {
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+.evidence-card .connections {
+  margin-top: 8px;
+  font-size: 0.8em;
+  color: var(--accent);
+}
+
+/* 证据关联图 */
+.evidence-graph {
+  width: 100%;
+  height: 400px;
+  background: var(--bg);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.evidence-node {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.evidence-node:hover {
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+
+.evidence-node .icon {
+  font-size: 20px;
+}
+
+.evidence-node .label {
+  font-size: 0.7em;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* === 成就系统增强 === */
+.achievement-panel {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.achievement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.achievement-progress {
+  font-size: 0.9em;
+  color: var(--muted);
+}
+
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.achievement-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.achievement-item.unlocked {
+  border-color: #f39c12;
+  background: rgba(243, 156, 18, 0.1);
+}
+
+.achievement-item.locked {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.achievement-item .icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.achievement-item .name {
+  font-weight: 700;
+  font-size: 0.9em;
+  margin-bottom: 4px;
+}
+
+.achievement-item .desc {
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+/* 成就解锁动画 */
+.achievement-unlock {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, var(--card), var(--bg));
+  border: 2px solid #f39c12;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  z-index: 1000;
+  animation: achievement-appear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes achievement-appear {
+  0% { transform: translate(-50%, -50%) scale(0) rotate(-10deg); }
+  100% { transform: translate(-50%, -50%) scale(1) rotate(0); }
+}
+
+.achievement-unlock .icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: achievement-bounce 0.5s ease;
+}
+
+@keyframes achievement-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.achievement-unlock .title {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #f39c12;
+  margin-bottom: 8px;
+}
+
+.achievement-unlock .desc {
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.achievement-unlock .reward {
+  padding: 8px 16px;
+  background: rgba(243, 156, 18, 0.2);
+  border-radius: 8px;
+  font-size: 0.9em;
+  color: #f39c12;
+}
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -16287,6 +16918,465 @@ window.addEventListener('unhandledrejection', function(e) {
   console.error('Unhandled promise rejection:', e.reason);
   Analytics.track('promise_error', { reason: String(e.reason) });
 });
+
+
+// === 增强游戏机制 ===
+
+// 1. 犯罪现场热点系统
+class CrimeSceneSystem {
+  constructor() {
+    this.hotspots = [];
+    this.foundHotspots = new Set();
+    this.magnifierActive = false;
+  }
+
+  init(sceneData) {
+    this.hotspots = sceneData.hotspots || [];
+    this.render();
+    this.setupMagnifier();
+  }
+
+  render() {
+    const container = document.querySelector('.crime-scene');
+    if (!container) return;
+
+    this.hotspots.forEach((hotspot, index) => {
+      const el = document.createElement('div');
+      el.className = 'hotspot';
+      el.style.left = hotspot.x + '%';
+      el.style.top = hotspot.y + '%';
+      el.dataset.index = index;
+      el.addEventListener('click', () => this.collectEvidence(index));
+      container.appendChild(el);
+    });
+  }
+
+  collectEvidence(index) {
+    if (this.foundHotspots.has(index)) return;
+
+    const hotspot = this.hotspots[index];
+    this.foundHotspots.add(index);
+
+    // Mark as found
+    const el = document.querySelector(`.hotspot[data-index="${index}"]`);
+    if (el) el.classList.add('found');
+
+    // Show collection animation
+    this.showCollectionAnimation(hotspot);
+
+    // Update progress
+    this.updateProgress();
+  }
+
+  showCollectionAnimation(hotspot) {
+    const overlay = document.createElement('div');
+    overlay.className = 'evidence-collect';
+    overlay.innerHTML = `
+      <div class="evidence-icon">${hotspot.icon || '🔍'}</div>
+      <div class="evidence-name">${hotspot.name}</div>
+      <div class="evidence-desc">${hotspot.description}</div>
+      <div class="evidence-category">${hotspot.category || '物证'}</div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Fly animation
+    const fly = document.createElement('div');
+    fly.className = 'evidence-fly';
+    fly.textContent = hotspot.icon || '🔍';
+    fly.style.left = '50%';
+    fly.style.top = '50%';
+    document.body.appendChild(fly);
+
+    setTimeout(() => {
+      overlay.remove();
+      fly.remove();
+    }, 1500);
+  }
+
+  setupMagnifier() {
+    const magnifier = document.createElement('div');
+    magnifier.className = 'magnifier';
+    magnifier.innerHTML = '<div class="magnifier-content"></div>';
+    document.body.appendChild(magnifier);
+
+    document.addEventListener('mousemove', (e) => {
+      if (!this.magnifierActive) return;
+      magnifier.style.left = (e.clientX - 75) + 'px';
+      magnifier.style.top = (e.clientY - 75) + 'px';
+    });
+  }
+
+  updateProgress() {
+    const total = this.hotspots.length;
+    const found = this.foundHotspots.size;
+    const percent = Math.round((found / total) * 100);
+    
+    // Update UI
+    const progressEl = document.querySelector('.scene-progress');
+    if (progressEl) {
+      progressEl.textContent = `${found}/${total} (${percent}%)`;
+    }
+  }
+}
+
+// 2. 审讯系统增强
+class InterrogationSystem {
+  constructor() {
+    this.suspect = null;
+    this.mood = 30; // 0-100
+    this.log = [];
+    this.strategies = {
+      'friendly': { name: '友善询问', effect: -10, risk: 0 },
+      'accuse': { name: '直接质询', effect: 20, risk: 30 },
+      'evidence': { name: '出示证据', effect: 15, risk: 10 },
+      'pressure': { name: '施加压力', effect: 25, risk: 40 },
+      'sympathy': { name: '表示同情', effect: -15, risk: 0 }
+    };
+  }
+
+  init(suspectData) {
+    this.suspect = suspectData;
+    this.mood = suspectData.initialMood || 30;
+    this.render();
+  }
+
+  render() {
+    const container = document.querySelector('.interrogation-room');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="interrogation-header">
+        <div class="suspect-avatar">${this.suspect.avatar || '👤'}</div>
+        <div class="suspect-info">
+          <h3>${this.suspect.name}</h3>
+          <div class="mood">${this.getMoodText()}</div>
+          <div class="mood-bar">
+            <div class="mood-fill ${this.getMoodClass()}"></div>
+          </div>
+        </div>
+      </div>
+      <div class="interrogation-options">
+        ${this.renderOptions()}
+      </div>
+      <div class="interrogation-log">
+        ${this.renderLog()}
+      </div>
+    `;
+  }
+
+  getMoodText() {
+    if (this.mood < 30) return '冷静';
+    if (this.mood < 60) return '紧张';
+    if (this.mood < 90) return '愤怒';
+    return '崩溃';
+  }
+
+  getMoodClass() {
+    if (this.mood < 30) return 'calm';
+    if (this.mood < 60) return 'nervous';
+    if (this.mood < 90) return 'angry';
+    return 'confessing';
+  }
+
+  renderOptions() {
+    return Object.entries(this.strategies).map(([key, strategy]) => `
+      <div class="interrogation-option" data-strategy="${key}">
+        <div class="strategy">${strategy.name}</div>
+        <div class="text">使用${strategy.name}策略</div>
+        <div class="effect">情绪变化: ${strategy.effect > 0 ? '+' : ''}${strategy.effect} | 风险: ${strategy.risk}%</div>
+      </div>
+    `).join('');
+  }
+
+  renderLog() {
+    return this.log.map(entry => `
+      <div class="entry">
+        <div class="speaker">${entry.speaker}</div>
+        <div class="text">${entry.text}</div>
+      </div>
+    `).join('');
+  }
+
+  useStrategy(strategyKey) {
+    const strategy = this.strategies[strategyKey];
+    if (!strategy) return;
+
+    // Apply effect
+    this.mood = Math.max(0, Math.min(100, this.mood + strategy.effect));
+
+    // Check for confession
+    if (this.mood >= 100) {
+      this.triggerConfession();
+      return;
+    }
+
+    // Generate response
+    const response = this.generateResponse(strategyKey);
+    this.log.push({ speaker: this.suspect.name, text: response });
+
+    // Update UI
+    this.render();
+  }
+
+  generateResponse(strategyKey) {
+    const responses = {
+      'friendly': ['我...我不确定...', '也许我可以告诉你一些...', '你人还不错...'],
+      'accuse': ['你有什么证据？！', '这是诬告！', '我要找律师！'],
+      'evidence': ['这...这不能证明什么...', '好吧，我解释一下...', '你怎么会有这个？'],
+      'pressure': ['够了！我说！', '你不能这样对我...', '好吧好吧...'],
+      'sympathy': ['谢谢你理解我...', '其实事情是这样的...', '我也是被迫的...']
+    };
+    
+    const options = responses[strategyKey] || ['...'];
+    return options[Math.floor(Math.random() * options.length)];
+  }
+
+  triggerConfession() {
+    this.log.push({ 
+      speaker: this.suspect.name, 
+      text: '我...我认罪！是我做的！' 
+    });
+    this.render();
+    
+    // Trigger achievement
+    if (typeof checkAchievements === 'function') {
+      checkAchievements('confession');
+    }
+  }
+}
+
+// 3. 推理系统增强
+class DeductionSystem {
+  constructor() {
+    this.steps = [];
+    this.score = 0;
+    this.hints = [];
+    this.maxScore = 100;
+  }
+
+  init(caseData) {
+    this.steps = caseData.deductionSteps || [];
+    this.hints = caseData.hints || [];
+    this.render();
+  }
+
+  render() {
+    const container = document.querySelector('.deduction-board');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="deduction-header">
+        <h2>推理链</h2>
+        <div class="deduction-score">
+          <span class="stars">${this.getStars()}</span>
+          <span>${this.score}/${this.maxScore}</span>
+        </div>
+      </div>
+      <div class="deduction-path">
+        ${this.renderSteps()}
+      </div>
+      ${this.renderHint()}
+    `;
+  }
+
+  getStars() {
+    const percent = this.score / this.maxScore;
+    if (percent >= 0.9) return '⭐⭐⭐';
+    if (percent >= 0.7) return '⭐⭐';
+    if (percent >= 0.5) return '⭐';
+    return '';
+  }
+
+  renderSteps() {
+    return this.steps.map((step, index) => `
+      <div class="deduction-step ${step.status}">
+        <div class="step-number">${index + 1}</div>
+        <div class="step-content">
+          <h4>${step.title}</h4>
+          <p>${step.description}</p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderHint() {
+    if (this.hints.length === 0) return '';
+    
+    const hint = this.hints[0];
+    return `
+      <div class="deduction-hint">
+        <span class="hint-icon">💡</span>
+        <span class="hint-text">${hint}</span>
+      </div>
+    `;
+  }
+
+  submitAnswer(stepIndex, answer) {
+    const step = this.steps[stepIndex];
+    if (!step) return;
+
+    if (answer.toLowerCase() === step.answer.toLowerCase()) {
+      step.status = 'correct';
+      this.score += step.points || 20;
+    } else {
+      step.status = 'wrong';
+      this.score = Math.max(0, this.score - 5);
+    }
+
+    this.render();
+  }
+}
+
+// 4. 证据系统增强
+class EvidenceSystem {
+  constructor() {
+    this.evidence = [];
+    this.connections = [];
+    this.filters = ['全部', '物证', '证词', '数字', '生物'];
+    this.activeFilter = '全部';
+  }
+
+  init(evidenceData) {
+    this.evidence = evidenceData.items || [];
+    this.connections = evidenceData.connections || [];
+    this.render();
+  }
+
+  render() {
+    const container = document.querySelector('.evidence-panel');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="evidence-header">
+        <h2>证据库</h2>
+        <div class="evidence-filters">
+          ${this.renderFilters()}
+        </div>
+      </div>
+      <div class="evidence-grid">
+        ${this.renderEvidenceGrid()}
+      </div>
+      <div class="evidence-graph">
+        ${this.renderGraph()}
+      </div>
+    `;
+  }
+
+  renderFilters() {
+    return this.filters.map(filter => `
+      <div class="evidence-filter ${filter === this.activeFilter ? 'active' : ''}" 
+           data-filter="${filter}">
+        ${filter}
+      </div>
+    `).join('');
+  }
+
+  renderEvidenceGrid() {
+    const filtered = this.activeFilter === '全部' 
+      ? this.evidence 
+      : this.evidence.filter(e => e.category === this.activeFilter);
+
+    return filtered.map(item => `
+      <div class="evidence-card" data-id="${item.id}">
+        <div class="icon">${item.icon || '📄'}</div>
+        <div class="name">${item.name}</div>
+        <div class="category">${item.category}</div>
+        <div class="connections">${this.getConnectionCount(item.id)} 个关联</div>
+      </div>
+    `).join('');
+  }
+
+  renderGraph() {
+    // Simple graph visualization
+    return '<div style="padding:20px;text-align:center;color:var(--muted)">证据关联图</div>';
+  }
+
+  getConnectionCount(evidenceId) {
+    return this.connections.filter(c => 
+      c.from === evidenceId || c.to === evidenceId
+    ).length;
+  }
+
+  filter(category) {
+    this.activeFilter = category;
+    this.render();
+  }
+}
+
+// 5. 成就系统增强
+class AchievementSystem {
+  constructor() {
+    this.achievements = [];
+    this.unlocked = new Set();
+  }
+
+  init(achievementData) {
+    this.achievements = achievementData.items || [];
+    this.render();
+  }
+
+  render() {
+    const container = document.querySelector('.achievement-panel');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="achievement-header">
+        <h2>成就</h2>
+        <div class="achievement-progress">
+          ${this.unlocked.size}/${this.achievements.length} 已解锁
+        </div>
+      </div>
+      <div class="achievement-grid">
+        ${this.renderAchievements()}
+      </div>
+    `;
+  }
+
+  renderAchievements() {
+    return this.achievements.map(achievement => {
+      const isUnlocked = this.unlocked.has(achievement.id);
+      return `
+        <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'}">
+          <div class="icon">${achievement.icon}</div>
+          <div class="name">${achievement.name}</div>
+          <div class="desc">${achievement.desc}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  unlock(achievementId) {
+    if (this.unlocked.has(achievementId)) return;
+
+    const achievement = this.achievements.find(a => a.id === achievementId);
+    if (!achievement) return;
+
+    this.unlocked.add(achievementId);
+    this.showUnlockAnimation(achievement);
+    this.render();
+  }
+
+  showUnlockAnimation(achievement) {
+    const overlay = document.createElement('div');
+    overlay.className = 'achievement-unlock';
+    overlay.innerHTML = `
+      <div class="icon">${achievement.icon}</div>
+      <div class="title">成就解锁！</div>
+      <div class="desc">${achievement.name}</div>
+      <div class="reward">${achievement.reward || ''}</div>
+    `;
+    document.body.appendChild(overlay);
+
+    setTimeout(() => overlay.remove(), 3000);
+  }
+}
+
+// Initialize systems
+const crimeScene = new CrimeSceneSystem();
+const interrogation = new InterrogationSystem();
+const deduction = new DeductionSystem();
+const evidence = new EvidenceSystem();
+const achievements = new AchievementSystem();
 
 </script>
 
