@@ -13790,11 +13790,13 @@ function $(id) {
 }
 
 /* Clear cache on page change */
-;
+function clearDomCache() {
+  domCache = {};
 }
 
-/* Debounce function */
-, delay);
+;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
   };
 }
 
@@ -13898,11 +13900,10 @@ var AppState = {
   }
 }
 
-/* Safe localStorage operations */
  catch(e) { return null; }
 }
-
- catch(e) { return false; }
+function safeSetItem(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch(e) { return false; }
 }
 
 function safeRemoveItem(key) {
@@ -13915,21 +13916,6 @@ function safeJsonParse(str) {
 }
 
 /* === FOCUS MANAGEMENT === */
-/* Better focus trap for modals */
-
-      } else {
-        if (document.activeElement === lastFocusable) {
-          firstFocusable.focus();
-          e.preventDefault();
-        }
-      }
-    }
-  });
-  
-  firstFocusable.focus();
-}
-
-/* Restore focus after modal closes */
 var _lastFocusedElement = null;
 function saveFocus() {
   _lastFocusedElement = document.activeElement;
@@ -16467,8 +16453,8 @@ function minifyCSS(css) {
   return css
     .replace(/\/\*[\s\S]*?\*\//g, '') // 移除注释
     .replace(/\s+/g, ' ') // 压缩空白
-    .replace(/\s*([{}:;,])\s*/g, '$1') // 移除多余空格
-    .replace(/;}/g, '}') // 移除最后分号
+    .replace(/\s*([{}:;,])\s*/g, '$1')
+    .replace(/;}/g, '}')
     .trim();
 }
 
