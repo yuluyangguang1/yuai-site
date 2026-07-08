@@ -579,11 +579,11 @@ header {
 /* ─── 打印 ─── */
 @media print {
   .btn, .header-actions, .thread, .modal-mask, .evidence-detail, footer, .evidence-upload {
-    display: none !important;
+    display: none;
   }
   body { background: var(--surface); color: #2a1f14; }
   .page { position: static; overflow: visible; display: block !important; }
-  .page:not(.active) { display: none !important; }
+  .page:not(.active) { display: none; }
   .board { padding: 0; background: var(--surface); }
   header { position: static; background: var(--surface); border-bottom: 2px solid #2a1f14; }
   .brand h1 { color: #2a1f14; }
@@ -919,7 +919,7 @@ footer {
 .inv-sidebar-card:hover { border-color: var(--accent); }
 /* --- Print improvements --- */
 @media print {
-  .scene-popup, .tutorial-overlay, .phase-indicator, .inv-sidebar { display: none !important; }
+  .scene-popup, .tutorial-overlay, .phase-indicator, .inv-sidebar { display: none; }
   .scene-map { border: 2px solid var(--ink); }
   .scene-area { border: 1px solid var(--muted); }
 }
@@ -1441,7 +1441,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); 
   .btn, .header-actions, .inv-sidebar, .scene-popup,
   .tutorial-overlay, .classified-warning, .gameover-screen,
   .achievement-popup, .time-pressure-bar, .time-pressure-label {
-    display: none !important;
+    display: none;
   }
   .page { page-break-inside: avoid; }
   .note-card { break-inside: avoid; }
@@ -2084,7 +2084,7 @@ input:focus, textarea:focus, select:focus {
   .tutorial-overlay, .classified-warning, .gameover-screen,
   .achievement-popup, .time-pressure-bar, .time-pressure-label,
   .hint-btn, .hint-popup {
-    display: none !important;
+    display: none;
   }
   body { background: white; color: black; }
   .note-card { border: 1px solid var(--border); box-shadow: none; }
@@ -2717,7 +2717,7 @@ textarea:valid {
   .tutorial-overlay, .classified-warning, .gameover-screen,
   .achievement-popup, .time-pressure-bar, .time-pressure-label,
   .hint-btn, .hint-popup, .toast, .modal-mask {
-    display: none !important;
+    display: none;
   }
   body { background: white; color: black; }
   .note-card { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; }
@@ -2925,7 +2925,7 @@ header { display: contents; }
 
 /* Print styles */
 @media print {
-  .no-print, .nav, .footer, .btn { display: none !important; }
+  .no-print, .nav, .footer, .btn { display: none; }
   body { background: white; color: black; }
   .card { border: 1px solid #ccc; box-shadow: none; }
 }
@@ -18380,8 +18380,7 @@ function $(id) {
 }
 
 /* Clear cache on page change */
-function clearDomCache() {
-  _domCache = {};
+;
 }
 
 /* Debounce function */
@@ -18487,10 +18486,7 @@ var AppState = {
 
 /* === ERROR BOUNDARIES === */
 /* Wrap critical functions in try-catch */
-function safeExecute(fn, context) {
-  try {
-    return fn();
-  } catch(e) {
+ catch(e) {
     console.error('Error in ' + (context || 'unknown') + ':', e);
     showToast('发生了一个错误，请重试');
     return null;
@@ -18498,12 +18494,10 @@ function safeExecute(fn, context) {
 }
 
 /* Safe localStorage operations */
-function safeGetItem(key) {
-  try { return localStorage.getItem(key); } catch(e) { return null; }
+ catch(e) { return null; }
 }
 
-function safeSetItem(key, value) {
-  try { localStorage.setItem(key, value); return true; } catch(e) { return false; }
+ catch(e) { return false; }
 }
 
 function safeRemoveItem(key) {
@@ -18517,20 +18511,7 @@ function safeJsonParse(str) {
 
 /* === FOCUS MANAGEMENT === */
 /* Better focus trap for modals */
-function trapFocus(element) {
-  var focusableElements = element.querySelectorAll(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-  );
-  var firstFocusable = focusableElements[0];
-  var lastFocusable = focusableElements[focusableElements.length - 1];
-  
-  element.addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-      if (e.shiftKey) {
-        if (document.activeElement === firstFocusable) {
-          lastFocusable.focus();
-          e.preventDefault();
-        }
+
       } else {
         if (document.activeElement === lastFocusable) {
           firstFocusable.focus();
@@ -20821,6 +20802,147 @@ document.addEventListener('DOMContentLoaded', () => {
   hiddenClues.init();
   settings.init();
 });
+
+
+// 安全渲染包装器
+function safeRender(element, content) {
+  try {
+    if (element) {
+      element.innerHTML = content;
+    }
+  } catch (error) {
+    console.error('渲染错误:', error);
+    if (element) {
+      element.innerHTML = '<div class="error-boundary"><h3>渲染错误</h3><p>请刷新页面重试</p></div>';
+    }
+  }
+}
+
+// 安全事件绑定
+function safeAddEvent(element, event, handler) {
+  try {
+    if (element && typeof handler === 'function') {
+      element.addEventListener(event, handler);
+    }
+  } catch (error) {
+    console.error('事件绑定错误:', error);
+  }
+}
+
+
+// 加载状态管理
+class LoadingManager {
+  constructor() {
+    this.loadingStates = new Map();
+  }
+
+  show(key, message = '加载中...') {
+    this.loadingStates.set(key, true);
+    // 可以显示全局加载指示器
+  }
+
+  hide(key) {
+    this.loadingStates.delete(key);
+  }
+
+  isLoading(key) {
+    return this.loadingStates.has(key);
+  }
+
+  isAnyLoading() {
+    return this.loadingStates.size > 0;
+  }
+}
+
+const loadingManager = new LoadingManager();
+
+
+// 内存管理
+class MemoryManager {
+  constructor() {
+    this.intervals = new Set();
+    this.timeouts = new Set();
+    this.eventListeners = new Map();
+  }
+
+  setInterval(callback, delay) {
+    const id = setInterval(callback, delay);
+    this.intervals.add(id);
+    return id;
+  }
+
+  setTimeout(callback, delay) {
+    const id = setTimeout(callback, delay);
+    this.timeouts.add(id);
+    return id;
+  }
+
+  clearInterval(id) {
+    clearInterval(id);
+    this.intervals.delete(id);
+  }
+
+  clearTimeout(id) {
+    clearTimeout(id);
+    this.timeouts.delete(id);
+  }
+
+  addEventListener(element, event, handler) {
+    element.addEventListener(event, handler);
+    if (!this.eventListeners.has(element)) {
+      this.eventListeners.set(element, []);
+    }
+    this.eventListeners.get(element).push({ event, handler });
+  }
+
+  cleanup() {
+    this.intervals.forEach(id => clearInterval(id));
+    this.timeouts.forEach(id => clearTimeout(id));
+    this.eventListeners.forEach((listeners, element) => {
+      listeners.forEach(({ event, handler }) => {
+        element.removeEventListener(event, handler);
+      });
+    });
+    this.intervals.clear();
+    this.timeouts.clear();
+    this.eventListeners.clear();
+  }
+}
+
+const memoryManager = new MemoryManager();
+
+
+// 性能监控
+class PerformanceMonitor {
+  constructor() {
+    this.metrics = {};
+  }
+
+  start(label) {
+    this.metrics[label] = performance.now();
+  }
+
+  end(label) {
+    if (this.metrics[label]) {
+      const duration = performance.now() - this.metrics[label];
+      delete this.metrics[label];
+      return duration;
+    }
+    return 0;
+  }
+
+  measure(label, fn) {
+    this.start(label);
+    const result = fn();
+    const duration = this.end(label);
+    if (duration > 100) {
+      console.warn(`性能警告: ${label} 耗时 ${duration.toFixed(2)}ms`);
+    }
+    return result;
+  }
+}
+
+const perfMonitor = new PerformanceMonitor();
 
 </script>
 
