@@ -4823,6 +4823,698 @@ header { display: contents; }
   font-size: 0.8em;
   color: var(--muted);
 }
+
+/* === 案件时间线 === */
+.timeline-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline-panel.show { display: flex; }
+
+.timeline-container {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.timeline-header h2 {
+  font-size: 1.3em;
+}
+
+.timeline-track {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline-track::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline-event {
+  position: relative;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-left: 20px;
+}
+
+.timeline-event::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--card);
+}
+
+.timeline-event.important::before {
+  background: #f39c12;
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+}
+
+.timeline-event .time {
+  font-size: 0.85em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.timeline-event .title {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.timeline-event .desc {
+  font-size: 0.9em;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.timeline-event .evidence {
+  margin-top: 8px;
+  padding: 8px;
+  background: var(--card);
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+/* === 角色关系图 === */
+.relationship-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.relationship-panel.show { display: flex; }
+
+.relationship-container {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 700px;
+  width: 90%;
+}
+
+.relationship-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.relationship-canvas {
+  width: 100%;
+  height: 400px;
+  background: var(--bg);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rel-node {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 2;
+}
+
+.rel-node:hover {
+  transform: scale(1.1);
+  border-color: var(--accent);
+}
+
+.rel-node.suspect { border-color: #e74c3c; }
+.rel-node.witness { border-color: #3498db; }
+.rel-node.victim { border-color: #f39c12; }
+
+.rel-node .avatar {
+  font-size: 24px;
+}
+
+.rel-node .name {
+  font-size: 0.65em;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.rel-line {
+  position: absolute;
+  height: 2px;
+  background: var(--border);
+  transform-origin: left center;
+  z-index: 1;
+}
+
+.rel-line.strong { background: var(--accent); height: 3px; }
+.rel-line.weak { opacity: 0.5; }
+.rel-line.hostile { background: #e74c3c; }
+.rel-line.friendly { background: #2ecc71; }
+
+.rel-label {
+  position: absolute;
+  font-size: 0.7em;
+  color: var(--muted);
+  background: var(--card);
+  padding: 2px 6px;
+  border-radius: 4px;
+  z-index: 3;
+}
+
+/* === 证据分析工具 === */
+.analysis-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.analysis-panel.show { display: flex; }
+
+.analysis-container {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 600px;
+  width: 90%;
+}
+
+.analysis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.analysis-tools {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.analysis-tool {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.analysis-tool:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.analysis-tool .icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.analysis-tool .name {
+  font-size: 0.9em;
+  font-weight: 700;
+}
+
+.analysis-tool .desc {
+  font-size: 0.75em;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.analysis-result {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 100px;
+}
+
+.analysis-result h3 {
+  font-size: 1em;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.analysis-result .finding {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9em;
+}
+
+.analysis-result .finding:last-child {
+  border-bottom: none;
+}
+
+/* === 侦探笔记增强 === */
+.notebook-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 400px;
+  background: #f5f0e8;
+  border-right: 2px solid #d4c5a9;
+  z-index: 200;
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+  overflow-y: auto;
+  font-family: 'LXGW WenKai', serif;
+  color: #2a1f14;
+}
+
+.notebook-panel.open {
+  transform: translateX(0);
+}
+
+.notebook-header {
+  padding: 20px;
+  background: #ebe5d5;
+  border-bottom: 1px solid #d4c5a9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notebook-header h2 {
+  font-size: 1.2em;
+  color: #2a1f14;
+}
+
+.notebook-tabs {
+  display: flex;
+  border-bottom: 1px solid #d4c5a9;
+}
+
+.notebook-tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.85em;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.notebook-tab:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.notebook-tab.active {
+  border-bottom-color: #943c3c;
+  color: #943c3c;
+}
+
+.notebook-content {
+  padding: 20px;
+}
+
+.notebook-entry {
+  padding: 16px;
+  margin-bottom: 16px;
+  background: white;
+  border: 1px solid #d4c5a9;
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.notebook-entry .date {
+  font-size: 0.8em;
+  color: #8a7e6a;
+  margin-bottom: 8px;
+}
+
+.notebook-entry .content {
+  font-size: 0.95em;
+  line-height: 1.8;
+}
+
+.notebook-entry .tags {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.notebook-entry .tag {
+  padding: 2px 8px;
+  background: #ebe5d5;
+  border-radius: 4px;
+  font-size: 0.75em;
+  color: #8a7e6a;
+}
+
+/* === 案件关联图 === */
+.case-network {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.case-network.show { display: flex; }
+
+.network-container {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+}
+
+.network-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.network-canvas {
+  width: 100%;
+  height: 500px;
+  background: var(--bg);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.case-node {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 2;
+}
+
+.case-node:hover {
+  transform: scale(1.1);
+  border-color: var(--accent);
+}
+
+.case-node.solved {
+  border-color: #2ecc71;
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.case-node.current {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(148, 60, 60, 0.3);
+}
+
+.case-node .id {
+  font-size: 0.65em;
+  color: var(--muted);
+}
+
+.case-node .name {
+  font-size: 0.7em;
+  text-align: center;
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+.case-connection {
+  position: absolute;
+  height: 2px;
+  background: var(--border);
+  transform-origin: left center;
+  z-index: 1;
+}
+
+.case-connection.strong {
+  background: var(--accent);
+  height: 3px;
+}
+
+/* === 隐藏线索系统 === */
+.hidden-clue {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card);
+  border: 2px solid #f39c12;
+  border-radius: 16px;
+  padding: 32px;
+  z-index: 500;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  animation: hidden-appear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes hidden-appear {
+  0% { transform: translate(-50%, -50%) scale(0) rotate(-10deg); }
+  100% { transform: translate(-50%, -50%) scale(1) rotate(0); }
+}
+
+.hidden-clue .icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.hidden-clue .title {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #f39c12;
+  margin-bottom: 8px;
+}
+
+.hidden-clue .desc {
+  color: var(--muted);
+  font-size: 0.9em;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.hidden-clue .reward {
+  padding: 8px 16px;
+  background: rgba(243, 156, 18, 0.2);
+  border-radius: 8px;
+  font-size: 0.85em;
+  color: #f39c12;
+}
+
+/* === 成就详情弹窗 === */
+.achievement-detail {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card);
+  border: 2px solid #f39c12;
+  border-radius: 16px;
+  padding: 32px;
+  z-index: 500;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.achievement-detail .icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.achievement-detail .name {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #f39c12;
+  margin-bottom: 8px;
+}
+
+.achievement-detail .desc {
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.achievement-detail .progress {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.achievement-detail .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f39c12, #e67e22);
+  border-radius: 4px;
+  transition: width 0.5s;
+}
+
+.achievement-detail .progress-text {
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+/* === 设置面板增强 === */
+.settings-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-panel.show { display: flex; }
+
+.settings-container {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.settings-group {
+  margin-bottom: 24px;
+}
+
+.settings-group h3 {
+  font-size: 1em;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.settings-item:last-child {
+  border-bottom: none;
+}
+
+.settings-item .label {
+  font-size: 0.9em;
+}
+
+.settings-item .control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: var(--border);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggle-switch.active {
+  background: var(--emerald);
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.toggle-switch.active::after {
+  left: 22px;
+}
+
+.slider {
+  width: 100px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+.slider .handle {
+  position: absolute;
+  top: -8px;
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -19565,6 +20257,569 @@ document.addEventListener('DOMContentLoaded', () => {
   minigame.init();
   tutorial.init();
   stats.init();
+});
+
+
+// === 第四批新增系统 ===
+
+// 18. 案件时间线系统
+class CaseTimeline {
+  constructor() {
+    this.events = [];
+    this.panel = null;
+  }
+
+  init() {
+    this.createPanel();
+  }
+
+  createPanel() {
+    this.panel = document.createElement('div');
+    this.panel.className = 'timeline-panel';
+    this.panel.innerHTML = `
+      <div class="timeline-container">
+        <div class="timeline-header">
+          <h2>案件时间线</h2>
+          <div class="diary-close" onclick="timeline.close()">✕</div>
+        </div>
+        <div class="timeline-track"></div>
+      </div>
+    `;
+    document.body.appendChild(this.panel);
+  }
+
+  addEvent(event) {
+    this.events.push(event);
+    this.events.sort((a, b) => new Date(a.time) - new Date(b.time));
+    this.render();
+  }
+
+  render() {
+    const track = this.panel.querySelector('.timeline-track');
+    track.innerHTML = this.events.map(event => `
+      <div class="timeline-event ${event.important ? 'important' : ''}">
+        <div class="time">${event.time}</div>
+        <div class="title">${event.title}</div>
+        <div class="desc">${event.desc}</div>
+        ${event.evidence ? `<div class="evidence">🔍 ${event.evidence}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  open(caseId) {
+    this.loadCaseEvents(caseId);
+    this.panel.classList.add('show');
+  }
+
+  close() {
+    this.panel.classList.remove('show');
+  }
+
+  loadCaseEvents(caseId) {
+    // 加载案件时间线事件
+    this.events = [];
+    // 根据案件ID加载对应的事件
+    this.render();
+  }
+}
+
+// 19. 角色关系图系统
+class RelationshipMap {
+  constructor() {
+    this.characters = [];
+    this.relationships = [];
+    this.panel = null;
+  }
+
+  init() {
+    this.createPanel();
+  }
+
+  createPanel() {
+    this.panel = document.createElement('div');
+    this.panel.className = 'relationship-panel';
+    this.panel.innerHTML = `
+      <div class="relationship-container">
+        <div class="relationship-header">
+          <h2>角色关系图</h2>
+          <div class="diary-close" onclick="relMap.close()">✕</div>
+        </div>
+        <div class="relationship-canvas"></div>
+      </div>
+    `;
+    document.body.appendChild(this.panel);
+  }
+
+  setData(characters, relationships) {
+    this.characters = characters;
+    this.relationships = relationships;
+    this.render();
+  }
+
+  render() {
+    const canvas = this.panel.querySelector('.relationship-canvas');
+    canvas.innerHTML = '';
+
+    // 绘制关系线
+    this.relationships.forEach(rel => {
+      const from = this.characters.find(c => c.id === rel.from);
+      const to = this.characters.find(c => c.id === rel.to);
+      if (!from || !to) return;
+
+      const line = document.createElement('div');
+      line.className = `rel-line ${rel.type}`;
+      const x1 = from.x;
+      const y1 = from.y;
+      const x2 = to.x;
+      const y2 = to.y;
+      const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+      const angle = Math.atan2(y2 - y1, x2 - x1);
+      
+      line.style.left = x1 + 'px';
+      line.style.top = y1 + 'px';
+      line.style.width = length + 'px';
+      line.style.transform = `rotate(${angle}rad)`;
+      
+      canvas.appendChild(line);
+
+      // 关系标签
+      const label = document.createElement('div');
+      label.className = 'rel-label';
+      label.textContent = rel.label;
+      label.style.left = ((x1 + x2) / 2) + 'px';
+      label.style.top = ((y1 + y2) / 2 - 10) + 'px';
+      canvas.appendChild(label);
+    });
+
+    // 绘制角色节点
+    this.characters.forEach(char => {
+      const node = document.createElement('div');
+      node.className = `rel-node ${char.type}`;
+      node.style.left = (char.x - 35) + 'px';
+      node.style.top = (char.y - 35) + 'px';
+      node.innerHTML = `
+        <span class="avatar">${char.avatar}</span>
+        <span class="name">${char.name}</span>
+      `;
+      node.addEventListener('click', () => this.showCharacterInfo(char));
+      canvas.appendChild(node);
+    });
+  }
+
+  showCharacterInfo(char) {
+    showToast(`${char.name}: ${char.desc}`);
+  }
+
+  open(caseId) {
+    this.loadCaseData(caseId);
+    this.panel.classList.add('show');
+  }
+
+  close() {
+    this.panel.classList.remove('show');
+  }
+
+  loadCaseData(caseId) {
+    // 加载案件角色数据
+    this.characters = [];
+    this.relationships = [];
+    this.render();
+  }
+}
+
+// 20. 证据分析系统
+class EvidenceAnalysis {
+  constructor() {
+    this.tools = [
+      { id: 'fingerprint', name: '指纹分析', icon: '👆', desc: '提取和比对指纹' },
+      { id: 'dna', name: 'DNA检测', icon: '🧬', desc: 'DNA样本分析' },
+      { id: 'digital', name: '数字取证', icon: '💻', desc: '电子设备数据分析' },
+      { id: 'document', name: '文件鉴定', icon: '📄', desc: '笔迹和文件真伪鉴定' },
+      { id: 'photo', name: '照片增强', icon: '📷', desc: '模糊照片清晰化处理' },
+      { id: 'audio', name: '音频分析', icon: '🎵', desc: '音频降噪和内容分析' }
+    ];
+    this.panel = null;
+  }
+
+  init() {
+    this.createPanel();
+  }
+
+  createPanel() {
+    this.panel = document.createElement('div');
+    this.panel.className = 'analysis-panel';
+    this.panel.innerHTML = `
+      <div class="analysis-container">
+        <div class="analysis-header">
+          <h2>证据分析工具</h2>
+          <div class="diary-close" onclick="analysis.close()">✕</div>
+        </div>
+        <div class="analysis-tools">
+          ${this.tools.map(tool => `
+            <div class="analysis-tool" onclick="analysis.useTool('${tool.id}')">
+              <div class="icon">${tool.icon}</div>
+              <div class="name">${tool.name}</div>
+              <div class="desc">${tool.desc}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="analysis-result">
+          <h3>分析结果</h3>
+          <div id="analysis-output">选择一个工具开始分析...</div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(this.panel);
+  }
+
+  useTool(toolId) {
+    const tool = this.tools.find(t => t.id === toolId);
+    if (!tool) return;
+
+    const output = document.getElementById('analysis-output');
+    output.innerHTML = `<div class="finding">正在使用 ${tool.name} 进行分析...</div>`;
+
+    // 模拟分析过程
+    setTimeout(() => {
+      this.showResult(toolId);
+    }, 1500);
+  }
+
+  showResult(toolId) {
+    const output = document.getElementById('analysis-output');
+    const results = {
+      'fingerprint': '发现一组完整指纹，与嫌疑人A的指纹匹配度98%',
+      'dna': 'DNA样本显示存在第二人的生物痕迹',
+      'digital': '手机中发现已删除的短信，内容涉及交易',
+      'document': '文件上的签名与样本笔迹不符，疑似伪造',
+      'photo': '照片增强后显示背景中有一辆黑色轿车',
+      'audio': '音频降噪后可听到背景中的钟声和脚步声'
+    };
+
+    output.innerHTML = `
+      <div class="finding">✅ 分析完成</div>
+      <div class="finding">${results[toolId] || '未发现有价值的线索'}</div>
+    `;
+  }
+
+  open() {
+    this.panel.classList.add('show');
+  }
+
+  close() {
+    this.panel.classList.remove('show');
+  }
+}
+
+// 21. 案件关联网络
+class CaseNetwork {
+  constructor() {
+    this.cases = [];
+    this.connections = [];
+    this.panel = null;
+  }
+
+  init() {
+    this.createPanel();
+  }
+
+  createPanel() {
+    this.panel = document.createElement('div');
+    this.panel.className = 'case-network';
+    this.panel.innerHTML = `
+      <div class="network-container">
+        <div class="network-header">
+          <h2>案件关联网络</h2>
+          <div class="diary-close" onclick="caseNetwork.close()">✕</div>
+        </div>
+        <div class="network-canvas"></div>
+      </div>
+    `;
+    document.body.appendChild(this.panel);
+  }
+
+  setData(cases, connections) {
+    this.cases = cases;
+    this.connections = connections;
+    this.render();
+  }
+
+  render() {
+    const canvas = this.panel.querySelector('.network-canvas');
+    canvas.innerHTML = '';
+
+    // 绘制连接线
+    this.connections.forEach(conn => {
+      const from = this.cases.find(c => c.id === conn.from);
+      const to = this.cases.find(c => c.id === conn.to);
+      if (!from || !to) return;
+
+      const line = document.createElement('div');
+      line.className = `case-connection ${conn.type}`;
+      const x1 = from.x;
+      const y1 = from.y;
+      const x2 = to.x;
+      const y2 = to.y;
+      const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+      const angle = Math.atan2(y2 - y1, x2 - x1);
+      
+      line.style.left = x1 + 'px';
+      line.style.top = y1 + 'px';
+      line.style.width = length + 'px';
+      line.style.transform = `rotate(${angle}rad)`;
+      
+      canvas.appendChild(line);
+    });
+
+    // 绘制案件节点
+    this.cases.forEach(caseItem => {
+      const node = document.createElement('div');
+      node.className = `case-node ${caseItem.solved ? 'solved' : ''} ${caseItem.current ? 'current' : ''}`;
+      node.style.left = (caseItem.x - 40) + 'px';
+      node.style.top = (caseItem.y - 40) + 'px';
+      node.innerHTML = `
+        <span class="id">${caseItem.id}</span>
+        <span class="name">${caseItem.name}</span>
+      `;
+      node.addEventListener('click', () => this.showCaseInfo(caseItem));
+      canvas.appendChild(node);
+    });
+  }
+
+  showCaseInfo(caseItem) {
+    showToast(`${caseItem.id}: ${caseItem.name}`);
+  }
+
+  open() {
+    this.panel.classList.add('show');
+  }
+
+  close() {
+    this.panel.classList.remove('show');
+  }
+}
+
+// 22. 隐藏线索系统
+class HiddenClueSystem {
+  constructor() {
+    this.clues = [];
+    this.foundClues = new Set();
+  }
+
+  init() {
+    this.loadFromStorage();
+  }
+
+  registerClue(clue) {
+    this.clues.push(clue);
+  }
+
+  discoverClue(clueId) {
+    if (this.foundClues.has(clueId)) return;
+
+    const clue = this.clues.find(c => c.id === clueId);
+    if (!clue) return;
+
+    this.foundClues.add(clueId);
+    this.showDiscovery(clue);
+    this.saveToStorage();
+  }
+
+  showDiscovery(clue) {
+    const overlay = document.createElement('div');
+    overlay.className = 'hidden-clue';
+    overlay.innerHTML = `
+      <div class="icon">🗝️</div>
+      <div class="title">发现隐藏线索！</div>
+      <div class="desc">${clue.desc}</div>
+      <div class="reward">${clue.reward}</div>
+    `;
+    document.body.appendChild(overlay);
+
+    setTimeout(() => overlay.remove(), 3000);
+  }
+
+  saveToStorage() {
+    try {
+      localStorage.setItem('hidden_clues', JSON.stringify([...this.foundClues]));
+    } catch(e) {}
+  }
+
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem('hidden_clues');
+      if (saved) {
+        this.foundClues = new Set(JSON.parse(saved));
+      }
+    } catch(e) {}
+  }
+}
+
+// 23. 设置系统增强
+class SettingsSystem {
+  constructor() {
+    this.settings = {
+      sound: true,
+      music: true,
+      volume: 50,
+      autosave: true,
+      hints: true,
+      animations: true,
+      difficulty: 'normal'
+    };
+    this.panel = null;
+  }
+
+  init() {
+    this.loadFromStorage();
+    this.createPanel();
+  }
+
+  createPanel() {
+    this.panel = document.createElement('div');
+    this.panel.className = 'settings-panel';
+    this.panel.innerHTML = `
+      <div class="settings-container">
+        <div class="settings-header">
+          <h2>设置</h2>
+          <div class="diary-close" onclick="settings.close()">✕</div>
+        </div>
+        <div class="settings-group">
+          <h3>音效</h3>
+          <div class="settings-item">
+            <span class="label">音效</span>
+            <div class="control">
+              <div class="toggle-switch ${this.settings.sound ? 'active' : ''}" 
+                   onclick="settings.toggle('sound')"></div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <span class="label">音乐</span>
+            <div class="control">
+              <div class="toggle-switch ${this.settings.music ? 'active' : ''}" 
+                   onclick="settings.toggle('music')"></div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <span class="label">音量</span>
+            <div class="control">
+              <div class="slider" onclick="settings.adjustVolume(event)">
+                <div class="handle" style="left: ${this.settings.volume}%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-group">
+          <h3>游戏</h3>
+          <div class="settings-item">
+            <span class="label">自动保存</span>
+            <div class="control">
+              <div class="toggle-switch ${this.settings.autosave ? 'active' : ''}" 
+                   onclick="settings.toggle('autosave')"></div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <span class="label">显示提示</span>
+            <div class="control">
+              <div class="toggle-switch ${this.settings.hints ? 'active' : ''}" 
+                   onclick="settings.toggle('hints')"></div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <span class="label">动画效果</span>
+            <div class="control">
+              <div class="toggle-switch ${this.settings.animations ? 'active' : ''}" 
+                   onclick="settings.toggle('animations')"></div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-group">
+          <h3>难度</h3>
+          <div class="settings-item">
+            <span class="label">游戏难度</span>
+            <div class="control">
+              <select onchange="settings.setDifficulty(this.value)">
+                <option value="easy" ${this.settings.difficulty === 'easy' ? 'selected' : ''}>简单</option>
+                <option value="normal" ${this.settings.difficulty === 'normal' ? 'selected' : ''}>普通</option>
+                <option value="hard" ${this.settings.difficulty === 'hard' ? 'selected' : ''}>困难</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(this.panel);
+  }
+
+  toggle(key) {
+    this.settings[key] = !this.settings[key];
+    this.saveToStorage();
+    this.render();
+  }
+
+  adjustVolume(event) {
+    const rect = event.target.getBoundingClientRect();
+    const percent = Math.round(((event.clientX - rect.left) / rect.width) * 100);
+    this.settings.volume = Math.max(0, Math.min(100, percent));
+    this.saveToStorage();
+    this.render();
+  }
+
+  setDifficulty(difficulty) {
+    this.settings.difficulty = difficulty;
+    this.saveToStorage();
+  }
+
+  render() {
+    // 更新UI
+    this.panel.querySelectorAll('.toggle-switch').forEach(toggle => {
+      const key = toggle.onclick.toString().match(/'(\w+)'/)?.[1];
+      if (key) {
+        toggle.classList.toggle('active', this.settings[key]);
+      }
+    });
+  }
+
+  open() {
+    this.panel.classList.add('show');
+  }
+
+  close() {
+    this.panel.classList.remove('show');
+  }
+
+  saveToStorage() {
+    try {
+      localStorage.setItem('game_settings', JSON.stringify(this.settings));
+    } catch(e) {}
+  }
+
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem('game_settings');
+      if (saved) {
+        Object.assign(this.settings, JSON.parse(saved));
+      }
+    } catch(e) {}
+  }
+}
+
+// 初始化新系统
+const timeline = new CaseTimeline();
+const relMap = new RelationshipMap();
+const analysis = new EvidenceAnalysis();
+const caseNetwork = new CaseNetwork();
+const hiddenClues = new HiddenClueSystem();
+const settings = new SettingsSystem();
+
+// 页面加载后初始化
+document.addEventListener('DOMContentLoaded', () => {
+  timeline.init();
+  relMap.init();
+  analysis.init();
+  caseNetwork.init();
+  hiddenClues.init();
+  settings.init();
 });
 
 </script>
