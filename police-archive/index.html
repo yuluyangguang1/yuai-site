@@ -5539,6 +5539,25 @@ header { display: contents; }
 .text-right { text-align: right; }
 .font-bold { font-weight: 700; }
 .font-mono { font-family: var(--mono); }
+
+/* CSS Containment 性能优化 */
+.card, .panel, .section {
+  contain: layout style;
+}
+
+.modal, .overlay {
+  contain: strict;
+}
+
+.evidence-card, .achievement-item, .timeline-event {
+  contain: layout style paint;
+}
+
+/* 内容可见性优化 */
+.offscreen {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -18408,12 +18427,7 @@ function $(id) {
 }
 
 /* Debounce function */
-function debounce(fn, delay) {
-  var timer;
-  return function() {
-    var context = this, args = arguments;
-    clearTimeout(timer);
-    timer = setTimeout(function() { fn.apply(context, args); }, delay);
+, delay);
   };
 }
 
@@ -21042,6 +21056,30 @@ window.addEventListener('error', (event) => {
 window.addEventListener('unhandledrejection', (event) => {
   showError('Promise 错误', event.reason?.message || '未知错误');
 });
+
+
+// MutationObserver 监听 DOM 变化
+function watchDOM(target, callback, options = {}) {
+  const observer = new MutationObserver((mutations) => {
+    callback(mutations);
+  });
+  
+  const config = {
+    childList: true,
+    subtree: true,
+    ...options
+  };
+  
+  if (typeof target === 'string') {
+    target = document.querySelector(target);
+  }
+  
+  if (target) {
+    observer.observe(target, config);
+  }
+  
+  return observer;
+}
 
 </script>
 
