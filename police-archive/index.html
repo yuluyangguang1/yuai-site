@@ -4178,6 +4178,651 @@ header { display: contents; }
   font-size: 0.8em;
   color: var(--muted);
 }
+
+/* === 侦探技能系统 === */
+.skills-panel {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  z-index: 300;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: none;
+}
+
+.skills-panel.show { display: block; }
+
+.skills-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.skills-header h2 {
+  font-size: 1.3em;
+}
+
+.skill-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skill-branch {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.skill-branch h3 {
+  font-size: 1em;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.skill-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.skill-node {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.skill-node:hover {
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+
+.skill-node.unlocked {
+  border-color: var(--emerald);
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.skill-node.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.skill-node .icon {
+  font-size: 20px;
+}
+
+.skill-node .level {
+  font-size: 0.6em;
+  position: absolute;
+  bottom: -8px;
+  background: var(--accent);
+  color: white;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skill-points {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.1em;
+}
+
+.skill-points .points {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.3em;
+}
+
+/* === 声望系统 === */
+.reputation-bar {
+  position: fixed;
+  bottom: 80px;
+  left: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  z-index: 100;
+  min-width: 200px;
+}
+
+.reputation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.85em;
+}
+
+.reputation-level {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.reputation-progress {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.reputation-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--emerald));
+  border-radius: 3px;
+  transition: width 0.5s;
+}
+
+.reputation-title {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+/* === 小游戏：指纹匹配 === */
+.minigame-fingerprint {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.minigame-fingerprint.show { display: flex; }
+
+.fingerprint-container {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.fingerprint-target {
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+  background: var(--bg);
+  border: 2px dashed var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  position: relative;
+}
+
+.fingerprint-pieces {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.fingerprint-piece {
+  width: 60px;
+  height: 60px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: grab;
+  transition: all 0.2s;
+}
+
+.fingerprint-piece:hover {
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+
+.fingerprint-piece.correct {
+  border-color: var(--emerald);
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.fingerprint-piece.wrong {
+  border-color: #e74c3c;
+  animation: shake 0.5s;
+}
+
+/* === 小游戏：密码破解 === */
+.minigame-password {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.minigame-password.show { display: flex; }
+
+.password-container {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.password-display {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px 0;
+}
+
+.password-digit {
+  width: 50px;
+  height: 60px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+.password-digit.active {
+  border-color: var(--accent);
+  animation: pulse 1s infinite;
+}
+
+.password-digit.correct {
+  border-color: var(--emerald);
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.password-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.password-key {
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.password-key:hover {
+  border-color: var(--accent);
+  background: rgba(148, 60, 60, 0.1);
+}
+
+.password-key:active {
+  transform: scale(0.95);
+}
+
+/* === 小游戏：拼图 === */
+.minigame-puzzle {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.minigame-puzzle.show { display: flex; }
+
+.puzzle-container {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+}
+
+.puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin: 20px auto;
+  max-width: 300px;
+}
+
+.puzzle-piece {
+  aspect-ratio: 1;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.puzzle-piece:hover {
+  border-color: var(--accent);
+}
+
+.puzzle-piece.empty {
+  background: transparent;
+  border: 2px dashed var(--border);
+}
+
+.puzzle-piece.correct {
+  border-color: var(--emerald);
+  background: rgba(46, 204, 113, 0.1);
+}
+
+/* === 提示系统 === */
+.hint-system {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 100;
+}
+
+.hint-btn {
+  padding: 10px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hint-btn:hover {
+  border-color: var(--accent);
+}
+
+.hint-btn .icon {
+  font-size: 16px;
+}
+
+.hint-btn .count {
+  background: var(--accent);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+}
+
+/* === 成就通知增强 === */
+.achievement-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--card), var(--bg));
+  border: 2px solid #f39c12;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 500;
+  animation: toast-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 20px rgba(243, 156, 18, 0.3);
+}
+
+@keyframes toast-in {
+  0% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.achievement-toast .icon {
+  font-size: 32px;
+}
+
+.achievement-toast .info h3 {
+  color: #f39c12;
+  font-size: 0.9em;
+  margin-bottom: 4px;
+}
+
+.achievement-toast .info p {
+  color: var(--muted);
+  font-size: 0.8em;
+}
+
+/* === 加载动画增强 === */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-logo {
+  font-size: 48px;
+  margin-bottom: 24px;
+  animation: logo-pulse 2s infinite;
+}
+
+@keyframes logo-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.loading-bar {
+  width: 200px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.loading-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: loading-progress 2s ease-in-out;
+}
+
+@keyframes loading-progress {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+.loading-text {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+/* === 教程系统 === */
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 600;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.tutorial-overlay.show { display: flex; }
+
+.tutorial-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.tutorial-card .icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.tutorial-card h2 {
+  font-size: 1.3em;
+  margin-bottom: 12px;
+}
+
+.tutorial-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.tutorial-card .steps {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tutorial-card .step {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.tutorial-card .step.active {
+  background: var(--accent);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.tutorial-card .btn-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.tutorial-card .btn-group button {
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tutorial-card .btn-group .skip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.tutorial-card .btn-group .next {
+  background: var(--accent);
+  border: none;
+  color: white;
+}
+
+/* === 统计面板 === */
+.stats-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 320px;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  z-index: 200;
+  transform: translateX(100%);
+  transition: transform 0.3s;
+  overflow-y: auto;
+}
+
+.stats-panel.open { transform: translateX(0); }
+
+.stats-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 20px;
+}
+
+.stat-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-card .value {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.stat-card .label {
+  font-size: 0.8em;
+  color: var(--muted);
+}
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -18464,6 +19109,462 @@ document.addEventListener('DOMContentLoaded', () => {
   saveSystem.init();
   share.init();
   leaderboard.init();
+});
+
+
+// === 第三批新增系统 ===
+
+// 13. 侦探技能系统
+class DetectiveSkills {
+  constructor() {
+    this.points = 0;
+    this.skills = {
+      observation: { name: '观察力', icon: '👁️', level: 0, maxLevel: 5, cost: 1 },
+      logic: { name: '逻辑推理', icon: '🧠', level: 0, maxLevel: 5, cost: 1 },
+      interrogation: { name: '审讯技巧', icon: '🗣️', level: 0, maxLevel: 5, cost: 1 },
+      forensics: { name: '法医学', icon: '🔬', level: 0, maxLevel: 5, cost: 1 },
+      stealth: { name: '潜行', icon: '👤', level: 0, maxLevel: 5, cost: 1 },
+      hacking: { name: '黑客技术', icon: '💻', level: 0, maxLevel: 5, cost: 1 },
+      empathy: { name: '共情能力', icon: '❤️', level: 0, maxLevel: 5, cost: 1 },
+      intuition: { name: '直觉', icon: '✨', level: 0, maxLevel: 5, cost: 1 }
+    };
+  }
+
+  init() {
+    this.loadFromStorage();
+    this.createPanel();
+  }
+
+  createPanel() {
+    const panel = document.createElement('div');
+    panel.className = 'skills-panel';
+    panel.innerHTML = `
+      <div class="skills-header">
+        <h2>侦探技能</h2>
+        <div class="diary-close" onclick="detectiveSkills.close()">✕</div>
+      </div>
+      <div class="skill-points">
+        技能点: <span class="points">${this.points}</span>
+      </div>
+      <div class="skill-tree">
+        ${this.renderSkills()}
+      </div>
+    `;
+    document.body.appendChild(panel);
+  }
+
+  renderSkills() {
+    return Object.entries(this.skills).map(([id, skill]) => `
+      <div class="skill-branch">
+        <h3>${skill.icon} ${skill.name}</h3>
+        <div class="skill-nodes">
+          ${Array(skill.maxLevel).fill(null).map((_, i) => `
+            <div class="skill-node ${i < skill.level ? 'unlocked' : 'locked'}" 
+                 onclick="detectiveSkills.upgrade('${id}')"
+                 title="${skill.name} Lv.${i + 1}">
+              <span class="icon">${skill.icon}</span>
+              ${i < skill.level ? `<span class="level">${i + 1}</span>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  upgrade(skillId) {
+    const skill = this.skills[skillId];
+    if (!skill || skill.level >= skill.maxLevel) return;
+    if (this.points < skill.cost) {
+      showToast('技能点不足');
+      return;
+    }
+
+    this.points -= skill.cost;
+    skill.level++;
+    this.saveToStorage();
+    this.renderPanel();
+    showToast(`${skill.name} 升级到 Lv.${skill.level}`);
+  }
+
+  renderPanel() {
+    const panel = document.querySelector('.skills-panel');
+    if (!panel) return;
+    panel.querySelector('.points').textContent = this.points;
+    panel.querySelector('.skill-tree').innerHTML = this.renderSkills();
+  }
+
+  open() {
+    document.querySelector('.skills-panel').classList.add('show');
+    this.renderPanel();
+  }
+
+  close() {
+    document.querySelector('.skills-panel').classList.remove('show');
+  }
+
+  addPoints(amount) {
+    this.points += amount;
+    this.saveToStorage();
+    showToast(`获得 ${amount} 技能点`);
+  }
+
+  getSkillLevel(skillId) {
+    return this.skills[skillId]?.level || 0;
+  }
+
+  saveToStorage() {
+    try {
+      localStorage.setItem('detective_skills', JSON.stringify({
+        points: this.points,
+        skills: this.skills
+      }));
+    } catch(e) {}
+  }
+
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem('detective_skills');
+      if (saved) {
+        const data = JSON.parse(saved);
+        this.points = data.points || 0;
+        Object.assign(this.skills, data.skills);
+      }
+    } catch(e) {}
+  }
+}
+
+// 14. 声望系统
+class ReputationSystem {
+  constructor() {
+    this.score = 0;
+    this.level = 1;
+    this.titles = [
+      { level: 1, title: '新手侦探', minScore: 0 },
+      { level: 2, title: '见习侦探', minScore: 100 },
+      { level: 3, title: '正式侦探', minScore: 300 },
+      { level: 4, title: '资深侦探', minScore: 600 },
+      { level: 5, title: '首席侦探', minScore: 1000 },
+      { level: 6, title: '传奇侦探', minScore: 1500 }
+    ];
+  }
+
+  init() {
+    this.loadFromStorage();
+    this.createBar();
+  }
+
+  createBar() {
+    const bar = document.createElement('div');
+    bar.className = 'reputation-bar';
+    bar.innerHTML = `
+      <div class="reputation-header">
+        <span>声望</span>
+        <span class="reputation-level">Lv.${this.level}</span>
+      </div>
+      <div class="reputation-progress">
+        <div class="reputation-fill" style="width: ${this.getProgress()}%"></div>
+      </div>
+      <div class="reputation-title">${this.getTitle()}</div>
+    `;
+    document.body.appendChild(bar);
+  }
+
+  getProgress() {
+    const currentTitle = this.titles.find(t => t.level === this.level);
+    const nextTitle = this.titles.find(t => t.level === this.level + 1);
+    if (!nextTitle) return 100;
+    const progress = (this.score - currentTitle.minScore) / (nextTitle.minScore - currentTitle.minScore);
+    return Math.min(100, Math.max(0, progress * 100));
+  }
+
+  getTitle() {
+    return this.titles.find(t => t.level === this.level)?.title || '新手侦探';
+  }
+
+  addScore(amount) {
+    this.score += amount;
+    this.checkLevelUp();
+    this.updateBar();
+    this.saveToStorage();
+  }
+
+  checkLevelUp() {
+    const newLevel = this.titles.filter(t => t.minScore <= this.score).pop()?.level || 1;
+    if (newLevel > this.level) {
+      this.level = newLevel;
+      showToast(`声望提升！当前等级: ${this.getTitle()}`);
+    }
+  }
+
+  updateBar() {
+    const bar = document.querySelector('.reputation-bar');
+    if (!bar) return;
+    bar.querySelector('.reputation-level').textContent = `Lv.${this.level}`;
+    bar.querySelector('.reputation-fill').style.width = `${this.getProgress()}%`;
+    bar.querySelector('.reputation-title').textContent = this.getTitle();
+  }
+
+  saveToStorage() {
+    try {
+      localStorage.setItem('detective_reputation', JSON.stringify({
+        score: this.score,
+        level: this.level
+      }));
+    } catch(e) {}
+  }
+
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem('detective_reputation');
+      if (saved) {
+        const data = JSON.parse(saved);
+        this.score = data.score || 0;
+        this.level = data.level || 1;
+      }
+    } catch(e) {}
+  }
+}
+
+// 15. 小游戏系统
+class MinigameSystem {
+  constructor() {
+    this.currentGame = null;
+  }
+
+  init() {
+    // 初始化小游戏容器
+  }
+
+  // 指纹匹配游戏
+  startFingerprint() {
+    this.currentGame = 'fingerprint';
+    const container = document.querySelector('.minigame-fingerprint');
+    if (container) container.classList.add('show');
+  }
+
+  // 密码破解游戏
+  startPassword(targetPassword) {
+    this.currentGame = 'password';
+    this.targetPassword = targetPassword;
+    this.currentInput = '';
+    const container = document.querySelector('.minigame-password');
+    if (container) container.classList.add('show');
+  }
+
+  inputDigit(digit) {
+    if (this.currentGame !== 'password') return;
+    
+    this.currentInput += digit;
+    this.updatePasswordDisplay();
+    
+    if (this.currentInput.length === this.targetPassword.length) {
+      if (this.currentInput === this.targetPassword) {
+        showToast('密码破解成功！');
+        this.closeGame();
+      } else {
+        showToast('密码错误，请重试');
+        this.currentInput = '';
+        this.updatePasswordDisplay();
+      }
+    }
+  }
+
+  updatePasswordDisplay() {
+    const digits = document.querySelectorAll('.password-digit');
+    digits.forEach((digit, i) => {
+      digit.textContent = this.currentInput[i] || '';
+      digit.classList.toggle('active', i === this.currentInput.length);
+      digit.classList.toggle('correct', i < this.currentInput.length && this.currentInput[i] === this.targetPassword[i]);
+    });
+  }
+
+  closeGame() {
+    document.querySelectorAll('.minigame-fingerprint, .minigame-password, .minigame-puzzle').forEach(el => {
+      el.classList.remove('show');
+    });
+    this.currentGame = null;
+  }
+}
+
+// 16. 教程系统
+class TutorialSystem {
+  constructor() {
+    this.steps = [
+      { icon: '🔍', title: '欢迎来到侦探档案', desc: '你将成为一名侦探，调查各种神秘案件。点击"下一步"开始你的侦探之旅。' },
+      { icon: '📋', title: '选择案件', desc: '在案件列表中选择一个案件开始调查。每个案件都有不同的难度和故事。' },
+      { icon: '🔎', title: '收集证据', desc: '在犯罪现场仔细搜索，点击可疑物品收集证据。' },
+      { icon: '🗣️', title: '审讯嫌疑人', desc: '与嫌疑人对话，选择合适的审讯策略获取信息。' },
+      { icon: '🧩', title: '推理真相', desc: '将收集到的证据串联起来，推理出案件的真相。' }
+    ];
+    this.currentStep = 0;
+  }
+
+  init() {
+    this.checkFirstTime();
+  }
+
+  checkFirstTime() {
+    const hasSeenTutorial = localStorage.getItem('tutorial_seen');
+    if (!hasSeenTutorial) {
+      this.show();
+    }
+  }
+
+  show() {
+    this.currentStep = 0;
+    this.render();
+    document.querySelector('.tutorial-overlay').classList.add('show');
+  }
+
+  render() {
+    const step = this.steps[this.currentStep];
+    const overlay = document.querySelector('.tutorial-overlay');
+    if (!overlay) return;
+
+    overlay.innerHTML = `
+      <div class="tutorial-card">
+        <div class="icon">${step.icon}</div>
+        <h2>${step.title}</h2>
+        <p>${step.desc}</p>
+        <div class="steps">
+          ${this.steps.map((_, i) => `<div class="step ${i === this.currentStep ? 'active' : ''}"></div>`).join('')}
+        </div>
+        <div class="btn-group">
+          <button class="skip" onclick="tutorial.skip()">跳过</button>
+          <button class="next" onclick="tutorial.next()">${this.currentStep < this.steps.length - 1 ? '下一步' : '开始'}</button>
+        </div>
+      </div>
+    `;
+  }
+
+  next() {
+    this.currentStep++;
+    if (this.currentStep >= this.steps.length) {
+      this.close();
+    } else {
+      this.render();
+    }
+  }
+
+  skip() {
+    this.close();
+  }
+
+  close() {
+    document.querySelector('.tutorial-overlay').classList.remove('show');
+    localStorage.setItem('tutorial_seen', 'true');
+  }
+}
+
+// 17. 统计系统
+class StatsSystem {
+  constructor() {
+    this.stats = {
+      casesStarted: 0,
+      casesSolved: 0,
+      evidenceCollected: 0,
+      suspectsInterrogated: 0,
+      totalPlayTime: 0,
+      achievementsUnlocked: 0
+    };
+  }
+
+  init() {
+    this.loadFromStorage();
+    this.createPanel();
+    this.startTimer();
+  }
+
+  createPanel() {
+    const panel = document.createElement('div');
+    panel.className = 'stats-panel';
+    panel.innerHTML = `
+      <div class="stats-header">
+        <h2>统计数据</h2>
+        <div class="diary-close" onclick="stats.close()">✕</div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="value">${this.stats.casesStarted}</div>
+          <div class="label">开始案件</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">${this.stats.casesSolved}</div>
+          <div class="label">破获案件</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">${this.stats.evidenceCollected}</div>
+          <div class="label">收集证据</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">${this.stats.suspectsInterrogated}</div>
+          <div class="label">审讯嫌疑人</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">${Math.floor(this.stats.totalPlayTime / 60)}</div>
+          <div class="label">游戏时间(分)</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">${this.stats.achievementsUnlocked}</div>
+          <div class="label">解锁成就</div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(panel);
+  }
+
+  startTimer() {
+    setInterval(() => {
+      this.stats.totalPlayTime++;
+      this.saveToStorage();
+    }, 1000);
+  }
+
+  increment(stat) {
+    if (this.stats[stat] !== undefined) {
+      this.stats[stat]++;
+      this.saveToStorage();
+    }
+  }
+
+  open() {
+    document.querySelector('.stats-panel').classList.add('open');
+  }
+
+  close() {
+    document.querySelector('.stats-panel').classList.remove('open');
+  }
+
+  saveToStorage() {
+    try {
+      localStorage.setItem('detective_stats', JSON.stringify(this.stats));
+    } catch(e) {}
+  }
+
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem('detective_stats');
+      if (saved) {
+        Object.assign(this.stats, JSON.parse(saved));
+      }
+    } catch(e) {}
+  }
+}
+
+// 初始化新系统
+const detectiveSkills = new DetectiveSkills();
+const reputation = new ReputationSystem();
+const minigame = new MinigameSystem();
+const tutorial = new TutorialSystem();
+const stats = new StatsSystem();
+
+// 页面加载后初始化
+document.addEventListener('DOMContentLoaded', () => {
+  detectiveSkills.init();
+  reputation.init();
+  minigame.init();
+  tutorial.init();
+  stats.init();
 });
 
 </script>
