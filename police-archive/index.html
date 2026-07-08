@@ -20944,6 +20944,57 @@ class PerformanceMonitor {
 
 const perfMonitor = new PerformanceMonitor();
 
+
+// 触摸事件支持
+function addTouchSupport(element, callback) {
+  let startX, startY;
+  
+  element.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  
+  element.addEventListener('touchend', (e) => {
+    if (!startX || !startY) return;
+    
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
+    
+    const diffX = startX - endX;
+    const diffY = startY - endY;
+    
+    // 判断滑动方向
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX > 50) callback('left');
+      else if (diffX < -50) callback('right');
+    } else {
+      if (diffY > 50) callback('up');
+      else if (diffY < -50) callback('down');
+    }
+    
+    startX = null;
+    startY = null;
+  }, { passive: true });
+}
+
+// 触摸反馈
+function addTouchFeedback(element) {
+  element.addEventListener('touchstart', () => {
+    element.style.transform = 'scale(0.95)';
+    element.style.opacity = '0.8';
+  }, { passive: true });
+  
+  element.addEventListener('touchend', () => {
+    element.style.transform = '';
+    element.style.opacity = '';
+  }, { passive: true });
+  
+  element.addEventListener('touchcancel', () => {
+    element.style.transform = '';
+    element.style.opacity = '';
+  }, { passive: true });
+}
+
 </script>
 
 <!-- ═══════════════════════════ MODAL: Evidence Detail ═══════════════════════════ -->
