@@ -106,6 +106,56 @@ html, body {
     linear-gradient(180deg, rgba(200,180,140,0.03) 0%, transparent 30%),
     linear-gradient(0deg, rgba(160,130,80,0.05) 0%, transparent 20%);
 }
+.login-field { margin-bottom: 16px; }
+.login-field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }
+.login-field input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.login-field input:focus { border-color: var(--accent); }
+.login-actions { display: flex; gap: 8px; margin-top: 20px; }
+.login-error { color: #e74c3c; font-size: 12px; margin-top: 8px; display: none; }
+.login-hint { font-size: 11px; color: var(--muted); text-align: center; margin-top: 16px; line-height: 1.8; }
+.login-emblem { font-size: 48px; text-align: center; margin-bottom: 8px; color: var(--accent); font-family: var(--font-heading); }
+.login-sub { text-align: center; font-size: 11px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+.login-sub-cn { font-size: 13px; letter-spacing: 0.3em; text-transform: none; margin-bottom: 2px; }
+.register-view { display: none; }
+
+/* ─── 按钮 ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn:active { transform: scale(0.97); }
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.btn.primary:hover { background: #7a2e2e; border-color: #7a2e2e; }
+.btn.sm { padding: 4px 10px; font-size: 11px; }
 
 .section-header { margin: 20px 0 10px; }
 .deduction-grid { grid-template-columns: 1fr !important; }
@@ -13797,12 +13847,6 @@ function $(id) {
 /* Clear cache on page change */
 function clearDomCache() {
   domCache = {};
-}
-
-;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
 }
 
 /* Throttle function */
