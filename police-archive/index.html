@@ -5962,7 +5962,7 @@ header { display: contents; }
   </main>
 </section>
 <div class="scene-popup" id="scene-popup">
-  <div class="scene-popup-close" onclick="closePopup()">&#10005;</div>
+  <div class="scene-popup-close" onclick="closePopup()" tabindex="0">&#10005;</div>
   <div class="scene-popup-title" id="popup-title" role="heading" aria-level="2"></div>
   <div id="popup-body"></div>
 </div>
@@ -15022,7 +15022,7 @@ function openEvidence(evidenceId) {
   if (savedImg && savedImg.indexOf('data:image/') === 0) {
     imgWrap.innerHTML = '<div class="evidence-img-wrap"><img src="' + savedImg + '" alt="' + escapeHtml(ev.name) + '" loading="lazy"></div>';
   } else {
-    imgWrap.innerHTML = '<div class="evidence-img-placeholder" onclick="document.getElementById(\'ev-img-input\').click()">点击或拖拽添加证物图片</div>';
+    imgWrap.innerHTML = '<div class="evidence-img-placeholder" onclick="document.getElementById(\'ev-img-input\').click()" tabindex="0">点击或拖拽添加证物图片</div>';
   }
 
   document.getElementById('evidence-detail').classList.add('active');
@@ -15229,7 +15229,7 @@ function renderDetail(caseId) {
 
   /* clues */
   document.getElementById('clues').innerHTML = c.clues.map(cl => `
-    <div class="clue-tile" style="background:var(--surface)ef6;" onclick="openClue('${cl.id}')">${escapeHtml(cl.title)}</div>
+    <div class="clue-tile" style="background:var(--surface)ef6;" onclick="openClue('${cl.id}')" tabindex="0">${escapeHtml(cl.title)}</div>
   `).join('');
 
   renderNotes(c);
@@ -15250,7 +15250,7 @@ function renderNotes(c) {
     el.innerHTML = '<div class="note-empty"><div class="note-empty-icon">&var(--muted)8;</div>本案暂无笔记<br><small style="font-size:12px;opacity:0.5;">记录你的推理思路和关键发现</small></div>';
     return;
   }
-  el.innerHTML = c.notes.map((n, i) => `<div class="note-item"><div class="note-time">${formatTime(n.time)}</div><div class="note-text">${escapeHtml(n.text)}</div><div class="note-delete" onclick="deleteNote(${i})" title="删除">删除</div></div>`).join('');
+  el.innerHTML = c.notes.map((n, i) => `<div class="note-item"><div class="note-time">${formatTime(n.time)}</div><div class="note-text">${escapeHtml(n.text)}</div><div class="note-delete" onclick="deleteNote(${i})" tabindex="0" title="删除">删除</div></div>`).join('');
 }
 function saveNote() {
   if (!currentCase) return;
@@ -15407,7 +15407,7 @@ function renderTimeline() {
   el.innerHTML = _timelineOrder.map(function(ev, i) {
     var isCorrect = ev.order === i + 1;
     if (isCorrect) correctCount++;
-    return '<div class="timeline-event' + (_timelineSelected === i ? ' selected' : '') + '" onclick="timelineClick(' + i + ')">' +
+    return '<div class="timeline-event' + (_timelineSelected === i ? ' selected' : '') + '" onclick="timelineClick(' + i + ')" tabindex="0">' +
       '<span class="timeline-num">' + (i + 1) + '</span>' +
       '<span class="timeline-time">' + escapeHtml(ev.time) + '</span>' +
       '<span class="timeline-text">' + escapeHtml(ev.text) + '</span>' +
@@ -15462,7 +15462,7 @@ function renderInterrogationSuspects() {
   var el = document.getElementById('interrogation-suspects');
   var susps = _invCase.interrogations;
   el.innerHTML = Object.keys(susps).map(function(sid) {
-    return '<div class="suspect-btn" onclick="selectSuspectForInterrogation(\'' + sid + '\')">' + escapeHtml(susps[sid].name) + '</div>';
+    return '<div class="suspect-btn" onclick="selectSuspectForInterrogation(\'' + sid + '\')" tabindex="0">' + escapeHtml(susps[sid].name) + '</div>';
   }).join('');
 }
 
@@ -15474,7 +15474,7 @@ function selectSuspectForInterrogation(sid) {
   var qEl = document.getElementById('interrogation-questions');
   qEl.innerHTML = susp.questions.map(function(q, i) {
     var asked = _askedQuestions[sid].indexOf(i) >= 0;
-    return '<div class="q-btn' + (asked ? ' asked' : '') + '" onclick="askQuestion(\'' + sid + '\',' + i + ')">' +
+    return '<div class="q-btn' + (asked ? ' asked' : '') + '" onclick="askQuestion(\'' + sid + '\',' + i + ')" tabindex="0">' +
       (asked ? '[已问] ' : '') + escapeHtml(q.q) + '</div>';
   }).join('');
   document.getElementById('interrogation-answer').style.display = 'none';
@@ -15522,7 +15522,7 @@ function startDeductionChain() {
   _chainSelected = [];
   var el = document.getElementById('chain-evidence');
   el.innerHTML = _invCase.clues.map(function(cl) {
-    return '<div class="chain-item" onclick="toggleChainItem(\'' + cl.id + '\')" id="chain-' + cl.id + '">' +
+    return '<div class="chain-item" onclick="toggleChainItem(\'' + cl.id + '\')" tabindex="0" id="chain-' + cl.id + '">' +
       '<div class="chain-check"></div>' +
       '<div class="chain-text"><span class="chain-label">' + escapeHtml(cl.status) + '</span>' + escapeHtml(cl.title) + '</div></div>';
   }).join('');
@@ -15819,7 +15819,7 @@ startDeductionChain = function() {
     el.innerHTML = _invCase.clues.map(function(cl) {
       var catTag = getCategoryTag(cl.category);
       var redTag = getRedHerringTag(cl.redHerring);
-      return '<div class="chain-item" onclick="toggleChainItem(\'' + cl.id + '\')" id="chain-' + cl.id + '">' +
+      return '<div class="chain-item" onclick="toggleChainItem(\'' + cl.id + '\')" tabindex="0" id="chain-' + cl.id + '">' +
         '<div class="chain-check"></div>' +
         '<div class="chain-text"><span class="chain-label">' + catTag + escapeHtml(cl.status) + redTag + '</span>' + escapeHtml(cl.title) + '</div></div>';
     }).join('');
@@ -16314,7 +16314,7 @@ function renderScene() {
   } else {
     // Fallback to grid-based map
     mapEl.innerHTML = c.scene.areas.map(function(a) {
-      return '<div class="scene-area' + (_discovered[a.id] ? ' discovered' : '') + '" style="left:' + a.x + '%;top:' + a.y + '%;width:' + a.w + '%;height:' + a.h + '%;" onclick="explore(\'' + a.id + '\')">' + escapeHtml(a.label) + '</div>';
+      return '<div class="scene-area' + (_discovered[a.id] ? ' discovered' : '') + '" style="left:' + a.x + '%;top:' + a.y + '%;width:' + a.w + '%;height:' + a.h + '%;" onclick="explore(\'' + a.id + '\')" tabindex="0">' + escapeHtml(a.label) + '</div>';
     }).join('');
   }
   var total = c.scene.areas.length, found = Object.keys(_discovered).length;
@@ -16552,7 +16552,7 @@ finishCrimeScene = function() {
     // Show cipher puzzle before moving to timeline
     var popup = document.getElementById('scene-popup');
     if (popup) {
-      popup.innerHTML = '<div class="scene-popup-close" onclick="closePopup()">&#10005;</div>' +
+      popup.innerHTML = '<div class="scene-popup-close" onclick="closePopup()" tabindex="0">&#10005;</div>' +
         '<div style="font-family:var(--font-heading);font-size:16px;font-weight:700;margin-bottom:12px;">现场发现密码</div>' +
         '<div style="font-size:13px;color:var(--muted);margin-bottom:12px;">在勘查过程中你发现了加密信息。破解它可能揭示关键线索。</div>' +
         renderCipherBox(c.id) +
@@ -16952,7 +16952,7 @@ function selectComboSlot(slotIndex) {
   var html = '<div style="max-height:400px;overflow-y:auto;">';
   clues.forEach(function(cl) {
     var selected = _comboSlots[0] === cl.id || _comboSlots[1] === cl.id;
-    html += '<div class="clue-tile' + (selected ? ' selected' : '') + '" onclick="fillComboSlot(' + slotIndex + ', \'' + cl.id + '\')">' +
+    html += '<div class="clue-tile' + (selected ? ' selected' : '') + '" onclick="fillComboSlot(' + slotIndex + ', \'' + cl.id + '\')" tabindex="0">' +
       getCategoryTag(cl.category) + ' ' + escapeHtml(cl.title) + '</div>';
   });
   html += '</div>';
@@ -16989,9 +16989,9 @@ function renderComboPanel() {
   
   panel.innerHTML = '<h4 style="font-family:var(--font-heading);margin-bottom:12px;">证据组合</h4>' +
     '<div class="combo-slots">' +
-    '<div class="combo-slot' + (slot1 ? ' filled' : '') + '" onclick="selectComboSlot(0)">' + (slot1 ? escapeHtml(slot1.title) : '选择证据') + '</div>' +
+    '<div class="combo-slot' + (slot1 ? ' filled' : '') + '" onclick="selectComboSlot(0)" tabindex="0">' + (slot1 ? escapeHtml(slot1.title) : '选择证据') + '</div>' +
     '<div class="combo-plus">+</div>' +
-    '<div class="combo-slot' + (slot2 ? ' filled' : '') + '" onclick="selectComboSlot(1)">' + (slot2 ? escapeHtml(slot2.title) : '选择证据') + '</div>' +
+    '<div class="combo-slot' + (slot2 ? ' filled' : '') + '" onclick="selectComboSlot(1)" tabindex="0">' + (slot2 ? escapeHtml(slot2.title) : '选择证据') + '</div>' +
     '</div>' +
     '<div id="combo-result"></div>';
 }
@@ -17308,7 +17308,7 @@ function renderForensicsPanel() {
     html += '<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">通讯记录</div>' +
       '<div class="forensics-grid">' +
       phoneRecords.map(function(e) {
-        return '<div class="forensics-item" onclick="openEvidence(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
+        return '<div class="forensics-item" onclick="openEvidence(\'' + e.id + '\')" tabindex="0">' + escapeHtml(e.name) + '</div>';
       }).join('') +
       '</div></div>';
   }
@@ -17317,7 +17317,7 @@ function renderForensicsPanel() {
     html += '<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">财务记录</div>' +
       '<div class="forensics-grid">' +
       financialRecords.map(function(e) {
-        return '<div class="forensics-item" onclick="openEvidence(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
+        return '<div class="forensics-item" onclick="openEvidence(\'' + e.id + '\')" tabindex="0">' + escapeHtml(e.name) + '</div>';
       }).join('') +
       '</div></div>';
   }
@@ -17326,7 +17326,7 @@ function renderForensicsPanel() {
     html += '<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">数字证据</div>' +
       '<div class="forensics-grid">' +
       digitalRecords.map(function(e) {
-        return '<div class="forensics-item" onclick="openEvidence(\'' + e.id + '\')">' + escapeHtml(e.name) + '</div>';
+        return '<div class="forensics-item" onclick="openEvidence(\'' + e.id + '\')" tabindex="0">' + escapeHtml(e.name) + '</div>';
       }).join('') +
       '</div></div>';
   }
@@ -17925,7 +17925,7 @@ function renderRelationshipMap() {
     var w = _witnessCredibility[sus.id];
     var borderColor = w && w.score < 40 ? '#8b3a3a' : w && w.score >= 70 ? '#5a8a40' : 'var(--border)';
     
-    html += '<div class="relationship-node" style="left:' + x + 'px;top:' + y + 'px;border-color:' + borderColor + ';" onclick="showSuspectProfile(\'' + sus.id + '\')">' +
+    html += '<div class="relationship-node" style="left:' + x + 'px;top:' + y + 'px;border-color:' + borderColor + ';" onclick="showSuspectProfile(\'' + sus.id + '\')" tabindex="0">' +
       escapeHtml(sus.name.split('（')[0]) + '</div>';
   });
   
@@ -19698,7 +19698,7 @@ class DiarySystem {
     this.panel.innerHTML = `
       <div class="diary-header">
         <h2>侦探日记</h2>
-        <div class="diary-close" onclick="diary.close()">✕</div>
+        <div class="diary-close" onclick="diary.close()" tabindex="0">✕</div>
       </div>
       <div class="diary-entries"></div>
     `;
@@ -19773,7 +19773,7 @@ class SaveSystem {
     panel.innerHTML = `
       <div class="save-grid">
         ${Array(this.slots).fill(null).map((_, i) => `
-          <div class="save-slot" data-slot="${i}" onclick="saveSystem.selectSlot(${i})">
+          <div class="save-slot" data-slot="${i}" onclick="saveSystem.selectSlot(${i})" tabindex="0">
             <div class="slot-number">存档 ${i + 1}</div>
             <div class="slot-info">${this.getSlotInfo(i)}</div>
             <div class="slot-preview">${this.getSlotPreview(i)}</div>
@@ -19858,10 +19858,10 @@ class ShareSystem {
     this.panel = document.createElement('div');
     this.panel.className = 'share-panel';
     this.panel.innerHTML = `
-      <div class="share-btn" onclick="shareSystem.shareToWeibo()">📱</div>
-      <div class="share-btn" onclick="shareSystem.shareToWechat()">💬</div>
-      <div class="share-btn" onclick="shareSystem.copyLink()">🔗</div>
-      <div class="share-btn" onclick="shareSystem.hide()">✕</div>
+      <div class="share-btn" onclick="shareSystem.shareToWeibo()" tabindex="0">📱</div>
+      <div class="share-btn" onclick="shareSystem.shareToWechat()" tabindex="0">💬</div>
+      <div class="share-btn" onclick="shareSystem.copyLink()" tabindex="0">🔗</div>
+      <div class="share-btn" onclick="shareSystem.hide()" tabindex="0">✕</div>
     `;
     document.body.appendChild(this.panel);
   }
@@ -19911,7 +19911,7 @@ class LeaderboardSystem {
     this.panel.innerHTML = `
       <div class="leaderboard-header">
         <h2>排行榜</h2>
-        <div class="diary-close" onclick="leaderboard.close()">✕</div>
+        <div class="diary-close" onclick="leaderboard.close()" tabindex="0">✕</div>
       </div>
       <div class="leaderboard-list"></div>
     `;
@@ -20008,7 +20008,7 @@ class DetectiveSkills {
     panel.innerHTML = `
       <div class="skills-header">
         <h2>侦探技能</h2>
-        <div class="diary-close" onclick="detectiveSkills.close()">✕</div>
+        <div class="diary-close" onclick="detectiveSkills.close()" tabindex="0">✕</div>
       </div>
       <div class="skill-points">
         技能点: <span class="points">${this.points}</span>
@@ -20027,7 +20027,7 @@ class DetectiveSkills {
         <div class="skill-nodes">
           ${Array(skill.maxLevel).fill(null).map((_, i) => `
             <div class="skill-node ${i < skill.level ? 'unlocked' : 'locked'}" 
-                 onclick="detectiveSkills.upgrade('${id}')"
+                 onclick="detectiveSkills.upgrade('${id}')" tabindex="0"
                  title="${skill.name} Lv.${i + 1}">
               <span class="icon">${skill.icon}</span>
               ${i < skill.level ? `<span class="level">${i + 1}</span>` : ''}
@@ -20348,7 +20348,7 @@ class StatsSystem {
     panel.innerHTML = `
       <div class="stats-header">
         <h2>统计数据</h2>
-        <div class="diary-close" onclick="stats.close()">✕</div>
+        <div class="diary-close" onclick="stats.close()" tabindex="0">✕</div>
       </div>
       <div class="stats-grid">
         <div class="stat-card">
@@ -20455,7 +20455,7 @@ class CaseTimeline {
       <div class="timeline-container">
         <div class="timeline-header">
           <h2>案件时间线</h2>
-          <div class="diary-close" onclick="timeline.close()">✕</div>
+          <div class="diary-close" onclick="timeline.close()" tabindex="0">✕</div>
         </div>
         <div class="timeline-track"></div>
       </div>
@@ -20517,7 +20517,7 @@ class RelationshipMap {
       <div class="relationship-container">
         <div class="relationship-header">
           <h2>角色关系图</h2>
-          <div class="diary-close" onclick="relMap.close()">✕</div>
+          <div class="diary-close" onclick="relMap.close()" tabindex="0">✕</div>
         </div>
         <div class="relationship-canvas"></div>
       </div>
@@ -20627,11 +20627,11 @@ class EvidenceAnalysis {
       <div class="analysis-container">
         <div class="analysis-header">
           <h2>证据分析工具</h2>
-          <div class="diary-close" onclick="analysis.close()">✕</div>
+          <div class="diary-close" onclick="analysis.close()" tabindex="0">✕</div>
         </div>
         <div class="analysis-tools">
           ${this.tools.map(tool => `
-            <div class="analysis-tool" onclick="analysis.useTool('${tool.id}')">
+            <div class="analysis-tool" onclick="analysis.useTool('${tool.id}')" tabindex="0">
               <div class="icon">${tool.icon}</div>
               <div class="name">${tool.name}</div>
               <div class="desc">${tool.desc}</div>
@@ -20705,7 +20705,7 @@ class CaseNetwork {
       <div class="network-container">
         <div class="network-header">
           <h2>案件关联网络</h2>
-          <div class="diary-close" onclick="caseNetwork.close()">✕</div>
+          <div class="diary-close" onclick="caseNetwork.close()" tabindex="0">✕</div>
         </div>
         <div class="network-canvas"></div>
       </div>
@@ -20857,7 +20857,7 @@ class SettingsSystem {
       <div class="settings-container">
         <div class="settings-header">
           <h2>设置</h2>
-          <div class="diary-close" onclick="settings.close()">✕</div>
+          <div class="diary-close" onclick="settings.close()" tabindex="0">✕</div>
         </div>
         <div class="settings-group">
           <h3>音效</h3>
@@ -20865,20 +20865,20 @@ class SettingsSystem {
             <span class="label">音效</span>
             <div class="control">
               <div class="toggle-switch ${this.settings.sound ? 'active' : ''}" 
-                   onclick="settings.toggle('sound')"></div>
+                   onclick="settings.toggle('sound')" tabindex="0"></div>
             </div>
           </div>
           <div class="settings-item">
             <span class="label">音乐</span>
             <div class="control">
               <div class="toggle-switch ${this.settings.music ? 'active' : ''}" 
-                   onclick="settings.toggle('music')"></div>
+                   onclick="settings.toggle('music')" tabindex="0"></div>
             </div>
           </div>
           <div class="settings-item">
             <span class="label">音量</span>
             <div class="control">
-              <div class="slider" onclick="settings.adjustVolume(event)">
+              <div class="slider" onclick="settings.adjustVolume(event)" tabindex="0">
                 <div class="handle" style="left: ${this.settings.volume}%"></div>
               </div>
             </div>
@@ -20890,21 +20890,21 @@ class SettingsSystem {
             <span class="label">自动保存</span>
             <div class="control">
               <div class="toggle-switch ${this.settings.autosave ? 'active' : ''}" 
-                   onclick="settings.toggle('autosave')"></div>
+                   onclick="settings.toggle('autosave')" tabindex="0"></div>
             </div>
           </div>
           <div class="settings-item">
             <span class="label">显示提示</span>
             <div class="control">
               <div class="toggle-switch ${this.settings.hints ? 'active' : ''}" 
-                   onclick="settings.toggle('hints')"></div>
+                   onclick="settings.toggle('hints')" tabindex="0"></div>
             </div>
           </div>
           <div class="settings-item">
             <span class="label">动画效果</span>
             <div class="control">
               <div class="toggle-switch ${this.settings.animations ? 'active' : ''}" 
-                   onclick="settings.toggle('animations')"></div>
+                   onclick="settings.toggle('animations')" tabindex="0"></div>
             </div>
           </div>
         </div>
@@ -21235,6 +21235,19 @@ function watchDOM(target, callback, options = {}) {
   }
   
   return observer;
+}
+
+
+// 添加加载状态 ARIA
+function setLoadingState(element, loading) {
+  if (element) {
+    element.setAttribute('aria-busy', loading ? 'true' : 'false');
+    if (loading) {
+      element.classList.add('loading');
+    } else {
+      element.classList.remove('loading');
+    }
+  }
 }
 
 </script>
