@@ -3602,6 +3602,582 @@ header { display: contents; }
   font-size: 0.9em;
   color: #f39c12;
 }
+
+/* === 音效系统 === */
+.sound-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.2s;
+}
+
+.sound-toggle:hover {
+  border-color: var(--accent);
+}
+
+.sound-toggle .icon {
+  font-size: 20px;
+}
+
+/* === 动态天气 === */
+.weather-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  transition: opacity 2s;
+}
+
+.weather-rain {
+  background: linear-gradient(180deg, 
+    rgba(100,150,200,0.1) 0%,
+    rgba(100,150,200,0.05) 100%
+  );
+}
+
+.weather-rain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='50' y1='0' x2='50' y2='100' stroke='rgba(100,150,200,0.3)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 20px 20px;
+  animation: rain-fall 0.5s linear infinite;
+}
+
+@keyframes rain-fall {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 20px; }
+}
+
+.weather-fog {
+  background: radial-gradient(ellipse at center,
+    rgba(200,200,200,0.15) 0%,
+    rgba(200,200,200,0.05) 50%,
+    transparent 100%
+  );
+}
+
+.weather-night {
+  background: rgba(0,0,30,0.3);
+}
+
+.weather-sunset {
+  background: linear-gradient(180deg,
+    rgba(255,100,50,0.1) 0%,
+    rgba(255,150,50,0.05) 50%,
+    transparent 100%
+  );
+}
+
+/* === 时间显示 === */
+.time-display {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  color: var(--muted);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-display .icon {
+  font-size: 16px;
+}
+
+.time-display .time {
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+/* === 道具系统 === */
+.inventory-panel {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  border-radius: 12px 0 0 12px;
+  padding: 12px 8px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inventory-slot {
+  width: 44px;
+  height: 44px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.inventory-slot:hover {
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+
+.inventory-slot.active {
+  border-color: var(--emerald);
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.inventory-slot .count {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: var(--accent);
+  color: white;
+  font-size: 10px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === 道具详情弹窗 === */
+.item-detail {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  z-index: 1000;
+  max-width: 300px;
+  width: 90%;
+  animation: item-appear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes item-appear {
+  0% { transform: translate(-50%, -50%) scale(0); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.item-detail .item-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.item-detail .item-name {
+  font-size: 1.2em;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.item-detail .item-desc {
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.9em;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.item-detail .item-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.item-detail .item-actions button {
+  padding: 8px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.item-detail .item-actions button:hover {
+  border-color: var(--accent);
+}
+
+.item-detail .item-actions button.use {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+/* === 角色关系图 === */
+.relationship-map {
+  width: 100%;
+  height: 400px;
+  background: var(--bg);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.relationship-node {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.relationship-node:hover {
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+
+.relationship-node .avatar {
+  font-size: 24px;
+}
+
+.relationship-node .name {
+  font-size: 0.6em;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.relationship-line {
+  position: absolute;
+  height: 2px;
+  background: var(--border);
+  transform-origin: left center;
+}
+
+.relationship-line.strong {
+  background: var(--accent);
+  height: 3px;
+}
+
+.relationship-line.weak {
+  background: var(--border);
+  opacity: 0.5;
+}
+
+/* === 分支剧情选择 === */
+.story-branch {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 200;
+  max-width: 500px;
+  width: 90%;
+}
+
+.branch-option {
+  padding: 16px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  animation: branch-appear 0.3s ease;
+}
+
+@keyframes branch-appear {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.branch-option:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.branch-option .text {
+  font-size: 0.95em;
+  margin-bottom: 4px;
+}
+
+.branch-option .consequence {
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+.branch-option .moral {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  margin-top: 8px;
+}
+
+.branch-option .moral.good { background: rgba(46,204,113,0.2); color: #2ecc71; }
+.branch-option .moral.bad { background: rgba(231,76,60,0.2); color: #e74c3c; }
+.branch-option .moral.neutral { background: rgba(149,165,166,0.2); color: #95a5a6; }
+
+/* === 日记系统 === */
+.diary-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 350px;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  z-index: 200;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.diary-panel.open {
+  transform: translateX(0);
+}
+
+.diary-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.diary-header h2 {
+  font-size: 1.2em;
+}
+
+.diary-close {
+  width: 32px;
+  height: 32px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.diary-entry {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.diary-entry .date {
+  font-size: 0.8em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.diary-entry .content {
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+.diary-entry .tags {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.diary-entry .tag {
+  padding: 2px 8px;
+  background: var(--bg);
+  border-radius: 4px;
+  font-size: 0.75em;
+}
+
+/* === 多存档系统 === */
+.save-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-panel.show {
+  display: flex;
+}
+
+.save-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 600px;
+  width: 90%;
+}
+
+.save-slot {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.save-slot:hover {
+  border-color: var(--accent);
+}
+
+.save-slot.active {
+  border-color: var(--emerald);
+}
+
+.save-slot .slot-number {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.save-slot .slot-info {
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+.save-slot .slot-preview {
+  margin-top: 12px;
+  padding: 8px;
+  background: var(--bg);
+  border-radius: 6px;
+  font-size: 0.8em;
+}
+
+/* === 分享功能 === */
+.share-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: none;
+  gap: 16px;
+  z-index: 200;
+}
+
+.share-panel.show {
+  display: flex;
+}
+
+.share-btn {
+  width: 44px;
+  height: 44px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.share-btn:hover {
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+
+/* === 排行榜 === */
+.leaderboard {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  z-index: 200;
+  transform: translateX(100%);
+  transition: transform 0.3s;
+  overflow-y: auto;
+}
+
+.leaderboard.open {
+  transform: translateX(0);
+}
+
+.leaderboard-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leaderboard-item {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.leaderboard-item .rank {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9em;
+}
+
+.leaderboard-item .rank.top-1 { background: #f39c12; color: white; }
+.leaderboard-item .rank.top-2 { background: #bdc3c7; color: white; }
+.leaderboard-item .rank.top-3 { background: #e67e22; color: white; }
+
+.leaderboard-item .info {
+  flex: 1;
+}
+
+.leaderboard-item .name {
+  font-weight: 700;
+  font-size: 0.9em;
+}
+
+.leaderboard-item .score {
+  font-size: 0.8em;
+  color: var(--muted);
+}
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
@@ -17377,6 +17953,518 @@ const interrogation = new InterrogationSystem();
 const deduction = new DeductionSystem();
 const evidence = new EvidenceSystem();
 const achievements = new AchievementSystem();
+
+
+// === 新增游戏系统 ===
+
+// 6. 音效系统
+class SoundSystem {
+  constructor() {
+    this.enabled = true;
+    this.sounds = {};
+    this.bgm = null;
+    this.volume = 0.5;
+  }
+
+  init() {
+    this.loadSounds();
+    this.createToggle();
+  }
+
+  loadSounds() {
+    // 使用 Web Audio API 生成音效
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  play(type) {
+    if (!this.enabled) return;
+    
+    const oscillator = this.audioContext.createOscillator();
+    const gainNode = this.audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(this.audioContext.destination);
+    
+    gainNode.gain.value = this.volume;
+    
+    switch(type) {
+      case 'click':
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+        break;
+      case 'success':
+        oscillator.frequency.value = 523;
+        oscillator.type = 'sine';
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
+        break;
+      case 'error':
+        oscillator.frequency.value = 200;
+        oscillator.type = 'sawtooth';
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.2);
+        break;
+      case 'discover':
+        oscillator.frequency.value = 440;
+        oscillator.type = 'triangle';
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.5);
+        break;
+    }
+    
+    oscillator.start();
+    oscillator.stop(this.audioContext.currentTime + 0.5);
+  }
+
+  createToggle() {
+    const toggle = document.createElement('div');
+    toggle.className = 'sound-toggle';
+    toggle.innerHTML = '<span class="icon">🔊</span>';
+    toggle.addEventListener('click', () => {
+      this.enabled = !this.enabled;
+      toggle.querySelector('.icon').textContent = this.enabled ? '🔊' : '🔇';
+    });
+    document.body.appendChild(toggle);
+  }
+}
+
+// 7. 动态天气系统
+class WeatherSystem {
+  constructor() {
+    this.currentWeather = 'clear';
+    this.currentTime = 'day';
+    this.overlay = null;
+  }
+
+  init() {
+    this.createOverlay();
+    this.startTimeCycle();
+  }
+
+  createOverlay() {
+    this.overlay = document.createElement('div');
+    this.overlay.className = 'weather-overlay';
+    document.body.appendChild(this.overlay);
+  }
+
+  setWeather(weather) {
+    this.currentWeather = weather;
+    this.overlay.className = `weather-overlay weather-${weather}`;
+  }
+
+  setTime(time) {
+    this.currentTime = time;
+    document.body.className = `time-${time}`;
+  }
+
+  startTimeCycle() {
+    // 每 5 分钟切换时间
+    setInterval(() => {
+      const times = ['day', 'sunset', 'night', 'dawn'];
+      const currentIndex = times.indexOf(this.currentTime);
+      this.setTime(times[(currentIndex + 1) % times.length]);
+    }, 300000);
+  }
+
+  // 根据案件进度设置天气
+  updateForCase(caseId, progress) {
+    if (progress < 30) {
+      this.setWeather('rain');
+    } else if (progress < 60) {
+      this.setWeather('fog');
+    } else if (progress < 90) {
+      this.setWeather('sunset');
+    } else {
+      this.setWeather('clear');
+    }
+  }
+}
+
+// 8. 道具系统
+class ItemSystem {
+  constructor() {
+    this.inventory = [];
+    this.maxSlots = 8;
+    this.activeItem = null;
+  }
+
+  init() {
+    this.createPanel();
+  }
+
+  createPanel() {
+    const panel = document.createElement('div');
+    panel.className = 'inventory-panel';
+    panel.innerHTML = Array(this.maxSlots).fill(null).map((_, i) => `
+      <div class="inventory-slot" data-slot="${i}"></div>
+    `).join('');
+    document.body.appendChild(panel);
+  }
+
+  addItem(item) {
+    if (this.inventory.length >= this.maxSlots) {
+      this.showMessage('背包已满');
+      return false;
+    }
+
+    this.inventory.push(item);
+    this.render();
+    this.playCollectAnimation(item);
+    return true;
+  }
+
+  removeItem(itemId) {
+    const index = this.inventory.findIndex(i => i.id === itemId);
+    if (index === -1) return false;
+
+    this.inventory.splice(index, 1);
+    this.render();
+    return true;
+  }
+
+  useItem(itemId) {
+    const item = this.inventory.find(i => i.id === itemId);
+    if (!item) return;
+
+    if (item.use) {
+      item.use();
+    }
+
+    if (item.consumable) {
+      this.removeItem(itemId);
+    }
+  }
+
+  render() {
+    const slots = document.querySelectorAll('.inventory-slot');
+    slots.forEach((slot, i) => {
+      const item = this.inventory[i];
+      if (item) {
+        slot.innerHTML = `
+          <span>${item.icon}</span>
+          ${item.count > 1 ? `<span class="count">${item.count}</span>` : ''}
+        `;
+        slot.title = item.name;
+      } else {
+        slot.innerHTML = '';
+        slot.title = '';
+      }
+    });
+  }
+
+  playCollectAnimation(item) {
+    const fly = document.createElement('div');
+    fly.className = 'evidence-fly';
+    fly.textContent = item.icon;
+    fly.style.left = '50%';
+    fly.style.top = '50%';
+    document.body.appendChild(fly);
+    setTimeout(() => fly.remove(), 1000);
+  }
+
+  showMessage(msg) {
+    // 使用 Toast 显示
+    if (typeof showToast === 'function') {
+      showToast(msg);
+    }
+  }
+}
+
+// 9. 日记系统
+class DiarySystem {
+  constructor() {
+    this.entries = [];
+    this.panel = null;
+  }
+
+  init() {
+    this.createPanel();
+    this.loadFromStorage();
+  }
+
+  createPanel() {
+    this.panel = document.createElement('div');
+    this.panel.className = 'diary-panel';
+    this.panel.innerHTML = `
+      <div class="diary-header">
+        <h2>侦探日记</h2>
+        <div class="diary-close" onclick="diary.close()">✕</div>
+      </div>
+      <div class="diary-entries"></div>
+    `;
+    document.body.appendChild(this.panel);
+  }
+
+  addEntry(content, tags = []) {
+    const entry = {
+      id: Date.now(),
+      date: new Date().toLocaleString('zh-CN'),
+      content,
+      tags
+    };
+
+    this.entries.unshift(entry);
+    this.saveToStorage();
+    this.render();
+  }
+
+  render() {
+    const container = this.panel.querySelector('.diary-entries');
+    container.innerHTML = this.entries.map(entry => `
+      <div class="diary-entry">
+        <div class="date">${entry.date}</div>
+        <div class="content">${entry.content}</div>
+        <div class="tags">
+          ${entry.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  open() {
+    this.panel.classList.add('open');
+    this.render();
+  }
+
+  close() {
+    this.panel.classList.remove('open');
+  }
+
+  saveToStorage() {
+    try {
+      localStorage.setItem('detective_diary', JSON.stringify(this.entries));
+    } catch(e) {}
+  }
+
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem('detective_diary');
+      if (saved) {
+        this.entries = JSON.parse(saved);
+      }
+    } catch(e) {}
+  }
+}
+
+// 10. 多存档系统
+class SaveSystem {
+  constructor() {
+    this.slots = 3;
+    this.currentSlot = 0;
+  }
+
+  init() {
+    this.createPanel();
+  }
+
+  createPanel() {
+    const panel = document.createElement('div');
+    panel.className = 'save-panel';
+    panel.innerHTML = `
+      <div class="save-grid">
+        ${Array(this.slots).fill(null).map((_, i) => `
+          <div class="save-slot" data-slot="${i}" onclick="saveSystem.selectSlot(${i})">
+            <div class="slot-number">存档 ${i + 1}</div>
+            <div class="slot-info">${this.getSlotInfo(i)}</div>
+            <div class="slot-preview">${this.getSlotPreview(i)}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    document.body.appendChild(panel);
+  }
+
+  getSlotInfo(slot) {
+    try {
+      const data = localStorage.getItem(`save_slot_${slot}`);
+      if (data) {
+        const parsed = JSON.parse(data);
+        return `案件: ${parsed.caseId || '未知'} | 进度: ${parsed.progress || 0}%`;
+      }
+    } catch(e) {}
+    return '空存档';
+  }
+
+  getSlotPreview(slot) {
+    try {
+      const data = localStorage.getItem(`save_slot_${slot}`);
+      if (data) {
+        const parsed = JSON.parse(data);
+        return `时间: ${parsed.timestamp || '未知'}`;
+      }
+    } catch(e) {}
+    return '';
+  }
+
+  selectSlot(slot) {
+    this.currentSlot = slot;
+    // 高亮选中的槽位
+    document.querySelectorAll('.save-slot').forEach((s, i) => {
+      s.classList.toggle('active', i === slot);
+    });
+  }
+
+  save(gameState) {
+    try {
+      const data = {
+        ...gameState,
+        timestamp: new Date().toLocaleString('zh-CN')
+      };
+      localStorage.setItem(`save_slot_${this.currentSlot}`, JSON.stringify(data));
+      this.showPanel();
+    } catch(e) {}
+  }
+
+  load() {
+    try {
+      const data = localStorage.getItem(`save_slot_${this.currentSlot}`);
+      if (data) {
+        return JSON.parse(data);
+      }
+    } catch(e) {}
+    return null;
+  }
+
+  showPanel() {
+    document.querySelector('.save-panel').classList.add('show');
+  }
+
+  hidePanel() {
+    document.querySelector('.save-panel').classList.remove('show');
+  }
+}
+
+// 11. 分享系统
+class ShareSystem {
+  constructor() {
+    this.panel = null;
+  }
+
+  init() {
+    this.createPanel();
+  }
+
+  createPanel() {
+    this.panel = document.createElement('div');
+    this.panel.className = 'share-panel';
+    this.panel.innerHTML = `
+      <div class="share-btn" onclick="shareSystem.shareToWeibo()">📱</div>
+      <div class="share-btn" onclick="shareSystem.shareToWechat()">💬</div>
+      <div class="share-btn" onclick="shareSystem.copyLink()">🔗</div>
+      <div class="share-btn" onclick="shareSystem.hide()">✕</div>
+    `;
+    document.body.appendChild(this.panel);
+  }
+
+  show() {
+    this.panel.classList.add('show');
+  }
+
+  hide() {
+    this.panel.classList.remove('show');
+  }
+
+  shareToWeibo() {
+    const text = '我在侦探档案中破解了一个案件！';
+    const url = window.location.href;
+    window.open(`https://service.weibo.com/share/share.php?title=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+  }
+
+  shareToWechat() {
+    // 需要微信 JS-SDK
+    this.copyLink();
+    alert('链接已复制，请在微信中粘贴分享');
+  }
+
+  copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert('链接已复制');
+    });
+  }
+}
+
+// 12. 排行榜系统
+class LeaderboardSystem {
+  constructor() {
+    this.data = [];
+    this.panel = null;
+  }
+
+  init() {
+    this.createPanel();
+    this.loadData();
+  }
+
+  createPanel() {
+    this.panel = document.createElement('div');
+    this.panel.className = 'leaderboard';
+    this.panel.innerHTML = `
+      <div class="leaderboard-header">
+        <h2>排行榜</h2>
+        <div class="diary-close" onclick="leaderboard.close()">✕</div>
+      </div>
+      <div class="leaderboard-list"></div>
+    `;
+    document.body.appendChild(this.panel);
+  }
+
+  loadData() {
+    // 模拟数据
+    this.data = [
+      { name: '侦探A', score: 1500, cases: 15 },
+      { name: '侦探B', score: 1200, cases: 12 },
+      { name: '侦探C', score: 1000, cases: 10 },
+      { name: '侦探D', score: 800, cases: 8 },
+      { name: '侦探E', score: 600, cases: 6 }
+    ];
+  }
+
+  render() {
+    const container = this.panel.querySelector('.leaderboard-list');
+    container.innerHTML = this.data.map((item, i) => `
+      <div class="leaderboard-item">
+        <div class="rank ${i < 3 ? `top-${i + 1}` : ''}">${i + 1}</div>
+        <div class="info">
+          <div class="name">${item.name}</div>
+          <div class="score">得分: ${item.score} | 案件: ${item.cases}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  open() {
+    this.panel.classList.add('open');
+    this.render();
+  }
+
+  close() {
+    this.panel.classList.remove('open');
+  }
+
+  addScore(name, score, cases) {
+    this.data.push({ name, score, cases });
+    this.data.sort((a, b) => b.score - a.score);
+    this.data = this.data.slice(0, 10); // 只保留前10
+  }
+}
+
+// 初始化所有系统
+const sound = new SoundSystem();
+const weather = new WeatherSystem();
+const items = new ItemSystem();
+const diary = new DiarySystem();
+const saveSystem = new SaveSystem();
+const share = new ShareSystem();
+const leaderboard = new LeaderboardSystem();
+
+// 页面加载后初始化
+document.addEventListener('DOMContentLoaded', () => {
+  sound.init();
+  weather.init();
+  items.init();
+  diary.init();
+  saveSystem.init();
+  share.init();
+  leaderboard.init();
+});
 
 </script>
 
