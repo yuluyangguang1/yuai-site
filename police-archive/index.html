@@ -13941,15 +13941,8 @@ var AppState = {
 };
 
 /* === ERROR BOUNDARIES === */
-/* Wrap critical functions in try-catch */
- catch(e) {
-    console.error('Error in ' + (context || 'unknown') + ':', e);
-    showToast('发生了一个错误，请重试');
-    return null;
-  }
-}
-
- catch(e) { return null; }
+function safeGetItem(key) {
+  try { return JSON.parse(localStorage.getItem(key)); } catch(e) { return null; }
 }
 function safeSetItem(key, val) {
   try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch(e) { return false; }
