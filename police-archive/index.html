@@ -131,10 +131,7 @@ html, body {
   display: flex; border-radius: 3px; min-height: 48px;; font-size: 12px; }
 
 /* 内容可见性优化 */
-.offscreen {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 500px;
-}
+
 
 /* 主题变量 */
 :root {
@@ -241,15 +238,15 @@ html, body {
 }
 
 /* 动画类 */
-.animate-fade-in { animation: fadeIn 0.3s ease; }
-.animate-fade-in-up { animation: fadeInUp 0.3s ease; }
-.animate-fade-in-down { animation: fadeInDown 0.3s ease; }
-.animate-slide-in-left { animation: slideInLeft 0.3s ease; }
-.animate-slide-in-right { animation: slideInRight 0.3s ease; }
-.animate-scale-in { animation: scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
-.animate-pulse { animation: pulse 2s infinite; }
-.animate-bounce { animation: bounce 1s infinite; }
-.animate-spin { animation: spin 1s linear infinite; }
+
+
+
+
+
+
+
+
+
 
 /* 响应式工具类 */
 @media (max-width: 640px) {
@@ -295,7 +292,62 @@ html, body {
 /* 非关键 CSS 懒加载 */
 @media print {
   /* 打印时加载所有样式 */
-  .lazy-load { display: block !important; }
+  
+}
+
+/* 滚动动画（现代浏览器） */
+@supports (animation-timeline: scroll()) {
+  .scroll-fade-in {
+    animation: fadeIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+}
+
+/* 容器查询支持 */
+@supports (container-type: inline-size) {
+  .container-query {
+    container-type: inline-size;
+  }
+  
+  @container (max-width: 400px) {
+    .container-query .card {
+      padding: 12px;
+    }
+  }
+}
+
+/* :has() 选择器支持 */
+@supports selector(:has(*)) {
+  .card:has(.active) {
+    border-color: var(--accent);
+  }
+  
+  .form:has(:invalid) {
+    border-color: #e74c3c;
+  }
+}
+
+/* Popover API */
+[popover] {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: var(--shadow-lg);
+}
+
+[popover]:popover-open {
+  display: block;
+}
+
+/* Anchor Positioning */
+@supports (anchor-name: --a) {
+  .anchor-tooltip {
+    position-anchor: --trigger;
+    top: anchor(bottom);
+    left: anchor(center);
+  }
 }
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
@@ -305,7 +357,62 @@ html, body {
 /* 关键 CSS 内联 */
 <style id="critical-css">
   body { margin: 0; font-family: system-ui, sans-serif; }
-  .loading { display: flex; align-items: center; justify-content: center; height: 100vh; }
+  
+
+/* 滚动动画（现代浏览器） */
+@supports (animation-timeline: scroll()) {
+  .scroll-fade-in {
+    animation: fadeIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+}
+
+/* 容器查询支持 */
+@supports (container-type: inline-size) {
+  .container-query {
+    container-type: inline-size;
+  }
+  
+  @container (max-width: 400px) {
+    .container-query .card {
+      padding: 12px;
+    }
+  }
+}
+
+/* :has() 选择器支持 */
+@supports selector(:has(*)) {
+  .card:has(.active) {
+    border-color: var(--accent);
+  }
+  
+  .form:has(:invalid) {
+    border-color: #e74c3c;
+  }
+}
+
+/* Popover API */
+[popover] {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: var(--shadow-lg);
+}
+
+[popover]:popover-open {
+  display: block;
+}
+
+/* Anchor Positioning */
+@supports (anchor-name: --a) {
+  .anchor-tooltip {
+    position-anchor: --trigger;
+    top: anchor(bottom);
+    left: anchor(center);
+  }
+}
 </style>
 
 <!-- 资源提示 -->
@@ -15875,6 +15982,19 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
       .then(reg => console.log('SW registered:', reg.scope))
       .catch(err => console.log('SW registration failed:', err));
+  });
+}
+
+
+// View Transitions API
+function viewTransition(callback) {
+  if (!document.startViewTransition) {
+    callback();
+    return;
+  }
+  
+  document.startViewTransition(() => {
+    callback();
   });
 }
 
