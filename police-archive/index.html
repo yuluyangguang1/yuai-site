@@ -16501,6 +16501,203 @@ function viewTransition(callback) {
   });
 }
 
+
+// 提示系统
+const hintSystem = {
+  hints: {},
+  
+  init() {
+    this.loadFromStorage();
+  },
+  
+  getHint(caseId, evidenceId) {
+    const key = caseId + '_' + evidenceId;
+    if (!this.hints[key]) {
+      this.hints[key] = { used: 0, max: 3 };
+    }
+    return this.hints[key];
+  },
+  
+  useHint(caseId, evidenceId) {
+    const key = caseId + '_' + evidenceId;
+    if (!this.hints[key]) {
+      this.hints[key] = { used: 0, max: 3 };
+    }
+    if (this.hints[key].used < this.hints[key].max) {
+      this.hints[key].used++;
+      this.saveToStorage();
+      return true;
+    }
+    return false;
+  },
+  
+  saveToStorage() {
+    try {
+      localStorage.setItem('hintSystem', JSON.stringify(this.hints));
+    } catch(e) {}
+  },
+  
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem('hintSystem');
+      if (saved) this.hints = JSON.parse(saved);
+    } catch(e) {}
+  }
+};
+
+
+// 案件笔记系统
+const caseNotes = {
+  notes: {},
+  
+  init() {
+    this.loadFromStorage();
+  },
+  
+  addNote(caseId, text) {
+    if (!this.notes[caseId]) {
+      this.notes[caseId] = [];
+    }
+    this.notes[caseId].push({
+      text: text,
+      time: new Date().toISOString()
+    });
+    this.saveToStorage();
+  },
+  
+  getNotes(caseId) {
+    return this.notes[caseId] || [];
+  },
+  
+  deleteNote(caseId, index) {
+    if (this.notes[caseId]) {
+      this.notes[caseId].splice(index, 1);
+      this.saveToStorage();
+    }
+  },
+  
+  saveToStorage() {
+    try {
+      localStorage.setItem('caseNotes', JSON.stringify(this.notes));
+    } catch(e) {}
+  },
+  
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem('caseNotes');
+      if (saved) this.notes = JSON.parse(saved);
+    } catch(e) {}
+  }
+};
+
+
+// 案件统计系统
+const caseStats = {
+  stats: {},
+  
+  init() {
+    this.loadFromStorage();
+  },
+  
+  recordAction(caseId, action) {
+    if (!this.stats[caseId]) {
+      this.stats[caseId] = {
+        startTime: new Date().toISOString(),
+        actions: 0,
+        evidenceViewed: new Set(),
+        hintsUsed: 0,
+        completed: false
+      };
+    }
+    this.stats[caseId].actions++;
+    if (action === 'hint') this.stats[caseId].hintsUsed++;
+    if (action === 'evidence') this.stats[caseId].evidenceViewed.add(arguments[1]);
+    this.saveToStorage();
+  },
+  
+  completeCase(caseId) {
+    if (this.stats[caseId]) {
+      this.stats[caseId].completed = true;
+      this.stats[caseId].endTime = new Date().toISOString();
+      this.saveToStorage();
+    }
+  },
+  
+  getStats(caseId) {
+    return this.stats[caseId] || null;
+  },
+  
+  saveToStorage() {
+    try {
+      const statsToSave = {};
+      for (const key in this.stats) {
+        statsToSave[key] = {
+          ...this.stats[key],
+          evidenceViewed: [...(this.stats[key].evidenceViewed || [])]
+        };
+      }
+      localStorage.setItem('caseStats', JSON.stringify(statsToSave));
+    } catch(e) {}
+  },
+  
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem('caseStats');
+      if (saved) {
+        this.stats = JSON.parse(saved);
+        for (const key in this.stats) {
+          if (this.stats[key].evidenceViewed) {
+            this.stats[key].evidenceViewed = new Set(this.stats[key].evidenceViewed);
+          }
+        }
+      }
+    } catch(e) {}
+  }
+};
+
+
+// 键盘快捷键
+const keyboardShortcuts = {
+  init() {
+    document.addEventListener('keydown', (e) => {
+      // Ctrl+S: 保存
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        autoSave.save();
+        showToast('已保存', 'success');
+      }
+      
+      // Escape: 关闭模态框
+      if (e.key === 'Escape') {
+        const modals = document.querySelectorAll('.modal.show');
+        modals.forEach(m => m.classList.remove('show'));
+      }
+      
+      // ?: 显示帮助
+      if (e.key === '?' && !e.ctrlKey && !e.altKey) {
+        this.showHelp();
+      }
+    });
+  },
+  
+  showHelp() {
+    const help = document.createElement('div');
+    help.className = 'modal show';
+    help.innerHTML = `
+      <div class="modal-content">
+        <h2>键盘快捷键</h2>
+        <div style="margin-top:16px;">
+          <div style="margin-bottom:8px;"><kbd>Ctrl+S</kbd> 保存进度</div>
+          <div style="margin-bottom:8px;"><kbd>Esc</kbd> 关闭弹窗</div>
+          <div style="margin-bottom:8px;"><kbd>?</kbd> 显示帮助</div>
+        </div>
+        <button class="btn" onclick="this.closest('.modal').remove()">关闭</button>
+      </div>
+    `;
+    document.body.appendChild(help);
+  }
+};
+
 </script>
 
 <!-- ═══════════════════════════ MODAL: Evidence Detail ═══════════════════════════ -->
