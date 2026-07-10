@@ -450,6 +450,151 @@ header {
   .page:not(.active) { display: none !important; }
   .board { padding: 0; }
 }
+
+
+/* ═══════════════════════════════════════════════════════
+   GAME SYSTEMS CSS
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── 成就系统 ─── */
+.achievement-panel { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:400; display:none; align-items:center; justify-content:center; }
+.achievement-panel.show { display:flex; }
+.achievement-container { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; }
+.achievement-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.achievement-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; }
+.achievement-item { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:12px; text-align:center; transition:all 0.2s; }
+.achievement-item.unlocked { border-color:#f39c12; background:rgba(243,156,18,0.08); }
+.achievement-item.locked { opacity:0.5; }
+.achievement-item .icon { font-size:28px; margin-bottom:6px; }
+.achievement-item .name { font-weight:700; font-size:0.85em; margin-bottom:4px; }
+.achievement-item .desc { font-size:0.75em; color:var(--muted); }
+
+/* ─── 技能系统 ─── */
+.skills-panel { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:400; display:none; align-items:center; justify-content:center; }
+.skills-panel.show { display:flex; }
+.skills-container { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; }
+.skill-tree { display:flex; flex-direction:column; gap:12px; }
+.skill-branch { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:12px; }
+.skill-branch h3 { font-size:0.95em; margin-bottom:8px; color:var(--accent); }
+.skill-nodes { display:flex; gap:8px; flex-wrap:wrap; }
+.skill-node { width:44px; height:44px; border-radius:50%; background:var(--surface); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; font-size:18px; }
+.skill-node:hover { border-color:var(--accent); transform:scale(1.1); }
+.skill-node.unlocked { border-color:#4ade80; background:rgba(74,222,128,0.1); }
+
+/* ─── 声望系统 ─── */
+.reputation-bar { position:fixed; bottom:60px; left:16px; background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:8px 12px; z-index:100; min-width:140px; }
+.reputation-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:0.8em; }
+.reputation-level { color:var(--accent); font-weight:700; }
+.reputation-progress { width:100%; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.reputation-fill { height:100%; background:var(--accent); border-radius:2px; transition:width 0.5s; }
+.reputation-title { text-align:center; margin-top:4px; font-size:0.75em; color:var(--muted); }
+
+/* ─── 排行榜 ─── */
+.leaderboard { position:fixed; right:0; top:0; bottom:0; width:280px; background:var(--surface); border-left:1px solid var(--border); z-index:200; transform:translateX(100%); transition:transform 0.3s; overflow-y:auto; }
+.leaderboard.open { transform:translateX(0); }
+.leaderboard-header { padding:16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+.leaderboard-item { padding:10px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+.leaderboard-item .rank { width:28px; height:28px; border-radius:50%; background:var(--bg); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85em; }
+.leaderboard-item .rank.top-1 { background:#f39c12; color:white; }
+.leaderboard-item .rank.top-2 { background:#bdc3c7; color:white; }
+.leaderboard-item .rank.top-3 { background:#e67e22; color:white; }
+
+/* ─── 日记系统 ─── */
+.diary-panel { position:fixed; left:0; top:0; bottom:0; width:320px; background:var(--surface); border-right:1px solid var(--border); z-index:200; transform:translateX(-100%); transition:transform 0.3s; overflow-y:auto; }
+.diary-panel.open { transform:translateX(0); }
+.diary-header { padding:16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+.diary-entry { padding:12px 16px; border-bottom:1px solid var(--border); }
+.diary-entry .date { font-size:0.8em; color:var(--muted); margin-bottom:4px; }
+.diary-entry .content { font-size:0.9em; line-height:1.6; }
+.diary-entry .tags { display:flex; gap:4px; margin-top:8px; flex-wrap:wrap; }
+.diary-entry .tag { padding:2px 6px; background:var(--bg); border-radius:3px; font-size:0.7em; }
+
+/* ─── 时间线 ─── */
+.timeline-panel { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:400; display:none; align-items:center; justify-content:center; }
+.timeline-panel.show { display:flex; }
+.timeline-container { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; max-width:600px; width:90%; max-height:80vh; overflow-y:auto; }
+.timeline-track { position:relative; padding-left:32px; }
+.timeline-track::before { content:''; position:absolute; left:12px; top:0; bottom:0; width:2px; background:var(--border); }
+.timeline-event { position:relative; padding:12px; margin-bottom:12px; background:var(--bg); border:1px solid var(--border); border-radius:6px; margin-left:16px; }
+.timeline-event::before { content:''; position:absolute; left:-24px; top:16px; width:10px; height:10px; border-radius:50%; background:var(--accent); }
+.timeline-event .time { font-size:0.8em; color:var(--accent); margin-bottom:4px; }
+.timeline-event .title { font-weight:700; margin-bottom:4px; }
+
+/* ─── 角色关系图 ─── */
+.relationship-panel { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:400; display:none; align-items:center; justify-content:center; }
+.relationship-panel.show { display:flex; }
+.relationship-container { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; max-width:600px; width:90%; }
+.relationship-canvas { width:100%; height:300px; background:var(--bg); border-radius:6px; position:relative; overflow:hidden; }
+.rel-node { position:absolute; width:50px; height:50px; border-radius:50%; background:var(--surface); border:2px solid var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; font-size:10px; }
+.rel-node:hover { border-color:var(--accent); transform:scale(1.1); }
+.rel-line { position:absolute; height:2px; background:var(--border); transform-origin:left center; }
+
+/* ─── 证据分析 ─── */
+.analysis-panel { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:400; display:none; align-items:center; justify-content:center; }
+.analysis-panel.show { display:flex; }
+.analysis-container { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; max-width:500px; width:90%; }
+.analysis-tools { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+.analysis-tool { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:12px; text-align:center; cursor:pointer; transition:all 0.2s; }
+.analysis-tool:hover { border-color:var(--accent); }
+.analysis-tool .icon { font-size:24px; margin-bottom:4px; }
+.analysis-tool .name { font-size:0.85em; font-weight:700; }
+.analysis-result { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:12px; min-height:80px; }
+
+/* ─── 案件关联网络 ─── */
+.case-network { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:400; display:none; align-items:center; justify-content:center; }
+.case-network.show { display:flex; }
+.network-container { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; max-width:700px; width:90%; }
+.network-canvas { width:100%; height:400px; background:var(--bg); border-radius:6px; position:relative; overflow:hidden; }
+.case-node { position:absolute; width:60px; height:60px; border-radius:50%; background:var(--surface); border:2px solid var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; font-size:9px; }
+.case-node:hover { border-color:var(--accent); }
+.case-node.solved { border-color:#4ade80; }
+
+/* ─── 设置面板 ─── */
+.settings-panel { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:400; display:none; align-items:center; justify-content:center; }
+.settings-panel.show { display:flex; }
+.settings-container { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; max-width:400px; width:90%; max-height:80vh; overflow-y:auto; }
+.settings-group { margin-bottom:20px; }
+.settings-group h3 { font-size:0.95em; margin-bottom:8px; color:var(--accent); }
+.settings-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); }
+.settings-item .label { font-size:0.9em; }
+
+/* ─── 小游戏 ─── */
+.minigame-fingerprint, .minigame-password, .minigame-puzzle { position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:500; display:none; align-items:center; justify-content:center; }
+.minigame-fingerprint.show, .minigame-password.show, .minigame-puzzle.show { display:flex; }
+
+/* ─── Toast 通知 ─── */
+.toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(100px); background:var(--surface); border:1px solid var(--border); padding:10px 20px; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.3); z-index:1000; transition:transform 0.3s; max-width:80vw; font-size:13px; }
+.toast.show { transform:translateX(-50%) translateY(0); }
+.toast.success { border-color:#4ade80; }
+.toast.error { border-color:#e74c3c; }
+
+/* ─── 音效开关 ─── */
+.sound-toggle { position:fixed; bottom:16px; right:16px; width:36px; height:36px; background:var(--surface); border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:100; font-size:16px; transition:all 0.2s; }
+.sound-toggle:hover { border-color:var(--accent); }
+
+/* ─── 道具栏 ─── */
+.inventory-panel { position:fixed; right:0; top:50%; transform:translateY(-50%); width:50px; background:var(--surface); border-left:1px solid var(--border); border-radius:8px 0 0 8px; padding:8px 4px; z-index:100; display:flex; flex-direction:column; gap:6px; }
+.inventory-slot { width:40px; height:40px; background:var(--bg); border:1px solid var(--border); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:16px; cursor:pointer; transition:all 0.2s; }
+.inventory-slot:hover { border-color:var(--accent); }
+
+/* ─── 隐藏线索 ─── */
+.hidden-clue { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--surface); border:2px solid #f39c12; border-radius:8px; padding:24px; z-index:500; max-width:350px; width:90%; text-align:center; animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes popIn { 0%{transform:translate(-50%,-50%) scale(0);} 100%{transform:translate(-50%,-50%) scale(1);} }
+.hidden-clue .icon { font-size:40px; margin-bottom:12px; }
+.hidden-clue .title { font-size:1.1em; font-weight:700; color:#f39c12; margin-bottom:8px; }
+
+/* ─── 案件笔记 ─── */
+.case-notes { margin-top:12px; }
+.case-notes textarea { width:100%; min-height:60px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:8px; color:var(--ink); font-family:var(--font-body); font-size:13px; resize:vertical; }
+.case-notes textarea:focus { border-color:var(--accent); outline:none; }
+
+/* ─── 关闭按钮 ─── */
+.close-btn { width:28px; height:28px; background:var(--bg); border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:var(--muted); transition:all 0.2s; }
+.close-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+/* ─── 通用模态框增强 ─── */
+.modal-box { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; }
+.modal-title { font-size:1.1em; font-weight:700; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
 </style>
 <!-- v1783050176 --><meta name="description" content="羽鹭市侦探事务所 - 沉浸式侦探解谜游戏，10个案件等你破解">
 <meta name="theme-color" content="#1a1510">
