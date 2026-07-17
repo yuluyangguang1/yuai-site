@@ -1,5 +1,15 @@
 [
   {
+    "tag_name": "v0.22.0",
+    "name": "v0.22.0",
+    "body": null,
+    "published_at": "2026-07-17T09:17:44Z",
+    "created_at": "2026-07-17T09:12:37Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.22.0",
+    "prerelease": false,
+    "draft": false
+  },
+  {
     "tag_name": "v0.21.5",
     "name": "v0.21.5",
     "body": null,
@@ -486,16 +496,6 @@
     "published_at": "2026-05-11T07:38:54Z",
     "created_at": "2026-05-11T07:33:38Z",
     "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.5",
-    "prerelease": false,
-    "draft": false
-  },
-  {
-    "tag_name": "v0.13.4",
-    "name": "v0.13.4",
-    "body": "# Hermes Portable v0.13.4\n\n> Plug-in-a-USB [Hermes Agent](https://github.com/NousResearch/hermes-agent) · zero-install, zero-trace, cross-platform\n> 插上U盘即用 · 零安装 · 零痕迹 · 三平台原生\n\n## 下载 Downloads\n\n| 平台 | 文件 | 启动方式 |\n|---|---|---|\n| **macOS** (arm64/x64) | [HermesPortable-macOS.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.4/HermesPortable-macOS.zip) | 双击 `Hermes.command` |\n| **Linux** (glibc 2.28+) | [HermesPortable-Linux.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.4/HermesPortable-Linux.zip) | `./Hermes.sh` |\n| **Windows** 10/11 (Early Beta) | [HermesPortable-Windows.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.4/HermesPortable-Windows.zip) | 双击 `Hermes.bat` |\n| 🌍 **Universal** (三合一 / all three) | [HermesPortable-Universal.zip](https://github.com/yuluyangguang1/hermes-portable/releases/download/v0.13.4/HermesPortable-Universal.zip) | U 盘多机共用 / USB for any box |\n\n## 首次使用 Quick start\n\n1. 解压到 U 盘或任意目录（Windows 避免深路径，260 字符限制）\n2. 双击对应平台的启动器\n3. 首次启动自动打开 <http://127.0.0.1:17520> ，填 API Key → 保存 → 启动\n\n## 零痕迹保证 Zero-trace guarantee\n\n启动器在 U 盘里建 `_home/` 沙箱，劫持 `HOME` / `USERPROFILE`，所有走 `~/.hermes` 的读写都落到 U 盘的 `data/` 里。宿主机的真 `~/.hermes` / `%USERPROFILE%\\.hermes` 从不接触——拔 U 盘，什么都带走，什么都没留下。\n\n## SHA-256\n\n```\n1fa9040428b1131778e958652ed1a885b066802e1edbcc502e6c44a632cdd80d  HermesPortable-Linux.zip\n6d32dd7bd16a684960826b19a8e0c12335aec83617595080730232f53affb90f  HermesPortable-Windows.zip\ne83295d6d8c473c0aa9f2f352aa0c0075a50ebc23e1b2ebfc7e828ecb235db97  HermesPortable-macOS.zip\n```\n\n> Universal 包由 `.github/workflows/build-universal.yml` 单独构建并上传到本 release。\n\n---\n\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/hermes-portable/compare/v0.13.3...v0.13.4",
-    "published_at": "2026-05-11T07:29:56Z",
-    "created_at": "2026-05-11T07:24:38Z",
-    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.13.4",
     "prerelease": false,
     "draft": false
   }
