@@ -1,5 +1,15 @@
 [
   {
+    "tag_name": "v1.20.20",
+    "name": "v1.20.20",
+    "body": null,
+    "published_at": "2026-08-11T10:22:31Z",
+    "created_at": "2026-08-11T09:56:16Z",
+    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v1.20.20",
+    "prerelease": false,
+    "draft": false
+  },
+  {
     "tag_name": "v1.20.18",
     "name": "v1.20.18",
     "body": null,
@@ -486,16 +496,6 @@
     "published_at": "2026-05-19T16:55:15Z",
     "created_at": "2026-05-19T16:47:37Z",
     "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.14.1",
-    "prerelease": false,
-    "draft": false
-  },
-  {
-    "tag_name": "v0.14.0",
-    "name": "v0.14.0",
-    "body": null,
-    "published_at": "2026-05-18T16:06:06Z",
-    "created_at": "2026-05-18T15:58:06Z",
-    "html_url": "https://github.com/yuluyangguang1/hermes-portable/releases/tag/v0.14.0",
     "prerelease": false,
     "draft": false
   }
