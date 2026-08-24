@@ -26,11 +26,11 @@
 <meta name="twitter:image" content="https://yuai-r.cn/egret-ink.jpg">
 
 <!-- Theme -->
-<meta name="theme-color" content="#170d02" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#150e07" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
 
 <!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23170d02'/%3E%3Cg fill='none' stroke='%23f5f5f5' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23150e07'/%3E%3Cg transform='translate(20,34.6) scale(1.431)'%3E%3Cpath fill='%23f3ede2' fill-rule='nonzero' d='M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z'/%3E%3Ccircle fill='%23f2634e' cx='50.450349' cy='40.191867' r='2.466790'/%3E%3C/g%3E%3C/svg%3E">
 
 <!-- Design system + fonts -->
 <link rel="stylesheet" href="/shared.css">
@@ -43,55 +43,90 @@
 </script>
 
 <style>
-/* ── Main page specific styles ── */
+/* ═══ Main page styles ═══ */
 
 /* Background layers */
 .bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
 .bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7)}
 .bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
-.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(237,255,69,.15) 0%,transparent 50%)}
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.12;background:radial-gradient(ellipse at 0% 0%,rgba(242,99,78,.14) 0%,transparent 50%)}
 [data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
 [data-theme="light"] .bg-n{opacity:.015}
-[data-theme="light"] .bg-g{opacity:.06}
-@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}:root:not([data-theme="dark"]) .bg-n{opacity:.015}:root:not([data-theme="dark"]) .bg-g{opacity:.06}}
+[data-theme="light"] .bg-g{opacity:.05}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}:root:not([data-theme="dark"]) .bg-n{opacity:.015}:root:not([data-theme="dark"]) .bg-g{opacity:.05}}
 
-/* Colophon */
+/* Colophon — 竖排题跋 */
 .colophon{position:fixed;right:16px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-family:var(--serif);font-size:.7rem;letter-spacing:.4rem;opacity:.15;z-index:100;pointer-events:none}
 
-/* SVG stroke animation */
-@keyframes strokeDraw{to{stroke-dashoffset:0}}
-@keyframes dotAppear{to{opacity:1}}
-.stroke-anim{stroke-dasharray:200;stroke-dashoffset:200}
-.stroke-anim.s1{animation:strokeDraw .4s .2s cubic-bezier(.4,0,.2,1) forwards}
-.stroke-anim.s2{animation:strokeDraw .4s .4s cubic-bezier(.4,0,.2,1) forwards}
-.stroke-anim.s3{animation:strokeDraw .4s .6s cubic-bezier(.4,0,.2,1) forwards}
-.stroke-anim.s4{animation:strokeDraw .3s .85s cubic-bezier(.4,0,.2,1) forwards}
-.stroke-anim.s5{animation:dotAppear .2s 1.1s forwards}
-.stroke-anim.s6{animation:strokeDraw .4s 1.2s cubic-bezier(.4,0,.2,1) forwards}
-.stroke-anim.s7{animation:strokeDraw .5s 1.4s cubic-bezier(.4,0,.2,1) forwards}
-.stroke-anim.s8{animation:strokeDraw .3s 1.7s cubic-bezier(.4,0,.2,1) forwards}
-.stroke-anim.s9{animation:dotAppear .2s 1.9s forwards}
-.logo-brush{display:block;margin:0 auto;color:var(--mid)}
+/* Hero — 左右结构 */
+.hero-split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center;text-align:left;padding:64px 0 48px}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.3rem,4.5vw,3.3rem);font-weight:700;line-height:1.2;margin:0}
+.hero-split .cta{justify-content:flex-start;margin-top:26px}
+.hero-split .term{margin:0;width:100%;max-width:560px}
+.hero-split .term .term-b{min-height:248px}
+.hero-badges{display:flex;align-items:center;gap:10px;margin-top:26px}
+.verse-sign{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;opacity:.4;margin-top:18px}
+@media(max-width:900px){
+  .hero-split{grid-template-columns:1fr;gap:40px;padding:44px 0 36px}
+}
 
-/* Terminal */
-.term{width:100%;max-width:560px;border:1px solid var(--border);background:rgb(var(--bg-base) / .35);backdrop-filter:blur(2px)}
-.term-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
-.td{width:10px;height:10px;border-radius:50%;background:var(--mid)}
-.td:nth-child(2){opacity:.6}.td:nth-child(3){opacity:.3}
-.term-label{margin-left:auto;font-family:var(--mono);font-size:.625rem;letter-spacing:.1875rem;opacity:.5}
-.term-b{font-family:var(--mono);font-size:.78rem;line-height:1.85;padding:18px 16px;white-space:pre-wrap;min-height:200px;word-break:break-word}
-.term-b .p{color:var(--accent)}.term-b .t{opacity:.6}.term-b .c{opacity:.4}
+/* Mount frame — 装裱边框 */
+.mount-frame{position:fixed;inset:8px;z-index:600;pointer-events:none;border:1px solid rgb(var(--mid-base) / .14)}
+.mount-frame::before{content:"";position:absolute;top:-1px;left:-1px;width:14px;height:14px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);opacity:.65}
+.mount-frame::after{content:"";position:absolute;bottom:-1px;right:-1px;width:14px;height:14px;border-bottom:2px solid var(--accent);border-right:2px solid var(--accent);opacity:.65}
+@media(max-width:640px){.mount-frame{display:none}}
 
-/* Language toggle */
-[lang="en"] .zh{display:none}
-[lang="zh-CN"] .en{display:none}
-.lang-btn{background:none;border:1px solid var(--border);color:var(--mid);font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;padding:4px 10px;cursor:pointer;opacity:.5;transition:all .2s}
-.lang-btn:hover{opacity:1;border-color:var(--accent);color:var(--accent)}
+/* Ink mountains — 远山水墨 */
+.ink-mountains{max-width:1000px;margin:80px auto -8px;color:var(--mid);opacity:.06;pointer-events:none}
+.ink-mountains svg{display:block;width:100%;height:130px}
 
-/* Incense */
+/* Footer brand */
+.footer-brand{display:inline-flex;align-items:center;gap:8px}
+.footer-brand svg{height:13px;width:auto;color:inherit}
+
+/* Section lede */
+.lede{font-family:var(--serif);font-size:.98rem;line-height:1.95;opacity:.7;max-width:720px;margin:16px auto 28px;text-align:center}
+
+/* Tools — 器物卡片 */
+.tools{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+.tool{position:relative;background:rgb(var(--bg-base) / .55);padding:24px;overflow:hidden;transition:background .3s var(--ease)}
+.tool:hover{background:var(--hover-strong)}
+.tool-glyph{position:absolute;top:-14px;right:-6px;font-family:var(--serif);font-size:8.5rem;line-height:1;color:var(--mid);opacity:.05;pointer-events:none;user-select:none;transition:color .4s var(--ease),opacity .4s var(--ease)}
+.tool:hover .tool-glyph{color:var(--accent);opacity:.13}
+.tool-name{font-family:var(--serif);font-size:1.2rem;font-weight:700;margin:0 0 2px;position:relative}
+.tool-name small{font-family:var(--mono);font-size:.68rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:10px;text-transform:lowercase}
+.tool-purpose{font-family:var(--serif);font-size:.85rem;letter-spacing:.25rem;opacity:.5;margin-bottom:10px}
+.tool-desc{font-size:.9rem;opacity:.72;line-height:1.75;max-width:34em;position:relative}
+.tool-links{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;position:relative}
+.tool-links a{color:var(--mid);opacity:.65}
+.tool-links a:hover{color:var(--accent);opacity:1}
+.tool-meta{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;opacity:.5;margin-top:14px;position:relative}
+.tool-meta .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:7px;vertical-align:1px;box-shadow:0 0 6px rgb(var(--accent-base) / .6)}
+@media(min-width:640px){.tools{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.tools{grid-template-columns:1fr 1fr 1fr}}
+
+/* Other projects */
+.more{grid-column:1/-1;background:rgb(var(--bg-base) / .35);padding:22px 24px}
+.more-head{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;opacity:.4;margin-bottom:14px}
+.more-list{display:grid;grid-template-columns:1fr;gap:2px 32px;font-size:.85rem}
+.more-list>div{display:flex;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px dashed var(--border)}
+.more-list a{opacity:.85}
+.more-list .desc{opacity:.45;font-size:.78rem}
+@media(min-width:640px){.more-list{grid-template-columns:1fr 1fr}}
+
+/* API row */
+.api-row{display:flex;align-items:center;justify-content:center;padding:18px 16px}
+.api-row a{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.8rem;letter-spacing:.15rem;opacity:.5;transition:opacity .2s,color .2s}
+.api-row a:hover{opacity:1;color:var(--accent)}
+
+/* Closing verse */
+.verse{padding:64px 20px 8px;text-align:center}
+.verse p{font-family:var(--serif);font-size:1rem;letter-spacing:.4rem;line-height:2.2;opacity:.32;max-width:520px;margin:0 auto}
+
+/* Incense — 焚香计时 */
 .incense{position:fixed;bottom:24px;left:24px;z-index:500;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.5;transition:opacity .3s}
 .incense:hover{opacity:1}
-.incense-stick{width:2px;height:80px;background:linear-gradient(to top,#666 0%,#888 100%);border-radius:1px;position:relative;overflow:visible}
+.incense-stick{width:2px;height:80px;background:linear-gradient(to top,rgb(var(--mid-base) / .4) 0%,rgb(var(--mid-base) / .55) 100%);border-radius:1px;position:relative;overflow:visible}
 .incense-tip{position:absolute;top:-2px;left:-1px;width:4px;height:4px;border-radius:50%;background:var(--accent);box-shadow:0 0 4px var(--accent);animation:ember 1.5s ease-in-out infinite alternate}
 @keyframes ember{from{opacity:.7;transform:scale(.8)}to{opacity:1;transform:scale(1.1)}}
 .incense-smoke{position:absolute;top:-16px;left:0;width:2px}
@@ -108,35 +143,33 @@
 .unfurl{opacity:0;animation:scrollUnfurl 1s cubic-bezier(.2,.6,.2,1) forwards}
 .unfurl.d1{animation-delay:.1s}.unfurl.d2{animation-delay:.25s}.unfurl.d3{animation-delay:.4s}
 
-/* Brush char animation */
-@keyframes brushDrop{from{opacity:0;transform:translateY(-4px);filter:blur(1px)}to{opacity:1;transform:none;filter:none}}
-.brush-char{display:inline-block;opacity:0;animation:brushDrop .3s ease forwards}
+/* Skip link */
+.skip-link{position:absolute;top:-40px;left:0;background:var(--accent);color:#fff;padding:8px 16px;z-index:1000;transition:top .2s}
+.skip-link:focus{top:0}
+
+/* Small screens */
+@media(max-width:480px){
+  .topbar-logo svg{height:20px;width:auto}
+  .ink-mountains svg{height:90px}
+}
 
 /* Reduced motion */
 @media(prefers-reduced-motion:reduce){
-  .stroke-anim{stroke-dashoffset:0;animation:none}
-  .stroke-anim.s5,.stroke-anim.s9{opacity:1;animation:none}
   .unfurl{animation:none;opacity:1;clip-path:none}
-  .brush-char{animation:none;opacity:1;transform:none;filter:none}
   .blink{animation:none;opacity:1}
   .fade-up{animation:none;opacity:1;transform:none}
-}
-.skip-link{position:absolute;top:-40px;left:0}.skip-link:focus{top:0}
-
-@media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
 </style>
 </head>
 <body>
-<a href="#products" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--accent);color:var(--bg);padding:8px 16px;z-index:1000;transition:top 0.2s;">跳到主要内容</a>
+<a href="#products" class="skip-link">跳到主要内容</a>
 
 <!-- Background layers -->
-<main role="main">
 <div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
 <div class="bg-n" aria-hidden="true"></div>
 <div class="bg-g" aria-hidden="true"></div>
 <div class="colophon" aria-hidden="true">与君同在 · 历久不散</div>
+<div class="mount-frame" aria-hidden="true"></div>
 
 <!-- Incense timer -->
 <div class="incense" id="incense" aria-hidden="true">
@@ -148,202 +181,177 @@
 </div>
 <div class="incense-msg" id="incenseMsg">坐久了，起来走走。</div>
 
+<!-- Topbar -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="topbar-logo" aria-label="yu.ai 首页">
+      <svg width="47" height="24" viewBox="10.99773 21.210212 41.919409 21.544615" fill="none" aria-hidden="true" style="display:block" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--accent)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>
+    </a>
+    <nav class="topbar-links" aria-label="主导航">
+      <a href="#products">tools</a>
+      <a href="/sovereign/"><span class="zh">企业定制</span><span class="en">enterprise</span></a>
+    </nav>
+    <div class="topbar-actions">
+      <button id="lang-btn" class="lang-btn" aria-label="Switch language">EN</button>
+      <button id="theme-btn" aria-label="切换主题" class="theme-toggle">
+        <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
 <div class="page">
 
-<!-- Nav -->
-<header>
-<nav class="row" aria-label="Primary">
-  <div class="cell s1"><svg width="80" height="28" viewBox="0 0 180 64" fill="none" aria-label="yu.ai" style="display:block"><path d="M 12 12 L 24 40" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M 36 12 L 24 40 L 18 56" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M 46 16 L 46 42 Q 46 52 56 52 L 64 52" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 64 16 L 64 52" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="78" cy="50" r="4" fill="currentColor"/><path d="M 92 28 Q 92 18 102 18 Q 112 18 112 28 L 112 52" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 112 36 Q 112 28 102 28 Q 92 28 92 36 Q 92 52 102 52 L 112 52" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 126 24 L 126 52" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="126" cy="14" r="4" fill="currentColor"/></svg></div>
-  <div class="cell s2" style="padding:0"></div>
-  <div class="cell s1" style="padding:0">
-    <a class="nav-link" href="#products" style="padding:16px">
-      <span class="label">products <span class="blink"></span></span>
-    </a>
-  </div>
-  <div class="cell" style="justify-content:space-between;gap:8px">
-    <button id="lang-btn" class="lang-btn" aria-label="Switch language">EN</button>
-    <button id="theme-btn" aria-label="切换主题" class="theme-toggle" style="position:static">
-      <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-      <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
-  </div>
-</nav>
-</header>
-</header>
-
-<!-- Hero -->
-<div class="row">
-  <div class="cell s6" style="border-right:none;padding:0;justify-content:center">
-    <div class="hero">
-      <span class="label-xs op-5 unfurl d1" style="letter-spacing:.15rem"><span class="zh">便携 · 开源 · 跨平台</span><span class="en">portable · open source · cross-platform</span></span>
-      <h1 class="display unfurl d2" style="position:relative">
-        <svg class="logo-brush" width="180" height="64" viewBox="0 0 180 64" fill="none" aria-label="yu.ai">
-          <path class="stroke-anim s1" d="M 12 12 L 24 40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-          <path class="stroke-anim s2" d="M 36 12 L 24 40 L 18 56" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-          <path class="stroke-anim s3" d="M 46 16 L 46 42 Q 46 52 56 52 L 64 52" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
-          <path class="stroke-anim s4" d="M 64 16 L 64 52" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-          <circle class="stroke-anim s5" cx="78" cy="50" r="3" fill="currentColor" opacity="0"/>
-          <path class="stroke-anim s6" d="M 92 28 Q 92 18 102 18 Q 112 18 112 28 L 112 52" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
-          <path class="stroke-anim s7" d="M 112 36 Q 112 28 102 28 Q 92 28 92 36 Q 92 52 102 52 L 112 52" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
-          <path class="stroke-anim s8" d="M 126 24 L 126 52" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-          <circle class="stroke-anim s9" cx="126" cy="14" r="3" fill="currentColor" opacity="0"/>
-        </svg>
-      </h1>
-      <p class="sub unfurl d3"><span class="zh">与 AI · 同行</span><span class="en">AI that travels with you</span></p>
-      <p class="cn fade-up d3" style="margin-top:-8px"><span class="zh">插上即用 · 数据随身 · 拔走无痕</span><span class="en">Plug in. Use. Unplug. No trace.</span></p>
-
-      <div class="term fade-up d4" aria-hidden="true">
-        <div class="term-h">
-          <span class="td"></span><span class="td"></span><span class="td"></span>
-          <span class="term-label">yu.ai</span>
-        </div>
-        <div class="term-b" id="term-body"><span class="t">  你的 ai 正在加载</span><span class="blink"></span></div>
-      </div>
-
-      <div class="cta fade-up d5">
+  <!-- Hero — 左右结构 -->
+  <div class="hero hero-split">
+    <div class="hero-left">
+      <h1 class="hero-h1 unfurl d1"><span class="zh">与 AI · 同行</span><span class="en">AI that travels with you</span></h1>
+      <p class="cn fade-up d2" style="margin:14px 0 0"><span class="zh">插上即用 · 数据随身 · 拔走无痕</span><span class="en">Plug in. Use. Unplug. No trace.</span></p>
+      <div class="cta fade-up d3">
         <a href="/openclaw/" class="primary"><span class="zh">了解 openclaw</span><span class="en">openclaw</span> →</a>
-        <a href="/hermes/" tabindex="0"><span class="zh">了解 hermes</span><span class="en">hermes</span> →</a>
+        <a href="/hermes/"><span class="zh">了解 hermes</span><span class="en">hermes</span> →</a>
         <a href="https://v.douyin.com/i77dSpkMYZI/" target="_blank" rel="noopener"><span class="zh">购买 U 盘版</span><span class="en">buy usb edition</span> →</a>
         <a href="/sovereign/"><span class="zh">企业定制</span><span class="en">enterprise</span> →</a>
       </div>
+      <div class="hero-badges fade-up d4">
+        <span class="label op-5"><span class="zh">零安装</span><span class="en">zero install</span></span>
+        <span class="op-3">·</span>
+        <span class="label op-5"><span class="zh">零痕迹</span><span class="en">zero trace</span></span>
+        <span class="op-3">·</span>
+        <span class="label op-5">mit</span>
+      </div>
+    </div>
+    <div class="term fade-up d3" aria-hidden="true">
+      <div class="term-h">
+        <span class="td"></span><span class="td"></span><span class="td"></span>
+        <span class="term-label">yu.ai</span>
+      </div>
+      <div class="term-b" id="term-body"><span class="t">  你的 ai 正在加载</span><span class="blink"></span></div>
     </div>
   </div>
-</div>
 
-<!-- Couplet -->
-<div class="row huiwen">
-  <div class="cell s6" style="border-right:none;justify-content:center;flex-wrap:wrap;gap:8px 24px;padding:28px 16px;flex-direction:column;text-align:center">
-    <p style="font-family:var(--serif);font-size:1.05rem;letter-spacing:.4rem;line-height:1.9;opacity:.65"><span class="zh">一器在手，万事可为<br>数据随身，与君同行</span><span class="en">One tool in hand, all things possible<br>Data travels with you, always</span></p>
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:6px">
-      <span class="label op-5"><span class="zh">零安装</span><span class="en">zero install</span></span>
-      <span class="op-3">·</span>
-      <span class="label op-5"><span class="zh">零痕迹</span><span class="en">zero trace</span></span>
-      <span class="op-3">·</span>
-      <span class="label op-5">mit</span>
+  <!-- Tools -->
+  <section id="products" class="section huiwen" aria-label="产品列表">
+    <div class="section-head">
+      <span class="num" aria-hidden="true">6</span>
+      <h2>Tools</h2>
     </div>
-  </div>
-</div>
+    <p class="lede"><span class="zh">六件工具，各司其用，解压即用，拔走无痕。</span><span class="en">Six tools, each with a purpose. Unzip. Use. Unplug.</span></p>
 
-<!-- Vessels -->
-<div class="row huiwen" id="products">
-  <div class="cell s6"><span class="label" style="font-weight:700">工 具</span> <span class="label op-5" style="margin-left:14px">tools</span></div>
-</div>
-<div class="row">
-  <div class="cell s6" style="border-right:none;padding:24px 24px 8px">
-    <p style="font-family:var(--serif);font-size:.98rem;line-height:1.95;opacity:.7;max-width:720px;margin:0 auto;text-align:center">
-      <span class="zh">五器各司其用，解压即用，拔走无痕。</span>
-      <span class="en">Five tools, each with a purpose. Unzip. Use. Unplug.</span>
+    <div class="tools">
+
+      <article class="tool">
+        <span class="tool-glyph" aria-hidden="true">匣</span>
+        <h3 class="tool-name">openclaw<small><span class="zh">百川</span><span class="en">baichuan</span></small></h3>
+        <div class="tool-purpose"><span class="zh">为 应 物</span><span class="en">for everything</span></div>
+        <p class="tool-desc"><span class="zh">一匣纳百川，万象皆可谈。</span><span class="en">All models, all channels, one box.</span></p>
+        <div class="tool-links">
+          <a href="/openclaw/"><span class="zh">使用说明</span><span class="en">manual</span> →</a>
+          <a href="/openclaw/skills/"><span class="zh">技能中心</span><span class="en">skills</span> →</a>
+          <a href="/openclaw/changelog/"><span class="zh">更新日志</span><span class="en">changelog</span> →</a>
+        </div>
+        <div class="tool-meta"><span class="dot"></span>stable · v1.2.0</div>
+      </article>
+
+      <article class="tool">
+        <span class="tool-glyph" aria-hidden="true">砚</span>
+        <h3 class="tool-name">hermes<small><span class="zh">砚墨</span><span class="en">inkstone</span></small></h3>
+        <div class="tool-purpose"><span class="zh">为 养 识</span><span class="en">for memory</span></div>
+        <p class="tool-desc"><span class="zh">日久弥深，记忆生长。越用越懂你的 AI。</span><span class="en">Memory that grows. An AI that knows you.</span></p>
+        <div class="tool-links">
+          <a href="/hermes/"><span class="zh">使用说明</span><span class="en">manual</span> →</a>
+          <a href="/hermes/changelog/"><span class="zh">更新日志</span><span class="en">changelog</span> →</a>
+        </div>
+        <div class="tool-meta"><span class="dot"></span>stable · v1.20.24</div>
+      </article>
+
+      <article class="tool">
+        <span class="tool-glyph" aria-hidden="true">刃</span>
+        <h3 class="tool-name">claude code<small><span class="zh">利刃</span><span class="en">blade</span></small></h3>
+        <div class="tool-purpose"><span class="zh">为 编 程</span><span class="en">for coding</span></div>
+        <p class="tool-desc"><span class="zh">终端里的编程搭档，内置 CC Switch，第三方 API 随心切换。</span><span class="en">Claude Code + CC Switch. Third-party API ready.</span></p>
+        <div class="tool-links">
+          <a href="/claude/"><span class="zh">使用说明</span><span class="en">manual</span> →</a>
+        </div>
+        <div class="tool-meta"><span class="dot"></span>stable · v0.7.3</div>
+      </article>
+
+      <article class="tool">
+        <span class="tool-glyph" aria-hidden="true">盒</span>
+        <h3 class="tool-name">codex<small><span class="zh">方盒</span><span class="en">box</span></small></h3>
+        <div class="tool-purpose"><span class="zh">为 编 程</span><span class="en">for coding</span></div>
+        <p class="tool-desc"><span class="zh">OpenAI 阵营对照，Codex CLI 便携版。</span><span class="en">Codex CLI portable. The OpenAI counterpart.</span></p>
+        <div class="tool-links">
+          <a href="/codex/"><span class="zh">使用说明</span><span class="en">manual</span> →</a>
+        </div>
+        <div class="tool-meta"><span class="dot"></span>stable · v0.9.2</div>
+      </article>
+
+      <article class="tool">
+        <span class="tool-glyph" aria-hidden="true">镜</span>
+        <h3 class="tool-name">openhuman<small><span class="zh">明镜</span><span class="en">mirror</span></small></h3>
+        <div class="tool-purpose"><span class="zh">为 洞 察</span><span class="en">for insight</span></div>
+        <p class="tool-desc"><span class="zh">桌面级 AI 超级智能，本地记忆，深度推理，越用越懂你。</span><span class="en">Desktop AI super intelligence. Local memory. Deep reasoning.</span></p>
+        <div class="tool-links">
+          <a href="/openhuman/"><span class="zh">使用说明</span><span class="en">manual</span> →</a>
+        </div>
+        <div class="tool-meta"><span class="dot"></span>beta · v0.1.0</div>
+      </article>
+
+      <article class="tool">
+        <span class="tool-glyph" aria-hidden="true">潜</span>
+        <h3 class="tool-name">deepseek harness<small><span class="zh">深潜</span><span class="en">deep</span></small></h3>
+        <div class="tool-purpose"><span class="zh">为 求 索</span><span class="en">for seeking</span></div>
+        <p class="tool-desc"><span class="zh">DeepSeek Harness 便携版，Tauri 桌面壳，深度求索随身而行。</span><span class="en">DeepSeek Harness portable in a Tauri desktop shell.</span></p>
+        <div class="tool-links">
+          <a href="/deepseek-harness/"><span class="zh">使用说明</span><span class="en">manual</span> →</a>
+        </div>
+        <div class="tool-meta"><span class="dot"></span>beta · v0.1.6</div>
+      </article>
+
+      <div class="more">
+        <div class="more-head"><span class="zh">其 他 作 品</span><span class="en">other projects</span></div>
+        <div class="more-list">
+          <div><a href="/sbti/">sbti</a> <span class="desc">· <span class="zh">人格测评 · MBTI 趣味解读</span><span class="en">personality test</span></span></div>
+          <div><a href="/fortune/"><span class="zh">天机阁</span><span class="en">fortune</span></a> <span class="desc">· <span class="zh">八字 · 紫微斗数 · AI 命理解读</span><span class="en">AI fortune reading</span></span></div>
+          <div><a href="/police-archive/"><span class="zh">侦探档案</span><span class="en">detective</span></a> <span class="desc">· <span class="zh">解谜游戏 · 15案件 · 416证据</span><span class="en">mystery game</span></span></div>
+          <div><a href="/fupo-game/"><span class="zh">富婆的联系方式</span><span class="en">visual novel</span></a> <span class="desc">· <span class="zh">视觉小说 · 5角色 · 多结局</span><span class="en">5 roles · multi endings</span></span></div>
+          <div><a href="/claw-machine-3d/"><span class="zh">3D抓娃娃机</span><span class="en">claw machine 3d</span></a> <span class="desc">· Three.js · <span class="zh">陀螺仪 · 沉浸式</span><span class="en">immersive</span></span></div>
+          <div><a href="https://github.com/yuluyangguang1/yuai-gui" target="_blank" rel="noopener">yuai-gui</a> <span class="desc">· <span class="zh">四件套统一启动器 · Tauri</span><span class="en">unified launcher</span></span></div>
+          <div><span class="desc">linger · <span class="zh">关系宇宙 · AI 陪伴：恋人 · 朋友 · 家人</span><span class="en">relationship universe</span></span></div>
+          <div><span class="desc">novelweave · <span class="zh">织文 · AI 网文创作助手</span><span class="en">ai web novel assistant</span></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- API link -->
+  <div class="api-row">
+    <a href="/api/">API <span class="op-5">·</span> <span class="zh">代理服务</span><span class="en">proxy service</span> <span aria-hidden="true" style="font-size:1.1em">→</span></a>
+  </div>
+
+  <!-- Ink mountains + closing verse -->
+  <div class="ink-mountains" aria-hidden="true"><svg viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0,150 L0,96 C90,62 180,86 280,64 C380,42 470,80 580,58 C690,36 780,74 900,52 C1000,34 1100,66 1200,48 L1200,150 Z" fill="currentColor" opacity=".55"/><path d="M0,150 L0,120 C120,96 240,112 380,97 C520,82 660,104 820,90 C960,80 1080,98 1200,86 L1200,150 Z" fill="currentColor"/></svg></div>
+  <div class="verse">
+    <p>
+      与 君 同 在，<br>
+      历 久 不 散。
     </p>
+    <p class="verse-sign">— yu.ai —</p>
   </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="footer-brand"><svg viewBox="10.99773 21.210212 41.919409 21.544615" aria-hidden="true" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--accent)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>yu.ai</span>
+    <span id="footer-year">mit</span>
+    <span><span class="zh">与 AI 同行</span><span class="en">AI that travels with you</span></span>
+  </footer>
+
 </div>
-
-<div class="row" style="border-top:none">
-  <div class="cell s6" style="padding:0;border-right:none">
-    <section id="products" aria-label="产品列表">
-<div class="cards" style="border:none">
-
-      <div>
-        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">匣</div>
-        <div class="card-title" aria-label="openclaw"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">百川</small></div>
-        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 应 物</div>
-        <div class="card-desc"><span class="zh">一匣纳百川，万象皆可谈。</span><span class="en">All models, all channels, one box.</span></div>
-        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/openclaw/" tabindex="0">使用说明 →</a>
-          <a href="/openclaw/skills/" tabindex="0">技能中心 →</a>
-          <a href="/openclaw/changelog/" tabindex="0">更新日志 →</a>
-        </div>
-        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v1.1.6</div>
-      </div>
-
-      <div>
-        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">砚</div>
-        <div class="card-title" aria-label="hermes"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">砚墨</small></div>
-        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 养 识</div>
-        <div class="card-desc"><span class="zh">日久弥深，记忆生长。越用越懂你的 AI。</span><span class="en">Memory that grows. An AI that knows you.</span></div>
-        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/hermes/" tabindex="0">使用说明 →</a>
-          <a href="/hermes/changelog/" tabindex="0">更新日志 →</a>
-        </div>
-        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v0.15.0</div>
-      </div>
-
-      <div>
-        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">刃</div>
-        <div class="card-title" aria-label="claude portable"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">利刃</small></div>
-        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 编 程</div>
-        <div class="card-desc"><span class="zh">终端里的编程搭档，第三方 API 随心切换。</span><span class="en">Your coding partner in the terminal.</span></div>
-        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/claude/" tabindex="0">使用说明 →</a>
-        </div>
-        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v0.7.0</div>
-      </div>
-
-      <div>
-        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">盒</div>
-        <div class="card-title" aria-label="codex portable"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">方盒</small></div>
-        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 编 程</div>
-        <div class="card-desc"><span class="zh">OpenAI 阵营对照，Codex CLI 便携版。</span><span class="en">Codex CLI portable. The OpenAI counterpart.</span></div>
-        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/codex/" tabindex="0">使用说明 →</a>
-        </div>
-        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>stable · v0.7.0</div>
-      </div>
-
-      <div>
-        <div class="card-icon" style="font-family:var(--serif);font-size:2.8rem">镜</div>
-        <div class="card-title" aria-label="openhuman"><small style="font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.15em;opacity:.5;margin-left:8px;text-transform:lowercase">明镜</small></div>
-        <div style="font-family:var(--serif);font-size:.85rem;letter-spacing:.2rem;opacity:.55;margin-bottom:8px">为 洞 察</div>
-        <div class="card-desc"><span class="zh">桌面级 AI 超级智能，本地记忆，深度推理，越用越懂你。</span><span class="en">Desktop AI super intelligence. Local memory. Deep reasoning.</span></div>
-        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="/openhuman/" tabindex="0">使用说明 →</a>
-        </div>
-        <div class="card-meta" style="margin-top:12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle"></span>beta · v0.1.0</div>
-      </div>
-
-      <div style="opacity:.6;padding:20px 24px">
-        <div class="label-xs" style="margin-bottom:12px">OTHER PROJECTS</div>
-        <div style="display:flex;flex-direction:column;gap:8px;font-size:.85rem">
-          <div><a href="/sbti/" style="opacity:.7">sbti</a> <span class="op-5">· 人格测评 · MBTI 趣味解读</span></div>
-          <div><a href="/fortune/" style="opacity:.7">天机阁</a> <span class="op-5">· 八字 · 紫微斗数 · AI 命理解读</span></div>
-          <div><a href="/police-archive/" style="opacity:.7">侦探档案</a> <span class="op-5">· 解谜游戏 · 15案件 · 416证据</span></div>
-          <div><a href="/fupo-game/" style="opacity:.7">富婆的联系方式</a> <span class="op-5">· 视觉小说 · 5角色 · 多结局</span></div>
-          <div><a href="/claw-machine-3d/" style="opacity:.7">3D抓娃娃机</a> <span class="op-5">· Three.js · 陀螺仪 · 沉浸式</span></div>
-          <div><a href="/openclaw/" style="opacity:.7">OpenClaw Portable</a> <span class="op-5">· 配置中心 · 35 Provider · 181模型</span></div>
-          <div><span class="op-5">linger · 数字怀念 · 情感陪伴 · in design</span></div>
-          <div><span class="op-5">novelweave · 长篇协作 · AI 续写 · in design</span></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- API link -->
-<div class="row" style="border-top:none">
-  <div class="cell s6" style="display:flex;align-items:center;justify-content:center;padding:16px">
-    <a href="/api/" style="display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.8rem;letter-spacing:.15rem;opacity:.5;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">
-      API 代理服务 <span aria-hidden="true" style="font-size:1.1em">→</span>
-    </a>
-  </div>
-</div>
-
-<!-- Closing verse -->
-<div style="padding:56px 20px 48px;text-align:center">
-  <p style="font-family:var(--serif);font-size:1rem;letter-spacing:.4rem;line-height:2.2;opacity:.32;max-width:520px;margin:0 auto">
-    与 君 同 在，<br>
-    历 久 不 散。<br>
-    <span style="opacity:.6">— yu.ai —</span>
-  </p>
-</div>
-
-<!-- Footer -->
-<footer class="footer" role="contentinfo">
-  <span>yu.ai</span>
-  <span id="footer-year">mit</span>
-  <span>与 AI 同行</span>
-</div>
-
-</footer>
+</main>
 
 <script>
 (function(){
@@ -377,60 +385,83 @@
     }
   }catch(_){}
 
-  // Terminal demo
+  // Terminal demo — 打字机轮播
   try{
     var term=document.getElementById('term-body');
     if(term&&!reduceMotion){
-      var lines=[
+      var screens=[
         [{c:'p',t:'$ yu.ai'},
-         {c:'t',t:'  · 匣  openclaw    · 百川  · 一匣纳百川 v1.1.6'},
-         {c:'t',t:'  · 砚  hermes      · 砚墨  · 历久弥深 v0.15.0'},
-         {c:'t',t:'  · 刃  claude      · 利刃  · 编程助手'},
-         {c:'t',t:'  · 盒  codex       · 方盒  · 编程对照'},
-         {c:'t',t:'  · 镜  openhuman   · 明镜  · 桌面智能'}],
+         {c:'t',t:'  与 AI 同行 · portable ai toolkit'},
+         {c:'t',t:'  · 匣 openclaw      一匣纳百川'},
+         {c:'t',t:'  · 砚 hermes        历久弥深'},
+         {c:'t',t:'  · 刃 claude code   编程利刃'},
+         {c:'t',t:'  · 盒 codex         openai 阵营'},
+         {c:'t',t:'  · 镜 openhuman     桌面智能'},
+         {c:'t',t:'  · 潜 deepseek      深度求索'}],
         [{c:'p',t:'$ openclaw start'},
-         {c:'t',t:'   openclaw portable v1.1.6'},
-         {c:'t',t:'   gateway ready on :18789'},
-         {c:'t',t:'   32 platforms · 12 channels'}],
+         {c:'t',t:'  openclaw portable v1.2.0'},
+         {c:'t',t:'  ▸ providers ......... ok'},
+         {c:'t',t:'  ▸ gateway ready on :18789'},
+         {c:'t',t:'  ▸ 32 platforms · 12 channels · 181 models'}],
         [{c:'p',t:'$ hermes serve'},
-         {c:'t',t:'   hermes portable v0.15.0'},
-         {c:'t',t:'   ok memory loaded · 1284 entries'},
-         {c:'t',t:'   ok skills · 24 active'}],
+         {c:'t',t:'  hermes portable v1.20.24'},
+         {c:'t',t:'  ▸ memory loaded · 1284 entries'},
+         {c:'t',t:'  ▸ skills · 24 active'},
+         {c:'t',t:'  ▸ listening on :18443'}],
+        [{c:'p',t:'$ claude code'},
+         {c:'t',t:'  claude code portable v0.7.0'},
+         {c:'t',t:'  ▸ endpoint · third-party relay'},
+         {c:'t',t:'  ▸ model · claude-sonnet-4'},
+         {c:'t',t:'  ▸ ready. happy hacking.'}],
+        [{c:'p',t:'$ codex'},
+         {c:'t',t:'  codex portable v0.7.0'},
+         {c:'t',t:'  ▸ openai-compatible · sandbox local'},
+         {c:'t',t:'  ▸ model · latest · switchable'}],
+        [{c:'p',t:'$ usb status'},
+         {c:'t',t:'  ▸ yu.ai usb edition'},
+         {c:'t',t:'  ▸ installed 0 · traces 0'},
+         {c:'t',t:'  ▸ data stays on the stick'}],
         [{c:'p',t:'$ hello'},
          {c:'t',t:'  < 在的。'},
-         {c:'t',t:'  < 今日想做点什么？'}]
+         {c:'t',t:'  < 今日想做点什么？'}],
+        [{c:'p',t:'$ qiuqian'},
+         {c:'t',t:'  上上签'},
+         {c:'t',t:'  与 AI 同行 · 诸事可为'}]
       ];
-      var idx=0;
-      function render(blocks){term.innerHTML=blocks.map(function(b){return '<span class="'+b.c+'">'+b.t+'</span>'}).join('\n')+'<span class="blink"></span>'}
-      render(lines[0]);
-      setInterval(function(){idx=(idx+1)%lines.length;render(lines[idx])},4500);
+      var si=0;
+      function el(cls){var s=document.createElement('span');if(cls)s.className=cls;return s}
+      function playScreen(){
+        var blocks=screens[si];
+        term.textContent='';
+        var cursor=el('blink');
+        term.appendChild(cursor);
+        var bi=0;
+        (function nextBlock(){
+          if(bi>=blocks.length){
+            setTimeout(function(){si=(si+1)%screens.length;playScreen()},2600);
+            return;
+          }
+          var b=blocks[bi++];
+          var span=el(b.c);
+          term.insertBefore(span,cursor);
+          var i=0;
+          (function typeChar(){
+            if(i<b.t.length){
+              span.textContent+=b.t[i++];
+              setTimeout(typeChar,b.c==='p'?55:13);
+            }else{
+              term.insertBefore(document.createTextNode('\n'),cursor);
+              setTimeout(nextBlock,b.c==='p'?380:110);
+            }
+          })();
+        })();
+      }
+      setTimeout(playScreen,700);
     }
   }catch(_){}
 
   // Footer year
   try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
-
-  // Brush-char terminal
-  try{
-    var termBody=document.getElementById('term-body');
-    if(termBody&&!reduceMotion){
-      var obs=new MutationObserver(function(){
-        obs.disconnect();
-        try{
-          var spans=termBody.querySelectorAll('span:not(.blink):not(.brush-done)');
-          spans.forEach(function(span){
-            var text=span.textContent;if(!text||!text.length)return;
-            span.textContent='';span.classList.add('brush-done');
-            for(var i=0;i<Math.min(text.length,200);i++){
-              var ch=document.createElement('span');ch.className='brush-char';ch.textContent=text[i];ch.style.animationDelay=(i*0.03)+'s';span.appendChild(ch);
-            }
-          });
-        }catch(_){}
-        obs.observe(termBody,{childList:true});
-      });
-      obs.observe(termBody,{childList:true});
-    }
-  }catch(_){}
 
   // Incense timer
   try{
@@ -452,11 +483,9 @@
 
 <!-- WeChat detection -->
 <style>.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}.wechat-mask.show{display:flex}.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}
-@media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
 </style>
-<div class="wechat-mask" id="wechatMask">
+<div class="wechat-mask" id="wechatMask" role="alertdialog" aria-label="请用浏览器打开">
   <div class="arrow">···</div>
   <h2>请用浏览器打开</h2>
   <p>微信内无法正常访问本站</p>
@@ -468,6 +497,5 @@
 </div>
 <script>(function(){if(navigator.userAgent.toLowerCase().indexOf('micromessenger')!==-1)document.getElementById('wechatMask').classList.add('show')})();</script>
 
-</main>
 </body>
 </html>

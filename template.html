@@ -1,24 +1,27 @@
-<!-- ═══ yu.ai 子页面模板 ═══
+<!-- ═══ yu.ai 子页面模板 (Design System v3) ═══
      用法: 复制此文件，替换 {占位符} 内容
-     
+
      需要加载:
-       /shared.css (设计系统)
-       /fonts/lxgwwenkai-regular.css (中文宋体)
+       /shared.css (设计系统 v3 · 水墨器物)
+       /fonts/lxgwwenkai-regular.css (中文楷体)
        /fonts/lxgwwenkai-bold.css (中文粗体)
-     
+
      组件清单:
+       .topbar        — 粘性顶栏 (.topbar-inner/.topbar-logo/.topbar-links/.topbar-actions)
        .page          — 900px 居中容器
        .hero          — 顶部区 (.glyph + .display + .sub + .cn + .cta)
        .section       — 章节
        .section-head  — 章节标题 (.num + h2)
-       .huiwen        — 回纹分隔线 (替代 margin-top)
+       .huiwen        — 回纹分隔线
        .cards         — 卡片网格 (1/2/3 列自适应)
        .card-icon/.card-title/.card-desc/.card-meta
+       .term          — 终端演示框 (.term-h/.td/.term-label/.term-b)
        .tip / .warn   — 提示框
        table          — 表格
        pre / code     — 代码
        .footer        — 页脚
        .theme-toggle  — 主题切换按钮
+       .zh / .en      — 中英双语切换(span 配合 lang 属性,shared.css 已内置)
      -->
 
 <!DOCTYPE html>
@@ -28,8 +31,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{页面名} · {别名} · yu.ai</title>
 <meta name="description" content="{描述}">
-<meta name="theme-color" content="#170d02" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#150e07" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
 
 <!-- Design system + fonts -->
 <link rel="stylesheet" href="/shared.css">
@@ -37,7 +40,7 @@
 <link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
 
 <!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23170d02'/%3E%3Cg fill='none' stroke='%23f5f5f5' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23150e07'/%3E%3Cg transform='translate(20,34.6) scale(1.431)'%3E%3Cpath fill='%23f3ede2' fill-rule='nonzero' d='M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z'/%3E%3Ccircle fill='%23f2634e' cx='50.450349' cy='40.191867' r='2.466790'/%3E%3C/g%3E%3C/svg%3E">
 
 <style>
 /* 页面特有样式写在这里 */
@@ -45,12 +48,25 @@
 </head>
 <body>
 
-<!-- 主题切换 -->
-<button class="theme-toggle" id="theme-btn" aria-label="切换主题">
-  <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-  <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-</button>
+<!-- 粘性顶栏 -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="topbar-logo" aria-label="yu.ai 首页">
+      <svg width="47" height="24" viewBox="10.99773 21.210212 41.919409 21.544615" fill="none" aria-hidden="true" style="display:block" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--accent)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>
+    </a>
+    <nav class="topbar-links" aria-label="主导航">
+      <a href="/#products">tools</a>
+    </nav>
+    <div class="topbar-actions">
+      <button class="theme-toggle" id="theme-btn" aria-label="切换主题">
+        <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 
+<main>
 <div class="page">
 
 <!-- Hero -->
@@ -90,13 +106,14 @@
 </div>
 
 <!-- Footer -->
-<div class="footer">
+<footer class="footer">
   <span>yu.ai</span>
   <span>{页面名} · {别名}</span>
   <span>mit</span>
-</div>
+</footer>
 
 </div>
+</main>
 
 <!-- 主题切换脚本 -->
 <script>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>deepseek harness · 深潜 · yu.ai</title>
+<meta name="description" content="DeepSeek Harness（dsh）便携版 · DeepSeek 开源 AI Agent Harness 的零安装打包 · Tauri 桌面壳 · U盘即走 · 三平台 · MIT 开源">
+<meta name="keywords" content="deepseek harness,dsh,深潜,便携AI,AI Agent,U盘AI,零安装,yu.ai,Tauri,MIT">
+<link rel="canonical" href="https://yuai-r.cn/deepseek-harness/">
+<meta name="theme-color" content="#150e07" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
+
+<!-- Design system + fonts -->
+<link rel="stylesheet" href="/shared.css">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23150e07'/%3E%3Cg transform='translate(20,34.6) scale(1.431)'%3E%3Cpath fill='%23f3ede2' fill-rule='nonzero' d='M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z'/%3E%3Ccircle fill='%23f2634e' cx='50.450349' cy='40.191867' r='2.466790'/%3E%3C/g%3E%3C/svg%3E">
+
+<style>
+/* 页面特有样式 */
+.step{display:flex;gap:16px;margin:20px 0;align-items:flex-start}
+.step-num{flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.1rem;color:var(--accent);border:1px solid var(--border);border-radius:2px}
+.step-body{flex:1;min-width:0}
+.step-title{font-family:var(--serif);font-size:1.05rem;font-weight:600;margin-bottom:4px}
+.step-desc{font-size:.88rem;opacity:.7;line-height:1.75}
+.dl-table td:first-child{font-family:var(--mono);font-size:.78rem}
+@media(max-width:640px){pre{font-size:.68rem;padding:12px}}
+.page-hero .glyph{font-family:var(--serif);font-size:5rem;line-height:1;color:var(--accent);opacity:.85;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<!-- 粘性顶栏 -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="topbar-logo" aria-label="yu.ai 首页">
+      <svg width="47" height="24" viewBox="10.99773 21.210212 41.919409 21.544615" fill="none" aria-hidden="true" style="display:block" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--accent)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>
+    </a>
+    <nav class="topbar-links" aria-label="主导航">
+      <a href="/#products">tools</a>
+    </nav>
+    <div class="topbar-actions">
+      <button class="theme-toggle" id="theme-btn" aria-label="切换主题">
+        <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="page">
+
+<!-- Hero -->
+<div class="hero page-hero">
+  <div class="glyph">潜</div>
+  <h1 class="display">deepseek harness<small>深潜</small></h1>
+  <p class="sub">DeepSeek Harness（dsh）便携版 · 即插即用 · U 盘即走</p>
+  <p class="cn">深度求索 · 随身而行</p>
+  <div class="cta">
+    <a href="/" class="primary">← yu.ai</a>
+    <a href="https://github.com/yuluyangguang1/deepseek-harness-portable/releases" target="_blank" rel="noopener">下载 v0.1.6 →</a>
+    <a href="https://github.com/yuluyangguang1/deepseek-harness-portable" target="_blank" rel="noopener">GitHub →</a>
+  </div>
+</div>
+
+<!-- 壹 · 简介 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">壹</span><h2>简介</h2></div>
+  <p>DeepSeek 开源了 AI Agent Harness —— <strong>dsh</strong>：一个「一切皆插件」的智能体框架，自带 Web UI。本项目把它打包成两种形态：</p>
+  <div class="cards">
+    <div>
+      <div class="card-icon">匣</div>
+      <div class="card-title">便携版（推荐）</div>
+      <div class="card-desc">自带 Node 运行时与全部依赖的独立文件夹。解压即用，无需安装、无需管理员权限；配置与会话记录随文件夹迁移，U 盘可带走。</div>
+    </div>
+    <div>
+      <div class="card-icon">桌</div>
+      <div class="card-title">桌面版</div>
+      <div class="card-desc">Tauri v2 壳：原生窗口 + 系统托盘，自动启动内置服务并打开界面。Windows 提供安装包，macOS / Linux 提供打包格式。</div>
+    </div>
+  </div>
+  <p style="margin-top:16px" class="op-6">上游：<a href="https://github.com/deepseek-ai/deepseek-harness" target="_blank" rel="noopener">deepseek-ai/deepseek-harness</a>（MIT）· 本打包同样 MIT，以 yu.ai 品牌发布。</p>
+</div>
+
+<!-- 贰 · 下载 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">贰</span><h2>下载</h2></div>
+  <table class="dl-table">
+    <thead><tr><th>文件</th><th>平台</th><th>大小</th></tr></thead>
+    <tbody>
+      <tr><td>dsh-portable-win64.tar.gz</td><td>Windows x64 · 便携版</td><td>约 98 MB</td></tr>
+      <tr><td>dsh-portable-macos.tar.gz</td><td>macOS arm64 / x64 · 便携版</td><td>约 115 MB</td></tr>
+      <tr><td>dsh-portable-linux64.tar.gz</td><td>Linux x64 · 便携版</td><td>约 119 MB</td></tr>
+      <tr><td>yu.ai_0.1.0_x64-setup.exe</td><td>Windows · 桌面版安装包</td><td>约 57 MB</td></tr>
+    </tbody>
+  </table>
+  <p class="op-6">全部产物在 <a href="https://github.com/yuluyangguang1/deepseek-harness-portable/releases" target="_blank" rel="noopener">GitHub Releases</a>，由 CI 自动构建发布。</p>
+</div>
+
+<!-- 叁 · 快速开始 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">叁</span><h2>快速开始</h2></div>
+
+  <div class="step">
+    <div class="step-num">一</div>
+    <div class="step-body">
+      <div class="step-title">解压</div>
+      <div class="step-desc">把下载的压缩包解压到任意目录 —— 硬盘或 U 盘均可，无需安装。</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">二</div>
+    <div class="step-body">
+      <div class="step-title">启动</div>
+      <div class="step-desc">Windows 双击 <code>dsh.bat</code>；macOS / Linux 在终端运行：</div>
+      <pre><code>./dsh.sh</code></pre>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">三</div>
+    <div class="step-body">
+      <div class="step-title">使用</div>
+      <div class="step-desc">浏览器自动打开 <code>http://127.0.0.1:3080</code>，即为 dsh 的 Web UI。首次运行会在 <code>data/</code> 目录初始化配置与档案，属正常的一次性步骤。</div>
+    </div>
+  </div>
+
+  <div class="tip">整个文件夹可以直接放在 U 盘里 —— 配置、会话、档案全部保存在 <code>data/</code>，插哪台电脑用哪台，拔走无痕。</div>
+
+  <p style="margin-top:20px">桌面版：Windows 双击 <code>setup.exe</code> 安装即可；macOS 为免签名的 <code>.app</code>（压缩包），Linux 为 <code>.deb</code>。</p>
+</div>
+
+<!-- 肆 · 目录结构 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">肆</span><h2>目录结构</h2></div>
+  <pre><code>dsh-portable-&lt;platform&gt;/
+  runtime/    便携版 Node.js
+  app/        dsh 本体与全部依赖
+  data/       配置 / 会话 / 档案（随文件夹迁移）
+  dsh.bat     Windows 启动器（双击运行）
+  dsh.ps1     PowerShell 启动器
+  dsh.sh      macOS / Linux 启动器</code></pre>
+</div>
+
+<!-- 伍 · 特性与沙箱 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">伍</span><h2>特性与沙箱</h2></div>
+  <div class="cards">
+    <div>
+      <div class="card-icon">零</div>
+      <div class="card-title">零安装</div>
+      <div class="card-desc">自带 Node 22 运行时与依赖，解压即用，无需管理员权限。</div>
+    </div>
+    <div>
+      <div class="card-icon">盘</div>
+      <div class="card-title">U 盘便携</div>
+      <div class="card-desc">数据全在 data/，文件夹搬到哪，配置与历史跟到哪。</div>
+    </div>
+    <div>
+      <div class="card-icon">盾</div>
+      <div class="card-title">系统沙箱</div>
+      <div class="card-desc">命令沙箱按操作系统自动选择隔离后端，开箱即用。</div>
+    </div>
+  </div>
+  <table style="margin-top:20px">
+    <thead><tr><th>平台</th><th>隔离后端</th></tr></thead>
+    <tbody>
+      <tr><td>Linux</td><td>Landlock / Bubblewrap</td></tr>
+      <tr><td>macOS</td><td>Seatbelt（sandbox-exec，系统内置）</td></tr>
+      <tr><td>Windows</td><td>ACL 受限令牌（partial 隔离）</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 陆 · 注意事项 -->
+<div class="section huiwen">
+  <div class="section-head"><span class="num">陆</span><h2>注意事项</h2></div>
+  <div class="warn">dsh 处于开发者预览阶段（上游 0.1.1-rc.2），官方提示可能存在不兼容更新；便携构建默认锁定该版本，以保证行为一致。</div>
+  <div class="warn">Windows 沙箱为 partial 隔离：强于无隔离，但敏感任务请谨慎评估。</div>
+  <p class="op-6">便携文件夹约 100–120 MB（约 530 个依赖）；暂无自动更新，新版本请重新下载。dsh 上游版权归 DeepSeek AI 所有，请遵循其商标指引。</p>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <span>yu.ai</span>
+  <span>deepseek harness · 深潜</span>
+  <span id="footer-year">mit</span>
+</footer>
+
+</div>
+</main>
+
+<script>
+(function(){
+  // Theme toggle
+  var btn=document.getElementById('theme-btn');
+  if(btn){
+    var root=document.documentElement;
+    var sun=btn.querySelector('.theme-sun');
+    var moon=btn.querySelector('.theme-moon');
+    function sync(i){if(sun)sun.style.display=i?'none':'block';if(moon)moon.style.display=i?'block':'none'}
+    var s;try{s=localStorage.getItem('yuai-theme')}catch(_){}
+    if(s==='light'){root.setAttribute('data-theme','light');sync(true)}
+    else if(s==='dark'){root.setAttribute('data-theme','dark');sync(false)}
+    else{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)');sync(m&&m.matches)}
+    btn.onclick=function(){
+      var n=root.getAttribute('data-theme')!=='light';
+      if(!root.getAttribute('data-theme')){n=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
+      root.setAttribute('data-theme',n?'light':'dark');
+      try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}
+      sync(n);
+    };
+  }
+  // Footer year
+  try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
+})();
+</script>
+</body>
+</html>
