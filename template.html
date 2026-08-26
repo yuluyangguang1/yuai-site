@@ -6,7 +6,7 @@
        /fonts/lxgwwenkai-regular.css (中文楷体)
        /fonts/lxgwwenkai-bold.css (中文粗体)
 
-     组件清单:
+       组件清单:
        .topbar        — 粘性顶栏 (.topbar-inner/.topbar-logo/.topbar-links/.topbar-actions)
        .page          — 900px 居中容器
        .hero          — 顶部区 (.glyph + .display + .sub + .cn + .cta)
@@ -21,7 +21,14 @@
        pre / code     — 代码
        .footer        — 页脚
        .theme-toggle  — 主题切换按钮
-       .zh / .en      — 中英双语切换(span 配合 lang 属性,shared.css 已内置)
+       .zh / .en      — 中英双语切换(span 配对 lang 属性,shared.css 已内置)
+
+       氛围组件(v3.1 · 与主页同源,建议子页面引用):
+       .bg-i/.bg-n/.bg-g — 背景三层:淡墨画卷(egret-ink.jpg)+宣纸噪点+朱砂天光
+       .mount-frame      — 装裱边框(fixed 四角描边,<640px 自动隐藏)
+       .colophon         — 竖排题跋(右侧居中)
+       .ink-mountains    — 远山水墨(置于 footer 前)
+       .unfurl           — 展卷动画(hero 标题用,.d1~.d3 延迟)
      -->
 
 <!DOCTYPE html>
@@ -48,6 +55,13 @@
 </head>
 <body>
 
+<!-- 背景层 · 竖排题跋 · 装裱边框(与主页同源) -->
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+<div class="colophon" aria-hidden="true">与君同在 · 历久不散</div>
+<div class="mount-frame" aria-hidden="true"></div>
+
 <!-- 粘性顶栏 -->
 <header class="topbar">
   <div class="topbar-inner">
@@ -72,7 +86,7 @@
 <!-- Hero -->
 <div class="hero">
   <div class="glyph">{字}</div>
-  <h1 class="display">{名称}<small>{别名}</small></h1>
+  <h1 class="display unfurl d1">{名称}<small>{别名}</small></h1>
   <p class="sub">{英文副标题}</p>
   <p class="cn">{中文副标题}</p>
   <div class="cta">
@@ -105,11 +119,14 @@
   </div>
 </div>
 
+<!-- 远山水墨 -->
+<div class="ink-mountains" aria-hidden="true"><svg viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0,150 L0,96 C90,62 180,86 280,64 C380,42 470,80 580,58 C690,36 780,74 900,52 C1000,34 1100,66 1200,48 L1200,150 Z" fill="currentColor" opacity=".55"/><path d="M0,150 L0,120 C120,96 240,112 380,97 C520,82 660,104 820,90 C960,80 1080,98 1200,86 L1200,150 Z" fill="currentColor"/></svg></div>
+
 <!-- Footer -->
 <footer class="footer">
   <span>yu.ai</span>
   <span>{页面名} · {别名}</span>
-  <span>mit</span>
+  <span id="footer-year">mit</span>
 </footer>
 
 </div>

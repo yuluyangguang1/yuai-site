@@ -9,6 +9,11 @@
    · 清理 v2 尾部追加的冲突样式(全局下划线动画、卡片
      transform 与边框网格冲突、dark 媒体查询与主题切换冲突)
    · 新增 .topbar 顶栏与 .term 终端组件(原为页面内散落样式)
+
+   v3.1 变更:
+   · 收编主页氛围组件为公共类:.bg-i/.bg-n/.bg-g 背景层、
+     .mount-frame 装裱边框、.colophon 竖排题跋、
+     .ink-mountains 远山、.unfurl 展卷动画
    ═══════════════════════════════════════════════════════════ */
 
 /* ── 1. Reset ──────────────────────────────────────────── */
@@ -273,3 +278,45 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   a{color:#000;text-decoration:underline}
   .cards>*{break-inside:avoid}
 }
+
+/* ═══════════════════════════════════════════════════════════
+   v3.1 — 主页同源氛围组件(子页面按需引用)
+   用法:
+     <div class="bg-i"><img src="/egret-ink.jpg" alt="" onerror="this.style.display='none'"></div>
+     <div class="bg-n"></div><div class="bg-g"></div>
+     <div class="mount-frame"></div>
+     <div class="colophon">题跋文字</div>
+     <footer 前: <div class="ink-mountains"><svg>…</svg></div>
+   ═══════════════════════════════════════════════════════════ */
+
+/* 淡墨画卷底层 */
+.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7)}
+/* 宣纸噪点 */
+.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
+/* 朱砂天光 */
+.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.12;background:radial-gradient(ellipse at 0% 0%,rgba(242,99,78,.14) 0%,transparent 50%)}
+[data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
+[data-theme="light"] .bg-n{opacity:.015}
+[data-theme="light"] .bg-g{opacity:.05}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}:root:not([data-theme="dark"]) .bg-n{opacity:.015}:root:not([data-theme="dark"]) .bg-g{opacity:.05}}
+
+/* 装裱边框 */
+.mount-frame{position:fixed;inset:8px;z-index:600;pointer-events:none;border:1px solid rgb(var(--mid-base) / .14)}
+.mount-frame::before{content:"";position:absolute;top:-1px;left:-1px;width:14px;height:14px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);opacity:.65}
+.mount-frame::after{content:"";position:absolute;bottom:-1px;right:-1px;width:14px;height:14px;border-bottom:2px solid var(--accent);border-right:2px solid var(--accent);opacity:.65}
+@media(max-width:640px){.mount-frame{display:none}}
+
+/* 竖排题跋 */
+.colophon{position:fixed;right:16px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-family:var(--serif);font-size:.7rem;letter-spacing:.4rem;opacity:.15;z-index:100;pointer-events:none}
+@media(max-width:768px){.colophon{display:none}}
+
+/* 远山水墨(置于 footer 之前) */
+.ink-mountains{max-width:1000px;margin:80px auto -8px;color:var(--mid);opacity:.06;pointer-events:none}
+.ink-mountains svg{display:block;width:100%;height:130px}
+
+/* 展卷动画(hero 首行用) */
+@keyframes scrollUnfurl{from{clip-path:inset(0 45% 0 45%);opacity:0}to{clip-path:inset(0 0 0 0);opacity:1}}
+.unfurl{opacity:0;animation:scrollUnfurl 1s cubic-bezier(.2,.6,.2,1) forwards}
+.unfurl.d1{animation-delay:.1s}.unfurl.d2{animation-delay:.25s}.unfurl.d3{animation-delay:.4s}
+@media(prefers-reduced-motion:reduce){.unfurl{animation:none;opacity:1;clip-path:none}}

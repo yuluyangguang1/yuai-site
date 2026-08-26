@@ -32,6 +32,13 @@
 </head>
 <body>
 
+<!-- 背景层 · 装裱边框 · 竖排题跋 -->
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+<div class="colophon" aria-hidden="true">与君同在 · 历久不散</div>
+<div class="mount-frame" aria-hidden="true"></div>
+
 <!-- 粘性顶栏 -->
 <header class="topbar">
   <div class="topbar-inner">
@@ -56,7 +63,7 @@
 <!-- Hero -->
 <div class="hero page-hero">
   <div class="glyph">潜</div>
-  <h1 class="display">deepseek harness<small>深潜</small></h1>
+  <h1 class="display unfurl d1">deepseek harness<small>深潜</small></h1>
   <p class="sub">DeepSeek Harness（dsh）便携版 · 即插即用 · U 盘即走</p>
   <p class="cn">深度求索 · 随身而行</p>
   <div class="cta">
@@ -183,8 +190,13 @@
 </div>
 
 <!-- Footer -->
+
+<!-- 远山水墨 -->
+<div class="ink-mountains" aria-hidden="true"><svg viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0,150 L0,96 C90,62 180,86 280,64 C380,42 470,80 580,58 C690,36 780,74 900,52 C1000,34 1100,66 1200,48 L1200,150 Z" fill="currentColor" opacity=".55"/><path d="M0,150 L0,120 C120,96 240,112 380,97 C520,82 660,104 820,90 C960,80 1080,98 1200,86 L1200,150 Z" fill="currentColor"/></svg></div>
+
+<!-- Footer -->
 <footer class="footer">
-  <span>yu.ai</span>
+  <span><a href="/" style="color:inherit;opacity:.9">yu.ai</a></span>
   <span>deepseek harness · 深潜</span>
   <span id="footer-year">mit</span>
 </footer>
@@ -213,6 +225,43 @@
       sync(n);
     };
   }
+  // Footer year
+  try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
+})();
+</script>
+
+<!-- WeChat detection -->
+<style>.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}.wechat-mask.show{display:flex}.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}</style>
+<div class="wechat-mask" id="wechatMask" role="alertdialog" aria-label="请用浏览器打开">
+  <div class="arrow">···</div>
+  <h2>请用浏览器打开</h2>
+  <p>微信内无法正常访问本站</p>
+  <div class="steps-wx">
+    1. 点击右上角 <strong>···</strong> 按钮<br>
+    2. 选择「用默认浏览器打开」<br>
+    3. 即可正常浏览
+  </div>
+</div>
+<script>(function(){if(navigator.userAgent.toLowerCase().indexOf('micromessenger')!==-1)document.getElementById('wechatMask').classList.add('show')})();</script>
+<script data-yuai-chrome>
+(function(){
+  // Theme toggle
+  try{
+    var btn=document.getElementById('theme-btn');
+    if(btn){
+      var root=document.documentElement,sun=btn.querySelector('.theme-sun'),moon=btn.querySelector('.theme-moon');
+      function sync(i){if(sun)sun.style.display=i?'none':'block';if(moon)moon.style.display=i?'block':'none'}
+      var sv;try{sv=localStorage.getItem('yuai-theme')}catch(_){}
+      if(sv==='light'){root.setAttribute('data-theme','light');sync(true)}
+      else if(sv==='dark'){root.setAttribute('data-theme','dark');sync(false)}
+      else{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)');sync(m&&m.matches)}
+      btn.onclick=function(){
+        var n=root.getAttribute('data-theme')!=='light';
+        if(!root.getAttribute('data-theme')){n=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
+        root.setAttribute('data-theme',n?'light':'dark');try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}sync(n);
+      };
+    }
+  }catch(_){}
   // Footer year
   try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
 })();

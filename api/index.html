@@ -4,21 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>api · API 代理 · yu.ai</title>
-<meta name="theme-color" content="#170d02" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#150e07" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
 <link rel="stylesheet" href="/shared.css">
 <link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
 <link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23170d02'/%3E%3Cg fill='none' stroke='%23f5f5f5' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 28 32 L 42 60 M 56 32 L 42 60 L 36 78'/%3E%3Cpath d='M 64 32 L 64 60 Q 64 72 76 72 L 76 32'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23150e07'/%3E%3Cg transform='translate(20,34.6) scale(1.431)'%3E%3Cpath fill='%23f3ede2' fill-rule='nonzero' d='M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z'/%3E%3Ccircle fill='%23f2634e' cx='50.450349' cy='40.191867' r='2.466790'/%3E%3C/g%3E%3C/svg%3E">
 <style>
 a{color:inherit;opacity:1}
-.bg-i{position:fixed;inset:0;z-index:0;pointer-events:none}
-.bg-i img{width:100vw;height:100vh;object-fit:cover;opacity:.06;filter:grayscale(1)brightness(.7);object-position:center bottom}
-.bg-n{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23eaeaea' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");background-size:512px 512px}
-.bg-g{position:fixed;inset:0;z-index:300;pointer-events:none;mix-blend-mode:lighten;opacity:.15;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,.25) 0%,transparent 50%)}
-[data-theme="light"] .bg-i img{opacity:.04;filter:grayscale(1)brightness(1.5)}
-[data-theme="light"] .bg-n{opacity:.015}
-[data-theme="light"] .bg-g{opacity:.06}
 
 .page{max-width:700px;margin:0 auto;padding:48px 24px;position:relative;z-index:200}
 
@@ -50,9 +43,13 @@ footer{text-align:center;padding:32px 0;font-size:.8rem;opacity:.4;letter-spacin
 </head>
 <body>
 
-<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1122" height="1402" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+
+<!-- 背景层 · 装裱边框 · 竖排题跋 -->
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
 <div class="bg-n" aria-hidden="true"></div>
 <div class="bg-g" aria-hidden="true"></div>
+<div class="colophon" aria-hidden="true">与君同在 · 历久不散</div>
+<div class="mount-frame" aria-hidden="true"></div>
 
 <button id="theme-btn" aria-label="切换主题" class="theme-toggle">
   <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
@@ -61,13 +58,23 @@ footer{text-align:center;padding:32px 0;font-size:.8rem;opacity:.4;letter-spacin
 
 <div class="page">
 <!-- Nav -->
-<nav class="row" aria-label="Primary">
-  <div class="cell s1"><a href="/" style="display:block"><svg width="80" height="28" viewBox="0 0 180 64" fill="none" aria-label="yu.ai" style="display:block"><path d="M 12 12 L 24 40" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M 36 12 L 24 40 L 18 56" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M 46 16 L 46 42 Q 46 52 56 52 L 64 52" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 64 16 L 64 52" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="78" cy="50" r="4" fill="currentColor"/><path d="M 92 28 Q 92 18 102 18 Q 112 18 112 28 L 112 52" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 112 36 Q 112 28 102 28 Q 92 28 92 36 Q 92 52 102 52 L 112 52" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 126 24 L 126 52" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="126" cy="14" r="4" fill="currentColor"/></svg></a></div>
-  <div class="cell s2" style="padding:0"></div>
-  <div class="cell" style="justify-content:flex-end;gap:8px">
-    <a href="/" class="label op-5" style="opacity:.5">yu.ai</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="topbar-logo" aria-label="yu.ai 首页">
+      <svg width="47" height="24" viewBox="10.99773 21.210212 41.919409 21.544615" fill="none" aria-hidden="true" style="display:block" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--accent)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>
+    </a>
+    <nav class="topbar-links" aria-label="主导航">
+      <a href="/#products"><span class="zh">工具</span><span class="en">tools</span></a>
+      <a href="/sovereign/"><span class="zh">企业定制</span><span class="en">enterprise</span></a>
+    </nav>
+    <div class="topbar-actions">
+      <button class="theme-toggle" id="theme-btn" aria-label="切换主题">
+        <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
   </div>
-</nav>
+</header>
 
 
 <a href="/" class="back">← yu.ai</a>
@@ -149,5 +156,53 @@ footer{text-align:center;padding:32px 0;font-size:.8rem;opacity:.4;letter-spacin
 })();
 </script>
 
+
+<!-- 远山水墨 -->
+<div class="ink-mountains" aria-hidden="true"><svg viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0,150 L0,96 C90,62 180,86 280,64 C380,42 470,80 580,58 C690,36 780,74 900,52 C1000,34 1100,66 1200,48 L1200,150 Z" fill="currentColor" opacity=".55"/><path d="M0,150 L0,120 C120,96 240,112 380,97 C520,82 660,104 820,90 C960,80 1080,98 1200,86 L1200,150 Z" fill="currentColor"/></svg></div>
+
+<!-- Footer -->
+<footer class="footer">
+  <span><a href="/" style="color:inherit;opacity:.9">yu.ai</a></span>
+  <span>api proxy · 代理服务</span>
+  <span id="footer-year">mit</span>
+</footer>
+
+
+<!-- WeChat detection -->
+<style>.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}.wechat-mask.show{display:flex}.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}</style>
+<div class="wechat-mask" id="wechatMask" role="alertdialog" aria-label="请用浏览器打开">
+  <div class="arrow">···</div>
+  <h2>请用浏览器打开</h2>
+  <p>微信内无法正常访问本站</p>
+  <div class="steps-wx">
+    1. 点击右上角 <strong>···</strong> 按钮<br>
+    2. 选择「用默认浏览器打开」<br>
+    3. 即可正常浏览
+  </div>
+</div>
+<script>(function(){if(navigator.userAgent.toLowerCase().indexOf('micromessenger')!==-1)document.getElementById('wechatMask').classList.add('show')})();</script>
+<script data-yuai-chrome>
+(function(){
+  // Theme toggle
+  try{
+    var btn=document.getElementById('theme-btn');
+    if(btn){
+      var root=document.documentElement,sun=btn.querySelector('.theme-sun'),moon=btn.querySelector('.theme-moon');
+      function sync(i){if(sun)sun.style.display=i?'none':'block';if(moon)moon.style.display=i?'block':'none'}
+      var sv;try{sv=localStorage.getItem('yuai-theme')}catch(_){}
+      if(sv==='light'){root.setAttribute('data-theme','light');sync(true)}
+      else if(sv==='dark'){root.setAttribute('data-theme','dark');sync(false)}
+      else{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)');sync(m&&m.matches)}
+      btn.onclick=function(){
+        var n=root.getAttribute('data-theme')!=='light';
+        if(!root.getAttribute('data-theme')){n=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
+        root.setAttribute('data-theme',n?'light':'dark');try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}sync(n);
+      };
+    }
+  }catch(_){}
+  // Footer year
+  try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
+})();
+</script>
 </body>
 </html>
