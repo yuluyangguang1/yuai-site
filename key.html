@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>免费模型活动 · yu.ai</title>
+<meta name="description" content="聚拢全网各家大模型的免费额度与限时活动，不绑卡，注册即用。">
+<style>
+  :root {
+    --bg-base: 21 14 7;
+    --mid-base: 243 237 226;
+    --dim-base: 158 149 133;
+    --accent-base: 242 99 78;
+    --bg: rgb(var(--bg-base));
+    --mid: rgb(var(--mid-base));
+    --dim: rgb(var(--dim-base));
+    --accent: rgb(var(--accent-base));
+    --border: rgb(var(--mid-base) / .12);
+    --border-strong: rgb(var(--mid-base) / .26);
+    --hover: rgb(var(--mid-base) / .05);
+    --sans: system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    --serif: 'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', serif;
+    --mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace;
+    --page-max: 900px;
+    --ease: cubic-bezier(.4,0,.2,1);
+  }
+  [data-theme="light"] {
+    --bg-base: 246 243 236;
+    --mid-base: 33 27 19;
+    --dim-base: 128 113 94;
+    --accent-base: 187 52 36;
+    --border: rgb(var(--mid-base) / .14);
+    --border-strong: rgb(var(--mid-base) / .28);
+    --hover: rgb(var(--mid-base) / .04);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--mid);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.75;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 50% 0%, rgb(var(--accent-base) / .16), transparent 55%),
+      radial-gradient(circle at 80% 100%, rgb(var(--accent-base) / .05), transparent 40%);
+    background-attachment: fixed;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  .topbar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: rgb(var(--bg-base) / .82);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: .04em;
+  }
+  .nav {
+    display: flex;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .nav a:hover { color: var(--mid); }
+  .topbar-right { display: flex; gap: 12px; }
+  .pill-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    padding: 5px 11px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--dim);
+    opacity: .85;
+    transition: all .2s var(--ease);
+  }
+  .pill-btn:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
+
+  .page {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: calc(60px + 64px) 24px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 16px 0 8px;
+  }
+  .badge {
+    display: inline-flex;
+    width: fit-content;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .1em;
+    color: var(--dim);
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .hero h1 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 8vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--mid);
+  }
+  .hero .sub {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--mid);
+    opacity: .82;
+    max-width: 640px;
+  }
+  .hero .en {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .04em;
+    color: var(--dim);
+    opacity: .7;
+  }
+  .stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--dim);
+    letter-spacing: .04em;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border-radius: 3px;
+    transition: all .25s var(--ease);
+  }
+  .cta-primary { background: var(--accent); color: #fff; }
+  .cta-primary:hover { filter: brightness(1.08); }
+  .cta-secondary {
+    border: 1px solid rgb(var(--accent-base) / .55);
+    color: var(--accent);
+  }
+  .cta-secondary:hover { background: var(--accent); color: #fff; }
+
+  .filters {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .04em;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--dim);
+    background: transparent;
+    transition: all .2s var(--ease);
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip.active {
+    border-color: rgb(var(--accent-base) / .55);
+    color: var(--accent);
+  }
+
+  .section-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+  .section-head h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--mid);
+  }
+  .section-head .en {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--dim);
+    letter-spacing: .04em;
+  }
+  .offer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .offer-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: rgb(var(--mid-base) / .03);
+    transition: background .25s var(--ease), transform .2s var(--ease);
+  }
+  .offer-card:hover { background: var(--hover); transform: translateY(-2px); }
+  .offer-card.hidden { display: none; }
+  .offer-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .offer-name {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--mid);
+  }
+  .offer-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .offer-quota {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .offer-models {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--dim);
+  }
+  .offer-highlight {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--mid);
+    opacity: .7;
+  }
+  .offer-cta {
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: .04em;
+    transition: opacity .2s;
+  }
+  .offer-card:hover .offer-cta { opacity: .8; }
+
+  .note-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .note-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: rgb(var(--mid-base) / .03);
+  }
+  .note-card h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--mid);
+  }
+  .note-card p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--mid);
+    opacity: .7;
+  }
+  .disclaimer {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--dim);
+    opacity: .6;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .footer .brand {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--mid);
+    opacity: .85;
+  }
+  .footer .meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--dim);
+    letter-spacing: .04em;
+  }
+
+  @media (max-width: 720px) {
+    .topbar { padding: 0 16px; }
+    .nav { display: none; }
+    .page { padding-top: calc(60px + 40px); gap: 40px; }
+    .hero h1 { font-size: 2.4rem; }
+    .hero .sub { font-size: 16px; }
+    .offer-grid { grid-template-columns: 1fr; }
+    .note-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">yu.ai</div>
+  <nav class="nav">
+    <a href="index.html">tools</a>
+    <a href="#">企业定制 enterprise</a>
+  </nav>
+  <div class="topbar-right">
+    <button class="pill-btn" aria-label="切换语言">EN</button>
+    <button class="pill-btn" id="themeToggle" aria-label="切换主题">主题</button>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="hero">
+    <div class="badge">每日核对 · 免费额度 · mit</div>
+    <h1>免费模型活动</h1>
+    <p class="sub">聚拢全网各家大模型的免费额度与限时活动 —— 不绑卡，注册即用。</p>
+    <p class="en">Free model offers, curated daily · no credit card required.</p>
+    <div class="stats">
+      <span>收录 8 家</span>
+      <span>长期免费 6 家</span>
+      <span>每日核对 · updated daily</span>
+    </div>
+    <div class="cta-row">
+      <a class="cta cta-primary" href="#offers">查看全部活动</a>
+      <a class="cta cta-secondary" href="https://github.com/yuluyangguang1/yuai-site/issues/new" target="_blank" rel="noopener">提交收录</a>
+    </div>
+  </section>
+
+  <section class="filters" aria-label="筛选活动">
+    <button class="chip active" data-filter="all">全部 all</button>
+    <button class="chip" data-filter="permanent">长期免费 permanent</button>
+    <button class="chip" data-filter="limited">限时活动 limited</button>
+    <button class="chip" data-filter="cn">国内直连 cn</button>
+    <button class="chip" data-filter="global">海外 global</button>
+  </section>
+
+  <section id="offers">
+    <div class="section-head">
+      <h2>在跑的活动</h2>
+      <p class="en">Live free offers</p>
+    </div>
+    <div class="offer-grid">
+
+      <a class="offer-card" href="https://open.bigmodel.cn/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
+        <div class="offer-head">
+          <h3 class="offer-name">智谱 GLM</h3>
+          <span class="offer-tag">国内直连 · 长期免费</span>
+        </div>
+        <p class="offer-quota">GLM-4.7-Flash 输入+输出全免费</p>
+        <p class="offer-models">GLM-4.7-Flash · GLM-4-Flash · 200K 上下文</p>
+        <p class="offer-highlight">中文最强，OpenAI 接口兼容，注册即送 2000 万 Token。</p>
+        <span class="offer-cta">去领取</span>
+      </a>
+
+      <a class="offer-card" href="https://siliconflow.cn/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
+        <div class="offer-head">
+          <h3 class="offer-name">硅基流动 SiliconFlow</h3>
+          <span class="offer-tag">国内直连 · 长期免费</span>
+        </div>
+        <p class="offer-quota">9B 以下开源模型永久免费</p>
+        <p class="offer-models">Qwen2.5 · DeepSeek-V3 · Llama 3</p>
+        <p class="offer-highlight">新用户送 2000 万 Token，国内延迟低于 100ms。</p>
+        <span class="offer-cta">去领取</span>
+      </a>
+
+      <a class="offer-card" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" data-type="permanent" data-region="global">
+        <div class="offer-head">
+          <h3 class="offer-name">Google Gemini</h3>
+          <span class="offer-tag">海外 · 长期免费</span>
+        </div>
+        <p class="offer-quota">Gemini 2.5 Flash 永久免费层</p>
+        <p class="offer-models">Gemini 2.5 Flash · 2.5 Pro · 100 万上下文</p>
+        <p class="offer-highlight">无需信用卡，多模态，长文本处理最强。</p>
+        <span class="offer-cta">去领取</span>
+      </a>
+
+      <a class="offer-card" href="https://console.groq.com/" target="_blank" rel="noopener" data-type="permanent" data-region="global">
+        <div class="offer-head">
+          <h3 class="offer-name">Groq</h3>
+          <span class="offer-tag">海外 · 长期免费</span>
+        </div>
+        <p class="offer-quota">免费层无需信用卡</p>
+        <p class="offer-models">Llama 3.3 70B · Llama 4 · DeepSeek R1</p>
+        <p class="offer-highlight">推理速度之王，1000+ tokens/s，30 RPM。</p>
+        <span class="offer-cta">去领取</span>
+      </a>
+
+      <a class="offer-card" href="https://cloud.cerebras.ai/" target="_blank" rel="noopener" data-type="permanent" data-region="global">
+        <div class="offer-head">
+          <h3 class="offer-name">Cerebras</h3>
+          <span class="offer-tag">海外 · 长期免费</span>
+        </div>
+        <p class="offer-quota">每天 100 万 Token</p>
+        <p class="offer-models">Qwen3 235B · Llama 3.3 70B</p>
+        <p class="offer-highlight">额度之王，2000 tokens/s，每日重置长期有效。</p>
+        <span class="offer-cta">去领取</span>
+      </a>
+
+      <a class="offer-card" href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
+        <div class="offer-head">
+          <h3 class="offer-name">火山引擎 豆包</h3>
+          <span class="offer-tag">国内直连 · 长期免费</span>
+        </div>
+        <p class="offer-quota">每天 200 万 Token，次日重置</p>
+        <p class="offer-models">豆包系列 · 百川</p>
+        <p class="offer-highlight">长期有效，中文理解强，适合日常问答与文案。</p>
+        <span class="offer-cta">去领取</span>
+      </a>
+
+      <a class="offer-card" href="https://bailian.aliyun.com/" target="_blank" rel="noopener" data-type="limited" data-region="cn">
+        <div class="offer-head">
+          <h3 class="offer-name">阿里云百炼 通义千问</h3>
+          <span class="offer-tag">国内直连 · 限时 90 天</span>
+        </div>
+        <p class="offer-quota">新用户 7000 万 Token</p>
+        <p class="offer-models">qwen-plus · qwen-turbo</p>
+        <p class="offer-highlight">额度最大，需实名认证，90 天内有效。</p>
+        <span class="offer-cta">去领取</span>
+      </a>
+
+      <a class="offer-card" href="https://qianfan.cloud.baidu.com/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
+        <div class="offer-head">
+          <h3 class="offer-name">百度千帆 文心</h3>
+          <span class="offer-tag">国内直连 · 长期免费</span>
+        </div>
+        <p class="offer-quota">ERNIE-Speed 永久免费</p>
+        <p class="offer-models">ernie-speed-128k</p>
+        <p class="offer-highlight">永久免费，QPS 50，提供 OpenAI 兼容入口。</p>
+        <span class="offer-cta">去领取</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="section-head">
+      <h2>先分清三种「免费」</h2>
+      <p class="en">Three kinds of free · read before you claim</p>
+    </div>
+    <div class="note-grid">
+      <div class="note-card">
+        <h3>真永久免费层</h3>
+        <p>模型本身可免费调用，无需绑卡。如 Gemini 2.5 Flash、Groq、智谱 GLM-4.7-Flash。</p>
+      </div>
+      <div class="note-card">
+        <h3>送额度 · 限时免</h3>
+        <p>注册即送 Token 或首充赠金，用完即止。如硅基流动、通义千问新用户礼包。</p>
+      </div>
+      <div class="note-card">
+        <h3>产品免费 · API 收费</h3>
+        <p>网页与 App 免费用，但开发者 API 按 token 计费，无长期免费层。</p>
+      </div>
+    </div>
+    <p class="disclaimer">额度与规则以各家官方页面为准，本站每日核对；发现过期欢迎提交收录。</p>
+  </section>
+
+  <footer class="footer">
+    <span class="brand">yu.ai · 与 AI 同行</span>
+    <span class="meta">mit · 2025</span>
+  </footer>
+
+</main>
+
+<script>
+  // 主题切换
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', () => {
+    const root = document.documentElement;
+    root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // 筛选
+  const chips = document.querySelectorAll('.chip');
+  const cards = document.querySelectorAll('.offer-card');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const filter = chip.dataset.filter;
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.type === filter || card.dataset.region === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
