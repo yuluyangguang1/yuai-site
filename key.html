@@ -3,89 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>免费模型活动 · free offers · yu.ai</title>
-<meta name="description" content="聚拢全网各家大模型的免费额度与限时活动，不绑卡，注册即用。每日核对，长期更新。">
-<meta name="keywords" content="免费AI,免费模型,免费额度,GLM,Gemini,Groq,Cerebras,硅基流动,通义千问,文心,豆包,yu.ai">
+<title>免费模型活动 · yu.ai</title>
+
+<meta name="description" content="yu.ai 免费模型活动：聚拢全网各家大模型的免费额度与限时活动 —— 不绑卡，注册即用。GLM · 硅基流动 · Gemini · Groq · Cerebras · 豆包 · 通义千问 · 文心。">
+<meta name="keywords" content="yu.ai,免费模型,免费API,大模型免费额度,GLM,硅基流动,Gemini,Groq,Cerebras,豆包,通义千问,文心一言,free API">
+<meta name="author" content="ylyg">
 <link rel="canonical" href="https://yuai-r.cn/key.html">
-<meta name="theme-color" content="#150e07" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
 
-<!-- Design system + fonts -->
-<link rel="stylesheet" href="/shared.css">
-<link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
-<link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
-
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23150e07'/%3E%3Cg transform='translate(20,34.6) scale(1.431)'%3E%3Cpath fill='%23f3ede2' fill-rule='nonzero' d='M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z'/%3E%3Ccircle fill='%23f2634e' cx='50.450349' cy='40.191867' r='2.466790'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="fonts/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="fonts/lxgwwenkai-bold.css">
 
 <style>
-/* 页面特有样式 —— 免费模型活动 */
+  /* ===== 本页专用样式（其余全部复用 shared.css） ===== */
+  .stat-row{
+    display:flex;gap:24px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:var(--label-sm,.72rem);
+    color:var(--dim);opacity:.7;letter-spacing:.04em;
+  }
 
-.badge{display:inline-flex;width:fit-content;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--dim);padding:6px 14px;border:1px solid var(--border);border-radius:2px}
-.hero{padding:32px 0 8px}
-.hero .sub{margin:18px 0 0;font-family:var(--serif);font-size:1.05rem;line-height:1.8;color:var(--mid);opacity:.82;max-width:640px}
-.hero .en{margin:10px 0 0;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--dim);opacity:.7}
-.stats{display:flex;gap:24px;flex-wrap:wrap;margin-top:16px;font-family:var(--mono);font-size:.72rem;color:var(--dim);letter-spacing:.04em}
-.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-.cta{display:inline-flex;align-items:center;gap:6px;padding:11px 22px;border:1px solid var(--border);font-family:var(--mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);opacity:.85;transition:all .25s var(--ease)}
-.cta:hover{border-color:var(--accent);color:var(--accent);opacity:1}
-.cta-primary{border-color:rgb(var(--accent-base) / .55);color:var(--accent)}
-.cta-primary:hover{background:var(--accent);color:#fff;opacity:1}
+  /* 筛选 */
+  .filters{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .chip{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;
+    padding:6px 14px;border:1px solid var(--border);border-radius:2px;
+    color:var(--dim);background:none;cursor:pointer;
+    transition:border-color .2s var(--ease),color .2s var(--ease);
+  }
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+  .chip.active{border-color:rgb(var(--accent-base)/.55);color:var(--accent)}
 
-.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:32px}
-.chip{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;padding:6px 14px;border:1px solid var(--border);border-radius:2px;color:var(--dim);background:transparent;transition:all .2s var(--ease)}
-.chip:hover{border-color:var(--accent);color:var(--accent)}
-.chip.active{border-color:rgb(var(--accent-base) / .55);color:var(--accent)}
+  /* 活动卡片：外层沿用 .cards 网格与描边 */
+  .cards.offers{grid-template-columns:1fr}
+  @media (min-width:720px){
+    .cards.offers{grid-template-columns:1fr 1fr}
+  }
+  .offer{display:flex;flex-direction:column;gap:8px}
+  .offer-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .offer-name{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--mid)}
+  .offer-tag{font-family:var(--mono);font-size:.65rem;color:var(--dim);opacity:.75;white-space:nowrap}
+  .offer-quota{font-family:var(--mono);font-size:.88rem;color:var(--accent);line-height:1.6}
+  .offer-models{font-family:var(--mono);font-size:.72rem;color:var(--dim);opacity:.8;line-height:1.6}
+  .offer-note{font-size:.9rem;color:var(--mid);opacity:.7;line-height:1.75}
+  .offer-go{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.04em;margin-top:2px}
+  .cards>*.offer:hover .offer-go{opacity:.75}
+  .offer.hidden{display:none}
 
-.section-head .en{margin-left:auto;font-family:var(--mono);font-size:.72rem;color:var(--dim);letter-spacing:.04em}
+  /* 顶部提示条 */
+  .tip{margin:0}
 
-.offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:20px}
-.offer-card{display:flex;flex-direction:column;gap:10px;padding:24px;background:rgb(var(--bg-base) / .55);transition:background .3s var(--ease)}
-.offer-card:hover{background:var(--hover-strong)}
-.offer-card.hidden{display:none}
-.offer-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.offer-name{margin:0;font-family:var(--serif);font-size:1.15rem;font-weight:700;color:var(--mid)}
-.offer-tag{font-family:var(--mono);font-size:.65rem;color:var(--dim);letter-spacing:.04em;white-space:nowrap}
-.offer-quota{margin:0;font-family:var(--mono);font-size:.9rem;font-weight:500;color:var(--accent)}
-.offer-models{margin:0;font-family:var(--mono);font-size:.72rem;color:var(--dim)}
-.offer-highlight{margin:0;font-size:.85rem;line-height:1.75;color:var(--mid);opacity:.72}
-.offer-cta{margin-top:4px;font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;transition:opacity .2s}
-.offer-card:hover .offer-cta{opacity:.8}
-
-.note-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:20px}
-.note-card{display:flex;flex-direction:column;gap:10px;padding:24px;background:rgb(var(--bg-base) / .35)}
-.note-card h3{margin:0;font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--mid)}
-.note-card p{margin:0;font-size:.85rem;line-height:1.75;color:var(--mid);opacity:.7}
-.disclaimer{font-family:var(--mono);font-size:.72rem;color:var(--dim);opacity:.6;margin:16px 0 0;line-height:1.6}
-
-@media(max-width:720px){
-  .hero{padding-top:20px}
-  .hero h1{font-size:2.2rem}
-  .offer-grid,.note-grid{grid-template-columns:1fr}
-}
+  @media (max-width:640px){
+    .stat-row{gap:16px}
+  }
 </style>
 </head>
 <body>
 
-<!-- 背景层 · 竖排题跋 · 装裱边框 -->
-<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<a href="#offers" class="skip-link">跳到主要内容</a>
+
+<!-- Background layers -->
+<div class="bg-i" aria-hidden="true"><img alt="" src="egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
 <div class="bg-n" aria-hidden="true"></div>
 <div class="bg-g" aria-hidden="true"></div>
 <div class="colophon" aria-hidden="true">与君同在 · 历久不散</div>
 <div class="mount-frame" aria-hidden="true"></div>
 
-<!-- 粘性顶栏 -->
+<!-- Topbar -->
 <header class="topbar">
   <div class="topbar-inner">
-    <a href="/" class="topbar-logo" aria-label="yu.ai 首页">
+    <a href="index.html" class="topbar-logo" aria-label="yu.ai 首页">
       <svg width="47" height="24" viewBox="10.99773 21.210212 41.919409 21.544615" fill="none" aria-hidden="true" style="display:block" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--accent)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>
     </a>
     <nav class="topbar-links" aria-label="主导航">
-      <a href="/#products"><span class="zh">工具</span><span class="en">tools</span></a>
-      <a href="/sovereign/"><span class="zh">企业定制</span><span class="en">enterprise</span></a>
+      <a href="index.html#products">tools</a>
+      <a href="key.html"><span class="zh">免费模型</span><span class="en">free offers</span></a>
+      <a href="sovereign/"><span class="zh">企业定制</span><span class="en">enterprise</span></a>
     </nav>
     <div class="topbar-actions">
-      <button class="theme-toggle" id="theme-btn" aria-label="切换主题">
+      <button id="lang-btn" class="lang-btn" aria-label="Switch language">EN</button>
+      <button id="theme-btn" aria-label="切换主题" class="theme-toggle">
         <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
@@ -97,163 +93,170 @@
 <div class="page">
 
   <!-- Hero -->
-  <div class="hero">
-    <div class="badge">每日核对 · 免费额度 · mit</div>
-    <h1 class="display unfurl d1" style="margin:18px 0 0">免费模型活动</h1>
-    <p class="sub">聚拢全网各家大模型的免费额度与限时活动 —— 不绑卡，注册即用。</p>
-    <p class="en">Free model offers, curated daily · no credit card required.</p>
-    <div class="stats">
-      <span>收录 8 家</span>
-      <span>长期免费 6 家</span>
+  <section class="hero">
+    <h1 class="display unfurl d1">
+      <span class="zh">免费模型活动</span>
+      <span class="en">Free model offers</span>
+    </h1>
+    <p class="sub fade-up d2">
+      <span class="zh">聚拢全网各家大模型的免费额度与限时活动 —— 不绑卡，注册即用。</span>
+      <span class="en">Every free AI model tier and promo, in one place. No credit card required.</span>
+    </p>
+    <div class="stat-row fade-up d3">
+      <span class="zh">收录 8 家</span><span class="en">8 platforms</span>
+      <span class="zh">长期免费 6 家</span><span class="en">6 permanent tiers</span>
       <span>每日核对 · updated daily</span>
     </div>
-    <div class="cta-row">
-      <a class="cta cta-primary" href="#offers">查看全部活动 →</a>
-      <a class="cta" href="https://github.com/yuluyangguang1/yuai-site/issues/new" target="_blank" rel="noopener">提交收录 →</a>
+    <div class="cta fade-up d4">
+      <a href="#offers" class="primary"><span class="zh">查看全部活动</span><span class="en">see all offers</span> →</a>
+      <a href="https://github.com/yuluyangguang1/yuai-site/issues/new" target="_blank" rel="noopener"><span class="zh">提交收录</span><span class="en">submit an offer</span> →</a>
     </div>
-  </div>
+  </section>
 
-  <!-- 筛选 -->
-  <div class="filters" aria-label="筛选活动">
-    <button class="chip active" data-filter="all">全部 all</button>
-    <button class="chip" data-filter="permanent">长期免费 permanent</button>
-    <button class="chip" data-filter="limited">限时活动 limited</button>
-    <button class="chip" data-filter="cn">国内直连 cn</button>
-    <button class="chip" data-filter="global">海外 global</button>
-  </div>
+  <!-- Filters -->
+  <section class="section">
+    <div class="filters" aria-label="筛选活动">
+      <button class="chip active" data-filter="all">全部 all</button>
+      <button class="chip" data-filter="permanent">长期免费 permanent</button>
+      <button class="chip" data-filter="limited">限时活动 limited</button>
+      <button class="chip" data-filter="cn">国内直连 cn</button>
+      <button class="chip" data-filter="global">海外 global</button>
+    </div>
+  </section>
 
-  <!-- 壹 · 在跑的活动 -->
-  <section id="offers" class="section huiwen">
+  <!-- Offers -->
+  <section class="section" id="offers">
     <div class="section-head">
-      <span class="num" aria-hidden="true">壹</span>
-      <h2>在跑的活动</h2>
-      <p class="en">Live free offers</p>
+      <h2><span class="zh">在跑的活动</span><span class="en">Live free offers</span></h2>
     </div>
-    <div class="offer-grid">
 
-      <a class="offer-card" href="https://open.bigmodel.cn/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
+    <div class="cards offers">
+
+      <a class="offer" href="https://open.bigmodel.cn/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
         <div class="offer-head">
-          <h3 class="offer-name">智谱 GLM</h3>
-          <span class="offer-tag">国内直连 · 长期免费</span>
+          <span class="offer-name"><span class="zh">智谱 GLM</span><span class="en">Zhipu GLM</span></span>
+          <span class="offer-tag"><span class="zh">国内直连 · 长期免费</span><span class="en">CN · permanent</span></span>
         </div>
-        <p class="offer-quota">GLM-4.7-Flash 输入+输出全免费</p>
-        <p class="offer-models">GLM-4.7-Flash · GLM-4-Flash · 200K 上下文</p>
-        <p class="offer-highlight">中文最强，OpenAI 接口兼容，注册即送 2000 万 Token。</p>
-        <span class="offer-cta">去领取 →</span>
+        <span class="offer-quota">GLM-4.7-Flash <span class="zh">输入+输出全免费</span><span class="en">free in &amp; out</span></span>
+        <span class="offer-models">GLM-4.7-Flash · GLM-4-Flash · 200K ctx</span>
+        <span class="offer-note"><span class="zh">中文最强，OpenAI 接口兼容，注册即送 2000 万 Token。</span><span class="en">Best Chinese model, OpenAI-compatible, 20M tokens on signup.</span></span>
+        <span class="offer-go"><span class="zh">去领取</span><span class="en">claim</span> →</span>
       </a>
 
-      <a class="offer-card" href="https://siliconflow.cn/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
+      <a class="offer" href="https://siliconflow.cn/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
         <div class="offer-head">
-          <h3 class="offer-name">硅基流动 SiliconFlow</h3>
-          <span class="offer-tag">国内直连 · 长期免费</span>
+          <span class="offer-name"><span class="zh">硅基流动</span><span class="en">SiliconFlow</span></span>
+          <span class="offer-tag"><span class="zh">国内直连 · 长期免费</span><span class="en">CN · permanent</span></span>
         </div>
-        <p class="offer-quota">9B 以下开源模型永久免费</p>
-        <p class="offer-models">Qwen2.5 · DeepSeek-V3 · Llama 3</p>
-        <p class="offer-highlight">新用户送 2000 万 Token，国内延迟低于 100ms。</p>
-        <span class="offer-cta">去领取 →</span>
+        <span class="offer-quota"><span class="zh">9B 以下开源模型永久免费</span><span class="en">open models under 9B free forever</span></span>
+        <span class="offer-models">Qwen2.5 · DeepSeek-V3 · Llama 3</span>
+        <span class="offer-note"><span class="zh">新用户送 2000 万 Token，国内延迟低于 100ms。</span><span class="en">20M tokens for new users, sub-100ms latency in China.</span></span>
+        <span class="offer-go"><span class="zh">去领取</span><span class="en">claim</span> →</span>
       </a>
 
-      <a class="offer-card" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" data-type="permanent" data-region="global">
+      <a class="offer" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" data-type="permanent" data-region="global">
         <div class="offer-head">
-          <h3 class="offer-name">Google Gemini</h3>
-          <span class="offer-tag">海外 · 长期免费</span>
+          <span class="offer-name">Google Gemini</span>
+          <span class="offer-tag"><span class="zh">海外 · 长期免费</span><span class="en">global · permanent</span></span>
         </div>
-        <p class="offer-quota">Gemini 2.5 Flash 永久免费层</p>
-        <p class="offer-models">Gemini 2.5 Flash · 2.5 Pro · 100 万上下文</p>
-        <p class="offer-highlight">无需信用卡，多模态，长文本处理最强。</p>
-        <span class="offer-cta">去领取 →</span>
+        <span class="offer-quota">Gemini 2.5 Flash <span class="zh">永久免费层</span><span class="en">free tier</span></span>
+        <span class="offer-models">Gemini 2.5 Flash · 2.5 Pro · 1M ctx</span>
+        <span class="offer-note"><span class="zh">无需信用卡，多模态，长文本处理最强。</span><span class="en">No credit card, multimodal, best long-context handling.</span></span>
+        <span class="offer-go"><span class="zh">去领取</span><span class="en">claim</span> →</span>
       </a>
 
-      <a class="offer-card" href="https://console.groq.com/" target="_blank" rel="noopener" data-type="permanent" data-region="global">
+      <a class="offer" href="https://console.groq.com/" target="_blank" rel="noopener" data-type="permanent" data-region="global">
         <div class="offer-head">
-          <h3 class="offer-name">Groq</h3>
-          <span class="offer-tag">海外 · 长期免费</span>
+          <span class="offer-name">Groq</span>
+          <span class="offer-tag"><span class="zh">海外 · 长期免费</span><span class="en">global · permanent</span></span>
         </div>
-        <p class="offer-quota">免费层无需信用卡</p>
-        <p class="offer-models">Llama 3.3 70B · Llama 4 · DeepSeek R1</p>
-        <p class="offer-highlight">推理速度之王，1000+ tokens/s，30 RPM。</p>
-        <span class="offer-cta">去领取 →</span>
+        <span class="offer-quota"><span class="zh">免费层无需信用卡</span><span class="en">free tier, no card</span></span>
+        <span class="offer-models">Llama 3.3 70B · Llama 4 · DeepSeek R1</span>
+        <span class="offer-note"><span class="zh">推理速度之王，1000+ tokens/s，30 RPM。</span><span class="en">Fastest inference, 1000+ tok/s, 30 RPM.</span></span>
+        <span class="offer-go"><span class="zh">去领取</span><span class="en">claim</span> →</span>
       </a>
 
-      <a class="offer-card" href="https://cloud.cerebras.ai/" target="_blank" rel="noopener" data-type="permanent" data-region="global">
+      <a class="offer" href="https://cloud.cerebras.ai/" target="_blank" rel="noopener" data-type="permanent" data-region="global">
         <div class="offer-head">
-          <h3 class="offer-name">Cerebras</h3>
-          <span class="offer-tag">海外 · 长期免费</span>
+          <span class="offer-name">Cerebras</span>
+          <span class="offer-tag"><span class="zh">海外 · 长期免费</span><span class="en">global · permanent</span></span>
         </div>
-        <p class="offer-quota">每天 100 万 Token</p>
-        <p class="offer-models">Qwen3 235B · Llama 3.3 70B</p>
-        <p class="offer-highlight">额度之王，2000 tokens/s，每日重置长期有效。</p>
-        <span class="offer-cta">去领取 →</span>
+        <span class="offer-quota"><span class="zh">每天 100 万 Token</span><span class="en">1M tokens / day</span></span>
+        <span class="offer-models">Qwen3 235B · Llama 3.3 70B</span>
+        <span class="offer-note"><span class="zh">额度之王，2000 tokens/s，每日重置长期有效。</span><span class="en">Most generous quota, 2000 tok/s, resets daily.</span></span>
+        <span class="offer-go"><span class="zh">去领取</span><span class="en">claim</span> →</span>
       </a>
 
-      <a class="offer-card" href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
+      <a class="offer" href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
         <div class="offer-head">
-          <h3 class="offer-name">火山引擎 豆包</h3>
-          <span class="offer-tag">国内直连 · 长期免费</span>
+          <span class="offer-name"><span class="zh">火山引擎 豆包</span><span class="en">Volcengine Doubao</span></span>
+          <span class="offer-tag"><span class="zh">国内直连 · 长期免费</span><span class="en">CN · permanent</span></span>
         </div>
-        <p class="offer-quota">每天 200 万 Token，次日重置</p>
-        <p class="offer-models">豆包系列 · 百川</p>
-        <p class="offer-highlight">长期有效，中文理解强，适合日常问答与文案。</p>
-        <span class="offer-cta">去领取 →</span>
+        <span class="offer-quota"><span class="zh">每天 200 万 Token，次日重置</span><span class="en">2M tokens / day, resets daily</span></span>
+        <span class="offer-models"><span class="zh">豆包系列</span><span class="en">Doubao</span> · <span class="zh">百川</span><span class="en">Baichuan</span></span>
+        <span class="offer-note"><span class="zh">长期有效，中文理解强，适合日常问答与文案。</span><span class="en">Always on, strong Chinese, great for chat and copywriting.</span></span>
+        <span class="offer-go"><span class="zh">去领取</span><span class="en">claim</span> →</span>
       </a>
 
-      <a class="offer-card" href="https://bailian.aliyun.com/" target="_blank" rel="noopener" data-type="limited" data-region="cn">
+      <a class="offer" href="https://bailian.aliyun.com/" target="_blank" rel="noopener" data-type="limited" data-region="cn">
         <div class="offer-head">
-          <h3 class="offer-name">阿里云百炼 通义千问</h3>
-          <span class="offer-tag">国内直连 · 限时 90 天</span>
+          <span class="offer-name"><span class="zh">阿里云百炼 通义千问</span><span class="en">Alibaba Qwen</span></span>
+          <span class="offer-tag"><span class="zh">国内直连 · 限时 90 天</span><span class="en">CN · 90 days</span></span>
         </div>
-        <p class="offer-quota">新用户 7000 万 Token</p>
-        <p class="offer-models">qwen-plus · qwen-turbo</p>
-        <p class="offer-highlight">额度最大，需实名认证，90 天内有效。</p>
-        <span class="offer-cta">去领取 →</span>
+        <span class="offer-quota"><span class="zh">新用户 7000 万 Token</span><span class="en">70M tokens for new users</span></span>
+        <span class="offer-models">qwen-plus · qwen-turbo</span>
+        <span class="offer-note"><span class="zh">额度最大，需实名认证，90 天内有效。</span><span class="en">Biggest quota, requires real-name verification, valid 90 days.</span></span>
+        <span class="offer-go"><span class="zh">去领取</span><span class="en">claim</span> →</span>
       </a>
 
-      <a class="offer-card" href="https://qianfan.cloud.baidu.com/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
+      <a class="offer" href="https://qianfan.cloud.baidu.com/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
         <div class="offer-head">
-          <h3 class="offer-name">百度千帆 文心</h3>
-          <span class="offer-tag">国内直连 · 长期免费</span>
+          <span class="offer-name"><span class="zh">百度千帆 文心</span><span class="en">Baidu Qianfan ERNIE</span></span>
+          <span class="offer-tag"><span class="zh">国内直连 · 长期免费</span><span class="en">CN · permanent</span></span>
         </div>
-        <p class="offer-quota">ERNIE-Speed 永久免费</p>
-        <p class="offer-models">ernie-speed-128k</p>
-        <p class="offer-highlight">永久免费，QPS 50，提供 OpenAI 兼容入口。</p>
-        <span class="offer-cta">去领取 →</span>
+        <span class="offer-quota">ERNIE-Speed <span class="zh">永久免费</span><span class="en">free forever</span></span>
+        <span class="offer-models">ernie-speed-128k</span>
+        <span class="offer-note"><span class="zh">永久免费，QPS 50，提供 OpenAI 兼容入口。</span><span class="en">Free forever, QPS 50, OpenAI-compatible endpoint.</span></span>
+        <span class="offer-go"><span class="zh">去领取</span><span class="en">claim</span> →</span>
       </a>
 
     </div>
   </section>
 
-  <!-- 贰 · 三种免费 -->
-  <section id="notes" class="section huiwen">
+  <!-- Three kinds of free -->
+  <section class="section">
     <div class="section-head">
-      <span class="num" aria-hidden="true">贰</span>
-      <h2>先分清三种「免费」</h2>
-      <p class="en">Three kinds of free</p>
+      <h2><span class="zh">先分清三种「免费」</span><span class="en">Three kinds of free</span></h2>
     </div>
-    <div class="note-grid">
-      <div class="note-card">
-        <h3>真永久免费层</h3>
-        <p>模型本身可免费调用，无需绑卡。如 Gemini 2.5 Flash、Groq、智谱 GLM-4.7-Flash。</p>
+    <div class="cards">
+      <div>
+        <h3 class="card-title"><span class="zh">真永久免费层</span><span class="en">Permanent free tier</span></h3>
+        <p class="card-desc"><span class="zh">模型本身可免费调用，无需绑卡。如 Gemini 2.5 Flash、Groq、智谱 GLM-4.7-Flash。</span><span class="en">The model itself is free to call, no card needed. e.g. Gemini 2.5 Flash, Groq, GLM-4.7-Flash.</span></p>
       </div>
-      <div class="note-card">
-        <h3>送额度 · 限时免</h3>
-        <p>注册即送 Token 或首充赠金，用完即止。如硅基流动、通义千问新用户礼包。</p>
+      <div>
+        <h3 class="card-title"><span class="zh">送额度 · 限时免</span><span class="en">Grant · limited time</span></h3>
+        <p class="card-desc"><span class="zh">注册即送 Token 或首充赠金，用完即止。如硅基流动、通义千问新用户礼包。</span><span class="en">Signup grants or first-topup credit, until it runs out. e.g. SiliconFlow, Qwen new-user bundles.</span></p>
       </div>
-      <div class="note-card">
-        <h3>产品免费 · API 收费</h3>
-        <p>网页与 App 免费用，但开发者 API 按 token 计费，无长期免费层。</p>
+      <div>
+        <h3 class="card-title"><span class="zh">产品免费 · API 收费</span><span class="en">Free app · paid API</span></h3>
+        <p class="card-desc"><span class="zh">网页与 App 免费用，但开发者 API 按 token 计费，无长期免费层。</span><span class="en">The web and mobile apps are free, but the developer API is billed per token with no lasting free tier.</span></p>
       </div>
     </div>
-    <p class="disclaimer">额度与规则以各家官方页面为准，本站每日核对；发现过期欢迎提交收录。</p>
+    <p class="tip"><span class="zh">额度与规则以各家官方页面为准，本站每日核对；发现过期欢迎提交收录。</span><span class="en">Quotas follow each vendor's official page; we re-check daily. Spot something expired? Submit an update.</span></p>
   </section>
 
-  <!-- 远山水墨 -->
+  <!-- Ink mountains + closing verse -->
   <div class="ink-mountains" aria-hidden="true"><svg viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0,150 L0,96 C90,62 180,86 280,64 C380,42 470,80 580,58 C690,36 780,74 900,52 C1000,34 1100,66 1200,48 L1200,150 Z" fill="currentColor" opacity=".55"/><path d="M0,150 L0,120 C120,96 240,112 380,97 C520,82 660,104 820,90 C960,80 1080,98 1200,86 L1200,150 Z" fill="currentColor"/></svg></div>
+  <div class="verse">
+    <p>与 君 同 在，<br>历 久 不 散。</p>
+    <p class="verse-sign">— yu.ai —</p>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
-    <span><a href="/" style="color:inherit;opacity:.9">yu.ai</a></span>
-    <span>免费模型活动 · free offers</span>
+    <span class="footer-brand"><svg viewBox="10.99773 21.210212 41.919409 21.544615" aria-hidden="true" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--accent)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>yu.ai</span>
     <span id="footer-year">mit</span>
+    <span><span class="zh">与 AI 同行</span><span class="en">AI that travels with you</span></span>
   </footer>
 
 </div>
@@ -261,6 +264,23 @@
 
 <script>
 (function(){
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // Language toggle
+  try{
+    var langBtn=document.getElementById('lang-btn'),htmlEl=document.documentElement;
+    if(langBtn){
+      langBtn.onclick=function(){
+        var isZh=htmlEl.getAttribute('lang')==='zh-CN';
+        htmlEl.setAttribute('lang',isZh?'en':'zh-CN');
+        langBtn.textContent=isZh?'中':'EN';
+        try{localStorage.setItem('yuai-lang',isZh?'en':'zh-CN')}catch(_){}
+      };
+      var sl;try{sl=localStorage.getItem('yuai-lang')}catch(_){}
+      if(sl==='en'){htmlEl.setAttribute('lang','en');langBtn.textContent='中'}
+    }
+  }catch(_){}
+
   // Theme toggle
   try{
     var btn=document.getElementById('theme-btn');
@@ -274,45 +294,36 @@
       btn.onclick=function(){
         var n=root.getAttribute('data-theme')!=='light';
         if(!root.getAttribute('data-theme')){n=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
-        root.setAttribute('data-theme',n?'light':'dark');try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}sync(n);
+        root.setAttribute('data-theme',n?'light':'dark');
+        try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}
+        sync(n);
       };
     }
   }catch(_){}
-  // Footer year
-  try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
-  // 筛选
-  var chips=document.querySelectorAll('.chip');
-  var cards=document.querySelectorAll('.offer-card');
-  chips.forEach(function(chip){
-    chip.addEventListener('click',function(){
-      chips.forEach(function(c){c.classList.remove('active')});
-      chip.classList.add('active');
-      var filter=chip.dataset.filter;
-      cards.forEach(function(card){
-        if(filter==='all'||card.dataset.type===filter||card.dataset.region===filter){
-          card.classList.remove('hidden');
-        }else{
-          card.classList.add('hidden');
-        }
+
+  // 活动筛选
+  try{
+    var chips=document.querySelectorAll('.chip'),offers=document.querySelectorAll('.offer');
+    chips.forEach(function(chip){
+      chip.addEventListener('click',function(){
+        chips.forEach(function(c){c.classList.remove('active')});
+        chip.classList.add('active');
+        var f=chip.getAttribute('data-filter');
+        offers.forEach(function(o){
+          var show = (f==='all' || o.getAttribute('data-type')===f || o.getAttribute('data-region')===f);
+          o.classList[show?'remove':'add']('hidden');
+        });
       });
     });
-  });
+  }catch(_){}
+
+  if(reduceMotion){
+    var s=document.createElement('style');
+    s.textContent='.unfurl,.fade-up{animation:none;opacity:1;transform:none}';
+    document.head.appendChild(s);
+  }
 })();
 </script>
-
-<!-- WeChat detection -->
-<style>.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}.wechat-mask.show{display:flex}.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}</style>
-<div class="wechat-mask" id="wechatMask" role="alertdialog" aria-label="请用浏览器打开">
-  <div class="arrow">···</div>
-  <h2>请用浏览器打开</h2>
-  <p>微信内无法正常访问本站</p>
-  <div class="steps-wx">
-    1. 点击右上角 <strong>···</strong> 按钮<br>
-    2. 选择「用默认浏览器打开」<br>
-    3. 即可正常浏览
-  </div>
-</div>
-<script>(function(){if(navigator.userAgent.toLowerCase().indexOf('micromessenger')!==-1)document.getElementById('wechatMask').classList.add('show')})();</script>
 
 </body>
 </html>
