@@ -1210,38 +1210,117 @@ body::after {
 }
 
 /* 移动端优化 */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   body { font-size: 14px; }
   
-  .card, .panel { padding: 12px; }
+  /* Header */
+  header { padding: 10px 16px; gap: 8px; }
+  .brand { gap: 8px; }
+  .stamp { width: 32px; height: 32px; font-size: 14px; }
+  .brand h1 { font-size: 15px; }
+  .brand small { font-size: 10px; }
+  .header-actions { gap: 4px; }
+  .header-actions .btn { padding: 0 10px; height: 32px; font-size: 12px; }
+  .clock { display: none; }
   
-  .btn { 
-    width: 100%;
-    justify-content: center;
-    min-height: 44px;
-  }
+  /* Board */
+  .board { padding: 70px 16px 40px; }
   
-  .stats-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
+  /* Stats */
+  .stats { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-tile { padding: 12px; }
+  .stat-val { font-size: 22px; }
   
-  .note-card {
-    padding: 12px;
-  }
+  /* Case grid */
+  .case-grid { grid-template-columns: 1fr; gap: 12px; }
+  .note-card { padding: 14px; min-height: 120px; }
+  .card-title { font-size: 16px; }
+  .card-excerpt { font-size: 13px; }
   
-  .evidence-card {
-    padding: 10px;
-  }
+  /* Section header */
+  .section-header { margin: 20px 0 12px; }
+  .section-header h2 { font-size: 18px; }
   
-  .modal {
-    padding: 16px;
-    margin: 8px;
-  }
+  /* Communication */
+  .comm-layout { flex-direction: column; height: auto; margin-top: 50px; }
+  .comm-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 8px; max-height: 120px; }
+  .comm-sidebar-header { display: none; }
+  .comm-contact-item { padding: 8px 10px; }
+  .comm-contact-avatar { width: 28px; height: 28px; font-size: 12px; }
+  .comm-contact-name { font-size: 12px; }
+  .comm-main { padding: 12px; }
+  .comm-message { padding: 10px 12px; }
+  .comm-message-text { font-size: 13px; }
+  .comm-response-btn { padding: 10px 12px; font-size: 12px; }
   
-  .timeline-event {
-    padding: 12px;
-  }
+  /* Login */
+  .login-identity-panel { padding: 24px 16px; }
+  .login-header h2 { font-size: 22px; }
+  .identity-cards { grid-template-columns: 1fr; }
+  .identity-card { padding: 16px; }
+  .login-actions { flex-direction: column; }
+  
+  /* Modal */
+  .modal { padding: 16px; margin: 8px; }
+  
+  /* Timeline */
+  .timeline-event { padding: 12px; }
+  
+  /* Evidence */
+  .evidence-card { padding: 10px; }
+  .board-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  
+  /* Notebook / Deduction */
+  .journal-header h4 { font-size: 14px; }
+  
+  /* Buttons */
+  .btn { min-height: 44px; }
+  .btn-sm { min-height: 36px; }
+  
+  /* Filter bar */
+  .search-box input { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 13px; }
+  
+  header { padding: 8px 12px; }
+  .brand h1 { font-size: 14px; }
+  .brand small { display: none; }
+  .header-actions .btn { padding: 0 8px; height: 30px; font-size: 11px; }
+  
+  .board { padding: 60px 12px 32px; }
+  
+  .stats { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .stat-tile { padding: 10px; }
+  .stat-val { font-size: 20px; }
+  .stat-key { font-size: 10px; }
+  
+  .case-grid { gap: 10px; }
+  .note-card { padding: 12px; }
+  .card-title { font-size: 15px; }
+  .card-excerpt { -webkit-line-clamp: 2; }
+  
+  .section-header h2 { font-size: 16px; }
+  
+  .comm-sidebar { max-height: 100px; }
+  .comm-contact-item { padding: 6px 8px; }
+  .comm-contact-avatar { width: 24px; height: 24px; font-size: 11px; }
+  .comm-main { padding: 10px; }
+  .comm-message { padding: 8px 10px; }
+  
+  .login-identity-panel { padding: 20px 12px; }
+  .login-header .login-emblem { width: 48px; height: 48px; }
+  .login-header h2 { font-size: 20px; }
+  .login-header .login-sub { font-size: 12px; }
+  
+  .modal { padding: 12px; margin: 4px; }
+  
+  .timeline-event { padding: 10px; }
+  
+  .board-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  
+  .btn { font-size: 12px; }
 }
 
 /* 骨架屏 */
