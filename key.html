@@ -22,9 +22,44 @@
 <style>
   /* ===== 本页专用样式（其余全部复用 shared.css） ===== */
   .stat-row{
-    display:flex;gap:24px;flex-wrap:wrap;
+    display:flex;gap:24px;flex-wrap:wrap;justify-content:center;
     font-family:var(--mono);font-size:var(--label-sm,.72rem);
     color:var(--dim);opacity:.7;letter-spacing:.04em;
+  }
+
+  /* 提交收录弹窗 */
+  .submit-dialog{
+    border:1px solid var(--border-strong);border-radius:0;
+    background:rgb(var(--bg-base) / .97);color:var(--mid);
+    padding:28px;max-width:460px;width:calc(100% - 48px);
+  }
+  .submit-dialog::backdrop{background:rgb(var(--bg-base) / .65);backdrop-filter:blur(3px)}
+  .dlg-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:4px}
+  .dlg-head h2{margin:0;font-size:1.3rem}
+  .dlg-close{background:none;border:none;color:var(--dim);cursor:pointer;font-size:1.4rem;line-height:1;padding:4px 8px}
+  .dlg-close:hover{color:var(--accent)}
+  .dlg-sub{margin:0 0 6px;font-size:.82rem;opacity:.6;line-height:1.7}
+  .f-field{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+  .f-field label{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;opacity:.55}
+  .f-field input,.f-field select,.f-field textarea{
+    background:rgb(var(--mid-base) / .05);border:1px solid var(--border);border-radius:2px;
+    color:var(--mid);font-family:var(--sans);font-size:.9rem;padding:9px 12px;outline:none;
+    transition:border-color .2s var(--ease);
+  }
+  .f-field input:focus,.f-field select:focus,.f-field textarea:focus{border-color:var(--accent)}
+  .f-field select option{background:var(--bg);color:var(--mid)}
+  .f-field textarea{min-height:72px;resize:vertical}
+  .f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .dlg-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+  .dlg-hint{font-family:var(--mono);font-size:.65rem;opacity:.45;margin:12px 0 0;line-height:1.6}
+  .submit-dialog .cta{cursor:pointer;font-size:.72rem}
+  .submit-dialog button.cta{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border:1px solid var(--border);background:none;color:var(--mid);font-family:var(--mono);letter-spacing:.15em;text-transform:uppercase;transition:all .25s var(--ease)}
+  .submit-dialog button.cta:hover{border-color:var(--accent);color:var(--accent)}
+  .submit-dialog button.primary{border-color:rgb(var(--accent-base)/.55);color:var(--accent)}
+  .submit-dialog button.primary:hover{background:var(--accent);color:#fff}
+  @media (max-width:640px){
+    .stat-row{gap:16px}
+    .f-row{grid-template-columns:1fr}
   }
 
   /* 筛选 */
@@ -57,14 +92,9 @@
   /* 顶部提示条 */
   .tip{margin:0}
 
-  @media (max-width:640px){
-    .stat-row{gap:16px}
-  }
 </style>
 </head>
 <body>
-
-<a href="#offers" class="skip-link">跳到主要内容</a>
 
 <!-- Background layers -->
 <div class="bg-i" aria-hidden="true"><img alt="" src="egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
@@ -114,7 +144,7 @@
     </div>
     <div class="cta fade-up d4">
       <a href="#offers" class="primary"><span class="zh">查看全部活动</span><span class="en">see all offers</span> →</a>
-      <a href="https://github.com/yuluyangguang1/yuai-site/issues/new" target="_blank" rel="noopener"><span class="zh">提交收录</span><span class="en">submit an offer</span> →</a>
+      <a href="#submit" data-open-submit><span class="zh">提交收录</span><span class="en">submit an offer</span> →</a>
     </div>
   </section>
 
@@ -247,15 +277,56 @@
         <p class="card-desc"><span class="zh">网页与 App 免费用，但开发者 API 按 token 计费，无长期免费层。</span><span class="en">The web and mobile apps are free, but the developer API is billed per token with no lasting free tier.</span></p>
       </div>
     </div>
-    <p class="tip"><span class="zh">额度与规则以各家官方页面为准，本站每日核对；发现过期欢迎提交收录。</span><span class="en">Quotas follow each vendor's official page; we re-check daily. Spot something expired? Submit an update.</span></p>
+    <p class="tip"><span class="zh">额度与规则以各家官方页面为准，本站每日核对；发现过期或遗漏，欢迎<a href="#submit" data-open-submit>提交收录</a>。</span><span class="en">Quotas follow each vendor's official page; we re-check daily. Spot something expired? <a href="#submit" data-open-submit>Submit an update</a>.</span></p>
   </section>
 
-  <!-- Ink mountains + closing verse -->
+  <!-- 提交收录弹窗 -->
+  <dialog id="submitDialog" class="submit-dialog" aria-label="提交收录">
+    <div class="dlg-head">
+      <h2><span class="zh">提交收录</span><span class="en">Submit an offer</span></h2>
+      <button type="button" class="dlg-close" aria-label="关闭">×</button>
+    </div>
+    <p class="dlg-sub"><span class="zh">填写后自动生成 GitHub Issue，核录后 24 小时内上线。</span><span class="en">Opens a prefilled GitHub issue. Listed within 24h after review.</span></p>
+    <form>
+      <div class="f-field">
+        <label for="f-name"><span class="zh">平台名称 *</span><span class="en">platform name *</span></label>
+        <input id="f-name" name="name" required placeholder="e.g. Moonshot AI">
+      </div>
+      <div class="f-field">
+        <label for="f-url"><span class="zh">官网 / API 地址 *</span><span class="en">official URL *</span></label>
+        <input id="f-url" name="url" type="url" required placeholder="https://">
+      </div>
+      <div class="f-row">
+        <div class="f-field">
+          <label for="f-type"><span class="zh">免费类型</span><span class="en">type</span></label>
+          <select id="f-type" name="type">
+            <option value="长期免费">长期免费</option>
+            <option value="限时活动">限时活动</option>
+            <option value="产品免费 · API 收费">产品免费 · API 收费</option>
+          </select>
+        </div>
+        <div class="f-field">
+          <label for="f-region"><span class="zh">区域</span><span class="en">region</span></label>
+          <select id="f-region" name="region">
+            <option value="国内直连">国内直连</option>
+            <option value="海外">海外</option>
+          </select>
+        </div>
+      </div>
+      <div class="f-field">
+        <label for="f-note"><span class="zh">说明（额度 / 模型 / 期限）</span><span class="en">details (quota / models / duration)</span></label>
+        <textarea id="f-note" name="note" placeholder="e.g. 每天送 100 万 Token，含 Kimi K2 ..."></textarea>
+      </div>
+      <div class="dlg-actions">
+        <button type="button" class="cta dlg-cancel"><span class="zh">取消</span><span class="en">cancel</span></button>
+        <button type="submit" class="cta primary"><span class="zh">生成 Issue</span><span class="en">create issue</span> →</button>
+      </div>
+      <p class="dlg-hint"><span class="zh">没有 GitHub 账号？也可以发邮件至 issues@yuai-r.cn</span><span class="en">No GitHub account? Email issues@yuai-r.cn instead.</span></p>
+    </form>
+  </dialog>
+
+  <!-- Ink mountains -->
   <div class="ink-mountains" aria-hidden="true"><svg viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0,150 L0,96 C90,62 180,86 280,64 C380,42 470,80 580,58 C690,36 780,74 900,52 C1000,34 1100,66 1200,48 L1200,150 Z" fill="currentColor" opacity=".55"/><path d="M0,150 L0,120 C120,96 240,112 380,97 C520,82 660,104 820,90 C960,80 1080,98 1200,86 L1200,150 Z" fill="currentColor"/></svg></div>
-  <div class="verse">
-    <p>与 君 同 在，<br>历 久 不 散。</p>
-    <p class="verse-sign">— yu.ai —</p>
-  </div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -320,6 +391,39 @@
         });
       });
     });
+  }catch(_){}
+
+  // 提交收录弹窗
+  try{
+    var dlg=document.getElementById('submitDialog');
+    if(dlg){
+      document.querySelectorAll('[data-open-submit]').forEach(function(t){
+        t.addEventListener('click',function(e){e.preventDefault();dlg.showModal()});
+      });
+      dlg.querySelector('.dlg-close').addEventListener('click',function(){dlg.close()});
+      dlg.querySelector('.dlg-cancel').addEventListener('click',function(){dlg.close()});
+      dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close()});
+      dlg.querySelector('form').addEventListener('submit',function(e){
+        e.preventDefault();
+        var g=function(id){return document.getElementById(id).value.trim()};
+        var name=g('f-name'),url=g('f-url');
+        var type=g('f-type'),region=g('f-region'),note=g('f-note');
+        var title='收录申请：'+name;
+        var body=[
+          '**平台名称**：'+name,
+          '**地址**：'+url,
+          '**免费类型**：'+type,
+          '**区域**：'+region,
+          '**说明**：'+(note||'-'),
+          '',
+          '---',
+          'Submitted from yu.ai/key.html'
+        ].join('\n');
+        window.open('https://github.com/yuluyangguang1/yuai-site/issues/new?title='+encodeURIComponent(title)+'&body='+encodeURIComponent(body),'_blank','noopener');
+        dlg.close();
+        e.target.reset();
+      });
+    }
   }catch(_){}
 
   if(reduceMotion){
