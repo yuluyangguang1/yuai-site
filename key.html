@@ -1,375 +1,105 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>免费模型活动 · yu.ai</title>
-<meta name="description" content="聚拢全网各家大模型的免费额度与限时活动，不绑卡，注册即用。">
+<title>免费模型活动 · free offers · yu.ai</title>
+<meta name="description" content="聚拢全网各家大模型的免费额度与限时活动，不绑卡，注册即用。每日核对，长期更新。">
+<meta name="keywords" content="免费AI,免费模型,免费额度,GLM,Gemini,Groq,Cerebras,硅基流动,通义千问,文心,豆包,yu.ai">
+<link rel="canonical" href="https://yuai-r.cn/key.html">
+<meta name="theme-color" content="#150e07" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
+
+<!-- Design system + fonts -->
+<link rel="stylesheet" href="/shared.css">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23150e07'/%3E%3Cg transform='translate(20,34.6) scale(1.431)'%3E%3Cpath fill='%23f3ede2' fill-rule='nonzero' d='M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z'/%3E%3Ccircle fill='%23f2634e' cx='50.450349' cy='40.191867' r='2.466790'/%3E%3C/g%3E%3C/svg%3E">
+
 <style>
-  :root {
-    --bg-base: 21 14 7;
-    --mid-base: 243 237 226;
-    --dim-base: 158 149 133;
-    --accent-base: 242 99 78;
-    --bg: rgb(var(--bg-base));
-    --mid: rgb(var(--mid-base));
-    --dim: rgb(var(--dim-base));
-    --accent: rgb(var(--accent-base));
-    --border: rgb(var(--mid-base) / .12);
-    --border-strong: rgb(var(--mid-base) / .26);
-    --hover: rgb(var(--mid-base) / .05);
-    --sans: system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-    --serif: 'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', serif;
-    --mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace;
-    --page-max: 900px;
-    --ease: cubic-bezier(.4,0,.2,1);
-  }
-  [data-theme="light"] {
-    --bg-base: 246 243 236;
-    --mid-base: 33 27 19;
-    --dim-base: 128 113 94;
-    --accent-base: 187 52 36;
-    --border: rgb(var(--mid-base) / .14);
-    --border-strong: rgb(var(--mid-base) / .28);
-    --hover: rgb(var(--mid-base) / .04);
-  }
-  *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--mid);
-    font-family: var(--sans);
-    font-size: 16px;
-    line-height: 1.75;
-    min-height: 100vh;
-    background-image:
-      radial-gradient(circle at 50% 0%, rgb(var(--accent-base) / .16), transparent 55%),
-      radial-gradient(circle at 80% 100%, rgb(var(--accent-base) / .05), transparent 40%);
-    background-attachment: fixed;
-  }
-  a { color: inherit; text-decoration: none; }
-  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+/* 页面特有样式 —— 免费模型活动 */
 
-  .topbar {
-    position: fixed;
-    inset: 0 0 auto 0;
-    z-index: 100;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    background: rgb(var(--bg-base) / .82);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .logo {
-    font-family: var(--serif);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: .04em;
-  }
-  .nav {
-    display: flex;
-    gap: 24px;
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--dim);
-  }
-  .nav a:hover { color: var(--mid); }
-  .topbar-right { display: flex; gap: 12px; }
-  .pill-btn {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: .08em;
-    padding: 5px 11px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    color: var(--dim);
-    opacity: .85;
-    transition: all .2s var(--ease);
-  }
-  .pill-btn:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
+.badge{display:inline-flex;width:fit-content;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--dim);padding:6px 14px;border:1px solid var(--border);border-radius:2px}
+.hero{padding:32px 0 8px}
+.hero .sub{margin:18px 0 0;font-family:var(--serif);font-size:1.05rem;line-height:1.8;color:var(--mid);opacity:.82;max-width:640px}
+.hero .en{margin:10px 0 0;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--dim);opacity:.7}
+.stats{display:flex;gap:24px;flex-wrap:wrap;margin-top:16px;font-family:var(--mono);font-size:.72rem;color:var(--dim);letter-spacing:.04em}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.cta{display:inline-flex;align-items:center;gap:6px;padding:11px 22px;border:1px solid var(--border);font-family:var(--mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);opacity:.85;transition:all .25s var(--ease)}
+.cta:hover{border-color:var(--accent);color:var(--accent);opacity:1}
+.cta-primary{border-color:rgb(var(--accent-base) / .55);color:var(--accent)}
+.cta-primary:hover{background:var(--accent);color:#fff;opacity:1}
 
-  .page {
-    max-width: var(--page-max);
-    margin: 0 auto;
-    padding: calc(60px + 64px) 24px 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 56px;
-  }
+.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:32px}
+.chip{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;padding:6px 14px;border:1px solid var(--border);border-radius:2px;color:var(--dim);background:transparent;transition:all .2s var(--ease)}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.active{border-color:rgb(var(--accent-base) / .55);color:var(--accent)}
 
-  .hero {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    padding: 16px 0 8px;
-  }
-  .badge {
-    display: inline-flex;
-    width: fit-content;
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: .1em;
-    color: var(--dim);
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-  }
-  .hero h1 {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: clamp(2.8rem, 8vw, 4rem);
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--mid);
-  }
-  .hero .sub {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: 18px;
-    line-height: 1.8;
-    color: var(--mid);
-    opacity: .82;
-    max-width: 640px;
-  }
-  .hero .en {
-    margin: 0;
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: .04em;
-    color: var(--dim);
-    opacity: .7;
-  }
-  .stats {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--dim);
-    letter-spacing: .04em;
-  }
-  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
-  .cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--mono);
-    font-size: 14px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    padding: 12px 24px;
-    border-radius: 3px;
-    transition: all .25s var(--ease);
-  }
-  .cta-primary { background: var(--accent); color: #fff; }
-  .cta-primary:hover { filter: brightness(1.08); }
-  .cta-secondary {
-    border: 1px solid rgb(var(--accent-base) / .55);
-    color: var(--accent);
-  }
-  .cta-secondary:hover { background: var(--accent); color: #fff; }
+.section-head .en{margin-left:auto;font-family:var(--mono);font-size:.72rem;color:var(--dim);letter-spacing:.04em}
 
-  .filters {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .chip {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: .04em;
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    color: var(--dim);
-    background: transparent;
-    transition: all .2s var(--ease);
-  }
-  .chip:hover { border-color: var(--accent); color: var(--accent); }
-  .chip.active {
-    border-color: rgb(var(--accent-base) / .55);
-    color: var(--accent);
-  }
+.offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:20px}
+.offer-card{display:flex;flex-direction:column;gap:10px;padding:24px;background:rgb(var(--bg-base) / .55);transition:background .3s var(--ease)}
+.offer-card:hover{background:var(--hover-strong)}
+.offer-card.hidden{display:none}
+.offer-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.offer-name{margin:0;font-family:var(--serif);font-size:1.15rem;font-weight:700;color:var(--mid)}
+.offer-tag{font-family:var(--mono);font-size:.65rem;color:var(--dim);letter-spacing:.04em;white-space:nowrap}
+.offer-quota{margin:0;font-family:var(--mono);font-size:.9rem;font-weight:500;color:var(--accent)}
+.offer-models{margin:0;font-family:var(--mono);font-size:.72rem;color:var(--dim)}
+.offer-highlight{margin:0;font-size:.85rem;line-height:1.75;color:var(--mid);opacity:.72}
+.offer-cta{margin-top:4px;font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;transition:opacity .2s}
+.offer-card:hover .offer-cta{opacity:.8}
 
-  .section-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
-  .section-head h2 {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--mid);
-  }
-  .section-head .en {
-    margin: 0;
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--dim);
-    letter-spacing: .04em;
-  }
-  .offer-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  .offer-card {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 24px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: rgb(var(--mid-base) / .03);
-    transition: background .25s var(--ease), transform .2s var(--ease);
-  }
-  .offer-card:hover { background: var(--hover); transform: translateY(-2px); }
-  .offer-card.hidden { display: none; }
-  .offer-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-  }
-  .offer-name {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--mid);
-  }
-  .offer-tag {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--dim);
-    letter-spacing: .04em;
-    white-space: nowrap;
-  }
-  .offer-quota {
-    margin: 0;
-    font-family: var(--mono);
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--accent);
-  }
-  .offer-models {
-    margin: 0;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--dim);
-  }
-  .offer-highlight {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--mid);
-    opacity: .7;
-  }
-  .offer-cta {
-    margin-top: 4px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--accent);
-    letter-spacing: .04em;
-    transition: opacity .2s;
-  }
-  .offer-card:hover .offer-cta { opacity: .8; }
+.note-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:20px}
+.note-card{display:flex;flex-direction:column;gap:10px;padding:24px;background:rgb(var(--bg-base) / .35)}
+.note-card h3{margin:0;font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--mid)}
+.note-card p{margin:0;font-size:.85rem;line-height:1.75;color:var(--mid);opacity:.7}
+.disclaimer{font-family:var(--mono);font-size:.72rem;color:var(--dim);opacity:.6;margin:16px 0 0;line-height:1.6}
 
-  .note-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  .note-card {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 24px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: rgb(var(--mid-base) / .03);
-  }
-  .note-card h3 {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--mid);
-  }
-  .note-card p {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--mid);
-    opacity: .7;
-  }
-  .disclaimer {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--dim);
-    opacity: .6;
-    margin: 0;
-    line-height: 1.6;
-  }
-
-  .footer {
-    border-top: 1px solid var(--border);
-    padding-top: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .footer .brand {
-    font-family: var(--serif);
-    font-size: 14px;
-    color: var(--mid);
-    opacity: .85;
-  }
-  .footer .meta {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--dim);
-    letter-spacing: .04em;
-  }
-
-  @media (max-width: 720px) {
-    .topbar { padding: 0 16px; }
-    .nav { display: none; }
-    .page { padding-top: calc(60px + 40px); gap: 40px; }
-    .hero h1 { font-size: 2.4rem; }
-    .hero .sub { font-size: 16px; }
-    .offer-grid { grid-template-columns: 1fr; }
-    .note-grid { grid-template-columns: 1fr; }
-  }
+@media(max-width:720px){
+  .hero{padding-top:20px}
+  .hero h1{font-size:2.2rem}
+  .offer-grid,.note-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
+<!-- 背景层 · 竖排题跋 · 装裱边框 -->
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+<div class="colophon" aria-hidden="true">与君同在 · 历久不散</div>
+<div class="mount-frame" aria-hidden="true"></div>
+
+<!-- 粘性顶栏 -->
 <header class="topbar">
-  <div class="logo">yu.ai</div>
-  <nav class="nav">
-    <a href="index.html">tools</a>
-    <a href="#">企业定制 enterprise</a>
-  </nav>
-  <div class="topbar-right">
-    <button class="pill-btn" aria-label="切换语言">EN</button>
-    <button class="pill-btn" id="themeToggle" aria-label="切换主题">主题</button>
+  <div class="topbar-inner">
+    <a href="/" class="topbar-logo" aria-label="yu.ai 首页">
+      <svg width="47" height="24" viewBox="10.99773 21.210212 41.919409 21.544615" fill="none" aria-hidden="true" style="display:block" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--accent)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>
+    </a>
+    <nav class="topbar-links" aria-label="主导航">
+      <a href="/#products"><span class="zh">工具</span><span class="en">tools</span></a>
+      <a href="/sovereign/"><span class="zh">企业定制</span><span class="en">enterprise</span></a>
+    </nav>
+    <div class="topbar-actions">
+      <button class="theme-toggle" id="theme-btn" aria-label="切换主题">
+        <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
-<main class="page">
+<main>
+<div class="page">
 
-  <section class="hero">
+  <!-- Hero -->
+  <div class="hero">
     <div class="badge">每日核对 · 免费额度 · mit</div>
-    <h1>免费模型活动</h1>
+    <h1 class="display unfurl d1" style="margin:18px 0 0">免费模型活动</h1>
     <p class="sub">聚拢全网各家大模型的免费额度与限时活动 —— 不绑卡，注册即用。</p>
     <p class="en">Free model offers, curated daily · no credit card required.</p>
     <div class="stats">
@@ -378,21 +108,24 @@
       <span>每日核对 · updated daily</span>
     </div>
     <div class="cta-row">
-      <a class="cta cta-primary" href="#offers">查看全部活动</a>
-      <a class="cta cta-secondary" href="https://github.com/yuluyangguang1/yuai-site/issues/new" target="_blank" rel="noopener">提交收录</a>
+      <a class="cta cta-primary" href="#offers">查看全部活动 →</a>
+      <a class="cta" href="https://github.com/yuluyangguang1/yuai-site/issues/new" target="_blank" rel="noopener">提交收录 →</a>
     </div>
-  </section>
+  </div>
 
-  <section class="filters" aria-label="筛选活动">
+  <!-- 筛选 -->
+  <div class="filters" aria-label="筛选活动">
     <button class="chip active" data-filter="all">全部 all</button>
     <button class="chip" data-filter="permanent">长期免费 permanent</button>
     <button class="chip" data-filter="limited">限时活动 limited</button>
     <button class="chip" data-filter="cn">国内直连 cn</button>
     <button class="chip" data-filter="global">海外 global</button>
-  </section>
+  </div>
 
-  <section id="offers">
+  <!-- 壹 · 在跑的活动 -->
+  <section id="offers" class="section huiwen">
     <div class="section-head">
+      <span class="num" aria-hidden="true">壹</span>
       <h2>在跑的活动</h2>
       <p class="en">Live free offers</p>
     </div>
@@ -406,7 +139,7 @@
         <p class="offer-quota">GLM-4.7-Flash 输入+输出全免费</p>
         <p class="offer-models">GLM-4.7-Flash · GLM-4-Flash · 200K 上下文</p>
         <p class="offer-highlight">中文最强，OpenAI 接口兼容，注册即送 2000 万 Token。</p>
-        <span class="offer-cta">去领取</span>
+        <span class="offer-cta">去领取 →</span>
       </a>
 
       <a class="offer-card" href="https://siliconflow.cn/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
@@ -417,7 +150,7 @@
         <p class="offer-quota">9B 以下开源模型永久免费</p>
         <p class="offer-models">Qwen2.5 · DeepSeek-V3 · Llama 3</p>
         <p class="offer-highlight">新用户送 2000 万 Token，国内延迟低于 100ms。</p>
-        <span class="offer-cta">去领取</span>
+        <span class="offer-cta">去领取 →</span>
       </a>
 
       <a class="offer-card" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" data-type="permanent" data-region="global">
@@ -428,7 +161,7 @@
         <p class="offer-quota">Gemini 2.5 Flash 永久免费层</p>
         <p class="offer-models">Gemini 2.5 Flash · 2.5 Pro · 100 万上下文</p>
         <p class="offer-highlight">无需信用卡，多模态，长文本处理最强。</p>
-        <span class="offer-cta">去领取</span>
+        <span class="offer-cta">去领取 →</span>
       </a>
 
       <a class="offer-card" href="https://console.groq.com/" target="_blank" rel="noopener" data-type="permanent" data-region="global">
@@ -439,7 +172,7 @@
         <p class="offer-quota">免费层无需信用卡</p>
         <p class="offer-models">Llama 3.3 70B · Llama 4 · DeepSeek R1</p>
         <p class="offer-highlight">推理速度之王，1000+ tokens/s，30 RPM。</p>
-        <span class="offer-cta">去领取</span>
+        <span class="offer-cta">去领取 →</span>
       </a>
 
       <a class="offer-card" href="https://cloud.cerebras.ai/" target="_blank" rel="noopener" data-type="permanent" data-region="global">
@@ -450,7 +183,7 @@
         <p class="offer-quota">每天 100 万 Token</p>
         <p class="offer-models">Qwen3 235B · Llama 3.3 70B</p>
         <p class="offer-highlight">额度之王，2000 tokens/s，每日重置长期有效。</p>
-        <span class="offer-cta">去领取</span>
+        <span class="offer-cta">去领取 →</span>
       </a>
 
       <a class="offer-card" href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
@@ -461,7 +194,7 @@
         <p class="offer-quota">每天 200 万 Token，次日重置</p>
         <p class="offer-models">豆包系列 · 百川</p>
         <p class="offer-highlight">长期有效，中文理解强，适合日常问答与文案。</p>
-        <span class="offer-cta">去领取</span>
+        <span class="offer-cta">去领取 →</span>
       </a>
 
       <a class="offer-card" href="https://bailian.aliyun.com/" target="_blank" rel="noopener" data-type="limited" data-region="cn">
@@ -472,7 +205,7 @@
         <p class="offer-quota">新用户 7000 万 Token</p>
         <p class="offer-models">qwen-plus · qwen-turbo</p>
         <p class="offer-highlight">额度最大，需实名认证，90 天内有效。</p>
-        <span class="offer-cta">去领取</span>
+        <span class="offer-cta">去领取 →</span>
       </a>
 
       <a class="offer-card" href="https://qianfan.cloud.baidu.com/" target="_blank" rel="noopener" data-type="permanent" data-region="cn">
@@ -483,16 +216,18 @@
         <p class="offer-quota">ERNIE-Speed 永久免费</p>
         <p class="offer-models">ernie-speed-128k</p>
         <p class="offer-highlight">永久免费，QPS 50，提供 OpenAI 兼容入口。</p>
-        <span class="offer-cta">去领取</span>
+        <span class="offer-cta">去领取 →</span>
       </a>
 
     </div>
   </section>
 
-  <section id="notes">
+  <!-- 贰 · 三种免费 -->
+  <section id="notes" class="section huiwen">
     <div class="section-head">
+      <span class="num" aria-hidden="true">贰</span>
       <h2>先分清三种「免费」</h2>
-      <p class="en">Three kinds of free · read before you claim</p>
+      <p class="en">Three kinds of free</p>
     </div>
     <div class="note-grid">
       <div class="note-card">
@@ -511,39 +246,73 @@
     <p class="disclaimer">额度与规则以各家官方页面为准，本站每日核对；发现过期欢迎提交收录。</p>
   </section>
 
+  <!-- 远山水墨 -->
+  <div class="ink-mountains" aria-hidden="true"><svg viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0,150 L0,96 C90,62 180,86 280,64 C380,42 470,80 580,58 C690,36 780,74 900,52 C1000,34 1100,66 1200,48 L1200,150 Z" fill="currentColor" opacity=".55"/><path d="M0,150 L0,120 C120,96 240,112 380,97 C520,82 660,104 820,90 C960,80 1080,98 1200,86 L1200,150 Z" fill="currentColor"/></svg></div>
+
+  <!-- Footer -->
   <footer class="footer">
-    <span class="brand">yu.ai · 与 AI 同行</span>
-    <span class="meta">mit · 2025</span>
+    <span><a href="/" style="color:inherit;opacity:.9">yu.ai</a></span>
+    <span>免费模型活动 · free offers</span>
+    <span id="footer-year">mit</span>
   </footer>
 
+</div>
 </main>
 
 <script>
-  // 主题切换
-  const themeToggle = document.getElementById('themeToggle');
-  themeToggle.addEventListener('click', () => {
-    const root = document.documentElement;
-    root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-  });
-
+(function(){
+  // Theme toggle
+  try{
+    var btn=document.getElementById('theme-btn');
+    if(btn){
+      var root=document.documentElement,sun=btn.querySelector('.theme-sun'),moon=btn.querySelector('.theme-moon');
+      function sync(i){if(sun)sun.style.display=i?'none':'block';if(moon)moon.style.display=i?'block':'none'}
+      var sv;try{sv=localStorage.getItem('yuai-theme')}catch(_){}
+      if(sv==='light'){root.setAttribute('data-theme','light');sync(true)}
+      else if(sv==='dark'){root.setAttribute('data-theme','dark');sync(false)}
+      else{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)');sync(m&&m.matches)}
+      btn.onclick=function(){
+        var n=root.getAttribute('data-theme')!=='light';
+        if(!root.getAttribute('data-theme')){n=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
+        root.setAttribute('data-theme',n?'light':'dark');try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}sync(n);
+      };
+    }
+  }catch(_){}
+  // Footer year
+  try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
   // 筛选
-  const chips = document.querySelectorAll('.chip');
-  const cards = document.querySelectorAll('.offer-card');
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('active'));
+  var chips=document.querySelectorAll('.chip');
+  var cards=document.querySelectorAll('.offer-card');
+  chips.forEach(function(chip){
+    chip.addEventListener('click',function(){
+      chips.forEach(function(c){c.classList.remove('active')});
       chip.classList.add('active');
-      const filter = chip.dataset.filter;
-      cards.forEach(card => {
-        if (filter === 'all' || card.dataset.type === filter || card.dataset.region === filter) {
+      var filter=chip.dataset.filter;
+      cards.forEach(function(card){
+        if(filter==='all'||card.dataset.type===filter||card.dataset.region===filter){
           card.classList.remove('hidden');
-        } else {
+        }else{
           card.classList.add('hidden');
         }
       });
     });
   });
+})();
 </script>
+
+<!-- WeChat detection -->
+<style>.wechat-mask{display:none;position:fixed;inset:0;z-index:99999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}.wechat-mask.show{display:flex}.wechat-mask .arrow{position:absolute;top:12px;right:24px;font-size:2rem;opacity:.8;animation:bounce 1.5s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}.wechat-mask h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:16px}.wechat-mask p{font-size:1rem;opacity:.7;line-height:1.8;max-width:320px}.wechat-mask .steps-wx{margin-top:24px;text-align:left;font-size:.9rem;opacity:.8;line-height:2}</style>
+<div class="wechat-mask" id="wechatMask" role="alertdialog" aria-label="请用浏览器打开">
+  <div class="arrow">···</div>
+  <h2>请用浏览器打开</h2>
+  <p>微信内无法正常访问本站</p>
+  <div class="steps-wx">
+    1. 点击右上角 <strong>···</strong> 按钮<br>
+    2. 选择「用默认浏览器打开」<br>
+    3. 即可正常浏览
+  </div>
+</div>
+<script>(function(){if(navigator.userAgent.toLowerCase().indexOf('micromessenger')!==-1)document.getElementById('wechatMask').classList.add('show')})();</script>
 
 </body>
 </html>
