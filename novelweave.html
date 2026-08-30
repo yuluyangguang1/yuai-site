@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>织文 · NovelWeave · yu.ai</title>
+<meta name="description" content="织文 · NovelWeave —— 长篇网文写作工作台：把设定变成可校验的结构化状态，11 条机器规则查前后矛盾，写作时只喂有字节预算的派生上下文。纯前端 · BYOK · 数据只存本机。">
+<meta name="keywords" content="织文,novelweave,AI 小说写作,长篇,前后矛盾,一致性校验,story bible,IndexedDB,PWA,纯前端,中文小说">
+<meta name="theme-color" content="#150e07" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
+
+<link rel="stylesheet" href="/shared.css">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="/fonts/lxgwwenkai-bold.css">
+
+<link rel="icon" type="image/png" sizes="192x192" href="/novelweave/icons/icon-192.png">
+<link rel="canonical" href="https://yuai-r.cn/novelweave.html">
+<meta property="og:title" content="织文 · NovelWeave">
+<meta property="og:description" content="写到第 40 章还不前后矛盾的长篇工作台。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yuai-r.cn/novelweave.html">
+
+<style>
+/* 本页特有：能力卡片里的键名与计数用等宽小字，与 shared.css 的 mono 标签同源 */
+.card-desc code{font-family:var(--mono);font-size:.78em;opacity:.85}
+.deny{list-style:none;padding:0;margin:0}
+.deny li{padding:10px 0;border-bottom:1px solid var(--border);line-height:1.85}
+.deny li:last-child{border-bottom:0}
+.deny b{font-weight:700}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{position:relative;padding:12px 0 12px 42px;border-bottom:1px solid var(--border)}
+.steps li:last-child{border-bottom:0}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:12px;
+  width:26px;height:26px;line-height:24px;text-align:center;border:1px solid var(--border);
+  font-family:var(--mono);font-size:.7rem;opacity:.65}
+</style>
+</head>
+<body>
+
+<div class="bg-i" aria-hidden="true"><img alt="" src="/egret-ink.jpg" width="1920" height="1080" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+<div class="bg-n" aria-hidden="true"></div>
+<div class="bg-g" aria-hidden="true"></div>
+<div class="colophon" aria-hidden="true">言必有据 · 前后相贯</div>
+<div class="mount-frame" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="topbar-logo" aria-label="yu.ai 首页">
+      <svg width="47" height="24" viewBox="10.99773 21.210212 41.919409 21.544615" fill="none" aria-hidden="true" style="display:block" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--accent)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>
+    </a>
+    <nav class="topbar-links" aria-label="主导航">
+      <a href="/#products">tools</a>
+    </nav>
+    <div class="topbar-actions">
+      <button class="theme-toggle" id="theme-btn" aria-label="切换主题">
+        <svg class="theme-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="theme-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="page">
+
+<div class="hero">
+  <div class="glyph">织</div>
+  <h1 class="display unfurl d1"><span class="zh">织文</span><span class="en">NovelWeave</span><small><span class="zh">长篇网文工作台</span><span class="en">long-form studio</span></small></h1>
+  <p class="sub fade-up d2">
+    <span class="zh">写到第四十章，还能知道谁在第几章断了左臂。</span>
+    <span class="en">A long-form studio that still knows who lost an arm back in chapter five.</span>
+  </p>
+  <p class="cn fade-up d2">
+    <span class="zh">把设定变成可校验的结构化状态，用机器规则查前后矛盾 —— 而不是靠你记住自己写过什么。</span>
+    <span class="en">Settings become verifiable structured state, and machine rules catch the contradictions — instead of relying on your memory.</span>
+  </p>
+  <div class="cta fade-up d3">
+    <a href="/novelweave/" class="primary"><span class="zh">进入织文</span><span class="en">Open the studio</span></a>
+    <a href="https://github.com/yuluyangguang1/novelweave" target="_blank" rel="noopener"><span class="zh">源码</span><span class="en">Source</span></a>
+  </div>
+</div>
+
+<div class="section huiwen">
+  <div class="section-head"><span class="num">壹</span><h2><span class="zh">它解决什么</span><span class="en">What it fixes</span></h2></div>
+  <p>
+    <span class="zh">长篇写崩，很少是因为没灵感，多半是因为前后对不上：死人又开口说话、伏笔埋了没收、上章断了臂的主角这章挥拳。人脑记不住两百章的设定；把全文一股脑塞给模型也不行 —— 上下文有上限，而且塞得越满越钝。</span>
+    <span class="en">Long fiction rarely fails for lack of ideas; it fails because the text stops agreeing with itself — the dead speak again, a planted thread is never paid off, the protagonist who lost an arm throws a punch. Nobody remembers two hundred chapters of settings, and dumping the whole manuscript into a model doesn't work either: context is finite, and the more you cram, the duller it gets.</span>
+  </p>
+  <p>
+    <span class="zh">织文的做法是把设定落成<b>可校验的结构化状态</b>：角色卡、世界规则、伏笔登记表、时间线、每章的状态矩阵。写作时不喂原文，只喂一份<b>有字节预算的派生上下文</b>；超出预算裁掉了哪一节，会如实报出来，绝不静默丢。检查由 11 条机器规则完成，带稳定指纹、严重度与退出码，能直接进 CI。</span>
+    <span class="en">NovelWeave turns settings into verifiable structured state: character cards, world rules, a promise ledger, a timeline, and a per-chapter state matrix. When writing, it feeds the model a derived context with a byte budget rather than raw prose — and if a section has to be dropped, it says so instead of silently vanishing. The checks run as 11 machine rules with stable fingerprints, severities and exit codes, so they belong in CI.</span>
+  </p>
+</div>
+
+<div class="section huiwen">
+  <div class="section-head"><span class="num">贰</span><h2><span class="zh">一次检查长什么样</span><span class="en">What a check looks like</span></h2></div>
+  <div class="term">
+    <div class="term-h"><span class="td"></span><span class="td"></span><span class="td"></span><span class="term-label">nw-continuity</span></div>
+    <div class="term-b"><span class="c"># 只读，不改你的正文</span>
+<span class="p">$</span> node scripts/nw-continuity.mjs ./yanhuo --from ch-021
+
+<span class="c">❌</span> [R1] dead-character-on-stage · ch-023
+   「明长老」已死亡（第 7 章），本章却在行动
+   → 改为回忆或托梦，或修正 died-in
+<span class="c">⚠️</span> [R3] promise-unpaid · p-004
+   「半枚铜印」埋于第 7 章，16 章未回收
+   → 回收它，或标 dropped 并写明原因
+
+1 error / 1 warn / 0 info
+<span class="t">exit 1</span></div>
+  </div>
+  <p class="tip">
+    <span class="zh">每条诊断都带原文引证与位置，点一下跳到那一章那一句。误报有控制：「明长老的旧伤」这种领属提及不算本人在行动；不同叙事线的时间永不互相比。</span>
+    <span class="en">Every diagnostic carries a quote and an offset you can jump to. False positives are deliberately bounded: a possessive mention ("Elder Ming's old wound") doesn't count as the man acting, and timelines on different threads are never compared against each other.</span>
+  </p>
+</div>
+
+<div class="section huiwen">
+  <div class="section-head"><span class="num">叁</span><h2><span class="zh">能力</span><span class="en">Capabilities</span></h2></div>
+  <div class="cards">
+    <div>
+      <div class="card-icon">律</div>
+      <div class="card-title"><span class="zh">机器规则门禁</span><span class="en">Machine-gated checks</span></div>
+      <div class="card-desc"><span class="zh">11 条规则：死人出场、状态与人设互斥、伏笔未收与逾期、回收早于埋设、时间倒流、外貌区间违规、未建档人名、断链、结构非法。同一输入永远同一指纹与退出码。</span><span class="en">Eleven rules, same fingerprint and exit code every run — so they can block a build.</span></div>
+    </div>
+    <div>
+      <div class="card-icon">典</div>
+      <div class="card-title"><span class="zh">结构化 Story Bible</span><span class="en">Structured story bible</span></div>
+      <div class="card-desc"><span class="zh">角色 / 世界 / 伏笔 / 时间线 / 每章六维状态（位置·生死·伤·持有物·已知·目标）。作者写的与程序推导的字段物理分开，派生字段被手改会被查出来。</span><span class="en">Author-written and machine-derived fields are physically separated; hand-editing a derived one is detected.</span></div>
+    </div>
+    <div>
+      <div class="card-icon">节</div>
+      <div class="card-title"><span class="zh">有预算的上下文</span><span class="en">Budgeted context</span></div>
+      <div class="card-desc"><span class="zh">整份 12 KB，按固定优先级拼装：出场角色、状态快照、未结线索、前情摘要、触发的世界设定、本章已写正文。被裁掉的节会显示出来。</span><span class="en">A 12 KB budget assembled by fixed priority — and whatever got trimmed is reported, not hidden.</span></div>
+    </div>
+    <div>
+      <div class="card-icon">共</div>
+      <div class="card-title"><span class="zh">与 agent 共享同一本书</span><span class="en">One book, shared with agents</span></div>
+      <div class="card-desc"><span class="zh">作品同时以 <code>.novelweave/</code> 目录存在：正文是 Markdown，状态是 JSON，可进 git。网页与命令行 agent 改同一份，导入时逐条三方比较，两边都改过的不自动覆盖。</span><span class="en">The web app and CLI agents edit the same tree; a three-way merge never auto-overwrites a record both sides touched.</span></div>
+    </div>
+    <div>
+      <div class="card-icon">存</div>
+      <div class="card-title"><span class="zh">覆盖前一律留底</span><span class="en">Snapshots before overwrite</span></div>
+      <div class="card-desc"><span class="zh">手动保存、AI 整章替换、导入覆盖这三处各留一版，每章最多 20 版，可看可回退；回退前也先留一版，所以误操作不不可逆。</span><span class="en">Up to twenty versions per chapter at every destructive write, and rolling back is itself reversible.</span></div>
+    </div>
+    <div>
+      <div class="card-icon">净</div>
+      <div class="card-title"><span class="zh">纯前端 · 自带 Key</span><span class="en">Front-end only · BYOK</span></div>
+      <div class="card-desc"><span class="zh">零构建、零依赖、零服务器。作品存在你浏览器的 IndexedDB 里，API Key 只存本机浏览器，不经过任何服务器；可离线当 PWA 用。</span><span class="en">No build, no dependencies, no server. Your book stays in IndexedDB and your API key never leaves the browser.</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section huiwen">
+  <div class="section-head"><span class="num">肆</span><h2><span class="zh">它不做什么</span><span class="en">What it won't do</span></h2></div>
+  <ul class="deny">
+    <li><span class="zh"><b>不判断文笔，不承诺"去 AI 痕迹"。</b>它会主动把这一项<b>交接</b>给文体类工具并记录结论，但不自己评价文字好坏 —— 那是另一类专业能力，混在一起做必然两头都做浅。</span><span class="en"><b>No prose judging, no "de-AI" promise.</b> It hands that off to a style tool and records the outcome, but never rates the writing itself.</span></li>
+    <li><span class="zh"><b>不从零批量生成整本书。</b>没有"一键 50 章"。</span><span class="en"><b>No one-click 50-chapter book.</b></span></li>
+    <li><span class="zh"><b>不替你决定设定。</b>任何状态变更先提案，作者点头才写入；AI 可以建议，不能静默改写既定事实。</span><span class="en"><b>No silent edits to your canon.</b> State changes are proposed first and applied only on your say-so.</span></li>
+    <li><span class="zh"><b>不发明第二套格式。</b>只认 <code>.novelweave/</code>，字段有 schema，非法结构先停。</span><span class="en"><b>Only one file format.</b> Schema-validated; invalid structure halts the run.</span></li>
+  </ul>
+  <p class="tip">
+    <span class="zh">这一节是刻意写的。同类工具最常见的失败方式，是声称自己什么都能做。</span>
+    <span class="en">This section is deliberate. The most common failure in this category of tool is claiming it does everything.</span>
+  </p>
+</div>
+
+<div class="section huiwen">
+  <div class="section-head"><span class="num">伍</span><h2><span class="zh">上手</span><span class="en">Getting started</span></h2></div>
+  <ol class="steps">
+    <li><span class="zh"><b>网页直接用</b> —— 点上面「进入织文」，创建作品即可写作。不配 API Key 也有一半功能是可用的：结构化状态、状态矩阵、连续性检查全在本地浏览器里跑；配了 Key（任意 OpenAI 兼容接口）才有续写、润色与总结。</span><span class="en"><b>Just open it.</b> Half of it works with no API key at all — the state matrix and the continuity checks run entirely in your browser.</span></li>
+    <li><span class="zh"><b>已有几十章稿子</b> —— 用 <code>adopt</code> 建档：草稿目录只读，章号不会被平移，判不出的章号它会拒绝而不是猜。</span><span class="en"><b>Already have drafts?</b> <code>adopt</code> them: your files stay read-only, existing chapter numbers never shift, and anything unrecognisable is refused rather than guessed.</span></li>
+    <li><span class="zh"><b>让命令行 agent 帮你写</b> —— 仓库自带两个技能（写作编排 + 只读连续性检查），一条安装脚本分发到 Claude Code · Codex · Cursor · Qoder · OpenClaw · Hermes · WorkBuddy。</span><span class="en"><b>Drive it from an agent.</b> Two bundled skills, one installer, seven agent runtimes.</span></li>
+    <li><span class="zh"><b>定期导出备份</b> —— 数据在浏览器里，清站点数据会一起丢。设置页有单文件快照与 <code>.novelweave/</code> 目录两种导出。</span><span class="en"><b>Back up regularly.</b> Browser storage is the only store; export a snapshot or a directory tree.</span></li>
+  </ol>
+  <p class="warn">
+    <span class="zh">浏览器要求：需要支持 IndexedDB 与现代 ES 的浏览器；<code>.novelweave/</code> 目录读写依赖 File System Access API，不支持时用单文件 JSON 备份走同一套合并逻辑。</span>
+    <span class="en">Requires IndexedDB and modern ES; directory read/write uses the File System Access API, with a single-file JSON fallback that runs the same merge logic.</span>
+  </p>
+</div>
+
+<div class="ink-mountains" aria-hidden="true"><svg viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0,150 L0,96 C90,62 180,86 280,64 C380,42 470,80 580,58 C690,36 780,74 900,52 C1000,34 1100,66 1200,48 L1200,150 Z" fill="currentColor" opacity=".55"/><path d="M0,150 L0,120 C120,96 240,112 380,97 C520,82 660,104 820,90 C960,80 1080,98 1200,86 L1200,150 Z" fill="currentColor"/></svg></div>
+
+<footer class="footer">
+  <span>yu.ai</span>
+  <span><span class="zh">织文 · 长篇网文工作台</span><span class="en">NovelWeave · long-form studio</span></span>
+  <span id="footer-year">mit</span>
+</footer>
+
+</div>
+</main>
+
+<script>
+(function(){
+  var btn=document.getElementById('theme-btn');
+  if(!btn)return;
+  var root=document.documentElement;
+  var sun=btn.querySelector('.theme-sun');
+  var moon=btn.querySelector('.theme-moon');
+  function sync(i){if(sun)sun.style.display=i?'none':'block';if(moon)moon.style.display=i?'block':'none'}
+  var s;try{s=localStorage.getItem('yuai-theme')}catch(_){}
+  if(s==='light'){root.setAttribute('data-theme','light');sync(true)}
+  else if(s==='dark'){root.setAttribute('data-theme','dark');sync(false)}
+  else{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)');sync(m&&m.matches)}
+  btn.onclick=function(){
+    var n=root.getAttribute('data-theme')!=='light';
+    if(!root.getAttribute('data-theme')){n=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
+    root.setAttribute('data-theme',n?'light':'dark');
+    try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}
+    sync(n);
+  };
+})();
+</script>
+</body>
+</html>
