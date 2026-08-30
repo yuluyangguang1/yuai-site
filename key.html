@@ -88,6 +88,11 @@
   .offer-go{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.04em;margin-top:2px}
   .cards>*.offer:hover .offer-go{opacity:.75}
   .offer.hidden{display:none}
+  /* 自动核对:过期/核验状态 */
+  .offer.expired{opacity:.45}
+  .offer.expired .offer-go{display:none}
+  .verify-tag{font-family:var(--mono);font-size:.6rem;color:var(--dim);opacity:.85;margin-top:2px;letter-spacing:.04em}
+  .offer.expired .verify-tag{color:var(--danger);opacity:1}
 
   /* 顶部提示条 */
   .tip{margin:0}
@@ -137,7 +142,7 @@
       <span class="zh">聚拢全网各家大模型的免费额度与限时活动 —— 不绑卡，注册即用。</span>
       <span class="en">Every free AI model tier and promo, in one place. No credit card required.</span>
     </p>
-    <div class="stat-row fade-up d3">
+    <div class="stat-row fade-up d3" id="statRow">
       <span class="zh">收录 8 家</span><span class="en">8 platforms</span>
       <span class="zh">长期免费 6 家</span><span class="en">6 permanent tiers</span>
       <span>每日核对 · updated daily</span>
@@ -277,7 +282,7 @@
         <p class="card-desc"><span class="zh">网页与 App 免费用，但开发者 API 按 token 计费，无长期免费层。</span><span class="en">The web and mobile apps are free, but the developer API is billed per token with no lasting free tier.</span></p>
       </div>
     </div>
-    <p class="tip"><span class="zh">额度与规则以各家官方页面为准，本站每日核对；发现过期或遗漏，欢迎<a href="#submit" data-open-submit>提交收录</a>。</span><span class="en">Quotas follow each vendor's official page; we re-check daily. Spot something expired? <a href="#submit" data-open-submit>Submit an update</a>.</span></p>
+    <p class="tip"><span class="zh">额度与规则以各家官方页面为准，本站每日自动核对链接可达性，新活动经由 <a href="https://aihot.virxact.com" target="_blank" rel="noopener">AI HOT</a> 资讯管道自动搜集；发现过期或遗漏，欢迎<a href="#submit" data-open-submit>提交收录</a>。</span><span class="en">Quotas follow each vendor's official page. Links are auto-checked daily; new offers are sourced via the <a href="https://aihot.virxact.com" target="_blank" rel="noopener">AI HOT</a> feed. Spot something expired? <a href="#submit" data-open-submit>Submit an update</a>.</span></p>
   </section>
 
   <!-- 提交收录弹窗 -->
@@ -377,20 +382,70 @@
     }
   }catch(_){}
 
-  // 活动筛选
+  // 活动筛选(事件委托,渲染器重建卡片后依然生效)
+  var currentFilter = 'all';
+  function applyFilter(){
+    var f = currentFilter;
+    document.querySelectorAll('.offer').forEach(function(o){
+      var show = (f==='all' || o.getAttribute('data-type')===f || o.getAttribute('data-region')===f);
+      o.classList[show?'remove':'add']('hidden');
+    });
+  }
   try{
-    var chips=document.querySelectorAll('.chip'),offers=document.querySelectorAll('.offer');
-    chips.forEach(function(chip){
+    document.querySelectorAll('.chip').forEach(function(chip){
       chip.addEventListener('click',function(){
-        chips.forEach(function(c){c.classList.remove('active')});
+        document.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active')});
         chip.classList.add('active');
-        var f=chip.getAttribute('data-filter');
-        offers.forEach(function(o){
-          var show = (f==='all' || o.getAttribute('data-type')===f || o.getAttribute('data-region')===f);
-          o.classList[show?'remove':'add']('hidden');
-        });
+        currentFilter = chip.getAttribute('data-filter');
+        applyFilter();
       });
     });
+  }catch(_){}
+
+  // 数据驱动渲染:key-data.json(每日自动核对过期 + AI HOT 搜集管道)
+  // 渲染失败则保留页面内置的静态卡片作为兜底。
+  try{
+    fetch('key-data.json').then(function(r){return r.ok?r.json():null}).then(function(db){
+      if(!db || !db.offers || !db.offers.length) return;
+      var grid=document.querySelector('.cards.offers');
+      if(!grid) return;
+      var REGION={cn:{zh:'国内直连',en:'CN'},global:{zh:'海外',en:'global'}};
+      var TYPE={permanent:{zh:'长期免费',en:'permanent'},limited:{zh:'限时活动',en:'limited'}};
+      function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+      function daysAgo(iso){if(!iso)return null;var d=(Date.now()-new Date(iso).getTime())/864e5;return Math.floor(d)}
+      grid.innerHTML = db.offers.map(function(o){
+        var rg=REGION[o.region]||REGION.global, tp=TYPE[o.type]||TYPE.permanent;
+        var v = daysAgo(o.lastVerified), vtag;
+        if(o.status==='expired') vtag='<span class="verify-tag"><span class="zh">链接失效 · 疑似过期</span><span class="en">link dead · likely expired</span></span>';
+        else if(v===null) vtag='<span class="verify-tag"><span class="zh">待核对</span><span class="en">pending check</span></span>';
+        else if(v<=0) vtag='<span class="verify-tag"><span class="zh">今日已核对</span><span class="en">verified today</span></span>';
+        else if(v>14) vtag='<span class="verify-tag"><span class="zh">'+v+' 天前核对 · 待复核</span><span class="en">verified '+v+'d ago · recheck</span></span>';
+        else vtag='<span class="verify-tag"><span class="zh">'+v+' 天前核对</span><span class="en">verified '+v+'d ago</span></span>';
+        return '<a class="offer'+(o.status==='expired'?' expired':'')+'" href="'+esc(o.url)+'" target="_blank" rel="noopener" data-type="'+esc(o.type)+'" data-region="'+esc(o.region)+'">'
+          +'<div class="offer-head">'
+          +'<span class="offer-name"><span class="zh">'+esc(o.name.zh)+'</span><span class="en">'+esc(o.name.en)+'</span></span>'
+          +'<span class="offer-tag"><span class="zh">'+rg.zh+' · '+tp.zh+'</span><span class="en">'+rg.en+' · '+tp.en+'</span></span>'
+          +'</div>'
+          +'<span class="offer-quota"><span class="zh">'+esc(o.quota.zh)+'</span><span class="en">'+esc(o.quota.en)+'</span></span>'
+          +'<span class="offer-models">'+esc(o.models.zh)+'</span>'
+          +'<span class="offer-note"><span class="zh">'+esc(o.note.zh)+'</span><span class="en">'+esc(o.note.en)+'</span></span>'
+          +'<span class="offer-go"><span class="zh">去领取</span><span class="en">claim</span> →</span>'
+          +vtag
+          +'</a>';
+      }).join('');
+      // 统计行
+      var total=db.offers.length;
+      var perm=db.offers.filter(function(o){return o.type==='permanent'&&o.status!=='expired'}).length;
+      var exp=db.offers.filter(function(o){return o.status==='expired'}).length;
+      var stats=document.getElementById('statRow');
+      if(stats){
+        var when=daysAgo(db.updatedAt);
+        stats.innerHTML='<span class="zh">收录 '+total+' 家'+(exp?'（'+exp+' 家疑似过期）':'')+'</span><span class="en">'+total+' platforms'+(exp?' ('+exp+' stale)':'')+'</span>'
+          +' <span class="zh">长期免费 '+perm+' 家</span><span class="en">'+perm+' permanent tiers</span>'
+          +' <span>每日核对 · updated daily'+(when!==null?' · '+when+'d':'')+'</span>';
+      }
+      applyFilter();
+    }).catch(function(_){/* 保留静态兜底 */});
   }catch(_){}
 
   // 提交收录弹窗

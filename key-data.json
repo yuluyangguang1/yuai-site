@@ -1,0 +1,465 @@
+{
+  "schema": 1,
+  "updatedAt": "2026-08-30T09:06:22.776Z",
+  "offers": [
+    {
+      "id": "zhipu",
+      "url": "https://open.bigmodel.cn/",
+      "type": "permanent",
+      "region": "cn",
+      "name": {
+        "zh": "智谱 GLM",
+        "en": "Zhipu GLM"
+      },
+      "quota": {
+        "zh": "GLM-4.7-Flash 输入+输出全免费",
+        "en": "GLM-4.7-Flash free in & out"
+      },
+      "models": {
+        "zh": "GLM-4.7-Flash · GLM-4-Flash · 200K ctx",
+        "en": "GLM-4.7-Flash · GLM-4-Flash · 200K ctx"
+      },
+      "note": {
+        "zh": "中文最强，OpenAI 接口兼容，注册即送 2000 万 Token。",
+        "en": "Best Chinese model, OpenAI-compatible, 20M tokens on signup."
+      },
+      "addedAt": "2026-08-24",
+      "lastVerified": "2026-08-30",
+      "failures": 1,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "siliconflow",
+      "url": "https://siliconflow.cn/",
+      "type": "permanent",
+      "region": "cn",
+      "name": {
+        "zh": "硅基流动",
+        "en": "SiliconFlow"
+      },
+      "quota": {
+        "zh": "9B 以下开源模型永久免费",
+        "en": "open models under 9B free forever"
+      },
+      "models": {
+        "zh": "Qwen2.5 · DeepSeek-V3 · Llama 3 · Kimi",
+        "en": "Qwen2.5 · DeepSeek-V3 · Llama 3 · Kimi"
+      },
+      "note": {
+        "zh": "新用户送 2000 万 Token，国内延迟低于 100ms；L0 免费档含 16+ 模型。",
+        "en": "20M tokens for new users, sub-100ms latency; L0 tier has 16+ free models."
+      },
+      "addedAt": "2026-08-24",
+      "lastVerified": "2026-08-30",
+      "failures": 1,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "gemini",
+      "url": "https://aistudio.google.com/app/apikey",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Google Gemini",
+        "en": "Google Gemini"
+      },
+      "quota": {
+        "zh": "Gemini 2.5 Flash 永久免费层",
+        "en": "Gemini 2.5 Flash free tier"
+      },
+      "models": {
+        "zh": "Gemini 2.5 Flash · 2.5 Pro · 1M ctx",
+        "en": "Gemini 2.5 Flash · 2.5 Pro · 1M ctx"
+      },
+      "note": {
+        "zh": "无需信用卡，多模态，长文本处理最强。",
+        "en": "No credit card, multimodal, best long-context handling."
+      },
+      "addedAt": "2026-08-24",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "groq",
+      "url": "https://console.groq.com/",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Groq",
+        "en": "Groq"
+      },
+      "quota": {
+        "zh": "免费层无需信用卡",
+        "en": "free tier, no card"
+      },
+      "models": {
+        "zh": "Llama 3.3 70B · Llama 4 · DeepSeek R1",
+        "en": "Llama 3.3 70B · Llama 4 · DeepSeek R1"
+      },
+      "note": {
+        "zh": "推理速度之王，1000+ tokens/s，约 30 RPM / 14400 req 每天。",
+        "en": "Fastest inference, 1000+ tok/s, ~30 RPM / 14.4k req per day."
+      },
+      "addedAt": "2026-08-24",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "cerebras",
+      "url": "https://cloud.cerebras.ai/",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Cerebras",
+        "en": "Cerebras"
+      },
+      "quota": {
+        "zh": "每天 100 万 Token",
+        "en": "1M tokens / day"
+      },
+      "models": {
+        "zh": "Qwen3 235B · Llama 3.3 70B",
+        "en": "Qwen3 235B · Llama 3.3 70B"
+      },
+      "note": {
+        "zh": "额度之王，2000 tokens/s，每日重置长期有效。",
+        "en": "Most generous quota, 2000 tok/s, resets daily."
+      },
+      "addedAt": "2026-08-24",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "doubao",
+      "url": "https://www.volcengine.com/product/doubao",
+      "type": "permanent",
+      "region": "cn",
+      "name": {
+        "zh": "火山引擎 豆包",
+        "en": "Volcengine Doubao"
+      },
+      "quota": {
+        "zh": "每天 200 万 Token，次日重置",
+        "en": "2M tokens / day, resets daily"
+      },
+      "models": {
+        "zh": "豆包系列 · 百川",
+        "en": "Doubao · Baichuan"
+      },
+      "note": {
+        "zh": "长期有效，中文理解强，适合每日自动调用。",
+        "en": "Always on, strong Chinese, great for daily automation."
+      },
+      "addedAt": "2026-08-24",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "qwen",
+      "url": "https://bailian.aliyun.com/",
+      "type": "limited",
+      "region": "cn",
+      "name": {
+        "zh": "阿里云百炼 通义千问",
+        "en": "Alibaba Qwen"
+      },
+      "quota": {
+        "zh": "每模型 100 万 Token，新用户另有大礼包",
+        "en": "1M tokens per model, plus new-user bundle"
+      },
+      "models": {
+        "zh": "qwen-plus · qwen-turbo · qwen-coder",
+        "en": "qwen-plus · qwen-turbo · qwen-coder"
+      },
+      "note": {
+        "zh": "百炼额度永久有效（新礼包 90 天），需实名认证。",
+        "en": "Bailian grants never expire (new-user bundle 90 days); real-name required."
+      },
+      "addedAt": "2026-08-24",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "qianfan",
+      "url": "https://qianfan.cloud.baidu.com/",
+      "type": "permanent",
+      "region": "cn",
+      "name": {
+        "zh": "百度千帆 文心",
+        "en": "Baidu Qianfan ERNIE"
+      },
+      "quota": {
+        "zh": "ERNIE-Speed 永久免费",
+        "en": "ERNIE-Speed free forever"
+      },
+      "models": {
+        "zh": "ernie-speed-128k",
+        "en": "ernie-speed-128k"
+      },
+      "note": {
+        "zh": "永久免费，QPS 50，提供 OpenAI 兼容入口。",
+        "en": "Free forever, QPS 50, OpenAI-compatible endpoint."
+      },
+      "addedAt": "2026-08-24",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "openrouter",
+      "url": "https://openrouter.ai/",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "OpenRouter",
+        "en": "OpenRouter"
+      },
+      "quota": {
+        "zh": "20+ 款 :free 模型免费调用",
+        "en": "20+ :free models at $0"
+      },
+      "models": {
+        "zh": "deepseek · qwen · llama · gemma 的 :free 版",
+        "en": "deepseek · qwen · llama · gemma :free variants"
+      },
+      "note": {
+        "zh": "一个 Key 聚合多家，免费模型限速但无月费，无需信用卡。",
+        "en": "One key for many providers; free models rate-limited, no card needed."
+      },
+      "addedAt": "2026-08-30",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "mistral",
+      "url": "https://mistral.ai/",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Mistral La Plateforme",
+        "en": "Mistral La Plateforme"
+      },
+      "quota": {
+        "zh": "免费档 + 每月 10 美元额度",
+        "en": "free tier + $10 credits / month"
+      },
+      "models": {
+        "zh": "mistral-large · codestral · ministral",
+        "en": "mistral-large · codestral · ministral"
+      },
+      "note": {
+        "zh": "免费档默认参与数据训练，可在控制台退出。",
+        "en": "Free tier may train on your data by default (opt-out in console)."
+      },
+      "addedAt": "2026-08-30",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "github-models",
+      "url": "https://github.com/marketplace/models",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "GitHub Models",
+        "en": "GitHub Models"
+      },
+      "quota": {
+        "zh": "全目录免费试用，按账号限速",
+        "en": "full catalog free with per-account rate limits"
+      },
+      "models": {
+        "zh": "gpt · llama · deepseek · phi",
+        "en": "gpt · llama · deepseek · phi"
+      },
+      "note": {
+        "zh": "所有 GitHub 用户可用，适合原型验证与评测。",
+        "en": "Available to every GitHub user; great for prototyping."
+      },
+      "addedAt": "2026-08-30",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "cloudflare",
+      "url": "https://developers.cloudflare.com/workers-ai/",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Cloudflare Workers AI",
+        "en": "Cloudflare Workers AI"
+      },
+      "quota": {
+        "zh": "每天 1 万 Neurons 免费额度",
+        "en": "10k neurons free every day"
+      },
+      "models": {
+        "zh": "llama · qwen · flux · whisper",
+        "en": "llama · qwen · flux · whisper"
+      },
+      "note": {
+        "zh": "绑卡前即可用，边缘推理延迟低。",
+        "en": "Usable without a card; low-latency edge inference."
+      },
+      "addedAt": "2026-08-30",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "nvidia-nim",
+      "url": "https://build.nvidia.com/",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "NVIDIA NIM",
+        "en": "NVIDIA NIM"
+      },
+      "quota": {
+        "zh": "注册送 1000 次推理额度",
+        "en": "1000 inference credits on signup"
+      },
+      "models": {
+        "zh": "llama · nemotron · deepseek r1",
+        "en": "llama · nemotron · deepseek r1"
+      },
+      "note": {
+        "zh": "额度用完需绑卡，适合短期能力测评。",
+        "en": "Credits are finite; good for short-term evals."
+      },
+      "addedAt": "2026-08-30",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "spark",
+      "url": "https://training.xfyun.cn/",
+      "type": "permanent",
+      "region": "cn",
+      "name": {
+        "zh": "讯飞星火 Spark Lite",
+        "en": "iFlytek Spark Lite"
+      },
+      "quota": {
+        "zh": "Spark Lite 永久免费",
+        "en": "Spark Lite free forever"
+      },
+      "models": {
+        "zh": "lite",
+        "en": "lite"
+      },
+      "note": {
+        "zh": "免费不限量档，仅限 Lite 模型，国内直连稳定。",
+        "en": "Free unlimited tier for the Lite model; stable in CN."
+      },
+      "addedAt": "2026-08-30",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "kimi",
+      "url": "https://platform.moonshot.cn/",
+      "type": "limited",
+      "region": "cn",
+      "name": {
+        "zh": "Kimi 月之暗面",
+        "en": "Moonshot Kimi"
+      },
+      "quota": {
+        "zh": "新用户送 15 元体验金",
+        "en": "¥15 credits for new users"
+      },
+      "models": {
+        "zh": "kimi-k2 · moonshot-v1 · 256K ctx",
+        "en": "kimi-k2 · moonshot-v1 · 256K ctx"
+      },
+      "note": {
+        "zh": "256K 超长上下文首选，体验金规则以官网为准。",
+        "en": "Top choice for 256K long context; check grant terms."
+      },
+      "addedAt": "2026-08-30",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "hunyuan",
+      "url": "https://cloud.tencent.com/product/hunyuan",
+      "type": "limited",
+      "region": "cn",
+      "name": {
+        "zh": "腾讯混元",
+        "en": "Tencent Hunyuan"
+      },
+      "quota": {
+        "zh": "新用户各模型 100 万 Token",
+        "en": "1M tokens per model for new users"
+      },
+      "models": {
+        "zh": "hunyuan-turbo · hunyuan-lite",
+        "en": "hunyuan-turbo · hunyuan-lite"
+      },
+      "note": {
+        "zh": "hunyuan-lite 本身免费；付费模型有新客额度。",
+        "en": "hunyuan-lite is free; paid models get new-user grants."
+      },
+      "addedAt": "2026-08-30",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    },
+    {
+      "id": "minimax",
+      "url": "https://platform.minimaxi.com/",
+      "type": "limited",
+      "region": "cn",
+      "name": {
+        "zh": "MiniMax",
+        "en": "MiniMax"
+      },
+      "quota": {
+        "zh": "新用户送 1500 万 Token 资源包",
+        "en": "15M token pack for new users"
+      },
+      "models": {
+        "zh": "minimax-01 · abab 系列",
+        "en": "minimax-01 · abab series"
+      },
+      "note": {
+        "zh": "资源包 90 天有效，实名后到账。",
+        "en": "Pack valid 90 days after real-name verification."
+      },
+      "addedAt": "2026-08-30",
+      "lastVerified": "2026-08-30",
+      "failures": 0,
+      "status": "active",
+      "source": null
+    }
+  ]
+}
