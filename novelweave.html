@@ -21,8 +21,14 @@
 <meta property="og:url" content="https://yuai-r.cn/novelweave.html">
 
 <style>
-/* 本页特有：能力卡片里的键名与计数用等宽小字，与 shared.css 的 mono 标签同源 */
+/* 页面特有样式 */
+/* hero 用产品自己的图标替掉文字 glyph：尺寸与 shared.css 的 .hero .glyph 对齐，
+   换上去不会把下面的标题推移。刻意不加 .unfurl —— 它起手 opacity:0，
+   动画没跑完 logo 就是不存在的，模板原本这个位置也没有入场动画 */
+.hero .glyph-mark{display:block;width:5rem;height:5rem;margin:0 0 8px}
+/* 能力卡片里的键名与计数用等宽小字，与 shared.css 的 mono 标签同源 */
 .card-desc code{font-family:var(--mono);font-size:.78em;opacity:.85}
+@media (max-width:640px){.hero .glyph-mark{width:3.5rem;height:3.5rem}}
 .deny{list-style:none;padding:0;margin:0}
 .deny li{padding:10px 0;border-bottom:1px solid var(--border);line-height:1.85}
 .deny li:last-child{border-bottom:0}
@@ -64,7 +70,7 @@
 <div class="page">
 
 <div class="hero">
-  <div class="glyph">织</div>
+  <img class="glyph-mark" src="/novelweave/icons/icon-512.png" width="512" height="512" alt="织文图标 · 经纬交织的织纹">
   <h1 class="display unfurl d1"><span class="zh">织文</span><span class="en">NovelWeave</span><small><span class="zh">长篇网文工作台</span><span class="en">long-form studio</span></small></h1>
   <p class="sub fade-up d2">
     <span class="zh">写到第四十章，还能知道谁在第几章断了左臂。</span>
