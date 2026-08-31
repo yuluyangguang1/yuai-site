@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <script>(function(){var p=location.pathname;if(p!=="/fortune"&&p.indexOf("/fortune/")!==0){location.replace("/");}})();</script>
+    <link rel="icon" type="image/svg+xml" href="/fortune/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/fortune/favicon-small.svg" sizes="64x64" />
+    <link rel="apple-touch-icon" href="/fortune/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YUAI · 天机阁</title>
+    <meta name="description" content="融合八字、紫微斗数、易经、塔罗与 AI 智能解读的命理平台" />
+    <meta name="theme-color" content="#0A0912" />
+    <!-- 防止主题闪烁：在 CSS 加载前读取 localStorage -->
+    <script>
+      (function(){
+        try {
+          var s = localStorage.getItem('fortune-settings');
+          if (s) {
+            var d = JSON.parse(s);
+            if (d && d.state && d.state.theme === 'dark') {
+              document.documentElement.classList.add('dark');
+            }
+          }
+        } catch(e){}
+      })();
+    </script>
+    <!-- 内联关键样式，防止白屏 -->
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: #F4E9DC;
+        transition: background 0.35s ease;
+      }
+      html.dark, html.dark body {
+        background: #0A0912;
+      }
+      #root {
+        min-height: 100vh;
+      }
+      /* 加载动画 */
+      .app-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        background: #F4E9DC;
+        transition: opacity 0.5s ease;
+      }
+      html.dark .app-loader {
+        background: #0A0912;
+      }
+      .app-loader.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .loader-taiji {
+        width: 48px;
+        height: 48px;
+        animation: spin 4s linear infinite;
+      }
+      .loader-taiji circle { stroke: #A07828; }
+      .loader-taiji path { stroke: #A07828; }
+      html.dark .loader-taiji circle { stroke: #C9A85C; }
+      html.dark .loader-taiji path { stroke: #C9A85C; }
+      .loader-text {
+        margin-top: 16px;
+        font-family: 'Noto Serif SC', serif;
+        font-size: 12px;
+        letter-spacing: 0.3em;
+        color: #A07828;
+      }
+      html.dark .loader-text { color: #C9A85C; }
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <script type="module" crossorigin src="/fortune/assets/index-BnElivbt.js"></script>
+    <link rel="modulepreload" crossorigin href="/fortune/assets/vendor-react-D_ze9-jD.js">
+    <link rel="modulepreload" crossorigin href="/fortune/assets/vendor-motion-uegpHKi9.js">
+    <link rel="stylesheet" crossorigin href="/fortune/assets/index-BIM_xI-2.css">
+  </head>
+  <body>
+    <!-- 加载动画：React 挂载后自动移除 -->
+    <div class="app-loader" id="app-loader">
+      <svg class="loader-taiji" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" stroke-width="1" opacity="0.5"/>
+        <circle cx="24" cy="24" r="16" stroke-width="0.5" opacity="0.3"/>
+        <path d="M24 2C24 2 24 24 24 24C24 24 14 14 2 24C14 34 24 24 24 24C24 24 24 46 46 24C34 14 24 24 24 24"
+          stroke-width="1" fill="none" opacity="0.6"/>
+      </svg>
+      <div class="loader-text">天机阁</div>
+    </div>
+    <div id="root"></div>
+  </body>
+</html>
