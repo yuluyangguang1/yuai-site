@@ -93,8 +93,8 @@
     <span class="en">Long fiction rarely fails for lack of ideas; it fails because the text stops agreeing with itself — the dead speak again, a planted thread is never paid off, the protagonist who lost an arm throws a punch. Nobody remembers two hundred chapters of settings, and dumping the whole manuscript into a model doesn't work either: context is finite, and the more you cram, the duller it gets.</span>
   </p>
   <p>
-    <span class="zh">织文的做法是把设定落成<b>可校验的结构化状态</b>：角色卡、世界规则、伏笔登记表、时间线、每章的状态矩阵。写作时不喂原文，只喂一份<b>有字节预算的派生上下文</b>；超出预算裁掉了哪一节，会如实报出来，绝不静默丢。检查由 11 条机器规则完成，带稳定指纹、严重度与退出码，能直接进 CI。</span>
-    <span class="en">NovelWeave turns settings into verifiable structured state: character cards, world rules, a promise ledger, a timeline, and a per-chapter state matrix. When writing, it feeds the model a derived context with a byte budget rather than raw prose — and if a section has to be dropped, it says so instead of silently vanishing. The checks run as 11 machine rules with stable fingerprints, severities and exit codes, so they belong in CI.</span>
+    <span class="zh">织文的做法是把设定落成<b>可校验的结构化状态</b>：角色卡、世界规则、伏笔登记表、时间线、每章的状态矩阵。写作时不喂原文，只喂一份<b>有字节预算的派生上下文</b>；超出预算裁掉了哪一节，会如实报出来，绝不静默丢。检查由 13 条机器规则完成，带稳定指纹、严重度与退出码，能直接进 CI。</span>
+    <span class="en">NovelWeave turns settings into verifiable structured state: character cards, world rules, a promise ledger, a timeline, and a per-chapter state matrix. When writing, it feeds the model a derived context with a byte budget rather than raw prose — and if a section has to be dropped, it says so instead of silently vanishing. The checks run as 13 machine rules with stable fingerprints, severities and exit codes, so they belong in CI.</span>
   </p>
 </div>
 
@@ -127,7 +127,7 @@
     <div>
       <div class="card-icon">律</div>
       <div class="card-title"><span class="zh">机器规则门禁</span><span class="en">Machine-gated checks</span></div>
-      <div class="card-desc"><span class="zh">12 条规则：死人出场、状态与人设互斥、伏笔未收与逾期、回收早于埋设、时间倒流、外貌区间违规、未建档人名、断链、结构非法、章末钩子提示。同一输入永远同一指纹与退出码。</span><span class="en">Thirteen rules, same fingerprint and exit code every run — so they can block a build.</span></div>
+      <div class="card-desc"><span class="zh">13 条规则：死人出场、状态与人设互斥、伏笔未收与逾期、回收早于埋设、时间倒流、外貌区间违规、未建档人名、断链、派生字段被手改、结构非法、章末钩子与物品失而复得提示。同一输入永远同一指纹与退出码。</span><span class="en">Thirteen rules, same fingerprint and exit code every run — so they can block a build.</span></div>
     </div>
     <div>
       <div class="card-icon">典</div>
@@ -211,17 +211,17 @@
     <div>
       <div class="card-icon">成</div>
       <div class="card-title"><span class="zh">已实现</span><span class="en">Shipped</span></div>
-      <div class="card-desc"><span class="zh">结构化 Story Bible · 13 条机器规则门禁 · 有预算的上下文 · 硬禁令与文风样例注入 · 生成后自检与修订循环 · 覆盖前留底 · Web 与 agent 同书 · PWA 离线 · BYOK。</span><span class="en">Story bible, twelve gated rules, budgeted context, hard bans &amp; style injection, self-checked generation, snapshots, agent sharing, offline PWA, BYOK.</span></div>
+      <div class="card-desc"><span class="zh">结构化 Story Bible · 13 条机器规则门禁 · 有预算的上下文 · 从零起书向导（短篇 / 长篇，逐项可改再建档）· 连续生成正文（逐章过机检并自修一轮，随时可停）· 硬禁令与文风样例注入 · 生成后自检与修订循环 · 覆盖前留底 · Web 与 agent 同书 · PWA 离线 · BYOK。</span><span class="en">Story bible, thirteen gated rules, budgeted context, a from-zero book wizard (short and long, every field editable before it commits), chapter-by-chapter generation that machine-checks and self-repairs each pass and can be stopped at any time, hard bans &amp; style injection, self-checked generation, snapshots, agent sharing, offline PWA, BYOK.</span></div>
     </div>
     <div>
       <div class="card-icon">筑</div>
       <div class="card-title"><span class="zh">建设中</span><span class="en">In progress</span></div>
-      <div class="card-desc"><span class="zh">从零起书向导（设定 / 卷纲 / 章纲分层确认，黄金三章模板兜底）、大纲 → 拍点 → 成稿的分层生成、批量成稿（每章过机检、带确认闸，不做无确认直出）。</span><span class="en">A from-zero book wizard, outline → beats → prose layered generation, and batch drafting behind confirmation gates.</span></div>
+      <div class="card-desc"><span class="zh">双写冲突的解决界面（两边都改过的记录现在会一起写进 <code>conflicts/</code>，但要人手工合）、版本历史的并排 diff、文体台账进 Web 界面。</span><span class="en">A conflict-resolution UI for dual writes — records changed on both sides already land in <code>conflicts/</code>, but merging them is still manual — plus side-by-side diff for revision history, and the prose ledger surfacing in the web app.</span></div>
     </div>
     <div>
       <div class="card-icon">远</div>
       <div class="card-title"><span class="zh">在路上</span><span class="en">On the road</span></div>
-      <div class="card-desc"><span class="zh">语义检索与全卷滚动压缩（两百章也能召回）、关系图谱与关系矛盾规则、跨章瞬移等四条深层规则、EPUB 出书排版。</span><span class="en">Semantic retrieval with rolling compression, a relationship graph with its own rules, four deeper continuity rules, EPUB export.</span></div>
+      <div class="card-desc"><span class="zh">语义检索与全卷滚动压缩（两百章也能召回）、关系图谱与关系矛盾规则、跨章瞬移与称谓越界等三条深层规则、EPUB 出书排版。</span><span class="en">Semantic retrieval with rolling compression, a relationship graph with its own rules, three deeper continuity rules still open, EPUB export.</span></div>
     </div>
   </div>
   <p class="tip">
