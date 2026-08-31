@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const ROUTES = ['bazi', 'ziwei', 'almanac', 'tarot', 'iching', 'bone', 'daily', 'compat', 'crossref', 'knowledge', 'history', 'settings'];
+const ROUTES = ['bazi', 'ziwei', 'almanac', 'tarot', 'iching', 'bone', 'daily', 'compat', 'crossref', 'knowledge', 'history', 'settings', 'naming'];
 const ANCHOR = '<meta charset="UTF-8" />';
 const GUARD = '<script>(function(){var p=location.pathname;if(p!=="/fortune"&&p.indexOf("/fortune/")!==0){location.replace("/");}})();</script>';
 const TITLE_ANCHOR = '<title>YUAI · 天机阁</title>';
@@ -24,6 +24,7 @@ const META = {
   knowledge: ['命理知识库｜星曜神煞基础词条 · YUAI天机阁', '天机阁内置命理知识词条：星曜、神煞与基础概念速查。'],
   history: ['历史记录｜本地保存的排盘记录 · YUAI天机阁', '查看在本机保存过的排盘与测算记录，数据只留在你的浏览器里。'],
   settings: ['设置｜主题与偏好 · YUAI天机阁', '调整天机阁的主题与使用偏好，设置保存在本机浏览器。'],
+  naming: ['起名分析｜五格三才生肖音韵免费在线测算 · YUAI天机阁', '输入姓氏与候选名字，免费做姓名分析：五格剖象、三才配置、生肖宜忌与音韵节奏，浏览器本地计算，不上传任何数据。'],
 };
 
 const src = readFileSync(join(ROOT, 'fortune/index.html'), 'utf8');

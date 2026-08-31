@@ -150,4 +150,9 @@
     <priority>0.6</priority>
     <changefreq>weekly</changefreq>
   </url>
+  <url>
+    <loc>https://yuai-r.cn/fortune/naming/</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 </urlset>
