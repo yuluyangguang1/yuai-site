@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-09-02T09:51:02.000Z",
+  "updatedAt": "2026-09-02T12:54:21.000Z",
   "offers": [
     {
       "id": "zhipu",
@@ -113,23 +113,23 @@
     {
       "id": "cerebras",
       "url": "https://cloud.cerebras.ai/",
-      "type": "permanent",
+      "type": "limited",
       "region": "global",
       "name": {
         "zh": "Cerebras",
         "en": "Cerebras"
       },
       "quota": {
-        "zh": "每天 100 万 Token",
-        "en": "1M tokens / day"
+        "zh": "$5 试用额度，30 天过期",
+        "en": "$5 trial credit, expires in 30 days"
       },
       "models": {
-        "zh": "Qwen3 235B · Llama 3.3 70B",
-        "en": "Qwen3 235B · Llama 3.3 70B"
+        "zh": "gpt-oss-120b · gemma-4-31b",
+        "en": "gpt-oss-120b · gemma-4-31b"
       },
       "note": {
-        "zh": "额度之王，2000 tokens/s，每日重置长期有效。",
-        "en": "Most generous quota, 2000 tok/s, resets daily."
+        "zh": "须先绑定并验证支付方式才激活，赠 5 美元额度、30 天过期；官方已取消自动续期的免费层，别再当长期免费用。",
+        "en": "Requires adding a verified payment method before the API activates; $5 in credits expires after 30 days. The auto-renewing free tier is gone."
       },
       "addedAt": "2026-08-24",
       "lastVerified": "2026-09-01",
@@ -275,23 +275,23 @@
     {
       "id": "github-models",
       "url": "https://github.com/marketplace/models",
-      "type": "permanent",
+      "type": "limited",
       "region": "global",
       "name": {
         "zh": "GitHub Models",
         "en": "GitHub Models"
       },
       "quota": {
-        "zh": "全目录免费试用，按账号限速",
-        "en": "full catalog free with per-account rate limits"
+        "zh": "退役中，推理端点已返回 410",
+        "en": "retiring — inference endpoint returns 410"
       },
       "models": {
         "zh": "gpt · llama · deepseek · phi",
         "en": "gpt · llama · deepseek · phi"
       },
       "note": {
-        "zh": "所有 GitHub 用户可用，适合原型验证与评测。",
-        "en": "Available to every GitHub user; great for prototyping."
+        "zh": "官方已启动退役（推理端点返回 410 retirement_brownout），随时可能彻底停用，新项目不要依赖它。",
+        "en": "Retirement is underway (inference endpoint returns 410 retirement_brownout) and it may stop working at any time — do not build new projects on it."
       },
       "addedAt": "2026-08-30",
       "lastVerified": "2026-09-01",
@@ -508,6 +508,222 @@
       "note": {
         "zh": "第三方中转导航，每 6 小时刷新额度与在线状态；务必从站内邀请链接注册，勿放生产密钥。",
         "en": "Third-party relay index, refreshed every 6h. Register via in-page invite links; never send production keys."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+{
+      "id": "modelscope",
+      "url": "https://modelscope.cn/my/myaccesstoken",
+      "type": "permanent",
+      "region": "cn",
+      "name": {
+        "zh": "魔搭 ModelScope",
+        "en": "ModelScope"
+      },
+      "quota": {
+        "zh": "每天 2000 次 API 调用",
+        "en": "2,000 API calls / day"
+      },
+      "models": {
+        "zh": "Qwen3.5 全系 · DeepSeek · GLM · 256K ctx",
+        "en": "Qwen3.5 series · DeepSeek · GLM · 256K ctx"
+      },
+      "note": {
+        "zh": "OpenAI 兼容接口，国内直连；须先绑定阿里云账号并完成实名认证，否则返回 401。单模型上限 500 次/天，DeepSeek-R1 等大规格仅 100 次/天。",
+        "en": "OpenAI-compatible and fast in China. You must bind an Alibaba Cloud account and pass real-name verification first, or calls return 401. Per-model cap 500/day; large models like DeepSeek-R1 only 100/day."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+{
+      "id": "cohere",
+      "url": "https://dashboard.cohere.com/api-keys",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "Cohere",
+        "en": "Cohere"
+      },
+      "quota": {
+        "zh": "每月 1000 次调用，20 RPM",
+        "en": "1,000 calls / month, 20 RPM"
+      },
+      "models": {
+        "zh": "Command A 系列 · Aya · Embed · Rerank",
+        "en": "Command A series · Aya · Embed · Rerank"
+      },
+      "note": {
+        "zh": "免信用卡，Embed 与 Rerank 端点同样免费——做 RAG 和检索时的稀缺选择；Trial Key 仅限非商业用途。",
+        "en": "No credit card, and the Embed and Rerank endpoints are free too — a rare find for RAG and retrieval. Trial keys are for non-commercial use only."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+{
+      "id": "kilo-code",
+      "url": "https://app.kilo.ai/profile",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Kilo Code",
+        "en": "Kilo Code"
+      },
+      "quota": {
+        "zh": "200 次/小时，无需注册无需 Key",
+        "en": "200 req/hr, no signup or key"
+      },
+      "models": {
+        "zh": "Nemotron 3 Ultra · Step 3.7 Flash · Poolside Laguna",
+        "en": "Nemotron 3 Ultra · Step 3.7 Flash · Poolside Laguna"
+      },
+      "note": {
+        "zh": "免注册免 Key 直接调，kilo-auto/free 会自动路由到免费池里当前可用的模型；免费名单变动频繁，官方目录可能滞后。",
+        "en": "Call it directly with no signup and no key; kilo-auto/free routes to whatever is currently available in the free pool. The free list churns often and the catalog can lag."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+{
+      "id": "ovhcloud",
+      "url": "https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "OVHcloud AI Endpoints",
+        "en": "OVHcloud AI Endpoints"
+      },
+      "quota": {
+        "zh": "每 IP 每模型 2 RPM，完全匿名",
+        "en": "2 RPM per IP per model, fully anonymous"
+      },
+      "models": {
+        "zh": "Qwen3.5 397B · gpt-oss-120b · Llama 3.3 70B · Mistral",
+        "en": "Qwen3.5 397B · gpt-oss-120b · Llama 3.3 70B · Mistral"
+      },
+      "note": {
+        "zh": "不用注册、不用 Key 就能调，20+ 开源模型托管在欧盟境内，适合对数据属地有要求的场景；速率偏低，只适合低频任务。",
+        "en": "Works with no signup and no key. 20+ open-weight models hosted in the EU — good when data residency matters. The rate limit is low, so low-frequency tasks only."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+{
+      "id": "ollama-cloud",
+      "url": "https://ollama.com/settings/keys",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Ollama Cloud",
+        "en": "Ollama Cloud"
+      },
+      "quota": {
+        "zh": "免费档存在，限额未公开",
+        "en": "free tier exists, limits unpublished"
+      },
+      "models": {
+        "zh": "DeepSeek V4 · Kimi K3 · MiniMax M3 · Qwen3.5 397B",
+        "en": "DeepSeek V4 · Kimi K3 · MiniMax M3 · Qwen3.5 397B"
+      },
+      "note": {
+        "zh": "OpenAI 兼容走 ollama.com/v1，16 个云端模型族；免费档是 5 小时会话额度 + 7 天周额度双层限制，具体数值官方未公布。",
+        "en": "OpenAI-compatible via ollama.com/v1 with 16 cloud model families. The free tier is gated by both a 5-hour session cap and a 7-day weekly cap; Ollama does not publish the numbers."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+{
+      "id": "aion-labs",
+      "url": "https://www.aionlabs.ai/app/api-keys/",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Aion Labs",
+        "en": "Aion Labs"
+      },
+      "quota": {
+        "zh": "15 RPM，每天 2 万 Token",
+        "en": "15 RPM, 20K tokens / day"
+      },
+      "models": {
+        "zh": "aion-3.0 · aion-3.0-mini · aion-2.0 · RP-Llama 3.1 8B",
+        "en": "aion-3.0 · aion-3.0-mini · aion-2.0 · RP-Llama 3.1 8B"
+      },
+      "note": {
+        "zh": "以色列小厂，永久免费层免信用卡，128K 上下文；模型专为角色扮演与剧情创作微调，通用问答不是它的强项。",
+        "en": "A small Israel-based lab with a permanent no-card tier and 128K context. Models are fine-tuned for roleplay and storytelling, not general Q&A."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+{
+      "id": "llm7",
+      "url": "https://token.llm7.io",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "LLM7.io",
+        "en": "LLM7.io"
+      },
+      "quota": {
+        "zh": "匿名 10 RPM / 每小时 60 次",
+        "en": "10 RPM / 60 req per hour anonymous"
+      },
+      "models": {
+        "zh": "gpt-oss-20b · Mistral-Nemo · MiniMax-M2.7",
+        "en": "gpt-oss-20b · Mistral-Nemo · MiniMax-M2.7"
+      },
+      "note": {
+        "zh": "不注册就能匿名调 turbo 档，去 token.llm7.io 领免费 token 可提额（模型不变）；第三方小网关，模型目录轮换频繁，别放生产。",
+        "en": "Anonymous access to the turbo tier needs no signup; grab a free token at token.llm7.io for higher limits (same models). Third-party gateway with a frequently rotating catalog — avoid for production."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+{
+      "id": "huggingface",
+      "url": "https://huggingface.co/settings/tokens",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "Hugging Face",
+        "en": "Hugging Face"
+      },
+      "quota": {
+        "zh": "每月 0.1 美元推理额度",
+        "en": "$0.10 inference credits / month"
+      },
+      "models": {
+        "zh": "Llama · Gemma · Qwen · Phi 等数千社区模型",
+        "en": "Llama · Gemma · Qwen · Phi + thousands of community models"
+      },
+      "note": {
+        "zh": "免费档额度很小，只够跑通链路和做少量实验；请求自动路由到 Fireworks、Together、Nebius 等多家供应商，国内访问不稳定。",
+        "en": "The free allowance is tiny — enough to wire things up and run a few experiments. Requests route across Fireworks, Together, Nebius and others; access from mainland China is unreliable."
       },
       "addedAt": "2026-09-02",
       "lastVerified": "2026-09-02",
