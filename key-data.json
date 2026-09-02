@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-09-02T12:54:21.000Z",
+  "updatedAt": "2026-09-02T13:16:30Z",
   "offers": [
     {
       "id": "zhipu",
@@ -97,15 +97,15 @@
         "en": "free tier, no card"
       },
       "models": {
-        "zh": "Llama 3.3 70B · Llama 4 · DeepSeek R1",
-        "en": "Llama 3.3 70B · Llama 4 · DeepSeek R1"
+        "zh": "GPT-OSS 120B · GPT-OSS 20B · Qwen3.6 27B · 131K ctx",
+        "en": "GPT-OSS 120B · GPT-OSS 20B · Qwen3.6 27B · 131K ctx"
       },
       "note": {
-        "zh": "推理速度之王，1000+ tokens/s，约 30 RPM / 14400 req 每天。",
-        "en": "Fastest inference, 1000+ tok/s, ~30 RPM / 14.4k req per day."
+        "zh": "推理速度之王，GPT-OSS 20B 可达 1000 tokens/s；免费层约 1000 RPM / 250K TPM。Llama 3.3 70B 与 Llama 4 已下线，官方建议改用 GPT-OSS 或 Qwen3.6。",
+        "en": "Fastest inference, GPT-OSS 20B hits 1000 tok/s; free tier ~1000 RPM / 250K TPM. Llama 3.3 70B and Llama 4 are retired - migrate to GPT-OSS or Qwen3.6."
       },
       "addedAt": "2026-08-24",
-      "lastVerified": "2026-09-01",
+      "lastVerified": "2026-09-02",
       "failures": 0,
       "status": "active",
       "source": null
