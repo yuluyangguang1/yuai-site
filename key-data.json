@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-09-01T05:55:49.354Z",
+  "updatedAt": "2026-09-02T09:51:02.000Z",
   "offers": [
     {
       "id": "zhipu",
@@ -460,6 +460,60 @@
       "failures": 0,
       "status": "active",
       "source": null
+    },
+{
+      "id": "amd-radeon",
+      "url": "https://developer.amd.com.cn/radeon/tokenfactory",
+      "type": "permanent",
+      "region": "cn",
+      "name": {
+        "zh": "AMD Radeon Cloud",
+        "en": "AMD Radeon Cloud"
+      },
+      "quota": {
+        "zh": "5 款公共模型免费调用，无需实例与额度",
+        "en": "5 public model APIs free, no instance or credits"
+      },
+      "models": {
+        "zh": "DeepSeek-V4-Flash · Qwen3.8-Flash-Next · MiniCPM5-1B · MiniCPM-V46",
+        "en": "DeepSeek-V4-Flash · Qwen3.8-Flash-Next · MiniCPM5-1B · MiniCPM-V46"
+      },
+      "note": {
+        "zh": "登录 Token Factory 复制 rc- 开头 Key，OpenAI 接口兼容；免费层约 20 RPM、并发 8。",
+        "en": "Sign in and copy the rc- key from Token Factory. OpenAI-compatible; free tier ~20 RPM, 8 concurrent."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+{
+      "id": "ai-coding-welfare",
+      "url": "https://github.com/panxunying/ai-coding-welfare",
+      "type": "limited",
+      "region": "cn",
+      "name": {
+        "zh": "AI Coding 福利站合集",
+        "en": "AI Coding welfare list"
+      },
+      "quota": {
+        "zh": "10 家中转站，首日合计约 800 美元额度",
+        "en": "10 relay sites, about $800 total on day one"
+      },
+      "models": {
+        "zh": "Claude Opus · GPT-5.x · Codex（各站不同）",
+        "en": "Claude Opus · GPT-5.x · Codex (varies per site)"
+      },
+      "note": {
+        "zh": "第三方中转导航，每 6 小时刷新额度与在线状态；务必从站内邀请链接注册，勿放生产密钥。",
+        "en": "Third-party relay index, refreshed every 6h. Register via in-page invite links; never send production keys."
+      },
+      "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-02",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
     }
   ]
 }
