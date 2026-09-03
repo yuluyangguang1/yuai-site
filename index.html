@@ -233,6 +233,40 @@
   .topbar-logo svg circle,.tool:hover .tool-glyph{animation:none}
 }
 
+/* ═══ v3.3 · 背景层动画 — 画卷缓移 / 天光漂移 / 墨尘上浮 / 目光视差 ═══ */
+
+/* 画卷 Ken Burns:底图极缓呼吸缩移 */
+.bg-i img{animation:kenburns 46s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.055) translate(-1.1%,.9%)}}
+
+/* 朱砂天光:容器留给 JS 视差,内部加一层对角暮色缓慢漂移 */
+.bg-g{overflow:hidden}
+.bg-g::after{content:"";position:absolute;inset:-5%;background:radial-gradient(ellipse at 82% 88%,rgba(242,99,78,.10),transparent 58%);animation:skyDrift 38s ease-in-out infinite alternate}
+@keyframes skyDrift{from{transform:translate(0,0)}to{transform:translate(-3.5%,2.5%)}}
+
+/* 墨尘 — 光柱里的浮尘,极缓上浮(基础 opacity:0,reduced-motion 自动隐没) */
+.bg-dust{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-dust i{position:absolute;bottom:-2vh;left:var(--l,50%);width:var(--s,3px);height:var(--s,3px);border-radius:50%;background:rgb(var(--mid-base)/.14);opacity:0;filter:blur(.4px);animation:dustRise var(--d,36s) linear infinite;animation-delay:var(--dl,0s)}
+@keyframes dustRise{0%{transform:translate(0,0);opacity:0}6%{opacity:.5}82%{opacity:.22}100%{transform:translate(var(--dx,24px),-108vh);opacity:0}}
+.bg-dust i:nth-child(1){--l:6%;--s:3px;--d:38s;--dx:26px;--dl:0s}
+.bg-dust i:nth-child(2){--l:18%;--s:2px;--d:46s;--dx:-18px;--dl:6s}
+.bg-dust i:nth-child(3){--l:33%;--s:4px;--d:32s;--dx:34px;--dl:14s}
+.bg-dust i:nth-child(4){--l:52%;--s:2px;--d:52s;--dx:-30px;--dl:2s}
+.bg-dust i:nth-child(5){--l:68%;--s:3px;--d:41s;--dx:20px;--dl:20s}
+.bg-dust i:nth-child(6){--l:81%;--s:2px;--d:36s;--dx:-22px;--dl:9s}
+.bg-dust i:nth-child(7){--l:93%;--s:3px;--d:48s;--dx:16px;--dl:26s}
+@media(max-width:768px){.bg-dust{display:none}}
+
+/* 器物编号 — 壹至陆,馆藏签牌式 */
+.tool-no{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;margin-right:10px;border:1px solid rgb(var(--accent-base)/.45);border-radius:3px;color:var(--accent);font-family:var(--serif);font-size:.62rem;letter-spacing:0;opacity:.6;vertical-align:4px;transition:opacity .3s var(--ease),background .3s var(--ease)}
+.tool:hover .tool-no{opacity:1;background:var(--accent-soft)}
+
+/* reduced-motion:背景层全部静止并隐没 */
+@media(prefers-reduced-motion:reduce){
+  .bg-i img,.bg-g::after{animation:none}
+  .bg-dust{display:none}
+}
+
 /* Reduced motion */
 @media(prefers-reduced-motion:reduce){
   .unfurl{animation:none;opacity:1;clip-path:none}
@@ -249,6 +283,7 @@
 <div class="bg-n" aria-hidden="true"></div>
 <div class="bg-g" aria-hidden="true"></div>
 <div class="bg-mist" aria-hidden="true"></div>
+<div class="bg-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="colophon" id="colophon" aria-hidden="true">与君同在 · 历久不散</div>
 <div class="mount-frame" aria-hidden="true"></div>
 <div class="scroll-progress" aria-hidden="true"></div>
@@ -326,7 +361,7 @@
 
       <article class="tool rv">
         <span class="tool-glyph" aria-hidden="true">匣</span>
-        <h3 class="tool-name">openclaw<small><span class="zh">百川</span><span class="en">baichuan</span></small></h3>
+        <h3 class="tool-name"><span class="tool-no" aria-hidden="true">壹</span>openclaw<small><span class="zh">百川</span><span class="en">baichuan</span></small></h3>
         <div class="tool-purpose"><span class="zh">为 应 物</span><span class="en">for everything</span></div>
         <p class="tool-desc"><span class="zh">一匣纳百川，万象皆可谈。</span><span class="en">All models, all channels, one box.</span></p>
         <div class="tool-links">
@@ -339,7 +374,7 @@
 
       <article class="tool rv">
         <span class="tool-glyph" aria-hidden="true">砚</span>
-        <h3 class="tool-name">hermes<small><span class="zh">砚墨</span><span class="en">inkstone</span></small></h3>
+        <h3 class="tool-name"><span class="tool-no" aria-hidden="true">贰</span>hermes<small><span class="zh">砚墨</span><span class="en">inkstone</span></small></h3>
         <div class="tool-purpose"><span class="zh">为 养 识</span><span class="en">for memory</span></div>
         <p class="tool-desc"><span class="zh">日久弥深，记忆生长。越用越懂你的 AI。</span><span class="en">Memory that grows. An AI that knows you.</span></p>
         <div class="tool-links">
@@ -351,7 +386,7 @@
 
       <article class="tool rv">
         <span class="tool-glyph" aria-hidden="true">刃</span>
-        <h3 class="tool-name">claude code<small><span class="zh">利刃</span><span class="en">blade</span></small></h3>
+        <h3 class="tool-name"><span class="tool-no" aria-hidden="true">叁</span>claude code<small><span class="zh">利刃</span><span class="en">blade</span></small></h3>
         <div class="tool-purpose"><span class="zh">为 编 程</span><span class="en">for coding</span></div>
         <p class="tool-desc"><span class="zh">终端里的编程搭档，内置 CC Switch，第三方 API 随心切换。</span><span class="en">Claude Code + CC Switch. Third-party API ready.</span></p>
         <div class="tool-links">
@@ -362,7 +397,7 @@
 
       <article class="tool rv">
         <span class="tool-glyph" aria-hidden="true">盒</span>
-        <h3 class="tool-name">codex<small><span class="zh">方盒</span><span class="en">box</span></small></h3>
+        <h3 class="tool-name"><span class="tool-no" aria-hidden="true">肆</span>codex<small><span class="zh">方盒</span><span class="en">box</span></small></h3>
         <div class="tool-purpose"><span class="zh">为 编 程</span><span class="en">for coding</span></div>
         <p class="tool-desc"><span class="zh">OpenAI 阵营对照，Codex CLI 便携版。</span><span class="en">Codex CLI portable. The OpenAI counterpart.</span></p>
         <div class="tool-links">
@@ -373,7 +408,7 @@
 
       <article class="tool rv">
         <span class="tool-glyph" aria-hidden="true">镜</span>
-        <h3 class="tool-name">openhuman<small><span class="zh">明镜</span><span class="en">mirror</span></small></h3>
+        <h3 class="tool-name"><span class="tool-no" aria-hidden="true">伍</span>openhuman<small><span class="zh">明镜</span><span class="en">mirror</span></small></h3>
         <div class="tool-purpose"><span class="zh">为 洞 察</span><span class="en">for insight</span></div>
         <p class="tool-desc"><span class="zh">桌面级 AI 超级智能，本地记忆，深度推理，越用越懂你。</span><span class="en">Desktop AI super intelligence. Local memory. Deep reasoning.</span></p>
         <div class="tool-links">
@@ -384,7 +419,7 @@
 
       <article class="tool rv">
         <span class="tool-glyph" aria-hidden="true">潜</span>
-        <h3 class="tool-name">deepseek harness<small><span class="zh">深潜</span><span class="en">deep</span></small></h3>
+        <h3 class="tool-name"><span class="tool-no" aria-hidden="true">陆</span>deepseek harness<small><span class="zh">深潜</span><span class="en">deep</span></small></h3>
         <div class="tool-purpose"><span class="zh">为 求 索</span><span class="en">for seeking</span></div>
         <p class="tool-desc"><span class="zh">DeepSeek Harness 便携版，Tauri 桌面壳，深度求索随身而行。</span><span class="en">DeepSeek Harness portable in a Tauri desktop shell.</span></p>
         <div class="tool-links">
@@ -624,7 +659,27 @@
         col.textContent=lr.monthCn+'·'+lr.dayCn+(lr.term?' · '+lr.term:'')+' · 与君同在';
         var im2=document.getElementById('incenseMsg');
         if(im2&&lr.term)im2.textContent='今日'+lr.term+' · 坐久了，起来走走。';
+        var fy2=document.getElementById('footer-year');
+        if(fy2&&lr.gzYear)fy2.textContent=lr.gzYear+'年 · mit · '+n3.getFullYear();
       }
+    }
+  }catch(_){}
+
+  // 背景目光视差 — 墨雾与天光反向微移,页面随视线呼吸
+  try{
+    var mistEl=document.querySelector('.bg-mist'),gEl=document.querySelector('.bg-g');
+    if(!reduceMotion&&mistEl&&gEl&&window.innerWidth>768&&window.matchMedia&&window.matchMedia('(pointer:fine)').matches){
+      var ptx=0,pty=0,pcx=0,pcy=0;
+      window.addEventListener('mousemove',function(e){
+        ptx=(e.clientX/window.innerWidth-.5)*22;
+        pty=(e.clientY/window.innerHeight-.5)*14;
+      },{passive:true});
+      (function plx(){
+        pcx+=(ptx-pcx)*.045;pcy+=(pty-pcy)*.045;
+        mistEl.style.transform='translate3d('+(-pcx).toFixed(2)+'px,'+(-pcy).toFixed(2)+'px,0)';
+        gEl.style.transform='translate3d('+(pcx*.7).toFixed(2)+'px,'+(pcy*.7).toFixed(2)+'px,0)';
+        requestAnimationFrame(plx);
+      })();
     }
   }catch(_){}
 
