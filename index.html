@@ -71,7 +71,12 @@
 .hero-split .term{margin:0;width:100%;max-width:560px}
 .hero-split .term .term-b{min-height:248px}
 .hero-badges{display:flex;align-items:center;gap:10px;margin-top:26px}
-.verse-sign{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;opacity:.4;margin-top:18px}
+/* 印章式章节题 — 朱砂「六器」居中,替代左对齐数字标题 */
+.seal-head{text-align:center;padding-bottom:0;margin-bottom:4px}
+.seal-title{display:flex;flex-direction:column;align-items:center;gap:12px;margin:0}
+.seal{display:inline-flex;align-items:center;justify-content:center;width:47px;height:47px;background:var(--accent);color:#fff;font-family:var(--brush);font-size:1.15rem;line-height:1.08;writing-mode:vertical-rl;border-radius:6px;transform:rotate(-2.5deg);box-shadow:0 2px 12px rgb(var(--accent-base)/.32);transition:transform .5s var(--spring-pop)}
+.seal-head:hover .seal{transform:rotate(-.5deg) scale(1.04)}
+.seal-en{font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;opacity:.4;padding-left:.4em}
 @media(max-width:900px){
   .hero-split{grid-template-columns:1fr;gap:40px;padding:44px 0 36px}
 }
@@ -215,7 +220,7 @@
 @keyframes dotBreath{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.8)}}
 
 /* 每日诗句 */
-.verse .verse-poem{font-family:var(--brush);font-size:1.2rem;letter-spacing:.3rem;line-height:2;opacity:.55;max-width:560px;margin:0 auto 30px}
+.verse .verse-poem{font-family:var(--brush);font-size:1.3rem;letter-spacing:.3rem;line-height:2;opacity:.62;max-width:560px;margin:0 auto}
 .verse .verse-poem .verse-t{display:block}
 .verse .verse-poem .verse-a{display:block;font-family:var(--serif);font-size:.72rem;letter-spacing:.22rem;opacity:.6;margin-top:8px}
 
@@ -312,9 +317,8 @@
 
   <!-- Tools -->
   <section id="products" class="section huiwen" aria-label="产品列表">
-    <div class="section-head rv">
-      <span class="num" aria-hidden="true">6</span>
-      <h2>Tools</h2>
+    <div class="seal-head rv">
+      <h2 class="seal-title"><span class="seal" aria-hidden="true">六器</span><span class="seal-en">tools · 06</span></h2>
     </div>
     <p class="lede rv"><span class="zh">六件工具，各司其用，解压即用，拔走无痕。</span><span class="en">Six tools, each with a purpose. Unzip. Use. Unplug.</span></p>
 
@@ -417,11 +421,6 @@
   <div class="ink-mountains" aria-hidden="true"><svg viewBox="0 0 1200 150" preserveAspectRatio="none"><path d="M0,150 L0,96 C90,62 180,86 280,64 C380,42 470,80 580,58 C690,36 780,74 900,52 C1000,34 1100,66 1200,48 L1200,150 Z" fill="currentColor" opacity=".55"/><path d="M0,150 L0,120 C120,96 240,112 380,97 C520,82 660,104 820,90 C960,80 1080,98 1200,86 L1200,150 Z" fill="currentColor"/></svg></div>
   <div class="verse rv">
     <p class="verse-poem" id="versePoem"></p>
-    <p>
-      与 君 同 在，<br>
-      历 久 不 散。
-    </p>
-    <p class="verse-sign">— yu.ai —</p>
   </div>
 
   <!-- Footer -->
