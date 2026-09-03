@@ -23,6 +23,28 @@
         } catch(e){}
       })();
     </script>
+    <!-- 自愈：分块加载失败（部署更新后旧 chunk 404 / 网络抖动）时自动重载一次 -->
+    <script>
+      (function(){
+        var K = 'fortune-chunk-reload';
+        function once(){
+          try {
+            if (!sessionStorage.getItem(K)) { sessionStorage.setItem(K, '1'); location.reload(); }
+          } catch(_) {
+            if (!window.__fortuneReloaded) { window.__fortuneReloaded = 1; location.reload(); }
+          }
+        }
+        window.addEventListener('vite:preloadError', function(e){ e.preventDefault(); once(); });
+        window.addEventListener('unhandledrejection', function(e){
+          var m = String((e && e.reason && (e.reason.message || e.reason)) || '');
+          if (/dynamically imported module|Importing a module script|Failed to fetch dynamically/i.test(m)) { once(); }
+        });
+        window.addEventListener('error', function(e){
+          var t = e && e.target, u = t && (t.src || t.href) || '';
+          if (/assets\/[^"']*\.(js|css)/.test(u)) { once(); }
+        }, true);
+      })();
+    </script>
     <!-- 内联关键样式，防止白屏 -->
     <style>
       html, body {
