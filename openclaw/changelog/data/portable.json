@@ -1,5 +1,25 @@
 [
   {
+    "tag_name": "v2.0.0-beta.3",
+    "name": "v2.0.0-beta.3",
+    "body": "## OpenClaw Portable v2.0.0-beta.3\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2.0.0-beta.3/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `OpenClaw.app` |\n| Windows | 双击 `OpenClaw.vbs` |\n| Linux | `bash system/Linux-Start.sh` 或双击 `system/OpenClaw.desktop` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n69b3ca5ac7aae0ff595bc92de182aa47fa9b743c36dcaa219d1c5de8fc3a85ab  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* fix(config-server): 停止污染官方模型表 + 移除非法字段 ownerDisplay by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/49\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2.0.0-beta.2...v2.0.0-beta.3",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2.0.0-beta.3",
+    "published_at": "2026-09-03T10:00:00Z",
+    "created_at": "2026-09-03T09:51:26Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
+    "tag_name": "v2.0.0-beta.2",
+    "name": "v2.0.0-beta.2",
+    "body": "## OpenClaw Portable v2.0.0-beta.2\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2.0.0-beta.2/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `OpenClaw.app` |\n| Windows | 双击 `OpenClaw.vbs` |\n| Linux | `bash system/Linux-Start.sh` 或双击 `system/OpenClaw.desktop` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n2cff408f5099154b1f3d7c30e6bc5cfc9092dc61ab2076ca99a36790a627fd52  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* feat: 官方 provider 免 consent（19 bundled 提升 + A3 marker）+ 配置中心方向 A by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/48\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2.0.0-beta.1...v2.0.0-beta.2",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2.0.0-beta.2",
+    "published_at": "2026-09-03T06:57:11Z",
+    "created_at": "2026-09-03T06:39:23Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
     "tag_name": "v2.0.0-beta.1",
     "name": "v2.0.0-beta.1",
     "body": "## OpenClaw Portable v2.0.0-beta.1\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2.0.0-beta.1/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `OpenClaw.app` |\n| Windows | 双击 `OpenClaw.vbs` |\n| Linux | `bash system/Linux-Start.sh` 或双击 `system/OpenClaw.desktop` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n8ac739a5ab82607d3627819d0209fce8c5d10a25545531486a5b2152814a0200  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n## What's Changed\n* feat: OpenClaw 2026.8.2 (2.0) 升级 · 兼容层 + 避雷防护（阶段一 & 二，13 commits） by @yuluyangguang1 in https://github.com/yuluyangguang1/openclaw-portable/pull/46\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v1.2.0...v2.0.0-beta.1",
