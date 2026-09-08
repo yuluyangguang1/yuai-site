@@ -1,5 +1,25 @@
 [
   {
+    "tag_name": "v2.0.0-beta.8",
+    "name": "v2.0.0-beta.8",
+    "body": "## OpenClaw Portable v2.0.0-beta.8\n\n内核 **openclaw 2026.9.3** + Node **v24.20.0**。⚠️ 9.3 起上游硬性要求 Node ≥24.16（Node 22 淘汰），旧包勿直接换内核。\n\n### 修复：exFAT/FAT32 U 盘首启失败（beta.7 现场反馈）\n- 症状：`FsSafeError: file identity changed or could not be verified` → 网关启动失败\n- 根因：上游 fs-safe 用文件身份（dev/ino）做原子写验证，exFAT 无 NTFS 式 file identity（index=0）必挂\n- 本版出厂已打补丁；**beta.7 U 盘用户无需重下**，就地执行：\n  ```\n  runtime\node-win-x64\node.exe system\\patch-exfat-identity.js\n  ```\n\n### 内核与运行时\n- openclaw 2026.9.2 → 2026.9.3（19 个 provider 包官方源+镜像已齐）\n- 捆绑 Node v24.15.0 → v24.20.0（满足 9.3 的 ≥24.16 硬要求）\n- setup 三脚本新增：npmmirror 缺版本时自动回退官方源重装（tencent/xiaomi 曾延迟数小时）\n- exFAT 插件 777 权限补丁：上游 9.3 已移除该检查，U 盘部署开箱即用\n\n### 模型清单（346 → 341）\n- gemini：+gemini-3.5-flash-lite / +gemini-3.1-flash-lite，-3 个被上游抑制的 image/preview 型号\n- openai：-gpt-5.4 / -gpt-5.4-mini（新 suppressions）\n- copilot：-gpt-4o / -gpt-4o-mini（上游已弃）\n\n### 升级提示\n- 覆盖解压请保留 data/ 目录；exFAT/FAT32 U 盘用户建议直接换 beta.8 包\n",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2.0.0-beta.8",
+    "published_at": "2026-09-08T16:12:20Z",
+    "created_at": "2026-09-08T16:01:30Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
+    "tag_name": "v2.0.0-beta.7",
+    "name": "v2.0.0-beta.7",
+    "body": "## OpenClaw Portable v2.0.0-beta.7\n\n内核保持 openclaw 2026.9.2。本版集中打磨配置中心前端与模型清单：\n\n### 配置中心 UI（yuai 纸墨设计语言）\n- 全站色板统一为纸墨+朱砂（深色 #f2634e / 浅色 #bb3424），修复无障碍跳转链接色块、移除冗余「打开聊天界面」按钮\n- step2 操作区分节重设计、控件尺寸统一、网关操作卡紧凑化\n- 页脚重设计为每日诗词信息条；导航清理残留链接\n- 每日黄历（天机阁同源 lunar 引擎，离线计算）移入 logo 导航行\n- 全站统一 860px 内容列；修复移动端因 overflow-x:hidden 产生的内部滚动条压宽问题\n\n### 模型清单\n- 对齐上游 2026.9.2 官方目录：copilot 4→20、nvidia 换 12 个 org 前缀 id、hf 对齐、新增 gpt-5.4-pro/fable-5-1/mythos-5/GLM-5.2/Llama-3.3、xai 移除被禁用模型；319→346 个模型\n\n### 升级提示\n- Windows 实例可直接覆盖解压（保留 data/）；beta.5 Linux/macOS 包的 skills-zh 启动器路径 bug 本版已修\n",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2.0.0-beta.7",
+    "published_at": "2026-09-08T14:26:23Z",
+    "created_at": "2026-09-08T14:13:27Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
     "tag_name": "v2.0.0-beta.6",
     "name": "v2.0.0-beta.6",
     "body": "## OpenClaw Portable v2.0.0-beta.6\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2.0.0-beta.6/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `OpenClaw.app` |\n| Windows | 双击 `OpenClaw.vbs` |\n| Linux | `bash system/Linux-Start.sh` 或双击 `system/OpenClaw.desktop` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\nd06cb11cc9ec4976530e1867aebf19e152f0e296e387744dcd3ce2bf499124c2  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2.0.0-beta.5...v2.0.0-beta.6",
