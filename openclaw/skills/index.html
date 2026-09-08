@@ -84,6 +84,19 @@ button{font:inherit;color:inherit}
 /* Status / loading */
 .state{padding:60px 20px;text-align:center;border:1px solid var(--border);border-top:none;opacity:.6}
 .state.error{color:#ff8a6b;opacity:.9}
+.state[hidden]{display:none}
+.empty-state{padding:60px 20px;text-align:center;border:1px solid var(--border);border-top:none}
+.empty-state .zh{font-family:var(--serif);font-size:1.2rem;margin-bottom:8px}
+.empty-state .en{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;opacity:.5}
+/* Skeleton cards */
+.skel{padding:20px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);display:flex;flex-direction:column;gap:12px}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:.7}}
+.skel i{display:block;height:12px;background:currentColor;border-radius:2px;animation:pulse 1.4s ease-in-out infinite}
+.skel i.t{width:40%;height:15px}
+.skel i.s{width:90%}
+.skel i.s2{width:75%}
+.skel i.m{width:55%;height:9px}
+.skel i.c{width:70%;height:24px}
 
 /* Stats bar */
 .stats-bar{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:12px 20px;border-top:1px solid var(--border);border-left:1px solid var(--border);border-right:1px solid var(--border);font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;opacity:.7}
@@ -96,6 +109,8 @@ button{font:inherit;color:inherit}
 /* Footer */
 .footer{display:grid;grid-template-columns:1fr;border:1px solid var(--border);margin-top:40px}
 .footer .c{padding:16px;border-right:1px solid var(--border);display:flex;align-items:center}
+.footer a{opacity:.9}
+.footer a:hover{opacity:1}
 @media(min-width:1024px){.footer{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
 
 @media(max-width:1023px){
@@ -170,8 +185,9 @@ button{font:inherit;color:inherit}
 
 <!-- Footer -->
 <footer class="footer">
-  <span><a href="/" style="color:inherit;opacity:.9">yu.ai</a></span>
-  <span><a href="/openclaw/" style="color:inherit;opacity:.9">openclaw · 使用说明</a></span>
+  <span><a href="/" style="color:inherit">yu.ai</a></span>
+  <span><a href="/openclaw/" style="color:inherit">openclaw · 使用说明</a></span>
+  <span><a href="/fortune/almanac/" style="color:inherit">天机阁 · 每日黄历</a></span>
   <span id="footer-year">mit</span>
 </footer>
 
@@ -279,7 +295,12 @@ async function fetchSkills(){
   var grid=document.getElementById('skillsGrid');
   var state=document.getElementById('loadingState');
   var more=document.getElementById('loadMore');
-  if(currentPage===0){grid.innerHTML='';state.style.display='block';state.textContent='正在加载...';state.classList.remove('error')}
+  if(currentPage===0){
+    grid.innerHTML=Array.apply(null,Array(6)).map(function(){
+      return '<div class="skel"><i class="t"></i><i class="s"></i><i class="s2"></i><i class="m"></i><i class="c"></i></div>'
+    }).join('');
+    state.style.display='none';state.classList.remove('error')
+  }
 
   var q=getQuery();
   var url;
@@ -295,13 +316,14 @@ async function fetchSkills(){
     var data=await r.json();
     var items=data.items||data.results||[];
     if(items.length<PAGE_SIZE)hasMore=false;
-    allItems=allItems.concat(items);
+    if(currentPage===0)allItems=items;else allItems=allItems.concat(items);
     renderGrid();
     state.style.display='none';
     more.style.display=hasMore?'flex':'none';
     document.getElementById('syncStatus').textContent='已同步 ClawHub';
     document.getElementById('totalCount').textContent='显示 '+allItems.length+' 个技能'
   }catch(err){
+    grid.innerHTML='';
     state.textContent='加载失败: '+err.message;
     state.classList.add('error');
     state.style.display='block';
@@ -312,6 +334,11 @@ async function fetchSkills(){
 
 function renderGrid(){
   var grid=document.getElementById('skillsGrid');
+  if(!allItems.length){
+    grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="zh">没有找到匹配的技能</div><div class="en">换个关键词或分类试试</div></div>';
+    return
+  }
+  var starSvg='<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7z"/></svg>';
   grid.innerHTML=allItems.map(function(s){
     var slug=s.slug||'';
     var name=s.displayName||slug;
@@ -320,12 +347,15 @@ function renderGrid(){
     var stars=(s.stats&&s.stats.stars)||0;
     var installs=(s.stats&&(s.stats.installsAllTime||s.stats.downloads))||0;
     var cmd='clawhub install '+slug;
+    var nameHtml=slug
+      ?'<a href="https://clawhub.ai/skills/'+escHtml(slug)+'" target="_blank" rel="noopener" style="color:inherit;opacity:.9">'+escHtml(name)+' ↗</a>'
+      :escHtml(name);
     return '<div class="skill-card">'+
-      '<div class="skill-name">'+escHtml(name)+'</div>'+
+      '<div class="skill-name">'+nameHtml+'</div>'+
       '<div class="skill-summary">'+escHtml(summary)+'</div>'+
       '<div class="skill-meta">'+
         (ver?'<span>v'+escHtml(ver)+'</span>':'')+
-        (stars?'<span>'+stars+' 星</span>':'')+
+        (stars?'<span>'+starSvg+' '+stars+'</span>':'')+
         (installs?'<span>'+installs+' 安装</span>':'')+
       '</div>'+
       '<div class="skill-install">'+
@@ -374,51 +404,5 @@ fetchSkills()
   </div>
 </div>
 <script>(function(){if(navigator.userAgent.toLowerCase().indexOf('micromessenger')!==-1)document.getElementById('wechatMask').classList.add('show')})();</script>
-<script>
-(function(){
-  // Theme toggle
-  try{
-    var btn=document.getElementById('theme-btn');
-    if(btn){
-      var root=document.documentElement,sun=btn.querySelector('.theme-sun'),moon=btn.querySelector('.theme-moon');
-      function sync(i){if(sun)sun.style.display=i?'none':'block';if(moon)moon.style.display=i?'block':'none'}
-      var sv;try{sv=localStorage.getItem('yuai-theme')}catch(_){}
-      if(sv==='light'){root.setAttribute('data-theme','light');sync(true)}
-      else if(sv==='dark'){root.setAttribute('data-theme','dark');sync(false)}
-      else{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)');sync(m&&m.matches)}
-      btn.onclick=function(){
-        var n=root.getAttribute('data-theme')!=='light';
-        if(!root.getAttribute('data-theme')){n=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
-        root.setAttribute('data-theme',n?'light':'dark');try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}sync(n);
-      };
-    }
-  }catch(_){}
-  // Footer year
-  try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
-})();
-</script>
-<script data-yuai-chrome>
-(function(){
-  // Theme toggle
-  try{
-    var btn=document.getElementById('theme-btn');
-    if(btn){
-      var root=document.documentElement,sun=btn.querySelector('.theme-sun'),moon=btn.querySelector('.theme-moon');
-      function sync(i){if(sun)sun.style.display=i?'none':'block';if(moon)moon.style.display=i?'block':'none'}
-      var sv;try{sv=localStorage.getItem('yuai-theme')}catch(_){}
-      if(sv==='light'){root.setAttribute('data-theme','light');sync(true)}
-      else if(sv==='dark'){root.setAttribute('data-theme','dark');sync(false)}
-      else{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)');sync(m&&m.matches)}
-      btn.onclick=function(){
-        var n=root.getAttribute('data-theme')!=='light';
-        if(!root.getAttribute('data-theme')){n=!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)}
-        root.setAttribute('data-theme',n?'light':'dark');try{localStorage.setItem('yuai-theme',n?'light':'dark')}catch(_){}sync(n);
-      };
-    }
-  }catch(_){}
-  // Footer year
-  try{var fy=document.getElementById('footer-year');if(fy)fy.textContent='mit · '+new Date().getFullYear()}catch(_){}
-})();
-</script>
 </body>
 </html>
