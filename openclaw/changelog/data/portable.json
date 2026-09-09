@@ -10,6 +10,16 @@
     "draft": false
   },
   {
+    "tag_name": "v2.0.0-beta.12",
+    "name": "v2.0.0-beta.12",
+    "body": "## OpenClawPortable 1.2.7（beta.12）\n\n相对 beta.11 的变更（§四十二~四十五）：\n\n1. **exFAT 三道 POSIX 权限门（形态 K/L/M）**：修复 macOS/Linux + exFAT 卷上 `directory final mode could not be verified` / `coordinator directory permissions are not private` / `0 plugins`（静默）三类启动故障。Linux 实测 13 plugins 与 ext4 一致。\n2. **升级链路自愈**：菜单「升级内核」后自动重跑 exFAT 兼容补丁 + `plugins registry --refresh`，解决「先用过旧版、再原地升级」用户补丁被擦/插件判定残留问题。\n3. **六项体验修复（PR #51）**：setup 的 doctor --fix 补便携环境（不再写宿主机 ~/.bashrc）、技能加载切 `skills.load.extraDirs`（上游 51 个内置技能找回，合计 73 个）、Mobile 入口交接等。\n4. **配置中心安全批次 1**：鉴权收口（Origin 白名单收窄）、公开端点密钥打码、手机连接面板存储型 XSS 修复、**网关 token 首启随机生成**（不再是 `openclaw`，「手机连接」面板查看新值）、删除过期 backup 文件。\n\n**升级提示**：\n\n- beta.10 及更早版本的包**不含** Control UI 资产重签与 UI 超时修复，装后请跑一次 `system\\patch-exfat-identity.js`，或直接换用本版。\n- 从旧版**原地升级**（覆盖 app/ 保留 data/）的用户：本版已内置 `plugins registry --refresh`，如仍见 0 plugins，手动跑一次 `openclaw plugins registry --refresh` 即可。\n- 全新启动（删 data/）会重新生成随机网关 token，旧配置里写死的 `openclaw` token 不再生效。\n\n🦞 Windows：解压后双击 `OpenClaw.vbs`。macOS/Linux：见 `OpenClawPortable使用说明.html`。\n",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2.0.0-beta.12",
+    "published_at": "2026-09-09T13:42:40Z",
+    "created_at": "2026-09-09T13:34:28Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
     "tag_name": "v2.0.0-beta.11",
     "name": "v2.0.0-beta.11",
     "body": "## OpenClaw Portable v2.0.0-beta.11\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2.0.0-beta.11/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `OpenClaw.app` |\n| Windows | 双击 `OpenClaw.vbs` |\n| Linux | `bash system/Linux-Start.sh` 或双击 `system/OpenClaw.desktop` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n358743de70edd5649b07b019c72acd90986765849954f9c98f3f8f5c49da91f2  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2.0.0-beta.10...v2.0.0-beta.11",
