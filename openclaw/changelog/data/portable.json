@@ -10,6 +10,16 @@
     "draft": false
   },
   {
+    "tag_name": "v2.0.0-beta.11",
+    "name": "v2.0.0-beta.11",
+    "body": "## OpenClaw Portable v2.0.0-beta.11\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2.0.0-beta.11/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `OpenClaw.app` |\n| Windows | 双击 `OpenClaw.vbs` |\n| Linux | `bash system/Linux-Start.sh` 或双击 `system/OpenClaw.desktop` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n358743de70edd5649b07b019c72acd90986765849954f9c98f3f8f5c49da91f2  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2.0.0-beta.10...v2.0.0-beta.11",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2.0.0-beta.11",
+    "published_at": "2026-09-09T07:32:30Z",
+    "created_at": "2026-09-09T07:24:45Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
     "tag_name": "v2.0.0-beta.10",
     "name": "v2.0.0-beta.10",
     "body": "## OpenClaw Portable v2.0.0-beta.10\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2.0.0-beta.10/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `OpenClaw.app` |\n| Windows | 双击 `OpenClaw.vbs` |\n| Linux | `bash system/Linux-Start.sh` 或双击 `system/OpenClaw.desktop` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\nd0acf81bc09e5e4adcd77438e4bb4084129b45053f29af0a011437e63044128c  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2.0.0-beta.9...v2.0.0-beta.10",
