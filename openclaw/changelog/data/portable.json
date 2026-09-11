@@ -1,5 +1,15 @@
 [
   {
+    "tag_name": "v2.0.0-beta.14",
+    "name": "v2.0.0-beta.14",
+    "body": "## OpenClawPortable 1.2.9（beta.14）\n\n**内核升级：OpenClaw 2026.9.3 → 2026.9.4**（§47）。\n\n上游 2026.9.4 亮点：\n1. **统一插件工作台**：Control UI 内发现/安装 ClawHub 插件、统一管理插件设置与权限。\n2. **更新失败可回滚**：schema/配置检查证明安全时，保留上一版内核并按前配置恢复。\n3. **云会话快照**：从本地项目或 GitHub 仓库起步 Linux 会话，可建可复用快照。\n4. **GPT Image 2.5**：Flare / Sunburst 变体（OpenAI / fal）。\n5. 终端 TUI 支持键盘选择与多问题交互。\n\n升级前已按 SOP 做补丁命中率预检：exFAT 十三形态对 9.4 全部命中（16 处/无需改正则），含回归的 `path_world_writable` 检查（9.3 曾移除，9.4 在 discovery + worker 双处出现，已双层覆盖）。\n\n**升级提示**：\n- 全新启动 / 原地升级均自动补写网关 token `yuai`（beta.13 同款自愈）。\n- 原地升级（覆盖 app/ 保留 data/）后如见 0 plugins：`openclaw plugins registry --refresh`。\n- 依赖变化：上游移除 `qrcode`；Node 引擎要求不变（≥24.16.0，包内自带运行时不受影响）。\n\n🦞 Windows：解压后双击 `OpenClaw.vbs`。macOS/Linux：见 `OpenClawPortable使用说明.html`。\n",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2.0.0-beta.14",
+    "published_at": "2026-09-11T08:46:34Z",
+    "created_at": "2026-09-11T08:40:54Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
     "tag_name": "v2.0.0-beta.13",
     "name": "v2.0.0-beta.13",
     "body": "## OpenClawPortable 1.2.8（beta.13）\n\n相对 beta.12 的变更（§46）：\n\n1. **网关 token 回滚为固定值 `yuai`**（撤销 beta.12 的随机 token）：随机值导致 Control UI / 手机连接反复 `token_mismatch` 无法登录。\n2. **根因修复 + 自愈**：上游 openclaw 首启可能先于启动器创建配置，导致 `gateway.auth` 块缺失、网关每次启动铸 runtime-only token。现在 ensure-config 在首启和每次启动都会检查：配置缺/占位 auth 时就地补写固定 token，其余配置原样保留。\n3. 配置中心保存配置时也不再铸造随机 token。\n\n**升级提示**：\n- 从 beta.12 **原地升级**（覆盖 app/ 保留 data/）：首次启动时启动器会自动把缺失的网关口令补写为 `yuai`，无需手动操作。\n- beta.12 及更早版本若已出现 token_mismatch，本版首次启动同样会自愈。\n- 如需自定义 token：编辑 `data/.openclaw/openclaw.json` 的 `gateway.auth.token` 后重启网关（自定义值不会被覆盖）。\n\n🦞 Windows：解压后双击 `OpenClaw.vbs`。macOS/Linux：见 `OpenClawPortable使用说明.html`。\n",
