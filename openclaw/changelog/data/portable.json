@@ -1,5 +1,15 @@
 [
   {
+    "tag_name": "v2.0.0-beta.15",
+    "name": "v2.0.0-beta.15",
+    "body": "## OpenClaw Portable v2.0.0-beta.15\n\n便携版 AI 助手，解压即用，零安装，跨平台。\n\n### 下载\n\n| 文件 | 说明 |\n|---|---|\n| [OpenClawPortable.zip](https://github.com/yuluyangguang1/openclaw-portable/releases/download/v2.0.0-beta.15/OpenClawPortable.zip) | 全平台通用包 (macOS arm64/x64 + Linux x64/arm64 + Windows x64) |\n\n### 启动方式\n\n| 平台 | 操作 |\n|---|---|\n| macOS | 双击 `OpenClaw.app` |\n| Windows | 双击 `OpenClaw.vbs` |\n| Linux | `bash system/Linux-Start.sh` 或双击 `system/OpenClaw.desktop` |\n\n### 首次使用\n\n1. 解压到 U 盘或任意目录\n2. 双击启动器\n3. 浏览器打开配置中心 → 选模型 → 填 Key → 保存 → 打开聊天\n\n### macOS 权限问题\n\n首次双击如果提示无法打开：\n\n```bash\ncd ~/Downloads/OpenClawPortable\nxattr -cr . && chmod +x Mac-Start.command\n```\n\n### SHA-256\n\n```\n8f7d80498fdfbb92ae3f41201d3283ef6b9d8fb0598e0a2d2316363b5709d401  OpenClawPortable.zip\n```\n\n---\n\n基于 [OpenClaw](https://github.com/nicepkg/openclaw) · MIT License\n\n\n**Full Changelog**: https://github.com/yuluyangguang1/openclaw-portable/compare/v2.0.0-beta.14...v2.0.0-beta.15",
+    "html_url": "https://github.com/yuluyangguang1/openclaw-portable/releases/tag/v2.0.0-beta.15",
+    "published_at": "2026-09-13T16:56:57Z",
+    "created_at": "2026-09-13T16:48:21Z",
+    "prerelease": true,
+    "draft": false
+  },
+  {
     "tag_name": "v2.0.0-beta.14",
     "name": "v2.0.0-beta.14",
     "body": "## OpenClawPortable 1.2.9（beta.14）\n\n**内核升级：OpenClaw 2026.9.3 → 2026.9.4**（§47）。\n\n上游 2026.9.4 亮点：\n1. **统一插件工作台**：Control UI 内发现/安装 ClawHub 插件、统一管理插件设置与权限。\n2. **更新失败可回滚**：schema/配置检查证明安全时，保留上一版内核并按前配置恢复。\n3. **云会话快照**：从本地项目或 GitHub 仓库起步 Linux 会话，可建可复用快照。\n4. **GPT Image 2.5**：Flare / Sunburst 变体（OpenAI / fal）。\n5. 终端 TUI 支持键盘选择与多问题交互。\n\n升级前已按 SOP 做补丁命中率预检：exFAT 十三形态对 9.4 全部命中（16 处/无需改正则），含回归的 `path_world_writable` 检查（9.3 曾移除，9.4 在 discovery + worker 双处出现，已双层覆盖）。\n\n**升级提示**：\n- 全新启动 / 原地升级均自动补写网关 token `yuai`（beta.13 同款自愈）。\n- 原地升级（覆盖 app/ 保留 data/）后如见 0 plugins：`openclaw plugins registry --refresh`。\n- 依赖变化：上游移除 `qrcode`；Node 引擎要求不变（≥24.16.0，包内自带运行时不受影响）。\n\n🦞 Windows：解压后双击 `OpenClaw.vbs`。macOS/Linux：见 `OpenClawPortable使用说明.html`。\n",
