@@ -1,27 +1,27 @@
 {
   "schema": 1,
-  "updatedAt": "2026-09-14T05:36:26.286Z",
+  "updatedAt": "2026-09-14T09:11:36.000Z",
   "offers": [
     {
       "id": "zhipu",
       "url": "https://open.bigmodel.cn/",
-      "type": "permanent",
+      "type": "limited",
       "region": "cn",
       "name": {
         "zh": "智谱 GLM",
         "en": "Zhipu GLM"
       },
       "quota": {
-        "zh": "GLM-4.7-Flash 输入+输出全免费",
-        "en": "GLM-4.7-Flash free in & out"
+        "zh": "GLM-5.3-Flash 限时免费（非永久）",
+        "en": "GLM-5.3-Flash limited-time free (not permanent)"
       },
       "models": {
-        "zh": "GLM-4.7-Flash · GLM-4-Flash · 200K ctx",
-        "en": "GLM-4.7-Flash · GLM-4-Flash · 200K ctx"
+        "zh": "GLM-5.3-Flash · GLM-5.3 · 200K ctx",
+        "en": "GLM-5.3-Flash · GLM-5.3 · 200K ctx"
       },
       "note": {
-        "zh": "中文最强，OpenAI 接口兼容，注册即送 2000 万 Token。",
-        "en": "Best Chinese model, OpenAI-compatible, 20M tokens on signup."
+        "zh": "GLM-4.7-Flash 已下线，新版 GLM-5.3-Flash 为限时免费，定价为 GLM-5.3 的 1/10~1/40。",
+        "en": "GLM-4.7-Flash retired. New GLM-5.3-Flash is limited-time free, priced at 1/10~1/40 of GLM-5.3."
       },
       "addedAt": "2026-08-24",
       "lastVerified": "2026-09-14",
@@ -155,8 +155,8 @@
         "en": "Doubao · Baichuan"
       },
       "note": {
-        "zh": "长期有效，中文理解强，适合每日自动调用。",
-        "en": "Always on, strong Chinese, great for daily automation."
+        "zh": "每天 200 万 Token，次日重置；产品端主推 Seedance 2.0 免费。",
+        "en": "2M tokens/day, resets daily; product side promotes Seedance 2.0 free."
       },
       "addedAt": "2026-08-24",
       "lastVerified": "2026-09-14",
@@ -174,16 +174,16 @@
         "en": "Alibaba Qwen"
       },
       "quota": {
-        "zh": "每模型 100 万 Token，新用户另有大礼包",
-        "en": "1M tokens per model, plus new-user bundle"
+        "zh": "每模型 1 亿 Token（新用户大礼包另计）",
+        "en": "100M tokens per model (new-user bundle extra)"
       },
       "models": {
         "zh": "qwen-plus · qwen-turbo · qwen-coder",
         "en": "qwen-plus · qwen-turbo · qwen-coder"
       },
       "note": {
-        "zh": "百炼额度永久有效（新礼包 90 天），需实名认证。",
-        "en": "Bailian grants never expire (new-user bundle 90 days); real-name required."
+        "zh": "百炼额度永久有效（新礼包 90 天），需实名认证。免费额度从 100 万提升至 1 亿 Token。",
+        "en": "Bailian grants never expire (new-user bundle 90 days); real-name required. Free quota raised from 1M to 100M tokens."
       },
       "addedAt": "2026-08-24",
       "lastVerified": "2026-09-14",
@@ -398,8 +398,8 @@
         "en": "kimi-k2 · moonshot-v1 · 256K ctx"
       },
       "note": {
-        "zh": "256K 超长上下文首选，体验金规则以官网为准。",
-        "en": "Top choice for 256K long context; check grant terms."
+        "zh": "新用户送 15 元体验金，现主推 Kimi K3；256K 超长上下文首选。",
+        "en": "¥15 credits for new users, now promoting Kimi K3; top choice for 256K long context."
       },
       "addedAt": "2026-08-30",
       "lastVerified": "2026-09-14",
@@ -479,13 +479,13 @@
         "en": "DeepSeek-V4-Flash · Qwen3.8-Flash-Next · MiniCPM5-1B · MiniCPM-V46"
       },
       "note": {
-        "zh": "登录 Token Factory 复制 rc- 开头 Key，OpenAI 接口兼容；免费层约 20 RPM、并发 8。",
-        "en": "Sign in and copy the rc- key from Token Factory. OpenAI-compatible; free tier ~20 RPM, 8 concurrent."
+        "zh": "官网返回 404，服务可能已终止，待确认。",
+        "en": "Website returns 404, service likely discontinued — pending confirmation."
       },
       "addedAt": "2026-09-02",
       "lastVerified": "2026-09-14",
       "failures": 0,
-      "status": "active",
+      "status": "expired",
       "source": "manual"
     },
     {
@@ -533,8 +533,8 @@
         "en": "Qwen3.5 series · DeepSeek · GLM · 256K ctx"
       },
       "note": {
-        "zh": "OpenAI 兼容接口，国内直连；须先绑定阿里云账号并完成实名认证，否则返回 401。单模型上限 500 次/天，DeepSeek-R1 等大规格仅 100 次/天。",
-        "en": "OpenAI-compatible and fast in China. You must bind an Alibaba Cloud account and pass real-name verification first, or calls return 401. Per-model cap 500/day; large models like DeepSeek-R1 only 100/day."
+        "zh": "定价页返回异常，政策可能已调整；原每天 2000 次 API 调用，须绑定阿里云账号并实名认证。",
+        "en": "Pricing page returns errors — policy may have changed. Was 2,000 calls/day, requires Alibaba Cloud account + real-name verification."
       },
       "addedAt": "2026-09-02",
       "lastVerified": "2026-09-14",
@@ -726,6 +726,249 @@
         "en": "The free allowance is tiny — enough to wire things up and run a few experiments. Requests route across Fireworks, Together, Nebius and others; access from mainland China is unreliable."
       },
       "addedAt": "2026-09-02",
+      "lastVerified": "2026-09-14",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+    {
+      "id": "together-ai",
+      "url": "https://www.together.ai/",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "Together AI",
+        "en": "Together AI"
+      },
+      "quota": {
+        "zh": "每月 25 美元免费额度（新用户）",
+        "en": "$25 free credits / month for new users"
+      },
+      "models": {
+        "zh": "Llama 3.3 70B · Qwen 3 72B · DeepSeek-R1",
+        "en": "Llama 3.3 70B · Qwen 3 72B · DeepSeek-R1"
+      },
+      "note": {
+        "zh": "2025 年免费额度从 5 美元提升至 25 美元，支持 OpenAI 兼容 API。",
+        "en": "Free credits raised from $5 to $25/month in 2025. OpenAI-compatible."
+      },
+      "addedAt": "2026-09-14",
+      "lastVerified": "2026-09-14",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+    {
+      "id": "airforce",
+      "url": "https://api.airforce/",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "Airforce",
+        "en": "Airforce"
+      },
+      "quota": {
+        "zh": "每天 1000 次免费请求",
+        "en": "1,000 free requests / day"
+      },
+      "models": {
+        "zh": "Claude Sonnet 4 · DeepSeek-V3 · Qwen3 235B 等 104+ 模型",
+        "en": "Claude Sonnet 4 · DeepSeek-V3 · Qwen3 235B + 104+ models"
+      },
+      "note": {
+        "zh": "中转服务，每日 1000 次免费请求，覆盖 Claude/DeepSeek 等高级模型。",
+        "en": "Relay service with 1,000 free req/day, covers Claude/DeepSeek premium models."
+      },
+      "addedAt": "2026-09-14",
+      "lastVerified": "2026-09-14",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+    {
+      "id": "blazeai",
+      "url": "https://blazeai.boxu.dev/",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "BlazeAI",
+        "en": "BlazeAI"
+      },
+      "quota": {
+        "zh": "每天 1000 次免费请求",
+        "en": "1,000 free requests / day"
+      },
+      "models": {
+        "zh": "Kimi K2.5 · MiniMax M2.5 · DeepSeek-R1 70B 等 23+ 模型",
+        "en": "Kimi K2.5 · MiniMax M2.5 · DeepSeek-R1 70B + 23 models"
+      },
+      "note": {
+        "zh": "2025 年上线，支持国产模型（Kimi、MiniMax）免费调用。",
+        "en": "Launched 2025, supports Chinese models (Kimi, MiniMax) for free."
+      },
+      "addedAt": "2026-09-14",
+      "lastVerified": "2026-09-14",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+    {
+      "id": "logfare",
+      "url": "https://logfare.ai/",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Logfare",
+        "en": "Logfare"
+      },
+      "quota": {
+        "zh": "无限制（合理使用政策）",
+        "en": "Unlimited (fair use policy)"
+      },
+      "models": {
+        "zh": "DeepSeek V4 Flash · Kimi K2.6 · Gemma 3 27B 等 6+ 模型",
+        "en": "DeepSeek V4 Flash · Kimi K2.6 · Gemma 3 27B + 6 models"
+      },
+      "note": {
+        "zh": "2025 年新出现，声称完全免费无速率限制（实际有合理使用政策）。",
+        "en": "New in 2025, claims fully free with no rate limits (subject to fair use)."
+      },
+      "addedAt": "2026-09-14",
+      "lastVerified": "2026-09-14",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+    {
+      "id": "zydit",
+      "url": "https://zydit.in/",
+      "type": "permanent",
+      "region": "global",
+      "name": {
+        "zh": "Zydit",
+        "en": "Zydit"
+      },
+      "quota": {
+        "zh": "无限制",
+        "en": "Unlimited"
+      },
+      "models": {
+        "zh": "DeepSeek-V3 · Claude Sonnet 4 · Yi-Large 等 122+ 模型",
+        "en": "DeepSeek-V3 · Claude Sonnet 4 · Yi-Large + 122 models"
+      },
+      "note": {
+        "zh": "中转服务，模型数量最多（122+），全部免费，适合实验用途。",
+        "en": "Relay service with most models (122+), all free. Good for experimentation."
+      },
+      "addedAt": "2026-09-14",
+      "lastVerified": "2026-09-14",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+    {
+      "id": "scaleway",
+      "url": "https://console.scaleway.com/generative-api",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "Scaleway",
+        "en": "Scaleway"
+      },
+      "quota": {
+        "zh": "每月 20 欧元免费额度",
+        "en": "€20 free credits / month"
+      },
+      "models": {
+        "zh": "Llama 3.1 70B · Qwen 2.5 72B · DeepSeek-R1 等 12+ 模型",
+        "en": "Llama 3.1 70B · Qwen 2.5 72B · DeepSeek-R1 + 12 models"
+      },
+      "note": {
+        "zh": "欧洲云服务商，2025 年新增 Qwen 2.5 和 DeepSeek R1 免费调用。",
+        "en": "European cloud provider, added Qwen 2.5 and DeepSeek R1 free tier in 2025."
+      },
+      "addedAt": "2026-09-14",
+      "lastVerified": "2026-09-14",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+    {
+      "id": "vercel-ai-gateway",
+      "url": "https://vercel.com/docs/ai-gateway",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "Vercel AI Gateway",
+        "en": "Vercel AI Gateway"
+      },
+      "quota": {
+        "zh": "每月 5 美元免费额度",
+        "en": "$5 free credits / month"
+      },
+      "models": {
+        "zh": "Qwen3 235B · Qwen3.6 Max · GPT-4o 等 17+ 模型",
+        "en": "Qwen3 235B · Qwen3.6 Max · GPT-4o + 17 models"
+      },
+      "note": {
+        "zh": "2025 年新增 Qwen 3.6 Max 支持，统一 API 管理多个提供商。",
+        "en": "Added Qwen 3.6 Max in 2025, unified API for multiple providers."
+      },
+      "addedAt": "2026-09-14",
+      "lastVerified": "2026-09-14",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+    {
+      "id": "perplexity-sonar",
+      "url": "https://docs.perplexity.ai/",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "Perplexity Sonar",
+        "en": "Perplexity Sonar"
+      },
+      "quota": {
+        "zh": "每天 50 次免费请求",
+        "en": "50 free requests / day"
+      },
+      "models": {
+        "zh": "Sonar · Sonar Pro",
+        "en": "Sonar · Sonar Pro"
+      },
+      "note": {
+        "zh": "2025 年推出的实时搜索推理 API，每日 50 次免费额度。",
+        "en": "Real-time search inference API launched 2025, 50 free req/day."
+      },
+      "addedAt": "2026-09-14",
+      "lastVerified": "2026-09-14",
+      "failures": 0,
+      "status": "active",
+      "source": "manual"
+    },
+    {
+      "id": "fireworks-ai",
+      "url": "https://fireworks.ai/",
+      "type": "limited",
+      "region": "global",
+      "name": {
+        "zh": "Fireworks AI",
+        "en": "Fireworks AI"
+      },
+      "quota": {
+        "zh": "每月 10 美元免费额度（新用户）",
+        "en": "$10 free credits / month for new users"
+      },
+      "models": {
+        "zh": "Llama 4 Maverick · Qwen3 32B · DeepSeek-V3",
+        "en": "Llama 4 Maverick · Qwen3 32B · DeepSeek-V3"
+      },
+      "note": {
+        "zh": "2025 年新增 Llama 4 系列免费额度，推理速度快。",
+        "en": "Added Llama 4 series free tier in 2025, fast inference."
+      },
+      "addedAt": "2026-09-14",
       "lastVerified": "2026-09-14",
       "failures": 0,
       "status": "active",

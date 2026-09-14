@@ -325,7 +325,7 @@
         <p class="card-desc"><span class="zh">网页与 App 免费用，但开发者 API 按 token 计费，无长期免费层。</span><span class="en">The web and mobile apps are free, but the developer API is billed per token with no lasting free tier.</span></p>
       </div>
     </div>
-    <p class="tip"><span class="zh">额度与规则以各家官方页面为准，本站每日自动核对链接可达性，新活动经由 <a href="https://aihot.virxact.com" target="_blank" rel="noopener">AI HOT</a> 资讯管道自动搜集；发现过期或遗漏，欢迎<a href="#submit" data-open-submit>提交收录</a>。</span><span class="en">Quotas follow each vendor's official page. Links are auto-checked daily; new offers are sourced via the <a href="https://aihot.virxact.com" target="_blank" rel="noopener">AI HOT</a> feed. Spot something expired? <a href="#submit" data-open-submit>Submit an update</a>.</span></p>
+    <p class="tip"><span class="zh">额度与规则以各家官方页面为准，本站每日自动核对链接可达性；发现过期或遗漏，欢迎<a href="#submit" data-open-submit>提交收录</a>。</span><span class="en">Quotas follow each vendor's official page. Links are auto-checked daily. Spot something expired? <a href="#submit" data-open-submit>Submit an update</a>.</span></p>
     <p class="tip"><span class="zh">想把上面的免费 Key 串起来用？<a href="https://github.com/www222fff/free-router" target="_blank" rel="noopener">Free Router</a> 在本地起一个 OpenAI 兼容网关，free-best 路由自动挑当前免费且可用的模型，限流就换下一个（需自备上游 Key）。</span><span class="en">Want to chain the keys above? <a href="https://github.com/www222fff/free-router" target="_blank" rel="noopener">Free Router</a> runs a local OpenAI-compatible gateway; its free-best route falls through to the next available free model on rate limits. You still need at least one upstream key.</span></p>
   </section>
 
@@ -446,7 +446,7 @@
     });
   }catch(_){}
 
-  // 数据驱动渲染:key-data.json(每日自动核对过期 + AI HOT 搜集管道)
+  // 数据驱动渲染：key-data.json（每日自动核对过期）
   // 渲染失败则保留页面内置的静态卡片作为兜底。
   try{
     fetch('key-data.json').then(function(r){return r.ok?r.json():null}).then(function(db){
