@@ -449,7 +449,7 @@
   // 数据驱动渲染：key-data.json（每日自动核对过期）
   // 渲染失败则保留页面内置的静态卡片作为兜底。
   try{
-    fetch('key-data.json').then(function(r){return r.ok?r.json():null}).then(function(db){
+    fetch('key-data.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(db){
       if(!db || !db.offers || !db.offers.length) return;
       var grid=document.querySelector('.cards.offers');
       if(!grid) return;
