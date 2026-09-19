@@ -24,16 +24,25 @@ const META = {
   knowledge: ['命理知识库｜星曜神煞基础词条 · YUAI天机阁', '天机阁内置命理知识词条：星曜、神煞与基础概念速查。'],
   history: ['历史记录｜本地保存的排盘记录 · YUAI天机阁', '查看在本机保存过的排盘与测算记录，数据只留在你的浏览器里。'],
   settings: ['设置｜主题与偏好 · YUAI天机阁', '调整天机阁的主题与使用偏好，设置保存在本机浏览器。'],
-  naming: ['起名分析｜五格三才生肖音韵免费在线测算 · YUAI天机阁', '输入姓氏与候选名字，免费做姓名分析：五格剖象、三才配置、生肖宜忌与音韵节奏，浏览器本地计算，不上传任何数据。'],
+  naming: ['八字起名·姓名测评｜五行补缺智能生成吉名 · YUAI天机阁', '输入父姓与宝宝出生日期时辰，按八字五行补缺免费生成候选吉名，逐字带释义与五格三才评分；也可只做姓名测评。浏览器本地计算，不上传数据。'],
 };
 
-const src = readFileSync(join(ROOT, 'fortune/index.html'), 'utf8');
+let src = readFileSync(join(ROOT, 'fortune/index.html'), 'utf8');
 for (const a of [ANCHOR, TITLE_ANCHOR, DESC_ANCHOR]) {
   if (!src.includes(a)) {
     console.error('fortune/index.html 里找不到注入锚点，拒绝生成（请同步锚点）: ' + a);
     process.exit(1);
   }
 }
+
+// 根页 fortune/index.html 自带站内通用 og 块（site-og 注释包裹）；
+// 派生页必须整块剔除，否则会与路由专属 og 重复。
+const SOCIAL_RE = /\n?<!-- site-og:start -->[\s\S]*?<!-- site-og:end -->\n/;
+if (!SOCIAL_RE.test(src)) {
+  console.error('fortune/index.html 里找不到 site-og 块（根页需含该块，见 2026-09 版本）');
+  process.exit(1);
+}
+src = src.replace(SOCIAL_RE, '\n');
 
 writeFileSync(join(ROOT, '404.html'), src.replace(ANCHOR, ANCHOR + '\n    ' + GUARD));
 for (const r of ROUTES) {
