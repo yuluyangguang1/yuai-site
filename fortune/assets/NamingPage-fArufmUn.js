@@ -269,6 +269,7 @@ function CheckView(){
         e.jsxs(Sec,{title:"断语依据 · NOTES",children:[
           e.jsx("ul",{className:"space-y-1.5",children:res.notes.map(n=>e.jsx("li",{className:"text-[10px]",style:{color:"var(--tx-3)"},children:"· "+n},n))})]})]})]})]});}
 const HOURS=["子时 23-1点","丑时 1-3点","寅时 3-5点","卯时 5-7点","辰时 7-9点","巳时 9-11点","午时 11-13点","未时 13-15点","申时 15-17点","酉时 17-19点","戌时 19-21点","亥时 21-23点"];
+const CITY=[["北京",116.4],["上海",121.5],["天津",117.2],["重庆",106.5],["广州",113.3],["深圳",114.1],["成都",104.1],["武汉",114.3],["西安",108.9],["杭州",120.2],["南京",118.8],["郑州",113.7],["济南",117],["石家庄",114.5],["太原",112.5],["呼和浩特",111.7],["沈阳",123.4],["长春",125.3],["哈尔滨",126.6],["长沙",112.9],["南昌",115.9],["合肥",117.3],["福州",119.3],["台北",121.5],["兰州",103.8],["西宁",101.8],["银川",106.3],["昆明",102.7],["贵阳",106.6],["南宁",108.4],["海口",110.3],["乌鲁木齐",87.6],["拉萨",91.1],["青岛",120.4],["大连",121.6],["宁波",121.6],["厦门",118.1],["苏州",120.6],["香港",114.2],["澳门",113.6]];
 function pickXiYong(wc){
   const vals=FU.map(w=>wc[w]||0);
   const min=Math.min.apply(null,vals);
@@ -344,6 +345,7 @@ function GenView(){
   const [mo,setMo]=v.useState("");
   const [dd,setDd]=v.useState("");
   const [hh,setHh]=v.useState("-1");
+  const [lon,setLon]=v.useState("");
   const [len,setLen]=v.useState(2);
   const [res,setRes]=v.useState(null);
   const [err,setErr]=v.useState("");
@@ -362,9 +364,10 @@ function GenView(){
     if(!(m>=1&&m<=12)||!(d>=1&&d<=31)){setErr("请填写正确的出生月份与日期");return;}
     let h=parseInt(hh,10);const hUnknown=!(h>=0&&h<=11);if(hUnknown)h=6;
     let bazi=null;
-    try{bazi=bz({year:y,month:m,day:d,hour:h});}catch(ex){setErr("排盘失败，请检查出生日期是否真实有效");return;}
+    try{bazi=bz({year:y,month:m,day:d,hour:h,longitude:lon===""||isNaN(+lon)?void 0:+lon});}catch(ex){setErr("排盘失败，请检查出生日期是否真实有效");return;}
     const xi=pickXiYong(bazi.wuxingCount);
-    const zoo=ZOO[((y-4)%12+12)%12];
+    const zy=bazi.trueSolar?parseInt(bazi.trueSolar.time.slice(0,4),10):y;
+    const zoo=ZOO[((zy-4)%12+12)%12];
     let g=genNames(sc,len,gender,zoo,xi.set,banned);
     let relaxed=false;
     if(g.items.length===0){relaxed=true;g=genNames(sc,len,gender,zoo,null,banned);}
@@ -374,6 +377,7 @@ function GenView(){
     notes.push("候选名按五格吉凶（人·地权重最高）、三才配置、生肖宜忌与音韵（声母不撞、声调起伏）综合排序，取前十");
     notes.push("已自动避讳父名余字与母名用字；最终请用家族辈分字与当地方言复核");
     if(hUnknown)notes.push("未选时辰，时柱按午时（11–13 点）推算");
+    if(bazi.trueSolar)notes.push("已按出生地东经"+bazi.trueSolar.longitude+"°校正真太阳时 "+(bazi.trueSolar.offsetMinutes>0?"+":"")+bazi.trueSolar.offsetMinutes+" 分钟 → "+bazi.trueSolar.time+"，四柱与生肖依校正后时刻推算");
     if(relaxed)notes.push("喜用五行属性的字库内无合律候选，已放宽五行限制后生成");
     setRes({surname:sc.join(""),bazi:bazi,xi:xi,zoo:zoo,hUnknown:hUnknown,list:g.items,pool:g.poolSize,relaxed:relaxed,notes:notes});};
   const lb={className:"text-[10px] tracking-wider block mb-1.5",style:{color:"var(--tx-3)"}};
@@ -396,6 +400,11 @@ function GenView(){
         e.jsxs("select",{value:hh,onChange:a=>setHh(a.target.value),className:"input",children:[
           e.jsx("option",{value:"-1",children:"不清楚（按午时估算）"}),
           HOURS.map((x,i)=>e.jsx("option",{value:String(i),children:x},i))]})]}),
+      e.jsxs("div",{className:"mb-4",children:[
+        e.jsx("label",Object.assign({},lb,{children:"出生地（真太阳时校正）"}),),
+        e.jsxs("select",{value:lon,onChange:a=>setLon(a.target.value),className:"input",children:[
+          e.jsx("option",{value:"",children:"不校正（按北京时间）"}),
+          CITY.map(c=>e.jsx("option",{value:String(c[1]),children:c[0]+"（东经"+c[1]+"°）"},c[0]))]})]}),
       e.jsx("div",{className:"text-[10px] tracking-wider mb-2",style:{color:"var(--tx-3)"},children:"名字字数"}),
       e.jsx("div",{className:"flex gap-2 mb-4",children:[["2","双字名"],["1","单字名"]].map(a=>e.jsx(r.button,{whileTap:{scale:.95},onClick:()=>setLen(+a[0]),className:"px-4 py-1.5 text-[11px]",style:btn(len===+a[0]),children:a[1]},a[0]))}),
       e.jsx(r.button,{whileHover:{scale:1.01},whileTap:{scale:.98},onClick:run,className:"btn-primary w-full",children:"生成吉名"})]}),
@@ -406,6 +415,7 @@ function GenView(){
           e.jsx("div",{className:"text-[10px]",style:{color:"var(--tx-3)"},children:pr[0]}),
           e.jsx("div",{className:"text-lg",style:{color:"var(--tx-0)"},children:pr[1].stem+pr[1].branch}),
           e.jsx("div",{className:"text-[10px]",style:{color:"var(--tx-2)"},children:pr[1].stemWuxing+"/"+pr[1].branchWuxing+" · "+pr[1].nayin})]},pr[0]))}),
+        res.bazi.trueSolar&&e.jsx("div",{className:"text-[10px] mb-1.5",style:{color:"var(--tx-faint)"},children:"真太阳时 "+(res.bazi.trueSolar.offsetMinutes>0?"+":"")+res.bazi.trueSolar.offsetMinutes+" 分 → "+res.bazi.trueSolar.time}),
         e.jsx("div",{className:"text-[11px] mb-1",style:{color:"var(--tx-1)"},children:"五行："+FU.map(w=>w+" "+(res.bazi.wuxingCount[w]||0)).join(" · ")+"（日主"+res.bazi.dayMaster+"，属"+res.bazi.dayMasterWuxing+"）"}),
         e.jsx("div",{className:"text-[11px]",style:{color:"var(--ac)"},children:"八字"+(res.xi.min===0?"缺"+res.xi.set.join("、"):"以"+res.xi.set.join("、")+"最弱")+"，喜用取「"+res.xi.set.join("、")+"」补之 · 生肖"+res.zoo})]}),
       e.jsxs(Sec,{title:"候选吉名 · TOP "+res.list.length,children:[
