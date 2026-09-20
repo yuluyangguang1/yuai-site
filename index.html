@@ -273,6 +273,8 @@
   .fade-up{animation:none;opacity:1;transform:none}
 }
 </style>
+<link rel="manifest" href="/manifest.webmanifest">
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(function(){});});}</script>
 </head>
 <body>
 <a href="#products" class="skip-link">跳到主要内容</a>

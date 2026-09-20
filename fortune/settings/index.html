@@ -2,6 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(function(){});});}</script>
     <link rel="icon" type="image/svg+xml" href="/fortune/favicon.svg" />
     <link rel="icon" type="image/svg+xml" href="/fortune/favicon-small.svg" sizes="64x64" />
     <link rel="apple-touch-icon" href="/fortune/favicon.svg" />
@@ -113,6 +114,7 @@
     <link rel="modulepreload" crossorigin href="/fortune/assets/vendor-react-D_ze9-jD.js">
     <link rel="modulepreload" crossorigin href="/fortune/assets/vendor-motion-uegpHKi9.js">
     <link rel="stylesheet" crossorigin href="/fortune/assets/index-BIM_xI-2.css">
+  <link rel="manifest" href="/fortune/manifest.webmanifest" />
   </head>
   <body>
     <!-- 加载动画：React 挂载后自动移除 -->

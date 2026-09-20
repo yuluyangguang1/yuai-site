@@ -1,0 +1,19 @@
+{
+  "name": "yu.ai · 与 AI · 同行",
+  "short_name": "yu.ai",
+  "description": "yu.ai · 与 AI 同行。便携 AI 工具集：openclaw（百川）· hermes（砚墨）· claude portable（利刃）· codex portable（方盒）· openhuman（明镜）。插上即用，数据随你走，越用越懂你。零安装、零痕迹、跨平台、MIT 开源。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6f3ec",
+  "theme_color": "#150e07",
+  "icons": [
+    {
+      "src": "/icons/yuai-512.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
