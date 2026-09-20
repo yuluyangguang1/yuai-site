@@ -1,0 +1,43 @@
+# YUAI · 天机阁（ARCANA PAVILION）
+
+> 中文命理与占卜站，纯前端实现：所有排盘与计算在浏览器本地完成，出生数据不上传、无后端、无账号、无付费墙。
+> 入口：https://yuai-r.cn/fortune/ · 站点地图：https://yuai-r.cn/sitemap.xml（211 条 URL，含 178 篇静态全文页）
+
+## 定位与约束
+
+- 免费、免注册、免登录；不采集个人信息，命盘记录只存在浏览器 localStorage。
+- 排盘引擎：iztro 风格的紫微安星、lunar-typescript 干支节气、自研八字与五行计算，均随前端 bundle 分发。
+- 内容来源为公版古籍之通说改述，用于传统文化展示与自我观察，不构成医疗、法律、投资或其他专业建议。
+
+## 工具（本地计算）
+
+- [八字命理（四柱排盘）](https://yuai-r.cn/fortune/bazi/): 四柱排盘、十神分析、五行强弱、30 种神煞、大运流年；支持 40 城经度与均时差的真太阳时校正，可导出命卡图片（命卡.png）。
+- [紫微斗数](https://yuai-r.cn/fortune/ziwei/): 十二宫排盘、十四主星与辅煞星、四化飞星、35 种格局识别；同样支持真太阳时校正。
+- [起名测名](https://yuai-r.cn/fortune/naming/): 双标签：智能起名（父姓＋父母姓名＋出生日期时辰 → 本地排八字 → 依五行喜用生成 TOP10 候选，逐字释义）与姓名测评（五格三才、生肖宜忌、音韵，复姓支持）。康熙 63,696 字＋规范字 8,105 字，491 字起名库；可选真太阳时。
+- [易经占卜](https://yuai-r.cn/fortune/iching/): 蓍草起卦、铜钱摇卦、六十四卦、动爻分析。
+- [塔罗牌](https://yuai-r.cn/fortune/tarot/): 78 张牌、9 种牌阵、正逆位。
+- [称骨算命](https://yuai-r.cn/fortune/bone/): 袁天罡称骨歌，秒出结果。
+- [每日运势](https://yuai-r.cn/fortune/daily/): 个人八字与当日干支比对，四维评分。
+- [合盘配对](https://yuai-r.cn/fortune/compat/): 八字合婚、五行互补、兼容度评分。
+- [综合印证](https://yuai-r.cn/fortune/crossref/): 八字与紫微双盘并排、六维交叉对账。
+- [黄历](https://yuai-r.cn/fortune/almanac/): 每日宜忌、干支节气、吉神凶煞、生肖星座。
+- [命理百科（交互版）](https://yuai-r.cn/fortune/knowledge/): 星曜、宫位、四化、十神、神煞、卦象的检索式百科。
+- [命盘记录](https://yuai-r.cn/fortune/history/): 本机历史命盘的导入导出与再加载。
+- [设置](https://yuai-r.cn/fortune/settings/): AI 服务商与 API Key 配置、主题切换。
+
+## 静态全文内容库（可直接抓取，无需执行 JavaScript）
+
+- [命理百科词条全集（114 条独立全文页）](https://yuai-r.cn/fortune/glossary/): 紫微主星十二宫四化辅煞术语、八字十神神煞术语、周易八卦易理、塔罗。每条一页，含释义、所属类别、相关词条与排盘入口。
+- [周易六十四卦全文（64 页）](https://yuai-r.cn/fortune/gua/): 逐卦独立页面：卦辞、大象传、六爻爻辞原文，附读卦方法与起卦入口。
+
+## AI 解读
+
+- 站内自带流式 AI 解读，采用「自带 Key」模式：11 家预设服务商（国内 deepseek、qwen、zhipu、moonshot、minimax、baichuan、mimo、siliconflow；海外 openai、claude、openrouter）加自定义 OpenAI 兼容端点。
+- API Key 只保存在用户浏览器中，不经过本站服务器。
+- 无 Key 时，点「AI 解读」会在本地拼出结构化的排盘提示词并复制到剪贴板，用户可粘贴给任意大模型使用。
+
+## 说明
+
+- 页面为 SPA（React）＋静态 SEO 页混合：工具页需执行 JS，`/fortune/glossary/` 与 `/fortune/gua/` 下的全文页为服务端已渲染的静态 HTML。
+- 深浅双主题、纸墨配色、中文衬线字体（霞鹜文楷）。
+- 本站不做追踪与分析埋点。
