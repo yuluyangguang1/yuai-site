@@ -1,5 +1,5 @@
 // 从 fortune/index.html 重新生成 SPA 深链兜底文件；重建 fortune/ 后必须跑一次。
-// 每个功能页注入独立 title / description / canonical / og，404.html 只加路径守卫。
+// 每个功能页注入独立 title / description / canonical / og / JSON-LD，404.html 只加路径守卫。
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -27,6 +27,63 @@ const META = {
   naming: ['八字起名·姓名测评｜五行补缺智能生成吉名 · YUAI天机阁', '输入父姓与宝宝出生日期时辰，按八字五行补缺免费生成候选吉名，逐字带释义与五格三才评分；也可只做姓名测评。浏览器本地计算，不上传数据。'],
 };
 
+/* 功能清单与简称：只写页面上真实存在的功能，不写评分/评论等无来源字段。 */
+const APP = {
+  bazi: ['八字排盘', 'Bazi Chart', ['四柱干支', '五行统计', '十神', '纳音', '大运', '真太阳时校正', '命卡导出']],
+  ziwei: ['紫微斗数排盘', 'Zi Wei Dou Shu', ['十二宫', '安星布宫', '生年四化', '大限', '流年', '真太阳时校正']],
+  almanac: ['黄历万年历', 'Chinese Almanac', ['每日宜忌', '吉神凶煞', '节气查询']],
+  tarot: ['塔罗在线抽牌', 'Tarot', ['多种牌阵', '正位逆位', '牌义解读']],
+  iching: ['易经起卦', 'I Ching', ['铜钱摇卦', '本卦变卦', '六十四卦卦辞爻辞']],
+  bone: ['称骨算命', 'Bone Weight', ['袁天罡称骨法', '骨重计算', '批语']],
+  daily: ['每日运势', 'Daily Fortune', ['当日干支', '运程提示']],
+  compat: ['八字合婚', 'Bazi Compatibility', ['双方生辰合盘', '配对评分', '要点提示']],
+  crossref: ['命理交叉对照', 'Cross Reference', ['八字与紫微结果互参', '多术对照']],
+  knowledge: ['命理知识库', 'Encyclopedia', ['星曜', '神煞', '基础术语速查']],
+  history: ['历史记录', 'History', ['本机排盘记录', '数据不出浏览器']],
+  settings: ['设置', 'Settings', ['主题切换', '偏好保存在本机']],
+  naming: ['八字起名·姓名测评', 'Naming', ['八字五行补缺生成吉名', '逐字释义', '五格三才评分', '姓名测评', '真太阳时校正']],
+};
+
+/* 深链页首次上线于 2026-08-31（sync 脚本重生成），内容最近一次改版见下。 */
+const ROUTE_PUBLISHED = '2026-08-31';
+const ROUTE_MODIFIED = '2026-09-20';
+const ORG_ID = 'https://yuai-r.cn/fortune/#organization';
+const SITE_ID = 'https://yuai-r.cn/fortune/#website';
+const FORTUNE_URL = 'https://yuai-r.cn/fortune/';
+const JSON_LD = (graph) =>
+  `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c')}</script>`;
+
+const ldFor = (r) => {
+  const [title, desc] = META[r];
+  const [name, alternateName, featureList] = APP[r];
+  const url = `${FORTUNE_URL}${r}/`;
+  return JSON_LD([
+    {
+      '@type': 'Organization', '@id': ORG_ID, name: 'YUAI 天机阁', url: FORTUNE_URL,
+      logo: { '@type': 'ImageObject', url: 'https://yuai-r.cn/egret-ink.jpg' },
+    },
+    { '@type': 'WebSite', '@id': SITE_ID, url: FORTUNE_URL, name: 'YUAI 天机阁', inLanguage: 'zh-CN', publisher: { '@id': ORG_ID } },
+    {
+      '@type': 'WebPage', '@id': url + '#webpage', url, name: title, description: desc, inLanguage: 'zh-CN',
+      datePublished: ROUTE_PUBLISHED, dateModified: ROUTE_MODIFIED,
+      isPartOf: { '@id': SITE_ID }, breadcrumb: { '@id': url + '#breadcrumb' }, mainEntity: { '@id': url + '#app' },
+    },
+    {
+      '@type': 'BreadcrumbList', '@id': url + '#breadcrumb',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '天机阁', item: FORTUNE_URL },
+        { '@type': 'ListItem', position: 2, name, item: url },
+      ],
+    },
+    {
+      '@type': 'WebApplication', '@id': url + '#app', name, alternateName, url, description: desc,
+      applicationCategory: 'LifestyleApplication', operatingSystem: 'Web browser', inLanguage: 'zh-CN',
+      isAccessibleForFree: true, offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' },
+      featureList, publisher: { '@id': ORG_ID },
+    },
+  ]);
+};
+
 let src = readFileSync(join(ROOT, 'fortune/index.html'), 'utf8');
 for (const a of [ANCHOR, TITLE_ANCHOR, DESC_ANCHOR]) {
   if (!src.includes(a)) {
@@ -35,14 +92,17 @@ for (const a of [ANCHOR, TITLE_ANCHOR, DESC_ANCHOR]) {
   }
 }
 
-// 根页 fortune/index.html 自带站内通用 og 块（site-og 注释包裹）；
-// 派生页必须整块剔除，否则会与路由专属 og 重复。
+// 根页 fortune/index.html 自带站内通用 og 块与 JSON-LD 块（注释包裹）；
+// 派生页必须整块剔除，否则会与路由专属的重复。
 const SOCIAL_RE = /\n?<!-- site-og:start -->[\s\S]*?<!-- site-og:end -->\n/;
-if (!SOCIAL_RE.test(src)) {
-  console.error('fortune/index.html 里找不到 site-og 块（根页需含该块，见 2026-09 版本）');
-  process.exit(1);
+const LD_RE = /\n {4}<!-- site-ld:start -->[\s\S]*?<!-- site-ld:end -->/;
+for (const [name, re] of [['site-og', SOCIAL_RE], ['site-ld', LD_RE]]) {
+  if (!re.test(src)) {
+    console.error(`fortune/index.html 里找不到 ${name} 块（根页需含该块，见 2026-09 版本）`);
+    process.exit(1);
+  }
 }
-src = src.replace(SOCIAL_RE, '\n');
+src = src.replace(SOCIAL_RE, '\n').replace(LD_RE, '');
 
 writeFileSync(join(ROOT, '404.html'), src.replace(ANCHOR, ANCHOR + '\n    ' + GUARD));
 for (const r of ROUTES) {
@@ -54,7 +114,8 @@ for (const r of ROUTES) {
     `\n    <meta property="og:description" content="${desc}" />` +
     `\n    <meta property="og:url" content="${url}" />` +
     `\n    <meta property="og:image" content="https://yuai-r.cn/egret-ink.jpg" />` +
-    `\n    <meta property="og:locale" content="zh_CN" />`;
+    `\n    <meta property="og:locale" content="zh_CN" />` +
+    `\n    ${ldFor(r)}`;
   const html = src
     .replace(TITLE_ANCHOR, `<title>${title}</title>`)
     .replace(DESC_ANCHOR, `<meta name="description" content="${desc}" />` + og);
@@ -65,4 +126,4 @@ for (const r of ROUTES) {
   mkdirSync(join(ROOT, 'fortune', r), { recursive: true });
   writeFileSync(join(ROOT, 'fortune', r, 'index.html'), html);
 }
-console.log(`已生成 404.html + ${ROUTES.length} 份 fortune/<route>/index.html（含独立 title/description/og）`);
+console.log(`已生成 404.html + ${ROUTES.length} 份 fortune/<route>/index.html（含独立 title/description/og/JSON-LD）`);
