@@ -103,6 +103,12 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://yuai-r.cn/mom/</loc>
+    <lastmod>2026-09-20</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://yuai-r.cn/fortune/</loc>
     <lastmod>2026-09-20</lastmod>
     <priority>0.7</priority>
