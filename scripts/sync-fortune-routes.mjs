@@ -113,8 +113,10 @@ for (const r of ROUTES) {
     `\n    <meta property="og:title" content="${title}" />` +
     `\n    <meta property="og:description" content="${desc}" />` +
     `\n    <meta property="og:url" content="${url}" />` +
-    `\n    <meta property="og:image" content="https://yuai-r.cn/egret-ink.jpg" />` +
+    `\n    <meta property="og:image" content="https://yuai-r.cn/fortune/og-tianji.webp" />` +
     `\n    <meta property="og:locale" content="zh_CN" />` +
+    `\n    <meta name="twitter:card" content="summary_large_image" />` +
+    `\n    <meta name="twitter:image" content="https://yuai-r.cn/fortune/og-tianji.webp" />` +
     `\n    ${ldFor(r)}`;
   const html = src
     .replace(TITLE_ANCHOR, `<title>${title}</title>`)
