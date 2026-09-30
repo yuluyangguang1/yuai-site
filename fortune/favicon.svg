@@ -1,45 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <defs>
-    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#e8c060"/>
-      <stop offset="50%" style="stop-color:#c9a85c"/>
-      <stop offset="100%" style="stop-color:#a07828"/>
-    </linearGradient>
-    <linearGradient id="dark" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#12111a"/>
-      <stop offset="100%" style="stop-color:#0a0912"/>
-    </linearGradient>
-  </defs>
-  
-  <!-- 圆形背景 -->
-  <circle cx="256" cy="256" r="248" fill="url(#dark)" stroke="url(#gold)" stroke-width="4"/>
-  
-  <!-- 外圈装饰 -->
-  <circle cx="256" cy="256" r="220" fill="none" stroke="url(#gold)" stroke-width="1.5" opacity="0.3"/>
-  <circle cx="256" cy="256" r="200" fill="none" stroke="url(#gold)" stroke-width="0.8" opacity="0.15"/>
-  
-  <!-- 太极图 -->
-  <path d="M256 56
-    C256 56 256 256 256 256
-    C256 256 156 156 56 256
-    C156 356 256 256 256 256
-    C256 256 256 456 456 256
-    C356 156 256 256 256 256"
-    fill="none" stroke="url(#gold)" stroke-width="3" opacity="0.7"/>
-  
-  <!-- 太极两点 -->
-  <circle cx="256" cy="136" r="16" fill="url(#gold)" opacity="0.8"/>
-  <circle cx="256" cy="376" r="16" fill="url(#dark)" stroke="url(#gold)" stroke-width="2" opacity="0.8"/>
-  
-  <!-- 八卦点 (简化的四个方位点) -->
-  <circle cx="256" cy="72" r="4" fill="url(#gold)" opacity="0.5"/>
-  <circle cx="256" cy="440" r="4" fill="url(#gold)" opacity="0.5"/>
-  <circle cx="72" cy="256" r="4" fill="url(#gold)" opacity="0.5"/>
-  <circle cx="440" cy="256" r="4" fill="url(#gold)" opacity="0.5"/>
-  
-  <!-- 文字 YUAI -->
-  <text x="256" y="236" text-anchor="middle" font-family="Georgia, serif" font-size="72" font-weight="600" fill="url(#gold)" letter-spacing="8">YUAI</text>
-  
-  <!-- 文字 天机阁 -->
-  <text x="256" y="300" text-anchor="middle" font-family="serif" font-size="36" fill="url(#gold)" opacity="0.7" letter-spacing="12">天机阁</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="YUAI 天机阁">
+<rect width="512" height="512" fill="#0A0912"/><rect x="18" y="18" width="476" height="476" fill="none" stroke="#C9A85C" stroke-width="2" opacity="0.5"/>
+<path fill="#C9A85C" fill-rule="evenodd" d="M206 128 L306 128 L366 162 L392 146 L392 182 L120 182 L120 146 L146 162 Z M188 182 L320 182 L320 252 L188 252 Z M232 200 L276 200 L276 244 L232 244 Z M204 252 L304 252 L390 294 L424 274 L424 316 L84 316 L84 274 L118 294 Z M148 316 L360 316 L360 414 L292 414 L292 352 L216 352 L216 414 L148 414 Z M168 336 L202 336 L202 370 L168 370 Z M306 336 L340 336 L340 370 L306 370 Z M112 414 L396 414 L396 446 L112 446 Z"/>
+<path fill="#A0412C" d="M256 66 L280 94 L256 122 L232 94 Z"/>
 </svg>
