@@ -16,3 +16,32 @@ h1.heading::before{content:"";position:absolute;left:50%;top:50%;translate:-50% 
 html.dark body::before{background-image:radial-gradient(58% 44% at 18% 14%,rgba(122,92,38,.3),transparent 68%),radial-gradient(54% 40% at 84% 74%,rgba(126,96,40,.28),transparent 66%),radial-gradient(42% 32% at 50% 46%,rgba(140,106,44,.22),transparent 70%);opacity:.2}
 html.dark body::after{display:none}
 html.dark h1.heading::before{display:none}
+/* 添加到手机桌面引导条：只用既有令牌，深浅双主题自适应 */
+.tjg-inst{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(460px,calc(100vw - 20px));z-index:90;background:var(--bg-card-solid);border:1px solid var(--ac-border);border-radius:var(--r-lg);box-shadow:var(--sh-lg);padding:14px 16px;font-family:var(--font-body)}
+.tjg-inst-i{display:flex;align-items:flex-start;gap:12px}
+.tjg-inst-l{flex:1;min-width:0}
+.tjg-inst-x{margin:-4px -4px 0 0;width:26px;height:26px;border:0;background:none;color:var(--tx-3);font-size:1.125rem;line-height:1;cursor:pointer;padding:0}
+.tjg-inst-x svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6}
+.tjg-inst-img{width:44px;height:44px;border-radius:10px;flex:0 0 auto;display:block}
+.tjg-inst-h{font-family:var(--font-chinese);font-size:1rem;line-height:1.4;color:var(--tx-0);margin:0}
+.tjg-inst-sub{font-size:.8125rem;line-height:1.5;color:var(--tx-2);margin:3px 0 0}
+.tjg-inst-tags{font-size:.8125rem;line-height:1.5;color:var(--tx-3);margin:10px 0 0}
+.tjg-inst-steps{list-style:none;margin:10px 0 0;padding:0;display:none}
+.tjg-inst[data-steps="1"] .tjg-inst-steps{display:block}
+.tjg-inst-steps li{display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;line-height:1.55;color:var(--tx-1)}
+.tjg-inst-steps li+li{margin-top:6px}
+.tjg-inst-n{flex:0 0 auto;width:18px;height:18px;margin-top:1px;border:1px solid var(--ac-border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6875rem;color:var(--ac)}
+.tjg-inst-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;padding:12px 16px;border:0;border-radius:var(--r-xl);background:linear-gradient(135deg,var(--ac),var(--ac-dim));color:#fffcf5;font-family:var(--font-body);font-size:.875rem;font-weight:600;letter-spacing:.12em;cursor:pointer}
+.dark .tjg-inst-btn{color:#0a0912}
+.tjg-inst-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6}
+.tjg-inst-link{display:block;width:100%;margin-top:9px;border:0;background:none;font-family:inherit;font-size:.75rem;color:var(--tx-3);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px}
+.tjg-inst-hint{font-size:.75rem;line-height:1.5;color:var(--tx-3);margin:9px 0 0;text-align:center}
+.tjg-inst-home{width:min(460px,calc(100vw - 32px));margin:0 auto 28px;padding:18px;background:var(--bg-card-solid);border:1px solid var(--ac-border);border-radius:var(--r-lg);text-align:center;font-family:var(--font-body)}
+.tjg-inst-home-img{width:56px;height:56px;border-radius:12px;margin:0 auto;display:block}
+.tjg-inst-home .tjg-inst-h{font-size:1.125rem;margin-top:10px}
+.tjg-inst-home-ul{list-style:none;margin:12px auto 0;padding:0;max-width:340px;text-align:left;font-size:.8125rem;line-height:1.6;color:var(--tx-1)}
+.tjg-inst-home-ul li{padding-left:13px;position:relative}
+.tjg-inst-home-ul li+li{margin-top:5px}
+.tjg-inst-home-ul li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--ac)}
+@media(display-mode:standalone){.tjg-inst,.tjg-inst-home{display:none}}
+@media(prefers-reduced-motion:reduce){.tjg-inst{transition:none}}

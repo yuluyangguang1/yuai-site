@@ -5,7 +5,13 @@
     <script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(function(){});});}</script>
     <link rel="icon" type="image/svg+xml" href="/fortune/favicon.svg" />
     <link rel="icon" type="image/svg+xml" href="/fortune/favicon-small.svg" sizes="64x64" />
-    <link rel="apple-touch-icon" href="/fortune/favicon.svg" />
+<!-- tjg-install:start -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/fortune/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="天机阁" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+<!-- tjg-install:end -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>设置｜主题与偏好 · YUAI天机阁</title>
     <meta name="description" content="调整天机阁的主题与使用偏好，设置保存在本机浏览器。" />
@@ -131,5 +137,86 @@
       <div class="loader-text">天机阁</div>
     </div>
     <div id="root"></div>
+    <!-- tjg-install:start -->
+<script>
+(function(){
+  var KEY="tjg-install";
+  var PATH=location.pathname;
+  if(!(PATH==="/fortune"||PATH.indexOf("/fortune/")===0||PATH.indexOf("/fortune/index.html")===0))return;
+  var doc=document,html=doc.documentElement;
+  var ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
+  var deferred=null,root=null,steps=false;
+  function st(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return{}}}
+  function sv(p){try{var o=st();for(var k in p){if(p[k]===null)delete o[k];else o[k]=p[k]}localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+  function standalone(){try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){return false}}
+  function mobile(){try{return matchMedia("(max-width: 767px)").matches}catch(e){return true}}
+  function persist(){sv({shown:null,dismissAt:null,done:1})}
+  function cooldown(){sv({dismissAt:Date.now()})}
+  var CLOSE='<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12"/></svg>';
+  var SHARE='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10.5V2.5M8 2.5L5.2 5.4M8 2.5l2.8 2.9M2.8 8.2v4.3a1 1 0 0 0 1 1h8.4a1 1 0 0 0 1-1V8.2"/></svg>';
+  function stepsFor(){
+    if(ios)return["点屏幕底部或顶部的分享按钮","在菜单里选「添加到主屏幕」","回桌面点天机阁图标即可使用"];
+    if(!mobile())return["点浏览器地址栏右侧的安装图标","或在菜单里选「安装应用」「创建快捷方式」","从桌面或任务栏打开天机阁"];
+    return["点浏览器右上角菜单","选「添加到主屏幕」或「安装应用」","回桌面点天机阁图标即可使用"];
+  }
+  function markup(){
+    var s=stepsFor();
+    return '<div class="tjg-inst" role="dialog" aria-modal="false" aria-label="添加到手机桌面">'+
+      '<div class="tjg-inst-i"><img class="tjg-inst-img" src="/fortune/icons/apple-touch-icon.png" width="44" height="44" alt="">'+
+      '<div class="tjg-inst-l"><p class="tjg-inst-h">随身携带你的天机阁</p>'+
+      '<p class="tjg-inst-sub">添加到手机桌面，像原生 App 一样随时打开</p></div>'+
+      '<button class="tjg-inst-x" type="button" aria-label="关闭提示">'+CLOSE+'</button></div>'+
+      '<p class="tjg-inst-tags">无需下载 · 无需应用商店 · 一键直达</p>'+
+      '<ol class="tjg-inst-steps">'+s.map(function(t,i){return '<li><span class="tjg-inst-n">'+(i+1)+'</span><span>'+t+'</span></li>'}).join("")+'</ol>'+
+      '<button class="tjg-inst-btn" type="button">'+SHARE+'<span>添加到桌面</span></button>'+
+      '<button class="tjg-inst-link" type="button">不再提示</button>'+
+      '<p class="tjg-inst-hint">使用手机浏览器访问本页，即可添加到桌面</p></div>';
+  }
+  function mount(force){
+    if(root)return root;
+    var d=doc.createElement("div");
+    d.innerHTML=markup();
+    root=d.firstElementChild;
+    doc.body.appendChild(root);
+    if(!force){var o=st();sv({shown:(o.shown||0)+1});}
+    root.querySelector(".tjg-inst-x").addEventListener("click",close);
+    root.querySelector(".tjg-inst-link").addEventListener("click",function(){persist();unmount()});
+    root.querySelector(".tjg-inst-btn").addEventListener("click",act);
+    return root;
+  }
+  function unmount(){if(root&&root.parentNode)root.parentNode.removeChild(root);root=null}
+  function close(){cooldown();unmount()}
+  function showSteps(){
+    steps=true;
+    if(root){root.setAttribute("data-steps","1");var b=root.querySelector(".tjg-inst-btn span");if(b)b.textContent="按提示操作";}
+  }
+  function act(){
+    if(deferred){
+      var p=deferred;deferred=null;
+      try{p.prompt()}catch(e){showSteps();return}
+      p.userChoice&&p.userChoice.then(function(r){
+        if(r&&r.outcome==="accepted"){persist();unmount()}
+        else{showSteps()}
+      },function(){showSteps()});
+    }else{showSteps()}
+  }
+  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferred=e;if(root&&root.getAttribute("data-steps")==="1")root.setAttribute("data-steps","0")});
+  window.addEventListener("appinstalled",function(){persist();unmount()});
+  function eligible(){
+    if(standalone())return false;
+    if(!mobile())return false;
+    var o=st();
+    if(o.done)return false;
+    if(o.dismissAt&&Date.now()-o.dismissAt<7*864e5)return false;
+    if((o.shown||0)>=3)return false;
+    return true;
+  }
+  function boot(){if(eligible())mount()}
+  if(doc.readyState==="loading")doc.addEventListener("DOMContentLoaded",boot);else boot();
+  window.addEventListener("fortune:install",function(){mount(true)});
+  window.__tjgInstall={open:function(){return mount(true)},close:close,state:st,deferred:function(){return!!deferred}};
+})();
+</script>
+<!-- tjg-install:end -->
   </body>
 </html>
