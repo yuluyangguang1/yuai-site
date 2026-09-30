@@ -60,7 +60,7 @@ const ldFor = (r) => {
   return JSON_LD([
     {
       '@type': 'Organization', '@id': ORG_ID, name: 'YUAI 天机阁', url: FORTUNE_URL,
-      logo: { '@type': 'ImageObject', url: 'https://yuai-r.cn/egret-ink.jpg' },
+      logo: { '@type': 'ImageObject', url: 'https://yuai-r.cn/fortune/icons/fortune-512.png' },
     },
     { '@type': 'WebSite', '@id': SITE_ID, url: FORTUNE_URL, name: 'YUAI 天机阁', inLanguage: 'zh-CN', publisher: { '@id': ORG_ID } },
     {
