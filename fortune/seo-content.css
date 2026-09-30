@@ -19,3 +19,42 @@ body::before{background-image:radial-gradient(58% 44% at 18% 14%,rgba(122,92,38,
 body::after{display:none}
 .wrap h1::before{display:none}
 }
+
+/* ===== V4 观星之阁 · 窥天机 ===== */
+:root{--gn:#75591F;--gnl:rgba(117,89,31,.24);--gnbg:rgba(117,89,31,.05)}
+html{background:#F6F2E8}
+.nav{position:relative;padding:1.5rem 1.25rem .7rem;gap:.55rem .8rem;border-bottom:1px solid var(--bd)}
+.nav::after{content:"";position:absolute;left:1.25rem;right:1.25rem;bottom:-4px;height:1px;background:linear-gradient(90deg,transparent,var(--gnl) 12%,var(--gnl) 88%,transparent)}
+.brand{font-weight:700;letter-spacing:.34em;font-size:.92rem}
+.crumb{font-size:.76rem;color:var(--tx3);letter-spacing:.06em}
+.wrap{padding:2.1rem 1.25rem 0}
+.wrap h1{font-size:1.7rem;letter-spacing:.14em;margin:.35rem 0 .45rem;font-weight:700}
+.h1sub{letter-spacing:.3em;font-size:.78rem;color:var(--tx2)}
+.chip{border-radius:0;border-color:var(--gnl);background:transparent;color:var(--gn);letter-spacing:.14em;padding:.05rem .5rem}
+.chip-o{color:var(--tx2)}
+.sec{margin-top:2.1rem}
+.sec h2{display:flex;align-items:center;gap:.5rem;border-left:0;padding-left:0;color:var(--tx);font-size:.98rem;letter-spacing:.2em;font-weight:700;margin:0 0 .85rem}
+.sec h2::before{content:"\25C6";color:var(--gn);font-size:.6em;letter-spacing:0;flex:none;transform:translateY(-1px)}
+.sec h2::after{content:"";flex:1 1 auto;height:1px;background:linear-gradient(90deg,var(--gnl),rgba(0,0,0,0));align-self:center}
+.quote,.grid a{border-radius:0}
+.quote{background:var(--gnbg);border-color:var(--gnl)}
+.grid a{border-color:var(--bd);background:var(--card);letter-spacing:.06em}
+.grid a:hover{border-color:var(--gn);color:var(--gn)}
+.wrap>.sec:first-of-type>.p:first-of-type::first-letter{float:left;font-size:2.1em;line-height:1.04;margin:.02em .18em 0 0;color:var(--gn);font-weight:700}
+.lines ol{padding-left:1.35rem;counter-reset:v4}
+.lines li{margin-bottom:.45rem}
+.lines li::marker{color:var(--gn);font-size:.86em}
+.foot{position:relative;margin-top:3rem;border-top:1px solid var(--bd);padding:1.4rem 1.25rem 1.2rem}
+.foot::before{content:"\4EF0\4EE5\89C2\4E8E\5929\6587\3000\4FEF\4EE5\5BDF\4E8E\5730\7406";display:block;letter-spacing:.34em;font-size:.74rem;color:var(--gn);margin-bottom:.75rem}
+@media(prefers-color-scheme:dark){
+:root{--bg:#0A0912;--card:#12111C;--tx:#EDE7DA;--tx2:#B7AE9A;--tx3:#A69C8C;--bd:#2B2735;--ac:#DE8A72;--acbg:#1C1810;--gn:#C9A85C;--gnl:rgba(201,168,92,.26);--gnbg:rgba(201,168,92,.05)}
+html{background:#0A0912}
+html::before{background-color:#0A0912;background-blend-mode:luminosity;background-size:cover;opacity:.2}
+body::before{background-image:radial-gradient(64% 46% at 50% -6%,rgba(201,168,92,.16),transparent 70%),radial-gradient(50% 38% at 88% 78%,rgba(120,104,70,.12),transparent 68%);opacity:.9}
+body::after{display:block;background-image:radial-gradient(1.5px 1.5px at 12% 22%,rgba(240,236,222,.9),transparent 60%),radial-gradient(1.2px 1.2px at 68% 34%,rgba(232,228,214,.8),transparent 60%),radial-gradient(1.8px 1.8px at 38% 72%,rgba(244,240,226,.75),transparent 60%),radial-gradient(1.3px 1.3px at 86% 84%,rgba(236,232,218,.7),transparent 60%),radial-gradient(1.6px 1.6px at 52% 10%,rgba(240,236,222,.65),transparent 60%),radial-gradient(1.1px 1.1px at 26% 48%,rgba(248,244,230,.6),transparent 60%);background-size:300px 340px;opacity:.5}
+html::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(128% 92% at 50% 2%,rgba(10,9,18,0) 38%,rgba(6,5,12,.62) 100%)}
+.sec h2{color:var(--tx)}
+.grid a{background:#100F19}
+.quote{background:#100F19;border-color:#241F2E}
+.foot::before{color:var(--gn)}
+}
