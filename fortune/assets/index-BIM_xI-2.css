@@ -45,3 +45,101 @@ html.dark h1.heading::before{display:none}
 .tjg-inst-home-ul li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--ac)}
 @media(display-mode:standalone){.tjg-inst,.tjg-inst-home{display:none}}
 @media(prefers-reduced-motion:reduce){.tjg-inst{transition:none}}
+
+/* ===== V5-B 样张 · 应用页（深紫玄墨为体，大面积鎏金） ===== */
+:root{
+  --font-display:"LXGW WenKai","Noto Serif SC",serif;
+  --bg-0:#E9E5F1;--bg-1:#EFEAF7;--bg-2:#E5DFF1;--bg-page:#E9E5F1;
+  --bg-card:rgba(255,255,255,.88);--bg-card-solid:#FCFBFE;
+  --tx-0:#1B1630;--tx-1:#2C2444;--tx-2:#4C4268;--tx-3:#5C5175;--tx-faint:#5C5175;
+  --ac:#6B5318;--ac-bright:#A8842E;--ac-dim:#574312;
+  --ac-bg:rgba(185,150,60,.12);--ac-border:rgba(107,83,24,.32);
+  --vermillion:#7A3E2A;--indigo:#2F3B6E;--jade:#41604C;
+  --bdr:rgba(27,22,48,.1);--bdr-med:rgba(27,22,48,.16);--bdr-heavy:rgba(107,83,24,.34);
+  --sh-sm:0 2px 10px rgba(27,22,48,.08);--sh-md:0 8px 26px rgba(27,22,48,.12);--sh-lg:0 20px 52px rgba(27,22,48,.18);
+  --r-sm:2px;--r-md:3px;--r-lg:4px;--r-xl:6px;
+  --v5g1:#6B5318;--v5g2:#A8842E;--v5g3:#D9B968;
+  --v5gl:rgba(122,95,30,.42);--v5gl2:rgba(122,95,30,.2);--v5soft:rgba(185,150,60,.12);
+  --v5fill:linear-gradient(180deg,rgba(217,185,104,.24),rgba(185,150,60,.05));
+  --v5cloud:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='18'><path d='M0 15h64M6 15a5 5 0 1 1 10 0M20 15a5 5 0 1 1 10 0M34 15a5 5 0 1 1 10 0M48 15a5 5 0 1 1 10 0' fill='none' stroke='%237A5F1E' stroke-width='1.1' opacity='.55'/></svg>");
+  --v5ease:cubic-bezier(.16,1,.3,1);
+}
+.dark{
+  --bg-0:#100C20;--bg-1:#171229;--bg-2:#211A3A;--bg-page:#100C20;
+  --bg-card:rgba(38,30,66,.6);--bg-card-solid:#1C1633;
+  --tx-0:#F0EAD8;--tx-1:#DAD1BE;--tx-2:#B6AACB;--tx-3:#9C8FB4;--tx-faint:#C7A96A;
+  --ac:#D9B968;--ac-bright:#F0DCA4;--ac-dim:#A8842E;
+  --ac-bg:rgba(217,185,104,.12);--ac-border:rgba(217,185,104,.4);
+  --vermillion:#E0917A;--indigo:#7E93C4;--jade:#8FB296;
+  --bdr:rgba(217,185,104,.14);--bdr-med:rgba(217,185,104,.24);--bdr-heavy:rgba(217,185,104,.42);
+  --sh-sm:0 2px 12px rgba(0,0,0,.45);--sh-md:0 10px 30px rgba(0,0,0,.55);--sh-lg:0 24px 60px rgba(0,0,0,.65);
+  --v5g1:#D9B968;--v5g2:#E6C878;--v5g3:#F5E3B0;
+  --v5gl:rgba(217,185,104,.46);--v5gl2:rgba(217,185,104,.2);--v5soft:rgba(217,185,104,.1);
+  --v5fill:linear-gradient(180deg,rgba(217,185,104,.18),rgba(217,185,104,.03));
+  --v5cloud:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='18'><path d='M0 15h64M6 15a5 5 0 1 1 10 0M20 15a5 5 0 1 1 10 0M34 15a5 5 0 1 1 10 0M48 15a5 5 0 1 1 10 0' fill='none' stroke='%23D9B968' stroke-width='1.1' opacity='.6'/></svg>");
+}
+.text-\[8px\]{font-size:.75rem}
+/* HTML 内联样式表里有 `html.dark{background:#0A0912}`（特异度 0,1,1），必须同级覆盖才能让深紫底生效 */
+html.dark{background:var(--bg-0)}
+html.dark .app-loader{background:var(--bg-0)}
+.text-\[9px\]{font-size:.75rem}
+.text-\[10px\]{font-size:.8125rem}
+.nav-links .nav-item{padding:6px 10px}
+
+/* 导航：整条鎏金匾 */
+nav.sticky{border-bottom:0;background-image:var(--v5fill);background-color:var(--bg-card-solid);box-shadow:0 1px 0 var(--v5gl),0 14px 30px -22px rgba(0,0,0,.6)}
+nav.sticky::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--v5g2) 18%,var(--v5g3) 50%,var(--v5g2) 82%,transparent)}
+.nav-item{border-radius:0;border:1px solid transparent;letter-spacing:.14em}
+.nav-item:hover{border-color:var(--v5gl);background:var(--v5soft)}
+.active .nav-item{background:var(--v5soft);border-color:var(--v5g2);box-shadow:inset 0 -3px 0 var(--v5g2)}
+.nav-sub{letter-spacing:.24em;color:var(--v5g1);opacity:.9}
+
+/* Hero：大面积鎏金殿面 */
+h1.heading{font-size:clamp(3.2rem,10vw,5.2rem);letter-spacing:.2em;line-height:1.02;text-indent:.2em;font-weight:700;color:var(--tx-0);text-shadow:0 2px 0 rgba(217,185,104,.35)}
+h2.heading-cn{font-size:1.75rem;letter-spacing:.46em;text-indent:.46em;color:var(--v5g1);font-weight:600}
+.tag{letter-spacing:.44em;text-indent:.44em;color:var(--v5g1);font-size:.75rem;position:relative;padding:0 1.3em}
+.tag::before,.tag::after{content:"";position:absolute;top:50%;width:1em;height:1px;background:var(--v5g2)}
+.tag::before{left:0}
+.tag::after{right:0}
+.divider-ornament{color:var(--v5g1);letter-spacing:.32em;font-size:.85rem}
+.divider-ornament:before,.divider-ornament:after{background:linear-gradient(90deg,transparent,var(--v5g2),transparent)}
+section.text-center{position:relative;padding-top:3.5rem!important;padding-bottom:4rem!important}
+section.text-center::before{content:"";position:absolute;inset:.5rem 0 1.5rem;background:var(--v5fill);border-top:1px solid var(--v5gl);border-bottom:1px solid var(--v5gl);pointer-events:none}
+section.text-center .container{position:relative}
+h1.heading::after{content:"";display:block;width:min(400px,76%);height:18px;margin:1.2rem auto .1rem;background:var(--v5cloud) center/auto 18px repeat-x;opacity:.75}
+
+/* 卡片：金顶条 + 深紫底 */
+a.card{border-radius:0;border:1px solid var(--bdr);background-color:var(--bg-card);position:relative;overflow:hidden;padding:1.2rem 1.1rem;box-shadow:var(--sh-sm)}
+a.card::before{content:"";position:absolute;left:-1px;right:-1px;top:0;height:3px;background:linear-gradient(90deg,transparent,var(--v5g2) 26%,var(--v5g3) 50%,var(--v5g2) 74%,transparent);opacity:.7;transition:height .25s var(--v5ease),opacity .25s}
+a.card:hover{border-color:var(--v5gl);box-shadow:var(--sh-md);transform:translateY(-3px)}
+a.card:hover::before{height:5px;opacity:1}
+a.card h3.heading-cn{font-size:1.08rem;letter-spacing:.16em;color:var(--tx-0)}
+a.card:hover h3.heading-cn{color:var(--v5g1)}
+a.card .text-\[10px\]{color:var(--tx-2)}
+a.card span.text-\[8px\]{letter-spacing:.22em;color:var(--v5g1)}
+.block>div:first-child{border-radius:0}
+
+/* 表单与容器统一方角金线 */
+.input,.select{border-radius:2px;border-color:var(--bdr-med);background:var(--bg-1)}
+.input:focus,.select:focus{border-color:var(--v5g2);box-shadow:0 0 0 3px var(--v5soft)}
+
+footer{text-align:center;border-top:1px solid var(--v5gl2);background-image:linear-gradient(0deg,var(--v5soft),transparent 62%);padding:2rem 1rem 2.4rem}
+
+/* 背景：紫气东来 + 星汉 */
+html::before{opacity:.3;background-blend-mode:luminosity}
+body::before{background-image:radial-gradient(84% 48% at 50% -12%,rgba(185,150,60,.34),transparent 72%),radial-gradient(62% 44% at 10% 30%,rgba(93,74,140,.2),transparent 66%),radial-gradient(58% 42% at 92% 76%,rgba(185,150,60,.18),transparent 66%)}
+.dark body::before{background-image:radial-gradient(86% 50% at 50% -14%,rgba(217,185,104,.28),transparent 72%),radial-gradient(62% 46% at 12% 32%,rgba(88,66,150,.4),transparent 68%),radial-gradient(58% 42% at 90% 78%,rgba(120,96,40,.3),transparent 68%)}
+body::after{background-image:radial-gradient(1.6px 1.6px at 12% 22%,rgba(122,95,30,.9),transparent 60%),radial-gradient(1.2px 1.2px at 68% 38%,rgba(122,95,30,.7),transparent 60%),radial-gradient(1.4px 1.4px at 40% 72%,rgba(47,59,110,.6),transparent 60%),radial-gradient(1px 1px at 86% 14%,rgba(122,95,30,.6),transparent 60%);opacity:.55}
+.dark body::after{display:block;opacity:.8;background-image:radial-gradient(1.6px 1.6px at 12% 22%,rgba(245,227,176,.95),transparent 60%),radial-gradient(1.2px 1.2px at 68% 38%,rgba(240,236,222,.8),transparent 60%),radial-gradient(1.4px 1.4px at 40% 72%,rgba(217,185,104,.7),transparent 60%),radial-gradient(1px 1px at 86% 14%,rgba(240,236,222,.7),transparent 60%)}
+
+/* 入场：云开殿现 */
+@keyframes v5b-open{from{opacity:0;transform:translateY(26px) scale(.99)}to{opacity:1;transform:none}}
+main .container{animation:v5b-open .78s var(--v5ease) both}
+main section:nth-of-type(1) .container{animation-delay:.04s}
+main section:nth-of-type(2) .container{animation-delay:.14s}
+main section:nth-of-type(3) .container{animation-delay:.26s}
+main section:nth-of-type(4) .container{animation-delay:.34s}
+main section:nth-of-type(n+5) .container{animation-delay:.4s}
+
+/* 基线的 reduce 规则只压时长，不压延迟；both 填充会让内容在延迟内保持不可见 */
+@media (prefers-reduced-motion:reduce){main .container{animation-delay:0s!important}}

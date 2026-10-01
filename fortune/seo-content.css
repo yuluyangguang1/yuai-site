@@ -58,3 +58,101 @@ html::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 .quote{background:#100F19;border-color:#241F2E}
 .foot::before{color:var(--gn)}
 }
+
+/* ===== V5-B 样张 · 天庭天机阁（深紫玄墨为体，大面积鎏金） ===== */
+:root{
+  --ink:#1B1630;
+  --ink2:#2A2246;
+  --g1:#6B5318;
+  --g2:#B8933F;
+  --g3:#D9B968;
+  --gl:rgba(122,95,30,.38);
+  --gl2:rgba(122,95,30,.18);
+  --gsoft:rgba(185,150,60,.1);
+  --gfill:linear-gradient(180deg,rgba(217,185,104,.22),rgba(184,147,63,.06));
+  --cloud:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='18'><path d='M0 15h64M6 15a5 5 0 1 1 10 0M20 15a5 5 0 1 1 10 0M34 15a5 5 0 1 1 10 0M48 15a5 5 0 1 1 10 0' fill='none' stroke='%237A5F1E' stroke-width='1.1' opacity='.55'/></svg>");
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+:root{--bg:#E9E5F1;--tx:#1B1630;--tx2:#4A4166;--tx3:#5E5578;--bd:#C9C2DA;--ac:#7A3E2A;--acbg:rgba(185,150,60,.12);--card:#F6F3FA}
+html{font-size:17px;background:#E9E5F1}
+body{background:transparent;color:var(--tx)}
+.nav,.wrap,.foot{max-width:860px}
+
+/* 檐口式页眉：整条鎏金匾 */
+.nav{border-bottom:0;padding:1.5rem 1.25rem 1.05rem;justify-content:center;align-items:baseline;gap:.4rem 1.6rem;background:var(--gfill);position:relative}
+.nav::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--g2) 22%,var(--g3) 50%,var(--g2) 78%,transparent)}
+.brand{font-size:1rem;letter-spacing:.46em;color:var(--g1);font-weight:700;text-indent:.46em}
+.crumb{font-size:.82rem;letter-spacing:.18em;color:var(--tx2)}
+.crumb a{color:var(--g1)}
+
+/* 天门标题：匾额底 + 云纹 + 大字 */
+.wrap{padding:0 1.25rem;counter-reset:v5}
+.wrap h1{font-size:3.4rem;line-height:1.2;font-weight:700;letter-spacing:.26em;text-align:center;text-indent:.26em;margin:2.8rem 0 .6rem;color:var(--ink);position:relative;padding:1.5rem 0 1.2rem;background:var(--gfill);border-top:1px solid var(--gl);border-bottom:1px solid var(--gl)}
+.h1sub{text-align:center;font-size:.92rem;letter-spacing:.34em;color:var(--g1);margin:1.05rem 0 1.2rem;text-indent:.34em}
+.wrap p:has(.chip){text-align:center;margin:0 0 .4rem}
+.chip{border:1px solid var(--gl);border-radius:0;padding:.22rem .75rem;font-size:.79rem;letter-spacing:.16em;color:var(--g1);background:transparent}
+.chip-o{color:var(--tx2);border-color:var(--bd)}
+.wrap h1::before{display:none}
+.wrap h1::after{content:"";position:absolute;left:50%;translate:-50% 0;bottom:-9px;width:min(460px,92%);height:18px;background:var(--cloud) center/auto 18px repeat-x}
+
+/* 章题：鎏金号板 + 金脊 */
+.sec{margin-top:2.8rem;counter-increment:v5}
+.sec h2{display:flex;align-items:center;gap:.7rem;border-left:0;padding-left:0;color:var(--ink);font-size:1.16rem;letter-spacing:.22em;font-weight:700;margin:0 0 1.1rem}
+.sec h2::before{content:counter(v5,decimal-leading-zero);flex:none;font-size:.66em;letter-spacing:.06em;color:var(--g1);background:var(--gfill);border:1px solid var(--gl);padding:.16em .5em;font-weight:700;transform:none}
+.sec h2::after{background:linear-gradient(90deg,var(--g2),transparent 82%);height:2px}
+.p{font-size:1rem;line-height:2.05;color:var(--tx)}
+.muted{font-size:.85rem;letter-spacing:.06em;color:var(--tx2)}
+.quote{border:1px solid var(--gl);border-radius:0;background:var(--gsoft);font-size:.97rem;line-height:1.95;position:relative}
+.quote::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g3),var(--g2))}
+.lines li{margin-bottom:.55rem;font-size:.95rem;line-height:1.95}
+.lines ol{padding-left:1.6rem}
+.lines li::marker{color:var(--g1)}
+
+/* 词条卡：金顶条 + 紫墨底 */
+.grp{margin-top:2.6rem}
+.grp h3{font-size:1.02rem;letter-spacing:.2em;color:var(--g1);margin:0 0 .85rem;padding-bottom:.45rem;border-bottom:1px solid var(--gl2)}
+.grid{gap:.75rem;grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}
+.grid a{position:relative;border:1px solid var(--bd);border-radius:0;background:var(--card);padding:.85rem .5rem;font-size:.96rem;letter-spacing:.1em;color:var(--ink);box-shadow:0 1px 0 rgba(27,22,48,.06)}
+.grid a::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:3px;background:linear-gradient(90deg,transparent,var(--g2) 30%,var(--g3) 50%,var(--g2) 70%,transparent)}
+.grid a:hover{border-color:var(--g1);color:var(--g1);text-decoration:none;transform:translateY(-2px);box-shadow:0 10px 22px -12px rgba(27,22,48,.5)}
+.rel a{color:var(--g1)}
+
+/* 页脚 */
+.foot{border-top:0;padding:2.4rem 1.25rem 1.8rem;text-align:center;position:relative;font-size:.82rem;color:var(--tx2)}
+.foot::before{display:block;margin:0 auto .9rem;font-size:.82rem;letter-spacing:.42em;color:var(--g1);text-indent:.42em}
+.foot::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--gl2) 16%,var(--g2) 50%,var(--gl2) 84%,transparent)}
+
+/* 背景：紫气 + 云纹带 */
+html::before{opacity:.34;background-blend-mode:luminosity}
+body::before{background-image:radial-gradient(80% 46% at 50% -10%,rgba(185,150,60,.3),transparent 72%),radial-gradient(62% 42% at 10% 30%,rgba(93,74,140,.16),transparent 66%),radial-gradient(58% 40% at 92% 76%,rgba(185,150,60,.16),transparent 66%)}
+body::after{background-image:radial-gradient(1.6px 1.6px at 12% 22%,rgba(122,95,30,.9),transparent 60%),radial-gradient(1.2px 1.2px at 68% 38%,rgba(122,95,30,.7),transparent 60%),radial-gradient(1.4px 1.4px at 40% 72%,rgba(43,34,72,.55),transparent 60%),radial-gradient(1px 1px at 86% 14%,rgba(122,95,30,.6),transparent 60%);opacity:.5}
+
+/* 入场：云开 */
+@keyframes v5b-open{from{opacity:0;transform:translateY(22px) scale(.995)}to{opacity:1;transform:none}}
+.wrap h1{animation:v5b-open .85s var(--ease) both}
+.h1sub{animation:v5b-open .8s var(--ease) .12s both}
+.sec,.grp{animation:v5b-open .62s var(--ease) both}
+.sec:nth-of-type(2),.grp:nth-of-type(1){animation-delay:.1s}
+.sec:nth-of-type(3),.grp:nth-of-type(2){animation-delay:.18s}
+.sec:nth-of-type(4),.grp:nth-of-type(3){animation-delay:.26s}
+.sec:nth-of-type(n+5){animation-delay:.34s}
+.foot{animation:v5b-open .6s var(--ease) .4s both}
+
+@media(prefers-color-scheme:dark){
+  :root{--bg:#100C20;--tx:#EDE7DA;--tx2:#BDB2CC;--tx3:#A096B2;--bd:#312A4B;--ac:#E0917A;--acbg:rgba(201,168,92,.1);--card:#171229;
+    --ink:#F0EAD8;--ink2:#DCD3C0;--g1:#D9B968;--g2:#E6C878;--g3:#F5E3B0;--gl:rgba(217,185,104,.42);--gl2:rgba(217,185,104,.2);--gsoft:rgba(217,185,104,.09);
+    --gfill:linear-gradient(180deg,rgba(217,185,104,.16),rgba(217,185,104,.03));
+    --cloud:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='18'><path d='M0 15h64M6 15a5 5 0 1 1 10 0M20 15a5 5 0 1 1 10 0M34 15a5 5 0 1 1 10 0M48 15a5 5 0 1 1 10 0' fill='none' stroke='%23D9B968' stroke-width='1.1' opacity='.6'/></svg>");}
+  html{background:#100C20}
+  body{color:var(--tx)}
+  .wrap h1{color:var(--ink);border-top-color:var(--gl);border-bottom-color:var(--gl)}
+  .grid a{background:#151128;box-shadow:0 1px 0 rgba(0,0,0,.4)}
+  .quote{background:var(--gsoft)}
+  html::before{background-color:#100C20;background-blend-mode:luminosity;background-size:cover;opacity:.16}
+  body::before{background-image:radial-gradient(84% 48% at 50% -12%,rgba(217,185,104,.26),transparent 72%),radial-gradient(60% 44% at 12% 32%,rgba(88,66,150,.34),transparent 68%),radial-gradient(58% 42% at 90% 78%,rgba(120,96,40,.28),transparent 68%)}
+  body::after{display:block;opacity:.7;background-image:radial-gradient(1.5px 1.5px at 12% 22%,rgba(245,227,176,.95),transparent 60%),radial-gradient(1.2px 1.2px at 68% 38%,rgba(240,236,222,.8),transparent 60%),radial-gradient(1.4px 1.4px at 40% 72%,rgba(217,185,104,.7),transparent 60%),radial-gradient(1px 1px at 86% 14%,rgba(240,236,222,.7),transparent 60%)}
+  .crumb,.muted,.foot{color:var(--tx2)}
+}
+
+/* 同上：reduce 下把入场延迟清零，避免 both 填充造成空屏 */
+@media (prefers-reduced-motion:reduce){.wrap h1,.h1sub,.sec,.grp,.foot{animation-delay:0s!important}}
