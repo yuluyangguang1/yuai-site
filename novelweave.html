@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>织文 · NovelWeave · yu.ai</title>
-<meta name="description" content="织文 · NovelWeave —— 长篇网文写作工作台：把设定变成可校验的结构化状态，13 条机器规则查前后矛盾，续写自动带上硬禁令与你的文风样例，生成后先过机检自检再交给你。纯前端 · BYOK · 数据只存本机。">
+<meta name="description" content="织文 · NovelWeave —— 长篇网文写作工作台：把设定变成可校验的结构化状态，30 条机器规则查前后矛盾，续写自动带上硬禁令与你的文风样例，生成后先过机检自检再交给你。纯前端 · BYOK · 数据只存本机。">
 <meta name="keywords" content="织文,novelweave,AI 小说写作,长篇,前后矛盾,一致性校验,story bible,生成自检,风格样例,黄金三章,IndexedDB,PWA,纯前端,中文小说">
 <meta name="theme-color" content="#150e07" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
@@ -94,8 +94,8 @@
     <span class="en">Long fiction rarely fails for lack of ideas; it fails because the text stops agreeing with itself — the dead speak again, a planted thread is never paid off, the protagonist who lost an arm throws a punch. Nobody remembers two hundred chapters of settings, and dumping the whole manuscript into a model doesn't work either: context is finite, and the more you cram, the duller it gets.</span>
   </p>
   <p>
-    <span class="zh">织文的做法是把设定落成<b>可校验的结构化状态</b>：角色卡、世界规则、伏笔登记表、时间线、每章的状态矩阵。写作时不喂原文，只喂一份<b>有字节预算的派生上下文</b>；超出预算裁掉了哪一节，会如实报出来，绝不静默丢。检查由 13 条机器规则完成，带稳定指纹、严重度与退出码，能直接进 CI。</span>
-    <span class="en">NovelWeave turns settings into verifiable structured state: character cards, world rules, a promise ledger, a timeline, and a per-chapter state matrix. When writing, it feeds the model a derived context with a byte budget rather than raw prose — and if a section has to be dropped, it says so instead of silently vanishing. The checks run as 13 machine rules with stable fingerprints, severities and exit codes, so they belong in CI.</span>
+    <span class="zh">织文的做法是把设定落成<b>可校验的结构化状态</b>：角色卡、世界规则、伏笔登记表、时间线、每章的状态矩阵。写作时不喂原文，只喂一份<b>有字节预算的派生上下文</b>；超出预算裁掉了哪一节，会如实报出来，绝不静默丢。检查由 30 条机器规则完成，带稳定指纹、严重度与退出码，能直接进 CI。</span>
+    <span class="en">NovelWeave turns settings into verifiable structured state: character cards, world rules, a promise ledger, a timeline, and a per-chapter state matrix. When writing, it feeds the model a derived context with a byte budget rather than raw prose — and if a section has to be dropped, it says so instead of silently vanishing. The checks run as 30 machine rules with stable fingerprints, severities and exit codes, so they belong in CI.</span>
   </p>
 </div>
 
@@ -128,7 +128,7 @@
     <div>
       <div class="card-icon">律</div>
       <div class="card-title"><span class="zh">机器规则门禁</span><span class="en">Machine-gated checks</span></div>
-      <div class="card-desc"><span class="zh">13 条规则：死人出场、状态与人设互斥、伏笔未收与逾期、回收早于埋设、时间倒流、外貌区间违规、未建档人名、断链、派生字段被手改、结构非法、章末钩子与物品失而复得提示。同一输入永远同一指纹与退出码。</span><span class="en">Thirteen rules, same fingerprint and exit code every run — so they can block a build.</span></div>
+      <div class="card-desc"><span class="zh">30 条规则，六族各管一头：矛盾与断链（死人出场、状态与人设互斥、时间倒流、回收早于埋设、关系互斥、断链、派生字段被手改、结构非法）；账本（伏笔未收与逾期、提前剧透、排期未揭、信息差没人拆）；「该有而没有」（章末钩子、单章体量、对话占比、这章改变了什么）；登记与正文对不上（出场不符、条目从没出现、依据回查不到、文风漂移）；外加去 AI 味腔调扫描与重复长句。同一输入永远同一指纹与退出码。</span><span class="en">Thirty rules in six families — contradictions and dangling references, ledger debts, missing essentials, registry-vs-prose mismatches (including style drift), plus an AI-flavor scan. Same fingerprint and exit code every run — so they can block a build.</span></div>
     </div>
     <div>
       <div class="card-icon">典</div>
@@ -177,7 +177,7 @@
 <div class="section huiwen">
   <div class="section-head"><span class="num">伍</span><h2><span class="zh">它不做什么</span><span class="en">What it won't do</span></h2></div>
   <ul class="deny">
-    <li><span class="zh"><b>不判断文笔，不承诺"去 AI 痕迹"。</b>它会主动把这一项<b>交接</b>给文体类工具并记录结论，但不自己评价文字好坏 —— 那是另一类专业能力，混在一起做必然两头都做浅。</span><span class="en"><b>No prose judging, no "de-AI" promise.</b> It hands that off to a style tool and records the outcome, but never rates the writing itself.</span></li>
+    <li><span class="zh"><b>不评分文字好坏。</b>「去 AI 痕迹」只做能确证的那一半：自带一组<b>按组可关</b>的禁词规则（R22），写前注入清单、写后扫高频 AI 腔调并给出处；但「这段写得好不好」它不下判断 —— 那是另一类专业能力，混在一起做必然两头都做浅。</span><span class="en"><b>No ratings on prose quality.</b> The "de-AI" part only does what's verifiable — a toggleable ruleset (R22) injects a banned-pattern list before writing and scans high-frequency AI phrasing afterwards — but it never judges whether a passage is good; that's a different craft, and mixing the two does both poorly.</span></li>
     <li><span class="zh"><b>不从零批量生成整本书。</b>没有"一键 50 章"。</span><span class="en"><b>No one-click 50-chapter book.</b></span></li>
     <li><span class="zh"><b>不替你决定设定。</b>任何状态变更先提案，作者点头才写入；AI 可以建议，不能静默改写既定事实。</span><span class="en"><b>No silent edits to your canon.</b> State changes are proposed first and applied only on your say-so.</span></li>
     <li><span class="zh"><b>不发明第二套格式。</b>只认 <code>.novelweave/</code>，字段有 schema，非法结构先停。</span><span class="en"><b>Only one file format.</b> Schema-validated; invalid structure halts the run.</span></li>
@@ -212,7 +212,7 @@
     <div>
       <div class="card-icon">成</div>
       <div class="card-title"><span class="zh">已实现</span><span class="en">Shipped</span></div>
-      <div class="card-desc"><span class="zh">结构化 Story Bible · 13 条机器规则门禁 · 有预算的上下文 · 从零起书向导（短篇 / 长篇，逐项可改再建档）· 连续生成正文（逐章过机检并自修一轮，随时可停）· 硬禁令与文风样例注入 · 生成后自检与修订循环 · 覆盖前留底 · Web 与 agent 同书 · PWA 离线 · BYOK。</span><span class="en">Story bible, thirteen gated rules, budgeted context, a from-zero book wizard (short and long, every field editable before it commits), chapter-by-chapter generation that machine-checks and self-repairs each pass and can be stopped at any time, hard bans &amp; style injection, self-checked generation, snapshots, agent sharing, offline PWA, BYOK.</span></div>
+      <div class="card-desc"><span class="zh">结构化 Story Bible · 30 条机器规则门禁 · 有预算的上下文 · 从零起书向导（短篇 / 长篇，逐项可改再建档）· 连续生成正文（逐章过机检并自修一轮，随时可停）· 硬禁令与文风样例注入 · 生成后自检与修订循环 · 覆盖前留底 · 选题评分卡 · 文风基准（勾几章当样例，漂移可检）· 状态矩阵范围窗口 · 卷级滚动压缩 · 关系账本与关系图 · 工作流预设跨书搬运（逐格 diff 确认）· 去 AI 味规则包（按组可关）· Web 与 agent 同书 · PWA 离线 · BYOK。</span><span class="en">Story bible, thirty gated rules, budgeted context, a from-zero book wizard (short and long), chapter-by-chapter generation that machine-checks and self-repairs, hard bans &amp; style injection, snapshots, a topic scorecard, style anchors with drift detection, a state-matrix range window, rolling volume compression, a relation ledger with its graph, cross-book workflow presets, a toggleable de-AI ruleset, agent sharing, offline PWA, BYOK.</span></div>
     </div>
     <div>
       <div class="card-icon">筑</div>
