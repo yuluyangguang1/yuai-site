@@ -1,50 +1,38 @@
-// 从 fortune/index.html 重新生成 SPA 深链兜底文件；重建 fortune/ 后必须跑一次。
-// 每个功能页注入独立 title / description / canonical / og / JSON-LD，404.html 只加路径守卫。
+// 天机阁的两类派生页从这里重生成；重建 fortune/ 之后必须跑一次。
+//
+//   404.html                        —— 深链兜底：/fortune/ 下任何不存在的路径都会拿到它。
+//                                      V7 之后 fortune/index.html 就是阁楼，所以兜底页跟着换成阁楼（只加一条路径守卫、剥掉不该在 404 上的元数据）。
+//   knowledge / history / settings  —— 这三页仍是旧 React 应用（V7 没有对应屏幕），从 scripts/fortune-app-shell.html 派生，
+//                                      每页注入独立 title / description / canonical / og / JSON-LD。
+//
+// ⚠ 十一道门（bazi / ziwei / crossref / tarot / bone / compat / almanac / naming / iching / daily / tianji）
+//   现在是真文件，由 V7 构建脚本产出。它们绝不能再出现在下面的 ROUTES 里 —— 那会把门页覆盖回旧壳。
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const ROUTES = ['bazi', 'ziwei', 'almanac', 'tarot', 'iching', 'bone', 'daily', 'compat', 'crossref', 'knowledge', 'history', 'settings', 'naming'];
+const ROUTES = ['knowledge', 'history', 'settings'];
 const ANCHOR = '<meta charset="UTF-8" />';
 const GUARD = '<script>(function(){var p=location.pathname;if(p!=="/fortune"&&p.indexOf("/fortune/")!==0){location.replace("/");}})();</script>';
 const TITLE_ANCHOR = '<title>YUAI · 天机阁</title>';
 const DESC_ANCHOR = '<meta name="description" content="融合八字、紫微斗数、易经、塔罗与 AI 智能解读的命理平台" />';
+const SHELL = join(ROOT, 'scripts/fortune-app-shell.html');
 
 const META = {
-  bazi: ['八字排盘｜四柱五行十神大运免费在线排盘 · YUAI天机阁', '输入出生年月日时，免费排出四柱八字：干支、五行统计、十神、纳音与大运，浏览器本地计算，不上传任何数据。'],
-  ziwei: ['紫微斗数排盘｜十二宫四化大限流年免费起盘 · YUAI天机阁', '依生辰免费起紫微斗数命盘：安星布宫、十二宫位、四化、大限与流年一览，浏览器本地计算，不留数据。'],
-  almanac: ['黄历万年历｜每日宜忌吉神凶煞节气查询 · YUAI天机阁', '在线黄历万年历：查询每日宜忌、吉神凶煞与节气，免费使用。'],
-  tarot: ['塔罗牌在线抽牌｜牌阵解读正逆位 · YUAI天机阁', '免费塔罗在线抽牌：多种牌阵任选，正位逆位解读，即问即答。'],
-  iching: ['易经起卦｜铜钱摇卦六十四卦卦辞爻辞 · YUAI天机阁', '周易在线起卦：铜钱摇卦得本卦变卦，配六十四卦卦辞与爻辞，免费使用。'],
-  bone: ['称骨算命｜袁天罡称骨免费测算 · YUAI天机阁', '依生辰称骨算命：按袁天罡称骨法计算骨重与批语，免费即算即得。'],
-  daily: ['每日运势｜今日干支运程免费查看 · YUAI天机阁', '查看今日运势：当日干支与运程提示，免费开放。'],
-  compat: ['八字合婚｜两人合盘配对免费测算 · YUAI天机阁', '输入双方生辰做八字合婚：合盘配对评分与要点提示，本地计算，免费使用。'],
-  crossref: ['命理交叉对照｜八字紫微多术互参 · YUAI天机阁', '把八字与紫微斗数等结果交叉对照，多术互参，看同一命盘的不同侧面。'],
   knowledge: ['命理知识库｜星曜神煞基础词条 · YUAI天机阁', '天机阁内置命理知识词条：星曜、神煞与基础概念速查。'],
   history: ['历史记录｜本地保存的排盘记录 · YUAI天机阁', '查看在本机保存过的排盘与测算记录，数据只留在你的浏览器里。'],
   settings: ['设置｜主题与偏好 · YUAI天机阁', '调整天机阁的主题与使用偏好，设置保存在本机浏览器。'],
-  naming: ['八字起名·姓名测评｜五行补缺智能生成吉名 · YUAI天机阁', '输入父姓与宝宝出生日期时辰，按八字五行补缺免费生成候选吉名，逐字带释义与五格三才评分；也可只做姓名测评。浏览器本地计算，不上传数据。'],
 };
 
 /* 功能清单与简称：只写页面上真实存在的功能，不写评分/评论等无来源字段。 */
 const APP = {
-  bazi: ['八字排盘', 'Bazi Chart', ['四柱干支', '五行统计', '十神', '纳音', '大运', '真太阳时校正', '命卡导出']],
-  ziwei: ['紫微斗数排盘', 'Zi Wei Dou Shu', ['十二宫', '安星布宫', '生年四化', '大限', '流年', '真太阳时校正']],
-  almanac: ['黄历万年历', 'Chinese Almanac', ['每日宜忌', '吉神凶煞', '节气查询']],
-  tarot: ['塔罗在线抽牌', 'Tarot', ['多种牌阵', '正位逆位', '牌义解读']],
-  iching: ['易经起卦', 'I Ching', ['铜钱摇卦', '本卦变卦', '六十四卦卦辞爻辞']],
-  bone: ['称骨算命', 'Bone Weight', ['袁天罡称骨法', '骨重计算', '批语']],
-  daily: ['每日运势', 'Daily Fortune', ['当日干支', '运程提示']],
-  compat: ['八字合婚', 'Bazi Compatibility', ['双方生辰合盘', '配对评分', '要点提示']],
-  crossref: ['命理交叉对照', 'Cross Reference', ['八字与紫微结果互参', '多术对照']],
   knowledge: ['命理知识库', 'Encyclopedia', ['星曜', '神煞', '基础术语速查']],
   history: ['历史记录', 'History', ['本机排盘记录', '数据不出浏览器']],
   settings: ['设置', 'Settings', ['主题切换', '偏好保存在本机']],
-  naming: ['八字起名·姓名测评', 'Naming', ['八字五行补缺生成吉名', '逐字释义', '五格三才评分', '姓名测评', '真太阳时校正']],
 };
 
-/* 深链页首次上线于 2026-08-31（sync 脚本重生成），内容最近一次改版见下。 */
+/* 深链页首次上线于 2026-08-31（sync 脚本重生成），应用壳最后一次改动见下。 */
 const ROUTE_PUBLISHED = '2026-08-31';
 const ROUTE_MODIFIED = '2026-09-20';
 const ORG_ID = 'https://yuai-r.cn/fortune/#organization';
@@ -84,27 +72,55 @@ const ldFor = (r) => {
   ]);
 };
 
-let src = readFileSync(join(ROOT, 'fortune/index.html'), 'utf8');
+/* ── 404.html：从阁楼取皮 ───────────────────────────────── */
+/* 兜底页不参与索引，也不该带 canonical/og/JSON-LD（旧版靠 site-og / site-ld 注释块剔除，
+   阁楼那份是散着注入的，所以改成按标签逐类剔除，并在剔完后断言真剔干净了）。
+   注意锚点差异：阁楼是 V7 构建产物，写的是 <meta charset="utf-8">；旧壳写的是 <meta charset="UTF-8" />。 */
+const PAV_ANCHOR = '<meta charset="utf-8">';
+let pav = readFileSync(join(ROOT, 'fortune/index.html'), 'utf8');
+if (!pav.includes(PAV_ANCHOR)) {
+  console.error('fortune/index.html 里找不到 ' + PAV_ANCHOR + '，拒绝生成 404.html');
+  process.exit(1);
+}
+let fallback = pav
+  .replace(/[ \t]*<link rel="canonical"[^>]*\/?>\n?/g, '')
+  .replace(/[ \t]*<meta property="og:[^"]*"[^>]*\/?>\n?/g, '')
+  .replace(/[ \t]*<meta name="twitter:[^"]*"[^>]*\/?>\n?/g, '')
+  .replace(/[ \t]*<script type="application\/ld\+json">[\s\S]*?<\/script>\n?/g, '');
+for (const leftover of ['rel="canonical"', 'property="og:', 'name="twitter:', 'application/ld+json']) {
+  if (fallback.includes(leftover)) {
+    console.error('404.html 里还剩 ' + leftover + '（兜底页不该带这份元数据），剔除规则没跟上页面形状');
+    process.exit(1);
+  }
+}
+fallback = fallback.replace(PAV_ANCHOR, PAV_ANCHOR + '\n    ' + GUARD);
+if (!fallback.includes('location.replace("/")')) {
+  console.error('404.html 的路径守卫没注入成功（锚点被改过？）');
+  process.exit(1);
+}
+writeFileSync(join(ROOT, '404.html'), fallback);
+
+/* ── knowledge / history / settings：从应用壳快照取皮 ─────── */
+let src = readFileSync(SHELL, 'utf8');
 for (const a of [ANCHOR, TITLE_ANCHOR, DESC_ANCHOR]) {
   if (!src.includes(a)) {
-    console.error('fortune/index.html 里找不到注入锚点，拒绝生成（请同步锚点）: ' + a);
+    console.error('scripts/fortune-app-shell.html 里找不到注入锚点，拒绝生成（请同步锚点）: ' + a);
     process.exit(1);
   }
 }
 
-// 根页 fortune/index.html 自带站内通用 og 块与 JSON-LD 块（注释包裹）；
+// 壳里自带站内通用 og 块与 JSON-LD 块（注释包裹）；
 // 派生页必须整块剔除，否则会与路由专属的重复。
 const SOCIAL_RE = /\n?<!-- site-og:start -->[\s\S]*?<!-- site-og:end -->\n/;
 const LD_RE = /\n {4}<!-- site-ld:start -->[\s\S]*?<!-- site-ld:end -->/;
 for (const [name, re] of [['site-og', SOCIAL_RE], ['site-ld', LD_RE]]) {
   if (!re.test(src)) {
-    console.error(`fortune/index.html 里找不到 ${name} 块（根页需含该块，见 2026-09 版本）`);
+    console.error(`scripts/fortune-app-shell.html 里找不到 ${name} 块（壳需含该块，见 2026-09 版本）`);
     process.exit(1);
   }
 }
 src = src.replace(SOCIAL_RE, '\n').replace(LD_RE, '');
 
-writeFileSync(join(ROOT, '404.html'), src.replace(ANCHOR, ANCHOR + '\n    ' + GUARD));
 for (const r of ROUTES) {
   const [title, desc] = META[r];
   const url = `https://yuai-r.cn/fortune/${r}/`;
@@ -128,4 +144,4 @@ for (const r of ROUTES) {
   mkdirSync(join(ROOT, 'fortune', r), { recursive: true });
   writeFileSync(join(ROOT, 'fortune', r, 'index.html'), html);
 }
-console.log(`已生成 404.html + ${ROUTES.length} 份 fortune/<route>/index.html（含独立 title/description/og/JSON-LD）`);
+console.log(`已生成 404.html（取阁楼）+ ${ROUTES.length} 份 fortune/<route>/index.html（${ROUTES.join('/')}，取应用壳快照）`);

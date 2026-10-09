@@ -1,0 +1,247 @@
+/* 天机阁 V7 · 阁务抽屉（house layer）—— 设置与命盘记录
+   纪律同 art.css / pavilion.css：本文件零色值、时长只走 --tt-d-* 与 --tt-t-* 令牌、
+   选择器全带 .tt-、必须留 reduce 兜底；不可见态只住在 @keyframes 里。
+   形制沿用门：方角、发丝线、无阴影；朱只给「送出」那一下。
+
+   为什么是「拉出」而不是弹窗：这一页整座楼是可滑的长卷，居中模态会把楼劈成两截、
+   关掉之后还得重新找层。抽屉贴右沿，关掉之后那一层还在原地。
+   底色用实底 --tt-bg-raised 而不是玻璃模糊：它压在 8 位视频上，alpha 底会把视频纹透上来，
+   表单字就读不清（门那层的经验：字要有实底才立得住）。 */
+
+/* ── H1. 标头那两枚钮 ──────────────────────────────────── */
+/* JS 把「昼/夜」与这两枚包进同一个 tools 组，标头的 space-between 才不会把三块摊开。 */
+.tt-mast__tools { display: flex; align-items: center; gap: var(--tt-sp-4) }
+.tt-house__key {
+  display: inline-flex; align-items: center; gap: var(--tt-sp-2);
+  min-height: var(--tt-tap); padding: var(--tt-sp-1) var(--tt-sp-3);
+  border: var(--tt-hair) solid transparent; border-radius: var(--tt-r-0);
+  background: transparent; color: inherit;
+  font: inherit; font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-title); cursor: pointer;
+  transition: border-color var(--tt-d-micro) var(--tt-e-settle),
+    background-color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-house__key:hover, .tt-house__key:focus-visible {
+  border-color: color-mix(in srgb, var(--tt-gate-glow) 46%, transparent);
+  background-color: color-mix(in srgb, var(--tt-gate-glow) 12%, transparent);
+}
+/* 开着的那一档：发丝线加一层淡金，和「昼/夜」当前档同一套语言 */
+.tt-house__key--on {
+  border-color: color-mix(in srgb, var(--tt-gate-glow) 62%, transparent);
+  background-color: color-mix(in srgb, var(--tt-gate-glow) 22%, transparent);
+}
+/* 图标只描边：粗细走 --tt-stroke，色继承父级（门里所有线描都是这套，不自带 stroke-width） */
+.tt-house__ico {
+  width: var(--tt-icon-sm); height: var(--tt-icon-sm); flex: none;
+  stroke-width: var(--tt-stroke);
+}
+/* 收起＝根本不渲染。这条不是多余的：屉身自己写了 display:grid，特异度压过浏览器默认的
+   [hidden]{display:none}，不补这一句的话 hidden 属性等于没写（门内那一层也踩过同一个坑）。 */
+.tt-house__sheet[hidden], .tt-house__scrim[hidden] { display: none }
+
+/* ── H2. 遮罩与屉身 ─────────────────────────────────────── */
+.tt-house__scrim {
+  position: fixed; inset: var(--tt-sp-0); z-index: 20;
+  background: var(--tt-scrim);
+  animation: ttHouseVeil var(--tt-d-fast) var(--tt-e-settle) both;
+}
+.tt-house__sheet {
+  --tt-house-w: 31rem;
+  position: fixed; top: var(--tt-sp-0); right: var(--tt-sp-0); z-index: 21;
+  width: min(var(--tt-house-w), 100%); height: 100vh; height: 100dvh;
+  box-sizing: border-box; display: grid; grid-template-rows: auto auto 1fr auto;
+  border-inline-start: var(--tt-hair) solid var(--tt-line);
+  background: var(--tt-bg-raised); color: var(--tt-ink);
+  /* 从右沿推进来，不落遮罩一起淡 —— 门帘那一下是「有东西滑进来」，不是「忽然有一张卡」 */
+  animation: ttHouseIn var(--tt-d-enter) var(--tt-e-rise) both;
+}
+/* 题头自己当关闭那枚的锚：× 钉在右上角，不占题头的一行（题头两行字已经够高） */
+.tt-house__head {
+  position: relative;
+  display: grid; gap: var(--tt-sp-1);
+  padding: var(--tt-sp-6) var(--tt-sp-5) var(--tt-sp-4);
+  border-block-end: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-house__kick {
+  margin: 0; font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3);
+}
+.tt-house__title {
+  margin: 0; font-size: var(--tt-fs-6); font-weight: 700;
+  letter-spacing: var(--tt-ls-title); line-height: var(--tt-lh-snug); color: var(--tt-ink);
+}
+.tt-house__close {
+  position: absolute; top: var(--tt-sp-4); inset-inline-end: var(--tt-sp-4);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--tt-tap); height: var(--tt-tap); padding: var(--tt-sp-0);
+  border: var(--tt-hair) solid transparent; border-radius: var(--tt-r-0);
+  background: transparent; color: var(--tt-ink-3); cursor: pointer;
+  transition: color var(--tt-d-micro) var(--tt-e-settle), border-color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-house__close:hover, .tt-house__close:focus-visible {
+  color: var(--tt-ink); border-color: var(--tt-line);
+}
+
+/* ── H3. 两档 ──────────────────────────────────────────── */
+.tt-house__tabs {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-block-end: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-house__tab {
+  min-height: var(--tt-tap); padding: var(--tt-sp-3) var(--tt-sp-2);
+  border: none; border-block-end: var(--tt-edge) solid transparent; border-radius: var(--tt-r-0);
+  background: transparent; color: var(--tt-ink-3);
+  font: inherit; font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-title); cursor: pointer;
+  transition: color var(--tt-d-micro) var(--tt-e-settle), border-color var(--tt-d-micro) var(--tt-e-settle);
+}
+/* 悬停与键盘聚焦同一条：触屏没有 hover，只写 :hover 的话这一档在手机上永远亮不起来。
+   当前档自己排除在外（它该是 --tt-ink，不该被 hover 压回 ink-2） */
+.tt-house__tab:not(.tt-house__tab--on):hover,
+.tt-house__tab:not(.tt-house__tab--on):focus-visible { color: var(--tt-ink-2) }
+/* 当前档：底部一道素金，跟门里那张「此局」的回显同一个手法 */
+.tt-house__tab--on { color: var(--tt-ink); border-block-end-color: var(--tt-accent) }
+.tt-house__body {
+  overflow-y: auto; padding: var(--tt-sp-5); overscroll-behavior: contain;
+  /* 默认那根浅色粗滚动条压在墨底上像贴了条胶带；thumb 取最淡那道结构线 */
+  scrollbar-width: thin; scrollbar-color: var(--tt-rule) transparent;
+}
+.tt-house__panel { display: grid; gap: var(--tt-sp-5) }
+
+/* ── H4. 一节一节 ──────────────────────────────────────── */
+.tt-house__sec { display: grid; gap: var(--tt-sp-3) }
+/* 章题：两字 + 一条发丝横线。不用金点、不用色块，题目自己就够重。 */
+.tt-house__legend {
+  display: flex; align-items: center; gap: var(--tt-sp-3); margin: var(--tt-sp-0);
+  font-size: var(--tt-fs-1); font-weight: 700; letter-spacing: var(--tt-ls-plaque); color: var(--tt-ink-3);
+}
+.tt-house__legend::after {
+  content: ''; flex: 1; height: var(--tt-hair); background: var(--tt-rule);
+}
+.tt-house__row { display: grid; gap: var(--tt-sp-2) }
+.tt-house__k { font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-2) }
+.tt-house__inp {
+  width: 100%; box-sizing: border-box; min-height: var(--tt-tap);
+  padding: var(--tt-sp-2) var(--tt-sp-3);
+  border: var(--tt-hair) solid var(--tt-line); border-radius: var(--tt-r-0);
+  background: var(--tt-bg-inset); color: var(--tt-ink);
+  font: inherit; font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-body);
+}
+.tt-house__inp:focus-visible { outline: var(--tt-ring-w) solid var(--tt-ring); outline-offset: var(--tt-ring-off) }
+/* Key 那一格用等宽：一长串字母数字，正文字距读不出重复的 l 与 1 */
+.tt-house__inp--key { font-family: var(--tt-font-mono); font-size: var(--tt-fs-2); letter-spacing: var(--tt-sp-0) }
+.tt-house__note { margin: var(--tt-sp-0); font-size: var(--tt-fs-2); line-height: var(--tt-lh-snug); color: var(--tt-ink-3) }
+.tt-house__hint { margin: var(--tt-sp-0); font-size: var(--tt-fs-1); line-height: var(--tt-lh-snug); color: var(--tt-ink-3) }
+/* 状态那一行是「已接入 / 未接」的唯一交代处：方点居中，别落在基线上读成句号 */
+.tt-house__stat {
+  display: flex; align-items: center; gap: var(--tt-sp-2); margin: var(--tt-sp-0);
+  font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-body); color: var(--tt-ink-2);
+}
+.tt-house__dot { width: var(--tt-edge); height: var(--tt-edge); flex: none; background: var(--tt-ink-4) }
+.tt-house__stat--on .tt-house__dot { background: var(--tt-ok) }
+.tt-house__stat--off .tt-house__dot { background: var(--tt-verm) }
+.tt-house__link {
+  font-size: var(--tt-fs-2); color: var(--tt-accent); text-decoration: none;
+  border-block-end: var(--tt-hair) solid transparent;
+  transition: border-color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-house__link:hover, .tt-house__link:focus-visible { border-block-end-color: var(--tt-accent) }
+.tt-house__acts { display: flex; flex-wrap: wrap; gap: var(--tt-sp-3); align-items: center }
+.tt-house__btn {
+  min-height: var(--tt-tap); padding: var(--tt-sp-2) var(--tt-sp-5);
+  border: var(--tt-hair) solid var(--tt-line); border-radius: var(--tt-r-0);
+  background: transparent; color: var(--tt-ink);
+  font: inherit; font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-title); cursor: pointer;
+  transition: background-color var(--tt-d-fast) var(--tt-e-rise), color var(--tt-d-fast) var(--tt-e-rise),
+    border-color var(--tt-d-fast) var(--tt-e-rise);
+}
+.tt-house__btn:hover, .tt-house__btn:focus-visible { background: var(--tt-bg-veil); color: var(--tt-accent-bright) }
+.tt-house__btn[disabled] { color: var(--tt-ink-4); border-color: var(--tt-rule); cursor: not-allowed }
+/* 模型那排是小片，不是钮：一家里五个候选，全做成 44px 的钮会把一屏挤成三条 */
+.tt-house__chips { display: flex; flex-wrap: wrap; gap: var(--tt-sp-2) }
+.tt-house__chip {
+  min-height: var(--tt-sp-6); padding: var(--tt-sp-1) var(--tt-sp-3);
+  border: var(--tt-hair) solid var(--tt-line); border-radius: var(--tt-r-0);
+  background: transparent; color: var(--tt-ink-2);
+  font: inherit; font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-body); cursor: pointer;
+  transition: border-color var(--tt-d-micro) var(--tt-e-settle),
+    background-color var(--tt-d-micro) var(--tt-e-settle), color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-house__chip:hover, .tt-house__chip:focus-visible { border-color: var(--tt-accent); color: var(--tt-accent) }
+/* 选中的那颗：一层淡金底，跟「当前档」同一手法 */
+.tt-house__chip--on { border-color: var(--tt-accent-dim); background: var(--tt-badge-accent); color: var(--tt-accent) }
+/* 屉身挂在 .tt-page 之外，sample.css 那条全局焦点环管不到它 —— 不补就等于键盘用户看不见自己在哪 */
+.tt-house__key:focus-visible, .tt-house__tab:focus-visible, .tt-house__close:focus-visible,
+.tt-house__btn:focus-visible, .tt-house__chip:focus-visible, .tt-house__recx:focus-visible,
+.tt-house__link:focus-visible, .tt-house__sheet:focus-visible {
+  outline: var(--tt-ring-w) solid var(--tt-ring); outline-offset: var(--tt-ring-off);
+}
+/* 一屉之中只有一颗朱：送出 Key 的那一下（也是唯一「会花钱」的动作） */
+.tt-house__btn--go { border-color: var(--tt-verm); color: var(--tt-verm) }
+.tt-house__btn--go:hover, .tt-house__btn--go:focus-visible { background: var(--tt-verm); color: var(--tt-verm-on) }
+.tt-house__out {
+  width: 100%; box-sizing: border-box; min-height: 6rem; max-height: 14rem; resize: vertical;
+  padding: var(--tt-sp-3);
+  border: var(--tt-hair) solid var(--tt-line); border-radius: var(--tt-r-0);
+  background: var(--tt-bg-inset); color: var(--tt-ink-2);
+  font-family: var(--tt-font-mono); font-size: var(--tt-fs-1); line-height: var(--tt-lh-snug);
+}
+.tt-house__err { margin: var(--tt-sp-0); font-size: var(--tt-fs-2); color: var(--tt-verm) }
+
+/* ── H5. 案卷 ──────────────────────────────────────────── */
+.tt-house__recs { display: grid; gap: var(--tt-sp-3) }
+.tt-house__rec {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--tt-sp-3);
+  padding: var(--tt-sp-3);
+  border: var(--tt-hair) solid var(--tt-rule);
+}
+/* 门类用一枚方印线框 + 门名首字（不是实心色块：线描里唯一的实心会读成标签贴纸） */
+.tt-house__reclip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--tt-sp-8); height: var(--tt-sp-8);
+  border: var(--tt-hair) solid var(--tt-line);
+  font-size: var(--tt-fs-4); color: var(--tt-ink-2);
+}
+.tt-house__recmain { display: grid; gap: var(--tt-sp-1); min-width: 0 }
+.tt-house__recname { font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-body); color: var(--tt-ink) }
+.tt-house__recmeta {
+  font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-body); color: var(--tt-ink-3);
+  overflow-wrap: anywhere;
+}
+.tt-house__recx {
+  min-height: var(--tt-tap); padding: var(--tt-sp-1) var(--tt-sp-3);
+  border: var(--tt-hair) solid transparent; border-radius: var(--tt-r-0);
+  background: transparent; color: var(--tt-ink-3);
+  font: inherit; font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-title); cursor: pointer;
+  transition: color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-house__recx:hover, .tt-house__recx:focus-visible { color: var(--tt-verm) }
+.tt-house__none {
+  margin: var(--tt-sp-0); padding: var(--tt-sp-5);
+  border: var(--tt-hair) dashed var(--tt-rule);
+  font-size: var(--tt-fs-2); line-height: var(--tt-lh-snug); color: var(--tt-ink-3); text-align: center;
+}
+.tt-house__foot {
+  padding: var(--tt-sp-4) var(--tt-sp-5);
+  border-block-start: var(--tt-hair) solid var(--tt-rule);
+  font-size: var(--tt-fs-1); line-height: var(--tt-lh-snug); letter-spacing: var(--tt-ls-body);
+  color: var(--tt-ink-3);
+}
+
+@media (max-width: 40rem) {
+  /* 390 实测：标头一行装不下「双标 + 昼夜 + 两枚抽屉钮」（tools 右沿冲到 470，把「记录」顶出屏幕外）。
+     让 tools 自己换一行并贴右，两行都是完整可点的；不换行就得砍字，砍了「设置 / 记录」就只剩两个
+     谁也认不出的线描图标。 */
+  .tt-mast { flex-wrap: wrap; row-gap: var(--tt-sp-2) }
+  .tt-mast__tools { margin-inline-start: auto; gap: var(--tt-sp-2) }
+  .tt-house__sheet { --tt-house-w: 100%; border-inline-start: none }
+  .tt-house__head { padding: var(--tt-sp-5) var(--tt-sp-4) var(--tt-sp-4) }
+  .tt-house__body { padding: var(--tt-sp-4) }
+  .tt-house__acts { gap: var(--tt-sp-2) }
+}
+
+@keyframes ttHouseVeil { from { opacity: 0 } to { opacity: 1 } }
+@keyframes ttHouseIn { from { transform: translate3d(100%, 0, 0) } to { transform: none } }
+
+@media (prefers-reduced-motion: reduce) {
+  .tt-house__scrim, .tt-house__sheet { animation: none !important }
+  .tt-house__key, .tt-house__tab, .tt-house__close, .tt-house__btn, .tt-house__chip,
+  .tt-house__link, .tt-house__recx { transition: none !important }
+}

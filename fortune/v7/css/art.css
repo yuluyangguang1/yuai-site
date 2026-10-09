@@ -1,0 +1,396 @@
+/* 天机阁 V7 · 生成图层（art layer）
+   纪律同 door.css：本文件零色值、时长只走 --tt-d 与 --tt-t 打头的令牌、选择器全带 .tt-、
+   必须留一份 prefers-reduced-motion 兜底。图里的颜色由图带，本文件只负责摆位、层序与动效。
+   板/叶三块画布由 art.js 从**同一张母版图**切出来，所以不存在「两张生成图对不齐」的问题
+   （实测闭合版主体 y 从 88 起、高 1370，敞开版从 140 起、高 1300 —— 两者差 52/70px，
+     整张交叉淡变必然跳框，故一律走「切开再转」，不走「两张互淡」。 */
+
+/* ── A0. 这一页只有夜 ───────────────────────────────────── */
+/* 与 pavilion.css 开头那条同一个决定：画永远是夜色，浅底皮压上去只会出错，
+   那颗昼/夜按钮只管楼里的灯（换片），不翻整页颜色。
+   两处各一份是因为两页不共用组件层 —— v7_audit.mjs 会逐页量 color-scheme，漂了会被抓。 */
+:root, :root[data-tt-theme] { color-scheme: dark }
+
+/* ── A1. 舞台 ───────────────────────────────────────────── */
+.tt-art-stage {
+  display: grid; place-items: center; gap: var(--tt-sp-4);
+  width: 100%; padding: var(--tt-sp-5) 0 var(--tt-sp-6);
+}
+/* 门场的切分矩形由 art.js 量出来后覆盖写回；这里的默认值是母版图 1024×1536 上手量的一份，
+   写在组件里而不是只活在 JS 里，是为了「脚本没跑起来时版面也已经是对的」，
+   也让门禁第 3 条（每个 var 都要有声明）在本文件内自足。 */
+.tt-art {
+  --tt-art-ar: 1024 / 1536;
+  --tt-art-h: 46rem;
+  /* 顶 44% = y 676（门簪带实测占 y 636–672，其后是门的上亮罩花暗带 678–726，太极从 732 起）；
+     下界 44.9% 换回图像是 y=1366：灰石台阶从 y=1368 才开始（实测 1364 处一个石色像素都没有），
+     上一版收到 1453，整条台阶被切进门叶，门一转台阶跟着转。 */
+  --tt-art-l: 28.9%; --tt-art-t: 44%; --tt-art-w: 41.6%; --tt-art-hh: 44.9%;
+  /* 匾位（母版图 x 330–706、y 490–625 换算成百分比）。匾上的字是真实文本叠的，
+     图里匾面留空——生成模型写中文必糊，出图规格就定死了不带字。 */
+  --tt-art-px: 32.2%; --tt-art-py: 31.9%; --tt-art-pw: 36.7%; --tt-art-ph: 8.8%;
+  /* 与 door.css 的私有令牌同数（1500px）：组件层之间不许互拿私有令牌（门禁第 3 条），
+     所以另立一份并钉住。角度这里取 78deg，比门楼的 68° 开得更足，但仍在 90° 以内——
+     过了 90° 叶片只剩一条边，backface 一隐藏门就凭空消失。 */
+  --tt-leaf-turn: 78deg;
+  --tt-door-persp: 1500px;
+  /* 旋钮那一转的时长：460ms（fast + micro），关门后盘等门合完才转回去用的是 hero */
+  --tt-turn-dur: calc(var(--tt-d-fast) + var(--tt-d-micro));
+  /* 盘在门场盒内的位置（母版圆心 513,756、r 27 换算而来），art.js 会用 data-disc 覆写。
+     圆心不能靠肉眼估：上一版估成 (512,760)，低 4px，180° 一转图案就位移 8px，看着像画弧平移。 */
+  --tt-disc-l: 43.9%; --tt-disc-t: 8%; --tt-disc-w: 13.6%; --tt-disc-h: 8.4%;
+  /* 檐铃：母版两个翼角尖实测在 y=361–366、x=42 与 982（逐行取最左最右、宽度最大的那一行就是尖）。
+     铃挂在尖内侧一点（左环 62,372 / 右环 962,372），bell.png 里环顶在 (63,2)。 */
+  --tt-bell-w: 10.16%; --tt-bell-h: 17.51%;
+  --tt-bell-lx: -0.1%; --tt-bell-ly: 24.09%;
+  --tt-bell-rx: 87.79%; --tt-bell-ry: 24.09%;
+  position: relative; aspect-ratio: var(--tt-art-ar);
+  container-type: size;
+  /* 第三个上限是新加的：门是 2:3 竖幅，只按高算的话 390 宽的手机上门宽 491px，
+     右边整条被裁掉（实测 art 盒 28→519，而屏只有 390）—— 舞台 overflow:clip 把溢出藏了，
+     所以 scrollWidth 查不出来，得靠"元素右缘超出视口"这一条才抓得到。 */
+  height: min(var(--tt-art-h), 88vh, calc((100vw - 2 * var(--tt-gutter)) * 1.5));
+  cursor: pointer;
+  transition: transform var(--tt-d-enter) var(--tt-e-rise);
+}
+/* 标头那道发丝线在画上就是一道横贯画面的边线（阁楼页已经因为这个改过一轮），门页同样不要 */
+.tt-mast { border-block-end-color: transparent }
+.tt-art__vh {
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+.tt-art:focus-visible { outline: var(--tt-ring-w) solid var(--tt-ring); outline-offset: var(--tt-ring-off) }
+/* 三块画布叠在同一片版面区域上：plate 是「挖了洞的门框」，leaf 是两扇门叶。
+   plate 必须留 pointer-events: none 之外的默认——它不参与点击，整块 .tt-art 才是按钮。 */
+.tt-art__plate, .tt-art__leaf, .tt-art__light, .tt-art__spill { position: absolute; display: block }
+.tt-art__plate { inset: 0; width: 100%; height: 100% }
+/* 门内那一方光必须**整个不透明**：开口顶部一旦透出页面底，读到的就是「背板上挖了个洞」，
+   不是「门里头有光」。所以从门槛到门楣是一条实底渐变——地上最亮、往上收暗，
+   而不是一个中间亮、四边透明的圆斑（门楼那轮「金球」的同族错误）。 */
+.tt-art__light {
+  /* 往里收 1.5% 再糊一下：挖空的洞口是硬边，光如果是硬边矩形，读起来就是「洞里塞了张发光的卡」。
+     收一点让背板压住外圈， blur 把剩下的边化进门框的阴影里。 */
+  left: calc(var(--tt-art-l) + var(--tt-art-w) * .015); top: calc(var(--tt-art-t) + var(--tt-art-hh) * .015);
+  width: calc(var(--tt-art-w) * .97); height: calc(var(--tt-art-hh) * .97);
+  filter: blur(.35rem);
+  background: linear-gradient(to top, var(--tt-gate-glow) 0%, var(--tt-gate-halo) 38%,
+      color-mix(in srgb, var(--tt-gate-halo) 30%, var(--tt-gate-face)) 100%); /* 往朱收，不往瓦收：门洞内壁是漆不是瓦，混 frame 会出灰绿 */
+  opacity: .1; transition: opacity var(--tt-d-veil) var(--tt-e-veil)
+}
+/* 光要漫到门框外面才叫「漏出来」：这一层比开口大一圈、压在背板之前叶之后，
+   靠 blur 把椭圆边化开（门前雾那三条规矩在这里同样成立）。 */
+.tt-art__spill {
+  left: calc(var(--tt-art-l) - var(--tt-art-w) * .3); top: calc(var(--tt-art-t) - var(--tt-art-hh) * .12);
+  width: calc(var(--tt-art-w) * 1.6); height: calc(var(--tt-art-hh) * 1.24);
+  background: radial-gradient(42% 46% at 50% 74%, var(--tt-gate-glow) 0%, transparent 78%);
+  /* 关着时也留一丝（.08 不是 0）：门后本来就有光，且门禁第 5 条不许静态 opacity:0 */
+  filter: blur(1.4rem); opacity: .08; pointer-events: none;
+  transition: opacity var(--tt-d-hero) var(--tt-e-veil)
+}
+.tt-art[data-open='1'] .tt-art__light { opacity: 1 }
+.tt-art[data-open='1'] .tt-art__spill { opacity: .5 }
+
+/* ── A2. 门叶与太极盘：先转旋钮，再推门 ────────────────────
+   两叶各裹在一个 wrap 里，wrap 就是整个门场大小的盒子，transform-origin 落在自己的外立边。
+   透视写在 wrap 的 transform 里（不是容器上），并且**不开 preserve-3d**——
+   这样盘作为 wrap 的子元素会先被拍平进门面那一张平面，再跟着门一起转，
+   投影后与门上的洞严丝合缝；开了 preserve-3d 盘就会浮在门外自己飞。
+   拍子（开门）：盘 120ms 起、转 460ms；门在 580ms（= turn + tick）起才开。
+   拍子（关门）：门 120ms 起就合，盘等门合完（hero = 1400ms）再转回去。
+   角度 78°，上限仍是 90°：过了 90° 叶片只剩一条边，backface 一隐藏门就凭空消失。 */
+.tt-art__wrap {
+  position: absolute; left: var(--tt-art-l); top: var(--tt-art-t);
+  width: var(--tt-art-w); height: var(--tt-art-hh);
+  transition: transform var(--tt-d-hero) var(--tt-e-settle) var(--tt-d-tick)
+}
+.tt-art__wrap--l { transform-origin: left center }
+.tt-art__wrap--r { transform-origin: right center }
+.tt-art__leaf { position: absolute; top: 0; height: 100%; width: 50%; backface-visibility: hidden }
+.tt-art__leaf--l { left: 0 }
+.tt-art__leaf--r { left: 50% }
+.tt-art__disc {
+  position: absolute; left: var(--tt-disc-l); top: var(--tt-disc-t);
+  width: var(--tt-disc-w); height: var(--tt-disc-h);
+  transition: transform var(--tt-turn-dur) var(--tt-e-rise) var(--tt-d-hero)
+}
+.tt-art[data-open='1'] .tt-art__wrap--l { transform: perspective(var(--tt-door-persp)) rotateY(var(--tt-leaf-turn)) }
+.tt-art[data-open='1'] .tt-art__wrap--r { transform: perspective(var(--tt-door-persp)) rotateY(calc(var(--tt-leaf-turn) * -1)) }
+.tt-art[data-open='1'] .tt-art__wrap { transition-delay: calc(var(--tt-turn-dur) + var(--tt-d-tick)) }
+.tt-art[data-open='1'] .tt-art__disc { transform: rotate(180deg); transition-delay: var(--tt-d-tick) }
+.tt-art[data-open='1'] .tt-art__light { opacity: 1 }
+.tt-art[data-open='1'] .tt-art__spill { opacity: .5 }
+
+/* 匾上的字：叠在匾面中央的真实文本（图里匾是空的，生成模型写中文必糊）。
+   字号走 cqh 跟着版面缩放——写 rem 的话塔一大，字就飘出匾外。
+   aria-hidden：它是装饰性重复，可访问名字挂在 #art 的 aria-label 上。
+   字用正体（總論／塔羅／擇日／互參／觀星臺…），与符面「一律正体」同一条规矩。 */
+.tt-art__name {
+  position: absolute; display: grid; place-items: center;
+  left: var(--tt-art-px); top: var(--tt-art-py); width: var(--tt-art-pw); height: var(--tt-art-ph);
+  font-size: 5.2cqh; line-height: 1; font-weight: 700;
+  letter-spacing: var(--tt-ls-title); pointer-events: none;
+  /* 阴刻填金：字要**比纯金亮**（填的是金箔），但四周得有一圈压得下去的槽——
+     所以是「亮字 + 左上深槽 + 右下翻亮」三层，而不是把字调暗：
+     调暗只会糊进木色里（上一版 72% 就是这个下场，4× 裁切看像印上去的）。
+     槽影取朱与瓦的暗混（木是暖的，拿冷黑压会发灰）；光源跟图一致，门钉高光在左上。 */
+  color: color-mix(in srgb, var(--tt-gate-metal) 92%, var(--tt-gate-glow));
+  text-shadow: -1px -1px 0 color-mix(in srgb, var(--tt-gate-face) 78%, var(--tt-gate-frame)),
+    1.5px 1.5px 0 color-mix(in srgb, var(--tt-gate-glow) 46%, transparent)
+}
+
+/* ── A3. 提示与题签 ─────────────────────────────────────── */
+.tt-art__cap { font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3) }
+.tt-art__hint {
+  font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-title); color: var(--tt-ink-2);
+  transition: color var(--tt-d-micro) var(--tt-e-settle), opacity var(--tt-d-fast) var(--tt-e-settle)
+}
+/* 键盘走到门上时也要给这句提示同一份强调色（原来只有 :hover，触屏与键盘都拿不到） */
+.tt-art-stage:hover .tt-art__hint, .tt-art-stage:focus-within .tt-art__hint { color: var(--tt-accent-bright) }
+.tt-art[data-open='1'] ~ .tt-art__hint { opacity: .28 }
+/* data-state 必须有人消费：图还在解、或压根没到位时，界面不能和「门已备好」长得一样
+   （照样写着「点一下门 · 推门而入」，点了什么也不会发生）。文案由 art.js 换，这里管 cursor 与淡度。 */
+.tt-art[data-state='loading'] { cursor: progress }
+.tt-art[data-state='loading'] ~ .tt-art__hint { opacity: .4 }
+.tt-art[data-state='imgfail'] { cursor: default }
+.tt-art[data-state='imgfail'] ~ .tt-art__hint { color: var(--tt-verm); opacity: 1 }
+
+/* ── A3b. 檐铃：从素材表里拆出来的那一枚，挂在两个翼角尖上 ──
+   挂点是铃的环顶，在 bell.png 内的 (63,2)，所以轴心写 60.6% / 0.7%——
+   **必须写百分比**：元素被版面缩放时轴心才跟着走，写 px 就会转起来画弧（太极那轮刚踩过）。
+   两枚用 alternate-reverse 错拍：同步摆读成机关，错开才读成有风。
+   拍子故意不等幅（-6 → 4.2 → -5.4 → 6.2）：等幅等距是钟摆，不等幅才是被风一阵一阵掀。
+   铃用 <img> 不用 CSS 背景：门禁第 4 条不许组件文件里出现外部 url()。
+   铃身上的风片是烤在图里的，拆不开，所以整枚一起摆——它本来就是一根绳吊着，这样才对。 */
+.tt-art__bell {
+  position: absolute; width: var(--tt-bell-w); height: var(--tt-bell-h);
+  transform-origin: 60.6% .7%; pointer-events: none;
+  animation: ttArtBell var(--tt-t-wind) var(--tt-e-breath) infinite alternate
+}
+.tt-art__bell--l { left: var(--tt-bell-lx); top: var(--tt-bell-ly) }
+.tt-art__bell--r {
+  left: var(--tt-bell-rx); top: var(--tt-bell-ry);
+  animation-direction: alternate-reverse
+}
+@keyframes ttArtBell {
+  from { transform: rotate(-6deg) }
+  30% { transform: rotate(4.2deg) }
+  62% { transform: rotate(-5.4deg) }
+  to { transform: rotate(6.2deg) }
+}
+
+/* ── A4. 调试：?guides=1 画出切叶的矩形，量错一眼可见 ───── */
+.tt-art__guide { display: none; position: absolute; pointer-events: none }
+:root[data-guides='1'] .tt-art__guide {
+  display: block; left: var(--tt-art-l); top: var(--tt-art-t);
+  width: var(--tt-art-w); height: var(--tt-art-hh);
+  outline: 1px dashed var(--tt-verm); outline-offset: -1px
+}
+:root[data-guides='1'] .tt-art__guide--seam {
+  left: calc(var(--tt-art-l) + var(--tt-art-w) / 2); top: var(--tt-art-t);
+  width: 0; height: var(--tt-art-hh); outline: none;
+  border-left: 1px dashed var(--tt-verm)
+}
+
+/* ── A5. reduce：静态即「门已开」，不靠动画表达状态 ─────── */
+@media (prefers-reduced-motion: reduce) {
+  .tt-art, .tt-art__wrap, .tt-art__disc, .tt-art__light, .tt-art__spill, .tt-art__hint,
+  .tt-room__go, .tt-room__save, .tt-room__open, .tt-room__mini { transition: none !important }
+  /* 铃静止垂着：无动效的人不需要「有风」这个暗示，需要的是门开着的确定状态 */
+  .tt-art__bell { animation: none !important }
+  /* 无动效的人要的是「门开了的结果」：门直接是开的、盘直接是转过来的，不排拍子 */
+  .tt-art[data-open='1'] .tt-art__wrap--l { transform: rotateY(var(--tt-leaf-turn)) }
+  .tt-art[data-open='1'] .tt-art__wrap--r { transform: rotateY(calc(var(--tt-leaf-turn) * -1)) }
+  .tt-art[data-open='1'] .tt-art__disc { transform: rotate(180deg) }
+  .tt-art[data-open='1'] .tt-art__light { opacity: 1 }
+  .tt-art[data-open='1'] .tt-art__spill { opacity: .5 }
+}
+
+/* ── A7. 门内（推开门之后那一间） ───────────────────────── */
+/* 形制沿用门：方角、发丝线、无阴影、一点朱（只有「起盘」那颗吃强调色）。
+   条宽走行内 --tt-wx-n（0–1），本文件只把它换算成百分比 —— 组件层零色值也零实数宽度。 */
+.tt-art__room { width: min(100%, 46rem); margin-block-start: var(--tt-sp-6) }
+.tt-art__room[hidden] { display: none }
+.tt-room__card {
+  display: grid; gap: var(--tt-sp-4);
+  padding: var(--tt-sp-5) var(--tt-sp-5) var(--tt-sp-6);
+  border: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-room__form { display: grid; gap: var(--tt-sp-3); grid-template-columns: repeat(2, minmax(0, 1fr)) }
+.tt-room__field { display: grid; gap: var(--tt-sp-1) }
+.tt-room__k { font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3) }
+.tt-room__input {
+  min-height: var(--tt-tap); padding: var(--tt-sp-2) var(--tt-sp-3);
+  border: var(--tt-hair) solid var(--tt-line); border-radius: var(--tt-r-0);
+  background: var(--tt-bg-inset); color: var(--tt-ink);
+  font: inherit; font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-body);
+}
+.tt-room__input:focus-visible { outline: var(--tt-ring-w) solid var(--tt-ring); outline-offset: var(--tt-ring-off) }
+.tt-room__go {
+  grid-column: 1 / -1; justify-self: start;
+  min-height: var(--tt-tap); padding: var(--tt-sp-2) var(--tt-sp-6);
+  border: var(--tt-hair) solid var(--tt-verm); border-radius: var(--tt-r-0);
+  background: transparent; color: var(--tt-verm);
+  font: inherit; font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-title); cursor: pointer;
+  transition: background-color var(--tt-d-fast) var(--tt-e-rise), color var(--tt-d-fast) var(--tt-e-rise);
+}
+.tt-room__go:hover, .tt-room__go:focus-visible {
+  background: var(--tt-verm); color: var(--tt-verm-on)
+}
+/* 入卷那一行：门里只许一颗朱（起盘那颗），所以「入卷」走素边，回执用小字灰 */
+.tt-room__acts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tt-sp-3) }
+.tt-room__save {
+  min-height: var(--tt-tap); padding: var(--tt-sp-2) var(--tt-sp-5);
+  border: var(--tt-hair) solid var(--tt-line); border-radius: var(--tt-r-0);
+  background: transparent; color: var(--tt-ink-2);
+  font: inherit; font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-title); cursor: pointer;
+  transition: border-color var(--tt-d-fast) var(--tt-e-rise), color var(--tt-d-fast) var(--tt-e-rise);
+}
+.tt-room__save:hover, .tt-room__save:focus-visible { border-color: var(--tt-accent); color: var(--tt-accent) }
+.tt-room__save[disabled] { border-color: var(--tt-rule); color: var(--tt-ink-4); cursor: default }
+.tt-room__saved {
+  margin: 0; font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-body); color: var(--tt-ink-3);
+}
+/* ── 问一问（AI 解读）：形制沿用门，只多一道发丝分隔 ─────────────
+   气泡不画圆角底、不画尾尖：那是聊天软件的形制。这里读起来该像批语 —— 一问一答，墨字成段。
+   答的那段必须 pre-wrap：现网提示词明写「段落之间空一行」，压成一行就白给。 */
+.tt-room__ask {
+  display: grid; gap: var(--tt-sp-3);
+  padding-block-start: var(--tt-sp-5); border-block-start: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-room__thread { display: grid; gap: var(--tt-sp-4) }
+/* 标记与正文同一行（左列两字宽），不然手机上每条气泡都要多占一行，两问一答就拖成一屏 */
+.tt-room__msg {
+  display: grid; grid-template-columns: auto 1fr; column-gap: var(--tt-sp-3); align-items: baseline;
+  margin: 0;
+  font-size: var(--tt-fs-3); line-height: var(--tt-lh-body); color: var(--tt-ink);
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.tt-room__msg--me { font-size: var(--tt-fs-2); color: var(--tt-ink-2); line-height: var(--tt-lh-snug) }
+.tt-room__askrow { display: flex; flex-wrap: wrap; gap: var(--tt-sp-2) }
+.tt-room__askrow .tt-room__input { flex: 1 1 14rem; min-width: 0 }
+.tt-room__mini {
+  min-height: var(--tt-tap); padding: var(--tt-sp-2) var(--tt-sp-4);
+  border: var(--tt-hair) solid var(--tt-line); border-radius: var(--tt-r-0);
+  background: transparent; color: var(--tt-ink-2);
+  font: inherit; font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-title); cursor: pointer;
+  transition: border-color var(--tt-d-fast) var(--tt-e-rise), color var(--tt-d-fast) var(--tt-e-rise);
+}
+.tt-room__mini:hover, .tt-room__mini:focus-visible { border-color: var(--tt-accent); color: var(--tt-accent) }
+.tt-room__mini[disabled] { border-color: var(--tt-rule); color: var(--tt-ink-4); cursor: default }
+/* 发问那颗比 停/清空 重一点，但仍是素边：一门之中唯一的朱留给「起盘」 */
+.tt-room__mini--go { border-color: var(--tt-accent-dim); color: var(--tt-accent) }
+.tt-room__wait { margin: 0; font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3) }
+/* 回执后面那颗：门页的标头不钉住，滑到盘这里就够不着「记录」了，得就地给一个开柜的口 */
+.tt-room__open {
+  min-height: var(--tt-sp-6); padding: var(--tt-sp-1) var(--tt-sp-3);
+  border: var(--tt-hair) solid var(--tt-line); border-radius: var(--tt-r-0);
+  background: transparent; color: var(--tt-accent);
+  font: inherit; font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-title); cursor: pointer;
+  transition: border-color var(--tt-d-micro) var(--tt-e-settle), background-color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-room__open:hover, .tt-room__open:focus-visible { border-color: var(--tt-accent); background: var(--tt-bg-veil) }
+.tt-room__err { grid-column: 1 / -1; margin: 0; font-size: var(--tt-fs-2); color: var(--tt-verm) }
+.tt-room__chart { display: grid; gap: var(--tt-sp-5) }
+.tt-room__pillars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--tt-sp-2) }
+.tt-room__pillar {
+  display: grid; gap: var(--tt-sp-1); justify-items: center;
+  padding: var(--tt-sp-3) var(--tt-sp-2);
+  border-block-start: var(--tt-edge) solid var(--tt-line);
+  background: var(--tt-bg-veil);
+}
+.tt-room__pk { font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3) }
+.tt-room__pz { font-size: var(--tt-fs-7); font-weight: 700; letter-spacing: var(--tt-ls-plaque); color: var(--tt-ink) }
+.tt-room__pw { font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-body); color: var(--tt-ink-3) }
+.tt-room__pn { font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-body); color: var(--tt-ink-4) }
+.tt-room__nayin { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tt-sp-2); margin: 0 }
+.tt-room__gk { font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3) }
+.tt-room__gv { font-size: var(--tt-fs-3); color: var(--tt-ink); letter-spacing: var(--tt-ls-body) }
+.tt-room__chip {
+  display: inline-flex; align-items: baseline; gap: var(--tt-sp-1);
+  padding: var(--tt-sp-0) var(--tt-sp-2);
+  border: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-room__chip b { font-size: var(--tt-fs-2); font-weight: 700; color: var(--tt-ink-2); letter-spacing: var(--tt-ls-body) }
+.tt-room__chip i { font-style: normal; font-size: var(--tt-fs-1); color: var(--tt-ink-4) }
+.tt-room__wx { display: grid; gap: var(--tt-sp-2) }
+/* 一行三格：字、条、数。条占中间那一格，所以行自己得是 grid —— 上一版把三格压在 .tt-room__wx 上，
+   而 room.js 每行都包了一个 .tt-room__wxrow，于是整表塌成一列乱码。 */
+.tt-room__wxrow { display: grid; align-items: center; gap: var(--tt-sp-3);
+  grid-template-columns: var(--tt-fs-3) 1fr var(--tt-sp-8) }
+.tt-room__wxk { font-size: var(--tt-fs-2); color: var(--tt-ink-2); letter-spacing: var(--tt-ls-plaque) }
+.tt-room__wxv { font-size: var(--tt-fs-1); color: var(--tt-ink-3); text-align: end; letter-spacing: var(--tt-ls-body) }
+.tt-room__wxbar {
+  /* 默认空条：room.js 起盘后按 0-1 写行内值覆盖，门禁第 3 条也要求这里有个声明 */
+  --tt-wx-n: 0;
+  display: block; height: var(--tt-bar);
+  background: linear-gradient(to right, currentColor, currentColor) no-repeat;
+  background-size: calc(var(--tt-wx-n, 0) * 100%) 100%;
+  color: var(--tt-ink-4);
+}
+.tt-room__wxrow:nth-child(1) .tt-room__wxbar { color: var(--tt-wx-wood) }
+.tt-room__wxrow:nth-child(2) .tt-room__wxbar { color: var(--tt-wx-fire) }
+.tt-room__wxrow:nth-child(3) .tt-room__wxbar { color: var(--tt-wx-earth) }
+.tt-room__wxrow:nth-child(4) .tt-room__wxbar { color: var(--tt-wx-metal) }
+.tt-room__wxrow:nth-child(5) .tt-room__wxbar { color: var(--tt-wx-water) }
+.tt-room__nv { font-size: var(--tt-fs-2); color: var(--tt-ink-2); letter-spacing: var(--tt-ls-body) }
+.tt-room__foot { margin: 0; font-size: var(--tt-fs-1); line-height: var(--tt-lh-snug); color: var(--tt-ink-4) }
+.tt-room__todo { margin: 0; font-size: var(--tt-fs-3); color: var(--tt-ink-2) }
+/* 门内的黄历面（每日 / 择日共用一套）：宜忌两行 + 冲煞纳音 + 吉神凶煞 + 列表 */
+.tt-room__head { display: grid; gap: var(--tt-sp-1) }
+.tt-room__title { margin: 0; font-size: var(--tt-fs-6); font-weight: 700; letter-spacing: var(--tt-ls-plaque); color: var(--tt-ink) }
+.tt-room__hint { margin: 0; font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-body); color: var(--tt-ink-3) }
+.tt-room__when { display: flex; align-items: baseline; gap: var(--tt-sp-3); flex-wrap: wrap }
+.tt-room__big { font-size: var(--tt-fs-8); font-weight: 700; letter-spacing: var(--tt-ls-plaque); color: var(--tt-ink) }
+/* 数字大得不一样：匾额字距是给两三个汉字的，「74 分」拉开就读成两个数 */
+.tt-room__big--num { letter-spacing: var(--tt-ls-body) }
+.tt-room__sub { font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-body); color: var(--tt-ink-2) }
+.tt-room__row { display: grid; grid-template-columns: var(--tt-icon-sm) 1fr; gap: var(--tt-sp-3); align-items: start }
+.tt-room__row2 { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tt-sp-2); margin: 0 }
+.tt-room__list { font-size: var(--tt-fs-3); line-height: var(--tt-lh-snug); letter-spacing: var(--tt-ls-body); color: var(--tt-ink-2) }
+.tt-room__meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tt-sp-2); margin: 0; font-size: var(--tt-fs-2); color: var(--tt-ink-3); letter-spacing: var(--tt-ls-body) }
+.tt-room__days, .tt-room__hits { display: grid; gap: var(--tt-sp-1) }
+.tt-room__day { display: grid; grid-template-columns: var(--tt-sp-8) var(--tt-sp-6) 1fr 1fr; gap: var(--tt-sp-3);
+  padding: var(--tt-sp-1) var(--tt-sp-2); border-block-end: var(--tt-hair) solid var(--tt-rule);
+  font-size: var(--tt-fs-2); color: var(--tt-ink-2); letter-spacing: var(--tt-ls-body) }
+.tt-room__dayk { color: var(--tt-ink-3) }
+.tt-room__dayz { color: var(--tt-ink); letter-spacing: var(--tt-ls-plaque) }
+.tt-room__dayj { color: var(--tt-ink-3) }
+.tt-room__hit { margin: 0; padding: var(--tt-sp-1) var(--tt-sp-2);
+  border-inline-start: var(--tt-edge) solid var(--tt-verm);
+  font-size: var(--tt-fs-2); color: var(--tt-ink-2); letter-spacing: var(--tt-ls-body) }
+/* 目录里的条目是链接，得跟 <p> 摆得一样齐 */
+.tt-room__hits a { display: block; text-decoration: none }
+.tt-room__hits a:focus-visible { color: var(--tt-ink) }
+.tt-room__none { margin: 0; font-size: var(--tt-fs-2); line-height: var(--tt-lh-snug); color: var(--tt-ink-3) }
+/* 称骨批语：诗是主声，详批是注文 —— 靠字号与行距分，不靠颜色分。 */
+.tt-room__verse { display: grid; gap: var(--tt-sp-3) }
+.tt-room__poem { margin: 0; font-size: var(--tt-fs-4); line-height: var(--tt-lh-verse); letter-spacing: var(--tt-ls-body); color: var(--tt-ink) }
+.tt-room__prose { margin: 0; font-size: var(--tt-fs-2); line-height: var(--tt-lh-body); letter-spacing: var(--tt-ls-body); color: var(--tt-ink-2) }
+/* 宜/忌 是行首的标记，不是列表的第一项 —— 之前这两个类名在 CSS 里根本没有，
+   截图上「宜 出行 开市…」读起来就像宜是当天的一件事。通书的老规矩：宜朱、忌墨。 */
+.tt-room__mark { display: inline-grid; place-items: center; inline-size: var(--tt-icon-sm); block-size: var(--tt-icon-sm);
+  border: var(--tt-hair) solid currentColor; font-size: var(--tt-fs-2); font-weight: 700; letter-spacing: 0 }
+.tt-room__mark--yi { color: var(--tt-verm) }
+.tt-room__mark--ji { color: var(--tt-ink-3) }
+.tt-room__sep { padding-inline: var(--tt-sp-1); color: var(--tt-ink-3) }
+.tt-room__dayy { color: var(--tt-ink-2) }
+/* 合婚：一人一段的表单用小标题分组；五条关系各占一行，判词居中、分数靠右 */
+.tt-room__fhead { grid-column: 1 / -1; margin: 0; font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-meta); color: var(--tt-verm) }
+.tt-room__rels { display: grid }
+.tt-room__rel { display: grid; align-items: baseline; gap: var(--tt-sp-3);
+  grid-template-columns: auto 1fr auto;
+  padding-block: var(--tt-sp-2); border-block-end: var(--tt-hair) solid var(--tt-rule) }
+.tt-room__rk { font-size: var(--tt-fs-3); font-weight: 700; color: var(--tt-ink); letter-spacing: var(--tt-ls-plaque) }
+.tt-room__rv { font-size: var(--tt-fs-2); line-height: var(--tt-lh-snug); color: var(--tt-ink-2); letter-spacing: var(--tt-ls-body) }
+.tt-room__rs { font-size: var(--tt-fs-2); color: var(--tt-ink-3) }
+.tt-room__rs--move { color: var(--tt-verm) }
+/* 爻象画在爻辞前面：阳爻一整条，阴爻断两截，一眼分得出阴阳，也不用堆字 */
+.tt-room__yao { display: inline-block; vertical-align: middle; inline-size: var(--tt-sp-4); block-size: var(--tt-edge);
+  margin-inline-end: var(--tt-sp-2); background-color: var(--tt-ink-2) }
+.tt-room__yao--yin { background-color: transparent;
+  background-image: linear-gradient(90deg, var(--tt-ink-2) 0 42%, transparent 42% 58%, var(--tt-ink-2) 58% 100%) }
+/* 窄屏三格挤：星曜已经要折两行，宫干支与大限另起一行贴着文字列走 */
+@media (max-width: 40rem) {
+  .tt-room__rel { grid-template-columns: auto 1fr }
+  .tt-room__rs { grid-column: 2 }
+}

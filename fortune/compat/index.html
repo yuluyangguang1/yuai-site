@@ -1,228 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(function(){});});}</script>
-    <link rel="icon" type="image/svg+xml" href="/fortune/favicon.svg" />
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>八字合婚｜两人合盘配对免费测算 · YUAI天机阁</title>
+<link rel="icon" type="image/svg+xml" href="/fortune/favicon.svg" />
     <link rel="icon" type="image/svg+xml" href="/fortune/favicon-small.svg" sizes="64x64" />
-<!-- tjg-install:start -->
     <link rel="apple-touch-icon" sizes="180x180" href="/fortune/icons/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="天机阁" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="mobile-web-app-capable" content="yes" />
-<!-- tjg-install:end -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>八字合婚｜两人合盘配对免费测算 · YUAI天机阁</title>
-    <meta name="description" content="输入双方生辰做八字合婚：合盘配对评分与要点提示，本地计算，免费使用。" />
-    <link rel="canonical" href="https://yuai-r.cn/fortune/compat/" />
-    <meta property="og:type" content="website" />
+    <link rel="manifest" href="/fortune/manifest.webmanifest" />
+<meta name="theme-color" content="#0A0912" />
+<meta name="description" content="输入双方生辰做八字合婚：合盘配对评分与要点提示，本地计算，免费使用。" />
+<link rel="canonical" href="https://yuai-r.cn/fortune/compat/" />
+<meta property="og:type" content="website" />
     <meta property="og:title" content="八字合婚｜两人合盘配对免费测算 · YUAI天机阁" />
     <meta property="og:description" content="输入双方生辰做八字合婚：合盘配对评分与要点提示，本地计算，免费使用。" />
     <meta property="og:url" content="https://yuai-r.cn/fortune/compat/" />
     <meta property="og:image" content="https://yuai-r.cn/fortune/og-tianji.webp" />
     <meta property="og:locale" content="zh_CN" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://yuai-r.cn/fortune/og-tianji.webp" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://yuai-r.cn/fortune/#organization","name":"YUAI 天机阁","url":"https://yuai-r.cn/fortune/","logo":{"@type":"ImageObject","url":"https://yuai-r.cn/fortune/icons/fortune-512.png"}},{"@type":"WebSite","@id":"https://yuai-r.cn/fortune/#website","url":"https://yuai-r.cn/fortune/","name":"YUAI 天机阁","inLanguage":"zh-CN","publisher":{"@id":"https://yuai-r.cn/fortune/#organization"}},{"@type":"WebPage","@id":"https://yuai-r.cn/fortune/compat/#webpage","url":"https://yuai-r.cn/fortune/compat/","name":"八字合婚｜两人合盘配对免费测算 · YUAI天机阁","description":"输入双方生辰做八字合婚：合盘配对评分与要点提示，本地计算，免费使用。","inLanguage":"zh-CN","datePublished":"2026-08-31","dateModified":"2026-09-20","isPartOf":{"@id":"https://yuai-r.cn/fortune/#website"},"breadcrumb":{"@id":"https://yuai-r.cn/fortune/compat/#breadcrumb"},"mainEntity":{"@id":"https://yuai-r.cn/fortune/compat/#app"}},{"@type":"BreadcrumbList","@id":"https://yuai-r.cn/fortune/compat/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"天机阁","item":"https://yuai-r.cn/fortune/"},{"@type":"ListItem","position":2,"name":"八字合婚","item":"https://yuai-r.cn/fortune/compat/"}]},{"@type":"WebApplication","@id":"https://yuai-r.cn/fortune/compat/#app","name":"八字合婚","alternateName":"Bazi Compatibility","url":"https://yuai-r.cn/fortune/compat/","description":"输入双方生辰做八字合婚：合盘配对评分与要点提示，本地计算，免费使用。","applicationCategory":"LifestyleApplication","operatingSystem":"Web browser","inLanguage":"zh-CN","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"},"featureList":["双方生辰合盘","配对评分","要点提示"],"publisher":{"@id":"https://yuai-r.cn/fortune/#organization"}}]}</script>
-    <meta name="theme-color" content="#0A0912" />
-    <!-- 防止主题闪烁：在 CSS 加载前读取 localStorage -->
-    <script>
-      (function(){
-        try {
-          var s = localStorage.getItem('fortune-settings');
-          if (s) {
-            var d = JSON.parse(s);
-            if (d && d.state && d.state.theme === 'dark') {
-              document.documentElement.classList.add('dark');
-            }
-          }
-        } catch(e){}
-      })();
-    </script>
-    <!-- 自愈：分块加载失败（部署更新后旧 chunk 404 / 网络抖动）时自动重载一次 -->
-    <script>
-      (function(){
-        var K = 'fortune-chunk-reload';
-        function once(){
-          try {
-            if (!sessionStorage.getItem(K)) { sessionStorage.setItem(K, '1'); location.reload(); }
-          } catch(_) {
-            if (!window.__fortuneReloaded) { window.__fortuneReloaded = 1; location.reload(); }
-          }
-        }
-        window.addEventListener('vite:preloadError', function(e){ e.preventDefault(); once(); });
-        window.addEventListener('unhandledrejection', function(e){
-          var m = String((e && e.reason && (e.reason.message || e.reason)) || '');
-          if (/dynamically imported module|Importing a module script|Failed to fetch dynamically/i.test(m)) { once(); }
-        });
-        window.addEventListener('error', function(e){
-          var t = e && e.target, u = t && (t.src || t.href) || '';
-          if (/assets\/[^"']*\.(js|css)/.test(u)) { once(); }
-        }, true);
-      })();
-    </script>
-    <!-- 内联关键样式，防止白屏 -->
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        background: #F4E9DC;
-        transition: background 0.35s ease;
-      }
-      html.dark, html.dark body {
-        background: #0A0912;
-      }
-      #root {
-        min-height: 100vh;
-      }
-      /* 加载动画 */
-      .app-loader {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        background: #F4E9DC;
-        transition: opacity 0.5s ease;
-      }
-      html.dark .app-loader {
-        background: #0A0912;
-      }
-      .app-loader.fade-out {
-        opacity: 0;
-        pointer-events: none;
-      }
-      .loader-mark {
-        width: 56px;
-        height: 56px;
-      }
-      .loader-mark .lm-frame { stroke: #75591F; }
-      .loader-mark .lm-pav { fill: #75591F; }
-      .loader-mark .lm-star { fill: #9E4B3B; }
-      html.dark .loader-mark .lm-frame { stroke: #C9A85C; }
-      html.dark .loader-mark .lm-pav { fill: #C9A85C; }
-      html.dark .loader-mark .lm-star { fill: #C96A55; }
-      .loader-pav { animation: ink-breathe 2.6s ease-in-out infinite; }
-      .loader-text {
-        margin-top: 16px;
-        font-family: 'Noto Serif SC', serif;
-        font-size: 12px;
-        letter-spacing: 0.3em;
-        color: #A07828;
-      }
-      html.dark .loader-text { color: #C9A85C; }
-      @keyframes ink-breathe {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 1; }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .loader-pav { animation: none; opacity: 1; }
-      }
-    </style>
-    <script type="module" crossorigin src="/fortune/assets/index-O1TJYHiF.js"></script>
-    <link rel="modulepreload" crossorigin href="/fortune/assets/vendor-react-D_ze9-jD.js">
-    <link rel="modulepreload" crossorigin href="/fortune/assets/vendor-motion-uegpHKi9.js">
-    <link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css" />
-    <link rel="stylesheet" crossorigin href="/fortune/assets/index-BIM_xI-2.css">
-  <link rel="manifest" href="/fortune/manifest.webmanifest" />
-  </head>
-  <body>
-    <!-- 加载动画：React 挂载后自动移除 -->
-    <div class="app-loader" id="app-loader">
-      <svg class="loader-mark" viewBox="0 0 32 32" fill="none" role="img" aria-label="YUAI 天机阁">
-        <g class="loader-pav">
-          <rect class="lm-frame" x="1.50" y="1.50" width="29" height="29" fill="none" stroke-width="1" opacity="0.3"/>
-          <path class="lm-pav" fill-rule="evenodd" d="M12.88 8.00 L19.13 8.00 L22.88 10.13 L24.50 9.13 L24.50 11.38 L7.50 11.38 L7.50 9.13 L9.13 10.13 Z M11.75 11.38 L20.00 11.38 L20.00 15.75 L11.75 15.75 Z M14.50 12.50 L17.25 12.50 L17.25 15.25 L14.50 15.25 Z M12.75 15.75 L19.00 15.75 L24.38 18.38 L26.50 17.13 L26.50 19.75 L5.25 19.75 L5.25 17.13 L7.38 18.38 Z M9.25 19.75 L22.50 19.75 L22.50 25.88 L18.25 25.88 L18.25 22.00 L13.50 22.00 L13.50 25.88 L9.25 25.88 Z M10.50 21.00 L12.63 21.00 L12.63 23.13 L10.50 23.13 Z M19.13 21.00 L21.25 21.00 L21.25 23.13 L19.13 23.13 Z M7.00 25.88 L24.75 25.88 L24.75 27.88 L7.00 27.88 Z"/>
-        </g>
-        <path class="lm-star" d="M16.00 4.13 L17.50 5.88 L16.00 7.63 L14.50 5.88 Z"/>
-      </svg>
-      <div class="loader-text">天机阁</div>
-    </div>
-    <div id="root"></div>
-    <!-- tjg-install:start -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://yuai-r.cn/fortune/#organization","name":"YUAI 天机阁","url":"https://yuai-r.cn/fortune/","logo":{"@type":"ImageObject","url":"https://yuai-r.cn/fortune/icons/fortune-512.png"}},{"@type":"WebSite","@id":"https://yuai-r.cn/fortune/#website","url":"https://yuai-r.cn/fortune/","name":"YUAI 天机阁","inLanguage":"zh-CN","publisher":{"@id":"https://yuai-r.cn/fortune/#organization"}},{"@type":"WebPage","@id":"https://yuai-r.cn/fortune/compat/#webpage","url":"https://yuai-r.cn/fortune/compat/","name":"八字合婚｜两人合盘配对免费测算 · YUAI天机阁","description":"输入双方生辰做八字合婚：合盘配对评分与要点提示，本地计算，免费使用。","inLanguage":"zh-CN","datePublished":"2026-08-31","dateModified":"2026-10-09","isPartOf":{"@id":"https://yuai-r.cn/fortune/#website"},"breadcrumb":{"@id":"https://yuai-r.cn/fortune/compat/#breadcrumb"},"mainEntity":{"@id":"https://yuai-r.cn/fortune/compat/#app"}},{"@type":"BreadcrumbList","@id":"https://yuai-r.cn/fortune/compat/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"天机阁","item":"https://yuai-r.cn/fortune/"},{"@type":"ListItem","position":2,"name":"八字合婚","item":"https://yuai-r.cn/fortune/compat/"}]},{"@type":"WebApplication","@id":"https://yuai-r.cn/fortune/compat/#app","name":"八字合婚","alternateName":"Bazi Compatibility","url":"https://yuai-r.cn/fortune/compat/","description":"输入双方生辰做八字合婚：合盘配对评分与要点提示，本地计算，免费使用。","applicationCategory":"LifestyleApplication","operatingSystem":"Web browser","inLanguage":"zh-CN","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"},"featureList":["双方生辰合盘","配对评分","要点提示"],"publisher":{"@id":"https://yuai-r.cn/fortune/#organization"}}]}</script>
 <script>
-(function(){
-  var KEY="tjg-install";
-  var PATH=location.pathname;
-  if(!(PATH==="/fortune"||PATH.indexOf("/fortune/")===0||PATH.indexOf("/fortune/index.html")===0))return;
-  var doc=document,html=doc.documentElement;
-  var ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
-  var deferred=null,root=null,steps=false;
-  function st(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return{}}}
-  function sv(p){try{var o=st();for(var k in p){if(p[k]===null)delete o[k];else o[k]=p[k]}localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
-  function standalone(){try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){return false}}
-  function mobile(){try{return matchMedia("(max-width: 767px)").matches}catch(e){return true}}
-  function persist(){sv({shown:null,dismissAt:null,done:1})}
-  function cooldown(){sv({dismissAt:Date.now()})}
-  var CLOSE='<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12"/></svg>';
-  var SHARE='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10.5V2.5M8 2.5L5.2 5.4M8 2.5l2.8 2.9M2.8 8.2v4.3a1 1 0 0 0 1 1h8.4a1 1 0 0 0 1-1V8.2"/></svg>';
-  function stepsFor(){
-    if(ios)return["点屏幕底部或顶部的分享按钮","在菜单里选「添加到主屏幕」","回桌面点天机阁图标即可使用"];
-    if(!mobile())return["点浏览器地址栏右侧的安装图标","或在菜单里选「安装应用」「创建快捷方式」","从桌面或任务栏打开天机阁"];
-    return["点浏览器右上角菜单","选「添加到主屏幕」或「安装应用」","回桌面点天机阁图标即可使用"];
-  }
-  function markup(){
-    var s=stepsFor();
-    return '<div class="tjg-inst" role="dialog" aria-modal="false" aria-label="添加到手机桌面">'+
-      '<div class="tjg-inst-i"><img class="tjg-inst-img" src="/fortune/icons/apple-touch-icon.png" width="44" height="44" alt="">'+
-      '<div class="tjg-inst-l"><p class="tjg-inst-h">随身携带你的天机阁</p>'+
-      '<p class="tjg-inst-sub">添加到手机桌面，像原生 App 一样随时打开</p></div>'+
-      '<button class="tjg-inst-x" type="button" aria-label="关闭提示">'+CLOSE+'</button></div>'+
-      '<p class="tjg-inst-tags">无需下载 · 无需应用商店 · 一键直达</p>'+
-      '<ol class="tjg-inst-steps">'+s.map(function(t,i){return '<li><span class="tjg-inst-n">'+(i+1)+'</span><span>'+t+'</span></li>'}).join("")+'</ol>'+
-      '<button class="tjg-inst-btn" type="button">'+SHARE+'<span>添加到桌面</span></button>'+
-      '<button class="tjg-inst-link" type="button">不再提示</button>'+
-      '<p class="tjg-inst-hint">使用手机浏览器访问本页，即可添加到桌面</p></div>';
-  }
-  function mount(force){
-    if(root)return root;
-    var d=doc.createElement("div");
-    d.innerHTML=markup();
-    root=d.firstElementChild;
-    doc.body.appendChild(root);
-    if(!force){var o=st();sv({shown:(o.shown||0)+1});}
-    root.querySelector(".tjg-inst-x").addEventListener("click",close);
-    root.querySelector(".tjg-inst-link").addEventListener("click",function(){persist();unmount()});
-    root.querySelector(".tjg-inst-btn").addEventListener("click",act);
-    return root;
-  }
-  function unmount(){if(root&&root.parentNode)root.parentNode.removeChild(root);root=null}
-  function close(){cooldown();unmount()}
-  function showSteps(){
-    steps=true;
-    if(root){root.setAttribute("data-steps","1");var b=root.querySelector(".tjg-inst-btn span");if(b)b.textContent="按提示操作";}
-  }
-  function act(){
-    if(deferred){
-      var p=deferred;deferred=null;
-      try{p.prompt()}catch(e){showSteps();return}
-      p.userChoice&&p.userChoice.then(function(r){
-        if(r&&r.outcome==="accepted"){persist();unmount()}
-        else{showSteps()}
-      },function(){showSteps()});
-    }else{showSteps()}
-  }
-  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferred=e;if(root&&root.getAttribute("data-steps")==="1")root.setAttribute("data-steps","0")});
-  window.addEventListener("appinstalled",function(){persist();unmount()});
-  function eligible(){
-    if(standalone())return false;
-    if(!mobile())return false;
-    var o=st();
-    if(o.done)return false;
-    if(o.dismissAt&&Date.now()-o.dismissAt<7*864e5)return false;
-    if((o.shown||0)>=3)return false;
-    return true;
-  }
-  function boot(){if(eligible())mount()}
-  if(doc.readyState==="loading")doc.addEventListener("DOMContentLoaded",boot);else boot();
-  window.addEventListener("fortune:install",function(){mount(true)});
-  window.__tjgInstall={open:function(){return mount(true)},close:close,state:st,deferred:function(){return!!deferred}};
-})();
+  /* 这一页只验一件事：生成图能不能担「门」这个角色。
+     ?v=a|b|c|d 选色板（默认 d），?theme=dark|light 只锁「点灯 / 熄灯」那支（整页色板钉死为夜，见 art.css 开头），
+     ?src=… 换母版，?rect=左,上,宽,高（百分比）手压量出来的门场，?guides=1 画出切分矩形。 */
+  var q = new URLSearchParams(location.search);
+  var v = /^[a-d]$/.test(q.get('v') || '') ? q.get('v') : 'd';
+  var t = q.get('theme');
+  if (t === 'dark' || t === 'light') document.documentElement.dataset.ttTheme = t;
+  if (q.get('guides')) document.documentElement.dataset.guides = '1';
+  function add(h) { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = h; document.head.appendChild(l); }
+  /* gate.css 不加载：它 83 个类没有一个出现在这一页（只有 --tt-gate-* 令牌名撞了子串），白背 38KB */
+  add('/fortune/v7/css/scale.css'); add('/fortune/v7/css/palette.css');
+  add('/fortune/v7/css/sample.css'); add('/fortune/v7/css/art.css'); add('/fortune/v7/css/house.css');
 </script>
-<!-- tjg-install:end -->
-  </body>
+<link rel="stylesheet" href="https://yuai-r.cn/fonts/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://yuai-r.cn/fonts/lxgwwenkai-bold.css">
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(function(){});});}</script>
+</head>
+<body class="tt-doc">
+<div class="tt-page">
+  <div class="tt-starfield" aria-hidden="true"></div>
+  <div class="tt-clouds" aria-hidden="true"></div>
+
+  <div class="tt-shell">
+    <header class="tt-mast">
+      <div class="tt-mast__pair">
+        <a class="tt-mast__item" href="/" aria-label="yu.ai 首页">
+          <svg class="tt-mark tt-mark--yu" viewBox="10.99773 21.210212 41.919409 21.544615" fill="none" aria-hidden="true" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--tt-verm)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>
+        </a>
+        <span class="tt-mast__sep" aria-hidden="true"></span>
+        <a class="tt-mast__item" href="/fortune/">
+          <svg class="tt-mark tt-mark--now" viewBox="0 0 32 32" fill="currentColor" role="img" aria-label="天机阁"><rect x="1.5" y="1.5" width="29" height="29" fill="none" stroke-width="1" opacity="0.3"/><path fill-rule="evenodd" d="M12.88 8.00 L19.13 8.00 L22.88 10.13 L24.50 9.13 L24.50 11.38 L7.50 11.38 L7.50 9.13 L9.13 10.13 Z M11.75 11.38 L20.00 11.38 L20.00 15.75 L11.75 15.75 Z M14.50 12.50 L17.25 12.50 L17.25 15.25 L14.50 15.25 Z M12.75 15.75 L19.00 15.75 L24.38 18.38 L26.50 17.13 L26.50 19.75 L5.25 19.75 L5.25 17.13 L7.38 18.38 Z M9.25 19.75 L22.50 19.75 L22.50 25.88 L18.25 25.88 L18.25 22.00 L13.50 22.00 L13.50 25.88 L9.25 25.88 Z M10.50 21.00 L12.63 21.00 L12.63 23.13 L10.50 23.13 Z M19.13 21.00 L21.25 21.00 L21.25 23.13 L19.13 23.13 Z M7.00 25.88 L24.75 25.88 L24.75 27.88 L7.00 27.88 Z"/><path d="M16.00 4.13 L17.50 5.88 L16.00 7.63 L14.50 5.88 Z"/></svg>
+          <span><span class="tt-mast__now">天机阁</span><span class="tt-mast__name">TIANJI</span></span>
+        </a>
+      </div>
+      <div class="tt-theme" role="group" aria-label="昼/夜：楼里点灯或熄灯">
+        <button class="tt-theme__opt" data-theme="light" type="button">昼</button>
+        <button class="tt-theme__opt" data-theme="dark" type="button">夜</button>
+      </div>
+    </header>
+
+    <main class="tt-art-stage">
+      <h1 class="tt-art__vh" id="artH1">天機閣 · 推门窥天机</h1>
+      <!-- 匾字用正体，取自 mods.js（一阁十一门的唯一清单，层位与匾名都在那一份里）。
+           四层从下往上：light（门内实底光）→ 两片 leaf（门场左右半，内开时缩在洞口里）
+           → plate（挖了门场的背板，正好把叶片出界的部分压住）→ spill（漫到门框上的光晕）
+           → name（匾上的字，真实文本叠在空匾面上）。顺序就是层序，谁也不写 z-index。
+           data-rect / data-plaque 是这道门的标注（占母版图的百分比），逐道门自己标——
+           整座门楼都是红的，自动量测只能当起手。 -->
+      <div class="tt-art" id="art" data-open="0" data-state="loading"
+           data-name="八字" data-rect="28.9,44,41.6,44.9" data-plaque="32.2,31.9,36.7,8.8"
+           data-disc="513,756,27">
+        <canvas class="tt-art__light" aria-hidden="true" width="1" height="1"></canvas>
+        <!-- 右叶先画、左叶后画：太极盘挂在左叶的包裹层里，得压在右叶那道凹槽上面才盖得住。
+             盘绕自己的圆心转，轮廓不变，所以转的时候不会露出底下的洞。 -->
+        <span class="tt-art__wrap tt-art__wrap--r">
+          <canvas class="tt-art__leaf tt-art__leaf--r" aria-hidden="true"></canvas>
+        </span>
+        <span class="tt-art__wrap tt-art__wrap--l">
+          <canvas class="tt-art__leaf tt-art__leaf--l" aria-hidden="true"></canvas>
+          <canvas class="tt-art__disc" aria-hidden="true"></canvas>
+        </span>
+        <canvas class="tt-art__plate" aria-hidden="true"></canvas>
+        <span class="tt-art__spill" aria-hidden="true"></span>
+        <!-- 檐铃：同一枚 bell.png 用两次，左右错拍。图是从素材表 D457BF68 里按 alpha
+             连通域拆出来的那一枚（挂环 + 刻纹铃身 + 铃舌 + 菱形风片，透明底）。 -->
+        <img class="tt-art__bell tt-art__bell--l" src="/fortune/v7/art/bell.png" alt="" aria-hidden="true" width="104" height="269">
+        <img class="tt-art__bell tt-art__bell--r" src="/fortune/v7/art/bell.png" alt="" aria-hidden="true" width="104" height="269">
+        <span class="tt-art__name" id="artName" aria-hidden="true"></span>
+        <span class="tt-art__guide" aria-hidden="true"></span>
+        <span class="tt-art__guide tt-art__guide--seam" aria-hidden="true"></span>
+      </div>
+      <p class="tt-art__hint">点一下门 · 推门而入</p>
+      <p class="tt-art__cap">门脸是一张生成图，背板与两扇门叶由代码切出来</p>
+
+      <!-- 门内：推开门才递到眼前。有实现的模块就地用引擎算真盘，
+           没实现的给一条链回现成页面的退路 —— 不摆写死的假书。 -->
+      <section class="tt-art__room" id="room" aria-live="polite"></section>
+    </main>
+  </div>
+</div>
+<script src="/fortune/v7/js/mods.js"></script>
+<script>
+  /* ?mod= 决定这道门是谁。母版目前只有一道（八字的），所以先只换匾名与题注；
+     但接线已经留好了：mods.js 那道门一旦补上 src / rect / plaque / disc，
+     这里就照它渲染，不必再动 art.js —— 逐道门的标注只有 mods.js 那一份。 */
+  (function () {
+    var k = new URLSearchParams(location.search).get('m') || new URLSearchParams(location.search).get('mod') || 'compat';
+    if (!k || !window.ttMod) return;
+    var m = window.ttMod(k), art = document.getElementById('art');
+    art.dataset.name = m.name;
+    art.dataset.mod = m.key;
+    if (m.src) art.dataset.src = m.src;
+    if (m.rect) art.dataset.rect = m.rect;
+    if (m.plaque) art.dataset.plaque = m.plaque;
+    if (m.disc) art.dataset.disc = m.disc;
+    var h = document.getElementById('artH1');
+    if (h) h.textContent = '天機閣 · ' + m.slot + ' · ' + m.name + '之门';
+    var cap = document.querySelector('.tt-art__cap');
+    if (cap) cap.textContent = m.src ? m.slot + ' · ' + m.name
+      : m.slot + ' · ' + m.name + ' · 这道门还借着八字的母版';
+  })();
+</script>
+<script src="/fortune/v7/js/art.js"></script>
+<script type="module" src="/fortune/v7/js/room.js"></script>
+<script type="module" src="/fortune/v7/js/house.js"></script>
+<script src="/fortune/v7/js/theme.js"></script>
+</body>
 </html>

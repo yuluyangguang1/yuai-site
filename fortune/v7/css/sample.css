@@ -1,0 +1,388 @@
+/* 样张组件层 sample.css —— 三版共用，只读令牌，不含一个字面色值。
+   与 tianting/base.css 的差别是这一版落实了 09-30 审美评审的 9 条修正：
+   匾额改成额枋双线条＋两端回纹（原来的 clip-path 切角在浅色主题下被裁成毛边）、
+   爻改两列（爻位名独立成列，断口 18%）、三条金线只留一条 divider、
+   首字下沉走 initial-letter 并保留 float 兜底、玻璃卡真做出透（blur＋顶部内高光）、
+   明暗切换从实心金块改成细描线胶囊、命盘补满十二宫外格、点区 ≥ --tt-tap。
+   纪律由 v6_css_gate.mjs 校验：node v6_css_gate.mjs --tokens=v6/samples/scale.css,v6/samples/a.css v6/samples/sample.css */
+
+/* ── 1. 页面骨架与天幕 ─────────────────────────────────── */
+.tt-doc {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--tt-bg);
+  color: var(--tt-ink);
+  font-family: var(--tt-font);
+  font-size: var(--tt-fs-4);
+  line-height: var(--tt-lh-body);
+  letter-spacing: var(--tt-ls-body);
+  -webkit-font-smoothing: antialiased;
+}
+.tt-page { position: relative; isolation: isolate; overflow: clip }
+.tt-shell { position: relative; max-width: var(--tt-wide); margin: 0 auto; padding: var(--tt-sp-6) var(--tt-gutter) var(--tt-sp-8) }
+
+/* 星汉：四组平铺小点，每组瓦片尺寸不同 → 任何页高都铺得满，且看不出周期。
+   第一版把七颗点写死在 8%–64% 的位置上，页面一长下半张图就是空的（截图里根本看不见星）。 */
+.tt-starfield {
+  position: absolute;
+  inset: -6% -4% 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 34px 52px, var(--tt-star), transparent 62%),
+    radial-gradient(1.6px 1.6px at 128px 168px, var(--tt-star), transparent 62%),
+    radial-gradient(2.4px 2.4px at 214px 96px, var(--tt-star), transparent 62%),
+    radial-gradient(1.4px 1.4px at 76px 236px, var(--tt-star), transparent 62%);
+  background-size: 268px 292px, 344px 316px, 412px 388px, 196px 264px;
+}
+/* 云纹：两团极淡的青雾，慢慢横移。只允许出现在页底与题后。 */
+.tt-clouds {
+  position: absolute;
+  inset: 0 -10%;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(58% 26% at 18% 84%, var(--tt-cloud), transparent 70%),
+    radial-gradient(46% 22% at 76% 96%, var(--tt-cloud), transparent 70%),
+    radial-gradient(40% 18% at 50% 8%, var(--tt-cloud), transparent 70%);
+  background-repeat: no-repeat;
+}
+
+/* ── 2. 导航与明暗切换 ─────────────────────────────────── */
+.tt-nav {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--tt-sp-4);
+  flex-wrap: wrap;
+  padding-bottom: var(--tt-sp-3);
+  border-bottom: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-nav__brand { display: flex; align-items: center; gap: var(--tt-sp-2); font-size: var(--tt-fs-3); color: var(--tt-ink) }
+.tt-nav__list { display: flex; gap: var(--tt-sp-5); list-style: none; margin: 0; padding: 0 }
+.tt-nav__item {
+  display: inline-flex; align-items: center; min-height: var(--tt-tap);
+  padding: 0 var(--tt-sp-1);
+  font-size: var(--tt-fs-3); color: var(--tt-ink-2); text-decoration: none;
+  border-bottom: var(--tt-bar) solid transparent;
+  transition: color var(--tt-d-micro) var(--tt-e-settle), border-color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-nav__item:hover { color: var(--tt-ink) }
+.tt-nav__item--cur { color: var(--tt-accent); border-bottom-color: var(--tt-accent-dim) }
+
+/* 明暗切换：细描线胶囊。原来做成实心金块，一个开关抢了匾额的风头。 */
+.tt-theme {
+  display: inline-flex; align-items: center; gap: 0;
+  border: var(--tt-hair) solid var(--tt-line);
+  border-radius: var(--tt-r-0);
+}
+.tt-theme__opt {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: var(--tt-tap); min-width: var(--tt-tap);
+  padding: 0 var(--tt-sp-3);
+  background: transparent; border: 0;
+  font-family: inherit; font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-meta);
+  color: var(--tt-ink-3); cursor: pointer;
+  transition: color var(--tt-d-micro) var(--tt-e-settle), background-color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-theme__opt + .tt-theme__opt { border-left: var(--tt-hair) solid var(--tt-rule) }
+.tt-theme__opt:hover { color: var(--tt-ink) }
+.tt-theme__opt--on { color: var(--tt-accent); background: var(--tt-bg-veil) }
+
+/* ── 3. 匾额与天题 ─────────────────────────────────────── */
+/* 额枋：上下各一道「粗线＋发丝线」，两端各一枚回纹（回＝方框套方框）。
+   不再用 clip-path 假切角：那道斜角在浅底上看着像纸撕破了。
+   匾额只有 30px 一档：它和 100px 的天题都是居中大字时会打架，让出主角位才像「门楣上的匾」。 */
+.tt-plaque {
+  display: flex; align-items: center; justify-content: center; gap: var(--tt-sp-4);
+  margin: 0 0 var(--tt-sp-7);
+  padding: var(--tt-sp-3) 0;
+  border-top: var(--tt-edge) solid var(--tt-line);
+  border-bottom: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-plaque__hui {
+  position: relative; flex: none;
+  width: 11px; height: 11px;
+  border: var(--tt-hair) solid var(--tt-accent-dim);
+}
+.tt-plaque__hui::after { content: ''; position: absolute; inset: 2px; border: var(--tt-hair) solid var(--tt-accent-dim) }
+.tt-plaque__text {
+  margin: 0;
+  font-size: var(--tt-fs-6); font-weight: 700;
+  line-height: var(--tt-lh-tight); letter-spacing: var(--tt-ls-plaque);
+  color: var(--tt-accent-bright);
+}
+
+.tt-hero { text-align: center; margin: var(--tt-sp-9) 0 var(--tt-sp-8) }
+.tt-sky {
+  margin: 0 0 var(--tt-sp-4);
+  font-size: var(--tt-fs-9); font-weight: 700;
+  line-height: var(--tt-lh-tight); letter-spacing: var(--tt-ls-title);
+  color: var(--tt-ink);
+}
+.tt-sky__sub {
+  margin: 0 auto; max-width: var(--tt-measure);
+  font-size: var(--tt-fs-5); color: var(--tt-ink-2);
+  letter-spacing: var(--tt-ls-title);
+}
+
+/* ── 4. 章题与正文 ─────────────────────────────────────── */
+.tt-chapter { display: flex; align-items: baseline; gap: var(--tt-sp-3); margin: var(--tt-flow-sec) 0 var(--tt-sp-5) }
+/* 号板改成描线小框：实心色块压在暗底上像贴了张便签，而且和主按钮同形同色，读起来分不清哪个能点 */
+.tt-chapter__num {
+  flex: none;
+  padding: var(--tt-sp-1) var(--tt-sp-2);
+  border: var(--tt-hair) solid var(--tt-accent-dim);
+  color: var(--tt-accent);
+  font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-meta);
+}
+.tt-chapter__title {
+  margin: 0; font-size: var(--tt-fs-7); font-weight: 700;
+  letter-spacing: var(--tt-ls-title); line-height: var(--tt-lh-snug);
+  color: var(--tt-ink);
+}
+/* 一条线就够：原稿里号板下、标题下、段首下各一道，像三张表格粘在一起 */
+.tt-chapter__rule { flex: 1 1 auto; border-top: var(--tt-hair) solid var(--tt-rule); transform: translateY(-.35em) }
+
+.tt-prose { max-width: var(--tt-measure); margin: 0 }
+.tt-p { margin: 0 0 var(--tt-sp-4); color: var(--tt-ink) }
+.tt-key { color: var(--tt-accent); font-weight: 700 }
+.tt-note { font-size: var(--tt-fs-1); color: var(--tt-ink-3); letter-spacing: var(--tt-ls-body) }
+.tt-meta { font-size: var(--tt-fs-2); color: var(--tt-ink-2); letter-spacing: var(--tt-ls-meta) }
+.tt-quote {
+  margin: var(--tt-sp-5) 0; padding-left: var(--tt-sp-4);
+  border-left: var(--tt-bar) solid var(--tt-line);
+  font-size: var(--tt-fs-5); line-height: var(--tt-lh-verse); color: var(--tt-ink-2);
+}
+/* 首字下沉：float 是兜底（各浏览器都在），支持 initial-letter 时换成真对齐基线的两行高。
+   颜色取墨不取金——金一旦落到正文第一个字上，整页的金就收不住了。 */
+.tt-p--drop::first-letter {
+  float: left; margin: .12em var(--tt-sp-2) 0 0;
+  font-size: 2.6em; line-height: .82; font-weight: 700; color: var(--tt-ink);
+}
+@supports (initial-letter: 2) {
+  .tt-p--drop::first-letter {
+    float: none; margin: 0 var(--tt-sp-3) 0 0;
+    initial-letter: 2; line-height: inherit; font-size: inherit;
+  }
+}
+
+/* ── 5. 卡片、玻璃、命盘 ───────────────────────────────── */
+.tt-card {
+  background: var(--tt-bg-card);
+  border: var(--tt-hair) solid var(--tt-line);
+  border-radius: var(--tt-r-0);
+  padding: var(--tt-sp-6);
+}
+/* 玻璃：blur 让背后的星点真的糊掉，顶边一道内高光当「玉面反光」，不借 box-shadow */
+.tt-glass {
+  position: relative;
+  background: var(--tt-glass);
+  -webkit-backdrop-filter: blur(14px) saturate(1.08);
+  backdrop-filter: blur(14px) saturate(1.08);
+  border: var(--tt-hair) solid var(--tt-rule);
+  padding: var(--tt-sp-6);
+}
+.tt-glass::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(to bottom, var(--tt-bg-veil), transparent 42%);
+}
+
+.tt-chart { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--tt-hair); background: var(--tt-rule); border: var(--tt-hair) solid var(--tt-line) }
+.tt-chart__cell {
+  background: var(--tt-bg-inset);
+  padding: var(--tt-sp-3);
+  min-height: 5.5rem;
+  display: flex; flex-direction: column; gap: var(--tt-sp-1);
+}
+/* 命宫是这一盘的主语，给它一道形制条；其余宫位保持同色，不然十二格会花成色卡 */
+.tt-chart__cell--ming { border-top: var(--tt-bar) solid var(--tt-accent-dim) }
+.tt-chart__label { font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3) }
+.tt-chart__name { font-size: var(--tt-fs-3); color: var(--tt-ink) }
+.tt-chart__mid {
+  grid-column: 2 / span 2; grid-row: 2 / span 2;
+  background: var(--tt-bg-card);
+  padding: var(--tt-sp-4);
+  outline: var(--tt-hair) solid var(--tt-rule); outline-offset: -7px;
+  display: flex; flex-direction: column; justify-content: center; gap: var(--tt-sp-2);
+}
+
+/* ── 6. 卦爻 ───────────────────────────────────────────── */
+/* 两列：爻位名自成左列，右列只放爻线。原来名与线挤在一行，断口和字混成一片。 */
+.tt-yao { display: flex; flex-direction: column; gap: var(--tt-sp-3); max-width: 28rem }
+.tt-yao__line { display: grid; grid-template-columns: 4.5rem 1fr; align-items: center; gap: var(--tt-sp-4) }
+.tt-yao__name { font-size: var(--tt-fs-2); color: var(--tt-ink-3); letter-spacing: var(--tt-ls-meta) }
+/* 爻线取墨不取金：六条金线排下来像六根进度条。卦爻是刻出来的，不是亮出来的。 */
+.tt-yao-row { position: relative; height: var(--tt-bar); background: var(--tt-ink-2) }
+.tt-yao-row--broken::before,
+.tt-yao-row--broken::after {
+  content: ''; position: absolute; top: 0; height: var(--tt-bar); background: var(--tt-ink-2);
+}
+.tt-yao-row--broken::before { left: 0; width: calc((100% - var(--tt-yao-gap)) / 2) }
+.tt-yao-row--broken::after { right: 0; width: calc((100% - var(--tt-yao-gap)) / 2) }
+.tt-yao-row--broken { background: transparent }
+
+/* ── 7. 按钮、印、徽章、五行 ───────────────────────────── */
+.tt-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--tt-sp-2);
+  min-height: var(--tt-tap);
+  padding: var(--tt-sp-2) var(--tt-sp-5);
+  background: var(--tt-accent-solid); color: var(--tt-accent-on);
+  border: var(--tt-hair) solid var(--tt-accent-solid);
+  border-radius: var(--tt-r-0);
+  font-family: inherit; font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-title);
+  text-decoration: none; cursor: pointer;
+  transition: background-color var(--tt-d-micro) var(--tt-e-settle), color var(--tt-d-micro) var(--tt-e-settle), border-color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-btn:hover { background: var(--tt-accent); border-color: var(--tt-accent) }
+.tt-btn--verm { background: var(--tt-verm-solid); border-color: var(--tt-verm-solid); color: var(--tt-verm-on) }
+.tt-btn--verm:hover { background: var(--tt-verm); border-color: var(--tt-verm) }
+.tt-btn--ghost { background: transparent; color: var(--tt-accent); border-color: var(--tt-line) }
+/* 首页只留一扇「门」：第二入口去框留强调色字，第三入口连色也收进墨里。
+   三个按钮都描线的话，2px 与 1px 的层级在楷体上根本分不出来。 */
+.tt-btn--plain { background: transparent; color: var(--tt-accent); border-color: transparent }
+.tt-btn--quiet { background: transparent; color: var(--tt-ink-2); border-color: transparent }
+/* 基类 :hover 是「填强调色」，对描线/纯字两档是错的（会连字一起盖成一块亮斑）——逐档压回。 */
+.tt-btn--ghost:hover, .tt-btn--plain:hover { background: var(--tt-bg-veil); border-color: var(--tt-accent-dim); color: var(--tt-accent-bright) }
+.tt-btn--quiet:hover { background: transparent; border-color: transparent; color: var(--tt-ink) }
+.tt-btn[disabled] { color: var(--tt-ink-4); border-color: var(--tt-rule); background: transparent; cursor: not-allowed }
+
+.tt-seal {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 3.25rem; height: 3.25rem;
+  border: var(--tt-edge) solid var(--tt-verm);
+  border-radius: var(--tt-r-2);
+  color: var(--tt-verm); font-size: var(--tt-fs-3); line-height: 1.15;
+  letter-spacing: 0;
+}
+.tt-seal--solid { background: var(--tt-verm-solid); border-color: var(--tt-verm-solid); color: var(--tt-verm-on) }
+
+.tt-badge {
+  display: inline-flex; align-items: center;
+  padding: var(--tt-sp-1) var(--tt-sp-3);
+  background: var(--tt-badge-accent); color: var(--tt-accent);
+  font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-title);
+}
+.tt-badge--verm { background: var(--tt-badge-verm); color: var(--tt-verm-bright) }
+.tt-badge--ok { background: var(--tt-badge-ok); color: var(--tt-ok) }
+.tt-badge--info { background: var(--tt-bg-veil); color: var(--tt-info) }
+/* 五行五个彩色字挤在一起会像贴了张色卡：拉开间距、降一档字号，让它回到「注」的位置 */
+.tt-wx-row { display: flex; align-items: baseline; gap: var(--tt-sp-5); margin: var(--tt-sp-4) 0 }
+.tt-wx { font-size: var(--tt-fs-4); letter-spacing: var(--tt-ls-title) }
+.tt-wx--wood { color: var(--tt-wx-wood) } .tt-wx--fire { color: var(--tt-wx-fire) }
+.tt-wx--earth { color: var(--tt-wx-earth) } .tt-wx--metal { color: var(--tt-wx-metal) }
+.tt-wx--water { color: var(--tt-wx-water) }
+
+/* ── 8. 表单与分隔 ─────────────────────────────────────── */
+.tt-field { display: flex; flex-direction: column; gap: var(--tt-sp-2); max-width: 20rem }
+.tt-label { font-size: var(--tt-fs-2); color: var(--tt-ink-2); letter-spacing: var(--tt-ls-meta) }
+.tt-input {
+  min-height: var(--tt-tap);
+  padding: var(--tt-sp-2) var(--tt-sp-3);
+  background: var(--tt-bg-inset); color: var(--tt-ink);
+  border: var(--tt-hair) solid var(--tt-line);
+  border-radius: var(--tt-r-0);
+  font-family: inherit; font-size: var(--tt-fs-3);
+  transition: border-color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-input:hover { border-color: var(--tt-accent-dim) }
+.tt-divider {
+  display: flex; align-items: center; justify-content: center; gap: var(--tt-sp-3);
+  margin: var(--tt-sp-8) 0;
+  border-top: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-divider__dot { width: 5px; height: 5px; background: var(--tt-line); transform: rotate(45deg) }
+
+/* ── 9. 图标与页脚 ─────────────────────────────────────── */
+.tt-icon { width: var(--tt-icon); height: var(--tt-icon); color: var(--tt-ink-2); flex: none }
+.tt-icon--sm { width: var(--tt-icon-sm); height: var(--tt-icon-sm) }
+.tt-icon--lg { width: var(--tt-icon-lg); height: var(--tt-icon-lg) }
+.tt-icon--accent { color: var(--tt-accent-dim) }
+.tt-foot {
+  margin-top: var(--tt-sp-9); padding-top: var(--tt-sp-5);
+  border-top: var(--tt-hair) solid var(--tt-rule);
+  display: flex; flex-wrap: wrap; gap: var(--tt-sp-4); justify-content: space-between; align-items: flex-start;
+}
+.tt-foot__verse { margin: 0; max-width: var(--tt-measure); font-size: var(--tt-fs-3); line-height: var(--tt-lh-verse); color: var(--tt-ink-2) }
+.tt-foot__links { display: flex; gap: var(--tt-sp-4); list-style: none; margin: 0; padding: 0 }
+.tt-foot__link {
+  display: inline-flex; align-items: center; min-height: var(--tt-tap);
+  font-size: var(--tt-fs-2); color: var(--tt-ink-3); text-decoration: none;
+  transition: color var(--tt-d-micro) var(--tt-e-settle);
+}
+.tt-foot__link:hover { color: var(--tt-accent) }
+.tt-foot__fine { width: 100%; font-size: var(--tt-fs-1); color: var(--tt-ink-4) }
+.tt-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap }
+
+.tt-page :focus-visible { outline: var(--tt-ring-w) solid var(--tt-ring); outline-offset: var(--tt-ring-off) }
+
+/* ── 10. 动效挂载：不可见态只存在于 @keyframes 里 ─────── */
+.tt-rise { --tt-i: 0 }
+:root[data-tt-anim] .tt-rise { animation: tt-rise var(--tt-d-enter) var(--tt-e-rise) both; animation-delay: calc(var(--tt-step) * var(--tt-i)) }
+:root[data-tt-anim] .tt-hero { animation: tt-hero var(--tt-d-hero) var(--tt-e-settle) both }
+:root[data-tt-anim] .tt-plaque { animation: tt-veil var(--tt-d-veil) var(--tt-e-veil) both }
+:root[data-tt-anim] .tt-starfield { animation: tt-drift var(--tt-t-drift) var(--tt-e-breath) infinite alternate }
+:root[data-tt-anim] .tt-clouds { animation: tt-cloud var(--tt-t-cloud) var(--tt-e-linear) infinite alternate }
+:root[data-tt-anim] .tt-chime { animation: tt-chime var(--tt-d-chime) var(--tt-e-settle) 1 }
+:root[data-tt-anim] .tt-incense { animation: tt-incense var(--tt-d-incense) var(--tt-e-veil) both }
+:root[data-tt-anim] .tt-pulse { animation: tt-pulse var(--tt-t-drift) var(--tt-e-breath) infinite }
+@keyframes tt-rise { from { opacity: 0; transform: translate3d(0, 1.25rem, 0) } to { opacity: 1; transform: none } }
+@keyframes tt-hero { from { opacity: 0; letter-spacing: .34em } to { opacity: 1 } }
+@keyframes tt-veil { from { opacity: 0; clip-path: inset(0 50% 0 50%) } to { opacity: 1; clip-path: inset(0 0 0 0) } }
+@keyframes tt-drift { from { transform: translate3d(0, 0, 0) } to { transform: translate3d(-1.5%, -2.5%, 0) } }
+@keyframes tt-cloud { from { transform: translate3d(-2%, 0, 0) } to { transform: translate3d(2%, -1%, 0) } }
+@keyframes tt-chime { from { opacity: .35; transform: scale(.985) } to { opacity: 1; transform: none } }
+@keyframes tt-incense { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+@keyframes tt-pulse { 50% { opacity: .55 } }
+/* 焚香进度：短条，不是通栏分隔线。铺满一行会被读成「又一道金线」。 */
+.tt-incense { height: var(--tt-bar); max-width: 12rem; margin-top: var(--tt-sp-5); background: var(--tt-accent-dim); transform-origin: left center }
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-tt-anim] .tt-rise,
+  :root[data-tt-anim] .tt-hero,
+  :root[data-tt-anim] .tt-plaque,
+  :root[data-tt-anim] .tt-starfield,
+  :root[data-tt-anim] .tt-clouds,
+  :root[data-tt-anim] .tt-chime,
+  :root[data-tt-anim] .tt-incense,
+  :root[data-tt-anim] .tt-pulse { animation: none !important }
+  .tt-btn, .tt-input, .tt-nav__item, .tt-theme__opt, .tt-foot__link { transition: none !important }
+}
+
+/* ── 11. 首页：题头双标 + 文案首屏 ─────────────────────── */
+/* 两枚标都从现网逐字取，不重画：左 = yu.ai 字标（首页 topbar），右 = 天机阁 阁星界（fortune loader-mark）。
+   伞站是横长字标、子站是方标，所以主客靠「字标收一档 + 只有子站吃强调色」分开。 */
+.tt-mast {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--tt-sp-4);
+  padding-bottom: var(--tt-sp-3);
+  border-bottom: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-mast__pair { display: flex; align-items: center; gap: var(--tt-sp-3) }
+.tt-mast__sep { width: var(--tt-hair); height: 2.5rem; background: var(--tt-line) }
+.tt-mast__item { display: flex; align-items: center; gap: var(--tt-sp-2); text-decoration: none; color: inherit }
+.tt-mark { width: var(--tt-mark); height: var(--tt-mark); color: var(--tt-ink-2); flex: none }
+.tt-mark--yu { width: calc(var(--tt-mark-yu) * 1.946); height: var(--tt-mark-yu) }
+.tt-mark--now { color: var(--tt-accent) }
+.tt-mast__name { display: block; font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3) }
+.tt-mast__now { display: block; font-size: var(--tt-fs-4); letter-spacing: var(--tt-ls-title); color: var(--tt-ink) }
+
+/* 首屏只放这段文案，按呼吸断行；装饰一律不上首屏 */
+.tt-home { text-align: center; padding: var(--tt-sp-9) 0 var(--tt-sp-8) }
+.tt-ask {
+  margin: 0; font-size: var(--tt-fs-7); font-weight: 700;
+  line-height: var(--tt-lh-snug); letter-spacing: var(--tt-ls-title); color: var(--tt-ink);
+}
+.tt-ans { margin: var(--tt-sp-4) 0 0; font-size: var(--tt-fs-5); color: var(--tt-ink-2); letter-spacing: var(--tt-ls-title) }
+/* 「害怕未知」和「无法释怀的过去」是一口气说完的，中间不能断开；
+   真正的留白只留给落款那一句。 */
+.tt-turn {
+  margin: var(--tt-sp-5) auto 0; max-width: 26rem;
+  font-size: var(--tt-fs-4); line-height: var(--tt-lh-verse); color: var(--tt-ink-2);
+}
+/* 落款走匾额形制（额枋 + 回纹），否则 60px 的「天机阁。」和 44px 的问句就是两个大标题在打架。 */
+.tt-plaque--home { margin: var(--tt-sp-9) 0 0; padding-bottom: var(--tt-sp-4) }
+.tt-plaque--home .tt-plaque__text { font-size: var(--tt-fs-8) }
+.tt-oath { margin: 0; font-size: var(--tt-fs-5); letter-spacing: var(--tt-ls-title); color: var(--tt-ink) }
+.tt-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--tt-sp-3); margin-top: var(--tt-sp-7) }
+/* 首屏主按钮不填强调色：整块亮色会把墨底打穿，C 版还会金成一块会员卡。
+   用「略提一档的墨底 + 2px 强调线 + 强调字」做层级，靠形制而不是靠亮度。 */
+.tt-btn--lead { background: var(--tt-bg-raised); border: var(--tt-edge) solid var(--tt-accent-dim); color: var(--tt-accent-bright) }
+.tt-btn--lead:hover { background: var(--tt-accent-solid); border-color: var(--tt-accent-solid); color: var(--tt-accent-on) }
+.tt-why { margin: var(--tt-sp-6) auto 0; max-width: var(--tt-measure); font-size: var(--tt-fs-2); color: var(--tt-ink-3); letter-spacing: var(--tt-ls-body) }

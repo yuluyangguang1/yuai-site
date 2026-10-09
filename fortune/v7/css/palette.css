@@ -1,0 +1,92 @@
+/* 样张 D「昼素夜金」= A 的浅底 + C 的暗底
+   我的建议拼法，理由有两条：
+   1) C 的鎏金压在宣纸上必然发橄榄褐（金在亮底上要压到 #63501F 才压得住，那就不是金是酱）；
+   2) 「一点金」本来就该是夜观的事——白昼的钦天监不点灯。
+   所以：浅主题走 A 的月白／青灰，暗主题才给鎏金。除强调 7 个令牌外，其余与 A／C 逐字相同。 */
+:root {
+  --tt-bg: light-dark(#E9ECEA, #070B0E);
+  --tt-bg-raised: light-dark(#F1F3F1, #0C1317);
+  --tt-bg-card: light-dark(#F8F9F7, #111A1F);
+  --tt-bg-inset: light-dark(#DFE4E2, #16232A);
+  --tt-bg-veil: light-dark(rgba(16, 26, 30, .05), rgba(196, 220, 228, .05));
+  --tt-scrim: light-dark(rgba(14, 20, 22, .55), rgba(4, 8, 10, .74));
+  --tt-scrim-hold: light-dark(rgba(14, 20, 22, .34), rgba(4, 8, 10, .74));
+  /* 塔画顶边的实测色（母版 #0e1a22、夜支首帧 #0a1521、昼支首帧 #0c1820、昼支末帧 #021025），
+     顶屏「每日天机」那道渐变过渡就得收在这里，接缝才看不出来。
+     两支与深浅两版都用同一个值：画永远是那片夜天，昼/夜那颗按钮只管楼里的灯。 */
+  --tt-pav-sky: #0A1620;
+
+  --tt-ink: light-dark(#141A1B, #E9EEEA);
+  --tt-ink-2: light-dark(#3A4446, #B3BFBC);
+  --tt-ink-3: light-dark(#54605F, #8A9794);
+  --tt-ink-4: light-dark(#7B8586, #6E7B79);
+
+  /* 这 7 个就是 D 的全部主张：亮支取 A 的月白，暗支取 C 的哑光鎏金 */
+  --tt-accent: light-dark(#3F545A, #B8975A);
+  --tt-accent-bright: light-dark(#2C4046, #D2B377);
+  --tt-accent-dim: light-dark(#5D7378, #8C7544);
+  --tt-accent-solid: light-dark(#2C4046, #96793E);
+  --tt-accent-on: light-dark(#F1F4F3, #070B0E);
+  --tt-ring: light-dark(#3F545A, #B8975A);
+  --tt-badge-accent: light-dark(rgba(63, 84, 90, .12), rgba(184, 151, 90, .14));
+
+  --tt-verm: light-dark(#A8341A, #D9603F);
+  --tt-verm-bright: light-dark(#8A2B13, #EE8266);
+  --tt-verm-solid: light-dark(#9C3117, #9E3521);
+  --tt-verm-on: light-dark(#F5F1EA, #E9EEEA);
+
+  --tt-ok: light-dark(#17704A, #5FC0A0);
+  --tt-info: light-dark(#1E5C93, #7FB0E0);
+
+  --tt-wx-wood: light-dark(#1D7138, #66C585);
+  --tt-wx-fire: light-dark(#B3351F, #EE7059);
+  --tt-wx-earth: light-dark(#6B5A2A, #CBB08A);
+  --tt-wx-metal: light-dark(#4E585C, #CFD8DA);
+  --tt-wx-water: light-dark(#1E5C93, #7FB0E0);
+
+  /* 结构线两版都留银灰：金只在夜里点亮几处，不铺满 */
+  --tt-line: light-dark(rgba(20, 26, 27, .52), rgba(198, 213, 217, .46));
+  --tt-rule: light-dark(rgba(20, 26, 27, .22), rgba(198, 213, 217, .22));
+
+  --tt-glass: light-dark(rgba(255, 255, 255, .62), rgba(22, 38, 45, .58));
+  --tt-badge-verm: light-dark(rgba(168, 52, 26, .12), rgba(217, 96, 63, .16));
+  --tt-badge-ok: light-dark(rgba(23, 112, 74, .12), rgba(95, 192, 160, .16));
+
+  /* 昼间星隐：浅底上的星点会读成宣纸脏点，所以亮支压到 .05，暗支才当真 */
+  --tt-star: light-dark(rgba(20, 26, 27, .05), rgba(226, 238, 240, .62));
+  --tt-cloud: light-dark(rgba(20, 26, 27, .035), rgba(188, 189, 190, .075));
+  /* 门前雾（V7-16）：改成中性灰。之前那一路走冷青（#B4D0DA 一类），压在暖门上确实有对照，
+     但对照过头——青雾 + 朱门在截图里读成夜视仪/化学感，雾本身也不像水气像一层膜。
+     灰同样能当对照：它是「无彩」，门是「有彩」，冷暖之争换成彩度之争，月下观门那句还在。
+     明度按等亮度换算（青 #B4D0DA 的 L≈.599 → 中性灰取 203），换色相不换明度，
+     所以 V7-15 那笔「门提亮后雾要跟着抬」的账不用重算。
+     昼支也一并去青：宣纸上的雾给浅灰，它落在暖门上才显形、落在纸上是一层淡墨——
+     水墨画本来就是用淡墨染雾，不是留白。 */
+  --tt-mist: light-dark(rgba(206, 208, 208, .40), rgba(203, 204, 205, .26));
+
+  /* 门是漆的，不是纸的。浅底上让门跟着页面一起发白，那一页就没有门（V7 首轮截图实测翻车）。
+     所以门面的深浅不随明暗翻转。
+   V7-12 压深 → V7-14 撤「阴间」（同色相冷青灰 → 按材料分色）→ V7-15 明亮大气：
+     材料分色对了，明度还欠着一整档。V7-14 那版夜支 face #3B211D 对页面底只有 1.34:1，
+     门楼是「压进黑里的一块暗」，用户判「不够亮、不够大气」。
+     这一版整套材料一起抬两到三档，但**只抬明度、不动色相分工**：
+       漆朱 #3B211D→#7A3B2C（夜）/ #6E2A20→#B85034（昼，宫墙红）
+       瓦墨 #223239→#2A3B43（夜）/ #263033→#3B4A50（昼）——瓦必须比门暗，否则顶盖压不住
+       石作 #464038→#6B6154（夜）/ #6B6357→#A79C8B（昼，汉白玉）
+       描线 #8C8272→#B5A891（夜）/ #9A8E7C→#C4B49B（昼）
+       铜金 #B8975A→#D8B878（夜）/ #BE9F6B→#E8D0A0（昼）
+     抬完仍守着 v6_sample_gate 的 LINES 下界（本组实测 face/bg 2.34、frame/bg 1.70、
+     stone/face 1.39、metal/face 4.44）；frame 与 face 之间刻意留 1.38 的差，
+     两者一起抬会并成一坨——「框比门亮」就是门框消失的原因。
+     昼支金属件走到浅金，是这一版跟「昼素夜金」旧规的一次有意偏离：朱门金钉本是一体，
+     要明亮大气就不能白天给一扇褪了色的门。冷雾照旧留着当对照。 */
+  --tt-gate-face: light-dark(#B85034, #7A3B2C);
+  --tt-gate-frame: light-dark(#3B4A50, #2A3B43);
+  /* 石框：门框/门额/门槛用石色，屋面与门叶各走各的。浅底时三者原本只差十几级，整座门读成一整块黑。 */
+  --tt-gate-stone: light-dark(#A79C8B, #6B6154);
+  --tt-gate-stud: light-dark(#94887A, #7D7263);
+  --tt-gate-line: light-dark(#C4B49B, #B5A891);
+  --tt-gate-metal: light-dark(#E8D0A0, #D8B878);
+  --tt-gate-glow: light-dark(#F5E9CE, #E8CE96);
+  --tt-gate-halo: light-dark(#C9B69A, #EAD3A0);
+}
