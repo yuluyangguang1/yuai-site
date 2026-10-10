@@ -37,8 +37,7 @@ import { ASK } from './prompts.js';
   var YAO_POS = ['初', '二', '三', '四', '五', '上'];
   var ZOO = '鼠牛虎兔龙蛇马羊猴鸡狗猪';
   var NAM = null;
-  var LEGACY = { tianji: '/fortune/' };
-  function legacy(k) { return LEGACY[k] || '/fortune/' + k + '/' }
+  var HOME = '/fortune/';   /* 门页自己就是这一术的页面，站内唯一还能往外去的地方是阁楼 */
   function el(t, c, x) { var n = document.createElement(t); if (c) n.className = c; if (x != null) n.textContent = x; return n }
   function pad(n) { return n < 10 ? '0' + n : '' + n }
   function today() { var d = new Date(); return [d.getFullYear(), d.getMonth() + 1, d.getDate()] }
@@ -548,10 +547,7 @@ import { ASK } from './prompts.js';
         ].forEach(function (n) { box.appendChild(el('p', 'tt-room__meta', '· ' + n)) });
         if (o.relaxed) box.appendChild(el('p', 'tt-room__meta', '· 喜用五行内无可用字，已放开喜用限制重拟'));
         box.appendChild(el('p', 'tt-room__foot',
-          '字库为康熙笔画与通用规范汉字表（与现网起名页同包分发）；测名、避讳与出生地真太阳时校正请用现成的起名页。'));
-        var a = el('a', 'tt-room__go', '去起名页测名');
-        a.href = legacy('naming');
-        box.appendChild(a);
+          '字库为康熙笔画与通用规范汉字表（与现网起名页同包分发）。这一门只拟名：测名、避讳与出生地真太阳时校正暂未接进新皮。'));
       }
     },
     crossref: {
@@ -613,10 +609,7 @@ import { ASK } from './prompts.js';
         box.appendChild(pt);
         box.appendChild(el('p', 'tt-room__foot',
           '两套盘同出一张生时贴：八字用现网 calculator（年柱按立春）+ 神煞表，紫微用现网 iztro + patterns。'
-            + '交叉对账要问 AI —— 双盘数据与对账提纲都在现成的互参页上。'));
-        var a = el('a', 'tt-room__go', '去互参页做交叉对账');
-        a.href = legacy('crossref');
-        box.appendChild(a);
+            + '交叉对账就在本页下方「问一问」里问 —— 双盘数据会自动带进提示词。'));
       }
     },
     tianji: {
@@ -686,8 +679,8 @@ import { ASK } from './prompts.js';
         box.appendChild(idx);
         box.appendChild(el('p', 'tt-room__foot',
           '总览只摆两套盘互相能对上的部分；断语与交叉对账要问 AI，请用天机阁首页上的各术页面。'));
-        var a = el('a', 'tt-room__go', '去天机阁首页');
-        a.href = legacy('tianji');
+        var a = el('a', 'tt-room__go', '回阁楼挑一门能问的');
+        a.href = HOME;
         box.appendChild(a);
       }
     }
@@ -888,9 +881,9 @@ import { ASK } from './prompts.js';
     head.appendChild(el('p', 'tt-room__title', name));
     head.appendChild(el('p', 'tt-room__hint', '这一门还没接进新皮'));
     wrap.appendChild(head);
-    wrap.appendChild(el('p', 'tt-room__none', '盘面、符与解读都在现成的那一页上 —— 同一套引擎，先把事办完。'));
-    var a = el('a', 'tt-room__go', '用现成的页面看这一术');
-    a.href = legacy(key);
+    wrap.appendChild(el('p', 'tt-room__none', '这一门还没接进新皮 —— 回阁楼挑一门已经能用的。'));
+    var a = el('a', 'tt-room__go', '回阁楼');
+    a.href = HOME;
     wrap.appendChild(a);
     return wrap;
   }

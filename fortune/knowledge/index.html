@@ -1,228 +1,280 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(function(){});});}</script>
-    <link rel="icon" type="image/svg+xml" href="/fortune/favicon.svg" />
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>命理知识库｜星曜神煞基础词条 · YUAI天机阁</title>
+<link rel="icon" type="image/svg+xml" href="/fortune/favicon.svg" />
     <link rel="icon" type="image/svg+xml" href="/fortune/favicon-small.svg" sizes="64x64" />
-<!-- tjg-install:start -->
     <link rel="apple-touch-icon" sizes="180x180" href="/fortune/icons/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="天机阁" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="mobile-web-app-capable" content="yes" />
-<!-- tjg-install:end -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>命理知识库｜星曜神煞基础词条 · YUAI天机阁</title>
-    <meta name="description" content="天机阁内置命理知识词条：星曜、神煞与基础概念速查。" />
-    <link rel="canonical" href="https://yuai-r.cn/fortune/knowledge/" />
-    <meta property="og:type" content="website" />
+    <link rel="manifest" href="/fortune/manifest.webmanifest" />
+<meta name="theme-color" content="#0A0912" />
+<meta name="description" content="天机阁内置命理知识词条：星曜、神煞与基础概念速查。" />
+<link rel="canonical" href="https://yuai-r.cn/fortune/knowledge/" />
+<meta property="og:type" content="website" />
     <meta property="og:title" content="命理知识库｜星曜神煞基础词条 · YUAI天机阁" />
     <meta property="og:description" content="天机阁内置命理知识词条：星曜、神煞与基础概念速查。" />
     <meta property="og:url" content="https://yuai-r.cn/fortune/knowledge/" />
     <meta property="og:image" content="https://yuai-r.cn/fortune/og-tianji.webp" />
     <meta property="og:locale" content="zh_CN" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://yuai-r.cn/fortune/og-tianji.webp" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://yuai-r.cn/fortune/#organization","name":"YUAI 天机阁","url":"https://yuai-r.cn/fortune/","logo":{"@type":"ImageObject","url":"https://yuai-r.cn/fortune/icons/fortune-512.png"}},{"@type":"WebSite","@id":"https://yuai-r.cn/fortune/#website","url":"https://yuai-r.cn/fortune/","name":"YUAI 天机阁","inLanguage":"zh-CN","publisher":{"@id":"https://yuai-r.cn/fortune/#organization"}},{"@type":"WebPage","@id":"https://yuai-r.cn/fortune/knowledge/#webpage","url":"https://yuai-r.cn/fortune/knowledge/","name":"命理知识库｜星曜神煞基础词条 · YUAI天机阁","description":"天机阁内置命理知识词条：星曜、神煞与基础概念速查。","inLanguage":"zh-CN","datePublished":"2026-08-31","dateModified":"2026-09-20","isPartOf":{"@id":"https://yuai-r.cn/fortune/#website"},"breadcrumb":{"@id":"https://yuai-r.cn/fortune/knowledge/#breadcrumb"},"mainEntity":{"@id":"https://yuai-r.cn/fortune/knowledge/#app"}},{"@type":"BreadcrumbList","@id":"https://yuai-r.cn/fortune/knowledge/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"天机阁","item":"https://yuai-r.cn/fortune/"},{"@type":"ListItem","position":2,"name":"命理知识库","item":"https://yuai-r.cn/fortune/knowledge/"}]},{"@type":"WebApplication","@id":"https://yuai-r.cn/fortune/knowledge/#app","name":"命理知识库","alternateName":"Encyclopedia","url":"https://yuai-r.cn/fortune/knowledge/","description":"天机阁内置命理知识词条：星曜、神煞与基础概念速查。","applicationCategory":"LifestyleApplication","operatingSystem":"Web browser","inLanguage":"zh-CN","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"},"featureList":["星曜","神煞","基础术语速查"],"publisher":{"@id":"https://yuai-r.cn/fortune/#organization"}}]}</script>
-    <meta name="theme-color" content="#0A0912" />
-    <!-- 防止主题闪烁：在 CSS 加载前读取 localStorage -->
-    <script>
-      (function(){
-        try {
-          var s = localStorage.getItem('fortune-settings');
-          if (s) {
-            var d = JSON.parse(s);
-            if (d && d.state && d.state.theme === 'dark') {
-              document.documentElement.classList.add('dark');
-            }
-          }
-        } catch(e){}
-      })();
-    </script>
-    <!-- 自愈：分块加载失败（部署更新后旧 chunk 404 / 网络抖动）时自动重载一次 -->
-    <script>
-      (function(){
-        var K = 'fortune-chunk-reload';
-        function once(){
-          try {
-            if (!sessionStorage.getItem(K)) { sessionStorage.setItem(K, '1'); location.reload(); }
-          } catch(_) {
-            if (!window.__fortuneReloaded) { window.__fortuneReloaded = 1; location.reload(); }
-          }
-        }
-        window.addEventListener('vite:preloadError', function(e){ e.preventDefault(); once(); });
-        window.addEventListener('unhandledrejection', function(e){
-          var m = String((e && e.reason && (e.reason.message || e.reason)) || '');
-          if (/dynamically imported module|Importing a module script|Failed to fetch dynamically/i.test(m)) { once(); }
-        });
-        window.addEventListener('error', function(e){
-          var t = e && e.target, u = t && (t.src || t.href) || '';
-          if (/assets\/[^"']*\.(js|css)/.test(u)) { once(); }
-        }, true);
-      })();
-    </script>
-    <!-- 内联关键样式，防止白屏 -->
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        background: #F4E9DC;
-        transition: background 0.35s ease;
-      }
-      html.dark, html.dark body {
-        background: #0A0912;
-      }
-      #root {
-        min-height: 100vh;
-      }
-      /* 加载动画 */
-      .app-loader {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        background: #F4E9DC;
-        transition: opacity 0.5s ease;
-      }
-      html.dark .app-loader {
-        background: #0A0912;
-      }
-      .app-loader.fade-out {
-        opacity: 0;
-        pointer-events: none;
-      }
-      .loader-mark {
-        width: 56px;
-        height: 56px;
-      }
-      .loader-mark .lm-frame { stroke: #75591F; }
-      .loader-mark .lm-pav { fill: #75591F; }
-      .loader-mark .lm-star { fill: #9E4B3B; }
-      html.dark .loader-mark .lm-frame { stroke: #C9A85C; }
-      html.dark .loader-mark .lm-pav { fill: #C9A85C; }
-      html.dark .loader-mark .lm-star { fill: #C96A55; }
-      .loader-pav { animation: ink-breathe 2.6s ease-in-out infinite; }
-      .loader-text {
-        margin-top: 16px;
-        font-family: 'Noto Serif SC', serif;
-        font-size: 12px;
-        letter-spacing: 0.3em;
-        color: #A07828;
-      }
-      html.dark .loader-text { color: #C9A85C; }
-      @keyframes ink-breathe {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 1; }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .loader-pav { animation: none; opacity: 1; }
-      }
-    </style>
-    <script type="module" crossorigin src="/fortune/assets/index-O1TJYHiF.js"></script>
-    <link rel="modulepreload" crossorigin href="/fortune/assets/vendor-react-D_ze9-jD.js">
-    <link rel="modulepreload" crossorigin href="/fortune/assets/vendor-motion-uegpHKi9.js">
-    <link rel="stylesheet" href="/fonts/lxgwwenkai-regular.css" />
-    <link rel="stylesheet" crossorigin href="/fortune/assets/index-BIM_xI-2.css">
-  <link rel="manifest" href="/fortune/manifest.webmanifest" />
-  </head>
-  <body>
-    <!-- 加载动画：React 挂载后自动移除 -->
-    <div class="app-loader" id="app-loader">
-      <svg class="loader-mark" viewBox="0 0 32 32" fill="none" role="img" aria-label="YUAI 天机阁">
-        <g class="loader-pav">
-          <rect class="lm-frame" x="1.50" y="1.50" width="29" height="29" fill="none" stroke-width="1" opacity="0.3"/>
-          <path class="lm-pav" fill-rule="evenodd" d="M12.88 8.00 L19.13 8.00 L22.88 10.13 L24.50 9.13 L24.50 11.38 L7.50 11.38 L7.50 9.13 L9.13 10.13 Z M11.75 11.38 L20.00 11.38 L20.00 15.75 L11.75 15.75 Z M14.50 12.50 L17.25 12.50 L17.25 15.25 L14.50 15.25 Z M12.75 15.75 L19.00 15.75 L24.38 18.38 L26.50 17.13 L26.50 19.75 L5.25 19.75 L5.25 17.13 L7.38 18.38 Z M9.25 19.75 L22.50 19.75 L22.50 25.88 L18.25 25.88 L18.25 22.00 L13.50 22.00 L13.50 25.88 L9.25 25.88 Z M10.50 21.00 L12.63 21.00 L12.63 23.13 L10.50 23.13 Z M19.13 21.00 L21.25 21.00 L21.25 23.13 L19.13 23.13 Z M7.00 25.88 L24.75 25.88 L24.75 27.88 L7.00 27.88 Z"/>
-        </g>
-        <path class="lm-star" d="M16.00 4.13 L17.50 5.88 L16.00 7.63 L14.50 5.88 Z"/>
-      </svg>
-      <div class="loader-text">天机阁</div>
-    </div>
-    <div id="root"></div>
-    <!-- tjg-install:start -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://yuai-r.cn/fortune/#organization","name":"YUAI 天机阁","url":"https://yuai-r.cn/fortune/","logo":{"@type":"ImageObject","url":"https://yuai-r.cn/fortune/icons/fortune-512.png"}},{"@type":"WebSite","@id":"https://yuai-r.cn/fortune/#website","url":"https://yuai-r.cn/fortune/","name":"YUAI 天机阁","inLanguage":"zh-CN","publisher":{"@id":"https://yuai-r.cn/fortune/#organization"}},{"@type":"WebPage","@id":"https://yuai-r.cn/fortune/knowledge/#webpage","url":"https://yuai-r.cn/fortune/knowledge/","name":"命理知识库｜星曜神煞基础词条 · YUAI天机阁","description":"天机阁内置命理知识词条：星曜、神煞与基础概念速查。","inLanguage":"zh-CN","datePublished":"2026-08-31","dateModified":"2026-10-09","isPartOf":{"@id":"https://yuai-r.cn/fortune/#website"},"breadcrumb":{"@id":"https://yuai-r.cn/fortune/knowledge/#breadcrumb"},"mainEntity":{"@id":"https://yuai-r.cn/fortune/knowledge/#app"}},{"@type":"BreadcrumbList","@id":"https://yuai-r.cn/fortune/knowledge/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"天机阁","item":"https://yuai-r.cn/fortune/"},{"@type":"ListItem","position":2,"name":"命理知识库","item":"https://yuai-r.cn/fortune/knowledge/"}]},{"@type":"WebApplication","@id":"https://yuai-r.cn/fortune/knowledge/#app","name":"命理知识库","alternateName":"Encyclopedia","url":"https://yuai-r.cn/fortune/knowledge/","description":"天机阁内置命理知识词条：星曜、神煞与基础概念速查。","applicationCategory":"LifestyleApplication","operatingSystem":"Web browser","inLanguage":"zh-CN","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"},"featureList":["星曜","神煞","基础术语速查"],"publisher":{"@id":"https://yuai-r.cn/fortune/#organization"}}]}</script>
 <script>
-(function(){
-  var KEY="tjg-install";
-  var PATH=location.pathname;
-  if(!(PATH==="/fortune"||PATH.indexOf("/fortune/")===0||PATH.indexOf("/fortune/index.html")===0))return;
-  var doc=document,html=doc.documentElement;
-  var ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
-  var deferred=null,root=null,steps=false;
-  function st(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return{}}}
-  function sv(p){try{var o=st();for(var k in p){if(p[k]===null)delete o[k];else o[k]=p[k]}localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
-  function standalone(){try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){return false}}
-  function mobile(){try{return matchMedia("(max-width: 767px)").matches}catch(e){return true}}
-  function persist(){sv({shown:null,dismissAt:null,done:1})}
-  function cooldown(){sv({dismissAt:Date.now()})}
-  var CLOSE='<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12"/></svg>';
-  var SHARE='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10.5V2.5M8 2.5L5.2 5.4M8 2.5l2.8 2.9M2.8 8.2v4.3a1 1 0 0 0 1 1h8.4a1 1 0 0 0 1-1V8.2"/></svg>';
-  function stepsFor(){
-    if(ios)return["点屏幕底部或顶部的分享按钮","在菜单里选「添加到主屏幕」","回桌面点天机阁图标即可使用"];
-    if(!mobile())return["点浏览器地址栏右侧的安装图标","或在菜单里选「安装应用」「创建快捷方式」","从桌面或任务栏打开天机阁"];
-    return["点浏览器右上角菜单","选「添加到主屏幕」或「安装应用」","回桌面点天机阁图标即可使用"];
-  }
-  function markup(){
-    var s=stepsFor();
-    return '<div class="tjg-inst" role="dialog" aria-modal="false" aria-label="添加到手机桌面">'+
-      '<div class="tjg-inst-i"><img class="tjg-inst-img" src="/fortune/icons/apple-touch-icon.png" width="44" height="44" alt="">'+
-      '<div class="tjg-inst-l"><p class="tjg-inst-h">随身携带你的天机阁</p>'+
-      '<p class="tjg-inst-sub">添加到手机桌面，像原生 App 一样随时打开</p></div>'+
-      '<button class="tjg-inst-x" type="button" aria-label="关闭提示">'+CLOSE+'</button></div>'+
-      '<p class="tjg-inst-tags">无需下载 · 无需应用商店 · 一键直达</p>'+
-      '<ol class="tjg-inst-steps">'+s.map(function(t,i){return '<li><span class="tjg-inst-n">'+(i+1)+'</span><span>'+t+'</span></li>'}).join("")+'</ol>'+
-      '<button class="tjg-inst-btn" type="button">'+SHARE+'<span>添加到桌面</span></button>'+
-      '<button class="tjg-inst-link" type="button">不再提示</button>'+
-      '<p class="tjg-inst-hint">使用手机浏览器访问本页，即可添加到桌面</p></div>';
-  }
-  function mount(force){
-    if(root)return root;
-    var d=doc.createElement("div");
-    d.innerHTML=markup();
-    root=d.firstElementChild;
-    doc.body.appendChild(root);
-    if(!force){var o=st();sv({shown:(o.shown||0)+1});}
-    root.querySelector(".tjg-inst-x").addEventListener("click",close);
-    root.querySelector(".tjg-inst-link").addEventListener("click",function(){persist();unmount()});
-    root.querySelector(".tjg-inst-btn").addEventListener("click",act);
-    return root;
-  }
-  function unmount(){if(root&&root.parentNode)root.parentNode.removeChild(root);root=null}
-  function close(){cooldown();unmount()}
-  function showSteps(){
-    steps=true;
-    if(root){root.setAttribute("data-steps","1");var b=root.querySelector(".tjg-inst-btn span");if(b)b.textContent="按提示操作";}
-  }
-  function act(){
-    if(deferred){
-      var p=deferred;deferred=null;
-      try{p.prompt()}catch(e){showSteps();return}
-      p.userChoice&&p.userChoice.then(function(r){
-        if(r&&r.outcome==="accepted"){persist();unmount()}
-        else{showSteps()}
-      },function(){showSteps()});
-    }else{showSteps()}
-  }
-  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferred=e;if(root&&root.getAttribute("data-steps")==="1")root.setAttribute("data-steps","0")});
-  window.addEventListener("appinstalled",function(){persist();unmount()});
-  function eligible(){
-    if(standalone())return false;
-    if(!mobile())return false;
-    var o=st();
-    if(o.done)return false;
-    if(o.dismissAt&&Date.now()-o.dismissAt<7*864e5)return false;
-    if((o.shown||0)>=3)return false;
-    return true;
-  }
-  function boot(){if(eligible())mount()}
-  if(doc.readyState==="loading")doc.addEventListener("DOMContentLoaded",boot);else boot();
-  window.addEventListener("fortune:install",function(){mount(true)});
-  window.__tjgInstall={open:function(){return mount(true)},close:close,state:st,deferred:function(){return!!deferred}};
-})();
+  /* 这一页只验一件事：生成图能不能担「门」这个角色。
+     ?v=a|b|c|d 选色板（默认 d），?theme=dark|light 只锁「点灯 / 熄灯」那支（整页色板钉死为夜，见 art.css 开头），
+     ?src=… 换母版，?rect=左,上,宽,高（百分比）手压量出来的门场，?guides=1 画出切分矩形。 */
+  var q = new URLSearchParams(location.search);
+  var v = /^[a-d]$/.test(q.get('v') || '') ? q.get('v') : 'd';
+  var t = q.get('theme');
+  if (t === 'dark' || t === 'light') document.documentElement.dataset.ttTheme = t;
+  if (q.get('guides')) document.documentElement.dataset.guides = '1';
+  function add(h) { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = h; document.head.appendChild(l); }
+  /* gate.css 不加载：它 83 个类没有一个出现在这一页（只有 --tt-gate-* 令牌名撞了子串），白背 38KB */
+  add('/fortune/v7/css/scale.css'); add('/fortune/v7/css/palette.css');
+  add('/fortune/v7/css/sample.css'); add('/fortune/v7/css/art.css'); add('/fortune/v7/css/house.css');
 </script>
-<!-- tjg-install:end -->
-  </body>
+<link rel="stylesheet" href="https://yuai-r.cn/fonts/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://yuai-r.cn/fonts/lxgwwenkai-bold.css">
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(function(){});});}</script>
+</head>
+<body class="tt-doc">
+<div class="tt-page">
+  <div class="tt-starfield" aria-hidden="true"></div>
+  <div class="tt-clouds" aria-hidden="true"></div>
+
+  <div class="tt-shell">
+    <header class="tt-mast">
+      <div class="tt-mast__pair">
+        <a class="tt-mast__item" href="/" aria-label="yu.ai 首页">
+          <svg class="tt-mark tt-mark--yu" viewBox="10.99773 21.210212 41.919409 21.544615" fill="none" aria-hidden="true" shape-rendering="geometricPrecision"><path fill="currentColor" fill-rule="nonzero" d="M 45.733398 42.738164 L 41.73629 42.74254 L 41.737375285 40.707591021 A 8.837729855 8.837729855 0 0 1 35.033243 42.6925 A 9.740960697 9.740960697 0 0 1 28.51017967 39.031266945 A 9.54129909 9.54129909 0 0 0 30.574483343 34.572309406 A 5.656539538 5.656539538 0 0 0 40.949690312 35.859788125 A 5.731507417 5.731507417 0 1 0 30.36305225 31.811447406 A 20.573482539 20.573482539 0 0 0 29.939626863 34.753760946 A 10.585050681 10.585050681 0 0 1 25.033905315 41.358815686 A 9.119239881 9.119239881 0 0 1 16.170606141 41.798000109 A 10.358690137 10.358690137 0 0 1 10.99773 35.965116 L 15.334254529 35.967567318 A 5.681724582 5.681724582 0 0 0 22.398260797 38.369841547 A 5.794782642 5.794782642 0 0 0 26.224521625 33.410801625 A 11.676690311 11.676690311 0 0 1 30.222128469 25.429408656 A 8.710111368 8.710111368 0 0 1 39.623506 24.123591875 A 11.711448395 11.711448395 0 0 1 45.746694422 34.434553 L 45.733398 42.738164 Z M 30.094526056 21.213756042 A 16.078573443 16.078573443 0 0 1 29.91016646 24.94437708 A 10.408995195 10.408995195 0 0 0 26.508015877 29.654686048 A 9.313114857 9.313114857 0 0 1 19.702203 31.849336 A 9.502361152 9.502361152 0 0 1 11.081539 21.210212 L 15.117581783 21.218789633 A 8.087155192 8.087155192 0 0 0 15.266308403 24.200214629 A 5.433496857 5.433496857 0 0 0 23.713621493 26.905294666 A 5.999413958 5.999413958 0 0 0 26.125265219 21.222406323 L 30.094526056 21.213756042 Z M 45.724922 21.217266 L 45.721641413 29.955435791 A 10.838411147 10.838411147 0 0 0 41.754415729 24.702180989 L 41.733828 21.226262 L 45.724922 21.217266 Z"/><circle fill="var(--tt-verm)" cx="50.450349" cy="40.191867" r="2.466790"/></svg>
+        </a>
+        <span class="tt-mast__sep" aria-hidden="true"></span>
+        <a class="tt-mast__item" href="/fortune/">
+          <svg class="tt-mark tt-mark--now" viewBox="0 0 32 32" fill="currentColor" role="img" aria-label="天机阁"><rect x="1.5" y="1.5" width="29" height="29" fill="none" stroke-width="1" opacity="0.3"/><path fill-rule="evenodd" d="M12.88 8.00 L19.13 8.00 L22.88 10.13 L24.50 9.13 L24.50 11.38 L7.50 11.38 L7.50 9.13 L9.13 10.13 Z M11.75 11.38 L20.00 11.38 L20.00 15.75 L11.75 15.75 Z M14.50 12.50 L17.25 12.50 L17.25 15.25 L14.50 15.25 Z M12.75 15.75 L19.00 15.75 L24.38 18.38 L26.50 17.13 L26.50 19.75 L5.25 19.75 L5.25 17.13 L7.38 18.38 Z M9.25 19.75 L22.50 19.75 L22.50 25.88 L18.25 25.88 L18.25 22.00 L13.50 22.00 L13.50 25.88 L9.25 25.88 Z M10.50 21.00 L12.63 21.00 L12.63 23.13 L10.50 23.13 Z M19.13 21.00 L21.25 21.00 L21.25 23.13 L19.13 23.13 Z M7.00 25.88 L24.75 25.88 L24.75 27.88 L7.00 27.88 Z"/><path d="M16.00 4.13 L17.50 5.88 L16.00 7.63 L14.50 5.88 Z"/></svg>
+          <span><span class="tt-mast__now">天机阁</span><span class="tt-mast__name">TIANJI</span></span>
+        </a>
+      </div>
+      <div class="tt-theme" role="group" aria-label="昼/夜：楼里点灯或熄灯">
+        <button class="tt-theme__opt" data-theme="light" type="button">昼</button>
+        <button class="tt-theme__opt" data-theme="dark" type="button">夜</button>
+      </div>
+    </header>
+
+    <main class="tt-know">
+      <header class="tt-know__head">
+        <h1 class="tt-know__h1">命理知识库</h1>
+        <p class="tt-know__lead">一百一十四条词条，十一类。每条独立成页，写清它是什么、怎么看、落在哪一宫。</p>
+      </header>
+      <form class="tt-know__find" role="search" onsubmit="return false">
+        <label class="tt-know__lb" for="kq">查词条</label>
+        <input class="tt-know__in" id="kq" type="search" autocomplete="off" placeholder="星曜、神煞、宫位、十神、卦名…">
+        <span class="tt-know__count" id="kc" aria-live="polite">114 条</span>
+      </form>
+      <nav class="tt-know__tags" aria-label="分类">
+          <a class="tt-know__tag" href="#g-%E7%B4%AB%E5%BE%AE%E4%B8%BB%E6%98%9F">紫微主星<span class="tt-know__tn">14</span></a>
+          <a class="tt-know__tag" href="#g-%E5%8D%81%E4%BA%8C%E5%AE%AB%E4%BD%8D">十二宫位<span class="tt-know__tn">12</span></a>
+          <a class="tt-know__tag" href="#g-%E5%9B%9B%E5%8C%96">四化<span class="tt-know__tn">4</span></a>
+          <a class="tt-know__tag" href="#g-%E8%BE%85%E7%85%9E%E6%98%9F">辅煞星<span class="tt-know__tn">18</span></a>
+          <a class="tt-know__tag" href="#g-%E6%96%97%E6%95%B0%E6%9C%AF%E8%AF%AD">斗数术语<span class="tt-know__tn">8</span></a>
+          <a class="tt-know__tag" href="#g-%E5%8D%81%E7%A5%9E">十神<span class="tt-know__tn">10</span></a>
+          <a class="tt-know__tag" href="#g-%E5%85%AB%E5%AD%97%E7%A5%9E%E7%85%9E">八字神煞<span class="tt-know__tn">18</span></a>
+          <a class="tt-know__tag" href="#g-%E5%85%AB%E5%AD%97%E6%9C%AF%E8%AF%AD">八字术语<span class="tt-know__tn">14</span></a>
+          <a class="tt-know__tag" href="#g-%E5%85%AB%E5%8D%A6">八卦<span class="tt-know__tn">8</span></a>
+          <a class="tt-know__tag" href="#g-%E6%98%93%E7%90%86">易理<span class="tt-know__tn">5</span></a>
+          <a class="tt-know__tag" href="#g-%E5%A1%94%E7%BD%97">塔罗<span class="tt-know__tn">3</span></a>
+      </nav>
+      <section class="tt-know__grp" id="g-%E7%B4%AB%E5%BE%AE%E4%B8%BB%E6%98%9F" data-g="紫微主星">
+        <h2 class="tt-know__gt">紫微主星<span class="tt-know__gn">14 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="紫微 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E7%B4%AB%E5%BE%AE/">紫微</a></li>
+          <li class="tt-know__it" data-k="天机 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E6%9C%BA/">天机</a></li>
+          <li class="tt-know__it" data-k="太阳 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%AA%E9%98%B3/">太阳</a></li>
+          <li class="tt-know__it" data-k="武曲 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E6%AD%A6%E6%9B%B2/">武曲</a></li>
+          <li class="tt-know__it" data-k="天同 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E5%90%8C/">天同</a></li>
+          <li class="tt-know__it" data-k="廉贞 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E5%BB%89%E8%B4%9E/">廉贞</a></li>
+          <li class="tt-know__it" data-k="天府 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E5%BA%9C/">天府</a></li>
+          <li class="tt-know__it" data-k="太阴 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%AA%E9%98%B4/">太阴</a></li>
+          <li class="tt-know__it" data-k="贪狼 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E8%B4%AA%E7%8B%BC/">贪狼</a></li>
+          <li class="tt-know__it" data-k="巨门 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E5%B7%A8%E9%97%A8/">巨门</a></li>
+          <li class="tt-know__it" data-k="天相 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E7%9B%B8/">天相</a></li>
+          <li class="tt-know__it" data-k="天梁 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E6%A2%81/">天梁</a></li>
+          <li class="tt-know__it" data-k="七杀 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E4%B8%83%E6%9D%80/">七杀</a></li>
+          <li class="tt-know__it" data-k="破军 紫微主星"><a class="tt-know__a" href="/fortune/glossary/%E7%A0%B4%E5%86%9B/">破军</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E5%8D%81%E4%BA%8C%E5%AE%AB%E4%BD%8D" data-g="十二宫位">
+        <h2 class="tt-know__gt">十二宫位<span class="tt-know__gn">12 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="命宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E5%91%BD%E5%AE%AB/">命宫</a></li>
+          <li class="tt-know__it" data-k="兄弟宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E5%85%84%E5%BC%9F%E5%AE%AB/">兄弟宫</a></li>
+          <li class="tt-know__it" data-k="夫妻宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%AB%E5%A6%BB%E5%AE%AB/">夫妻宫</a></li>
+          <li class="tt-know__it" data-k="子女宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E5%AD%90%E5%A5%B3%E5%AE%AB/">子女宫</a></li>
+          <li class="tt-know__it" data-k="财帛宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E8%B4%A2%E5%B8%9B%E5%AE%AB/">财帛宫</a></li>
+          <li class="tt-know__it" data-k="疾厄宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E7%96%BE%E5%8E%84%E5%AE%AB/">疾厄宫</a></li>
+          <li class="tt-know__it" data-k="迁移宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E8%BF%81%E7%A7%BB%E5%AE%AB/">迁移宫</a></li>
+          <li class="tt-know__it" data-k="交友宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E4%BA%A4%E5%8F%8B%E5%AE%AB/">交友宫</a></li>
+          <li class="tt-know__it" data-k="官禄宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E5%AE%98%E7%A6%84%E5%AE%AB/">官禄宫</a></li>
+          <li class="tt-know__it" data-k="田宅宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E7%94%B0%E5%AE%85%E5%AE%AB/">田宅宫</a></li>
+          <li class="tt-know__it" data-k="福德宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E7%A6%8F%E5%BE%B7%E5%AE%AB/">福德宫</a></li>
+          <li class="tt-know__it" data-k="父母宫 十二宫位"><a class="tt-know__a" href="/fortune/glossary/%E7%88%B6%E6%AF%8D%E5%AE%AB/">父母宫</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E5%9B%9B%E5%8C%96" data-g="四化">
+        <h2 class="tt-know__gt">四化<span class="tt-know__gn">4 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="化禄 四化"><a class="tt-know__a" href="/fortune/glossary/%E5%8C%96%E7%A6%84/">化禄</a></li>
+          <li class="tt-know__it" data-k="化权 四化"><a class="tt-know__a" href="/fortune/glossary/%E5%8C%96%E6%9D%83/">化权</a></li>
+          <li class="tt-know__it" data-k="化科 四化"><a class="tt-know__a" href="/fortune/glossary/%E5%8C%96%E7%A7%91/">化科</a></li>
+          <li class="tt-know__it" data-k="化忌 四化"><a class="tt-know__a" href="/fortune/glossary/%E5%8C%96%E5%BF%8C/">化忌</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E8%BE%85%E7%85%9E%E6%98%9F" data-g="辅煞星">
+        <h2 class="tt-know__gt">辅煞星<span class="tt-know__gn">18 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="左辅 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%B7%A6%E8%BE%85/">左辅</a></li>
+          <li class="tt-know__it" data-k="右弼 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%8F%B3%E5%BC%BC/">右弼</a></li>
+          <li class="tt-know__it" data-k="文昌 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E6%96%87%E6%98%8C/">文昌</a></li>
+          <li class="tt-know__it" data-k="文曲 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E6%96%87%E6%9B%B2/">文曲</a></li>
+          <li class="tt-know__it" data-k="天魁 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E9%AD%81/">天魁</a></li>
+          <li class="tt-know__it" data-k="天钺 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E9%92%BA/">天钺</a></li>
+          <li class="tt-know__it" data-k="禄存 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E7%A6%84%E5%AD%98/">禄存</a></li>
+          <li class="tt-know__it" data-k="擎羊 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E6%93%8E%E7%BE%8A/">擎羊</a></li>
+          <li class="tt-know__it" data-k="陀罗 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E9%99%80%E7%BD%97/">陀罗</a></li>
+          <li class="tt-know__it" data-k="火星 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E7%81%AB%E6%98%9F/">火星</a></li>
+          <li class="tt-know__it" data-k="铃星 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E9%93%83%E6%98%9F/">铃星</a></li>
+          <li class="tt-know__it" data-k="天马 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E9%A9%AC/">天马</a></li>
+          <li class="tt-know__it" data-k="地空 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%9C%B0%E7%A9%BA/">地空</a></li>
+          <li class="tt-know__it" data-k="地劫 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%9C%B0%E5%8A%AB/">地劫</a></li>
+          <li class="tt-know__it" data-k="天刑 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E5%88%91/">天刑</a></li>
+          <li class="tt-know__it" data-k="天姚 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E5%A7%9A/">天姚</a></li>
+          <li class="tt-know__it" data-k="华盖 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E5%8D%8E%E7%9B%96/">华盖</a></li>
+          <li class="tt-know__it" data-k="阴煞 辅煞星"><a class="tt-know__a" href="/fortune/glossary/%E9%98%B4%E7%85%9E/">阴煞</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E6%96%97%E6%95%B0%E6%9C%AF%E8%AF%AD" data-g="斗数术语">
+        <h2 class="tt-know__gt">斗数术语<span class="tt-know__gn">8 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="三方四正 斗数术语"><a class="tt-know__a" href="/fortune/glossary/%E4%B8%89%E6%96%B9%E5%9B%9B%E6%AD%A3/">三方四正</a></li>
+          <li class="tt-know__it" data-k="命主身主 斗数术语"><a class="tt-know__a" href="/fortune/glossary/%E5%91%BD%E4%B8%BB%E8%BA%AB%E4%B8%BB/">命主身主</a></li>
+          <li class="tt-know__it" data-k="五行局 斗数术语"><a class="tt-know__a" href="/fortune/glossary/%E4%BA%94%E8%A1%8C%E5%B1%80/">五行局</a></li>
+          <li class="tt-know__it" data-k="大限流年 斗数术语"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A7%E9%99%90%E6%B5%81%E5%B9%B4/">大限流年</a></li>
+          <li class="tt-know__it" data-k="安星法 斗数术语"><a class="tt-know__a" href="/fortune/glossary/%E5%AE%89%E6%98%9F%E6%B3%95/">安星法</a></li>
+          <li class="tt-know__it" data-k="庙旺利陷 斗数术语"><a class="tt-know__a" href="/fortune/glossary/%E5%BA%99%E6%97%BA%E5%88%A9%E9%99%B7/">庙旺利陷</a></li>
+          <li class="tt-know__it" data-k="入垣失垣 斗数术语"><a class="tt-know__a" href="/fortune/glossary/%E5%85%A5%E5%9E%A3%E5%A4%B1%E5%9E%A3/">入垣失垣</a></li>
+          <li class="tt-know__it" data-k="飞化 斗数术语"><a class="tt-know__a" href="/fortune/glossary/%E9%A3%9E%E5%8C%96/">飞化</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E5%8D%81%E7%A5%9E" data-g="十神">
+        <h2 class="tt-know__gt">十神<span class="tt-know__gn">10 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="比肩 十神"><a class="tt-know__a" href="/fortune/glossary/%E6%AF%94%E8%82%A9/">比肩</a></li>
+          <li class="tt-know__it" data-k="劫财 十神"><a class="tt-know__a" href="/fortune/glossary/%E5%8A%AB%E8%B4%A2/">劫财</a></li>
+          <li class="tt-know__it" data-k="食神 十神"><a class="tt-know__a" href="/fortune/glossary/%E9%A3%9F%E7%A5%9E/">食神</a></li>
+          <li class="tt-know__it" data-k="伤官 十神"><a class="tt-know__a" href="/fortune/glossary/%E4%BC%A4%E5%AE%98/">伤官</a></li>
+          <li class="tt-know__it" data-k="偏印 十神"><a class="tt-know__a" href="/fortune/glossary/%E5%81%8F%E5%8D%B0/">偏印</a></li>
+          <li class="tt-know__it" data-k="正印 十神"><a class="tt-know__a" href="/fortune/glossary/%E6%AD%A3%E5%8D%B0/">正印</a></li>
+          <li class="tt-know__it" data-k="偏财 十神"><a class="tt-know__a" href="/fortune/glossary/%E5%81%8F%E8%B4%A2/">偏财</a></li>
+          <li class="tt-know__it" data-k="正财 十神"><a class="tt-know__a" href="/fortune/glossary/%E6%AD%A3%E8%B4%A2/">正财</a></li>
+          <li class="tt-know__it" data-k="七杀 十神"><a class="tt-know__a" href="/fortune/glossary/%E4%B8%83%E6%9D%80%C2%B7%E5%8D%81%E7%A5%9E/">七杀</a></li>
+          <li class="tt-know__it" data-k="正官 十神"><a class="tt-know__a" href="/fortune/glossary/%E6%AD%A3%E5%AE%98/">正官</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E5%85%AB%E5%AD%97%E7%A5%9E%E7%85%9E" data-g="八字神煞">
+        <h2 class="tt-know__gt">八字神煞<span class="tt-know__gn">18 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="天乙贵人 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E4%B9%99%E8%B4%B5%E4%BA%BA/">天乙贵人</a></li>
+          <li class="tt-know__it" data-k="太极贵人 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%AA%E6%9E%81%E8%B4%B5%E4%BA%BA/">太极贵人</a></li>
+          <li class="tt-know__it" data-k="文昌贵人 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E6%96%87%E6%98%8C%E8%B4%B5%E4%BA%BA/">文昌贵人</a></li>
+          <li class="tt-know__it" data-k="驿马 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E9%A9%BF%E9%A9%AC/">驿马</a></li>
+          <li class="tt-know__it" data-k="桃花（咸池） 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E6%A1%83%E8%8A%B1%EF%BC%88%E5%92%B8%E6%B1%A0%EF%BC%89/">桃花（咸池）</a></li>
+          <li class="tt-know__it" data-k="华盖 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E5%8D%8E%E7%9B%96%C2%B7%E5%85%AB%E5%AD%97%E7%A5%9E%E7%85%9E/">华盖</a></li>
+          <li class="tt-know__it" data-k="将星 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E5%B0%86%E6%98%9F/">将星</a></li>
+          <li class="tt-know__it" data-k="金舆 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E9%87%91%E8%88%86/">金舆</a></li>
+          <li class="tt-know__it" data-k="天厨贵人（福星） 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E5%8E%A8%E8%B4%B5%E4%BA%BA%EF%BC%88%E7%A6%8F%E6%98%9F%EF%BC%89/">天厨贵人（福星）</a></li>
+          <li class="tt-know__it" data-k="学堂词馆 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E5%AD%A6%E5%A0%82%E8%AF%8D%E9%A6%86/">学堂词馆</a></li>
+          <li class="tt-know__it" data-k="羊刃 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E7%BE%8A%E5%88%83/">羊刃</a></li>
+          <li class="tt-know__it" data-k="亡神 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E4%BA%A1%E7%A5%9E/">亡神</a></li>
+          <li class="tt-know__it" data-k="劫煞 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E5%8A%AB%E7%85%9E/">劫煞</a></li>
+          <li class="tt-know__it" data-k="空亡 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E7%A9%BA%E4%BA%A1/">空亡</a></li>
+          <li class="tt-know__it" data-k="红艳煞 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E7%BA%A2%E8%89%B3%E7%85%9E/">红艳煞</a></li>
+          <li class="tt-know__it" data-k="孤辰寡宿 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E5%AD%A4%E8%BE%B0%E5%AF%A1%E5%AE%BF/">孤辰寡宿</a></li>
+          <li class="tt-know__it" data-k="阴差阳错 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E9%98%B4%E5%B7%AE%E9%98%B3%E9%94%99/">阴差阳错</a></li>
+          <li class="tt-know__it" data-k="童子煞 八字神煞"><a class="tt-know__a" href="/fortune/glossary/%E7%AB%A5%E5%AD%90%E7%85%9E/">童子煞</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E5%85%AB%E5%AD%97%E6%9C%AF%E8%AF%AD" data-g="八字术语">
+        <h2 class="tt-know__gt">八字术语<span class="tt-know__gn">14 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="阴阳五行 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E9%98%B4%E9%98%B3%E4%BA%94%E8%A1%8C/">阴阳五行</a></li>
+          <li class="tt-know__it" data-k="天干地支 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A9%E5%B9%B2%E5%9C%B0%E6%94%AF/">天干地支</a></li>
+          <li class="tt-know__it" data-k="纳音 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E7%BA%B3%E9%9F%B3/">纳音</a></li>
+          <li class="tt-know__it" data-k="得令得地得势 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E5%BE%97%E4%BB%A4%E5%BE%97%E5%9C%B0%E5%BE%97%E5%8A%BF/">得令得地得势</a></li>
+          <li class="tt-know__it" data-k="十二长生 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E5%8D%81%E4%BA%8C%E9%95%BF%E7%94%9F/">十二长生</a></li>
+          <li class="tt-know__it" data-k="通根透干 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E9%80%9A%E6%A0%B9%E9%80%8F%E5%B9%B2/">通根透干</a></li>
+          <li class="tt-know__it" data-k="用神 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E7%94%A8%E7%A5%9E/">用神</a></li>
+          <li class="tt-know__it" data-k="喜神忌神闲神 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E5%96%9C%E7%A5%9E%E5%BF%8C%E7%A5%9E%E9%97%B2%E7%A5%9E/">喜神忌神闲神</a></li>
+          <li class="tt-know__it" data-k="格局 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E6%A0%BC%E5%B1%80/">格局</a></li>
+          <li class="tt-know__it" data-k="从格专旺 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E4%BB%8E%E6%A0%BC%E4%B8%93%E6%97%BA/">从格专旺</a></li>
+          <li class="tt-know__it" data-k="合化 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E5%90%88%E5%8C%96/">合化</a></li>
+          <li class="tt-know__it" data-k="大运流年 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A7%E8%BF%90%E6%B5%81%E5%B9%B4/">大运流年</a></li>
+          <li class="tt-know__it" data-k="岁运并临 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E5%B2%81%E8%BF%90%E5%B9%B6%E4%B8%B4/">岁运并临</a></li>
+          <li class="tt-know__it" data-k="墓库 八字术语"><a class="tt-know__a" href="/fortune/glossary/%E5%A2%93%E5%BA%93/">墓库</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E5%85%AB%E5%8D%A6" data-g="八卦">
+        <h2 class="tt-know__gt">八卦<span class="tt-know__gn">8 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="乾 八卦"><a class="tt-know__a" href="/fortune/glossary/%E4%B9%BE/">乾</a></li>
+          <li class="tt-know__it" data-k="坤 八卦"><a class="tt-know__a" href="/fortune/glossary/%E5%9D%A4/">坤</a></li>
+          <li class="tt-know__it" data-k="震 八卦"><a class="tt-know__a" href="/fortune/glossary/%E9%9C%87/">震</a></li>
+          <li class="tt-know__it" data-k="巽 八卦"><a class="tt-know__a" href="/fortune/glossary/%E5%B7%BD/">巽</a></li>
+          <li class="tt-know__it" data-k="坎 八卦"><a class="tt-know__a" href="/fortune/glossary/%E5%9D%8E/">坎</a></li>
+          <li class="tt-know__it" data-k="离 八卦"><a class="tt-know__a" href="/fortune/glossary/%E7%A6%BB/">离</a></li>
+          <li class="tt-know__it" data-k="艮 八卦"><a class="tt-know__a" href="/fortune/glossary/%E8%89%AE/">艮</a></li>
+          <li class="tt-know__it" data-k="兑 八卦"><a class="tt-know__a" href="/fortune/glossary/%E5%85%91/">兑</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E6%98%93%E7%90%86" data-g="易理">
+        <h2 class="tt-know__gt">易理<span class="tt-know__gn">5 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="元亨利贞 易理"><a class="tt-know__a" href="/fortune/glossary/%E5%85%83%E4%BA%A8%E5%88%A9%E8%B4%9E/">元亨利贞</a></li>
+          <li class="tt-know__it" data-k="一阴一阳之谓道 易理"><a class="tt-know__a" href="/fortune/glossary/%E4%B8%80%E9%98%B4%E4%B8%80%E9%98%B3%E4%B9%8B%E8%B0%93%E9%81%93/">一阴一阳之谓道</a></li>
+          <li class="tt-know__it" data-k="爻位 易理"><a class="tt-know__a" href="/fortune/glossary/%E7%88%BB%E4%BD%8D/">爻位</a></li>
+          <li class="tt-know__it" data-k="九六 易理"><a class="tt-know__a" href="/fortune/glossary/%E4%B9%9D%E5%85%AD/">九六</a></li>
+          <li class="tt-know__it" data-k="互综错 易理"><a class="tt-know__a" href="/fortune/glossary/%E4%BA%92%E7%BB%BC%E9%94%99/">互综错</a></li>
+        </ul>
+      </section>
+      <section class="tt-know__grp" id="g-%E5%A1%94%E7%BD%97" data-g="塔罗">
+        <h2 class="tt-know__gt">塔罗<span class="tt-know__gn">3 条</span></h2>
+        <ul class="tt-know__list">
+          <li class="tt-know__it" data-k="大阿尔卡纳 塔罗"><a class="tt-know__a" href="/fortune/glossary/%E5%A4%A7%E9%98%BF%E5%B0%94%E5%8D%A1%E7%BA%B3/">大阿尔卡纳</a></li>
+          <li class="tt-know__it" data-k="小阿尔卡纳 塔罗"><a class="tt-know__a" href="/fortune/glossary/%E5%B0%8F%E9%98%BF%E5%B0%94%E5%8D%A1%E7%BA%B3/">小阿尔卡纳</a></li>
+          <li class="tt-know__it" data-k="正位逆位 塔罗"><a class="tt-know__a" href="/fortune/glossary/%E6%AD%A3%E4%BD%8D%E9%80%86%E4%BD%8D/">正位逆位</a></li>
+        </ul>
+      </section>
+      <p class="tt-know__foot">释义依公版古籍通说改述，用于传统文化展示与自我观察，不构成医疗、法律、投资或其他专业建议。要直接排盘：<a class="tt-know__fa" href="/fortune/bazi/">八字</a><a class="tt-know__fa" href="/fortune/ziwei/">紫微</a><a class="tt-know__fa" href="/fortune/iching/">六爻</a><a class="tt-know__fa" href="/fortune/tarot/">塔罗</a>。</p>
+      <script>
+        /* 就地过滤：只藏不筛数据 —— 114 条本来就写在页面上，不执行 JS 也全都能读、能链 */
+        (function () {
+          var q = document.getElementById('kq'), c = document.getElementById('kc');
+          var its = [].slice.call(document.querySelectorAll('.tt-know__it'));
+          var gs = [].slice.call(document.querySelectorAll('.tt-know__grp'));
+          q.addEventListener('input', function () {
+            var w = (q.value || '').trim().toLowerCase(), n = 0;
+            its.forEach(function (li) {
+              var hit = !w || li.getAttribute('data-k').indexOf(w) >= 0;
+              li.hidden = !hit; if (hit) n++;
+            });
+            gs.forEach(function (s) {
+              var any = its.some(function (li) { return s.contains(li) && !li.hidden });
+              s.hidden = !any;
+            });
+            c.textContent = w ? n + ' / 114 条' : '114 条';
+          });
+        })();
+      </script>
+  </div>
+</div>
+<script type="module" src="/fortune/v7/js/house.js"></script>
+<script src="/fortune/v7/js/theme.js"></script>
+</body>
 </html>

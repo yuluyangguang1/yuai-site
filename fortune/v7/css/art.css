@@ -394,3 +394,158 @@
   .tt-room__rel { grid-template-columns: auto 1fr }
   .tt-room__rs { grid-column: 2 }
 }
+
+/* ── 知识库页（/fortune/knowledge/）──────────────────────────
+   十一类 114 条的清单页：一条一格，格子里只有名字，释义留给词条页。
+   形制跟着门内那一套走：方角、发丝线、无阴影，金只落在章题与悬停上。 */
+.tt-know {
+  position: relative;
+  z-index: 1;
+  width: min(100% - var(--tt-gutter) * 2, 68rem);
+  margin-inline: auto;
+  padding-block: var(--tt-sp-6) var(--tt-sp-8);
+}
+.tt-know__h1 {
+  margin: 0;
+  font-size: var(--tt-fs-7);
+  font-weight: 700;
+  line-height: var(--tt-lh-tight);
+  letter-spacing: var(--tt-ls-title);
+  color: var(--tt-ink);
+}
+.tt-know__lead {
+  margin: var(--tt-sp-2) 0 0;
+  max-width: var(--tt-measure);
+  font-size: var(--tt-fs-3);
+  line-height: var(--tt-lh-body);
+  letter-spacing: var(--tt-ls-body);
+  color: var(--tt-ink-3);
+}
+.tt-know__find {
+  display: flex;
+  align-items: baseline;
+  gap: var(--tt-sp-3);
+  margin-block-start: var(--tt-sp-6);
+  padding-block-end: var(--tt-sp-2);
+  border-block-end: var(--tt-hair) solid var(--tt-rule);
+}
+.tt-know__lb {
+  flex: none;
+  font-size: var(--tt-fs-2);
+  letter-spacing: var(--tt-ls-meta);
+  color: var(--tt-ink-4);
+}
+.tt-know__in {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: var(--tt-fs-4);
+  color: var(--tt-ink);
+  caret-color: var(--tt-accent);
+}
+.tt-know__in::placeholder { color: var(--tt-ink-4) }
+.tt-know__in:focus { outline: none }
+.tt-know__in:focus-visible { outline: var(--tt-ring-w) solid var(--tt-ring); outline-offset: var(--tt-sp-1) }
+.tt-know__count {
+  flex: none;
+  font-size: var(--tt-fs-2);
+  letter-spacing: var(--tt-ls-meta);
+  color: var(--tt-ink-4);
+  font-variant-numeric: tabular-nums;
+}
+.tt-know__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tt-sp-2);
+  margin-block: var(--tt-sp-4) 0;
+}
+.tt-know__tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--tt-sp-1);
+  padding: var(--tt-sp-1) var(--tt-sp-2);
+  border: var(--tt-hair) solid var(--tt-rule);
+  font-size: var(--tt-fs-2);
+  letter-spacing: var(--tt-ls-meta);
+  color: var(--tt-ink-2);
+  text-decoration: none;
+  transition: color var(--tt-d-fast) var(--tt-e-breath), border-color var(--tt-d-fast) var(--tt-e-breath);
+}
+.tt-know__tag:hover { color: var(--tt-accent); border-color: var(--tt-accent-dim) }
+.tt-know__tn { color: var(--tt-ink-4); font-variant-numeric: tabular-nums }
+.tt-know__grp { margin-block-start: var(--tt-sp-7) }
+.tt-know__grp[hidden] { display: none }
+.tt-know__gt {
+  display: flex;
+  align-items: baseline;
+  gap: var(--tt-sp-2);
+  margin: 0 0 var(--tt-sp-3);
+  padding-block-end: var(--tt-sp-1);
+  border-block-end: var(--tt-hair) solid var(--tt-rule);
+  font-size: var(--tt-fs-5);
+  font-weight: 700;
+  letter-spacing: var(--tt-ls-title);
+  color: var(--tt-ink);
+}
+.tt-know__gt::before {
+  content: "\25C6";
+  font-size: var(--tt-fs-2);
+  color: var(--tt-accent);
+}
+.tt-know__gn {
+  margin-inline-start: auto;
+  font-size: var(--tt-fs-2);
+  font-weight: 400;
+  letter-spacing: var(--tt-ls-meta);
+  color: var(--tt-ink-4);
+}
+.tt-know__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0 var(--tt-sp-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tt-know__it { border-block-end: var(--tt-hair) solid var(--tt-line) }
+.tt-know__it[hidden] { display: none }
+.tt-know__a {
+  display: block;
+  padding: var(--tt-sp-2) var(--tt-sp-1);
+  min-height: var(--tt-tap);
+  font-size: var(--tt-fs-4);
+  letter-spacing: var(--tt-ls-body);
+  color: var(--tt-ink-2);
+  text-decoration: none;
+  transition: color var(--tt-d-fast) var(--tt-e-breath);
+}
+.tt-know__a:hover { color: var(--tt-verm-bright) }
+.tt-know__a:focus-visible { outline: var(--tt-ring-w) solid var(--tt-ring); outline-offset: var(--tt-sp-1) }
+.tt-know__foot {
+  margin-block-start: var(--tt-sp-8);
+  padding-block-start: var(--tt-sp-4);
+  border-block-start: var(--tt-hair) solid var(--tt-rule);
+  font-size: var(--tt-fs-2);
+  line-height: var(--tt-lh-body);
+  color: var(--tt-ink-4);
+}
+.tt-know__fa {
+  margin-inline: var(--tt-sp-1) var(--tt-sp-2);
+  font-size: var(--tt-fs-3);
+  color: var(--tt-ink-2);
+}
+.tt-know__fa::before { content: "\00B7\00A0"; color: var(--tt-ink-4) }
+.tt-know__fa:last-child::before { content: "\00B7\00A0" }
+.tt-know__fa:hover { color: var(--tt-accent) }
+@media (max-width: 34rem) {
+  .tt-know__list { grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)) }
+  .tt-know__h1 { font-size: var(--tt-fs-6) }
+  .tt-know__find { flex-wrap: wrap }
+  .tt-know__in { flex-basis: 100% }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tt-know__tag, .tt-know__a { transition: none }
+}
