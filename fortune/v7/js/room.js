@@ -864,6 +864,11 @@ import { ASK } from './prompts.js';
     function g(n) { var x = document.getElementById('f-' + n); return x ? x.value : '' }
     /* 验帖 + 起盘。返回 true 才许推门；错就落在案上，门不动 */
     function push() {
+      /* 首开才要等那一拍：册子 460ms 起飞、1440ms 落定、封面 1400→2020ms 翻开。
+         门已经开着再改数重推，没有这一拍可看，260ms 就走。
+         reduce 下这一拍根本不演（书直接是开着的），那就没必要让人干等两秒。 */
+      flyWait = (art.dataset.open === '1' || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches))
+        ? 260 : 2020;
       var r = sc.read(g);
       err.textContent = r.err || '';
       if (r.err) {
@@ -897,10 +902,12 @@ import { ASK } from './prompts.js';
       an.dataset.state = 'done';
       return true;
     }
-    /* 滚到书而不是滚到盘：整副跨页（左盘右符）才是一屏的事，滚到盘那里符在屏外 */
+    /* 滚到书而不是滚到盘：整副跨页（左盘右符）才是一屏的事，滚到盘那里符在屏外。
+       延时由 push() 按「这一拍有没有得看」定：首开等册子飞完并翻开，重推不等。 */
+    var flyWait = 260;
     function reveal() {
       var t = book || room;
-      setTimeout(function () { t.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 760);
+      setTimeout(function () { t.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, flyWait);
     }
     form.addEventListener('submit', function (e) {
       e.preventDefault();

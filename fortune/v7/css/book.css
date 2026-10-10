@@ -41,17 +41,19 @@
   position: relative;
   width: var(--tt-vol-w); height: var(--tt-vol-h);
   transform-style: preserve-3d;
-  animation: ttBookFly var(--tt-d-slow) var(--tt-e-rise) both;
+  /* 起飞要等门开到一半：门一开就冲出一册书，读成"书把门撞开了"，不是"从门里递出来"。
+     460ms（fast + micro）正好是门叶走到四成多的那一刻。 */
+  animation: ttBookFly var(--tt-d-slow) var(--tt-e-rise) calc(var(--tt-d-fast) + var(--tt-d-micro)) both;
 }
 /* 起点是「门洞深处」：880px 之外、只有四成半大、还侧着身子——退到门里；
-   终点略微出框，才是「飞出来」而不是「在门里长大」。
+   终点落在门框之前 260px（约一成二放大），才是「飞出来到你手上」而不是「在门里长大」。
    中间钉一帧 62%：--tt-e-rise 是急减速的曲线，只给首尾两帧的话，
    实测 160ms（全程 16%）就走完了八成行程，剩下 800ms 几乎是静止——那是「闪现」不是「飞出」。 */
 @keyframes ttBookFly {
   from { opacity: 0; transform: translateY(var(--tt-sp-6)) translateZ(-880px) rotateY(-24deg) scale(.44) }
   16% { opacity: 1 }
   62% { transform: translateY(var(--tt-sp-1)) translateZ(-120px) rotateY(-7deg) scale(.9) }
-  to { opacity: 1; transform: translateY(0) translateZ(0) rotateY(0) scale(1) }
+  to { opacity: 1; transform: translateY(0) translateZ(260px) rotateY(0) scale(1) }
 }
 /* 纸页：夜里它是暗的（bg-card 就是夜纸），字靠墨色反白——和书跨页同一张纸，不能飞出来一册发光的书。
    往里缩 3px：封面一翻开，板子露出一圈边，「板」和「页」才读得出是两种东西。 */
@@ -86,8 +88,9 @@
   transform-origin: left center;
   background: var(--tt-gate-face);
   border: var(--tt-hair) solid var(--tt-gate-line);
-  /* 延迟 = 飞行时长：书先停住，封面再翻开，两拍分开才读得出「到了跟前才打开」 */
-  animation: ttCoverOpen var(--tt-d-enter) var(--tt-e-settle) var(--tt-d-slow) both;
+  /* 延迟 = 起飞延迟 + 飞行时长（460 + 980 ≈ --tt-d-hero 1400）：
+     书先停住，封面再翻开，两拍分开才读得出「到了跟前才打开」 */
+  animation: ttCoverOpen var(--tt-d-enter) var(--tt-e-settle) var(--tt-d-hero) both;
 }
 /* translateZ(.6px)：preserve-3d 里 z-index 失效，封面和纸页同面会打架，抬半像素让它压在上面。
    收到 158° 不是 180°——真书翻到头会磕在桌上停住，翻平反而像一张纸飘走了。 */
@@ -108,14 +111,14 @@
   /* 夜里题签的底和封面同档（都是暗纸），全靠这道金框把它从封面上「贴」出来 */
   border: var(--tt-edge) solid var(--tt-accent-dim);
   font-size: var(--tt-fs-3); font-weight: 700; letter-spacing: var(--tt-ls-title);
-  animation: ttInkOff var(--tt-d-micro) var(--tt-e-settle) var(--tt-d-slow) both;
+  animation: ttInkOff var(--tt-d-micro) var(--tt-e-settle) var(--tt-d-hero) both;
 }
 .tt-book-fly__seal {
   position: absolute; bottom: var(--tt-sp-4); left: var(--tt-sp-5);
   width: .95rem; height: .95rem; background: var(--tt-verm-solid);
   /* 白文印：朱地留一道朱漆里的细白边，才读得出是「刻出来的印」而不是一张红贴纸。 */
   outline: var(--tt-hair) solid var(--tt-verm-on); outline-offset: -3px;
-  animation: ttInkOff var(--tt-d-micro) var(--tt-e-settle) var(--tt-d-slow) both;
+  animation: ttInkOff var(--tt-d-micro) var(--tt-e-settle) var(--tt-d-hero) both;
 }
 /* 封面一过 90° 就轮到背面朝人，题签与朱印会被镜像成反字——在转过去之前收掉。 */
 @keyframes ttInkOff { from { opacity: 1 } to { opacity: 0 } }
