@@ -95,8 +95,10 @@
 .tt-an .tt-room__k { display: block; font-size: var(--tt-fs-2); color: var(--tt-ink-3) }
 .tt-an .tt-room__input { width: auto; max-width: 100% }
 .tt-an input.tt-room__input { width: 5.5rem }
-.tt-an .tt-room__err { flex: 1 1 100%; margin-block-start: var(--tt-sp-2) }
-.tt-an .tt-room__err:empty { display: none }
+/* 报错那一行永远占一格（有字没字都是 1.5rem 高）：取景窗的第一行是「一屏减案」，
+   案一长门就跟着缩，而门的高度没有 transition —— 一填错，整幅画当场跳 26px，
+   那一下比错误本身还显眼。行高与最小高同一个数，两种状态量出来必须一模一样。 */
+.tt-an .tt-room__err { flex: 1 1 100%; margin-block-start: var(--tt-sp-0); min-height: var(--tt-sp-5); line-height: var(--tt-sp-5) }
 /* 案上那颗主钮：推门这个动作就是提交，所以它比一般的按钮重一档，坐在案的最右端 */
 .tt-an .tt-room__go {
   flex: 0 0 auto;
