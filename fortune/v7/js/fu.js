@@ -146,4 +146,41 @@
       img: '<path d="M50 204H32v24h18M70 204h18v24H70"></path>' + sq(54, 210, 12, 12, 1),
     },
   };
+
+  /* 骨架只留这一份。评审页与产品页各抄一份是必然要漂的（gate.html 与 talismans.html
+     已经各有一份，改一处就得记着改两处）—— 新代码一律走 ttFuSvg()。
+     三个槽：符胆二字 dan1/dan2、中段主象 img。主象锁在 x18–102 / y200–248 这一格里。 */
+  var SKEL = '<svg viewBox="0 0 120 340" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" role="img"{{A}}>'
+    + '<rect class="tt-tali-paper" x="6" y="6" width="108" height="328"></rect>'
+    + '<rect class="tt-tali-rule-in" x="12" y="12" width="96" height="316"></rect>'
+    + '<path class="tt-tali-rail" d="M18 72V292M102 72V292"></path>'
+    + '<path class="tt-tali-canopy" d="M22 44Q60 8 98 44"></path>'
+    + '<path class="tt-tali-head" d="M28 56H92M30 56C30 44 40 40 46 44C50 30 70 30 74 44C80 40 90 44 90 56"></path>'
+    + '<path class="tt-tali-head-rule" d="M36 64H54M66 64H84"></path>'
+    + '<g class="tt-tali-star"><circle cx="46" cy="44" r="2.6"></circle><circle cx="60" cy="33.5" r="3.2"></circle><circle cx="74" cy="44" r="2.6"></circle></g>'
+    + '<path class="tt-tali-axis" d="M60 56V84M60 120V136M60 176V194"></path>'
+    + '<path class="tt-tali-assist" d="M32 97 35 100 32 103 29 100ZM88 97 91 100 88 103 85 100ZM32 151 35 154 32 157 29 154ZM88 151 91 154 88 157 85 154Z"></path>'
+    + '<path class="tt-tali-secret" d="M26 130q3-7 6 0t6 0M26 184q3-7 6 0t6 0M82 130q3-7 6 0t6 0M82 184q3-7 6 0t6 0"></path>'
+    + '<text class="tt-tali-char" data-slot="dan1" x="60" y="112" text-anchor="middle" font-size="30">{{D1}}</text>'
+    + '<text class="tt-tali-char" data-slot="dan2" x="60" y="166" text-anchor="middle" font-size="30">{{D2}}</text>'
+    + '<path class="tt-tali-band" d="M18 197H34M86 197H102M18 251H34M86 251H102"></path>'
+    + '<g class="tt-tali-img" data-slot="img">{{IMG}}</g>'
+    + '<path class="tt-tali-foot" d="M55 254L38 274M65 254L82 274"></path>'
+    + '<g class="tt-tali-pearl"><circle cx="36" cy="288" r="2.8"></circle><circle cx="48" cy="288" r="2.8"></circle><circle cx="60" cy="288" r="2.8"></circle><circle cx="72" cy="288" r="2.8"></circle><circle cx="84" cy="288" r="2.8"></circle></g>'
+    + '<path class="tt-tali-sea" d="M34 302Q42.7 296 51.3 302T68.7 302T86 302M34 314Q42.7 308 51.3 314T68.7 314T86 314"></path>'
+    + '<path class="tt-tali-corner" d="M26 22.4 29.6 26 26 29.6 22.4 26ZM94 22.4 97.6 26 94 29.6 90.4 26ZM26 310.4 29.6 314 26 317.6 22.4 314ZM94 310.4 97.6 314 94 317.6 90.4 314Z"></path></svg>';
+
+  /* aria 传 null = 这张符只是按钮里的图形，可访问名由宿主按钮给（读屏不该念两遍）。 */
+  g.ttFuSvg = function (key, aria) {
+    var f = g.TT_FU[key] || g.TT_FU.tianji;
+    var a = aria === null ? ' aria-hidden="true"' : ' aria-label="' + (aria || f.name + '符') + '"';
+    return SKEL.replace('{{A}}', a)
+      .replace('{{D1}}', f.dan[0]).replace('{{D2}}', f.dan[1])
+      .replace('{{IMG}}', f.img);
+  };
+  /* 符胆二字与主象的落点，评审与门禁都按这一组数校验 */
+  g.ttFuMeta = function (key) {
+    var f = g.TT_FU[key] || g.TT_FU.tianji;
+    return { name: f.name, dan: f.dan.slice(0) };
+  };
 })(window);

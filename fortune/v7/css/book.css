@@ -1,0 +1,304 @@
+/* 天机阁 V7 · 门内那一页书（book layer）
+   推开门，一册《天机阁》从门洞里飞出来，落到眼前翻开：左页是这一门的盘，右页是这一门的符。
+   这一层只服务 doorart 一页（门 + 案 + 书是同一条动线的三段），所以形制单独成文，
+   不与 gate.css / door.css 互拿私有令牌（门禁第 3 条）：--tt-book-persp / --tt-vol-w / --tt-vol-h
+   在这里另立一份并钉住。
+   动效全部由属性开关驱动：`#art[data-open='1']` 放飞出册，`.tt-book-wrap[data-on='1']` 放翻页与正文错峰。
+   状态写在元素上而不是 :root 上，是因为这一页同时只有一本书，没必要把局部状态挂到全局。 */
+
+/* 与 door.css 的 --tt-door-persp、gate.css 的私有同名令牌同数：
+   书是从那扇门里出来的，透视必须同源，否则飞出来的册子和门叶不在同一个空间里。
+   --tt-art-* 那四个是 art.css 的私有令牌（门场在母版里的切分矩形），组件层之间不许互拿，
+   所以这一层另立一份同数的默认值并钉住；真值仍由 art.js 量出来后写在元素 style 上，两处同源。 */
+.tt-art {
+  --tt-book-persp: 1500px;
+  --tt-art-l: 28.9%; --tt-art-t: 44%; --tt-art-w: 41.6%; --tt-art-hh: 44.9%;
+}
+
+/* ── B1. 飞出：一册书从门洞深处到眼前 ─────────────────────── */
+/* 盒就是门洞（--tt-art-* 那一组百分数由 art.js 量出来写回），所以册子起幅真的在门里，
+   而不是在整张画的正中——上一版挂在整幅上，飞出来是从匾额上长出来的。 */
+.tt-book-fly {
+  /* 这两个数挂在 .tt-book-fly 自己身上，不挂 .tt-book-wrap：
+     册子在门里（.tt-art 的后代），书在门外（.tt-book-wrap）—— 挂在后者上，
+     前者继承不到，宽高落成 auto，实测整册量出来是 0×0，飞出来的只有两个字。 */
+  /* 1440 实测 138px ≈ 门洞实宽的六折：比门宽就出不来 */
+  --tt-vol-w: clamp(7.5rem, 9.6vw, 9rem);
+  /* 1.45 既是门洞的纵长比，也是线装书的纵长 */
+  --tt-vol-h: calc(var(--tt-vol-w) * 1.45);
+  display: none; position: absolute; z-index: 3; pointer-events: none;
+  left: var(--tt-art-l); top: var(--tt-art-t);
+  width: var(--tt-art-w); height: var(--tt-art-hh);
+  place-items: center;
+  perspective: var(--tt-book-persp);
+}
+.tt-art[data-open='1'] .tt-book-fly { display: grid }
+/* 册子自己再给一层 perspective 是给封面的；封面要真的「转出去」而不是被压扁成一条，
+   册子这一层必须开 transform-style: preserve-3d。
+   ——门那一层绝不能开（door.css D4：一开 z-index 就失效，门叶会凭空消失），
+   但册子里只有「纸」和「封面」两张平面，按真实深度排恰好是对的。 */
+.tt-book-fly__vol {
+  position: relative;
+  width: var(--tt-vol-w); height: var(--tt-vol-h);
+  transform-style: preserve-3d;
+  animation: ttBookFly var(--tt-d-slow) var(--tt-e-rise) both;
+}
+/* 起点是「门洞深处」：880px 之外、只有四成半大、还侧着身子——退到门里；
+   终点略微出框，才是「飞出来」而不是「在门里长大」。
+   中间钉一帧 62%：--tt-e-rise 是急减速的曲线，只给首尾两帧的话，
+   实测 160ms（全程 16%）就走完了八成行程，剩下 800ms 几乎是静止——那是「闪现」不是「飞出」。 */
+@keyframes ttBookFly {
+  from { opacity: 0; transform: translateY(var(--tt-sp-6)) translateZ(-880px) rotateY(-24deg) scale(.44) }
+  16% { opacity: 1 }
+  62% { transform: translateY(var(--tt-sp-1)) translateZ(-120px) rotateY(-7deg) scale(.9) }
+  to { opacity: 1; transform: translateY(0) translateZ(0) rotateY(0) scale(1) }
+}
+/* 纸页：夜里它是暗的（bg-card 就是夜纸），字靠墨色反白——和书跨页同一张纸，不能飞出来一册发光的书。
+   往里缩 3px：封面一翻开，板子露出一圈边，「板」和「页」才读得出是两种东西。 */
+.tt-book-fly__page {
+  position: absolute; inset: 3px; z-index: 0;
+  background: var(--tt-bg-card);
+  border: var(--tt-hair) solid var(--tt-ink-3);
+}
+/* 页口：右侧那一叠纸。没有它，翻开之后是一张纸；有了它才是一册。
+   它是一块实心的纸边，不是纹路——5px 宽 3px 一格的亮线是尺子，仍是梯子。 */
+.tt-book-fly__page::before {
+  content: ''; position: absolute; top: var(--tt-hair); right: -4px; bottom: -3px; width: 3px;
+  background: var(--tt-bg-inset);
+  border-right: var(--tt-hair) solid var(--tt-line);
+}
+/* 乌丝栏：翻开后露出的「有字」。这里不描假字——刻本的行气就是版框加竖行界栏。
+   线色压到五成，右端让开题名那一栏（刻本的卷端题名单占一栏，行线不穿过它）。 */
+.tt-book-fly__page::after {
+  content: ''; position: absolute; inset: var(--tt-sp-3) calc(var(--tt-sp-3) * 3) var(--tt-sp-3) var(--tt-sp-3);
+  background-image: repeating-linear-gradient(to right,
+    color-mix(in srgb, var(--tt-ink-4) 52%, transparent) 0 var(--tt-hair), transparent var(--tt-hair) .62rem);
+}
+/* 卷端题名：「展开显示文字」这一拍要真有字。竖排两字压在首栏，就是刻本卷端的样子。 */
+.tt-book-fly__title {
+  position: absolute; top: var(--tt-sp-3); right: var(--tt-sp-2); z-index: 1;
+  writing-mode: vertical-rl;
+  font-size: var(--tt-fs-4); font-weight: 700; letter-spacing: var(--tt-ls-plaque);
+  font-style: normal; color: var(--tt-ink);
+}
+.tt-book-fly__cover {
+  position: absolute; inset: 0;
+  transform-origin: left center;
+  background: var(--tt-gate-face);
+  border: var(--tt-hair) solid var(--tt-gate-line);
+  /* 延迟 = 飞行时长：书先停住，封面再翻开，两拍分开才读得出「到了跟前才打开」 */
+  animation: ttCoverOpen var(--tt-d-enter) var(--tt-e-settle) var(--tt-d-slow) both;
+}
+/* translateZ(.6px)：preserve-3d 里 z-index 失效，封面和纸页同面会打架，抬半像素让它压在上面。
+   收到 158° 不是 180°——真书翻到头会磕在桌上停住，翻平反而像一张纸飘走了。 */
+@keyframes ttCoverOpen {
+  from { transform: translateZ(.6px) rotateY(0) }
+  to { transform: translateZ(.6px) rotateY(-158deg) }
+}
+/* 线装订口：spine 一侧四五个针脚，全册唯一一点金。 */
+.tt-book-fly__cover::after {
+  content: ''; position: absolute; left: 3px; top: 8%; bottom: 8%; width: var(--tt-edge);
+  background-image: repeating-linear-gradient(to bottom, var(--tt-gate-metal) 0 5px, transparent 5px 26px);
+}
+.tt-book-fly__slip {
+  position: absolute; top: var(--tt-sp-4); right: var(--tt-sp-3);
+  padding: var(--tt-sp-2) 2px;
+  writing-mode: vertical-rl; text-orientation: upright;
+  background: var(--tt-bg-card); color: var(--tt-ink);
+  /* 夜里题签的底和封面同档（都是暗纸），全靠这道金框把它从封面上「贴」出来 */
+  border: var(--tt-edge) solid var(--tt-accent-dim);
+  font-size: var(--tt-fs-3); font-weight: 700; letter-spacing: var(--tt-ls-title);
+  animation: ttInkOff var(--tt-d-micro) var(--tt-e-settle) var(--tt-d-slow) both;
+}
+.tt-book-fly__seal {
+  position: absolute; bottom: var(--tt-sp-4); left: var(--tt-sp-5);
+  width: .95rem; height: .95rem; background: var(--tt-verm-solid);
+  /* 白文印：朱地留一道朱漆里的细白边，才读得出是「刻出来的印」而不是一张红贴纸。 */
+  outline: var(--tt-hair) solid var(--tt-verm-on); outline-offset: -3px;
+  animation: ttInkOff var(--tt-d-micro) var(--tt-e-settle) var(--tt-d-slow) both;
+}
+/* 封面一过 90° 就轮到背面朝人，题签与朱印会被镜像成反字——在转过去之前收掉。 */
+@keyframes ttInkOff { from { opacity: 1 } to { opacity: 0 } }
+
+/* ── B2. 翻开：跨页、书脊、版框 ───────────────────────────── */
+/* 书面贴到案下面会读成「表格接在导航后面」：给一卷书应有的天头。 */
+.tt-book-wrap { display: none; width: 100%; padding-top: var(--tt-sp-6); scroll-margin-block-start: 6rem }
+.tt-book-wrap[data-on='1'] { display: block; animation: ttBookRise var(--tt-d-enter) var(--tt-e-rise) both }
+/* 升起量收到一档：真正的「展开」交给左页那道翻页，整本书再 translateY 一大段就会和翻页抢眼睛。 */
+@keyframes ttBookRise {
+  from { opacity: 0; transform: translateY(var(--tt-sp-3)) scale(.99) }
+  to { opacity: 1; transform: none }
+}
+.tt-book {
+  position: relative;
+  display: grid; grid-template-columns: 1fr var(--tt-bar) 1fr; gap: var(--tt-sp-5);
+  width: min(72rem, 100%); margin: 0 auto;
+  /* 跨页的透视：灭点落在整副跨页的正中，也就是书脊上——左页从缝边转出来时，
+     靠书脊那一侧几乎不动、外缘甩向观者，这才是「翻开的书」。 */
+  perspective: var(--tt-book-persp);
+}
+/* 书口：线装书的中缝，一条形制条＋两段订线。整本书的「装订感」全靠这三 px。
+   订线是「线」，得竖着走、贴着缝，不是把纸打孔，也不是两颗浮在缝边的图钉。 */
+.tt-book__spine { position: relative; background: var(--tt-line) }
+.tt-book__spine::before,
+.tt-book__spine::after {
+  content: ''; position: absolute; left: 50%; width: var(--tt-edge); height: 1.25rem;
+  transform: translateX(-50%); background: var(--tt-accent-dim);
+}
+.tt-book__spine::before { top: 16% }
+.tt-book__spine::after { bottom: 16% }
+/* 版框：四周双边（外粗内丝），承德的刻本都是这个样子；页码与题签都挂在版框上。 */
+.tt-page-book {
+  position: relative;
+  background: var(--tt-bg-card);
+  border: var(--tt-hair) solid var(--tt-line);
+  outline: var(--tt-hair) solid var(--tt-rule);
+  outline-offset: -7px;
+  padding: var(--tt-sp-7) var(--tt-sp-6);
+  min-height: 34rem;
+}
+.tt-page-book--leaf-r { border-left: 0; display: flex; flex-direction: column }
+.tt-page-book--leaf-l { border-right: 0; transform-origin: right center }
+/* 左页从书脊翻出来，接住刚才那册飞过来的书。
+   方向选的是「从缝后转出来」而不是「朝观者转过去」：同一副 perspective 下，正的 rotateY
+   会把 570px 宽的一页甩到镜头前，中段被放大 1.4 倍，页角直接盖掉页眉（胶片实测）。
+   起幅 -84°：已经侧到近乎一条线，所以既不用 backface 招数，也不会有一帧镜像文字压在右页的符上。
+   时值用 --tt-e-settle 而不是 --tt-e-rise：rise 在 620ms 里前 140ms 就转完八成，「翻页」闪成一下。 */
+.tt-book-wrap[data-on='1'] .tt-page-book--leaf-l { animation: ttLeafUnfold var(--tt-d-slow) var(--tt-e-settle) both }
+@keyframes ttLeafUnfold {
+  from { transform: rotateY(-84deg) }
+  to { transform: none }
+}
+/* 卷次与题签：「这一页是哪卷」是真实信息，不是装饰。 */
+.tt-page-book__folio {
+  position: absolute; bottom: var(--tt-sp-3); font-size: var(--tt-fs-1);
+  color: var(--tt-ink-3); letter-spacing: var(--tt-ls-meta);
+}
+.tt-page-book--leaf-l .tt-page-book__folio { left: var(--tt-sp-5) }
+.tt-page-book--leaf-r .tt-page-book__folio { right: var(--tt-sp-5) }
+.tt-page-book__tag {
+  position: absolute; top: var(--tt-sp-4); right: var(--tt-sp-4);
+  writing-mode: vertical-rl; text-orientation: upright;
+  padding: var(--tt-sp-3) var(--tt-sp-1);
+  border: var(--tt-hair) solid var(--tt-accent-dim);
+  font-size: var(--tt-fs-5); font-weight: 700; letter-spacing: var(--tt-ls-plaque);
+  color: var(--tt-accent-bright);
+}
+.tt-book__h {
+  margin: 0 0 var(--tt-sp-2); font-size: var(--tt-fs-6); font-weight: 700;
+  letter-spacing: var(--tt-ls-title); color: var(--tt-ink);
+}
+.tt-book__sub {
+  margin: 0 0 var(--tt-sp-5); font-size: var(--tt-fs-2);
+  color: var(--tt-ink-3); letter-spacing: var(--tt-ls-body);
+}
+/* 门内那一段现在住在左页里：宽度由版框给，不再自己收 46rem，也不要上外边距。 */
+.tt-page-book .tt-art__room { width: 100%; margin-block-start: var(--tt-sp-0) }
+
+/* ── B3. 右页：一模块一符，点它求一句符语 ─────────────────── */
+.tt-talisman {
+  display: flex; flex-direction: column; align-items: center; gap: var(--tt-sp-4);
+  width: 100%; padding: 0; background: transparent; border: 0;
+  font-family: inherit; color: inherit; cursor: pointer;
+}
+.tt-talisman:focus-visible { outline: var(--tt-ring-w) solid var(--tt-ring); outline-offset: var(--tt-ring-off) }
+/* 右页只有这一张符，尺寸就是这一页的全部信息量：120×300 摆在 982 高的页里，
+   截图读出来是「页面还没排完」。放到 176×498（120×340），符占页高五成，空白才像留白。 */
+.tt-talisman__fig { position: relative; width: min(11rem, 46%); color: var(--tt-verm) }
+.tt-talisman__fig svg { display: block; width: 100%; height: auto }
+/* 符得是一张放在书上的纸，不是页上描的一个红框：给外廓填最淡的一层底色，
+   朱线压在纸上，右页才读得出「这里放了一件东西」。 */
+.tt-talisman__fig .tt-tali-paper {
+  fill: color-mix(in srgb, var(--tt-verm) 6%, var(--tt-bg-inset));
+  stroke: color-mix(in srgb, var(--tt-ink-3) 46%, transparent); stroke-width: 1;
+}
+/* 朱丝栏：一张符之所以读成「一张」而不是「一列」，靠的是这道栏把构件收进一个面。
+   比符线暗一档（56% 朱），但线宽不能跟着降：解读态符只有 88px 宽，1 单位 = 0.73px，
+   栏在 1px 上直接消失，收了个空面。 */
+.tt-talisman__fig .tt-tali-rail { stroke-width: 1.3; stroke: color-mix(in srgb, var(--tt-verm) 56%, transparent) }
+.tt-talisman__fig .tt-tali-rule-in { stroke: color-mix(in srgb, var(--tt-ink-3) 30%, transparent); stroke-width: .9 }
+.tt-talisman__fig .tt-tali-corner,
+.tt-talisman__fig .tt-tali-assist { fill: color-mix(in srgb, var(--tt-verm) 50%, transparent); stroke: none }
+.tt-talisman__fig .tt-tali-head-rule { stroke-width: 1.3; stroke: color-mix(in srgb, var(--tt-verm) 70%, transparent) }
+/* 象栏走金层、比主象暗一半：它框的是象，不能比象亮。 */
+.tt-talisman__fig .tt-tali-band { stroke-width: 1.2; stroke: color-mix(in srgb, var(--tt-accent) 46%, transparent) }
+.tt-talisman__fig .tt-tali-head { stroke-width: 1.6 }
+.tt-talisman__fig .tt-tali-axis { stroke-width: 1.5 }
+.tt-talisman__fig .tt-tali-foot { stroke-width: 1.7 }
+.tt-talisman__fig .tt-tali-star { fill: var(--tt-verm); stroke: none }
+.tt-talisman__fig .tt-tali-char { fill: var(--tt-verm); stroke: none; font-weight: 700; letter-spacing: 0 }
+/* 中段主象走金层：朱墨分层里那一层「天象／器物」。 */
+.tt-talisman__fig .tt-tali-img { stroke: var(--tt-accent); stroke-width: 1.4 }
+/* 主象里要改线宽的必须走 class，不能写 stroke-width 属性：上面那条 CSS 声明把属性压掉了
+   （presentation attribute 只算 author 级最低优先）。 */
+.tt-talisman__fig .tt-tali-img .tt-tali-fine { stroke-width: .7 }
+.tt-talisman__fig .tt-tali-img .tt-tali-yao { stroke-width: 2.2 }
+.tt-talisman__fig .tt-tali-img .tt-tali-on { fill: var(--tt-accent); stroke: none }
+/* 收脚是线描件（连珠 + 海水），不放实心印：那块唯一的色块读成「贴上去的标签」。 */
+.tt-talisman__fig .tt-tali-pearl { stroke-width: 1.2; stroke: color-mix(in srgb, var(--tt-verm) 58%, transparent) }
+.tt-talisman__fig .tt-tali-sea { stroke-width: 1.3; stroke: color-mix(in srgb, var(--tt-verm) 66%, transparent) }
+.tt-talisman__fig .tt-tali-canopy { stroke-width: 1.3; stroke: color-mix(in srgb, var(--tt-verm) 60%, transparent) }
+/* 侧书走全符最淡的一层朱：它要的是「这里还有字」的厚度，不是让人去认那几个字。 */
+.tt-talisman__fig .tt-tali-secret { stroke-width: 1.2; stroke: color-mix(in srgb, var(--tt-verm) 44%, transparent) }
+.tt-talisman__cue { font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-title); color: var(--tt-ink-3) }
+.tt-page-book--leaf-r .tt-talisman { flex: 1; justify-content: center }
+.tt-page-book--leaf-r .tt-talisman:hover .tt-talisman__fig { animation: ttTaliBreath var(--tt-d-slow) var(--tt-e-breath) }
+@keyframes ttTaliBreath {
+  from { transform: scale(1) }
+  50% { transform: scale(1.022) }
+  to { transform: scale(1) }
+}
+/* 点了符：符退回头像的位置，让整页给符语。符不是被「烧掉」——它得留在书里当凭据。 */
+.tt-page-book--leaf-r[data-said='1'] .tt-talisman { flex: 0 0 auto; justify-content: flex-start }
+.tt-page-book--leaf-r[data-said='1'] .tt-talisman__fig { width: min(5.5rem, 30%) }
+.tt-page-book--leaf-r[data-said='1'] .tt-talisman__cue { display: none }
+/* 落笔这一拍：没有 AI 可问的人点下去也要看见「符应了」——一道朱光沿天柱上去，符身一记呼吸。
+   只演一次（不 infinite）：反复闪是广告位，一次一记才是「应了一声」。
+   静止态收的是几何（scaleY(0)）不是 opacity:0：CSS 门禁第 6 条不许静态 opacity:0，
+   而这一条本来就不是「内容入场前藏起来」，是一道还没落下的笔。 */
+.tt-talisman__fig::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  transform: scaleY(0);
+  background: linear-gradient(to top, transparent,
+    color-mix(in srgb, var(--tt-verm) 34%, transparent) 46%,
+    color-mix(in srgb, var(--tt-gate-metal) 30%, transparent) 54%, transparent);
+}
+.tt-talisman[data-tap='1'] .tt-talisman__fig { animation: ttTaliBreath var(--tt-d-slow) var(--tt-e-breath) }
+.tt-talisman[data-tap='1'] .tt-talisman__fig::after { animation: ttFuStrike var(--tt-d-hero) var(--tt-e-rise) both }
+@keyframes ttFuStrike {
+  from { opacity: 0; transform: translateY(58%) scaleY(.34) }
+  38% { opacity: 1 }
+  to { opacity: 0; transform: translateY(-58%) scaleY(1) }
+}
+/* 符语那一行：正文级字号，走墨色，不用朱——朱已经全给符面了。 */
+.tt-fu-say {
+  margin-block-start: var(--tt-sp-5); padding-block-start: var(--tt-sp-4);
+  border-block-start: var(--tt-hair) solid var(--tt-rule);
+  font-size: var(--tt-fs-4); line-height: var(--tt-lh-verse);
+  letter-spacing: var(--tt-ls-body); color: var(--tt-ink);
+  white-space: pre-wrap;
+}
+.tt-fu-say:empty { display: none }
+.tt-fu-say[data-wait='1'] { color: var(--tt-ink-3) }
+.tt-fu-act { display: flex; gap: var(--tt-sp-3); margin-block-start: var(--tt-sp-4) }
+
+/* ── B4. 窄屏：跨页折成一页在上、一页在下 ─────────────────── */
+@media (max-width: 60rem) {
+  .tt-book { grid-template-columns: 1fr; gap: var(--tt-sp-5) }
+  .tt-book__spine { display: none }
+  .tt-page-book { padding: var(--tt-sp-6) var(--tt-sp-4); min-height: 0 }
+  .tt-page-book--leaf-r { border-left: var(--tt-hair) solid var(--tt-line) }
+  .tt-page-book--leaf-l { border-right: var(--tt-hair) solid var(--tt-line) }
+  .tt-talisman__fig { width: min(9rem, 40%) }
+}
+
+/* ── B5. reduce：直接给翻开的那一页，不排飞出的拍子 ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .tt-book-fly, .tt-book-fly__vol, .tt-book-fly__cover, .tt-book-fly__slip, .tt-book-fly__seal,
+  .tt-page-book--leaf-l, .tt-book-wrap[data-on='1'], .tt-talisman__fig, .tt-talisman__fig::after {
+    animation: none !important;
+  }
+  /* 无动效时封面就不该挡着字：直接把封面收在册子背后，露出页口的乌丝栏。 */
+  .tt-book-fly__cover { transform: translateZ(.6px) rotateY(-158deg) }
+  .tt-talisman__fig::after { display: none }
+}

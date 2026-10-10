@@ -39,7 +39,11 @@
    :root[data-tt-theme] 这条是为了压住 scale.css 里「写了 data-tt-theme 就跟随该档」那条 ——
    那颗昼/夜按钮现在只管楼里的灯（换片），不再翻整页颜色。 */
 :root, :root[data-tt-theme] { color-scheme: dark }
-.tt-pav-stage { position: relative; width: 100%; padding: var(--tt-sp-0) }
+.tt-pav-stage {
+  /* 顶屏的下留白 = 暮色带的高 = 塔画往上爬进顶屏的量。一个数管三处，改一处不会让接缝错位。 */
+  --tt-sky-veil: 30vh;
+  position: relative; width: 100%; padding: var(--tt-sp-0)
+}
 .tt-pav__vh {
   position: absolute; width: 1px; height: 1px; margin: -1px;
   overflow: hidden; clip-path: inset(50%); white-space: nowrap;
@@ -53,14 +57,18 @@
    字一律不落进暮色带：那 34vh 是「天慢慢沉进夜」的那口气，压了字两样都读不清。
    装不下就让这一屏自己长，反正带子是贴 section 底边的。 */
 .tt-pav__sky {
-  /* 下留白与暮色带是同一个数：一个变量喂两处，改一处不会让字压进渐变 */
-  --tt-sky-veil: 30vh;
+  /* 下留白、暮色带高、塔画往上爬的量 —— 三处共用同一个数（声明在 .tt-pav 上，见那儿） */
   position: relative;
+  /* 顶屏压在主楼之上：暮色带要从「不透的页底」淡到「全透」，盖住塔画顶上一截星空，
+     所以这一屏的盒子必须在 frame 上面（z-index），同时整段不许吃掉主楼命中区的点击。 */
+  z-index: 2; pointer-events: none;
   min-height: 88vh; box-sizing: border-box;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 8.5rem var(--tt-gutter) var(--tt-sky-veil);
   text-align: center; overflow: clip;
 }
+/* 黄历那一块要能点（「每日天机」是链子），所以只把交互还给内容本身，留白仍旧是透明的 */
+.tt-pav__day { pointer-events: auto }
 /* 顶屏自己再撒一层星：sample.css 那层星汉在 1440 宽上只数得出十来个点，
    圆盘星图撤掉之后这一屏就空得发虚。这里换一组瓦片尺寸叠上去，密而不抢字。 */
 .tt-pav__sky::before {
@@ -126,29 +134,31 @@
 .tt-pav__gods-k { color: var(--tt-ink-2) }
 .tt-pav__gods-k--x { padding-inline-start: var(--tt-sp-5) }
 .tt-pav__gods-v { padding-inline-start: var(--tt-sp-2) }
-/* 暮色带：落点必须正好是塔画顶边那块夜 #0A1620，接缝才隐形。
-   上一版只有三段停靠、180px 走完，用户判「太生硬」—— 现在按 ease-in-out 摆九档
-   （越接近夜走得越快），起点透明所以星汉一路还在，到 96% 才压实。
-   高度走 .tt-pav__sky 上那个 --tt-sky-veil，与顶屏的下留白是同一个变量。 */
+/* 暮色带：不再是「把顶屏染成夜色」，而是「把塔画顶上那截星空淡出来」。
+   上一版落在 #0A1620 上 —— 那个值比塔画顶边（实测 L≈0.0006 的深navy）亮，
+   于是带底成了一顶盖在星星上的亮帽子，接缝是一道横贯全宽的硬线（用户判「衔接非常不自然」）。
+   现在带子从「不透的页底」淡到「全透」，塔画的星空从带底一路爬到带顶：没有边界，也就没有硬边。
+   高度与顶屏下留白、塔画上爬量是同一个 --tt-sky-veil。 */
 .tt-pav__dusk {
   position: absolute; left: var(--tt-sp-0); right: var(--tt-sp-0); bottom: var(--tt-sp-0);
   height: var(--tt-sky-veil); min-height: var(--tt-sp-9); pointer-events: none;
   background-color: transparent;
-  background-image: linear-gradient(to bottom, transparent 0%,
-    color-mix(in srgb, var(--tt-pav-sky) 8%, transparent) 14%,
-    color-mix(in srgb, var(--tt-pav-sky) 18%, transparent) 28%,
-    color-mix(in srgb, var(--tt-pav-sky) 32%, transparent) 42%,
-    color-mix(in srgb, var(--tt-pav-sky) 50%, transparent) 56%,
-    color-mix(in srgb, var(--tt-pav-sky) 72%, transparent) 72%,
-    color-mix(in srgb, var(--tt-pav-sky) 92%, transparent) 86%,
-    var(--tt-pav-sky) 96%, var(--tt-pav-sky) 100%);
+  background-image: linear-gradient(to bottom,
+    var(--tt-bg) 0%, var(--tt-bg) 24%,
+    color-mix(in srgb, var(--tt-bg) 92%, transparent) 40%,
+    color-mix(in srgb, var(--tt-bg) 74%, transparent) 56%,
+    color-mix(in srgb, var(--tt-bg) 50%, transparent) 72%,
+    color-mix(in srgb, var(--tt-bg) 26%, transparent) 88%,
+    transparent 100%);
 }
 
 /* ── P2. 阁楼 ───────────────────────────────────────────── */
 /* 满幅、1:2、约 2.8 屏高。视频源是 672×1344，1280 宽的屏上等于放大 1.9 倍 ——
    动的画面经得住这个放大，静图才经不住，所以宁可撑满。
    FLIP 的 transform 与乒乓换脸都挂在这一层，滚动本身交给文档，不自己造滚动容器。 */
-.tt-pav__frame { position: relative; width: 100%; line-height: 0 }
+/* 往上爬 --tt-sky-veil：让塔画顶上那截星空伸进顶屏的留白里，接缝由暮色带淡出，而不是两条边对撞。
+   z-index 交给 .tt-pav__sky（它在上面盖着），命中区不受影响 —— 顶屏整段 pointer-events: none。 */
+.tt-pav__frame { position: relative; width: 100%; line-height: 0; margin-block-start: calc(var(--tt-sky-veil) * -1) }
 .tt-pav__scroll {
   /* 这四个是兜底：每一层的行内样式都会覆写它（pavilion.js 的 bandStyle），
      但门禁第 3 条要求 var() 引用的令牌必须有声明，所以留一份与最上层（九層）同值的默认。 */
@@ -242,12 +252,24 @@
 .tt-pav__tag {
   position: absolute; right: 5%; top: 50%;
   padding: var(--tt-sp-1) var(--tt-sp-3);
-  border: var(--tt-hair) solid transparent;
-  background-color: transparent;
   transform: translate(-.5rem, -50%); white-space: nowrap; text-align: start;
-  transition: transform var(--tt-d-veil) var(--tt-e-veil) calc(var(--tt-step) * 2),
-    background-color var(--tt-d-veil) var(--tt-e-veil) calc(var(--tt-step) * 2),
-    border-color var(--tt-d-veil) var(--tt-e-veil) calc(var(--tt-step) * 2);
+  transition: transform var(--tt-d-veil) var(--tt-e-veil) calc(var(--tt-step) * 2);
+}
+/* 展签的底：用户判原来那块「实心底 + 描边的长方形」是生硬的黄纸条。
+   改成字后面浮起一团光 —— 两层径向叠加（暖金的晕 + 压暗的墨底），四边全散到透明再糊 5px，
+   一条边线都没有；墨底那层负责把塔画的亮窗压下去，金字才站得住（对比度由 v7_pav_toggle 实测）。
+   注意不能用整块不透明的 --tt-bg 当底：浅主题下它是宣纸白，历史上金字落上去实测 1.03:1。
+   隐藏态靠「几何收成零」而不是 opacity:0（门禁第 5 条不许静态 opacity:0，入场前内容必须可见）：
+   inset 收到中心一个点，光晕本身就没有面积，散开与收回都是同一层渐变在长。 */
+.tt-pav__tag::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  inset: 50% 50%;
+  background:
+    radial-gradient(66% 112% at 32% 50%, color-mix(in srgb, var(--tt-gate-glow) 17%, transparent) 0%, transparent 64%),
+    radial-gradient(84% 150% at 27% 50%, color-mix(in srgb, var(--tt-bg) 76%, transparent) 0%,
+      color-mix(in srgb, var(--tt-bg) 44%, transparent) 50%, transparent 84%);
+  filter: blur(5px);
+  transition: inset var(--tt-d-veil) var(--tt-e-veil) calc(var(--tt-step) * 2);
 }
 .tt-pav__slot {
   display: block; font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-meta);
@@ -277,14 +299,9 @@
   background-color: color-mix(in srgb, var(--tt-gate-glow) 46%, transparent);
 }
 .tt-pav__storey[data-on='1'] .tt-pav__tag,
-.tt-pav__storey:hover .tt-pav__tag {
-  transform: translate(var(--tt-sp-0), -50%);
-  /* 底板不能用 --tt-bg：展签压的永远是那张夜画，浅主题下 --tt-bg 会翻成宣纸白，
-     而字是淡奶金 —— 实测底板 rgb(233,236,233) 配字 rgb(245,233,206)，对比度 1.03:1，等于没写。
-     改走门框石青：两版都是深色，金字落在上面浅版 8.3:1、深版更宽。 */
-  background-color: color-mix(in srgb, var(--tt-gate-frame) 78%, transparent);
-  border-color: color-mix(in srgb, var(--tt-gate-glow) 26%, transparent);
-}
+.tt-pav__storey:hover .tt-pav__tag { transform: translate(var(--tt-sp-0), -50%) }
+.tt-pav__storey[data-on='1'] .tt-pav__tag::before,
+.tt-pav__storey:hover .tt-pav__tag::before { inset: -.45rem -1.15rem }
 .tt-pav__storey[data-on='1'] .tt-pav__slot,
 .tt-pav__storey:hover .tt-pav__slot {
   /* 同理不能用 --tt-ink-2：浅版它是深灰，落在深色底板上只剩 1.1:1。
@@ -305,7 +322,8 @@
   .tt-pav__nm { font-size: var(--tt-fs-4) }
   /* 手机上暮色带收到 24vh：只改 --tt-sky-veil 一个变量，顶屏下留白与带高跟着一起变
      （30vh 在 741 高的屏上会把字顶到标头底下）。上留白也跟着收一档。 */
-  .tt-pav__sky { --tt-sky-veil: 24vh; padding-block-start: 7.5rem }
+  .tt-pav-stage { --tt-sky-veil: 24vh }
+  .tt-pav__sky { padding-block-start: 7.5rem }
   .tt-pav__title { font-size: var(--tt-fs-6) }
   .tt-pav__gz { font-size: var(--tt-fs-4) }
 }
@@ -325,7 +343,7 @@
 /* ── P7. reduce ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .tt-pav__frame, .tt-pav__band, .tt-pav__band::before, .tt-pav__band::after,
-  .tt-pav__tick, .tt-pav__tag, .tt-pav__slot, .tt-pav__nm, .tt-pav__scrim {
+  .tt-pav__tick, .tt-pav__tag, .tt-pav__tag::before, .tt-pav__slot, .tt-pav__nm, .tt-pav__scrim {
     transition: none !important
   }
   /* 不排入场的拍子：檐线直接画满，指到才出字这件事照旧。

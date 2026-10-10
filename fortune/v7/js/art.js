@@ -155,6 +155,9 @@
     art.style.setProperty('--tt-art-w', pct(rect.w, W));
     art.style.setProperty('--tt-art-hh', pct(rect.h, H));
     art.style.setProperty('--tt-art-ar', W + ' / ' + H);
+    /* 同一个比值的纯数字一份：取景窗要按 cover 算「宽至少多少才铺得下」，
+       calc() 里乘不了 "1024 / 1536" 这种比值串，只能另给一个数 */
+    art.style.setProperty('--tt-art-rn', (W / H).toFixed(5));
 
     /* 匾位同理；匾上的字是真实文本（图里匾面留空），可访问名字交给容器的 aria-label，
        字本身 aria-hidden，免得读屏把「八字 推门而入 八字」念两遍。 */
@@ -173,10 +176,18 @@
     art.setAttribute('role', 'button');
     art.setAttribute('tabindex', '0');
     art.setAttribute('aria-label', (name ? name + ' · ' : '') + '推门而入');
-    var open = function (v) { art.dataset.open = v ? '1' : '0'; };
-    art.addEventListener('click', function () { open(art.dataset.open !== '1'); });
+    /* 推门这道动作现在归「案上有没有填好帖」管：room.js 挂了 ttDoorGate 就先问它，
+       它返回假值（帖子没填/填错）就把这一推当成一次提交尝试，门不开、错误落在案上。
+       没挂 gate 的页（比如还没接的退路页）行为照旧。 */
+    var setOpen = function (v) { art.dataset.open = v ? '1' : '0' };
+    var push = function () {
+      if (art.dataset.open === '1') { setOpen(0); return }
+      if (window.ttDoorGate) { if (!window.ttDoorGate()) return }
+      setOpen(1);
+    };
+    art.addEventListener('click', push);
     art.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(art.dataset.open !== '1'); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); push() }
     });
 
     /* 审计：量出来的数打在 window 上，探针脚本直接读，不用我肉眼猜 */

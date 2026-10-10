@@ -813,7 +813,13 @@ import { ASK } from './prompts.js';
     return wrap;
   }
 
-  function build(key, sc) {
+  /* ── 门前石案（an）：先填帖，再推门 ───────────────────────
+     用户定的顺序 —— 表单在门外、压在台基上，「推门而入」就是提交那颗钮；点门扇等同于按它
+     （art.js 里那道口叫 window.ttDoorGate，返回假值就不开）。
+     结果仍旧交给 #room：门开 → 书飞出 → 盘摆在眼前。 */
+  var an = document.getElementById('an');
+
+  function buildAn(key, sc) {
     var t = today();
     var wrap = el('div', 'tt-room__card');
     var head = el('div', 'tt-room__head');
@@ -822,7 +828,8 @@ import { ASK } from './prompts.js';
     wrap.appendChild(head);
     var form = el('form', 'tt-room__form');
     form.setAttribute('novalidate', '');
-    sc.fields(t).forEach(function (f) {
+    var fs = sc.fields(t);
+    fs.forEach(function (f) {
       /* 合婚这种一人一段的，用整行小标题分组，别把「年」写两遍分不清是谁的 */
       if (f.head) form.appendChild(el('p', 'tt-room__fhead', f.head));
       var lab = el('label', 'tt-room__field');
@@ -846,32 +853,68 @@ import { ASK } from './prompts.js';
       lab.appendChild(inp);
       form.appendChild(lab);
     });
-    var go = el('button', 'tt-room__go', sc.go || '起盘');
+    var go = el('button', 'tt-room__go', '推门而入');
     go.type = 'submit';
     form.appendChild(go);
     var err = el('p', 'tt-room__err');
     err.setAttribute('aria-live', 'polite');
     form.appendChild(err);
     wrap.appendChild(form);
-    var out = el('div', 'tt-room__chart');
-    out.hidden = true;
-    wrap.appendChild(out);
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var g = function (n) { var x = document.getElementById('f-' + n); return x ? x.value : '' };
+
+    function g(n) { var x = document.getElementById('f-' + n); return x ? x.value : '' }
+    /* 验帖 + 起盘。返回 true 才许推门；错就落在案上，门不动 */
+    function push() {
       var r = sc.read(g);
       err.textContent = r.err || '';
-      if (r.err) { out.hidden = true; return }
-      out.textContent = '';
+      if (r.err) {
+        an.dataset.nudge = '1';
+        setTimeout(function () { an.removeAttribute('data-nudge') }, 640);
+        var f0 = form.querySelector('.tt-room__input'); if (f0) f0.focus();
+        return false;
+      }
+      room.textContent = '';
+      var out = el('div', 'tt-room__chart');
+      room.appendChild(out);
       sc.draw(out, r.ok, g('gender'));
       var sv = saveRow(key, g, r.ok);
       if (sv) out.appendChild(sv);
       /* 现网每次排盘都 clearMessages：换了一张盘就是换了一次上下文，所以问一问跟着盘一起重建 */
       var ak = askRow(key, r.ok);
       if (ak) out.appendChild(ak);
-      out.hidden = false;
+      room.hidden = false;
+      room.dataset.mod = key;
       window.__roomChart = { mod: key, raw: r.ok };
+      /* 书开，并把卷端与「此盘所据」填上：飞出来的那一册没有字（它只有三秒），
+         字落在这本翻开的书上。 */
+      if (book) book.dataset.on = '1';
+      if (bookH) bookH.textContent = '卷一 · ' + sc.title;
+      if (bookSub) bookSub.textContent = fs.map(function (f) {
+        var v = g(f.k), o = f.opts && f.opts.filter(function (x) { return String(x.v == null ? x : x.v) === String(v) })[0];
+        return f.label + ' ' + (o ? (o.t == null ? o.v : o.t) : v);
+      }).join(' · ');
+      /* 案不折：门推开之后帖子还摊在案上，改一个数再按一次「推门而入」就是再起一盘。
+         折行会让案变矮、取景窗的第一行跟着长大，门会在推开的瞬间跳一下尺寸。 */
+      an.dataset.state = 'done';
+      return true;
+    }
+    /* 滚到书而不是滚到盘：整副跨页（左盘右符）才是一屏的事，滚到盘那里符在屏外 */
+    function reveal() {
+      var t = book || room;
+      setTimeout(function () { t.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 760);
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!push()) return;
+      art.dataset.open = '1';
+      reveal();
     });
+    /* 点门扇 = 按「推门而入」：帖子没过就不开 */
+    window.ttDoorGate = function () {
+      if (an.dataset.state === 'done') return true;
+      if (!push()) return false;
+      reveal();
+      return true;
+    };
     return wrap;
   }
 
@@ -895,17 +938,77 @@ import { ASK } from './prompts.js';
   }
   var sc = SCHEMA[mod.key];
   room.dataset.mod = mod.key;
-  room.textContent = '';
-  room.appendChild(sc ? build(mod.key, sc) : fallback(mod.key, mod.name));
-  room.hidden = true;
-  /* 门开到位才把门内这一段递到眼前：先让人推门，再请他填帖 */
-  var seen = 0;
-  art.addEventListener('click', function () {
-    if (seen || art.dataset.open !== '1') return;
-    seen = 1;
-    setTimeout(function () {
-      room.hidden = false;
-      room.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 700);
-  });
+  room.textContent = ''; room.hidden = true;
+  /* ── 门内那一页书：左页是这一门的盘，右页是这一门的符 ─────────
+     书在盘没起之前整块收着（data-on='0' → display:none），所以「推门 → 书飞出来 → 翻开」
+     这一串只在起盘那一刻演一次。符从挂载就在，不等盘。 */
+  var book = document.getElementById('book'), leafR = document.getElementById('leafR'),
+    fu = document.getElementById('fu'), fuFig = document.getElementById('fuFig'),
+    fuSay = document.getElementById('fuSay'), bookH = document.getElementById('bookH'),
+    bookSub = document.getElementById('bookSub');
+  if (fu && fuFig && window.ttFuSvg) {
+    /* 一模块一符：骨架与两个槽（符胆二字 / 主象）都在 fu.js 的 ttFuSvg() 里，这一页只挂上去。
+       图走 aria-hidden，可访问名挂在按钮上 —— 读屏不该把符面那两个字当正文念两遍。 */
+    fuFig.innerHTML = window.ttFuSvg(mod.key, null);
+    fu.hidden = false;
+    fu.setAttribute('aria-label', (window.ttFuMeta ? window.ttFuMeta(mod.key).name : mod.name)
+      + '符 · 点一下求一句符语');
+    var fuCtrl = null;
+    fu.addEventListener('click', function () {
+      var a = ASK[mod.key];
+      /* 先落这一笔：有没有 AI 都得不点不动 —— 符应了一声，话在后头。 */
+      fu.dataset.tap = '1';
+      setTimeout(function () { fu.removeAttribute('data-tap') }, 1400);
+      leafR.dataset.said = '1';
+      var drop = document.getElementById('fu-set');
+      if (!a) { fuSay.textContent = '这一门在现网就没有配 AI，符只落一笔，不替你编一句。'; return }
+      var raw = (window.__roomChart && window.__roomChart.mod === mod.key) ? window.__roomChart.raw : null;
+      if (!raw) { fuSay.textContent = '先在案上推门：盘没起，符没得解。'; return }
+      if (!hasKey()) {
+        fuSay.textContent = '此符无笔 —— 在「设置」里配一把 API Key，符语才落得下来。';
+        if (!drop) {
+          var act = el('p', 'tt-fu-act'), b = el('button', 'tt-room__mini tt-room__mini--go', '去设置');
+          b.type = 'button'; b.id = 'fu-set';
+          b.addEventListener('click', function () { if (window.ttHouseOpen) window.ttHouseOpen('ai') });
+          act.appendChild(b);
+          fuSay.after(act);
+        }
+        return;
+      }
+      if (drop && drop.parentNode) drop.parentNode.remove();
+      if (fuCtrl) fuCtrl.abort();
+      fuCtrl = new AbortController();
+      var mine = fuCtrl, got = false;
+      fuSay.textContent = '符正在落笔…';
+      fuSay.dataset.wait = '1';
+      /* 系统那一份是现网这一页原封不动的提示词（prompts.js 逐字切的），
+         问题这一句是新前端自己的话术 —— 不假称现网有「符语」这个功能。 */
+      ask([{ role: 'system', content: a.system },
+        { role: 'user', content: a.user(raw, '请只给一句符语：不超过二十字，要落在这张盘上，不要解释、不要分点。') }],
+        function (d) {
+          if (mine !== fuCtrl) return;
+          if (!got) { got = true; delete fuSay.dataset.wait; fuSay.textContent = '' }
+          fuSay.textContent += d;
+        }, fuCtrl.signal).then(function (t) {
+          if (mine !== fuCtrl) return;
+          delete fuSay.dataset.wait;
+          if (!t) fuSay.textContent = '这一笔没落下来：模型空着回去了。';
+        }, function (e) {
+          if (mine !== fuCtrl) return;
+          delete fuSay.dataset.wait;
+          if (e && e.name === 'AbortError') return;
+          fuSay.textContent = (e && e.message) || '符语没落下来。';
+        });
+    });
+  }
+  /* 帖子摆在门外：这一案就是这道门的入口，不是推开门之后的第二步 */
+  an.dataset.mod = mod.key;
+  an.dataset.state = 'edit';
+  an.textContent = '';
+  an.appendChild(sc ? buildAn(mod.key, sc) : fallback(mod.key, mod.name));
+  /* 案下那一行是本门的指引位：静态 HTML 里先写着通用的一句（图读不出来时它是唯一的话筒，
+     art.js 的 fail() 会覆盖这里），接上 schema 之后换成本门自己的说法。
+     案上的题款只留名目——同一句话在案上案下各说一遍是啰嗦。 */
+  var hint = document.querySelector('.tt-art__hint');
+  if (hint && sc && sc.hint) hint.textContent = sc.hint;
 })();

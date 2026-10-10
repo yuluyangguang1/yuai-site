@@ -11,17 +11,117 @@
    两处各一份是因为两页不共用组件层 —— v7_audit.mjs 会逐页量 color-scheme，漂了会被抓。 */
 :root, :root[data-tt-theme] { color-scheme: dark }
 
-/* ── A1. 舞台 ───────────────────────────────────────────── */
+/* ── A1. 取景窗：一屏之内同时装下「门」与「案」──────────────── */
+/* 门页是一屏一景：窗 = 一整屏，窗里两行——门占满第一行、石案压在门脚。
+   以前门场浮在长文档开头（46rem 高、上下还各留一段标头与题注），用户判「小、不大气」；
+   母版是 2:3 竖图，一屏里既要门大又要案在眼前，就只能让标头让位、让案叠在门脚上。
+   标头改浮在画上（与阁楼页同一套做法：字色走奶金、加一层虚光，不铺底板也不画发丝线），
+   这样画能顶到屏沿；石案用负外边距往上压 6rem，压掉的正好是图里那段石台阶。 */
+.tt-doc--door .tt-shell { padding-block-start: var(--tt-sp-0) }
+.tt-doc--door .tt-mast {
+  position: fixed; z-index: 6; top: var(--tt-sp-0); inset-inline: 0;
+  width: 100%; box-sizing: border-box; padding: var(--tt-sp-4) var(--tt-gutter);
+  color: var(--tt-gate-glow);
+  text-shadow: 0 0 .55rem color-mix(in srgb, var(--tt-bg) 92%, transparent),
+    0 0 .18rem color-mix(in srgb, var(--tt-bg) 88%, transparent);
+}
+.tt-doc--door .tt-mast * { color: inherit }
 .tt-art-stage {
   display: grid; place-items: center; gap: var(--tt-sp-4);
-  width: 100%; padding: var(--tt-sp-5) 0 var(--tt-sp-6);
+  width: 100%; padding: var(--tt-sp-0) 0 var(--tt-sp-6);
 }
+/* ── 门前石案（an）──────────────────────────────────────────
+   用户定的流程：先在案上把生时贴填好，再点「推门而入」—— 所以表单在门外，
+   做成一块压在门脚（台基）上的石台，画面由此有了前中后三层纵深，而不是一张贴在黑影里的门。
+   案面走石：上沿一道金属高光、面是渐深的石青，方角、无圆角。 */
+.tt-art-window {
+  --tt-an-over: 9rem;
+  display: grid; grid-template-rows: minmax(0, 1fr) auto auto;
+  justify-items: center; align-items: end;
+  width: 100%; height: 100svh; box-sizing: border-box;
+  padding-block-end: var(--tt-sp-4);
+}
+.tt-an {
+  position: relative; z-index: 3;
+  width: 100%;
+  margin-block-start: calc(var(--tt-an-over) * -1);
+}
+/* 案前那道影：没有它，案的上沿就是一条横切门扇的直线（实测就是这个读感）。
+   压深门脚再让案压上去，前后两层才分得开；blur 是把 alpha 斜坡上的条带揉掉，
+   与阁楼标头那条同一个理由。 */
+.tt-an::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  inset-inline: 0; inset-block-end: 100%; height: var(--tt-an-over);
+  background: linear-gradient(to bottom, transparent, var(--tt-bg) 78%);
+  filter: blur(var(--tt-sp-1));
+}
+/* 案走「月台」形制：横贯一屏、只留上沿那道金属高光，左右与下沿不收边 ——
+   收边就读成一张浮在画面上的 UI 卡片（上一版 46rem 宽、四边都有线，正是这个毛病）。
+   台面两端再化进夜色里（mask 的 alpha 斜坡），否则那一刀竖边会替整块画面定出一个矩形。
+   题款立在案头左侧，字段与主钮横着摊开，整案只有一行高：
+   案每矮一分，门就能高一分，这一屏里两者是零和的。 */
+.tt-an .tt-room__card {
+  display: flex; align-items: flex-end; gap: var(--tt-sp-5);
+  padding: var(--tt-sp-4) var(--tt-gutter) var(--tt-sp-4);
+  background: none;
+  border: none;
+}
+.tt-an::after {
+  content: ''; position: absolute; z-index: -1; inset: 0;
+  background-image:
+    linear-gradient(to bottom, color-mix(in srgb, var(--tt-gate-metal) 46%, transparent),
+      color-mix(in srgb, var(--tt-gate-metal) 46%, transparent)),
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--tt-bg-raised) 95%, transparent),
+      color-mix(in srgb, var(--tt-bg-card) 95%, transparent));
+  background-size: 100% var(--tt-hair), 100% 100%;
+  background-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(to right, transparent, var(--tt-bg) 7%, var(--tt-bg) 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, var(--tt-bg) 7%, var(--tt-bg) 93%, transparent);
+}
+/* 这一案的题款只留名目，指引交给案下那一行（room.js 会把本门的提示写过去），
+   同一句话在案上案下各说一遍是啰嗦 */
+.tt-an .tt-room__hint { display: none }
+.tt-an .tt-room__head { flex: 0 0 auto; align-self: flex-start; display: grid; gap: var(--tt-sp-1); margin-block-end: var(--tt-sp-0) }
+.tt-an .tt-room__form {
+  flex: 1 1 auto; min-width: 0;
+  display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--tt-sp-3) var(--tt-sp-4);
+}
+.tt-an .tt-room__fhead {
+  flex: 1 1 100%; margin: var(--tt-sp-1) 0 0;
+  font-size: var(--tt-fs-2); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3);
+}
+.tt-an .tt-room__field { flex: 0 1 auto; min-width: 0; display: flex; flex-direction: column; gap: var(--tt-sp-1) }
+.tt-an .tt-room__k { display: block; font-size: var(--tt-fs-2); color: var(--tt-ink-3) }
+.tt-an .tt-room__input { width: auto; max-width: 100% }
+.tt-an input.tt-room__input { width: 5.5rem }
+.tt-an .tt-room__err { flex: 1 1 100%; margin-block-start: var(--tt-sp-2) }
+.tt-an .tt-room__err:empty { display: none }
+/* 案上那颗主钮：推门这个动作就是提交，所以它比一般的按钮重一档，坐在案的最右端 */
+.tt-an .tt-room__go {
+  flex: 0 0 auto;
+  padding: var(--tt-sp-2) var(--tt-sp-6);
+  border: var(--tt-hair) solid color-mix(in srgb, var(--tt-gate-metal) 62%, transparent);
+  background-color: color-mix(in srgb, var(--tt-verm) 16%, transparent);
+  color: var(--tt-accent-bright);
+  font-size: var(--tt-fs-4); letter-spacing: var(--tt-ls-plaque);
+  transition: background-color var(--tt-d-fast) var(--tt-e-breath), border-color var(--tt-d-fast) var(--tt-e-breath);
+}
+.tt-an .tt-room__go:hover { background-color: color-mix(in srgb, var(--tt-verm) 30%, transparent) }
+/* 验帖没过：门不开，案子轻轻晃一下并把错误落在案上（动效只在 data-nudge 这一瞬） */
+@keyframes ttAnNudge {
+  0%, 100% { transform: translateX(var(--tt-sp-0)) }
+  18% { transform: translateX(-.55rem) }
+  42% { transform: translateX(.45rem) }
+  68% { transform: translateX(-.25rem) }
+}
+.tt-an[data-nudge='1'] { animation: ttAnNudge var(--tt-d-slow) var(--tt-e-settle) }
 /* 门场的切分矩形由 art.js 量出来后覆盖写回；这里的默认值是母版图 1024×1536 上手量的一份，
    写在组件里而不是只活在 JS 里，是为了「脚本没跑起来时版面也已经是对的」，
    也让门禁第 3 条（每个 var 都要有声明）在本文件内自足。 */
 .tt-art {
   --tt-art-ar: 1024 / 1536;
-  --tt-art-h: 46rem;
+  --tt-art-h: 60rem;
   /* 顶 44% = y 676（门簪带实测占 y 636–672，其后是门的上亮罩花暗带 678–726，太极从 732 起）；
      下界 44.9% 换回图像是 y=1366：灰石台阶从 y=1368 才开始（实测 1364 处一个石色像素都没有），
      上一版收到 1453，整条台阶被切进门叶，门一转台阶跟着转。 */
@@ -46,12 +146,35 @@
   --tt-bell-rx: 87.79%; --tt-bell-ry: 24.09%;
   position: relative; aspect-ratio: var(--tt-art-ar);
   container-type: size;
-  /* 第三个上限是新加的：门是 2:3 竖幅，只按高算的话 390 宽的手机上门宽 491px，
+  grid-row: 1; align-self: end;
+  /* 第三个上限是老账：门是 2:3 竖幅，只按高算的话 390 宽的手机上门宽 491px，
      右边整条被裁掉（实测 art 盒 28→519，而屏只有 390）—— 舞台 overflow:clip 把溢出藏了，
-     所以 scrollWidth 查不出来，得靠"元素右缘超出视口"这一条才抓得到。 */
-  height: min(var(--tt-art-h), 88vh, calc((100vw - 2 * var(--tt-gutter)) * 1.5));
+     所以 scrollWidth 查不出来，得靠"元素右缘超出视口"这一条才抓得到。
+     第二个上限从 92svh 换成 100%（= 取景窗第一行）：门不再按整屏算，而是「一屏扣掉石案
+     还剩下的那一截」，案越高门就越矮，两者永远同屏；窄屏走宽度上限，门落在窗底、
+     空出来的黑天在头顶（画底本就是夜色，看不出留白）。 */
+  height: min(var(--tt-art-h), 100%, calc((100vw - 2 * var(--tt-gutter)) * 1.5));
   cursor: pointer;
   transition: transform var(--tt-d-enter) var(--tt-e-rise);
+}
+/* 窄屏（手机、竖屏小窗）换两段式：一横案在 390 宽里要摊成六行（实测案高 566），
+   硬压进一屏门就只剩 255px —— 门比案还小是本末倒置。所以这里门占首屏、案在门下，
+   点门而案不在眼前时由 room.js 把案送到眼前。标头也回到文档流：
+   窄屏的门顶就是屋顶，浮字压在翘角上读成贴歪的标签。 */
+@media (max-width: 60rem) {
+  .tt-doc--door .tt-shell { padding-block-start: var(--tt-sp-4) }
+  .tt-doc--door .tt-mast {
+    position: static; padding: var(--tt-sp-0); color: inherit; text-shadow: none;
+  }
+  .tt-art-window { display: block; height: auto; padding-block-end: var(--tt-sp-0) }
+  .tt-art {
+    margin-inline: auto;
+    height: min(var(--tt-art-h), 72svh, calc((100vw - 2 * var(--tt-gutter)) * 1.5));
+  }
+  .tt-an { margin-block-start: var(--tt-sp-4) }
+  .tt-an::before { display: none }
+  .tt-an .tt-room__card { flex-direction: column; align-items: stretch; gap: var(--tt-sp-3) }
+  .tt-art__hint { margin-block-start: var(--tt-sp-4); text-align: center }
 }
 /* 标头那道发丝线在画上就是一道横贯画面的边线（阁楼页已经因为这个改过一轮），门页同样不要 */
 .tt-mast { border-block-end-color: transparent }
@@ -144,8 +267,10 @@
   font-size: var(--tt-fs-3); letter-spacing: var(--tt-ls-title); color: var(--tt-ink-2);
   transition: color var(--tt-d-micro) var(--tt-e-settle), opacity var(--tt-d-fast) var(--tt-e-settle)
 }
-/* 键盘走到门上时也要给这句提示同一份强调色（原来只有 :hover，触屏与键盘都拿不到） */
-.tt-art-stage:hover .tt-art__hint, .tt-art-stage:focus-within .tt-art__hint { color: var(--tt-accent-bright) }
+/* 提示在案的下面、同一屏里。强调色跟着「门」走而不是跟着整块舞台走：
+   舞台现在是一整屏，用 :hover 的话这一行永远处于强调态，等于没有强调。 */
+.tt-art:hover ~ .tt-art__hint, .tt-art:focus-visible ~ .tt-art__hint { color: var(--tt-accent-bright) }
+.tt-art__hint { margin-block-start: var(--tt-sp-2); font-size: var(--tt-fs-2) }
 .tt-art[data-open='1'] ~ .tt-art__hint { opacity: .28 }
 /* data-state 必须有人消费：图还在解、或压根没到位时，界面不能和「门已备好」长得一样
    （照样写着「点一下门 · 推门而入」，点了什么也不会发生）。文案由 art.js 换，这里管 cursor 与淡度。 */
@@ -203,6 +328,8 @@
   .tt-art[data-open='1'] .tt-art__disc { transform: rotate(180deg) }
   .tt-art[data-open='1'] .tt-art__light { opacity: 1 }
   .tt-art[data-open='1'] .tt-art__spill { opacity: .5 }
+  /* 案子的「晃一下」是纯动效暗示，reduce 下只留错误文字 */
+  .tt-an[data-nudge='1'] { animation: none !important }
 }
 
 /* ── A7. 门内（推开门之后那一间） ───────────────────────── */
@@ -280,7 +407,9 @@
 /* 发问那颗比 停/清空 重一点，但仍是素边：一门之中唯一的朱留给「起盘」 */
 .tt-room__mini--go { border-color: var(--tt-accent-dim); color: var(--tt-accent) }
 .tt-room__wait { margin: 0; font-size: var(--tt-fs-1); letter-spacing: var(--tt-ls-meta); color: var(--tt-ink-3) }
-/* 回执后面那颗：门页的标头不钉住，滑到盘这里就够不着「记录」了，得就地给一个开柜的口 */
+/* 回执后面那颗：标头自 V7-30 起浮在画上、一路跟着滚，「记录」其实一直够得着；
+   这颗留在原地是因为它出现在回执旁边——刚入完卷的那一下，人想找的是这张盘去了哪儿，
+   不是抬头找导航。 */
 .tt-room__open {
   min-height: var(--tt-sp-6); padding: var(--tt-sp-1) var(--tt-sp-3);
   border: var(--tt-hair) solid var(--tt-line); border-radius: var(--tt-r-0);
