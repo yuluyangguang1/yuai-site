@@ -1,74 +1,313 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>宝妈助手</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="favicon.svg">
-  <meta name="theme-color" content="#FDF9F4">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="宝妈助手">
-  <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>咿呀记 Yiya · 从孕期到育儿的温柔记录（原「宝妈助手」）</title>
+<meta name="description" content="咿呀记（原「宝妈助手」）：孕期到育儿一站式记录。喂奶、睡眠、尿布、成长、疫苗、里程碑一手记下；离线可用，数据只存在你自己的手机里，导出永远免费，还能和家人一起记。现已搬到新家 yiya.help。">
+<meta name="theme-color" content="#FDF9F4">
+<link rel="canonical" href="https://yuai-r.cn/mom/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.webp">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="yu.ai">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="咿呀记 Yiya · 从孕期到育儿的温柔记录">
+<meta property="og:description" content="原「宝妈助手」已搬到新家 yiya.help：离线可用，数据只在你的手机里，导出永远免费。">
+<meta property="og:url" content="https://yuai-r.cn/mom/">
+<meta property="og:image" content="https://yuai-r.cn/mom/og.jpg">
+<meta property="og:image:alt" content="咿呀记首页界面（演示数据）">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+  --bg1:#FDF9F4;--bg2:#F2EBDF;--surface:#fff;--surface-2:#F7F1EA;
+  --text:#33302B;--muted:#675E56;--primary:#D06B51;--primary-text:#9A4634;--primary-weak:rgba(208,107,81,.12);
+  --border:rgba(51,48,43,.10);--radius-sm:14px;--radius:18px;--radius-lg:24px;--radius-pill:999px;
+  --shadow-card:0 1px 2px rgba(80,55,35,.05),0 8px 24px rgba(80,55,35,.08);
+  --glass:rgba(255,255,255,.62);--glass-edge:rgba(255,255,255,.85);
+  --night1:#221E1A;--night2:#2E2924;--night-text:#F0EBE4;--night-muted:#BAB1A4;
+  --ease:cubic-bezier(.32,.72,0,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;color:var(--text);background:linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 100%) fixed;
+  font:15px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+img{display:block;max-width:100%}
+
+/* 顶部天空 */
+.sky{position:absolute;inset:0 0 auto 0;height:900px;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent);
+  background:radial-gradient(120% 70% at 80% 0%,rgba(246,205,186,.55),transparent 60%),
+             radial-gradient(90% 60% at 10% 10%,rgba(214,226,238,.6),transparent 65%),
+             linear-gradient(180deg,#F3EEE8 0%,rgba(253,249,244,0) 100%)}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:15px}
+.brand img{width:32px;height:32px;border-radius:9px;box-shadow:var(--shadow-card)}
+.top .home{font-size:13px;color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:var(--radius-pill);background:var(--glass);border:1px solid var(--glass-edge)}
+
+/* 首屏 */
+.hero{display:grid;gap:28px;padding:32px 0 8px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--primary-text);
+  background:var(--primary-weak);padding:6px 12px;border-radius:var(--radius-pill)}
+h1{font-size:40px;line-height:1.15;font-weight:800;letter-spacing:-.01em;margin:14px 0 12px}
+h1 small{display:block;font-size:17px;font-weight:600;color:var(--muted);letter-spacing:.04em;margin-top:8px}
+.lede{font-size:17px;color:var(--muted);margin:0 0 24px;max-width:30em}
+.cta{display:flex;flex-direction:column;gap:12px;align-items:stretch;max-width:360px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 24px;border-radius:var(--radius-pill);
+  font-size:17px;font-weight:700;text-decoration:none;transition:transform .2s var(--ease),box-shadow .2s var(--ease);border:0;cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 10px 24px rgba(208,107,81,.32)}
+.btn-primary:active{transform:scale(.97)}
+.btn-primary svg{width:18px;height:18px}
+.addr{font-size:13px;color:var(--muted);text-align:center}
+.addr b{color:var(--text);font-weight:700}
+
+.phone{position:relative;justify-self:center;width:min(300px,78vw)}
+.phone .frame{border-radius:40px;padding:9px;background:linear-gradient(145deg,#fff,#efe6dc);box-shadow:0 30px 60px rgba(80,55,35,.18),0 2px 6px rgba(80,55,35,.08);border:1px solid var(--glass-edge)}
+.phone img{border-radius:32px;width:100%;height:auto;aspect-ratio:390/844;object-fit:cover}
+.float{position:absolute;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:9px 14px;border-radius:var(--radius-pill);
+  background:var(--glass);border:1px solid var(--glass-edge);box-shadow:var(--shadow-card);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);white-space:nowrap}
+.float i{width:8px;height:8px;border-radius:50%;background:#3E9A86}
+.f1{right:-14px;top:9%}.f2{left:-18px;bottom:15%}.f2 i{background:var(--primary)}
+
+/* 旧数据卡 */
+.legacy{margin:28px 0 0;padding:20px;border-radius:var(--radius-lg);background:#FFF7EE;border:1px solid rgba(208,107,81,.28);box-shadow:var(--shadow-card)}
+.legacy h2{font-size:17px;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.legacy h2::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--primary);flex:none}
+.legacy p{margin:0 0 14px;color:var(--muted);font-size:14px}
+.legacy .btn{min-height:46px;font-size:15px;background:var(--text);color:#fff;width:100%;max-width:320px}
+.legacy .sub{display:block;margin-top:10px;font-size:13px;color:var(--primary-text);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;font-family:inherit}
+.legacy .done{margin-top:12px;font-size:14px;color:#2F6E60;font-weight:600}
+
+/* 小节 */
+section{padding:56px 0 0}
+.eyebrow{font-size:13px;font-weight:700;color:var(--primary-text);letter-spacing:.08em;margin:0 0 6px}
+h2.t{font-size:28px;line-height:1.25;font-weight:800;margin:0 0 10px}
+.sec-lede{color:var(--muted);margin:0 0 22px;font-size:16px}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-card);border:1px solid var(--border)}
+.card .ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;margin-bottom:10px;background:var(--c,var(--primary-weak))}
+.card h3{font-size:16px;margin:0 0 4px;font-weight:700}
+.card p{margin:0;font-size:13px;line-height:1.55;color:var(--muted)}
+
+/* 理念：分组列表 */
+.list{background:var(--surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);border:1px solid var(--border);overflow:hidden}
+.row{display:flex;gap:14px;padding:16px 18px;position:relative;align-items:flex-start}
+.row+.row::before{content:"";position:absolute;top:0;left:68px;right:0;height:1px;background:var(--border)}
+.row .ico{flex:none;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--c)}
+.ico svg{width:22px;height:22px}.row .ico svg{width:20px;height:20px}
+.row h3{margin:0 0 2px;font-size:16px}
+.row p{margin:0;font-size:14px;color:var(--muted)}
+
+/* 夜里的窗 */
+.night{margin-top:56px;color:var(--night-text);background:
+  radial-gradient(1.5px 1.5px at 12% 22%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 30% 70%,#fff7 50%,transparent 51%),
+  radial-gradient(1.5px 1.5px at 62% 18%,#fff9 50%,transparent 51%),radial-gradient(1px 1px at 78% 48%,#fff6 50%,transparent 51%),
+  radial-gradient(1px 1px at 90% 12%,#fff8 50%,transparent 51%),radial-gradient(1.5px 1.5px at 46% 40%,#fff5 50%,transparent 51%),
+  radial-gradient(60% 50% at 85% 0%,rgba(240,168,145,.18),transparent 70%),
+  linear-gradient(180deg,var(--night1),var(--night2))}
+.night .inner{padding:56px 20px;display:grid;gap:28px;align-items:center}
+.night .eyebrow{color:#F5BFAE}
+.night .sec-lede{color:var(--night-muted)}
+.window{justify-self:center;width:min(200px,52vw);aspect-ratio:3/4;border-radius:120px 120px 22px 22px;position:relative;overflow:hidden;
+  background:radial-gradient(circle at 68% 30%,#FBE9C8 0 14px,rgba(251,233,200,.25) 15px,transparent 46px),
+  radial-gradient(1.5px 1.5px at 25% 30%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 40% 55%,#fffa 50%,transparent 51%),radial-gradient(1px 1px at 20% 62%,#fff9 50%,transparent 51%),
+  linear-gradient(180deg,#2F3550 0%,#4A3F4E 60%,#7A5548 100%);
+  box-shadow:0 0 0 10px #3A332D,0 0 0 11px rgba(255,255,255,.06),0 0 80px 20px rgba(240,168,145,.18)}
+.window::before,.window::after{content:"";position:absolute;background:#3A332D}
+.window::before{left:50%;top:0;bottom:0;width:8px;transform:translateX(-50%)}
+.window::after{left:0;right:0;top:55%;height:8px}
+.night ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.night li{display:flex;gap:10px;font-size:15px;color:var(--night-text)}
+.night li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:#F0A891;margin-top:10px}
+
+/* 第二张截图 */
+.duo{display:grid;gap:24px;align-items:center}
+.duo .phone{width:min(270px,70vw)}
+
+/* 添加到主屏 */
+.steps{display:grid;gap:12px}
+.step{background:var(--glass);border:1px solid var(--glass-edge);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-card);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.step h3{margin:0 0 6px;font-size:15px}
+.step p{margin:0;font-size:14px;color:var(--muted)}
+.step b{color:var(--text)}
+
+.final{text-align:center;padding:64px 0 24px}
+.final .cta{margin:22px auto 0}
+footer{text-align:center;font-size:13px;color:var(--muted);padding:24px 20px 40px}
+footer a{color:var(--muted)}
+
+@media (min-width:860px){
+  h1{font-size:56px}
+  .hero{grid-template-columns:1.1fr .9fr;align-items:center;padding:56px 0 16px}
+  .phone{width:320px}
+  .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .principles{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
+  .night .inner{grid-template-columns:1fr 1fr;padding:72px 20px}.window{width:260px}
+  .duo{grid-template-columns:.8fr 1.2fr}
+  .steps{grid-template-columns:1fr 1fr}
+}
+@media (max-width:360px){h1{font-size:34px}.f1,.f2{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
 </head>
 <body>
-  <!-- 液态玻璃 SVG 滤镜定义（隐藏）：
-       #liquidRim 细波浪位移，用于把玻璃边缘高光弯折成液态反光（全浏览器可见、轻位移不碍阅读）。
-       #liquidRefract 用于首页玻璃折射天空（由 glass.js 注入，仅首页启用）。 -->
-  <svg class="glass-defs" width="0" height="0" aria-hidden="true" focusable="false">
-    <defs>
-      <filter id="liquidRim" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="1" seed="7" result="n"/>
-        <feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
-      </filter>
-      <!-- 真·全平台折射：用于 .grefract 的「背景镜像 canvas」。
-           注意是普通 filter（非 backdrop-filter），Chrome/Edge/Firefox/Safari 全部支持；
-           滤镜对背景镜像做「模糊 + 位移」，产生透过玻璃扭曲背景的液态折射效果。 -->
-      <filter id="liquidRefract" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.009 0.013" numOctaves="2" seed="9" result="noise"/>
-        <feGaussianBlur in="SourceGraphic" stdDeviation="2.4" result="blurred"/>
-        <feDisplacementMap in="blurred" in2="noise" scale="11" xChannelSelector="R" yChannelSelector="G"/>
-      </filter>
-    </defs>
-  </svg>
+<div class="sky" aria-hidden="true"></div>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="https://yiya.help"><img src="icon.webp" alt="" width="32" height="32">咿呀记</a>
+    <a class="home" href="/">yu.ai 首页</a>
+  </header>
 
-  <div id="app">
-    <header class="app-header">
-      <button id="avatarBtn" class="home-avatar" type="button" aria-label="进入设置"></button>
-      <button id="themeToggle" class="theme-toggle" type="button">夜间模式</button>
-    </header>
+  <main>
+  <div class="hero">
+    <div>
+      <span class="chip">原「宝妈助手」· 已搬到新家</span>
+      <h1>咿呀记<small>从孕期到育儿，一本温柔的记录</small></h1>
+      <p class="lede">喂奶、睡眠、尿布、成长、疫苗、第一次翻身……单手就能记下。不用注册，打开就能用，记录只留在你自己的手机里。</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://yiya.help">打开咿呀记
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <span class="addr">新地址 <b>yiya.help</b> · 免费使用</span>
+      </div>
 
-    <main id="view" class="view"></main>
+      <div class="legacy" id="legacy" hidden>
+        <h2>这台设备上还有旧记录</h2>
+        <p id="legacyMsg">你在旧版「宝妈助手」里的记录还保存在这个浏览器中。先下载一份备份文件，再到 <b>咿呀记 → 设置 → 导入备份</b> 选这个文件，就能接着用。文件只存到你的手机，不会上传。</p>
+        <button class="btn" id="legacyDl" type="button">下载备份文件</button>
+        <button class="sub" id="legacyRaw" type="button" hidden>另存一份损坏数据原文</button>
+        <div class="done" id="legacyDone" hidden></div>
+      </div>
+    </div>
 
-    <nav id="tabbar" class="tabbar"></nav>
+    <figure class="phone" style="margin:0">
+      <div class="frame"><img src="shot-home.webp" width="390" height="844" alt="咿呀记首页：宝宝月龄、快速记录、上次喂奶和尿布（演示数据）"></div>
+      <span class="float f1" aria-hidden="true"><i></i>上次喂奶 1 小时前</span>
+      <span class="float f2" aria-hidden="true"><i></i>离线也能记</span>
+    </figure>
   </div>
 
-  <div id="modalRoot"></div>
+  <section aria-labelledby="t-feat">
+    <p class="eyebrow">一站式</p>
+    <h2 class="t" id="t-feat">孕期到育儿，记在一个地方</h2>
+    <p class="sec-lede">常用的放在首页，一下就能记；不常用的收起来，不打扰。</p>
+    <div class="grid">
+      <div class="card"><div class="ico" style="--c:#E3F0EC" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#2F7F6E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6M10 2v3M14 2v3"/><path d="M8.5 8.5c0-2 1.5-3.5 3.5-3.5s3.5 1.5 3.5 3.5V20a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2z"/><path d="M8.5 12h3M8.5 15.5h3"/></svg></div><h3>喂奶</h3><p>亲喂计时分左右，瓶喂记奶量，吸奶、辅食也能记。</p></div>
+      <div class="card"><div class="ico" style="--c:#ECEBF6" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#5B57A6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></div><h3>睡眠</h3><p>一键开始和结束，忘了点也能补记，看得到一天的作息。</p></div>
+      <div class="card"><div class="ico" style="--c:#F6EFDF" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#9A6B12" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.6 6 11a6 6 0 0 1-12 0c0-4.4 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg></div><h3>尿布</h3><p>尿了、拉了各一下，便便性状、红屁屁都有地方写。</p></div>
+      <div class="card"><div class="ico" style="--c:#E6F0E2" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3E7D3A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12C12 7.5 8.5 5 4 5c0 4.5 3.5 7 8 7z"/><path d="M12 14c0-3.5 3-6 8-6 0 3.5-3 6-8 6z"/></svg></div><h3>成长</h3><p>身高、体重、头围画成曲线，长得怎么样一眼看清。</p></div>
+      <div class="card"><div class="ico" style="--c:#E4EDF5" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A6F9A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>疫苗与儿保</h3><p>按月龄排好计划，快到了提醒，打完一键勾掉。</p></div>
+      <div class="card"><div class="ico" style="--c:#F8E7E1" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#B5533D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L12 16.8 6.8 19.5l1-5.8-4.3-4.1 5.9-.8z"/></svg></div><h3>里程碑</h3><p>第一次笑、翻身、叫妈妈，配上照片留下来。</p></div>
+      <div class="card"><div class="ico" style="--c:#F5E6EC" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#A34D6E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5C5.5 16.4 3.5 12.3 4.6 9.3 5.5 7 8 6.1 9.8 7.2c1 .6 1.8 1.6 2.2 2.6.4-1 1.2-2 2.2-2.6 1.8-1.1 4.3-.2 5.2 2.1 1.1 3-.9 7.1-7.4 11.2z"/></svg></div><h3>孕期</h3><p>孕周、产检、胎动和宫缩计时，还有待产包清单。</p></div>
+      <div class="card"><div class="ico" style="--c:#F3ECE4" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#8A5A3C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><path d="M12 17.5V10"/></svg></div><h3>体温与用药</h3><p>发烧吃药有记录，看医生时把摘要直接给医生看。</p></div>
+    </div>
+  </section>
 
-  <!-- 经典 script 引入（非 ES module），确保 file:// 直接双击可用 -->
-  <script src="js/util.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/icons.js"></script>
-  <script src="js/sky.js"></script>
-  <script src="js/reminders.js"></script>
-  <script src="js/modules/home.js"></script>
-  <script src="js/modules/period.js"></script>
-  <script src="js/modules/pregnancy.js"></script>
-  <script src="js/modules/feeding.js"></script>
-  <script src="js/modules/diaper.js"></script>
-<script src="js/modules/meds.js"></script>
-  <script src="js/modules/sleep.js"></script>
-  <script src="js/modules/contraction.js"></script>
-  <script src="js/modules/growth.js"></script>
-  <script src="js/modules/vaccine.js"></script>
-<script src="js/modules/milestone.js"></script>
-  <script src="js/modules/packing.js"></script>
-  <script src="js/modules/finance.js"></script>
-  <script src="js/modules/settings.js"></script>
-  <script src="js/modules/calendar.js"></script>
-  <script src="js/glass.js"></script>
-  <script src="js/app.js"></script>
+  <section class="principles" aria-labelledby="t-why">
+    <div>
+      <p class="eyebrow">我们的坚持</p>
+      <h2 class="t" id="t-why">你的记录，只属于你</h2>
+      <p class="sec-lede">不用注册，不看你的记录。记了多少年，都能完整带走。</p>
+    </div>
+    <div class="list">
+      <div class="row"><div class="ico" style="--c:#E3F0EC" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#2F7F6E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a12 12 0 0 1 16 0"/><path d="M7 13.5a7.5 7.5 0 0 1 10 0"/><path d="M10 17a3 3 0 0 1 4 0"/><circle cx="12" cy="20" r=".8" fill="currentColor"/></svg></div><div><h3>离线可用</h3><p>加到主屏后像 App 一样打开，没网也能照常记。</p></div></div>
+      <div class="row"><div class="ico" style="--c:#F8E7E1" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#B5533D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2.5"/></svg></div><div><h3>数据只在自己手机里</h3><p>记录存在你的设备上，没有账号，也不拿去做分析。</p></div></div>
+      <div class="row"><div class="ico" style="--c:#F6EFDF" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#9A6B12" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M4.5 15.5v3a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3"/></svg></div><div><h3>导出永远免费</h3><p>随时导出完整备份，换手机、换浏览器都能恢复。</p></div></div>
+      <div class="row"><div class="ico" style="--c:#ECEBF6" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#5B57A6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9.5" r="2.3"/><path d="M15.5 14.6A4.5 4.5 0 0 1 21 19"/></svg></div><div><h3>家庭共享</h3><p>邀请爸爸、外婆一起记，谁喂过奶、谁换过尿布都清楚，每台手机上各有一份。</p></div></div>
+    </div>
+  </section>
+  </main>
+</div>
+
+<section class="night" aria-labelledby="t-night">
+  <div class="wrap inner">
+    <div class="window" role="img" aria-label="一扇亮着月光的窗"></div>
+    <div>
+      <p class="eyebrow">夜里的窗</p>
+      <h2 class="t" id="t-night">凌晨三点，也温柔一点</h2>
+      <p class="sec-lede">夜里抱着宝宝喂奶时，屏幕不该刺眼。咿呀记用暖色、柔光和玻璃般的质感，像深夜里一扇亮着灯的窗。</p>
+      <ul>
+        <li>首页的天空跟着真实时间变化，清晨、黄昏、深夜各有颜色</li>
+        <li>深色模式可以跟随时间自动切换，半夜打开不晃眼</li>
+        <li>大按钮、少步骤，单手就能记完，记完接着睡</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="duo" aria-labelledby="t-glance">
+    <figure class="phone" style="margin:0">
+      <div class="frame"><img src="shot-feeding.webp" width="390" height="844" loading="lazy" alt="咿呀记喂养页：今天喂了几次、距上次多久、近 7 天次数（演示数据）"></div>
+    </figure>
+    <div>
+      <p class="eyebrow">一眼就懂</p>
+      <h2 class="t" id="t-glance">不用算，它替你记着</h2>
+      <p class="sec-lede">今天喂了几次、距上次多久、这周是不是比上周睡得好。看医生时被问到，翻出来就有答案。</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-add">
+    <p class="eyebrow">像 App 一样用</p>
+    <h2 class="t" id="t-add">添加到主屏幕</h2>
+    <p class="sec-lede">在手机浏览器打开 yiya.help，加到主屏后就有自己的图标，没网也能打开。</p>
+    <div class="steps">
+      <div class="step"><h3>iPhone · Safari</h3><p>点底部的 <b>分享</b> 按钮，往下找 <b>添加到主屏幕</b>，再点 <b>添加</b>。</p></div>
+      <div class="step"><h3>安卓 · Chrome 等浏览器</h3><p>点右上角 <b>⋮</b> 菜单，选 <b>添加到主屏幕</b> 或 <b>安装应用</b>。</p></div>
+    </div>
+  </section>
+
+  <div class="final">
+    <h2 class="t">今天起，换个地方继续记</h2>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://yiya.help">打开咿呀记
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</div>
+
+<footer>咿呀记 Yiya · <a href="/">yu.ai</a> 出品</footer>
+
+<script>
+/* 旧版「宝妈助手」在本域名 localStorage 里的数据：只在本机读取并生成下载，不发往任何地方。 */
+(function () {
+  var KEY = 'momhelper_data_v1', BAD = 'momhelper_data_v1_corrupt_backup';
+  var LISTS = ['periods', 'feedings', 'sleeps', 'contractions', 'growth', 'diapers', 'meds', 'milestones'];
+  var raw = null, bad = null, obj = null, n = 0;
+  try { raw = localStorage.getItem(KEY); bad = localStorage.getItem(BAD); } catch (e) { return; }
+  if (raw) { try { obj = JSON.parse(raw); } catch (e) { obj = null; } }
+  if (obj && typeof obj === 'object') {
+    LISTS.forEach(function (k) { if (Array.isArray(obj[k])) n += obj[k].length; });
+    var p = obj.pregnancy || {}, s = obj.settings || {};
+    var has = n > 0 || s.baby || p.lmp || p.dueDate || (obj.prenatal && obj.prenatal.records && obj.prenatal.records.length) ||
+      (obj.finance && obj.finance.records && obj.finance.records.length) || (obj.vaccines && obj.vaccines.done && Object.keys(obj.vaccines.done).length);
+    if (!has) raw = null;
+  }
+  if (!raw && !bad) return;
+  var $ = function (id) { return document.getElementById(id); };
+  var day = new Date(), stamp = day.getFullYear() + ('0' + (day.getMonth() + 1)).slice(-2) + ('0' + day.getDate()).slice(-2);
+  function save(text, name, type) {
+    var url = URL.createObjectURL(new Blob([text], { type: type }));
+    var a = document.createElement('a'); a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+  }
+  if (raw && !obj) $('legacyMsg').textContent = '旧版「宝妈助手」的数据还在这个浏览器里，但内容不完整、可能无法直接导入。请先下载备份文件并保留好。';
+  else if (!raw) { $('legacyDl').hidden = true; $('legacyMsg').textContent = '旧版留下了一份损坏数据的原文。可以下载保留，必要时用来找回。'; }
+  else if (n) $('legacyMsg').firstChild.nodeValue = '你在旧版「宝妈助手」里的 ' + n + ' 条记录还保存在这个浏览器中。先下载一份备份文件，再到 ';
+  if (bad) $('legacyRaw').hidden = false;
+  $('legacy').hidden = false;
+  $('legacyDl').addEventListener('click', function () {
+    if (obj) save(JSON.stringify(obj, null, 2), '咿呀记-旧版备份-' + stamp + '.json', 'application/json');
+    else save(raw, '宝妈助手-旧数据原文-' + stamp + '.txt', 'text/plain');
+    var d = $('legacyDone'); d.hidden = false;
+    d.textContent = '已生成备份文件，请在「下载」或「文件」里找到它。旧记录仍留在这里，没有删除。';
+  });
+  $('legacyRaw').addEventListener('click', function () { save(bad, '宝妈助手-损坏数据原文-' + stamp + '.txt', 'text/plain'); });
+})();
+</script>
 </body>
 </html>
