@@ -362,7 +362,7 @@
   {
     "tag_name": "linux-stable",
     "name": "OpenClaw Linux update channel",
-    "body": "Latest published Linux companion: v2026.10.10\n\n- [AppImage](https://github.com/openclaw/openclaw/releases/download/v2026.10.10/OpenClaw-2026.10.10-amd64.AppImage)\n- [Debian package](https://github.com/openclaw/openclaw/releases/download/v2026.10.10/OpenClaw-2026.10.10-amd64.deb)\n",
+    "body": "Latest published Linux companion: v2026.11.1\n\n- [AppImage](https://github.com/openclaw/openclaw/releases/download/v2026.11.1/OpenClaw-2026.11.1-amd64.AppImage)\n- [Debian package](https://github.com/openclaw/openclaw/releases/download/v2026.11.1/OpenClaw-2026.11.1-amd64.deb)\n",
     "html_url": "https://github.com/openclaw/openclaw/releases/tag/linux-stable",
     "published_at": "2026-09-19T05:00:44Z",
     "created_at": "2026-09-18T18:40:28Z",
